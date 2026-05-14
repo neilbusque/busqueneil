@@ -1,8 +1,7 @@
 /* =========================================================
    Neil Busque — Personal Brand Site
-   Editorial / literary direction.
-   Cormorant Garamond (display) + Inter (body).
-   Cream #FAF7F2 background, ink #0A0A0A, coral #E94F37 accent.
+   Modern sans-only design.
+   Inter throughout. Cream #FAF7F2, ink #0A0A0A, yellow #F5B800 accent.
 ========================================================= */
 
 :root {
@@ -13,10 +12,12 @@
   --ink-soft: #2A2620;
   --muted: #6E6657;
   --rule: #E5DECF;
-  --coral: #E94F37;
-  --coral-soft: #FBE3DD;
 
-  --serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  /* Yellow accent — honey/amber. Used sparingly: period dot, hovers, pulse, bullet tick. */
+  --accent: #F5B800;
+  --accent-deep: #C99500;
+  --accent-soft: #FBE9A8;
+
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   --measure: 64ch;
@@ -41,7 +42,7 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--sans);
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.62;
   color: var(--ink-soft);
   background: var(--cream);
   -webkit-font-smoothing: antialiased;
@@ -49,13 +50,13 @@ body {
   font-feature-settings: "ss01", "cv11";
 }
 
-/* Soft paper grain via subtle radial gradient — purely decorative, no image */
+/* Subtle ambient warmth — no images, just gradients */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(233, 79, 55, 0.04), transparent 60%),
+    radial-gradient(1200px 600px at 80% -10%, rgba(245, 184, 0, 0.06), transparent 60%),
     radial-gradient(900px 500px at -10% 90%, rgba(10, 10, 10, 0.025), transparent 60%);
   pointer-events: none;
   z-index: 0;
@@ -63,7 +64,7 @@ body::before {
 
 main, nav, footer { position: relative; z-index: 1; }
 
-::selection { background: var(--coral); color: #fff; }
+::selection { background: var(--accent); color: var(--ink); }
 
 a {
   color: var(--ink);
@@ -73,20 +74,20 @@ a {
   text-underline-offset: 3px;
   transition: color var(--t-fast), text-decoration-color var(--t-fast);
 }
-a:hover { color: var(--coral); text-decoration-color: var(--coral); }
+a:hover { color: var(--accent-deep); text-decoration-color: var(--accent); }
 
 /* ---------- Typography ---------- */
 .display {
-  font-family: var(--serif);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-family: var(--sans);
+  font-weight: 800;
+  letter-spacing: -0.035em;
   color: var(--ink);
-  line-height: 1.02;
-  font-feature-settings: "ss01";
+  line-height: 0.98;
+  font-feature-settings: "ss01", "cv11";
 }
 
-h1.display { font-size: clamp(3rem, 9vw, 6.25rem); }
-h2.display { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.06; letter-spacing: -0.018em; }
+h1.display { font-size: clamp(3.25rem, 11vw, 7rem); font-weight: 900; }
+h2.display { font-size: clamp(2rem, 5.2vw, 3.5rem); line-height: 1.04; letter-spacing: -0.032em; }
 h3.display { font-size: clamp(1.45rem, 3vw, 1.85rem); line-height: 1.18; }
 
 .eyebrow {
@@ -98,11 +99,9 @@ h3.display { font-size: clamp(1.45rem, 3vw, 1.85rem); line-height: 1.18; }
   color: var(--muted);
 }
 
-.coral-dot { color: var(--coral); }
-
-/* Coral period accent — used after the name in display */
+/* Yellow period accent — used after the name */
 .dot {
-  color: var(--coral);
+  color: var(--accent);
   display: inline-block;
   transform: translateY(0.02em);
 }
@@ -153,16 +152,15 @@ section + section { border-top: 1px solid var(--rule); }
   gap: 0.6rem;
   text-decoration: none;
   color: var(--ink);
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
+  letter-spacing: -0.018em;
 }
-.nav-logo img {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+.nav-mark {
+  font-weight: 700;
+  letter-spacing: -0.018em;
 }
-.nav-name { letter-spacing: -0.01em; }
 
 .nav-right {
   display: inline-flex;
@@ -200,16 +198,33 @@ section + section { border-top: 1px solid var(--rule); }
   font-weight: 500;
   text-decoration: none;
   color: var(--ink);
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--ink);
-  transition: color var(--t-fast), border-color var(--t-fast);
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
 }
-.nav-cta:hover { color: var(--coral); border-color: var(--coral); }
+.nav-cta:hover {
+  color: var(--ink);
+  background: var(--accent);
+  border-color: var(--accent);
+}
 
 /* ---------- Hero ---------- */
 .hero {
   padding: clamp(4.5rem, 12vw, 8rem) 0 clamp(3.5rem, 8vw, 5.5rem);
+  overflow: hidden;
 }
+
+/* Make hero wide enough to hold the portrait beside the text */
+.hero .wrap.hero-grid {
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.hero-text { min-width: 0; }
 
 .hero .eyebrow {
   display: inline-flex;
@@ -223,13 +238,13 @@ section + section { border-top: 1px solid var(--rule); }
 }
 
 .hero-sub {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: var(--sans);
   font-weight: 400;
-  font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
   line-height: 1.4;
   color: var(--ink-soft);
-  max-width: 38ch;
+  max-width: 42ch;
+  letter-spacing: -0.01em;
 }
 
 .hero-meta {
@@ -244,6 +259,41 @@ section + section { border-top: 1px solid var(--rule); }
 .hero-meta a {
   color: var(--ink-soft);
   text-decoration-color: var(--rule);
+}
+
+/* Hero portrait — blends with cream via mix-blend-mode + soft fade at edges */
+.hero-portrait {
+  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.hero-portrait img {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  display: block;
+  mix-blend-mode: multiply;
+  /* Soft vignette fade at the bottom + sides so the photo dissolves into the page */
+  -webkit-mask-image:
+    radial-gradient(ellipse 78% 90% at 50% 45%, #000 60%, transparent 100%);
+  mask-image:
+    radial-gradient(ellipse 78% 90% at 50% 45%, #000 60%, transparent 100%);
+}
+
+@media (max-width: 720px) {
+  .hero .wrap.hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .hero-portrait {
+    order: -1;
+    justify-content: flex-start;
+  }
+  .hero-portrait img {
+    max-width: 280px;
+  }
 }
 
 /* ---------- Now block ---------- */
@@ -277,14 +327,14 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--coral);
-  box-shadow: 0 0 0 0 rgba(233, 79, 55, 0.5);
-  animation: pulse-coral 2.6s infinite;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 rgba(245, 184, 0, 0.55);
+  animation: pulse-accent 2.6s infinite;
 }
-@keyframes pulse-coral {
-  0%   { box-shadow: 0 0 0 0 rgba(233, 79, 55, 0.55); }
-  70%  { box-shadow: 0 0 0 10px rgba(233, 79, 55, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(233, 79, 55, 0); }
+@keyframes pulse-accent {
+  0%   { box-shadow: 0 0 0 0 rgba(245, 184, 0, 0.55); }
+  70%  { box-shadow: 0 0 0 10px rgba(245, 184, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 184, 0, 0); }
 }
 .now-date {
   font-family: var(--sans);
@@ -293,12 +343,14 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
 }
 
 .now-body {
-  font-family: var(--serif);
-  font-size: clamp(1.2rem, 2.1vw, 1.5rem);
+  font-family: var(--sans);
+  font-size: clamp(1.1rem, 1.95vw, 1.35rem);
   line-height: 1.55;
   color: var(--ink-soft);
+  letter-spacing: -0.005em;
 }
 .now-body p + p { margin-top: 1rem; }
+.now-body strong { color: var(--ink); font-weight: 700; }
 
 .now-foot {
   margin-top: 1.5rem;
@@ -342,16 +394,16 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   gap: 0.5rem;
 }
 .role-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   color: var(--ink);
-  letter-spacing: -0.005em;
+  letter-spacing: -0.015em;
 }
 .role-title em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--ink-soft);
+  font-style: normal;
+  font-weight: 500;
+  color: var(--muted);
 }
 .role-dates {
   font-family: var(--sans);
@@ -367,7 +419,7 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
 }
 .role ul li {
   position: relative;
-  padding-left: 1.25rem;
+  padding-left: 1.4rem;
   margin-bottom: 0.4rem;
   line-height: 1.55;
 }
@@ -375,19 +427,22 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   content: "";
   position: absolute;
   left: 0;
-  top: 0.65em;
-  width: 6px;
-  height: 1px;
-  background: var(--coral);
+  top: 0.7em;
+  width: 10px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
 }
 
 /* ---------- About prose ---------- */
 .about-prose p {
-  font-family: var(--serif);
-  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
-  line-height: 1.55;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(1.075rem, 1.6vw, 1.2rem);
+  line-height: 1.62;
   color: var(--ink-soft);
   max-width: var(--measure);
+  letter-spacing: -0.005em;
 }
 .about-prose p + p { margin-top: 1.25rem; }
 .about-prose strong { color: var(--ink); font-weight: 700; }
@@ -399,18 +454,20 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   gap: 0.75rem 1.5rem;
   font-family: var(--sans);
   font-size: 15px;
+  font-weight: 500;
 }
 .contact-links a {
   color: var(--ink);
   text-decoration-color: var(--rule);
 }
-.contact-arrow { color: var(--coral); margin-left: 0.15rem; }
+.contact-arrow { color: var(--accent-deep); margin-left: 0.15rem; }
 
 .contact-aside {
   margin-top: 2rem;
   padding: 1.25rem 1.5rem;
   background: var(--paper);
   border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
   border-radius: 6px;
   font-family: var(--sans);
   font-size: 14.5px;
@@ -442,12 +499,13 @@ footer {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.018em;
 }
-.foot-mark img { width: 26px; height: 26px; border-radius: 3px; }
 
 /* ---------- Reveal animations ---------- */
 .reveal {
@@ -488,22 +546,22 @@ footer {
 .archive-list li:last-child { border-bottom: 0; }
 .archive-date {
   font-family: var(--sans);
+  font-weight: 600;
   font-size: 13px;
   color: var(--muted);
   min-width: 7rem;
 }
 .archive-blurb {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: var(--sans);
   color: var(--ink-soft);
   flex: 1;
   min-width: 16rem;
 }
 .archive-empty {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: var(--sans);
   color: var(--muted);
   padding: 1rem 0;
+  font-style: italic;
 }
 
 /* ---------- Mobile tuning ---------- */
