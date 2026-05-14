@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
 <style>
   html, body {
     margin: 0;
@@ -28,26 +28,22 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(700px 380px at 90% -10%, rgba(233,79,55,0.10), transparent 60%),
+      radial-gradient(700px 380px at 90% -10%, rgba(245,184,0,0.14), transparent 60%),
       radial-gradient(620px 360px at -10% 110%, rgba(10,10,10,0.05), transparent 60%);
   }
   .corner {
     position: absolute;
-    top: 48px;
+    top: 56px;
     left: 80px;
     display: flex;
     align-items: center;
-    gap: 14px;
-  }
-  .corner img {
-    width: 56px; height: 56px; border-radius: 6px;
-  }
-  .corner span {
-    font-family: "Cormorant Garamond", serif;
+    gap: 10px;
+    font-family: "Inter", sans-serif;
     font-weight: 700;
-    font-size: 32px;
-    letter-spacing: -0.01em;
+    font-size: 26px;
+    letter-spacing: -0.018em;
   }
+  .corner .dot { color: #F5B800; }
   .status {
     position: absolute;
     top: 64px;
@@ -56,7 +52,7 @@
     align-items: center;
     gap: 10px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: #6E6657;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -70,24 +66,25 @@
   }
   .name {
     align-self: end;
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 700;
-    font-size: 200px;
-    line-height: 0.95;
-    letter-spacing: -0.02em;
-    margin-bottom: 18px;
+    font-family: "Inter", sans-serif;
+    font-weight: 900;
+    font-size: 210px;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    margin-bottom: 22px;
     position: relative;
     z-index: 1;
+    color: #0A0A0A;
   }
-  .name .dot { color: #E94F37; }
+  .name .dot { color: #F5B800; }
   .tagline {
-    font-family: "Cormorant Garamond", serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 36px;
-    line-height: 1.32;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.3;
     color: #2A2620;
     max-width: 980px;
+    letter-spacing: -0.01em;
     position: relative;
     z-index: 1;
   }
@@ -98,9 +95,9 @@
     margin-top: 18px;
     font-family: "Inter", sans-serif;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     color: #6E6657;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.005em;
     position: relative;
     z-index: 1;
   }
@@ -110,8 +107,7 @@
 <body>
 
 <div class="corner">
-  <img src="../assets/logo/icon-color.png" alt="" />
-  <span>Neil Busque</span>
+  Neil Busque<span class="dot">.</span>
 </div>
 
 <div class="status">Available</div>
@@ -119,7 +115,7 @@
 <div>
   <div class="name">Neil Busque<span class="dot">.</span></div>
   <div class="tagline">
-    Director of Operations who ships systems instead of slides. Growth ops, AI, automation. Elizabeth, NJ — open to roles &amp; project work.
+    Director of Operations. Growth ops, AI, automation. Elizabeth, NJ — open to roles &amp; project work.
   </div>
 </div>
 
