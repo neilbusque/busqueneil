@@ -6,25 +6,31 @@
 ========================================================= */
 
 :root {
-  /* Cool surfaces */
-  --bg: #F4F6F9;
-  --bg-deep: #E8ECF1;
+  /* Palette derived from Neil's portrait (shirt + pants), brighter versions */
+  /* Surfaces — subtle cool blue-tint, sampled from cleaner version of the shirt */
+  --bg: #F2F6FB;
+  --bg-deep: #E1EBF5;
   --paper: #FFFFFF;
 
   /* Text */
   --ink: #0A0A0A;
   --ink-soft: #1F2937;
-  --muted: #64748B;
+  --muted: #5B6B7E;
 
   /* Rules + accents */
-  --rule: #D5DCE4;
+  --rule: #D5DFEB;
   --rule-strong: #94A3B8;
-  --accent: #475569;          /* slate-600 — primary accent */
-  --accent-deep: #1E293B;     /* slate-800 */
-  --accent-soft: #E2E8F0;     /* slate-200 */
 
-  /* Single signature yellow — used ONLY for BUSQUE wordmark + ::selection */
-  --yellow: #FFD60A;
+  /* Primary accent — bright denim blue (shirt color, brighter/more saturated) */
+  --accent: #3A6FB5;
+  --accent-deep: #1F4475;
+  --accent-soft: #DAE5F4;
+
+  /* Signature warm — amber/khaki (pants color, brighter/more saturated)
+     Used for BUSQUE wordmark + ::selection */
+  --khaki: #D9A654;
+  --khaki-deep: #B5862E;
+  --khaki-soft: #F5E6CC;
 
   /* Status green for "available" — semantic */
   --green: #2EA44F;
@@ -76,7 +82,7 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(900px 600px at 90% -10%, rgba(71, 85, 105, 0.08), transparent 60%),
+    radial-gradient(900px 600px at 90% -10%, rgba(58, 111, 181, 0.08), transparent 60%),
     radial-gradient(700px 500px at -10% 40%, rgba(15, 23, 42, 0.025), transparent 60%);
   pointer-events: none;
   z-index: 0;
@@ -84,7 +90,7 @@ body::before {
 
 main, footer { position: relative; z-index: 1; }
 
-::selection { background: var(--yellow); color: var(--ink); }
+::selection { background: var(--khaki-soft); color: var(--ink); }
 
 a {
   color: var(--ink);
@@ -205,7 +211,7 @@ section + section { border-top: 1px solid var(--rule); }
   display: inline-flex;
   align-items: baseline;
 }
-.mark-a { color: var(--yellow); }
+.mark-a { color: var(--khaki); }
 .mark-b { color: var(--ink); }
 
 .nav-cta {
@@ -396,7 +402,7 @@ section + section { border-top: 1px solid var(--rule); }
 .hero-portrait-glow {
   position: absolute;
   inset: 4% 8% 8% 8%;
-  background: radial-gradient(closest-side, rgba(71, 85, 105, 0.18), rgba(71, 85, 105, 0) 70%);
+  background: radial-gradient(closest-side, rgba(58, 111, 181, 0.18), rgba(58, 111, 181, 0) 70%);
   filter: blur(34px);
   z-index: 0;
 }
@@ -505,10 +511,7 @@ section.marquee-section + section { border-top: 0; }
   line-height: 1;
 }
 
-.marquee:hover .marquee-track,
-.marquee-section:hover .marquee-track {
-  animation-play-state: paused;
-}
+/* Marquee no longer pauses on hover */
 
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
@@ -546,13 +549,13 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   height: 9px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(71, 85, 105, 0.55);
+  box-shadow: 0 0 0 0 rgba(58, 111, 181, 0.55);
   animation: pulse-accent 2.4s infinite;
 }
 @keyframes pulse-accent {
-  0%   { box-shadow: 0 0 0 0 rgba(71, 85, 105, 0.55); }
-  70%  { box-shadow: 0 0 0 12px rgba(71, 85, 105, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(71, 85, 105, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(58, 111, 181, 0.55); }
+  70%  { box-shadow: 0 0 0 12px rgba(58, 111, 181, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(58, 111, 181, 0); }
 }
 .now-date {
   font-family: var(--sans);
@@ -880,6 +883,147 @@ footer {
   color: var(--muted);
   padding: 1rem 0;
   font-style: italic;
+}
+
+/* ---------- Contact widget (floating, bottom-right) ---------- */
+.cw {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.cw-launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cw-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  box-shadow: var(--shadow-glass);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  animation: cw-bob 3.6s ease-in-out infinite;
+}
+@keyframes cw-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.cw-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--ink);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.25), 0 4px 8px rgba(15, 23, 42, 0.15);
+  position: relative;
+  transition: transform var(--t-fast), background var(--t-fast), box-shadow var(--t-fast);
+}
+.cw-toggle:hover {
+  transform: scale(1.05);
+  background: var(--accent);
+}
+.cw-toggle:active { transform: scale(0.98); }
+
+.cw-toggle-icon {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.cw-toggle-close { opacity: 0; transform: rotate(-45deg); }
+
+.cw.is-open .cw-toggle-open { opacity: 0; transform: rotate(45deg); }
+.cw.is-open .cw-toggle-close { opacity: 1; transform: rotate(0deg); }
+.cw.is-open .cw-toggle { background: var(--accent); }
+.cw.is-open .cw-label { display: none; }
+
+.cw-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.55rem;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: var(--shadow-glass);
+  min-width: 200px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.cw.is-open .cw-panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.cw-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem 0.7rem 0.7rem;
+  background: transparent;
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.cw-action:hover {
+  background: var(--bg-deep);
+  transform: translateX(-2px);
+}
+.cw-action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--paper);
+}
+.cw-text .cw-action-icon  { background: #3A6FB5; }   /* blue */
+.cw-call .cw-action-icon  { background: #0A0A0A; }   /* ink */
+.cw-wa   .cw-action-icon  { background: #25D366; }   /* whatsapp brand green */
+
+@media (max-width: 540px) {
+  .cw { bottom: 16px; right: 16px; }
+  .cw-label { display: none; }
+  .cw-toggle { width: 52px; height: 52px; }
+  .cw-panel { min-width: 180px; }
 }
 
 /* ---------- Mobile tuning ---------- */
