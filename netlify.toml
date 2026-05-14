@@ -34,11 +34,13 @@
   [headers.values]
     Content-Type = "text/plain; charset=utf-8"
 
-# Old /hire/ self-anchors from migrated funnel
+# /hire was retired 2026-05-13. Catch any stragglers and route them home.
 [[redirects]]
-  from = "/#close"
-  to = "/hire/#close"
+  from = "/hire"
+  to = "/"
   status = 301
 
-# Apex enforcement (Netlify handles www -> apex automatically when
-# busqueneil.com is the primary; this is belt-and-suspenders.)
+[[redirects]]
+  from = "/hire/*"
+  to = "/"
+  status = 301
