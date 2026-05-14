@@ -1,0 +1,13 @@
+{
+  "name": "busqueneil",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Neil Busque — personal brand site. Static. Living /now page.",
+  "scripts": {
+    "now": "node scripts/update-now.js",
+    "dev": "python3 -m http.server 8080",
+    "og": "node scripts/build-og.js"
+  },
+  "author": "Neil Busque <busqueneil@gmail.com>",
+  "license": "UNLICENSED"
+}
