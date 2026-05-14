@@ -536,115 +536,68 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
 .experience {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  position: relative;
-}
-/* Vertical connector line behind the dot markers */
-.experience::before {
-  content: "";
-  position: absolute;
-  left: 7px;
-  top: 18px;
-  bottom: 18px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent) 0%, var(--rule) 100%);
-  opacity: 0.55;
-  border-radius: 2px;
+  gap: 1.25rem;
 }
 
 .role {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  grid-template-areas:
-    "marker year"
-    "head head"
-    "body body";
-  align-items: start;
-  column-gap: 1rem;
-  row-gap: 0.5rem;
-  padding: 1.25rem 1.25rem 1.25rem 2.5rem;
+  padding: 1.5rem 1.5rem;
   border: 1.5px solid transparent;
-  border-radius: 14px;
+  border-left: 2px solid var(--rule);
+  border-radius: 0 14px 14px 0;
   background: transparent;
   position: relative;
-  transition: transform var(--t-fast), background var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
-}
-.role::before {
-  /* Big yellow vertical accent bar that grows on hover */
-  content: "";
-  position: absolute;
-  left: 1.25rem;
-  top: 1.55rem;
-  width: 3px;
-  height: 0;
-  background: var(--accent);
-  border-radius: 3px;
-  transition: height var(--t-med);
+  transition: background var(--t-fast), border-color var(--t-fast);
 }
 .role:hover {
   background: var(--paper);
-  border-color: var(--ink);
-  transform: translateX(4px);
-  box-shadow: 0 14px 28px -16px rgba(10, 10, 10, 0.25);
-}
-.role:hover::before {
-  height: calc(100% - 3rem);
+  border-left-color: var(--accent);
 }
 
-/* Dot marker on the timeline rail */
-.role-marker {
-  position: absolute;
-  left: -2.5rem;
-  top: 1.8rem;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--cream);
-  border: 3px solid var(--ink);
-  z-index: 1;
-  transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
-  grid-area: marker;
+.role-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.4rem;
 }
-.role:hover .role-marker {
-  background: var(--accent);
-  transform: scale(1.15);
-  box-shadow: 0 0 0 6px rgba(255, 214, 10, 0.2);
+.role-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
 }
+.role-title {
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.role-title em { font-style: normal; font-weight: 500; color: var(--muted); }
 
 .role-year {
-  grid-area: year;
   font-family: var(--sans);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
   color: var(--muted);
   background: var(--cream-deep);
-  padding: 0.35rem 0.65rem;
+  padding: 0.35rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid var(--rule);
   white-space: nowrap;
-  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  transition: background var(--t-fast), color var(--t-fast);
 }
 .role:hover .role-year {
-  background: var(--ink);
-  color: var(--accent);
-  border-color: var(--ink);
+  background: var(--accent);
+  color: var(--ink);
 }
 
-.role-head {
-  grid-area: head;
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-.role-title {
-  font-family: var(--sans);
-  font-weight: 800;
-  font-size: 1.2rem;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-}
-.role-title em { font-style: normal; font-weight: 500; color: var(--muted); }
 .role-dates {
   font-family: var(--sans);
   font-size: 13px;
@@ -653,10 +606,9 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
 }
 
 .role ul {
-  grid-area: body;
   list-style: none;
   padding: 0;
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
 }
 .role ul li {
   position: relative;
@@ -684,15 +636,6 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   height: 2px;
   background: var(--accent);
   border-radius: 2px;
-  transition: width var(--t-fast);
-}
-.role:hover ul li::before { width: 14px; }
-
-@media (max-width: 560px) {
-  .experience::before { display: none; }
-  .role { padding-left: 1.25rem; }
-  .role-marker { display: none; }
-  .role::before { left: 0.4rem; top: 1.4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
