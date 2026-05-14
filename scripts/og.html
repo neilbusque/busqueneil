@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+  }
+  body {
+    background: #FAF7F2;
+    font-family: "Inter", system-ui, sans-serif;
+    color: #0A0A0A;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 64px 80px;
+    box-sizing: border-box;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(700px 380px at 90% -10%, rgba(233,79,55,0.10), transparent 60%),
+      radial-gradient(620px 360px at -10% 110%, rgba(10,10,10,0.05), transparent 60%);
+  }
+  .corner {
+    position: absolute;
+    top: 48px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .corner img {
+    width: 56px; height: 56px; border-radius: 6px;
+  }
+  .corner span {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.01em;
+  }
+  .status {
+    position: absolute;
+    top: 64px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6E6657;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .status::before {
+    content: "";
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #2ea44f;
+    display: inline-block;
+  }
+  .name {
+    align-self: end;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    font-size: 200px;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .name .dot { color: #E94F37; }
+  .tagline {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.32;
+    color: #2A2620;
+    max-width: 980px;
+    position: relative;
+    z-index: 1;
+  }
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    font-family: "Inter", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: #6E6657;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 1;
+  }
+  .url { color: #0A0A0A; }
+</style>
+</head>
+<body>
+
+<div class="corner">
+  <img src="../assets/logo/icon-color.png" alt="" />
+  <span>Neil Busque</span>
+</div>
+
+<div class="status">Available</div>
+
+<div>
+  <div class="name">Neil Busque<span class="dot">.</span></div>
+  <div class="tagline">
+    Director of Operations who ships systems instead of slides. Growth ops, AI, automation. Elizabeth, NJ — open to roles &amp; project work.
+  </div>
+</div>
+
+<div class="foot">
+  <span class="url">busqueneil.com</span>
+  <span>busqueneil@gmail.com</span>
+</div>
+
+</body>
+</html>

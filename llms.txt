@@ -1,0 +1,51 @@
+# Neil Busque
+
+> Director of Operations based in Elizabeth, New Jersey. Builds AI agents, qualifying funnels, and automation systems for growth-stage companies. Currently at Catalyze Growth Partners. Open to full-time operator roles and project work.
+
+## Identity
+
+- **Name:** Neil Busque
+- **Role:** Director of Operations
+- **Employer:** Catalyze Growth Partners (digital marketing agency serving registered investment advisors)
+- **Location:** Elizabeth, New Jersey, United States
+- **Education:** B.S. Information Technology, STI Tagum College (Philippines), 2017
+- **Email:** busqueneil@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/neil-busque
+- **Phone:** +1 (908) 316-4140
+
+## What he does
+
+Neil builds the operations layer between marketing and revenue. The work covers:
+
+- **AI agents** built on Claude Code with MCP servers across GoHighLevel, n8n, Notion, Slack, Porkbun, and Google Workspace.
+- **Workflow automation** in n8n and Zapier — lead capture, lead routing, SDR briefings, no-show recovery, pipeline hygiene.
+- **GoHighLevel CRM** configuration — sub-accounts, custom values, tags, pipelines, calendars, conversations, conversion funnels.
+- **Paid media** — Meta Ads and Google Ads campaign architecture, pixel/CAPI wiring, landing-page conversion.
+- **Internal tooling** — reporting pipelines, daily client-health scorecards, competitive intelligence tools, SOPs.
+
+## Recent shipped work (Catalyze Growth Partners, Oct 2025 – Present)
+
+- One-click new-client onboarding system in GoHighLevel — 17 custom values across 5 folders, 24-tag schema, 18-stage pipeline, 3 Slack channels — deploys in under 10 minutes per client. Cut onboarding from 30 days to 7 days.
+- 40+ production n8n workflows running across 10+ client accounts.
+- Internal AI command system (NeilOS) — Claude Code + 8 MCP servers — automates 60%+ of recurring ops tasks.
+- Weekly Ad Report pipeline; daily "Pulse" client-health scorecard; Meta Ads competitive-intelligence tool.
+
+## Prior experience
+
+- **Oct 2024 – Oct 2025:** Freelance GoHighLevel developer and automation engineer. Built CRM configs, funnels, and Zapier/n8n workflows for SaaS, professional-services, and e-commerce clients.
+- **May 2023 – Sept 2024:** Social Media Manager and Digital Marketer at Stout Capital. Grew social following 400%+ in 4 months. Ran paid Meta and Google campaigns.
+- **Oct 2021 – Aug 2022:** Web Developer and Digital Marketer at Bravo Team LLC.
+
+## Availability
+
+- Open to full-time operator roles: AI Ops / Automation Engineer, Marketing Ops / RevOps, Growth / Performance Marketing, Founder's Associate / Chief of Staff.
+- Open to project work: end-to-end funnel builds, single AI agent ships, CRM cleanups.
+- Remote, hybrid, or on-site (NJ / NYC metro).
+
+## Canonical URLs
+
+- Home: https://busqueneil.com/
+- Now (what he's working on right now): https://busqueneil.com/now/
+- Hire (the pitch / how to engage him): https://busqueneil.com/hire/
+- Résumé (PDF): https://busqueneil.com/resume.pdf
+- LinkedIn: https://www.linkedin.com/in/neil-busque
