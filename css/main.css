@@ -90,9 +90,25 @@ a:hover { color: var(--ink); text-decoration-color: var(--accent); }
   font-feature-settings: "ss01", "cv11";
 }
 
-h1.display { font-size: clamp(4rem, 14vw, 10rem); }
+h1.display { font-size: clamp(3rem, 9vw, 7rem); }
 h2.display { font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: 0.98; letter-spacing: -0.042em; }
 h3.display { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.1; }
+
+/* Hero headline — slightly tighter line-height since it's a 2-liner with emoji */
+.hero-headline { line-height: 1.0; }
+.wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.6s ease-in-out 0.6s 2;
+}
+@keyframes wave {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+}
 
 .eyebrow {
   font-family: var(--sans);
@@ -334,6 +350,14 @@ section + section { border-top: 1px solid var(--rule); }
   max-width: 460px;
   height: auto;
   display: block;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-portrait img { animation: none; }
 }
 
 @media (max-width: 800px) {
@@ -546,19 +570,41 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   grid-template-columns: auto 1fr auto;
   align-items: center;
   column-gap: 1rem;
-  padding: 1.1rem 1.25rem;
+  padding: 1.1rem 1.3rem;
   background: var(--paper);
   border: 1.5px solid var(--ink);
-  border-radius: 14px;
+  border-radius: 16px;
   text-decoration: none;
   color: var(--ink);
-  transition: transform var(--t-fast), background var(--t-fast), color var(--t-fast), box-shadow var(--t-fast);
+  transition: transform var(--t-fast), background var(--t-fast), color var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
   position: relative;
 }
 .contact-card:hover {
   background: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px -12px rgba(10, 10, 10, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -12px rgba(10, 10, 10, 0.4);
+}
+.contact-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--ink);
+  border-radius: 12px;
+  border: 1.5px solid var(--ink);
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.contact-card:hover .contact-icon {
+  background: var(--ink);
+  color: var(--accent);
+  transform: rotate(-4deg);
+}
+.contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 .contact-label {
   font-family: var(--sans);
@@ -582,7 +628,7 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   color: var(--ink);
   transition: transform var(--t-fast);
 }
-.contact-card:hover .contact-arrow { transform: translateX(3px); }
+.contact-card:hover .contact-arrow { transform: translateX(4px); }
 
 @media (max-width: 540px) {
   .contact-grid { grid-template-columns: 1fr; }
