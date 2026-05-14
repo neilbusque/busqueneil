@@ -25,7 +25,7 @@ Neil builds the operations layer between marketing and revenue. The work covers:
 
 ## Recent shipped work (Catalyze Growth Partners, Oct 2025 – Apr 2026)
 
-- One-click new-client onboarding system in GoHighLevel — 17 custom values across 5 folders, 24-tag schema, 18-stage pipeline, 3 Slack channels — deploys in under 10 minutes per client. Cut onboarding from 30 days to 7 days.
+- One-click new-client onboarding system in GoHighLevel that deploys a full configured sub-account in under 10 minutes. Cut onboarding from 30 days to 7 days.
 - 20+ production n8n workflows running across 10+ client accounts.
 - Internal AI command system (NeilOS) — Claude Code + 8 MCP servers — automated 60%+ of recurring ops tasks.
 - Weekly Ad Report pipeline; daily "Pulse" client-health scorecard; Meta Ads competitive-intelligence tool.
