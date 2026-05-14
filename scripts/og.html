@@ -8,7 +8,7 @@
 <style>
   html, body { margin: 0; padding: 0; width: 1200px; height: 630px; overflow: hidden; }
   body {
-    background: #F2F6FB;
+    background: #FFFFFF;
     color: #0A0A0A;
     font-family: "Inter", system-ui, sans-serif;
     position: relative;
@@ -22,8 +22,8 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(750px 420px at 90% -10%, rgba(58,111,181,0.22), transparent 60%),
-      radial-gradient(620px 360px at -10% 110%, rgba(217,166,84,0.16), transparent 60%);
+      radial-gradient(800px 500px at 100% -10%, rgba(58,111,181,0.16), transparent 60%),
+      radial-gradient(600px 400px at -10% 110%, rgba(58,111,181,0.06), transparent 60%);
   }
   .top {
     position: relative; z-index: 1;
@@ -33,17 +33,18 @@
     font-weight: 900; font-size: 22px; letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .mark .a { color: #D9A654; }
+  .mark .a { color: #3A6FB5; }
   .mark .b { color: #0A0A0A; }
   .status {
     display: flex; align-items: center; gap: 10px;
     font-size: 13px; font-weight: 700;
     color: #1F2937;
     letter-spacing: 0.14em; text-transform: uppercase;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.9);
     padding: 8px 16px;
     border-radius: 999px;
-    border: 1px solid #D5DFEB;
+    border: 1px solid #E5E9EF;
+    box-shadow: 0 1px 2px rgba(15,23,42,0.04);
   }
   .status::before {
     content: ""; width: 10px; height: 10px; border-radius: 50%; background: #2EA44F;
@@ -75,7 +76,7 @@
     font-size: 18px; font-weight: 700; letter-spacing: -0.005em;
   }
   .url { color: #3A6FB5; }
-  .email { color: #5B6B7E; }
+  .email { color: #6B7280; }
 </style>
 </head>
 <body>
