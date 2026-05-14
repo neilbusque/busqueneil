@@ -63,6 +63,32 @@ const animateCount = (el) => {
   requestAnimationFrame(step);
 };
 
+// Contact widget toggle (bottom-right floating).
+const cw = document.getElementById('contactWidget');
+if (cw) {
+  const toggle = cw.querySelector('.cw-toggle');
+  const close = () => {
+    cw.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  const open = () => {
+    cw.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+  };
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cw.classList.contains('is-open') ? close() : open();
+  });
+  // Click-outside to close.
+  document.addEventListener('click', (e) => {
+    if (cw.classList.contains('is-open') && !cw.contains(e.target)) close();
+  });
+  // Escape to close.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cw.classList.contains('is-open')) close();
+  });
+}
+
 if (statNums.length && 'IntersectionObserver' in window) {
   const sio = new IntersectionObserver(
     (entries) => {
