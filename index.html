@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#F4F6F9" />
 
-  <title>Neil Busque — Director of Operations. Growth Ops, AI, automation. New Jersey.</title>
-  <meta name="description" content="Neil Busque is a Director of Operations based in Elizabeth, New Jersey. He builds AI agents, qualifying funnels, and automation systems. Most recently ran operations at Catalyze Growth Partners through April 2026. Between roles and open to new opportunities." />
+  <title>Neil Busque — Growth Ops &amp; Automation · NJ</title>
+  <meta name="description" content="Neil Busque is a Director of Operations based in Elizabeth, NJ. Builds AI agents, funnels, and automation systems. Open to new opportunities." />
   <meta name="author" content="Neil Busque" />
   <meta name="keywords" content="Neil Busque, Neil Busque NJ, Neil Busque Director of Operations, growth ops, n8n, GoHighLevel, AI automation" />
 
@@ -14,20 +14,27 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="profile" />
-  <meta property="og:title" content="Neil Busque — Director of Operations. Growth Ops, AI, automation." />
-  <meta property="og:description" content="Director of Operations in Elizabeth, NJ. Builds AI agents, qualifying funnels, and automation systems. Open to roles and project work." />
+  <meta property="og:site_name" content="Neil Busque" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="Neil Busque — Growth Ops &amp; Automation · NJ" />
+  <meta property="og:description" content="Director of Operations in Elizabeth, NJ. Builds AI agents, funnels, and automation systems. Open to new opportunities." />
   <meta property="og:url" content="https://busqueneil.com/" />
   <meta property="og:image" content="https://busqueneil.com/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Neil Busque — Director of Operations · busqueneil.com" />
   <meta property="profile:first_name" content="Neil" />
   <meta property="profile:last_name" content="Busque" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Neil Busque — Director of Operations." />
-  <meta name="twitter:description" content="Growth ops, AI, automation. NJ. Open to roles and project work." />
+  <meta name="twitter:title" content="Neil Busque — Growth Ops &amp; Automation · NJ" />
+  <meta name="twitter:description" content="Director of Operations in Elizabeth, NJ. AI, automation, growth systems." />
   <meta name="twitter:image" content="https://busqueneil.com/og.png" />
+  <meta name="twitter:image:alt" content="Neil Busque — Director of Operations · busqueneil.com" />
+
+  <!-- Preload hero portrait (LCP) -->
+  <link rel="preload" as="image" href="/assets/neil-portrait.webp" type="image/webp" fetchpriority="high" />
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/logo/favicon-32.png" />
@@ -42,10 +49,14 @@
 
   <link rel="stylesheet" href="/css/main.css" />
 
-  <!-- JSON-LD: Person -->
+  <!-- JSON-LD: ProfilePage wrapping Person (recommended pattern for personal-brand sites) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "dateCreated": "2026-05-13",
+    "dateModified": "2026-05-14",
+    "mainEntity": {
     "@type": "Person",
     "name": "Neil Busque",
     "givenName": "Neil",
@@ -93,6 +104,7 @@
     "sameAs": [
       "https://www.linkedin.com/in/neilbusque"
     ]
+    }
   }
   </script>
 
@@ -139,7 +151,7 @@
         "name": "How can I contact Neil Busque?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Email: neil@busqueneil.com. LinkedIn: linkedin.com/in/neilbusque."
+          "text": "Email at neil@busqueneil.com or via LinkedIn at linkedin.com/in/neilbusque. The contact widget on busqueneil.com also offers WhatsApp, SMS, and phone options."
         }
       }
     ]
@@ -218,7 +230,10 @@
       </div>
       <figure class="hero-portrait reveal delay-2" aria-hidden="true">
         <span class="hero-portrait-glow" aria-hidden="true"></span>
-        <img src="/assets/neil-portrait.png" alt="" width="674" height="900" />
+        <picture>
+          <source srcset="/assets/neil-portrait.webp" type="image/webp" />
+          <img src="/assets/neil-portrait.png" alt="" width="674" height="900" fetchpriority="high" decoding="async" />
+        </picture>
       </figure>
     </div>
   </header>
