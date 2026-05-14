@@ -8,8 +8,8 @@
 - **Role:** Director of Operations (most recently — currently between roles)
 - **Most recent employer:** Catalyze Growth Partners (digital marketing agency serving registered investment advisors), Oct 2025 – Apr 2026
 - **Location:** Elizabeth, New Jersey, United States
-- **Education:** B.S. Information Technology, STI Tagum College (Philippines), 2017
-- **Email:** busqueneil@gmail.com
+- **Education:** Background in IT from STI Tagum College (Philippines)
+- **Email:** neil@busqueneil.com
 - **LinkedIn:** https://www.linkedin.com/in/neil-busque
 - **Phone:** +1 (908) 316-4140
 
@@ -26,7 +26,7 @@ Neil builds the operations layer between marketing and revenue. The work covers:
 ## Recent shipped work (Catalyze Growth Partners, Oct 2025 – Apr 2026)
 
 - One-click new-client onboarding system in GoHighLevel — 17 custom values across 5 folders, 24-tag schema, 18-stage pipeline, 3 Slack channels — deploys in under 10 minutes per client. Cut onboarding from 30 days to 7 days.
-- 40+ production n8n workflows running across 10+ client accounts.
+- 20+ production n8n workflows running across 10+ client accounts.
 - Internal AI command system (NeilOS) — Claude Code + 8 MCP servers — automated 60%+ of recurring ops tasks.
 - Weekly Ad Report pipeline; daily "Pulse" client-health scorecard; Meta Ads competitive-intelligence tool.
 
