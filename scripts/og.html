@@ -8,8 +8,8 @@
 <style>
   html, body { margin: 0; padding: 0; width: 1200px; height: 630px; overflow: hidden; }
   body {
-    background: #0A0A0A;
-    color: #FAF7F2;
+    background: #F4F6F9;
+    color: #0A0A0A;
     font-family: "Inter", system-ui, sans-serif;
     position: relative;
     padding: 64px 80px;
@@ -22,25 +22,31 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(750px 420px at 90% -10%, rgba(255,214,10,0.22), transparent 60%),
-      radial-gradient(620px 360px at -10% 110%, rgba(255,214,10,0.10), transparent 60%);
+      radial-gradient(750px 420px at 90% -10%, rgba(71,85,105,0.18), transparent 60%),
+      radial-gradient(620px 360px at -10% 110%, rgba(71,85,105,0.10), transparent 60%);
   }
   .top {
     position: relative; z-index: 1;
     display: flex; align-items: center; justify-content: space-between;
   }
   .mark {
-    font-weight: 800; font-size: 26px; letter-spacing: -0.025em;
+    font-weight: 900; font-size: 22px; letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
-  .mark .dot { color: #FFD60A; }
+  .mark .a { color: #FFD60A; }
+  .mark .b { color: #0A0A0A; }
   .status {
     display: flex; align-items: center; gap: 10px;
-    font-size: 14px; font-weight: 700;
-    color: rgba(250, 247, 242, 0.7);
+    font-size: 13px; font-weight: 700;
+    color: #64748B;
     letter-spacing: 0.14em; text-transform: uppercase;
+    background: rgba(255,255,255,0.7);
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid #D5DCE4;
   }
   .status::before {
-    content: ""; width: 12px; height: 12px; border-radius: 50%; background: #2ea44f;
+    content: ""; width: 10px; height: 10px; border-radius: 50%; background: #2EA44F;
   }
   .center {
     position: relative; z-index: 1;
@@ -51,15 +57,15 @@
     font-size: 200px;
     line-height: 0.9;
     letter-spacing: -0.055em;
-    color: #FAF7F2;
+    color: #0A0A0A;
     margin-bottom: 22px;
   }
-  .name .dot { color: #FFD60A; }
+  .name .dot { color: #475569; }
   .tag {
     font-weight: 500;
     font-size: 30px;
     line-height: 1.3;
-    color: rgba(250, 247, 242, 0.78);
+    color: #1F2937;
     letter-spacing: -0.012em;
     max-width: 980px;
   }
@@ -68,20 +74,20 @@
     display: flex; align-items: center; justify-content: space-between;
     font-size: 18px; font-weight: 700; letter-spacing: -0.005em;
   }
-  .url { color: #FFD60A; }
-  .email { color: rgba(250, 247, 242, 0.65); }
+  .url { color: #475569; }
+  .email { color: #64748B; }
 </style>
 </head>
 <body>
 
 <div class="top">
-  <div class="mark">Neil Busque<span class="dot">.</span></div>
-  <div class="status">Available</div>
+  <div class="mark"><span class="a">BUSQUE</span><span class="b">NEIL</span></div>
+  <div class="status">Available for work</div>
 </div>
 
 <div class="center">
   <div class="name">Neil Busque<span class="dot">.</span></div>
-  <div class="tag">Director of Operations. Growth ops, AI, automation. Elizabeth, NJ — open to roles &amp; project work.</div>
+  <div class="tag">I build the AI agents, funnels, and automations that turn ad spend into booked calls. Elizabeth, NJ.</div>
 </div>
 
 <div class="bottom">
