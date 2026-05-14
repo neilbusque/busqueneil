@@ -6,34 +6,31 @@
 ========================================================= */
 
 :root {
-  /* Palette derived from Neil's portrait (shirt + pants), brighter versions */
-  /* Surfaces — subtle cool blue-tint, sampled from cleaner version of the shirt */
-  --bg: #F2F6FB;
-  --bg-deep: #E1EBF5;
+  /* Clean white surfaces — minimal tint, premium feel */
+  --bg: #FFFFFF;
+  --bg-deep: #F6F8FB;          /* very subtle for Now section */
   --paper: #FFFFFF;
+  --paper-alt: #FAFBFC;        /* tiny lift for hover cards */
 
   /* Text */
   --ink: #0A0A0A;
   --ink-soft: #1F2937;
-  --muted: #5B6B7E;
+  --muted: #6B7280;            /* slate-500, cleaner gray */
 
-  /* Rules + accents */
-  --rule: #D5DFEB;
-  --rule-strong: #94A3B8;
+  /* Rules — lighter, cleaner */
+  --rule: #E5E9EF;
+  --rule-strong: #CBD2DC;
 
-  /* Primary accent — bright denim blue (shirt color, brighter/more saturated) */
+  /* Primary accent — denim blue (from shirt, brighter) */
   --accent: #3A6FB5;
   --accent-deep: #1F4475;
-  --accent-soft: #DAE5F4;
-
-  /* Signature warm — amber/khaki (pants color, brighter/more saturated)
-     Used for BUSQUE wordmark + ::selection */
-  --khaki: #D9A654;
-  --khaki-deep: #B5862E;
-  --khaki-soft: #F5E6CC;
+  --accent-soft: #EBF1F9;
+  --accent-tint: #F4F8FC;      /* even lighter — for fills */
 
   /* Status green for "available" — semantic */
   --green: #2EA44F;
+  /* WhatsApp brand green */
+  --wa: #25D366;
 
   --sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
 
@@ -76,21 +73,20 @@ body {
   padding-top: 88px;  /* Reserve space for floating nav */
 }
 
-/* Cool ambient gradient — slate hint top-right, neutral bottom-left */
+/* Very subtle ambient — single soft blue wash from the top-right */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(900px 600px at 90% -10%, rgba(58, 111, 181, 0.08), transparent 60%),
-    radial-gradient(700px 500px at -10% 40%, rgba(15, 23, 42, 0.025), transparent 60%);
+    radial-gradient(1000px 700px at 100% -20%, rgba(58, 111, 181, 0.05), transparent 65%);
   pointer-events: none;
   z-index: 0;
 }
 
 main, footer { position: relative; z-index: 1; }
 
-::selection { background: var(--khaki-soft); color: var(--ink); }
+::selection { background: var(--accent-soft); color: var(--ink); }
 
 a {
   color: var(--ink);
@@ -211,7 +207,7 @@ section + section { border-top: 1px solid var(--rule); }
   display: inline-flex;
   align-items: baseline;
 }
-.mark-a { color: var(--khaki); }
+.mark-a { color: var(--accent); }
 .mark-b { color: var(--ink); }
 
 .nav-cta {
@@ -349,11 +345,12 @@ section + section { border-top: 1px solid var(--rule); }
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 1.75rem;
-  padding: 0.5rem 0.9rem;
-  background: var(--accent-soft);
-  color: var(--accent);
+  padding: 0.5rem 0.95rem;
+  background: var(--paper);
+  color: var(--muted);
   border-radius: 999px;
   border: 1px solid var(--rule);
+  box-shadow: var(--shadow-1);
 }
 
 .hero h1.display { margin-bottom: 1.75rem; }
@@ -402,8 +399,8 @@ section + section { border-top: 1px solid var(--rule); }
 .hero-portrait-glow {
   position: absolute;
   inset: 4% 8% 8% 8%;
-  background: radial-gradient(closest-side, rgba(58, 111, 181, 0.18), rgba(58, 111, 181, 0) 70%);
-  filter: blur(34px);
+  background: radial-gradient(closest-side, rgba(58, 111, 181, 0.10), rgba(58, 111, 181, 0) 70%);
+  filter: blur(40px);
   z-index: 0;
 }
 .hero-portrait img {
@@ -747,6 +744,14 @@ section.now { padding: clamp(2.75rem, 5vw, 4rem) 0; }
   color: var(--accent);
   border-radius: 12px;
   transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast);
+}
+.contact-icon-wa {
+  background: var(--wa);
+  color: #FFFFFF;
+}
+.contact-card:hover .contact-icon-wa {
+  background: var(--paper);
+  color: var(--wa);
 }
 .contact-card:hover .contact-icon {
   background: var(--paper);
