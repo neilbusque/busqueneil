@@ -5,7 +5,7 @@
 ## Identity
 
 - **Name:** Neil Busque
-- **Role:** Director of Operations (most recently — currently between roles)
+- **Role:** Director of Operations (most recently). Currently between roles.
 - **Most recent employer:** Catalyze Growth Partners (digital marketing agency serving registered investment advisors), Oct 2025 – Apr 2026
 - **Location:** Elizabeth, New Jersey, United States
 - **Education:** Background in IT from STI Tagum College (Philippines)
@@ -18,16 +18,16 @@
 Neil builds the operations layer between marketing and revenue. The work covers:
 
 - **AI agents** built on Claude Code with MCP servers across GoHighLevel, n8n, Notion, Slack, Porkbun, and Google Workspace.
-- **Workflow automation** in n8n and Zapier — lead capture, lead routing, SDR briefings, no-show recovery, pipeline hygiene.
-- **GoHighLevel CRM** configuration — sub-accounts, custom values, tags, pipelines, calendars, conversations, conversion funnels.
-- **Paid media** — Meta Ads and Google Ads campaign architecture, pixel/CAPI wiring, landing-page conversion.
-- **Internal tooling** — reporting pipelines, daily client-health scorecards, competitive intelligence tools, SOPs.
+- **Workflow automation** in n8n and Zapier: lead capture, lead routing, SDR briefings, no-show recovery, pipeline hygiene.
+- **GoHighLevel CRM** configuration: sub-accounts, custom values, tags, pipelines, calendars, conversations, conversion funnels.
+- **Paid media**: Meta Ads and Google Ads campaign architecture, pixel and CAPI wiring, landing-page conversion.
+- **Internal tooling**: reporting pipelines, daily client-health scorecards, competitive intelligence tools, SOPs.
 
 ## Recent shipped work (Catalyze Growth Partners, Oct 2025 – Apr 2026)
 
 - One-click new-client onboarding system in GoHighLevel that deploys a full configured sub-account in under 10 minutes. Cut onboarding from 30 days to 7 days.
 - 20+ production n8n workflows running across 10+ client accounts.
-- Internal AI command system (NeilOS) — Claude Code + 8 MCP servers — automated 60%+ of recurring ops tasks.
+- Internal AI command system called NeilOS, built on Claude Code plus 8 MCP servers. Automated 60%+ of recurring ops tasks.
 - Weekly Ad Report pipeline; daily "Pulse" client-health scorecard; Meta Ads competitive-intelligence tool.
 
 ## Prior experience
