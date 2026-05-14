@@ -10,7 +10,7 @@
 - **Location:** Elizabeth, New Jersey, United States
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** neil@busqueneil.com
-- **LinkedIn:** https://www.linkedin.com/in/neil-busque
+- **LinkedIn:** https://www.linkedin.com/in/neilbusque
 - **Phone:** +1 (908) 316-4140
 
 ## What he does
@@ -47,4 +47,4 @@ Neil builds the operations layer between marketing and revenue. The work covers:
 - Home: https://busqueneil.com/
 - Now (what he's working on right now): https://busqueneil.com/now/
 - Résumé (PDF): https://busqueneil.com/resume.pdf
-- LinkedIn: https://www.linkedin.com/in/neil-busque
+- LinkedIn: https://www.linkedin.com/in/neilbusque

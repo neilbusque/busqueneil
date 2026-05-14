@@ -33,3 +33,54 @@ if ('IntersectionObserver' in window && revealEls.length) {
 } else {
   revealEls.forEach((el) => el.classList.add('in'));
 }
+
+// Stats count-up (respects reduced-motion).
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const statNums = document.querySelectorAll('.stat-num');
+
+const animateCount = (el) => {
+  // Find the leading integer in the element; suffix nodes (.dot/.plus/.unit) stay.
+  const firstText = el.childNodes[0];
+  if (!firstText || firstText.nodeType !== Node.TEXT_NODE) return;
+  const target = parseInt(firstText.nodeValue.trim(), 10);
+  if (!Number.isFinite(target)) return;
+  if (prefersReducedMotion) {
+    firstText.nodeValue = String(target);
+    return;
+  }
+  const duration = 1100;
+  const start = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+    const value = Math.round(target * eased);
+    firstText.nodeValue = String(value);
+    if (t < 1) requestAnimationFrame(step);
+    else firstText.nodeValue = String(target);
+  };
+  // Seed to 0 before observing.
+  firstText.nodeValue = '0';
+  requestAnimationFrame(step);
+};
+
+if (statNums.length && 'IntersectionObserver' in window) {
+  const sio = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          sio.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -10% 0px', threshold: 0.4 }
+  );
+  statNums.forEach((el) => {
+    // Seed display to 0 so we don't see the final number flash before the animation.
+    const firstText = el.childNodes[0];
+    if (firstText && firstText.nodeType === Node.TEXT_NODE && !prefersReducedMotion) {
+      firstText.nodeValue = '0';
+    }
+    sio.observe(el);
+  });
+}
