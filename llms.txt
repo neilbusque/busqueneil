@@ -46,5 +46,6 @@ Neil builds the operations layer between marketing and revenue. The work covers:
 
 - Home: https://busqueneil.com/
 - Now (what he's working on right now): https://busqueneil.com/now/
+- Paid acquisition system for financial advisors / RIAs (project service): https://busqueneil.com/ria/
 - Résumé (PDF): https://busqueneil.com/resume.pdf
 - LinkedIn: https://www.linkedin.com/in/neilbusque
