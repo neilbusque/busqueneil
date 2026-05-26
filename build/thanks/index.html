@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <title>Got it. Let's scope your app. · Neil Busque</title>
+  <meta name="description" content="Thanks for sending your idea. Pick a time below and we'll scope your app together." />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://busqueneil.com/build/thanks/" />
+  <link rel="icon" href="/assets/logo/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+
+  <style>
+    .thanks { padding-top: clamp(2.5rem, 6vw, 4.5rem); text-align: center; }
+    .thanks .check { width: 64px; height: 64px; border-radius: 16px; background: var(--accent-soft); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+    .thanks h1.display { font-size: clamp(2.2rem, 6vw, 3.6rem); margin-bottom: 1rem; }
+    .thanks .lede { font-size: 1.15rem; color: var(--ink-soft); max-width: 52ch; margin: 0 auto; }
+    .reassure-pill { display: inline-flex; align-items: flex-start; gap: 0.6rem; text-align: left; margin: 1.75rem auto 0; padding: 0.9rem 1.25rem; max-width: 56ch; background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 12px; box-shadow: var(--shadow-1); font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+    .reassure-pill svg { color: var(--accent); flex: 0 0 auto; margin-top: 2px; }
+    .cal-wrap { margin: 2.5rem auto 0; max-width: 760px; background: var(--paper); border: 1px solid var(--rule); border-radius: 24px; box-shadow: var(--shadow-2); padding: 16px; min-height: 680px; display: flex; align-items: center; justify-content: center; }
+    .calendly-inline-widget { min-width: 320px; width: 100%; height: 680px; }
+    .cal-placeholder { text-align: center; color: var(--muted); padding: 48px 24px; max-width: 46ch; }
+    .cal-placeholder strong { color: var(--ink); }
+    .fallback { margin-top: 1.5rem; font-size: 0.96rem; color: var(--muted); }
+    .fallback a { color: var(--ink); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="https://busqueneil.com" aria-label="busqueneil.com">
+      <span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span>
+    </a>
+    <a class="nav-cta" href="https://busqueneil.com">busqueneil.com</a>
+  </nav>
+
+  <main>
+    <section class="thanks">
+      <div class="wrap">
+        <span class="check" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <h1 class="display">Got it. Let's scope your app<span class="dot">.</span></h1>
+        <p class="lede">I'll read through your idea before we talk. On the call we'll nail down exactly what you want and I'll give you one flat price. Pick a time that works for you.</p>
+        <p class="reassure-pill">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span>Reminder: $100 to start covers the AI build costs. We agree the full price on the call, and you pay the rest only when the app is done.</span>
+        </p>
+
+        <!-- ============================================================= -->
+        <!-- BOOKING WIDGET                                                -->
+        <!-- NEIL: paste your Calendly INLINE embed here.                  -->
+        <!-- 1. Calendly: Share > Add to website > Inline Embed.           -->
+        <!-- 2. Replace the placeholder div below with:                    -->
+        <!--    <div class="calendly-inline-widget"                        -->
+        <!--      data-url="https://calendly.com/YOUR-LINK?hide_gdpr_banner=1"-->
+        <!--      style="min-width:320px;height:680px;"></div>             -->
+        <!-- The widget script is already loaded at the bottom of <body>.  -->
+        <!-- ============================================================= -->
+        <div class="cal-wrap">
+          <div class="cal-placeholder">
+            <p><strong>Booking calendar goes here.</strong></p>
+            <p style="margin-top:.6rem;">Paste your Calendly inline embed in this spot (see the comment in the source). Until then, use the fallback below.</p>
+          </div>
+        </div>
+
+        <p class="fallback">No time that works, or calendar not loading? Email me at <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> and we'll sort it out.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <a class="foot-mark" href="https://busqueneil.com"><span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span></a>
+      <span>Real builds, real prices.</span>
+    </div>
+  </footer>
+
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    (function(){ var nav=document.getElementById('nav'); if(nav){ addEventListener('scroll',function(){ nav.classList.toggle('is-scrolled', scrollY>8); },{passive:true}); } })();
+  </script>
+</body>
+</html>

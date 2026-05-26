@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <title>Got an app idea? I'll build it. $100 to start. · Neil Busque</title>
+  <meta name="description" content="Custom web apps, built fast and installable on your phone or the web. $100 to start covers the AI build costs. We scope it on a call, agree a price, and you pay the rest when it's done." />
+  <meta name="author" content="Neil Busque" />
+  <link rel="canonical" href="https://busqueneil.com/build/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Got an app idea? I'll build it. $100 to start." />
+  <meta property="og:description" content="Custom web apps, installable on your phone or the web. $100 to start, we agree a price on a call, you pay the rest when it's done." />
+  <meta property="og:url" content="https://busqueneil.com/build/" />
+  <meta property="og:image" content="https://busqueneil.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Got an app idea? I'll build it. $100 to start." />
+  <meta name="twitter:description" content="Custom web apps, installable on your phone or the web. $100 to start, agree a price on a call, pay the rest when it's done." />
+  <meta name="twitter:image" content="https://busqueneil.com/og.png" />
+
+  <link rel="icon" href="/assets/logo/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Inherit the full busqueneil.com design system -->
+  <link rel="stylesheet" href="/css/main.css" />
+
+  <style>
+    .build-hero h1.display { font-size: clamp(2.4rem, 5.5vw, 4.4rem); line-height: 1.0; margin-bottom: 1.5rem; }
+    .build-hero .hero-sub { max-width: 54ch; }
+    .hero-trust { margin-top: 1.6rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 14px; font-weight: 500; color: var(--muted); }
+    .hero-trust svg { color: var(--accent); flex: 0 0 auto; }
+
+    .section-head .lede { margin-top: 0.85rem; color: var(--muted); font-size: 1.1rem; max-width: 48ch; }
+    .section-head.center { text-align: center; }
+    .section-head.center .lede { margin-left: auto; margin-right: auto; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .step { background: var(--paper); border: 1px solid var(--rule); border-radius: 18px; padding: 1.75rem 1.6rem; box-shadow: var(--shadow-1); transition: transform var(--t-fast), box-shadow var(--t-fast); }
+    .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); }
+    .step-num { width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 1.15rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.1rem; }
+    .step h3 { font-weight: 800; font-size: 1.18rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.45rem; }
+    .step p { color: var(--muted); font-size: 0.97rem; }
+
+    .topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .topic { background: var(--paper); border: 1px solid var(--rule); border-left: 2px solid var(--rule); border-radius: 0 14px 14px 0; padding: 1.15rem 1.3rem; box-shadow: var(--shadow-1); transition: transform var(--t-fast), box-shadow var(--t-fast), border-left-color var(--t-fast); }
+    .topic:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-left-color: var(--accent); }
+    .topic h3 { font-weight: 800; font-size: 1rem; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 0.2rem; }
+    .topic p { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
+
+    .why .wrap { max-width: 64ch; }
+    .why p { font-size: clamp(1.1rem, 1.9vw, 1.3rem); line-height: 1.6; color: var(--ink-soft); }
+    .why p + p { margin-top: 1.1rem; }
+    .why p.punch { font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+
+    /* Pricing strip */
+    .price-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+    .price-card { background: var(--paper); border: 1px solid var(--rule); border-radius: 18px; padding: 1.6rem; box-shadow: var(--shadow-1); }
+    .price-card .amt { font-family: var(--sans); font-weight: 900; letter-spacing: -0.03em; font-size: 2rem; color: var(--ink); }
+    .price-card .amt .dot { color: var(--accent); }
+    .price-card h3 { font-weight: 800; font-size: 1.05rem; margin: 0.5rem 0 0.35rem; color: var(--ink); }
+    .price-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .form-section { background: var(--bg-deep); }
+    .form-card { background: var(--paper); border: 1px solid var(--rule); border-radius: 24px; padding: clamp(1.75rem, 4vw, 3rem); box-shadow: var(--shadow-2); max-width: 720px; margin: 0 auto; }
+    .form-card .form-head { text-align: center; margin-bottom: 2rem; }
+    .form-card .form-head .lede { margin: 0.6rem auto 0; }
+    .field { margin-bottom: 1.4rem; }
+    .field label { display: block; font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.005em; }
+    .field .opt { color: var(--muted); font-weight: 400; }
+    .field input[type=text], .field input[type=email], .field textarea { width: 100%; font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--paper); border: 1.5px solid var(--rule); border-radius: 14px; padding: 0.85rem 1rem; box-shadow: var(--shadow-1); transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .field textarea { resize: vertical; min-height: 120px; line-height: 1.5; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip { position: relative; cursor: pointer; }
+    .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .chip span { display: inline-block; border: 1.5px solid var(--rule); background: var(--paper); border-radius: 999px; padding: 0.5rem 1rem; font-size: 14px; font-weight: 600; color: var(--ink-soft); box-shadow: var(--shadow-1); transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast); user-select: none; }
+    .chip span:hover { border-color: var(--accent); }
+    .chip input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .form-submit { margin-top: 0.5rem; }
+    .form-submit .btn { width: 100%; justify-content: center; }
+    .reassure { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 1rem; }
+    .hp { position: absolute; left: -9999px; }
+
+    .faq-list { max-width: 680px; margin: 0 auto; }
+    .faq-list details { border-bottom: 1px solid var(--rule); }
+    .faq-list summary { list-style: none; cursor: pointer; padding: 1.3rem 0; font-weight: 700; font-size: 1.08rem; color: var(--ink); letter-spacing: -0.01em; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list .ic { color: var(--accent); font-weight: 800; font-size: 1.5rem; line-height: 1; flex: 0 0 auto; transition: transform var(--t-fast); }
+    .faq-list details[open] .ic { transform: rotate(45deg); }
+    .faq-list details p { padding: 0 0 1.4rem; color: var(--muted); max-width: 60ch; line-height: 1.6; }
+
+    .cta-dark { background: var(--ink); color: var(--paper); border-top: 0; text-align: center; }
+    section.cta-dark + section { border-top: 0; }
+    .cta-dark h2.display { color: var(--paper); }
+    .cta-dark .dot { color: var(--accent); }
+    .cta-dark p { color: rgba(244, 246, 249, 0.72); max-width: 46ch; margin: 1rem auto 2rem; font-size: 1.1rem; }
+    .cta-dark .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    .cta-dark .btn-primary:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+    @media (max-width: 800px) {
+      .steps, .price-strip { grid-template-columns: 1fr; }
+      .topic-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .topic-grid { grid-template-columns: 1fr; }
+      .hero-cta .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="https://busqueneil.com" aria-label="busqueneil.com">
+      <span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span>
+    </a>
+    <a class="nav-cta" href="#form">Tell me your app idea</a>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <header class="hero build-hero">
+      <div class="wrap">
+        <span class="eyebrow reveal">Custom apps, vibe coded</span>
+        <h1 class="display reveal delay-1">Got an app idea? I'll build it and put it on your phone<span class="dot">.</span></h1>
+        <p class="hero-sub reveal delay-2">Custom web apps, built fast and installable right on your phone or live on the web. $100 to start covers the AI build costs. We scope it on a quick call and agree a price together, and you pay the rest only when it's done and you're happy. No agency quote. No months of waiting.</p>
+        <div class="hero-cta reveal delay-3">
+          <a href="#form" class="btn btn-primary">Tell me your app idea</a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="hero-trust reveal delay-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          $100 to start. Price agreed before I build. Pay the rest at the end.
+        </p>
+      </div>
+    </header>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">The process</span>
+          <h2 class="display">How it works<span class="dot">.</span></h2>
+        </div>
+        <div class="steps">
+          <div class="step reveal"><div class="step-num">1</div><h3>Tell me what you want to build</h3><p>Describe your app idea in the form. What it should do, who it's for. Rough and half-formed is fine. That's what the call is for.</p></div>
+          <div class="step reveal delay-1"><div class="step-num">2</div><h3>We scope it on a call and agree a price</h3><p>Quick call to figure out exactly what you need. I give you one flat price for the whole build, up front. No surprise invoices later.</p></div>
+          <div class="step reveal delay-2"><div class="step-num">3</div><h3>$100 to start, I build it, you pay the rest at the end</h3><p>The $100 covers the AI tools I build with. I build your app, get it onto your phone or the web, and you pay the rest only when it's delivered.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT I CAN BUILD -->
+    <section id="examples">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">What I can build</span>
+          <h2 class="display">If you can describe it, I can build it<span class="dot">.</span></h2>
+          <p class="lede">A few of the things people ask for. Yours doesn't have to be on this list.</p>
+        </div>
+        <div class="topic-grid">
+          <div class="topic reveal"><h3>Client portals</h3><p>A private space for your clients to log in, see their stuff, and get updates.</p></div>
+          <div class="topic reveal"><h3>Booking &amp; scheduling tools</h3><p>Let people book you or your service without the back-and-forth.</p></div>
+          <div class="topic reveal"><h3>Calculators &amp; quote tools</h3><p>Instant pricing, ROI, or quote tools your leads can use themselves.</p></div>
+          <div class="topic reveal"><h3>Dashboards</h3><p>Pull your numbers into one clean screen you actually check.</p></div>
+          <div class="topic reveal"><h3>Internal team tools</h3><p>The little app your team keeps doing by hand in a spreadsheet.</p></div>
+          <div class="topic reveal"><h3>Trackers &amp; habit apps</h3><p>Log, streak, and track anything. On your home screen.</p></div>
+          <div class="topic reveal"><h3>Directories &amp; marketplaces</h3><p>A searchable list of people, places, or products.</p></div>
+          <div class="topic reveal"><h3>AI-powered tools</h3><p>Apps with a smart assistant, generator, or chatbot baked in.</p></div>
+          <div class="topic reveal"><h3>MVPs &amp; prototypes</h3><p>A real, working version of your idea to test before you go big.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY $100 -->
+    <section class="why">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Straight talk on price</span>
+          <h2 class="display">Why $100 to start<span class="dot">?</span></h2>
+        </div>
+        <p class="reveal">Building with AI costs money. The $100 covers the tools and tokens I use to actually build your app, so I'm not paying out of pocket just to begin. It's not a markup. It's costs.</p>
+        <p class="reveal">Everything else, we agree before I build. On the call we scope exactly what you want, and I give you one flat price for the whole thing. You pay the $100 to start, then the rest only when the app is done and you're happy with it.</p>
+        <p class="punch reveal">You see the full price before I write a single line of code. No surprise invoices.</p>
+
+        <div class="price-strip">
+          <div class="price-card reveal"><div class="amt">$100<span class="dot">.</span></div><h3>To start</h3><p>Covers the AI build costs. Paid once we've agreed what we're building.</p></div>
+          <div class="price-card reveal delay-1"><div class="amt">1 price<span class="dot">.</span></div><h3>Agreed up front</h3><p>One flat number for the whole build, set on the call. No hourly, no creep.</p></div>
+          <div class="price-card reveal delay-2"><div class="amt">The rest<span class="dot">.</span></div><h3>When it's done</h3><p>You pay the balance at delivery, once the app does what we scoped.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section id="form" class="form-section">
+      <div class="wrap-wide">
+        <div class="form-card reveal">
+          <div class="form-head">
+            <span class="eyebrow">Step one</span>
+            <h2 class="display" style="font-size:clamp(1.8rem,4vw,2.6rem)">Tell me your app idea<span class="dot">.</span></h2>
+            <p class="lede">The more you tell me, the better I can scope it on the call. Rough ideas welcome. You'll book a time on the next screen.</p>
+          </div>
+
+          <form name="build-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/build/thanks/" id="buildForm">
+            <input type="hidden" name="form-name" value="build-request" />
+            <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <input type="hidden" name="utm_source" id="utm_source" />
+            <input type="hidden" name="utm_medium" id="utm_medium" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" />
+
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email" />
+            </div>
+
+            <div class="field">
+              <label for="idea">What do you want to build?</label>
+              <textarea id="idea" name="idea" required placeholder="What's the app? What should it do? Who's it for? Rough and half-formed is fine, that's what the call is for."></textarea>
+            </div>
+
+            <div class="field">
+              <label>Where should it live? <span class="opt">(pick any)</span></label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="platform" value="On my phone" /><span>On my phone</span></label>
+                <label class="chip"><input type="checkbox" name="platform" value="In the browser" /><span>In the browser</span></label>
+                <label class="chip"><input type="checkbox" name="platform" value="Both" /><span>Both</span></label>
+                <label class="chip"><input type="checkbox" name="platform" value="Not sure yet" /><span>Not sure yet</span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="examples">Any apps or sites like what you want? <span class="opt">(optional)</span></label>
+              <input type="text" id="examples" name="examples" placeholder="Links or names of things that feel close to your idea" />
+            </div>
+
+            <div class="field">
+              <label for="timeline">Timeline or budget in mind? <span class="opt">(optional)</span></label>
+              <input type="text" id="timeline" name="timeline" placeholder="When you'd like it, and a rough budget if you have one" />
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary">Continue to booking</button>
+              <p class="reassure">I read every one before the call. Zero spam. Your idea stays between us.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Questions</span>
+          <h2 class="display">Good questions<span class="dot">.</span></h2>
+        </div>
+        <div class="faq-list reveal">
+          <details><summary>Is $100 all I pay? <span class="ic">+</span></summary><p>No. The $100 is a deposit that covers the AI build costs to get started. The full price is whatever we agree on the call, and you pay the rest at the end when the app is delivered.</p></details>
+          <details><summary>What if I don't like it? <span class="ic">+</span></summary><p>We agree what "done" looks like before I build, so you know exactly what you're getting. I keep working until it matches what we scoped together.</p></details>
+          <details><summary>Can it really install on my phone? <span class="ic">+</span></summary><p>Yes. These install to your home screen and open like a normal app (it's a PWA), and they also work in any browser. No app store, no download approval needed.</p></details>
+          <details><summary>Do I own it? <span class="ic">+</span></summary><p>Yes. The app is yours, code and all. No lock-in.</p></details>
+          <details><summary>How long does it take? <span class="ic">+</span></summary><p>Most builds are days, not months. We'll set a realistic timeline on the call based on what you want.</p></details>
+          <details><summary>What can't you build? <span class="ic">+</span></summary><p>Anything that needs deep native phone features (heavy camera, Bluetooth) or a huge complex backend. If your idea isn't a fit, I'll tell you straight on the call before you pay anything.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-dark">
+      <div class="wrap">
+        <h2 class="display" style="font-size:clamp(2rem,5vw,3.2rem)">Got an app in your head<span class="dot">?</span></h2>
+        <p>Tell me what it is. We'll scope it on a call, agree a price, and I'll build it. $100 to start.</p>
+        <a href="#form" class="btn btn-primary">Tell me your app idea</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <a class="foot-mark" href="https://busqueneil.com"><span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span></a>
+      <span>Real builds, real prices. &middot; <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    (function(){ var nav=document.getElementById('nav'); if(nav){ addEventListener('scroll', function(){ nav.classList.toggle('is-scrolled', scrollY > 8); }, {passive:true}); } })();
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+      var io = new IntersectionObserver(function(entries){ entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(e){ io.observe(e); });
+    })();
+    (function(){ var p = new URLSearchParams(location.search); ['utm_source','utm_medium','utm_campaign'].forEach(function(k){ var el = document.getElementById(k); if(el) el.value = p.get(k) || ''; }); })();
+  </script>
+</body>
+</html>
