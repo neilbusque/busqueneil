@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FEF7ED" />
+  <title>Got it. Now grab a time. · Neil Busque</title>
+  <meta name="description" content="Thanks for sending that over. Pick a time below and we'll fix your problem together." />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://busqueneil.com/help/thanks/" />
+  <link rel="icon" href="/assets/logo/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --surface-0:#FEF7ED; --surface-1:#FFFBEB; --card:#FFFFFF; --peach:#FED7AA;
+      --ink:#292524; --ink-mid:#57534E; --ink-low:#A8A29E; --rule:#F0E6D6;
+      --brand:#EC4899; --brand-600:#DB2777;
+      --shadow:0 1px 2px rgba(41,37,36,.04), 0 8px 24px rgba(219,39,119,.08);
+      --display:"Playfair Display",Georgia,serif;
+      --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--body);color:var(--ink);line-height:1.6;font-size:17px;
+      background:
+        radial-gradient(120% 70% at 85% -10%, #FFE4E6 0%, rgba(255,228,230,0) 55%),
+        radial-gradient(90% 60% at 5% 0%, #FEF3C7 0%, rgba(254,243,199,0) 50%),
+        var(--surface-0);
+      min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .wrap{width:100%;max-width:760px;margin:0 auto;padding:0 24px}
+    .topbar{border-bottom:1px solid var(--rule);background:rgba(254,247,237,.85);backdrop-filter:blur(10px)}
+    .topbar .wrap{display:flex;align-items:center;height:64px}
+    .brand-mark{font-family:var(--display);font-weight:700;font-size:1.25rem;text-decoration:none;color:var(--ink)}
+    .brand-mark .dot{color:var(--brand)}
+
+    main{padding:64px 0 80px;text-align:center}
+    .check{width:64px;height:64px;border-radius:50%;background:var(--peach);display:grid;place-items:center;margin:0 auto 24px}
+    h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-.01em;margin-bottom:.5em}
+    .lead{color:var(--ink-mid);font-size:1.15rem;max-width:52ch;margin:0 auto 1.4rem}
+    .reassure{display:inline-flex;align-items:flex-start;gap:.6em;text-align:left;background:var(--surface-1);
+      border:1px solid var(--rule);border-radius:14px;padding:14px 20px;color:var(--ink-mid);font-size:.98rem;max-width:54ch;margin:0 auto 2.6rem}
+    .reassure svg{flex:0 0 auto;margin-top:3px}
+
+    .cal-wrap{background:var(--card);border:1px solid var(--rule);border-radius:24px;box-shadow:var(--shadow);
+      padding:16px;min-height:680px;display:flex;align-items:center;justify-content:center}
+    /* Calendly inline widget fills this. */
+    .calendly-inline-widget{min-width:320px;width:100%;height:680px}
+    .cal-placeholder{text-align:center;color:var(--ink-low);padding:48px 24px;max-width:46ch}
+    .cal-placeholder strong{color:var(--ink-mid)}
+
+    .fallback{margin-top:1.6rem;font-size:.96rem;color:var(--ink-low)}
+    .fallback a{color:var(--brand-600);font-weight:600}
+    footer{text-align:center;padding:28px 0 40px;color:var(--ink-low);font-size:.9rem}
+    @media(max-width:560px){main{padding:48px 0 64px}}
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap"><a href="https://busqueneil.com" class="brand-mark">Neil Busque<span class="dot">.</span></a></div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="check" aria-hidden="true">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h1>Got it. Now grab a time.</h1>
+      <p class="lead">I'll read everything you sent before we talk, so the call goes straight to fixing your problem. Pick a time below that works for you.</p>
+      <p class="reassure">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        <span>Reminder: after the call, you pay what it was worth to you. If it didn't help, you pay nothing.</span>
+      </p>
+
+      <!-- ============================================================= -->
+      <!-- BOOKING WIDGET                                                -->
+      <!-- NEIL: paste your Calendly INLINE embed here.                  -->
+      <!-- 1. In Calendly: Share > Add to website > Inline Embed.        -->
+      <!-- 2. Replace the data-url below with your event link, OR        -->
+      <!--    paste Calendly's full snippet in place of .cal-wrap.       -->
+      <!-- The widget script is already loaded at the bottom of <body>.  -->
+      <!-- ============================================================= -->
+      <div class="cal-wrap">
+        <!-- When ready, replace this placeholder div with:
+             <div class="calendly-inline-widget" data-url="https://calendly.com/YOUR-LINK?hide_gdpr_banner=1" style="min-width:320px;height:680px;"></div>
+        -->
+        <div class="cal-placeholder">
+          <p><strong>Booking calendar goes here.</strong></p>
+          <p style="margin-top:.6rem;">Paste your Calendly inline embed in this spot (see the comment in the source). Until then, use the fallback below.</p>
+        </div>
+      </div>
+
+      <p class="fallback">No time that works, or calendar not loading? Email me at <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> and we'll sort it out.</p>
+    </div>
+  </main>
+
+  <footer>Real help, no catch. &middot; <a href="https://busqueneil.com" style="color:inherit">busqueneil.com</a></footer>
+
+  <!-- Calendly widget script (loaded so the embed works as soon as you paste it) -->
+  <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>
