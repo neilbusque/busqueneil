@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#FEF7ED" />
+  <meta name="theme-color" content="#FFFFFF" />
   <title>Get help from Neil. Pay only if it helped.</title>
   <meta name="description" content="Bring a real problem you're stuck on. Claude Code, funnels, automations, websites, fitness, and more. We fix it together on a call. After, you pay what it was worth. Worth nothing, pay nothing." />
   <meta name="author" content="Neil Busque" />
@@ -24,416 +24,332 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Inherit the full busqueneil.com design system -->
+  <link rel="stylesheet" href="/css/main.css" />
 
   <style>
-    :root{
-      --surface-0:#FEF7ED; --surface-1:#FFFBEB; --card:#FFFFFF; --peach:#FED7AA;
-      --ink:#292524; --ink-mid:#57534E; --ink-low:#A8A29E; --rule:#F0E6D6;
-      --brand:#EC4899; --brand-600:#DB2777; --accent:#0EA5A4; --success:#16A34A;
-      --shadow:0 1px 2px rgba(41,37,36,.04), 0 8px 24px rgba(219,39,119,.08);
-      --lift:0 12px 32px rgba(219,39,119,.16);
-      --display:"Playfair Display",Georgia,serif;
-      --body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
-      --maxw:1080px; --measure:62ch;
+    /* ---------- /help page-specific (built on main.css tokens) ---------- */
+    .help-hero h1.display { font-size: clamp(2.4rem, 5.5vw, 4.4rem); line-height: 1.0; margin-bottom: 1.5rem; }
+    .help-hero .hero-sub { max-width: 52ch; }
+    .hero-trust {
+      margin-top: 1.6rem; display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 14px; font-weight: 500; color: var(--muted);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:var(--body);color:var(--ink);background:var(--surface-0);
-      line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
-    }
-    .wrap{width:100%;max-width:var(--maxw);margin:0 auto;padding:0 24px}
-    h1,h2,h3{font-family:var(--display);line-height:1.12;font-weight:700;letter-spacing:-.01em}
-    h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:.6em}
-    p{max-width:var(--measure)}
-    a{color:inherit}
-    .kicker{display:inline-block;font-family:var(--body);font-weight:600;font-size:.8rem;
-      letter-spacing:.08em;text-transform:uppercase;color:var(--brand-600);
-      background:#FCE7F3;border-radius:999px;padding:.4em .9em;margin-bottom:1.2rem}
+    .hero-trust svg { color: var(--accent); flex: 0 0 auto; }
 
-    /* Buttons */
-    .btn{display:inline-flex;align-items:center;gap:.5em;font-family:var(--body);font-weight:600;
-      font-size:1.02rem;border:none;border-radius:999px;padding:.95em 1.8em;cursor:pointer;
-      text-decoration:none;transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
-    .btn-primary{background:var(--brand-600);color:#fff;box-shadow:var(--shadow)}
-    .btn-primary:hover{transform:translateY(-2px);box-shadow:var(--lift);background:#BE185D}
-    .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--rule)}
-    .btn-ghost:hover{border-color:var(--brand);color:var(--brand-600)}
-
-    /* Top bar */
-    .topbar{position:sticky;top:0;z-index:50;background:rgba(254,247,237,.85);
-      backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
-    .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand-mark{font-family:var(--display);font-weight:700;font-size:1.25rem;text-decoration:none}
-    .brand-mark .dot{color:var(--brand)}
-    .topbar .nav-cta{font-size:.95rem;padding:.6em 1.3em}
-
-    /* Hero */
-    .hero{padding:72px 0 64px;background:
-      radial-gradient(120% 80% at 85% -10%, #FFE4E6 0%, rgba(255,228,230,0) 55%),
-      radial-gradient(90% 70% at 5% 0%, #FEF3C7 0%, rgba(254,243,199,0) 50%),
-      var(--surface-0)}
-    .hero h1{font-size:clamp(2.05rem,6vw,4rem);overflow-wrap:break-word;hyphens:none}
-    .hero .underline-word{position:relative;white-space:nowrap}
-    .hero .underline-word svg{position:absolute;left:0;right:0;bottom:-.18em;width:100%;height:.4em;overflow:visible}
-    .hero .underline-word path{stroke:var(--brand);stroke-width:7;fill:none;stroke-linecap:round;
-      stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1s ease .35s forwards}
-    @keyframes draw{to{stroke-dashoffset:0}}
-    .hero-sub{font-size:1.2rem;color:var(--ink-mid);margin:1.6rem 0 2rem;max-width:56ch}
-    .hero-cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-    .hero-trust{margin-top:1.4rem;font-size:.95rem;color:var(--ink-low);display:flex;align-items:center;gap:.5em}
-    .hero-trust svg{flex:0 0 auto}
-
-    section{padding:72px 0}
-    .section-head{text-align:center;max-width:46ch;margin:0 auto 3rem}
-    .section-head p{margin:0 auto;color:var(--ink-mid)}
+    .section-head .display { margin: 0; }
+    .section-head .lede { margin-top: 0.85rem; color: var(--muted); font-size: 1.1rem; max-width: 48ch; }
+    .section-head.center { text-align: center; }
+    .section-head.center .lede { margin-left: auto; margin-right: auto; }
 
     /* How it works */
-    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-    .step{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:32px 28px;box-shadow:var(--shadow)}
-    .step .num{width:46px;height:46px;border-radius:50%;background:var(--peach);color:var(--brand-600);
-      font-family:var(--display);font-weight:700;font-size:1.3rem;display:grid;place-items:center;margin-bottom:18px}
-    .step h3{font-size:1.3rem;margin-bottom:.4em}
-    .step p{color:var(--ink-mid);font-size:1rem}
-    .alt{background:var(--surface-1)}
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .step {
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 18px;
+      padding: 1.75rem 1.6rem; box-shadow: var(--shadow-1);
+      transition: transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); }
+    .step-num {
+      width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft);
+      color: var(--accent); font-weight: 800; font-size: 1.15rem;
+      display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+    }
+    .step h3 { font-weight: 800; font-size: 1.18rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.45rem; }
+    .step p { color: var(--muted); font-size: 0.97rem; }
 
-    /* Topics */
-    .topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .topic{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:20px 20px;
-      transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease}
-    .topic:hover{transform:translateY(-4px) rotate(.5deg);box-shadow:var(--lift);border-color:var(--peach)}
-    .topic h3{font-family:var(--body);font-weight:700;font-size:1.05rem;margin-bottom:.25em}
-    .topic p{font-size:.92rem;color:var(--ink-mid);margin:0}
+    /* Topics — echoes the .role left-accent motif */
+    .topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .topic {
+      background: var(--paper); border: 1px solid var(--rule); border-left: 2px solid var(--rule);
+      border-radius: 0 14px 14px 0; padding: 1.15rem 1.3rem; box-shadow: var(--shadow-1);
+      transition: transform var(--t-fast), box-shadow var(--t-fast), border-left-color var(--t-fast);
+    }
+    .topic:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-left-color: var(--accent); }
+    .topic h3 { font-weight: 800; font-size: 1rem; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 0.2rem; }
+    .topic p { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
 
     /* Why */
-    .why{background:var(--surface-1)}
-    .why-inner{max-width:62ch;margin:0 auto;text-align:center}
-    .why-inner p{margin:0 auto 1.2rem;color:var(--ink-mid);font-size:1.12rem}
-    .why-inner p:last-child{font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--ink)}
+    .why .wrap { max-width: 64ch; }
+    .why p { font-size: clamp(1.1rem, 1.9vw, 1.3rem); line-height: 1.6; color: var(--ink-soft); }
+    .why p + p { margin-top: 1.1rem; }
+    .why p.punch { font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
 
     /* Form */
-    .form-section{background:var(--surface-0)}
-    .form-card{background:var(--card);border:1px solid var(--rule);border-radius:24px;
-      padding:clamp(28px,5vw,48px);box-shadow:var(--shadow);max-width:720px;margin:0 auto}
-    .form-card h2{text-align:center}
-    .form-card .lead{text-align:center;color:var(--ink-mid);max-width:48ch;margin:0 auto 2.2rem}
-    .field{margin-bottom:1.5rem}
-    .field label{display:block;font-weight:600;font-size:.98rem;margin-bottom:.5em}
-    .field .opt{color:var(--ink-low);font-weight:400}
-    .field input[type=text],.field input[type=email],.field textarea{
-      width:100%;font-family:var(--body);font-size:1rem;color:var(--ink);background:var(--surface-1);
-      border:1.5px solid var(--rule);border-radius:12px;padding:.85em 1em;transition:border-color .15s, background .15s}
-    .field input:focus,.field textarea:focus{outline:none;border-color:var(--brand);background:#fff}
-    .field textarea{resize:vertical;min-height:96px}
-    .chips{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{position:relative;cursor:pointer}
-    .chip input{position:absolute;opacity:0;width:0;height:0}
-    .chip span{display:inline-block;border:1.5px solid var(--rule);background:var(--surface-1);
-      border-radius:999px;padding:.55em 1.05em;font-size:.92rem;font-weight:500;transition:all .15s ease;user-select:none}
-    .chip input:checked + span{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
-    .chip:hover span{border-color:var(--brand)}
-    .chip input:focus-visible + span{outline:2px solid var(--brand);outline-offset:2px}
-    .form-submit{text-align:center;margin-top:.5rem}
-    .form-submit .btn{width:100%;justify-content:center;font-size:1.08rem;padding:1.05em}
-    .reassure{text-align:center;font-size:.9rem;color:var(--ink-low);margin-top:1rem}
-    .hp{position:absolute;left:-9999px}
-
-    /* FAQ */
-    .faq{background:var(--surface-1)}
-    .faq-list{max-width:680px;margin:0 auto}
-    details{background:var(--card);border:1px solid var(--rule);border-radius:14px;margin-bottom:12px;overflow:hidden}
-    summary{cursor:pointer;list-style:none;padding:20px 24px;font-weight:600;font-size:1.05rem;
-      display:flex;justify-content:space-between;align-items:center;gap:1em}
-    summary::-webkit-details-marker{display:none}
-    summary .ic{flex:0 0 auto;color:var(--brand-600);transition:transform .2s ease;font-size:1.4rem;line-height:1}
-    details[open] summary .ic{transform:rotate(45deg)}
-    details p{padding:0 24px 22px;color:var(--ink-mid);margin:0;max-width:none}
-
-    /* Final CTA */
-    .final{background:var(--surface-0);text-align:center}
-    .final-card{background:linear-gradient(135deg,#FDF2F8,#FFF7ED);border:1px solid var(--peach);
-      border-radius:28px;padding:clamp(36px,6vw,64px);max-width:760px;margin:0 auto}
-    .final-card p{margin:0 auto 2rem;color:var(--ink-mid);font-size:1.15rem}
-
-    /* Footer */
-    footer{background:var(--ink);color:#FDE8D8;padding:48px 0;text-align:center}
-    footer .brand-mark{color:#fff;font-size:1.4rem;display:inline-block;margin-bottom:.5rem}
-    footer .brand-mark .dot{color:var(--brand)}
-    footer a{color:#FDE8D8;text-decoration:none;border-bottom:1px solid rgba(253,232,216,.3)}
-    footer a:hover{color:#fff}
-    footer .links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:.8rem 0;font-size:.95rem}
-    footer .note{color:#A8A29E;font-size:.9rem;margin-top:.6rem}
-
-    /* Reveal */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
-    .reveal.in{opacity:1;transform:none}
-    @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}
-      .hero .underline-word path{animation:none;stroke-dashoffset:0}}
-
-    @media(max-width:860px){
-      .steps{grid-template-columns:1fr;gap:18px}
-      .topic-grid{grid-template-columns:repeat(2,1fr)}
+    .form-section { background: var(--bg-deep); }
+    .form-card {
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 24px;
+      padding: clamp(1.75rem, 4vw, 3rem); box-shadow: var(--shadow-2); max-width: 720px; margin: 0 auto;
     }
-    @media(max-width:560px){
-      section{padding:52px 0}
-      .hero{padding:52px 0 48px}
-      .hero h1{font-size:clamp(1.85rem,8vw,2.3rem)}
-      .topic-grid{grid-template-columns:1fr}
-      .hero-cta .btn{width:100%;justify-content:center}
-      .topbar .nav-cta{display:none}
+    .form-card .form-head { text-align: center; margin-bottom: 2rem; }
+    .form-card .form-head .lede { margin: 0.6rem auto 0; }
+    .field { margin-bottom: 1.4rem; }
+    .field label { display: block; font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.005em; }
+    .field .opt { color: var(--muted); font-weight: 400; }
+    .field input[type=text], .field input[type=email], .field textarea {
+      width: 100%; font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--paper);
+      border: 1.5px solid var(--rule); border-radius: 14px; padding: 0.85rem 1rem;
+      box-shadow: var(--shadow-1); transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .field textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip { position: relative; cursor: pointer; }
+    .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .chip span {
+      display: inline-block; border: 1.5px solid var(--rule); background: var(--paper); border-radius: 999px;
+      padding: 0.5rem 1rem; font-size: 14px; font-weight: 600; color: var(--ink-soft);
+      box-shadow: var(--shadow-1); transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+      user-select: none;
+    }
+    .chip span:hover { border-color: var(--accent); }
+    .chip input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .form-submit { margin-top: 0.5rem; }
+    .form-submit .btn { width: 100%; justify-content: center; }
+    .reassure { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 1rem; }
+    .hp { position: absolute; left: -9999px; }
+
+    /* FAQ — clean editorial accordion */
+    .faq-list { max-width: 680px; margin: 0 auto; }
+    .faq-list details { border-bottom: 1px solid var(--rule); }
+    .faq-list summary {
+      list-style: none; cursor: pointer; padding: 1.3rem 0; font-weight: 700; font-size: 1.08rem;
+      color: var(--ink); letter-spacing: -0.01em; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list .ic { color: var(--accent); font-weight: 800; font-size: 1.5rem; line-height: 1; flex: 0 0 auto; transition: transform var(--t-fast); }
+    .faq-list details[open] .ic { transform: rotate(45deg); }
+    .faq-list details p { padding: 0 0 1.4rem; color: var(--muted); max-width: 60ch; line-height: 1.6; }
+
+    /* Final CTA — dark band, like the site's marquee section */
+    .cta-dark { background: var(--ink); color: var(--paper); border-top: 0; text-align: center; }
+    section.cta-dark + section { border-top: 0; }
+    .cta-dark h2.display { color: var(--paper); }
+    .cta-dark .dot { color: var(--accent); }
+    .cta-dark p { color: rgba(244, 246, 249, 0.72); max-width: 44ch; margin: 1rem auto 2rem; font-size: 1.1rem; }
+    .cta-dark .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    .cta-dark .btn-primary:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+    @media (max-width: 800px) {
+      .steps { grid-template-columns: 1fr; }
+      .topic-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .topic-grid { grid-template-columns: 1fr; }
+      .hero-cta .btn { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="wrap">
-      <a href="https://busqueneil.com" class="brand-mark">Neil Busque<span class="dot">.</span></a>
-      <a href="#form" class="btn btn-primary nav-cta">Tell me what you're stuck on</a>
-    </div>
-  </header>
+  <!-- Floating glass pill nav (matches site) -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="https://busqueneil.com" aria-label="busqueneil.com">
+      <span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span>
+    </a>
+    <a class="nav-cta" href="#form">Tell me what you're stuck on</a>
+  </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="wrap">
-      <span class="kicker reveal">Pay-what-you-want help calls</span>
-      <h1 class="reveal">Get unstuck on the thing you've been
-        <span class="underline-word">stuck<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 14 C 40 4, 80 4, 120 11 S 180 16, 197 7"/></svg></span> on.
-        Pay only if it helped.</h1>
-      <p class="hero-sub reveal">Bring me a real problem. A funnel that won't convert, a Claude Code setup that keeps breaking, an automation you can't get to fire, a workout plan you keep quitting. We get on a call and fix it together. After, you pay what it was worth to you. If it wasn't worth anything, you pay nothing. No pitch. No catch.</p>
-      <div class="hero-cta reveal">
-        <a href="#form" class="btn btn-primary">Tell me what you're stuck on</a>
-        <a href="#how" class="btn btn-ghost">How it works</a>
+  <main>
+    <!-- HERO -->
+    <header class="hero help-hero">
+      <div class="wrap">
+        <span class="eyebrow reveal">Pay-what-you-want help calls</span>
+        <h1 class="display reveal delay-1">Get unstuck on the thing you've been stuck on. Pay only if it helped<span class="dot">.</span></h1>
+        <p class="hero-sub reveal delay-2">Bring me a real problem. A funnel that won't convert, a Claude Code setup that keeps breaking, an automation you can't get to fire, a workout plan you keep quitting. We get on a call and fix it together. After, you pay what it was worth to you. If it wasn't worth anything, you pay nothing. No pitch. No catch.</p>
+        <div class="hero-cta reveal delay-3">
+          <a href="#form" class="btn btn-primary">Tell me what you're stuck on</a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="hero-trust reveal delay-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Real help. No sales pitch. You set the price, after.
+        </p>
       </div>
-      <p class="hero-trust reveal">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB2777" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-        Real help. No sales pitch. You set the price, after.</p>
-    </div>
-  </section>
+    </header>
 
-  <!-- HOW IT WORKS -->
-  <section id="how" class="alt">
-    <div class="wrap">
-      <div class="section-head reveal"><h2>How it works.</h2></div>
-      <div class="steps">
-        <div class="step reveal"><div class="num">1</div><h3>Tell me what you need</h3><p>Fill out the form below. The more you tell me, the more I can dig in before we talk. Drop links, screenshots, your funnel, your account, whatever helps.</p></div>
-        <div class="step reveal"><div class="num">2</div><h3>We get on a call and fix it</h3><p>We hop on a call and work through your actual problem together. I show you what I'd do, walk you through it, and you leave with a clear next step. No slides. No pitch.</p></div>
-        <div class="step reveal"><div class="num">3</div><h3>You pay what it was worth</h3><p>After we talk, you decide what the help was worth to you and pay that. If it didn't help, you pay nothing. That part is real.</p></div>
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">The deal</span>
+          <h2 class="display">How it works<span class="dot">.</span></h2>
+        </div>
+        <div class="steps">
+          <div class="step reveal"><div class="step-num">1</div><h3>Tell me what you need</h3><p>Fill out the form below. The more you tell me, the more I can dig in before we talk. Drop links, screenshots, your funnel, your account, whatever helps.</p></div>
+          <div class="step reveal delay-1"><div class="step-num">2</div><h3>We get on a call and fix it</h3><p>We hop on a call and work through your actual problem together. I show you what I'd do, walk you through it, and you leave with a clear next step. No slides. No pitch.</p></div>
+          <div class="step reveal delay-2"><div class="step-num">3</div><h3>You pay what it was worth</h3><p>After we talk, you decide what the help was worth to you and pay that. If it didn't help, you pay nothing. That part is real.</p></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TOPICS -->
-  <section id="topics">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2>What I can help with.</h2>
-        <p>Pick one or bring a messy mix of them. The weirder and more specific, the better.</p>
+    <!-- TOPICS -->
+    <section id="topics">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">What I do</span>
+          <h2 class="display">What I can help with<span class="dot">.</span></h2>
+          <p class="lede">Pick one or bring a messy mix of them. The weirder and more specific, the better.</p>
+        </div>
+        <div class="topic-grid">
+          <div class="topic reveal"><h3>Claude Code</h3><p>Setup, workflows, agents, getting it to actually do the thing.</p></div>
+          <div class="topic reveal"><h3>Funnels</h3><p>Why yours isn't converting and what to change first.</p></div>
+          <div class="topic reveal"><h3>Landing pages</h3><p>Copy, layout, and the one fix that lifts opt-ins.</p></div>
+          <div class="topic reveal"><h3>Websites</h3><p>Build, fix, speed up, or finally ship the one you've been sitting on.</p></div>
+          <div class="topic reveal"><h3>Automations</h3><p>n8n, Make, Zapier. Get the workflow working without the headache.</p></div>
+          <div class="topic reveal"><h3>APIs &amp; tech stuff</h3><p>Integrations, webhooks, the thing the docs don't explain.</p></div>
+          <div class="topic reveal"><h3>GoHighLevel</h3><p>Pipelines, workflows, calendars, and the GHL maze in general.</p></div>
+          <div class="topic reveal"><h3>Notion</h3><p>Systems that don't fall apart in a week. Databases, dashboards, the lot.</p></div>
+          <div class="topic reveal"><h3>Social media marketing</h3><p>What to post, how to grow, and what's actually worth your time.</p></div>
+          <div class="topic reveal"><h3>Vibe coding</h3><p>Build the app or tool in your head, even if you don't code.</p></div>
+          <div class="topic reveal"><h3>Fitness</h3><p>A training and nutrition plan you'll actually stick to.</p></div>
+        </div>
       </div>
-      <div class="topic-grid">
-        <div class="topic reveal"><h3>Claude Code</h3><p>Setup, workflows, agents, getting it to actually do the thing.</p></div>
-        <div class="topic reveal"><h3>Funnels</h3><p>Why yours isn't converting and what to change first.</p></div>
-        <div class="topic reveal"><h3>Landing pages</h3><p>Copy, layout, and the one fix that lifts opt-ins.</p></div>
-        <div class="topic reveal"><h3>Websites</h3><p>Build, fix, speed up, or finally ship the one you've been sitting on.</p></div>
-        <div class="topic reveal"><h3>Automations</h3><p>n8n, Make, Zapier. Get the workflow working without the headache.</p></div>
-        <div class="topic reveal"><h3>APIs &amp; tech stuff</h3><p>Integrations, webhooks, the thing the docs don't explain.</p></div>
-        <div class="topic reveal"><h3>GoHighLevel</h3><p>Pipelines, workflows, calendars, and the GHL maze in general.</p></div>
-        <div class="topic reveal"><h3>Notion</h3><p>Systems that don't fall apart in a week. Databases, dashboards, the lot.</p></div>
-        <div class="topic reveal"><h3>Social media marketing</h3><p>What to post, how to grow, and what's actually worth your time.</p></div>
-        <div class="topic reveal"><h3>Vibe coding</h3><p>Build the app or tool in your head, even if you don't code.</p></div>
-        <div class="topic reveal"><h3>Fitness</h3><p>A training and nutrition plan you'll actually stick to.</p></div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WHY -->
-  <section class="why">
-    <div class="wrap">
-      <div class="section-head reveal"><h2>Why pay-what-you-want?</h2></div>
-      <div class="why-inner">
+    <!-- WHY -->
+    <section class="why">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">Why I do this</span>
+          <h2 class="display">Why pay-what-you-want<span class="dot">?</span></h2>
+        </div>
         <p class="reveal">Most "free strategy calls" are pitches wearing a costume. You book, you show up, and 40 minutes later someone is selling you a retainer. I hated being on the other end of those, so I'm not running one.</p>
         <p class="reveal">Here's the honest version. I'm good at this stuff and I like helping people get unstuck. The fastest way to prove that is to actually help you first and let you decide what it was worth after. If I'm useful, you pay what feels fair. If I'm not, you walk away and pay nothing. No hard feelings.</p>
-        <p class="reveal">That's the whole model. The only catch is there is no catch.</p>
+        <p class="punch reveal">That's the whole model. The only catch is there is no catch.</p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FORM -->
-  <section id="form" class="form-section">
-    <div class="wrap">
-      <div class="form-card reveal">
-        <h2>Tell me what you're stuck on.</h2>
-        <p class="lead">The more detail you give me, the more I can prep before we talk. Then you'll book a time on the next screen.</p>
-
-        <form name="help-request" method="POST" action="/help/thanks/" id="helpForm">
-          <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-
-          <!-- UTM (hidden, populated on load) -->
-          <input type="hidden" name="utm_source" id="utm_source" />
-          <input type="hidden" name="utm_medium" id="utm_medium" />
-          <input type="hidden" name="utm_campaign" id="utm_campaign" />
-
-          <div class="field">
-            <label for="name">Your name</label>
-            <input type="text" id="name" name="name" required autocomplete="name" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required autocomplete="email" />
+    <!-- FORM -->
+    <section id="form" class="form-section">
+      <div class="wrap-wide">
+        <div class="form-card reveal">
+          <div class="form-head">
+            <span class="eyebrow">Step one</span>
+            <h2 class="display" style="font-size:clamp(1.8rem,4vw,2.6rem)">Tell me what you're stuck on<span class="dot">.</span></h2>
+            <p class="lede">The more detail you give me, the more I can prep before we talk. Then you'll book a time on the next screen.</p>
           </div>
 
-          <div class="field">
-            <label>What do you need help with? <span class="opt">(pick any)</span></label>
-            <div class="chips">
-              <label class="chip"><input type="checkbox" name="topics" value="Claude Code" /><span>Claude Code</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Funnels" /><span>Funnels</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Landing pages" /><span>Landing pages</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Websites" /><span>Websites</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Automations" /><span>Automations</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="APIs & tech stuff" /><span>APIs &amp; tech stuff</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="GoHighLevel" /><span>GoHighLevel</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Notion" /><span>Notion</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Social media marketing" /><span>Social media marketing</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Vibe coding" /><span>Vibe coding</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Fitness" /><span>Fitness</span></label>
-              <label class="chip"><input type="checkbox" name="topics" value="Something else" /><span>Something else</span></label>
+          <form name="help-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/help/thanks/" id="helpForm">
+            <input type="hidden" name="form-name" value="help-request" />
+            <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <input type="hidden" name="utm_source" id="utm_source" />
+            <input type="hidden" name="utm_medium" id="utm_medium" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" />
+
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" required autocomplete="name" />
             </div>
-          </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email" />
+            </div>
 
-          <div class="field">
-            <label for="problem">What's your question? What are you stuck on?</label>
-            <textarea id="problem" name="problem" required placeholder="Be specific. The more detail, the more I can prep before we talk. What have you tried, where does it break, what does &quot;fixed&quot; look like to you?"></textarea>
-          </div>
+            <div class="field">
+              <label>What do you need help with? <span class="opt">(pick any)</span></label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="topics" value="Claude Code" /><span>Claude Code</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Funnels" /><span>Funnels</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Landing pages" /><span>Landing pages</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Websites" /><span>Websites</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Automations" /><span>Automations</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="APIs & tech stuff" /><span>APIs &amp; tech stuff</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="GoHighLevel" /><span>GoHighLevel</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Notion" /><span>Notion</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Social media marketing" /><span>Social media marketing</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Vibe coding" /><span>Vibe coding</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Fitness" /><span>Fitness</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Something else" /><span>Something else</span></label>
+              </div>
+            </div>
 
-          <div class="field">
-            <label for="look_into">Anything you want me to look into before the call? <span class="opt">(optional)</span></label>
-            <input type="text" id="look_into" name="look_into" placeholder="Your site, funnel, account, repo, a doc, a screenshot link" />
-          </div>
+            <div class="field">
+              <label for="problem">What's your question? What are you stuck on?</label>
+              <textarea id="problem" name="problem" required placeholder="Be specific. The more detail, the more I can prep before we talk. What have you tried, where does it break, what does &quot;fixed&quot; look like to you?"></textarea>
+            </div>
 
-          <div class="field">
-            <label for="reference_links">Reference materials or links <span class="opt">(optional)</span></label>
-            <textarea id="reference_links" name="reference_links" placeholder="Paste any links that help me understand your setup. One per line."></textarea>
-          </div>
+            <div class="field">
+              <label for="look_into">Anything you want me to look into before the call? <span class="opt">(optional)</span></label>
+              <input type="text" id="look_into" name="look_into" placeholder="Your site, funnel, account, repo, a doc, a screenshot link" />
+            </div>
 
-          <div class="form-submit">
-            <button type="submit" class="btn btn-primary">Continue to booking</button>
-            <p class="reassure">I read every one of these before the call. Zero spam. Your details stay between us.</p>
-          </div>
-        </form>
+            <div class="field">
+              <label for="reference_links">Reference materials or links <span class="opt">(optional)</span></label>
+              <textarea id="reference_links" name="reference_links" placeholder="Paste any links that help me understand your setup. One per line."></textarea>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary">Continue to booking</button>
+              <p class="reassure">I read every one of these before the call. Zero spam. Your details stay between us.</p>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ -->
-  <section class="faq">
-    <div class="wrap">
-      <div class="section-head reveal"><h2>The catch (there isn't one).</h2></div>
-      <div class="faq-list">
-        <details class="reveal"><summary>What's the actual catch? <span class="ic">+</span></summary><p>There isn't one. We talk, I help, and after the call you decide what it was worth and pay that. If it didn't help, you pay nothing and that's fine.</p></details>
-        <details class="reveal"><summary>How much do people usually pay? <span class="ic">+</span></summary><p>Whatever the help was worth to them. Some pay a little, some pay a lot, some pay nothing because it wasn't a fit. You're in charge of that number, after you know if it helped.</p></details>
-        <details class="reveal"><summary>What if I don't have anything prepared? <span class="ic">+</span></summary><p>Then just tell me roughly what you're stuck on in the form. A messy half-formed problem is still something I can work with. Bring it as-is.</p></details>
-        <details class="reveal"><summary>What if my thing isn't on your list? <span class="ic">+</span></summary><p>Pick "Something else" and tell me what it is. If it's not my area, I'll tell you straight and point you somewhere better. No charge for honesty.</p></details>
-        <details class="reveal"><summary>How long is the call? <span class="ic">+</span></summary><p>Long enough to make real progress on your problem. We're not watching a clock. If we get you unstuck in 15 minutes, great.</p></details>
-        <details class="reveal"><summary>Is this a sales pitch for something bigger? <span class="ic">+</span></summary><p>No. There's nothing to upsell on the call. If you want more help after, you can ask. I won't bring it up.</p></details>
+    <!-- FAQ -->
+    <section class="faq">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Questions</span>
+          <h2 class="display">The catch (there isn't one)<span class="dot">.</span></h2>
+        </div>
+        <div class="faq-list reveal">
+          <details><summary>What's the actual catch? <span class="ic">+</span></summary><p>There isn't one. We talk, I help, and after the call you decide what it was worth and pay that. If it didn't help, you pay nothing and that's fine.</p></details>
+          <details><summary>How much do people usually pay? <span class="ic">+</span></summary><p>Whatever the help was worth to them. Some pay a little, some pay a lot, some pay nothing because it wasn't a fit. You're in charge of that number, after you know if it helped.</p></details>
+          <details><summary>What if I don't have anything prepared? <span class="ic">+</span></summary><p>Then just tell me roughly what you're stuck on in the form. A messy half-formed problem is still something I can work with. Bring it as-is.</p></details>
+          <details><summary>What if my thing isn't on your list? <span class="ic">+</span></summary><p>Pick "Something else" and tell me what it is. If it's not my area, I'll tell you straight and point you somewhere better. No charge for honesty.</p></details>
+          <details><summary>How long is the call? <span class="ic">+</span></summary><p>Long enough to make real progress on your problem. We're not watching a clock. If we get you unstuck in 15 minutes, great.</p></details>
+          <details><summary>Is this a sales pitch for something bigger? <span class="ic">+</span></summary><p>No. There's nothing to upsell on the call. If you want more help after, you can ask. I won't bring it up.</p></details>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FINAL CTA -->
-  <section class="final">
-    <div class="wrap">
-      <div class="final-card reveal">
-        <h2>Got something you're stuck on?</h2>
+    <!-- FINAL CTA -->
+    <section class="cta-dark">
+      <div class="wrap">
+        <h2 class="display" style="font-size:clamp(2rem,5vw,3.2rem)">Got something you're stuck on<span class="dot">?</span></h2>
         <p>Tell me what it is. We'll fix it on a call, and you decide what it was worth after.</p>
         <a href="#form" class="btn btn-primary">Tell me what you're stuck on</a>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="wrap">
-      <a href="https://busqueneil.com" class="brand-mark">Neil Busque<span class="dot">.</span></a>
-      <div class="links">
-        <a href="https://busqueneil.com">busqueneil.com</a>
-        <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
-      </div>
-      <p class="note">Real help, no catch.</p>
+    <div class="foot-inner">
+      <a class="foot-mark" href="https://busqueneil.com"><span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span></a>
+      <span>Real help, no catch. &middot; <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></span>
     </div>
   </footer>
 
   <script>
+    // Nav scroll state
+    (function(){
+      var nav = document.getElementById('nav');
+      if(nav){ addEventListener('scroll', function(){ nav.classList.toggle('is-scrolled', scrollY > 8); }, {passive:true}); }
+    })();
     // Scroll reveal
     (function(){
       var els = document.querySelectorAll('.reveal');
-      if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+      if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
       var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(en){ if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);} });
-      },{threshold:.12, rootMargin:'0px 0px -40px 0px'});
-      els.forEach(function(e){io.observe(e)});
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(e){ io.observe(e); });
     })();
     // UTM capture
     (function(){
       var p = new URLSearchParams(location.search);
       ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
-        var el = document.getElementById(k);
-        if(el) el.value = p.get(k) || '';
+        var el = document.getElementById(k); if(el) el.value = p.get(k) || '';
       });
     })();
-
-    // Form submit -> webhook -> thank-you page
-    (function(){
-      // GHL inbound webhook. To wire it up:
-      //   GHL > Automation > Workflows > Create Workflow > add trigger
-      //   "Inbound Webhook" > copy the webhook URL > paste it below.
-      // Until a real https URL is set, the form still sends the visitor to
-      // the booking page (capture just stays off).
-      var WEBHOOK_URL = "PASTE_GHL_INBOUND_WEBHOOK_URL_HERE";
-      var THANKS_URL = "/help/thanks/";
-      var form = document.getElementById('helpForm');
-      if(!form) return;
-      var btn = form.querySelector('button[type=submit]');
-
-      form.addEventListener('submit', function(e){
-        e.preventDefault();
-        // Honeypot: if the hidden field is filled, it's a bot. Pretend success.
-        if(form.elements['bot-field'] && form.elements['bot-field'].value){ location.href = THANKS_URL; return; }
-
-        var topics = Array.prototype.slice.call(form.querySelectorAll('input[name=topics]:checked')).map(function(c){return c.value;});
-        var payload = {
-          name: form.elements['name'].value.trim(),
-          email: form.elements['email'].value.trim(),
-          topics: topics,
-          problem: form.elements['problem'].value.trim(),
-          look_into: form.elements['look_into'].value.trim(),
-          reference_links: form.elements['reference_links'].value.trim(),
-          utm_source: form.elements['utm_source'].value,
-          utm_medium: form.elements['utm_medium'].value,
-          utm_campaign: form.elements['utm_campaign'].value,
-          page: "busqueneil.com/help",
-          submitted_at: new Date().toISOString()
-        };
-
-        if(btn){ btn.disabled = true; btn.textContent = "Sending..."; }
-
-        function go(){ location.href = THANKS_URL; }
-        if(WEBHOOK_URL.indexOf("http") === 0){
-          // Best-effort send; the visitor always reaches the booking page.
-          fetch(WEBHOOK_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          }).then(go).catch(go);
-          // Safety: never strand the user if the request hangs.
-          setTimeout(go, 4000);
-        } else {
-          // Webhook not wired yet: still send the visitor to booking.
-          go();
-        }
-      });
-    })();
+    // Native Netlify Forms submit posts to Netlify, then redirects to /help/thanks/.
   </script>
 </body>
 </html>
