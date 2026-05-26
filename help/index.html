@@ -267,9 +267,8 @@
         <h2>Tell me what you're stuck on.</h2>
         <p class="lead">The more detail you give me, the more I can prep before we talk. Then you'll book a time on the next screen.</p>
 
-        <form name="help-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/help/thanks/" id="helpForm">
-          <input type="hidden" name="form-name" value="help-request" />
-          <p class="hp"><label>Don't fill this out: <input name="bot-field" /></label></p>
+        <form name="help-request" method="POST" action="/help/thanks/" id="helpForm">
+          <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
           <!-- UTM (hidden, populated on load) -->
           <input type="hidden" name="utm_source" id="utm_source" />
@@ -381,6 +380,58 @@
       ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
         var el = document.getElementById(k);
         if(el) el.value = p.get(k) || '';
+      });
+    })();
+
+    // Form submit -> webhook -> thank-you page
+    (function(){
+      // GHL inbound webhook. To wire it up:
+      //   GHL > Automation > Workflows > Create Workflow > add trigger
+      //   "Inbound Webhook" > copy the webhook URL > paste it below.
+      // Until a real https URL is set, the form still sends the visitor to
+      // the booking page (capture just stays off).
+      var WEBHOOK_URL = "PASTE_GHL_INBOUND_WEBHOOK_URL_HERE";
+      var THANKS_URL = "/help/thanks/";
+      var form = document.getElementById('helpForm');
+      if(!form) return;
+      var btn = form.querySelector('button[type=submit]');
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        // Honeypot: if the hidden field is filled, it's a bot. Pretend success.
+        if(form.elements['bot-field'] && form.elements['bot-field'].value){ location.href = THANKS_URL; return; }
+
+        var topics = Array.prototype.slice.call(form.querySelectorAll('input[name=topics]:checked')).map(function(c){return c.value;});
+        var payload = {
+          name: form.elements['name'].value.trim(),
+          email: form.elements['email'].value.trim(),
+          topics: topics,
+          problem: form.elements['problem'].value.trim(),
+          look_into: form.elements['look_into'].value.trim(),
+          reference_links: form.elements['reference_links'].value.trim(),
+          utm_source: form.elements['utm_source'].value,
+          utm_medium: form.elements['utm_medium'].value,
+          utm_campaign: form.elements['utm_campaign'].value,
+          page: "busqueneil.com/help",
+          submitted_at: new Date().toISOString()
+        };
+
+        if(btn){ btn.disabled = true; btn.textContent = "Sending..."; }
+
+        function go(){ location.href = THANKS_URL; }
+        if(WEBHOOK_URL.indexOf("http") === 0){
+          // Best-effort send; the visitor always reaches the booking page.
+          fetch(WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          }).then(go).catch(go);
+          // Safety: never strand the user if the request hangs.
+          setTimeout(go, 4000);
+        } else {
+          // Webhook not wired yet: still send the visitor to booking.
+          go();
+        }
       });
     })();
   </script>
