@@ -206,8 +206,7 @@
             <p class="lede">The more you tell me, the better I can scope it on the call. Rough ideas welcome. You'll book a time on the next screen.</p>
           </div>
 
-          <form name="build-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/build/thanks/" id="buildForm">
-            <input type="hidden" name="form-name" value="build-request" />
+          <form name="build-request" method="POST" action="/build/thanks/" id="buildForm" data-lead-form="build">
             <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
             <input type="hidden" name="utm_source" id="utm_source" />
@@ -302,6 +301,7 @@
     })();
     (function(){ var p = new URLSearchParams(location.search); ['utm_source','utm_medium','utm_campaign'].forEach(function(k){ var el = document.getElementById(k); if(el) el.value = p.get(k) || ''; }); })();
   </script>
+<script src="/js/lead-form.js" defer></script>
 <script src="/js/chat-widget.js" defer></script>
 </body>
 </html>

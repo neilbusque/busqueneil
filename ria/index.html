@@ -1214,8 +1214,7 @@
         If it is not a fit, I will tell you that and save us both the second call.
       </p>
 
-      <form name="ria-fit-call" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/ria/thanks/" class="ria-form" id="fitCallForm">
-        <input type="hidden" name="form-name" value="ria-fit-call" />
+      <form name="ria-fit-call" method="POST" action="/ria/thanks/" class="ria-form" id="fitCallForm" data-lead-form="ria">
         <div class="field-honey">
           <label>Don't fill this out: <input name="bot-field" /></label>
         </div>
@@ -1300,6 +1299,7 @@
 </footer>
 
 <script src="/js/main.js" defer></script>
+<script src="/js/lead-form.js" defer></script>
 <script src="/js/chat-widget.js" defer></script>
 
 <!-- ROI calculator logic -->

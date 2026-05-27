@@ -233,8 +233,7 @@
             <p class="lede">The more detail you give me, the more I can prep before we talk. Then you'll book a time on the next screen.</p>
           </div>
 
-          <form name="help-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/help/thanks/" id="helpForm">
-            <input type="hidden" name="form-name" value="help-request" />
+          <form name="help-request" method="POST" action="/help/thanks/" id="helpForm" data-lead-form="help">
             <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
             <input type="hidden" name="utm_source" id="utm_source" />
@@ -349,8 +348,8 @@
         var el = document.getElementById(k); if(el) el.value = p.get(k) || '';
       });
     })();
-    // Native Netlify Forms submit posts to Netlify, then redirects to /help/thanks/.
   </script>
+<script src="/js/lead-form.js" defer></script>
 <script src="/js/chat-widget.js" defer></script>
 </body>
 </html>
