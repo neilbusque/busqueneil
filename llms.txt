@@ -1,17 +1,17 @@
 # Neil Busque
 
-> Director of Operations based in Elizabeth, New Jersey. Builds AI agents, qualifying funnels, and automation systems. Most recently ran operations at Catalyze Growth Partners (October 2025 through April 2026). Between roles as of May 2026 and actively looking for the next full-time operator position. Open to project work in the meantime.
+> Director of Operations based in Elizabeth, New Jersey. Builds AI agents, qualifying funnels, and automation systems. Most recently ran operations at a digital marketing agency (October 2025 through April 2026). Open to full-time operator roles and to project work.
 
 ## Identity
 
 - **Name:** Neil Busque
-- **Role:** Director of Operations (most recently). Currently between roles.
-- **Most recent employer:** Catalyze Growth Partners (digital marketing agency serving registered investment advisors), Oct 2025 – Apr 2026
+- **Role:** Director of Operations (most recently). Open to full-time roles and project work.
+- **Most recent role:** Director of Operations at a digital marketing agency serving registered investment advisors, Oct 2025 – Apr 2026
 - **Location:** Elizabeth, New Jersey, United States
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** neil@busqueneil.com
 - **LinkedIn:** https://www.linkedin.com/in/neilbusque
-- **Phone/SMS/WhatsApp:** Available via the contact widget on https://busqueneil.com
+- **Phone/SMS/WhatsApp:** +1 908-316-4140 (text or WhatsApp). Also reachable via the Neil AI chat assistant on https://busqueneil.com
 
 ## What he does
 
@@ -23,7 +23,7 @@ Neil builds the operations layer between marketing and revenue. The work covers:
 - **Paid media**: Meta Ads and Google Ads campaign architecture, pixel and CAPI wiring, landing-page conversion.
 - **Internal tooling**: reporting pipelines, daily client-health scorecards, competitive intelligence tools, SOPs.
 
-## Recent shipped work (Catalyze Growth Partners, Oct 2025 – Apr 2026)
+## Recent shipped work (digital marketing agency, Oct 2025 – Apr 2026)
 
 - One-click new-client onboarding system in GoHighLevel that deploys a full configured sub-account in under 10 minutes. Cut onboarding from 30 days to 7 days.
 - 20+ production n8n workflows running across 10+ client accounts.
