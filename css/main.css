@@ -1091,6 +1091,29 @@ footer {
   40% { opacity: 1; transform: translateY(-2px); }
 }
 
+/* Small in-panel status banner above the composer (voice errors, etc.) */
+.nc-tip {
+  margin: 0 0.7rem;
+  padding: 0 0.85rem;
+  max-height: 0;
+  opacity: 0;
+  background: var(--accent-soft);
+  color: var(--accent-deep);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 220ms ease, padding 220ms ease, margin 220ms ease;
+}
+.nc-tip.is-show {
+  max-height: 120px;
+  padding: 0.6rem 0.85rem;
+  margin: 0 0.7rem 0.45rem;
+  opacity: 1;
+}
+
 .nc-form {
   display: flex;
   gap: 0.5rem;
@@ -1125,6 +1148,7 @@ footer {
 }
 .nc-mic[hidden] { display: none; }
 .nc-mic:hover { border-color: var(--accent); color: var(--accent); }
+.nc-mic.is-disabled { opacity: 0.55; }
 .nc-mic.is-listening {
   background: var(--accent);
   border-color: var(--accent);

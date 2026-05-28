@@ -62,6 +62,7 @@
         '</div>' +
       '</header>' +
       '<div class="nc-log" aria-live="polite"></div>' +
+      '<div class="nc-tip" role="status" aria-live="polite"></div>' +
       '<form class="nc-form">' +
         '<button class="nc-mic" type="button" aria-label="Speak your message" title="Speak your message" hidden>' +
           '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>' +
@@ -91,6 +92,17 @@
   var input = root.querySelector('.nc-input');
   var teaser = root.querySelector('.nc-teaser');
   var micBtn = root.querySelector('.nc-mic');
+  var tip = root.querySelector('.nc-tip');
+
+  // Loud, unmissable feedback for status/errors (replaces the easy-to-miss
+  // placeholder text). Auto-hides after `ms`.
+  var tipTimer;
+  function showTip(msg, ms) {
+    clearTimeout(tipTimer);
+    tip.textContent = msg;
+    tip.classList.add('is-show');
+    tipTimer = setTimeout(function () { tip.classList.remove('is-show'); }, ms || 3200);
+  }
 
   /* ── render ──────────────────────────────────────────────────────── */
   function bubble(role, text) {
@@ -255,17 +267,24 @@
   }
 
   /* ── voice input (Web Speech API) ────────────────────────────────── */
-  // Let visitors speak instead of type. We always show the mic button so the
-  // affordance is consistent; if the browser does not support speech (Firefox,
-  // most webviews) or permission is denied, we surface that in the placeholder.
+  // The mic button is always visible so the affordance is consistent. If
+  // speech recognition isn't usable on this browser (Firefox / any non-Safari
+  // browser on iOS / Brave with shields) we show a clear in-panel tip on tap.
   (function initVoice() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     micBtn.hidden = false;
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    // On iOS, only real Safari exposes webkitSpeechRecognition. Chrome (CriOS),
+    // Edge (EdgiOS), Firefox (FxiOS), and any in-app browser do not.
+    var isIOSNonSafari = isIOS && /CriOS|FxiOS|EdgiOS|YaBrowser|OPiOS|GSA/i.test(ua);
 
-    if (!SR) {
-      micBtn.addEventListener('click', function () {
-        flashPlaceholder("Voice isn't supported in this browser. Try Chrome or Safari.", 2400);
-      });
+    if (!SR || isIOSNonSafari) {
+      micBtn.classList.add('is-disabled');
+      var msg = isIOSNonSafari
+        ? 'Voice only works in Safari on iPhone. Open this page in Safari to speak.'
+        : "Voice isn't supported in this browser. Try Chrome or Safari.";
+      micBtn.addEventListener('click', function () { showTip(msg); });
       return;
     }
 
@@ -283,11 +302,12 @@
       // Drop keyboard focus so the on-screen keyboard does not fight the mic.
       try { input.blur(); } catch (err) {}
       try { rec.start(); }
-      catch (err) { flashPlaceholder("Couldn't start the mic. Try again.", 2200); }
+      catch (err) { showTip("Couldn't start the mic. Try again."); }
     });
     rec.onstart = function () {
       listening = true; micBtn.classList.add('is-listening');
       input.placeholder = 'Listening... speak now';
+      showTip('🎙 Listening... speak now', 1800);
     };
     rec.onend = function () {
       listening = false; micBtn.classList.remove('is-listening');
@@ -296,11 +316,14 @@
     };
     rec.onerror = function (e) {
       listening = false; micBtn.classList.remove('is-listening');
-      var msg = 'Type your message...';
-      if (e && e.error === 'not-allowed') msg = 'Mic permission denied. Allow it in browser settings.';
+      input.placeholder = 'Type your message...';
+      var msg = '';
+      if (e && e.error === 'not-allowed') msg = 'Mic permission denied. Allow it in iPhone Settings > Safari > Microphone.';
       else if (e && e.error === 'no-speech') msg = "Didn't catch that. Tap the mic and try again.";
       else if (e && e.error === 'audio-capture') msg = 'No microphone found.';
-      flashPlaceholder(msg, 2600);
+      else if (e && e.error === 'service-not-allowed') msg = 'Voice service blocked by this browser.';
+      else if (e && e.error) msg = 'Mic error: ' + e.error;
+      if (msg) showTip(msg);
     };
     rec.onresult = function (e) {
       var txt = '';
@@ -308,16 +331,6 @@
       input.value = (baseText + txt).slice(0, 1000);
     };
   })();
-
-  // Briefly swap the input placeholder to surface a transient status/error.
-  var placeholderResetTimer;
-  function flashPlaceholder(msg, ms) {
-    clearTimeout(placeholderResetTimer);
-    input.placeholder = msg;
-    placeholderResetTimer = setTimeout(function () {
-      input.placeholder = 'Type your message...';
-    }, ms || 2000);
-  }
 
   /* ── leave / abandon capture ─────────────────────────────────────── */
   // If the visitor leaves with a real but unsaved conversation, flush it so the
