@@ -66,7 +66,7 @@
         '<button class="nc-mic" type="button" aria-label="Speak your message" title="Speak your message" hidden>' +
           '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>' +
         '</button>' +
-        '<input class="nc-input" type="text" autocomplete="off" placeholder="Type your message..." aria-label="Your message" maxlength="1000" />' +
+        '<input class="nc-input" type="text" name="message" autocomplete="off" autocorrect="on" autocapitalize="sentences" spellcheck="true" inputmode="text" enterkeyhint="send" data-1p-ignore="true" data-lpignore="true" data-form-type="other" placeholder="Type your message..." aria-label="Your message" maxlength="1000" />' +
         '<button class="nc-send" type="submit" aria-label="Send">' +
           '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>' +
         '</button>' +
@@ -209,28 +209,49 @@
     })
       .then(function (r) { return r.json(); })
       .then(function (data) {
-        typing(false);
-        if (data && data.reply) {
-          state.messages.push({ role: 'assistant', content: data.reply });
-          bubble('assistant', data.reply);
-        }
         if (data && data.saved) {
           state.saved = true;
           state.contact_id = data.contact_id || state.contact_id;
         }
         if (data && data.lead) state.lead = data.lead;
-        saveState();
+        var list = (data && data.replies && data.replies.length)
+          ? data.replies
+          : (data && data.reply ? [data.reply] : []);
+        return renderReplies(list);
       })
       .catch(function () {
         typing(false);
         bubble('assistant',
-          "Sorry, I hit a snag. You can reach Neil directly on WhatsApp or at neil@busqueneil.com.");
+          "Sorry, I hit a snag. You can text Neil at 908-316-4140 or email neil@busqueneil.com.");
       })
       .finally(function () {
         busy = false;
         input.disabled = false;
         if (opened) input.focus();
       });
+  }
+
+  // Render assistant messages one after another, like a person firing off a
+  // couple of texts: show the typing dots, pause a beat, drop the bubble, repeat.
+  function renderReplies(list) {
+    return new Promise(function (resolve) {
+      var i = 0;
+      function next() {
+        if (i >= list.length) { typing(false); resolve(); return; }
+        var msg = String(list[i++]).trim();
+        if (!msg) { next(); return; }
+        typing(true);
+        var delay = Math.min(1500, 400 + msg.length * 18); // longer text, longer "typing"
+        setTimeout(function () {
+          typing(false);
+          state.messages.push({ role: 'assistant', content: msg });
+          bubble('assistant', msg);
+          saveState();
+          setTimeout(next, i < list.length ? 280 : 0); // small gap between bubbles
+        }, delay);
+      }
+      next();
+    });
   }
 
   /* ── voice input (Web Speech API) ────────────────────────────────── */
