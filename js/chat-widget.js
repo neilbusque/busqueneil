@@ -231,8 +231,8 @@
       });
   }
 
-  // Render assistant messages one after another, like a person firing off a
-  // couple of texts: show the typing dots, pause a beat, drop the bubble, repeat.
+  // Render assistant messages one after another with a short, human-feeling
+  // pause. Kept snappy so the chat does not feel sluggish.
   function renderReplies(list) {
     return new Promise(function (resolve) {
       var i = 0;
@@ -241,13 +241,13 @@
         var msg = String(list[i++]).trim();
         if (!msg) { next(); return; }
         typing(true);
-        var delay = Math.min(1500, 400 + msg.length * 18); // longer text, longer "typing"
+        var delay = i === 1 ? 80 : Math.min(550, 160 + msg.length * 7);
         setTimeout(function () {
           typing(false);
           state.messages.push({ role: 'assistant', content: msg });
           bubble('assistant', msg);
           saveState();
-          setTimeout(next, i < list.length ? 280 : 0); // small gap between bubbles
+          setTimeout(next, i < list.length ? 120 : 0);
         }, delay);
       }
       next();
@@ -255,12 +255,20 @@
   }
 
   /* ── voice input (Web Speech API) ────────────────────────────────── */
-  // Let visitors speak instead of type. Transcript streams into the input;
-  // they review and hit send. Mic stays hidden if the browser can't do it.
+  // Let visitors speak instead of type. We always show the mic button so the
+  // affordance is consistent; if the browser does not support speech (Firefox,
+  // most webviews) or permission is denied, we surface that in the placeholder.
   (function initVoice() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) return;
     micBtn.hidden = false;
+
+    if (!SR) {
+      micBtn.addEventListener('click', function () {
+        flashPlaceholder("Voice isn't supported in this browser. Try Chrome or Safari.", 2400);
+      });
+      return;
+    }
+
     var rec = new SR();
     rec.lang = 'en-US';
     rec.interimResults = true;
@@ -268,10 +276,14 @@
     var listening = false;
     var baseText = '';
 
-    micBtn.addEventListener('click', function () {
-      if (listening) { try { rec.stop(); } catch (e) {} return; }
+    micBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (listening) { try { rec.stop(); } catch (err) {} return; }
       baseText = input.value ? input.value.trim() + ' ' : '';
-      try { rec.start(); } catch (e) {}
+      // Drop keyboard focus so the on-screen keyboard does not fight the mic.
+      try { input.blur(); } catch (err) {}
+      try { rec.start(); }
+      catch (err) { flashPlaceholder("Couldn't start the mic. Try again.", 2200); }
     });
     rec.onstart = function () {
       listening = true; micBtn.classList.add('is-listening');
@@ -282,9 +294,13 @@
       input.placeholder = 'Type your message...';
       if (opened) input.focus();
     };
-    rec.onerror = function () {
+    rec.onerror = function (e) {
       listening = false; micBtn.classList.remove('is-listening');
-      input.placeholder = 'Type your message...';
+      var msg = 'Type your message...';
+      if (e && e.error === 'not-allowed') msg = 'Mic permission denied. Allow it in browser settings.';
+      else if (e && e.error === 'no-speech') msg = "Didn't catch that. Tap the mic and try again.";
+      else if (e && e.error === 'audio-capture') msg = 'No microphone found.';
+      flashPlaceholder(msg, 2600);
     };
     rec.onresult = function (e) {
       var txt = '';
@@ -292,6 +308,16 @@
       input.value = (baseText + txt).slice(0, 1000);
     };
   })();
+
+  // Briefly swap the input placeholder to surface a transient status/error.
+  var placeholderResetTimer;
+  function flashPlaceholder(msg, ms) {
+    clearTimeout(placeholderResetTimer);
+    input.placeholder = msg;
+    placeholderResetTimer = setTimeout(function () {
+      input.placeholder = 'Type your message...';
+    }, ms || 2000);
+  }
 
   /* ── leave / abandon capture ─────────────────────────────────────── */
   // If the visitor leaves with a real but unsaved conversation, flush it so the
