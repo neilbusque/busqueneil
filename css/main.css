@@ -1052,6 +1052,9 @@ footer {
   flex-direction: column;
   gap: 0.55rem;
 }
+/* Messenger-style: messages sit at the bottom (empty space pushed to the top)
+   instead of stacking from the top. Safe with overflow scroll. */
+.nc-log > :first-child { margin-top: auto; }
 .nc-msg {
   max-width: 84%;
   padding: 0.6rem 0.8rem;
