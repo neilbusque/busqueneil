@@ -6,8 +6,11 @@
   'use strict';
 
   var CONFIG = {
-    // Orbit (Supabase) chat function. ANON_KEY is the public publishable key.
-    ENDPOINT: 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/chat',
+    // Branded same-origin path → Vercel rewrites to Orbit's `chat` edge fn.
+    // Falls back to direct Supabase URL on localhost (no rewrite in dev).
+    ENDPOINT: (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+      ? 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/chat'
+      : '/api/chat',
     ANON_KEY: 'sb_publishable_vxcbGxMEjdCxYm77sOwldg_hkWcIRbO',
     WHATSAPP: 'https://wa.me/19083164140',
     SMS: 'sms:+19083164140',

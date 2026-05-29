@@ -4,7 +4,11 @@
  * (the /thanks/ page). Replaces Netlify Forms after the move to Vercel. */
 (function () {
   'use strict';
-  var ENDPOINT = 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/form-lead';
+  // Branded same-origin path → Vercel rewrites to Orbit's `form-lead` edge fn.
+  // Falls back to direct Supabase URL on localhost (no rewrite in dev).
+  var ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+    ? 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/form-lead'
+    : '/api/form-lead';
   var ANON = 'sb_publishable_vxcbGxMEjdCxYm77sOwldg_hkWcIRbO';
 
   document.querySelectorAll('form[data-lead-form]').forEach(function (form) {
