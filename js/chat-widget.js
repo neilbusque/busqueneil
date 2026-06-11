@@ -75,6 +75,7 @@
           '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>' +
         '</button>' +
       '</form>' +
+      '<p class="nc-consent" style="margin:0;padding:4px 14px 10px;font-size:10.5px;line-height:1.4;opacity:0.55">Sharing your contact details here means Neil\'s team may reach you by phone, email, or text, including with an automated or AI assistant. Opt out anytime.</p>' +
     '</div>' +
     '<button class="nc-launch" type="button" aria-expanded="false" aria-label="Chat with Neil AI">' +
       '<span class="nc-launch-pulse" aria-hidden="true"></span>' +
