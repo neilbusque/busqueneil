@@ -1,13 +1,8 @@
 import type { APIRoute } from 'astro';
-import { readFileSync } from 'node:fs';
-import satori from 'satori';
-import { Resvg } from '@resvg/resvg-js';
 import { getPostBySlug } from '../../lib/posts';
 import { deriveExcerpt } from '../../lib/markdown';
 import { formatDate } from '../../lib/format';
-
-const fraunces = readFileSync(new URL('../../assets/fonts/fraunces-600.woff', import.meta.url));
-const inter = readFileSync(new URL('../../assets/fonts/inter-400.woff', import.meta.url));
+import { FRAUNCES_600_B64, INTER_400_B64 } from '../../lib/og-fonts';
 
 const TYPE_LABEL: Record<string, string> = {
   status: 'STATUS',
@@ -22,6 +17,15 @@ export const GET: APIRoute = async ({ params, request, cookies, redirect }) => {
     const post = await getPostBySlug({ request, cookies }, slug);
     if (!post) return redirect('/og.png');
 
+    // Lazy imports: if satori or the resvg native binary fail to load in this
+    // runtime, we still serve the static fallback instead of a 500.
+    const [{ default: satori }, { Resvg }] = await Promise.all([
+      import('satori'),
+      import('@resvg/resvg-js'),
+    ]);
+
+    const fraunces = Buffer.from(FRAUNCES_600_B64, 'base64');
+    const inter = Buffer.from(INTER_400_B64, 'base64');
     const title = post.title ?? deriveExcerpt(post.body_md, 90);
 
     const svg = await satori(
