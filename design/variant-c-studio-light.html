@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variant C — Studio Light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --card:#F5F5F7; --ink:#0B0B0C; --ink-soft:#34363B; --muted:#787C84;
+  --rule:#E8E9EC; --coral:#E94F37;
+  --serif:"Fraunces",serif; --sans:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:0 26px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:34px 0}
+.logo{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--ink);text-decoration:none}
+.logo span{color:var(--coral)}
+.nav a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500;margin-left:26px;transition:color .15s}
+.nav a:hover{color:var(--ink)}
+.hero{padding:80px 0 70px}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,7vw,62px);line-height:1.06;letter-spacing:-.02em;max-width:15ch}
+.hero p{margin-top:24px;color:var(--ink-soft);font-size:19px;max-width:44ch}
+.hero .row{margin-top:30px;display:flex;align-items:center;gap:18px}
+.btn{background:var(--coral);color:#fff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:10px}
+.hero .avail{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:#2EA44F}
+.feed{padding:10px 0 90px}
+.feed h2{font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:24px}
+.card{background:var(--card);border-radius:18px;padding:30px 32px;margin-bottom:20px}
+.meta{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);margin-bottom:14px}
+.badge{font-size:12px;font-weight:600;padding:3px 11px;border-radius:99px;background:#fff}
+.badge.status{color:var(--coral)} .badge.article{color:#1E7A4D} .badge.project{color:#3457A6}
+.card>p{color:var(--ink-soft);font-size:17px}
+.card .img{margin-top:18px;border-radius:12px;background:linear-gradient(135deg,#E3E4E8,#D2D4DA);height:220px;display:flex;align-items:center;justify-content:center;color:#9A9DA5;font-size:13px}
+.card h3{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;margin-bottom:10px;letter-spacing:-.01em}
+.card h3 a{color:var(--ink);text-decoration:none}
+.card .more{display:inline-block;margin-top:14px;color:var(--coral);font-weight:600;font-size:15px;text-decoration:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-size:13px;font-weight:500;background:#fff;color:var(--ink-soft);padding:5px 13px;border-radius:99px}
+.article{padding:40px 0 100px;border-top:1px solid var(--rule)}
+.article h2.title{font-family:var(--serif);font-weight:500;font-size:38px;line-height:1.12;letter-spacing:-.015em;margin-bottom:10px;max-width:18ch}
+.article .byline{color:var(--muted);font-size:14px;margin-bottom:30px}
+.article p{margin-bottom:18px;color:var(--ink-soft);font-size:17.5px;max-width:60ch}
+pre{background:#0F1012;color:#E6E7EA;border-radius:14px;padding:22px 24px;overflow:auto;font-size:14px;line-height:1.65;font-family:ui-monospace,Menlo,monospace;margin:0 0 18px}
+pre .k{color:#F08A77} pre .s{color:#9CCC9C} pre .c{color:#6E737D}
+@media(max-width:600px){.hero{padding:54px 0 46px}.card{padding:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="logo" href="#">busqueneil<span>.</span></a>
+    <div><a href="#">Feed</a><a href="#">Projects</a><a href="#">Now</a><a href="#">About</a></div>
+  </nav>
+
+  <header class="hero">
+    <h1>Building in public, one ship at a time.</h1>
+    <p>I am Neil. I build web apps, AI agents, and automations, and I post the whole process here: the wins, the bugs, the half-finished ideas.</p>
+    <div class="row">
+      <a class="btn" href="#">See what I am building</a>
+      <span class="avail"><span class="dot"></span>Open to work</span>
+    </div>
+  </header>
+
+  <section class="feed">
+    <h2>Latest</h2>
+
+    <article class="card">
+      <div class="meta"><span class="badge status">Status</span><span>2 hours ago</span></div>
+      <p>Shipped the admin composer for this site. I can now post from my phone and it is live in under a minute. No rebuilds, no git. Feels like tweeting on my own domain.</p>
+      <div class="img">screenshot.webp</div>
+    </article>
+
+    <article class="card">
+      <div class="meta"><span class="badge article">Article</span><span>June 10, 2026 · 6 min read</span></div>
+      <h3><a href="#">How I ship a working PWA in 10 days</a></h3>
+      <p>The exact stack, the order I build in, and the corners I refuse to cut. After eleven apps this year, the process is boring on purpose.</p>
+      <a class="more" href="#">Read the article →</a>
+    </article>
+
+    <article class="card">
+      <div class="meta"><span class="badge project">Project</span><span>June 8, 2026</span></div>
+      <h3><a href="#">Orbit, a personal CRM</a></h3>
+      <p>Close-style CRM I built for myself: contacts, pipelines, smart lists, and an AI intake that turns website chats into deals.</p>
+      <div class="chips"><span class="chip">React</span><span class="chip">Supabase</span><span class="chip">Vercel</span><span class="chip">Edge Functions</span></div>
+    </article>
+  </section>
+
+  <section class="article">
+    <h2 class="title">How I ship a working PWA in 10 days</h2>
+    <div class="byline">June 10, 2026 · 6 min read · by Neil Busque</div>
+    <p>Most side projects die in week two. Mine used to as well, until I made the process so boring that finishing became the default outcome.</p>
+    <p>Day one is always the same: schema first, then the read path. Nothing renders until the data shape is locked.</p>
+<pre><span class="c">// the only client I allow myself on day one</span>
+<span class="k">const</span> { data } = <span class="k">await</span> supabase
+  .from(<span class="s">'posts'</span>)
+  .select(<span class="s">'*'</span>)
+  .eq(<span class="s">'status'</span>, <span class="s">'published'</span>)
+  .order(<span class="s">'published_at'</span>, { ascending: <span class="k">false</span> });</pre>
+    <p>By day three the app does one real thing end to end. Everything after that is compounding, not gambling.</p>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const error = Astro.url.searchParams.get('error');
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+<Base title="Sign in — busqueneil" description="Admin sign-in." noindex>
+  <main class="wrap" style="max-width: 420px; padding-top: 90px;">
+    <h1 style="font-family: var(--serif); font-weight: 600; font-size: 30px; margin-bottom: 24px;">
+      Sign in
+    </h1>
+    {error && (
+      <p style="background: var(--coral-soft); color: #B33A26; padding: 10px 14px; border-radius: 9px; font-size: 14px; margin-bottom: 16px;">
+        {error === 'invalid' ? 'Wrong email or password.' : 'Sign-in is not configured yet.'}
+      </p>
+    )}
+    <form method="post" action="/api/auth/signin" style="display: grid; gap: 12px;">
+      <input type="email" name="email" placeholder="Email" autocomplete="username" required />
+      <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
+      <button class="btn" type="submit">Sign in</button>
+    </form>
+  </main>
+</Base>

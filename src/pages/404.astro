@@ -1,0 +1,20 @@
+---
+import Site from '../layouts/Site.astro';
+
+export const prerender = true;
+---
+<Site
+  title="Not found — Neil Busque"
+  description="That page does not exist."
+  noindex
+>
+  <section class="hero">
+    <div class="kicker">404</div>
+    <h1>That page is not here.</h1>
+    <p>
+      It may have moved when the site was rebuilt. The good stuff lives on
+      <a href="/" style="color: var(--coral);">the feed</a>, or check
+      <a href="/now/" style="color: var(--coral);">/now</a> to see what I am up to.
+    </p>
+  </section>
+</Site>

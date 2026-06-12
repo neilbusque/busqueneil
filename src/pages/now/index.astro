@@ -1,0 +1,58 @@
+---
+import Site from '../../layouts/Site.astro';
+import { getNow, setPublicCache } from '../../lib/posts';
+import { formatDate } from '../../lib/format';
+
+const { current, archive } = await getNow({ request: Astro.request, cookies: Astro.cookies });
+setPublicCache(Astro.response.headers);
+---
+<Site
+  title="Now — Neil Busque"
+  description="What Neil Busque is doing right now: where he is, what he is building, what he is thinking about. Updated when life shifts."
+  canonical="https://busqueneil.com/now/"
+  active="now"
+>
+  <section class="hero" style="padding-bottom: 24px;">
+    <div class="kicker">Now</div>
+    <h1>What I'm up to.</h1>
+    <p>
+      A snapshot of where my head is and what I am working on. I update it when
+      life shifts. Inspired by Derek Sivers' /now idea.
+    </p>
+    {current?.published_at && (
+      <p style="margin-top: 10px; font-size: 13px; color: var(--muted);">
+        Updated {formatDate(current.published_at)}
+      </p>
+    )}
+  </section>
+
+  <section class="feed">
+    {current ? (
+      <article class="article-page" style="padding: 30px 0 40px;">
+        {current.title && <h1 style="font-size: 28px;">{current.title}</h1>}
+        <div class="prose" set:html={current.body_html} />
+      </article>
+    ) : (
+      <p style="padding: 30px 0; color: var(--muted);">The first /now entry lands here soon.</p>
+    )}
+
+    <div class="section-rule">
+      <div class="kicker">Archive</div>
+      {archive.length === 0 ? (
+        <p style="color: var(--muted); padding: 8px 0 40px;">
+          Past Now states will live here as time passes.
+        </p>
+      ) : (
+        archive.map((post) => (
+          <article class="entry">
+            <div class="when">{formatDate(post.published_at)}</div>
+            <div class="body">
+              {post.title && <h3><a href={`/posts/${post.slug}`}>{post.title}</a></h3>}
+              <div class="prose" set:html={post.body_html} />
+            </div>
+          </article>
+        ))
+      )}
+    </div>
+  </section>
+</Site>

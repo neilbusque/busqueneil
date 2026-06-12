@@ -1,0 +1,99 @@
+---
+import Site from '../../layouts/Site.astro';
+import { getPostBySlug, setPublicCache } from '../../lib/posts';
+import { publicImageUrl } from '../../lib/supabase';
+import { formatDate, readingTime } from '../../lib/format';
+import { deriveExcerpt } from '../../lib/markdown';
+
+const { slug } = Astro.params;
+const post = slug
+  ? await getPostBySlug({ request: Astro.request, cookies: Astro.cookies }, slug)
+  : null;
+
+if (!post) {
+  return new Response(null, { status: 404 });
+}
+setPublicCache(Astro.response.headers);
+
+const title = post.title ?? deriveExcerpt(post.body_md, 60);
+const description = post.excerpt ?? deriveExcerpt(post.body_md);
+const canonical = `https://busqueneil.com/posts/${post.slug}`;
+const ogImage = `https://busqueneil.com/og/${post.slug}.png?v=${encodeURIComponent(post.updated_at)}`;
+
+const TAG_LABEL: Record<string, string> = {
+  status: 'Status',
+  article: 'Article',
+  project: 'Project',
+  now: 'Now',
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': post.type === 'project' ? 'CreativeWork' : 'BlogPosting',
+  headline: title,
+  description,
+  url: canonical,
+  datePublished: post.published_at,
+  dateModified: post.updated_at,
+  image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
+  author: { '@id': 'https://busqueneil.com/#person' },
+  mainEntityOfPage: canonical,
+  ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
+};
+---
+<Site
+  title={`${title} — Neil Busque`}
+  description={description}
+  canonical={canonical}
+  ogType="article"
+  ogImage={ogImage}
+  active="feed"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <article class="article-page">
+    <div class="kicker">{TAG_LABEL[post.type] ?? post.type}</div>
+    {post.title && <h1>{post.title}</h1>}
+    <div class="byline">
+      {formatDate(post.published_at)}
+      {post.type === 'article' && <> · {readingTime(post.body_md)}</>}
+      · Neil Busque
+    </div>
+
+    {post.type === 'project' && post.project_meta && (
+      <div class="byline" style="border-bottom: 0; margin-bottom: 14px;">
+        {post.project_meta.stack?.length && (
+          <>Built with <b>{post.project_meta.stack.join(', ')}</b> · </>
+        )}
+        {post.project_meta.live_url && (
+          <a href={post.project_meta.live_url} rel="noopener" style="color: var(--coral);">Live app</a>
+        )}
+        {post.project_meta.repo_url && (
+          <> · <a href={post.project_meta.repo_url} rel="noopener" style="color: var(--coral);">Code</a></>
+        )}
+      </div>
+    )}
+
+    <div class="prose" set:html={post.body_html} />
+
+    {post.images?.length > 0 && !post.body_md.includes('![') && (
+      <div class="prose">
+        {post.images.map((img) => (
+          <img
+            src={publicImageUrl(img.path)}
+            alt={img.alt ?? ''}
+            width={img.width}
+            height={img.height}
+            loading="lazy"
+          />
+        ))}
+      </div>
+    )}
+
+    <p style="margin-top: 36px;">
+      <a href="/" style="color: var(--coral); font-weight: 600; text-decoration: none;">← Back to the feed</a>
+    </p>
+  </article>
+</Site>

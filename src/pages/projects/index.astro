@@ -1,0 +1,31 @@
+---
+import Site from '../../layouts/Site.astro';
+import FeedEntry from '../../components/FeedEntry.astro';
+import { getFeed, setPublicCache } from '../../lib/posts';
+
+const { posts } = await getFeed(
+  { request: Astro.request, cookies: Astro.cookies },
+  { type: 'project' }
+);
+setPublicCache(Astro.response.headers);
+---
+<Site
+  title="Projects — Neil Busque"
+  description="Apps and systems Neil Busque has shipped: web apps, PWAs, AI agents, and automations, each with stack and live links."
+  canonical="https://busqueneil.com/projects"
+  active="projects"
+>
+  <section class="hero" style="padding-bottom: 24px;">
+    <div class="kicker">Shipped</div>
+    <h1>Projects</h1>
+    <p>Things I have built and put into the world. Each one taught me something; a few of them run my life.</p>
+  </section>
+
+  <section class="feed">
+    {posts.length === 0 ? (
+      <p style="padding: 30px 0; color: var(--muted);">Project write-ups land here soon.</p>
+    ) : (
+      posts.map((post) => <FeedEntry post={post} />)
+    )}
+  </section>
+</Site>

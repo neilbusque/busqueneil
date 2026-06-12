@@ -1,0 +1,73 @@
+---
+import type { Post } from '../lib/types';
+import { publicImageUrl } from '../lib/supabase';
+import { formatDate, relativeOrDate, readingTime } from '../lib/format';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const TAG_LABEL: Record<string, string> = {
+  status: 'Status',
+  article: 'Article',
+  project: 'Project',
+  now: 'Now',
+};
+const label = TAG_LABEL[post.type] ?? post.type;
+const permalink = `/posts/${post.slug}`;
+const isRecent =
+  post.published_at && Date.now() - new Date(post.published_at).getTime() < 7 * 86400_000;
+const when = isRecent ? relativeOrDate(post.published_at) : formatDate(post.published_at);
+const firstImage = post.images?.[0];
+const stack = post.project_meta?.stack ?? [];
+---
+<article class="entry">
+  <div class="when">
+    <span class="tag">{label}</span>
+    {when}
+    {post.type === 'article' && (
+      <>
+        <br />
+        {readingTime(post.body_md)}
+      </>
+    )}
+  </div>
+  <div class="body">
+    {post.title && (
+      <h3><a href={permalink}>{post.title}</a></h3>
+    )}
+    {post.type === 'status' || post.type === 'now' ? (
+      <Fragment set:html={post.body_html} />
+    ) : (
+      <p>{post.excerpt}</p>
+    )}
+    {firstImage && (
+      <a class="img" href={permalink} aria-label={post.title ?? 'View post'}>
+        <img
+          src={publicImageUrl(firstImage.path)}
+          alt={firstImage.alt ?? ''}
+          width={firstImage.width}
+          height={firstImage.height}
+          loading="lazy"
+        />
+      </a>
+    )}
+    {post.type === 'article' && (
+      <a class="more" href={permalink}>Continue reading →</a>
+    )}
+    {post.type === 'project' && (
+      <>
+        {stack.length > 0 && (
+          <div class="stack">Built with <b>{stack.join(', ')}</b></div>
+        )}
+        {post.project_meta?.live_url && (
+          <a class="more" href={post.project_meta.live_url} rel="noopener">Visit the live app →</a>
+        )}
+      </>
+    )}
+    {post.link_url && post.type === 'status' && (
+      <a class="more" href={post.link_url} rel="noopener">{new URL(post.link_url).hostname} →</a>
+    )}
+  </div>
+</article>

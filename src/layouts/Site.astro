@@ -1,0 +1,41 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogType?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  active?: 'feed' | 'projects' | 'now' | 'about';
+}
+
+const { active, ...baseProps } = Astro.props;
+---
+<Base {...baseProps}>
+  <slot name="head" slot="head" />
+  <div class="wrap">
+    <header class="masthead">
+      <a class="name" href="/">busque<b>neil</b></a>
+      <nav>
+        <a href="/" aria-current={active === 'feed' ? 'page' : undefined}>Feed</a>
+        <a href="/projects" aria-current={active === 'projects' ? 'page' : undefined}>Projects</a>
+        <a href="/now/" aria-current={active === 'now' ? 'page' : undefined}>Now</a>
+        <a href="/about" aria-current={active === 'about' ? 'page' : undefined}>About</a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="footer">
+      <div>
+        <a href="/rss.xml">RSS</a>
+        <a href="/resume.pdf">Resume</a>
+        <a href="mailto:busqueneil@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/neilbusque/" rel="me">LinkedIn</a>
+      </div>
+      <div>Neil Busque · Elizabeth, NJ</div>
+    </footer>
+  </div>
+</Base>

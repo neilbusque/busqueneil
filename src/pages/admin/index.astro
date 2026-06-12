@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import Composer from '../../components/Composer';
+import { serverClient } from '../../lib/supabase';
+import type { Post } from '../../lib/types';
+
+// Middleware guarantees a session here.
+const sb = serverClient(Astro.request, Astro.cookies);
+const { data } = sb
+  ? await sb
+      .from('posts')
+      .select('id, type, slug, title, body_md, excerpt, link_url, project_meta, images, tags, status, published_at')
+      .order('created_at', { ascending: false })
+      .limit(50)
+  : { data: [] };
+
+const recent = (data ?? []) as Partial<Post>[];
+---
+<Base title="Composer — busqueneil" description="Admin composer." noindex>
+  <main class="wrap" style="padding: 40px 24px 80px; max-width: 720px;">
+    <header class="masthead" style="margin-bottom: 28px;">
+      <a class="name" href="/">busque<b>neil</b></a>
+      <form method="post" action="/api/auth/signout">
+        <button class="btn ghost" type="submit">Sign out</button>
+      </form>
+    </header>
+
+    <Composer client:load recent={recent} />
+  </main>
+</Base>

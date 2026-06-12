@@ -1,21 +1,46 @@
 ---
-import Base from '../layouts/Base.astro';
+import Site from '../layouts/Site.astro';
+import Schema from '../components/Schema.astro';
+import FeedEntry from '../components/FeedEntry.astro';
+import { getFeed, setPublicCache } from '../lib/posts';
 
-Astro.response.headers.set(
-  'Cache-Control',
-  'public, s-maxage=60, stale-while-revalidate=86400'
-);
+const { posts, hasMore } = await getFeed({ request: Astro.request, cookies: Astro.cookies });
+setPublicCache(Astro.response.headers);
 ---
-<Base
-  title="Neil Busque — building in public"
-  description="Neil Busque's playground: what I'm building, shipping, and thinking. Web apps, AI agents, automations."
+<Site
+  title="Neil Busque — everything I build, as I build it"
+  description="Neil Busque's working notebook in public: web apps, AI agents, and automations, posted as they happen. Based in Elizabeth, NJ. Open to work and projects."
+  canonical="https://busqueneil.com/"
+  ogType="profile"
+  active="feed"
 >
-  <main class="wrap" style="padding-top: 80px;">
-    <h1>Neil Busque</h1>
+  <Fragment slot="head">
+    <Schema />
+  </Fragment>
+
+  <section class="hero">
+    <div class="kicker">A working notebook, in public</div>
+    <h1>Everything I build, <em>as I build it.</em></h1>
     <p>
-      New site under construction on this branch. The feed lands here.
-      The current live site is untouched on <code>main</code>.
+      I am Neil. I build web apps, AI agents, and automations. No polish, no
+      postmortems written months later. The feed below is the actual log of the work.
     </p>
-    <p><a href="/now/">/now</a> · <a href="/build/">/build</a> · <a href="/help/">/help</a> · <a href="/ria/">/ria</a></p>
-  </main>
-</Base>
+    <span class="status-pill"><span class="dot"></span>Open to work and projects</span>
+  </section>
+
+  <section class="feed">
+    {posts.length === 0 ? (
+      <p style="padding: 30px 0; color: var(--muted);">
+        The feed is warming up. First posts land here soon.
+      </p>
+    ) : (
+      posts.map((post) => <FeedEntry post={post} />)
+    )}
+    {hasMore && (
+      <nav class="pager">
+        <span></span>
+        <a href="/posts?page=2">Older posts →</a>
+      </nav>
+    )}
+  </section>
+</Site>

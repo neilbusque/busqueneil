@@ -1,0 +1,44 @@
+---
+import Site from '../layouts/Site.astro';
+
+export const prerender = true;
+---
+<Site
+  title="About — Neil Busque"
+  description="Who Neil Busque is: operations director turned builder. AI agents, automations, web apps, and the systems behind marketing spend."
+  canonical="https://busqueneil.com/about"
+  active="about"
+>
+  <section class="hero" style="padding-bottom: 24px;">
+    <div class="kicker">About</div>
+    <h1>Operator who builds.</h1>
+  </section>
+
+  <article class="article-page" style="padding-top: 10px;">
+    <div class="prose">
+      <p>
+        I am Neil Busque. I spent the last stretch running operations at a digital
+        marketing agency: 20+ production n8n workflows, 10+ client accounts,
+        onboarding cut from 30 days to 7. Before that, the Philippines, then Korea,
+        now Elizabeth, New Jersey.
+      </p>
+      <p>
+        These days I build. Web apps, PWAs, AI agents, CRM systems, automations.
+        Most of it ships within days of the idea, and all of it gets posted to
+        <a href="/">the feed</a> as it happens. This site is my playground and my
+        public notebook.
+      </p>
+      <p>
+        I am open to full-time operator roles and project work. The fastest way to
+        reach me is <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>,
+        or <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>.
+        There is also a <a href="/resume.pdf">resume</a> if you want the formal version.
+      </p>
+      <p>
+        If you want help with something specific, I run two small offers:
+        <a href="/help/">pay-what-it-was-worth consulting</a> and
+        <a href="/build/">custom app builds</a>.
+      </p>
+    </div>
+  </article>
+</Site>
