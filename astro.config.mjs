@@ -7,6 +7,10 @@ export default defineConfig({
   output: 'server',
   trailingSlash: 'ignore',
   adapter: vercel(),
+  // checkOrigin 403s legitimate form POSTs behind Vercel's proxy (forwarded
+  // proto/host mismatch). Only the login form is a form POST; the admin JSON
+  // API is protected by content-type + session cookie.
+  security: { checkOrigin: false },
   image: { service: passthroughImageService() },
   vite: {
     ssr: {
