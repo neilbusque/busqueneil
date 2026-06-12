@@ -1,7 +1,7 @@
 ---
+// Server-rendered on purpose: a prerendered 404 makes the SSR function fetch
+// the static page internally, which fails behind deployment protection.
 import Site from '../layouts/Site.astro';
-
-export const prerender = true;
 ---
 <Site
   title="Not found — Neil Busque"
