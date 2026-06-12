@@ -1,12 +1,33 @@
 {
   "name": "busqueneil",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Neil Busque — personal brand site. Static. Living /now page.",
+  "type": "module",
+  "description": "Neil Busque — personal site. Astro SSR + Supabase build-in-public feed.",
   "scripts": {
-    "now": "node scripts/update-now.js",
-    "dev": "python3 -m http.server 8080",
-    "og": "node scripts/build-og.js"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^4.0.0",
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/vercel": "^8.0.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@shikijs/rehype": "^3.0.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.48.0",
+    "astro": "^5.0.0",
+    "preact": "^10.25.0",
+    "rehype-sanitize": "^6.0.0",
+    "rehype-slug": "^6.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.1",
+    "satori": "^0.12.0",
+    "unified": "^11.0.5"
   },
   "author": "Neil Busque <busqueneil@gmail.com>",
   "license": "UNLICENSED"

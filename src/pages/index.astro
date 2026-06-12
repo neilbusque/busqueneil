@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, s-maxage=60, stale-while-revalidate=86400'
+);
+---
+<Base
+  title="Neil Busque — building in public"
+  description="Neil Busque's playground: what I'm building, shipping, and thinking. Web apps, AI agents, automations."
+>
+  <main class="wrap" style="padding-top: 80px;">
+    <h1>Neil Busque</h1>
+    <p>
+      New site under construction on this branch. The feed lands here.
+      The current live site is untouched on <code>main</code>.
+    </p>
+    <p><a href="/now/">/now</a> · <a href="/build/">/build</a> · <a href="/help/">/help</a> · <a href="/ria/">/ria</a></p>
+  </main>
+</Base>
