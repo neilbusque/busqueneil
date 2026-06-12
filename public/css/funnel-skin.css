@@ -1,0 +1,27 @@
+/* Funnel reskin: remap the v1 token set to the v2 Paper & Coral palette.
+   Loaded after main.css on /build, /help, /ria and their thanks pages.
+   No layout changes; colors and surfaces only. */
+
+:root {
+  --bg: #FAF6F0;
+  --bg-deep: #F3EDE3;
+  --paper: #FFFFFF;
+  --paper-alt: #FAF6F0;
+
+  --ink: #1A1714;
+  --ink-soft: #4A443C;
+  --muted: #8A8276;
+
+  --rule: #E5DDD0;
+  --rule-strong: #D6CCBA;
+
+  --accent: #E94F37;
+  --accent-deep: #C73E29;
+  --accent-soft: #FBEAE6;
+  --accent-tint: #FDF4F2;
+
+  --shadow-1: 0 1px 2px rgba(26, 23, 20, 0.04), 0 1px 1px rgba(26, 23, 20, 0.06);
+  --shadow-2: 0 4px 16px rgba(26, 23, 20, 0.06), 0 1px 4px rgba(26, 23, 20, 0.04);
+  --shadow-3: 0 12px 32px rgba(26, 23, 20, 0.10), 0 4px 8px rgba(26, 23, 20, 0.05);
+  --shadow-glass: 0 10px 40px rgba(26, 23, 20, 0.10), 0 2px 8px rgba(26, 23, 20, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
