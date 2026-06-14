@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <title>Stuck on tech? We fix it together, live. First hour free. · Neil Busque</title>
+  <meta name="description" content="Live 1:1 tech support with Neil. Claude, GHL, funnels, AI, automations, any tech. You share your screen, I guide you, we fix it together. First hour free, no card. Only 4 spots." />
+  <meta name="author" content="Neil Busque" />
+  <link rel="canonical" href="https://busqueneil.com/support/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Stuck on tech? We fix it together, live. First hour free." />
+  <meta property="og:description" content="Live 1:1 tech help. Claude, GHL, funnels, AI, any tech. We fix it together on a call. First hour free, no card. Only 4 spots." />
+  <meta property="og:url" content="https://busqueneil.com/support/" />
+  <meta property="og:image" content="https://busqueneil.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Stuck on tech? We fix it together, live. First hour free." />
+  <meta name="twitter:description" content="Live 1:1 tech help. We fix it together on a call. First hour free, no card. Only 4 spots." />
+  <meta name="twitter:image" content="https://busqueneil.com/og.png" />
+
+  <link rel="icon" href="/assets/logo/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/logo/apple-touch-icon-180.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Inherit the full busqueneil.com design system -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/funnel-skin.css">
+
+  <style>
+    /* ---------- /support page-specific (built on main.css + funnel-skin tokens) ---------- */
+    .support-hero h1.display { font-size: clamp(2.4rem, 5.5vw, 4.4rem); line-height: 1.0; margin-bottom: 1.5rem; }
+    .support-hero .hero-sub { max-width: 54ch; }
+    .hero-trust {
+      margin-top: 1.6rem; display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 14px; font-weight: 500; color: var(--muted);
+    }
+    .hero-trust svg { color: var(--accent); flex: 0 0 auto; }
+
+    .section-head .display { margin: 0; }
+    .section-head .lede { margin-top: 0.85rem; color: var(--muted); font-size: 1.1rem; max-width: 48ch; }
+    .section-head.center { text-align: center; }
+    .section-head.center .lede { margin-left: auto; margin-right: auto; }
+
+    /* How it works */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .step {
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 18px;
+      padding: 1.75rem 1.6rem; box-shadow: var(--shadow-1);
+      transition: transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); }
+    .step-num {
+      width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft);
+      color: var(--accent); font-weight: 800; font-size: 1.15rem;
+      display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+    }
+    .step h3 { font-weight: 800; font-size: 1.18rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.45rem; }
+    .step p { color: var(--muted); font-size: 0.97rem; }
+
+    /* Topics */
+    .topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .topic {
+      background: var(--paper); border: 1px solid var(--rule); border-left: 2px solid var(--rule);
+      border-radius: 0 14px 14px 0; padding: 1.15rem 1.3rem; box-shadow: var(--shadow-1);
+      transition: transform var(--t-fast), box-shadow var(--t-fast), border-left-color var(--t-fast);
+    }
+    .topic:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); border-left-color: var(--accent); }
+    .topic h3 { font-weight: 800; font-size: 1rem; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 0.2rem; }
+    .topic p { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
+
+    /* What this is */
+    .why .wrap { max-width: 64ch; }
+    .why p { font-size: clamp(1.1rem, 1.9vw, 1.3rem); line-height: 1.6; color: var(--ink-soft); }
+    .why p + p { margin-top: 1.1rem; }
+    .why p.punch { font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; max-width: 1040px; margin: 0 auto; align-items: stretch; }
+    .price-card {
+      position: relative; background: var(--paper); border: 1px solid var(--rule); border-radius: 22px;
+      padding: 2.1rem 1.9rem; box-shadow: var(--shadow-1); display: flex; flex-direction: column;
+      transition: transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .price-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); }
+    .price-card.featured { border: 1.5px solid var(--ink); box-shadow: var(--shadow-2); }
+    .price-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em;
+      padding: 0.4rem 0.85rem; border-radius: 999px; white-space: nowrap; text-transform: uppercase;
+      box-shadow: var(--shadow-1);
+    }
+    .price-badge.alt { background: var(--ink); }
+    .price-name { font-weight: 800; font-size: 1.02rem; color: var(--ink); letter-spacing: -0.01em; }
+    .price-amount { font-weight: 900; font-size: clamp(2.4rem, 5vw, 3.1rem); letter-spacing: -0.03em; color: var(--ink); line-height: 1; margin: 0.55rem 0 0.15rem; }
+    .price-amount .per { font-size: 1rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+    .price-sub { color: var(--accent); font-weight: 700; font-size: 0.95rem; margin-bottom: 1.3rem; }
+    .price-sub.muted { color: var(--muted); font-weight: 600; }
+    .price-feats { list-style: none; margin: 0 0 1.6rem; padding: 0; display: grid; gap: 0.7rem; }
+    .price-feats li { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.97rem; color: var(--ink-soft); line-height: 1.45; }
+    .price-feats svg { color: var(--accent); flex: 0 0 auto; margin-top: 3px; }
+    .price-card .btn { width: 100%; justify-content: center; margin-top: auto; }
+    .price-fine { text-align: center; color: var(--muted); font-size: 0.92rem; margin: 1.6rem auto 0; max-width: 64ch; line-height: 1.6; }
+
+    /* Price comparison */
+    .price-compare {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.4rem 1.25rem;
+      margin: 1.8rem auto 0; max-width: 620px; text-align: center; font-size: 1.02rem; color: var(--ink-soft);
+      background: var(--accent-tint); border: 1px solid var(--accent-soft); border-radius: 16px; padding: 1.1rem 1.35rem;
+    }
+    .price-compare b { color: var(--ink); font-weight: 800; }
+    .price-compare .save { color: var(--accent-deep); font-weight: 800; width: 100%; font-size: 1.1rem; }
+
+    /* Guarantee band */
+    .guarantee { text-align: center; }
+    .guarantee p { max-width: 56ch; margin: 0 auto; font-size: clamp(1.1rem, 1.9vw, 1.3rem); line-height: 1.6; color: var(--ink-soft); }
+
+    /* Scarcity band */
+    .scarcity { background: var(--ink); color: var(--paper); text-align: center; }
+    .scarcity h2.display { color: var(--paper); }
+    .scarcity .dot { color: var(--accent); }
+    .scarcity p { color: rgba(244, 246, 249, 0.74); max-width: 52ch; margin: 1rem auto 0; font-size: 1.12rem; }
+
+    /* Form */
+    .form-section { background: var(--bg-deep); }
+    .form-card {
+      background: var(--paper); border: 1px solid var(--rule); border-radius: 24px;
+      padding: clamp(1.75rem, 4vw, 3rem); box-shadow: var(--shadow-2); max-width: 720px; margin: 0 auto;
+    }
+    .form-card .form-head { text-align: center; margin-bottom: 2rem; }
+    .form-card .form-head .lede { margin: 0.6rem auto 0; }
+    .field { margin-bottom: 1.4rem; }
+    .field label { display: block; font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 0.5rem; letter-spacing: -0.005em; }
+    .field .opt { color: var(--muted); font-weight: 400; }
+    .field input[type=text], .field input[type=email], .field textarea {
+      width: 100%; font-family: var(--sans); font-size: 16px; color: var(--ink); background: var(--paper);
+      border: 1.5px solid var(--rule); border-radius: 14px; padding: 0.85rem 1rem;
+      box-shadow: var(--shadow-1); transition: border-color var(--t-fast), box-shadow var(--t-fast);
+    }
+    .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .field textarea { resize: vertical; min-height: 110px; line-height: 1.5; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip { position: relative; cursor: pointer; }
+    .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .chip span {
+      display: inline-block; border: 1.5px solid var(--rule); background: var(--paper); border-radius: 999px;
+      padding: 0.5rem 1rem; font-size: 14px; font-weight: 600; color: var(--ink-soft);
+      box-shadow: var(--shadow-1); transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+      user-select: none;
+    }
+    .chip span:hover { border-color: var(--accent); }
+    .chip input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .form-submit { margin-top: 0.5rem; }
+    .form-submit .btn { width: 100%; justify-content: center; }
+    .reassure { text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 1rem; }
+    .hp { position: absolute; left: -9999px; }
+
+    /* FAQ */
+    .faq-list { max-width: 680px; margin: 0 auto; }
+    .faq-list details { border-bottom: 1px solid var(--rule); }
+    .faq-list summary {
+      list-style: none; cursor: pointer; padding: 1.3rem 0; font-weight: 700; font-size: 1.08rem;
+      color: var(--ink); letter-spacing: -0.01em; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .faq-list summary::-webkit-details-marker { display: none; }
+    .faq-list .ic { color: var(--accent); font-weight: 800; font-size: 1.5rem; line-height: 1; flex: 0 0 auto; transition: transform var(--t-fast); }
+    .faq-list details[open] .ic { transform: rotate(45deg); }
+    .faq-list details p { padding: 0 0 1.4rem; color: var(--muted); max-width: 60ch; line-height: 1.6; }
+
+    /* Final CTA */
+    .cta-dark { background: var(--ink); color: var(--paper); border-top: 0; text-align: center; }
+    section.cta-dark + section { border-top: 0; }
+    .cta-dark h2.display { color: var(--paper); }
+    .cta-dark .dot { color: var(--accent); }
+    .cta-dark p { color: rgba(244, 246, 249, 0.72); max-width: 44ch; margin: 1rem auto 2rem; font-size: 1.1rem; }
+    .cta-dark .btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+    .cta-dark .btn-primary:hover { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+
+    @media (max-width: 800px) {
+      .steps { grid-template-columns: 1fr; }
+      .topic-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 880px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 460px; }
+    }
+    @media (max-width: 540px) {
+      .topic-grid { grid-template-columns: 1fr; }
+      .hero-cta .btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating glass pill nav (matches site) -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="https://busqueneil.com" aria-label="busqueneil.com">
+      <span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span>
+    </a>
+    <a class="nav-cta" href="#pricing">Claim a spot</a>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <header class="hero support-hero">
+      <div class="wrap">
+        <span class="eyebrow reveal">Premium tech support &middot; only 4 spots</span>
+        <h1 class="display reveal delay-1">Stuck on Claude, a funnel, or any tech? We fix it together, live<span class="dot">.</span></h1>
+        <p class="hero-sub reveal delay-2">Claude, GoHighLevel, funnels, AI, automations, or whatever tech you're fighting with. You share your screen, I guide you, and we fix the actual thing together until it works. Your first hour is on me. No card. Only 4 spots.</p>
+        <div class="hero-cta reveal delay-3">
+          <a href="#form" class="btn btn-primary">Claim your free first hour</a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="hero-trust reveal delay-4">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          First hour free. No credit card. Cancel anytime.
+        </p>
+      </div>
+    </header>
+
+    <!-- WHAT THIS IS -->
+    <section class="why">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="eyebrow">What this is</span>
+          <h2 class="display">Not a ticket. Not done-for-you<span class="dot">.</span></h2>
+        </div>
+        <p class="reveal">Most "tech support" is a ticket you file and then wait three days for. The rest is someone doing it for you, handing it back, and leaving you just as stuck next time it breaks.</p>
+        <p class="reveal">This is different. We get on a call, you share your screen, and we work through your actual problem together. I show you what I'd do, walk you through it, and you come out the other side with it fixed and with the skill to do it again.</p>
+        <p class="reveal">And it's not only tech. Ask me anything. Your business, your offer, your next move, or just talk it out. If it's on your mind, bring it.</p>
+        <p class="punch reveal">I don't do it for you and hand it back. We do it together, on the call, until it works. That's the whole point.</p>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">The deal</span>
+          <h2 class="display">How it works<span class="dot">.</span></h2>
+        </div>
+        <div class="steps">
+          <div class="step reveal"><div class="step-num">1</div><h3>Claim your free first hour</h3><p>Sign up below. No credit card. You get a full first hour with me, on the house, so you can see if this is for you before you pay a cent.</p></div>
+          <div class="step reveal delay-1"><div class="step-num">2</div><h3>Book a time and tell me what's broken</h3><p>Grab a spot in my calendar and tell me what you need to get done. The more you tell me, the more I dig in before we talk. Drop links, screenshots, your account, whatever helps.</p></div>
+          <div class="step reveal delay-2"><div class="step-num">3</div><h3>We jump on a call and fix it together</h3><p>You share your screen, I guide you, and we go through your problem step by step until it works. Ask me anything along the way. No clock-watching, no pitch.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+    <section id="topics">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">What we can fix</span>
+          <h2 class="display">Bring me any tech you've got<span class="dot">.</span></h2>
+          <p class="lede">Pick one, bring a messy mix, or something not even on this list. It's not just tech either. Ask me anything, your business, your ideas, or just talk it out.</p>
+        </div>
+        <div class="topic-grid">
+          <div class="topic reveal"><h3>Claude &amp; Claude Code</h3><p>Setup, workflows, agents, prompts, getting it to actually do the thing.</p></div>
+          <div class="topic reveal"><h3>GoHighLevel</h3><p>Pipelines, workflows, calendars, and the whole GHL maze.</p></div>
+          <div class="topic reveal"><h3>Funnels</h3><p>Why yours isn't converting and what to change first.</p></div>
+          <div class="topic reveal"><h3>AI tools</h3><p>Pick the right one, wire it up, and make it earn its keep.</p></div>
+          <div class="topic reveal"><h3>Automations</h3><p>n8n, Make, Zapier. Get the workflow firing without the headache.</p></div>
+          <div class="topic reveal"><h3>Websites &amp; landing pages</h3><p>Build it, fix it, speed it up, or finally ship the one you've sat on.</p></div>
+          <div class="topic reveal"><h3>APIs &amp; integrations</h3><p>Webhooks, connections, the thing the docs don't explain.</p></div>
+          <div class="topic reveal"><h3>Vibe coding</h3><p>Build the app or tool in your head, even if you don't code.</p></div>
+          <div class="topic reveal"><h3>Or just talk it out</h3><p>Not sure what you need? Bring the mess. We'll figure it out together.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="wrap-wide">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Pricing</span>
+          <h2 class="display">Two ways in<span class="dot">.</span></h2>
+          <p class="lede">Start with a free hour. Then pay by the hour, or lock a monthly spot and pay a lot less.</p>
+        </div>
+        <div class="pricing-grid">
+          <div class="price-card reveal">
+            <div class="price-name">A la carte</div>
+            <div class="price-amount">$70<span class="per">/hour</span></div>
+            <div class="price-sub muted">A la carte. Book a call whenever you need one.</div>
+            <ul class="price-feats">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Live 1:1 call, screen shared</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>One hour minimum per call</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>No commitment, ever</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Message me anytime, free</li>
+            </ul>
+            <a href="#form" class="btn btn-ghost">Start with a free hour</a>
+          </div>
+          <div class="price-card featured reveal delay-1">
+            <span class="price-badge">Most popular &middot; only 4 spots</span>
+            <div class="price-name">Monthly</div>
+            <div class="price-amount">$800<span class="per">/month</span></div>
+            <div class="price-sub">20 hours every month. That works out to $40/hour.</div>
+            <ul class="price-feats">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>20 hours of live help every month</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>$40/hour, not $70 a la carte</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Book a time or just text me</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cancel anytime, no contract</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Message me anytime for quick questions, free</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>100% money-back, no questions asked</li>
+            </ul>
+            <a href="#form" class="btn btn-primary">Claim your free first hour</a>
+          </div>
+          <div class="price-card reveal delay-2">
+            <span class="price-badge alt">Best rate &middot; save $600</span>
+            <div class="price-name">3-month spot</div>
+            <div class="price-amount">$600<span class="per">/month</span></div>
+            <div class="price-sub">$30/hour. $1,800 upfront for 60 hours.</div>
+            <ul class="price-feats">
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Monthly</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>$30/hour, the best rate</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Save $600 over the 3 months</li>
+              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Locked in, paid upfront, no refunds</li>
+            </ul>
+            <a href="#form" class="btn btn-ghost">Lock in the best rate</a>
+          </div>
+        </div>
+        <div class="price-compare reveal">
+          <span>20 hours a la carte: <b>$1,400</b>.</span>
+          <span>Monthly: <b>$800</b>. 3-month: <b>$600</b>.</span>
+          <span class="save">Save up to $800 every month versus a la carte.</span>
+        </div>
+        <p class="price-fine reveal">First hour free, no card to start. Quick questions by message are always free and never touch your hours. Hours don't roll over, they reset each month. Up to four hours a day. One hour minimum per call. Cancel anytime.</p>
+      </div>
+    </section>
+
+    <!-- SCARCITY -->
+    <section class="scarcity">
+      <div class="wrap">
+        <h2 class="display" style="font-size:clamp(2rem,5vw,3rem)">Only 4 people get a spot<span class="dot">.</span></h2>
+        <p>That's the cap, on purpose, so you always get real access instead of a queue. When the four spots are gone, they're gone.</p>
+      </div>
+    </section>
+
+    <!-- GUARANTEE -->
+    <section class="guarantee">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Risk-free</span>
+          <h2 class="display">If it's not worth it, you don't pay<span class="dot">.</span></h2>
+        </div>
+        <p class="reveal">Try it. Use up to four hours. If you don't feel it was worth your time, I refund every dollar. No questions asked. That's how sure I am this helps.</p>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section id="form" class="form-section">
+      <div class="wrap-wide">
+        <div class="form-card reveal">
+          <div class="form-head">
+            <span class="eyebrow">Step one</span>
+            <h2 class="display" style="font-size:clamp(1.8rem,4vw,2.6rem)">Claim your free first hour<span class="dot">.</span></h2>
+            <p class="lede">Tell me what you're stuck on. No card needed. You'll book a time on the next screen.</p>
+          </div>
+
+          <form name="tech-support-request" method="POST" action="/support/thanks/" id="supportForm" data-lead-form="tech-support">
+            <p class="hp"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+            <input type="hidden" name="utm_source" id="utm_source" />
+            <input type="hidden" name="utm_medium" id="utm_medium" />
+            <input type="hidden" name="utm_campaign" id="utm_campaign" />
+
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email" />
+            </div>
+
+            <div class="field">
+              <label>What do you need help with? <span class="opt">(pick any)</span></label>
+              <div class="chips">
+                <label class="chip"><input type="checkbox" name="topics" value="Claude & Claude Code" /><span>Claude &amp; Claude Code</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="GoHighLevel" /><span>GoHighLevel</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Funnels" /><span>Funnels</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="AI tools" /><span>AI tools</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Automations" /><span>Automations</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Websites & landing pages" /><span>Websites &amp; landing pages</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="APIs & integrations" /><span>APIs &amp; integrations</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Vibe coding" /><span>Vibe coding</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Just talk it out" /><span>Just talk it out</span></label>
+                <label class="chip"><input type="checkbox" name="topics" value="Something else" /><span>Something else</span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="problem">What do you need to get done? What are you stuck on?</label>
+              <textarea id="problem" name="problem" required placeholder="Be specific. The more detail, the more I can prep before we talk. What have you tried, where does it break, what does &quot;fixed&quot; look like to you?"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="reference_links">Anything you want me to look at first? <span class="opt">(optional)</span></label>
+              <textarea id="reference_links" name="reference_links" placeholder="Your site, funnel, account, repo, a doc, or a screenshot link. One per line."></textarea>
+            </div>
+
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary">Continue to booking</button>
+              <p class="reassure">No card needed. I read every one of these before the call. Zero spam.</p>
+              <p class="reassure" style="margin-top:0.5rem">By submitting, you agree Neil may contact you by phone, email, or text, including with an automated or AI assistant. Opt out anytime.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="eyebrow">Questions</span>
+          <h2 class="display">Good things to ask<span class="dot">.</span></h2>
+        </div>
+        <div class="faq-list reveal">
+          <details><summary>Do my hours roll over? <span class="ic">+</span></summary><p>No. Your 20 monthly hours reset at the start of each month. Use them or lose them. It keeps things simple and keeps your spot active.</p></details>
+          <details><summary>What's the most we can do in a day? <span class="ic">+</span></summary><p>Four hours a day, so we both stay sharp and you actually retain what we work through.</p></details>
+          <details><summary>How short can a call be? <span class="ic">+</span></summary><p>One hour minimum. That's enough time to make real progress and actually fix the thing, not just poke at it.</p></details>
+          <details><summary>What if I use all 20 hours in a month? <span class="ic">+</span></summary><p>When your hours run low, you can extend at your plan's rate ($40/hr on monthly, $30/hr on the 3-month) as long as there's still availability that month. Or just wait for your reset.</p></details>
+          <details><summary>Is this done-for-you? <span class="ic">+</span></summary><p>No. We fix it together, live, so you can do it again yourself next time. You keep the skill, not just the result.</p></details>
+          <details><summary>Do I need a credit card for the first call? <span class="ic">+</span></summary><p>Nope. The first hour is free, no card. Pick a plan after, only if it helped.</p></details>
+          <details><summary>What can we actually work on? <span class="ic">+</span></summary><p>Anything tech, and honestly anything else. Claude, GHL, funnels, AI, automations, websites, APIs, your stack, your business, your next idea, or just talk it out. If it's on your mind, bring it.</p></details>
+          <details><summary>Can I cancel? <span class="ic">+</span></summary><p>Anytime. No contract, no lock-in, no hard feelings.</p></details>
+          <details><summary>What if it's not worth it? <span class="ic">+</span></summary><p>Then you don't pay. Use up to four hours. If you don't feel it was worth it, I refund 100%, no questions asked.</p></details>
+          <details><summary>Can I just ask a quick question? <span class="ic">+</span></summary><p>Yes. Message me anytime in your portal. Quick questions by message are free and don't use your hours. Your hours are for live calls.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-dark">
+      <div class="wrap">
+        <h2 class="display" style="font-size:clamp(2rem,5vw,3.2rem)">Got something you're stuck on<span class="dot">?</span></h2>
+        <p>Claim your free first hour. We'll get on a call and fix it together. No card, no catch.</p>
+        <a href="#form" class="btn btn-primary">Claim your free first hour</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <a class="foot-mark" href="https://busqueneil.com"><span class="nav-mark"><span class="mark-a">BUSQUE</span><span class="mark-b">NEIL</span></span></a>
+      <span>Premium tech support, fixed together. &middot; <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll state
+    (function(){
+      var nav = document.getElementById('nav');
+      if(nav){ addEventListener('scroll', function(){ nav.classList.toggle('is-scrolled', scrollY > 8); }, {passive:true}); }
+    })();
+    // Scroll reveal
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(e){ io.observe(e); });
+    })();
+    // UTM capture
+    (function(){
+      var p = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign'].forEach(function(k){
+        var el = document.getElementById(k); if(el) el.value = p.get(k) || '';
+      });
+    })();
+  </script>
+<script src="/js/lead-form.js" defer></script>
+<script src="/js/chat-widget.js" defer></script>
+</body>
+</html>
