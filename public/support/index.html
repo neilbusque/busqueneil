@@ -201,11 +201,16 @@
     .eyebrow { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
     .eyebrow::before { content: "> "; opacity: 0.55; }
 
-    /* Nav: solid light pill so the wordmark stays readable over the dark hero */
-    #nav.nav, #nav.nav.is-scrolled { background: rgba(255,255,255,0.9); backdrop-filter: saturate(140%) blur(14px); -webkit-backdrop-filter: saturate(140%) blur(14px); border: 1px solid var(--rule); box-shadow: var(--shadow-2); }
+    /* Nav: transparent over the dark hero (melts in), becomes a clean light pill once past it */
+    #nav.nav { background: transparent; border-color: transparent; box-shadow: none; }
+    #nav .mark-b { color: #fff; }
+    #nav .nav-cta { background: var(--accent); color: #fff; border-color: var(--accent); }
+    #nav .nav-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+    #nav.nav.is-scrolled { background: rgba(255,255,255,0.92); backdrop-filter: saturate(150%) blur(14px); -webkit-backdrop-filter: saturate(150%) blur(14px); border: 1px solid var(--rule); box-shadow: var(--shadow-2); }
+    #nav.nav.is-scrolled .mark-b { color: var(--ink); }
 
     /* ---- DARK HERO ---- */
-    .support-hero { position: relative; overflow: hidden; color: #fff;
+    .support-hero { position: relative; overflow: hidden; color: #fff; margin-top: -88px; padding-top: calc(88px + 2.5rem);
       background:
         radial-gradient(52% 60% at 82% -10%, rgba(233,79,55,0.22) 0%, transparent 58%),
         radial-gradient(42% 55% at 2% 108%, rgba(122,162,255,0.10) 0%, transparent 60%),
@@ -272,6 +277,9 @@
     @media (max-width: 860px) {
       .hero-grid { grid-template-columns: 1fr; }
       .term { max-width: 460px; }
+    }
+    @media (max-width: 540px) {
+      .support-hero { margin-top: -76px; padding-top: calc(76px + 1.5rem); }
     }
     /* ===================== /TECH UPGRADE ===================== */
   </style>
@@ -608,10 +616,15 @@
   </footer>
 
   <script>
-    // Nav scroll state
+    // Nav scroll state — stays transparent over the dark hero, flips to the light
+    // pill only once you've scrolled (nearly) past the hero.
     (function(){
       var nav = document.getElementById('nav');
-      if(nav){ addEventListener('scroll', function(){ nav.classList.toggle('is-scrolled', scrollY > 8); }, {passive:true}); }
+      var hero = document.querySelector('.support-hero');
+      if(nav){
+        var trigger = function(){ var h = hero ? hero.offsetHeight - 72 : 8; nav.classList.toggle('is-scrolled', scrollY > h); };
+        addEventListener('scroll', trigger, {passive:true}); trigger();
+      }
     })();
     // Scroll reveal
     (function(){
