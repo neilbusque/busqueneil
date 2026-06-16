@@ -26,6 +26,15 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FFFFFF" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+    />
+
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Neil Busque" />
@@ -52,5 +61,17 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body>
     <slot />
+    <script is:inline>
+      (function () {
+        if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

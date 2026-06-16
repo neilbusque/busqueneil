@@ -1,6 +1,6 @@
 ---
-// Person + ProfilePage + FAQPage JSON-LD, ported from the v1 site.
-// Email updated to busqueneil@gmail.com (the old workspace address is gone).
+// Person + WebSite + ProfilePage + FAQPage JSON-LD for the homepage.
+// Positioning kept current: independent operator & builder, open to work.
 
 const person = {
   '@type': 'Person',
@@ -8,12 +8,11 @@ const person = {
   name: 'Neil Busque',
   givenName: 'Neil',
   familyName: 'Busque',
-  additionalName: 'Young Kook',
   url: 'https://busqueneil.com/',
   image: 'https://busqueneil.com/assets/logo/icon-512.png',
-  jobTitle: 'Director of Operations',
+  jobTitle: 'Digital marketing & automation consultant',
   description:
-    'Director of Operations who builds AI agents, qualifying funnels, and automation systems. Hands-on across Meta Ads, GoHighLevel, n8n, and Claude Code. Most recently ran operations at a digital marketing agency through April 2026.',
+    'Independent operator and builder based in Elizabeth, New Jersey. Builds web apps, AI agents, and automation systems, and works with businesses on digital marketing, SEO, paid search, funnels, and CRM. Documents everything he builds, in public, at busqueneil.com. Open to full-time roles and project work.',
   email: 'mailto:busqueneil@gmail.com',
   address: {
     '@type': 'PostalAddress',
@@ -22,11 +21,10 @@ const person = {
     addressCountry: 'US',
   },
   hasOccupation: {
-    '@type': 'Role',
-    roleName: 'Director of Operations',
-    startDate: '2025-10',
-    endDate: '2026-04',
-    memberOf: { '@type': 'Organization', name: 'Digital marketing agency' },
+    '@type': 'Occupation',
+    name: 'Digital marketing & automation consultant',
+    occupationLocation: { '@type': 'City', name: 'Elizabeth, NJ' },
+    skills: 'SEO, paid search, Meta Ads, marketing automation, CRM, n8n, AI agents, web app development',
   },
   alumniOf: {
     '@type': 'CollegeOrUniversity',
@@ -34,25 +32,45 @@ const person = {
     address: 'Philippines',
   },
   knowsAbout: [
-    'Growth operations',
+    'Digital marketing',
+    'SEO',
+    'Paid search',
+    'Meta Ads',
+    'Conversion funnels',
+    'Marketing automation',
     'AI agents',
     'Workflow automation',
     'n8n',
     'GoHighLevel',
-    'WordPress',
-    'Meta Ads',
-    'Conversion funnels',
+    'CRM',
+    'Web app development',
+    'Astro',
+    'Supabase',
     'Claude Code',
-    'Zapier',
   ],
-  sameAs: ['https://www.linkedin.com/in/neilbusque'],
+  sameAs: [
+    'https://www.linkedin.com/in/neilbusque',
+    'https://github.com/neilbusque',
+  ],
+};
+
+const website = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': 'https://busqueneil.com/#website',
+  url: 'https://busqueneil.com/',
+  name: 'Neil Busque',
+  description:
+    'Neil Busque builds web apps, AI agents, and automations in public. Based in Elizabeth, NJ.',
+  inLanguage: 'en-US',
+  publisher: { '@id': 'https://busqueneil.com/#person' },
 };
 
 const profilePage = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   dateCreated: '2026-05-13',
-  dateModified: '2026-06-12',
+  dateModified: '2026-06-16',
   mainEntity: person,
 };
 
@@ -65,7 +83,7 @@ const faqPage = {
       name: 'Who is Neil Busque?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Neil Busque is a Director of Operations based in Elizabeth, New Jersey. He builds AI agents, qualifying funnels, and automation systems. Most recently he ran operations at a digital marketing agency (October 2025 through April 2026), where he shipped 20+ production n8n workflows across 10+ client accounts and cut new-client onboarding from 30 days to 7.',
+        text: 'Neil Busque is an independent operator and builder based in Elizabeth, New Jersey. He builds web apps, AI agents, and automation systems, and works with businesses on digital marketing, SEO, paid search, funnels, and CRM. He documents the work in public on the feed at busqueneil.com.',
       },
     },
     {
@@ -73,7 +91,7 @@ const faqPage = {
       name: 'Where is Neil Busque based?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Elizabeth, New Jersey, United States. He is open to remote, hybrid, and on-site work.',
+        text: 'Elizabeth, New Jersey, United States (Eastern Time). He works remote, hybrid, or on-site across the NJ / NYC metro.',
       },
     },
     {
@@ -81,7 +99,7 @@ const faqPage = {
       name: 'What does Neil Busque do?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'He turns marketing spend into running infrastructure. Hands-on across Meta Ads, GoHighLevel CRM, n8n workflow automation, and AI tooling built on Claude Code. His work covers funnel design, CRM configuration, lead routing, SDR automation, internal reporting, and AI agents that replace manual operations work. He also builds web apps and PWAs in public, documented on the feed at busqueneil.com.',
+        text: 'He builds the systems that turn marketing into revenue: digital marketing and SEO, paid search and Meta Ads, conversion funnels, CRM and marketing automation in tools like GoHighLevel and n8n, AI agents built on Claude Code, and custom web apps and PWAs. He ships fast and posts the work in public at busqueneil.com.',
       },
     },
     {
@@ -89,7 +107,7 @@ const faqPage = {
       name: 'Is Neil Busque available for hire?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. As of May 2026, Neil is open to work: full-time operator roles and project-based engagements. The best way to reach him is busqueneil@gmail.com or via LinkedIn at linkedin.com/in/neilbusque.',
+        text: 'Yes. Neil is open to full-time roles in digital marketing, SEO, paid search, and marketing operations, and to project work such as funnel builds, automation, AI agents, and custom apps. Reach him at busqueneil@gmail.com or on LinkedIn at linkedin.com/in/neilbusque.',
       },
     },
     {
@@ -97,11 +115,12 @@ const faqPage = {
       name: 'How can I contact Neil Busque?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Email at busqueneil@gmail.com or via LinkedIn at linkedin.com/in/neilbusque. The contact widget on busqueneil.com also offers WhatsApp, SMS, and phone options.',
+        text: 'Email busqueneil@gmail.com or message him on LinkedIn at linkedin.com/in/neilbusque. The contact widget on busqueneil.com also offers WhatsApp, SMS, and phone options.',
       },
     },
   ],
 };
 ---
+<script type="application/ld+json" set:html={JSON.stringify(website)} />
 <script type="application/ld+json" set:html={JSON.stringify(profilePage)} />
 <script type="application/ld+json" set:html={JSON.stringify(faqPage)} />

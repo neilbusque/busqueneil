@@ -1,0 +1,19 @@
+---
+// Emits BreadcrumbList JSON-LD. Render inside the layout's "head" slot.
+interface Item {
+  name: string;
+  url: string;
+}
+const { items } = Astro.props as { items: Item[] };
+const json = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((it, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: it.name,
+    item: it.url,
+  })),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(json)} />

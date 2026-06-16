@@ -10,6 +10,7 @@ const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/ria/', changefreq: 'monthly', priority: '0.5' },
   { loc: 'https://busqueneil.com/build/', changefreq: 'monthly', priority: '0.5' },
   { loc: 'https://busqueneil.com/help/', changefreq: 'monthly', priority: '0.5' },
+  { loc: 'https://busqueneil.com/support/', changefreq: 'monthly', priority: '0.5' },
   { loc: 'https://busqueneil.com/resume.pdf', changefreq: 'monthly', priority: '0.4' },
 ];
 

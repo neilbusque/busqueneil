@@ -1,41 +1,52 @@
 ---
 import Site from '../layouts/Site.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 
 export const prerender = true;
 ---
 <Site
   title="About — Neil Busque"
-  description="Who Neil Busque is: operations director turned builder. AI agents, automations, web apps, and the systems behind marketing spend."
+  description="Who Neil Busque is: an independent operator and builder. Digital marketing, SEO, paid search, AI agents, automations, and web apps, shipped fast and in public."
   canonical="https://busqueneil.com/about"
   active="about"
 >
-  <section class="hero" style="padding-bottom: 24px;">
-    <div class="kicker">About</div>
-    <h1>Operator who builds.</h1>
-  </section>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'About', url: 'https://busqueneil.com/about' },
+    ]} />
+  </Fragment>
 
-  <article class="article-page" style="padding-top: 10px;">
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> About</p>
+    <h1>Operator who <span class="accent">builds</span>.</h1>
+    <p class="lede">Elizabeth, NJ. I turn marketing into running systems, and I ship the work in public.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
     <div class="prose">
       <p>
-        I am Neil Busque. I spent the last stretch running operations at a digital
-        marketing agency: 20+ production n8n workflows, 10+ client accounts,
-        onboarding cut from 30 days to 7. Before that, the Philippines, then Korea,
-        now Elizabeth, New Jersey.
+        I'm Neil Busque. I work at the seam between marketing and engineering:
+        digital marketing, SEO, and paid search on one side; funnels, CRM,
+        automation, AI agents, and custom web apps on the other. The throughline
+        is the same: turn spend and ideas into systems that actually run.
       </p>
       <p>
-        These days I build. Web apps, PWAs, AI agents, CRM systems, automations.
-        Most of it ships within days of the idea, and all of it gets posted to
-        <a href="/">the feed</a> as it happens. This site is my playground and my
-        public notebook.
+        These days I build, independently and fast. Web apps, PWAs, AI agents,
+        CRM systems, automations. Most of it ships within days of the idea, and
+        all of it gets posted to <a href="/">the feed</a> as it happens. This
+        site is my playground and my public notebook. Before New Jersey it was
+        Korea, and before that the Philippines.
       </p>
       <p>
-        I am open to full-time operator roles and project work. The fastest way to
-        reach me is <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>,
-        or <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>.
-        There is also a <a href="/resume.pdf">resume</a> if you want the formal version.
+        I'm open to full-time roles in digital marketing, SEO, paid search, and
+        marketing operations, and to project work. The fastest way to reach me is
+        <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>, or
+        <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>.
+        There's a <a href="/resume.pdf">resume</a> if you want the formal version.
       </p>
       <p>
-        If you want help with something specific, I run two small offers:
+        Need help with something specific? I run two small offers:
         <a href="/help/">pay-what-it-was-worth consulting</a> and
         <a href="/build/">custom app builds</a>.
       </p>

@@ -1,5 +1,6 @@
 ---
 import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import FeedEntry from '../../components/FeedEntry.astro';
 import { getFeed, setPublicCache } from '../../lib/posts';
 
@@ -15,20 +16,32 @@ setPublicCache(Astro.response.headers);
 const titleSuffix = tag ? ` tagged "${tag}"` : '';
 ---
 <Site
-  title={`Posts${titleSuffix} — Neil Busque`}
-  description="Archive of everything Neil Busque has posted: status updates, articles, and shipped projects."
+  title={`Writing${titleSuffix} — Neil Busque`}
+  description="Archive of everything Neil Busque has posted: status updates, articles, and shipped projects, in public as it happens."
   canonical="https://busqueneil.com/posts"
-  active="feed"
+  active="writing"
   noindex={page > 1 || Boolean(tag)}
 >
-  <section class="hero" style="padding-bottom: 24px;">
-    <div class="kicker">Archive</div>
-    <h1>All posts{titleSuffix}</h1>
-  </section>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Writing', url: 'https://busqueneil.com/posts' },
+    ]} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> The archive</p>
+    {tag ? (
+      <h1>Everything tagged <span class="accent">{tag}</span>.</h1>
+    ) : (
+      <h1>Everything, <span class="accent">written down</span>.</h1>
+    )}
+    <p class="lede">Statuses, articles, and project notes. The full build log, newest first.</p>
+  </header>
 
   <section class="feed">
     {posts.length === 0 ? (
-      <p style="padding: 30px 0; color: var(--muted);">Nothing here yet.</p>
+      <p class="empty">Nothing here yet.</p>
     ) : (
       posts.map((post) => <FeedEntry post={post} />)
     )}

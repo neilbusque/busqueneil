@@ -8,13 +8,16 @@ import Site from '../layouts/Site.astro';
   description="That page does not exist."
   noindex
 >
-  <section class="hero">
-    <div class="kicker">404</div>
-    <h1>That page is not here.</h1>
-    <p>
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">404</span> Not found</p>
+    <h1>That page <span class="accent">isn't here</span>.</h1>
+    <p class="lede">
       It may have moved when the site was rebuilt. The good stuff lives on
-      <a href="/" style="color: var(--coral);">the feed</a>, or check
-      <a href="/now/" style="color: var(--coral);">/now</a> to see what I am up to.
+      <a href="/">the feed</a>, or check <a href="/now/">/now</a> to see what I'm up to.
     </p>
-  </section>
+    <div class="hero-actions" style="margin-top:28px;">
+      <a class="btn" href="/">Back to the feed →</a>
+      <a class="btn ghost" href="/projects">See the work</a>
+    </div>
+  </header>
 </Site>
