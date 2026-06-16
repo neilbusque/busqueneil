@@ -2,10 +2,20 @@
 import Site from '../layouts/Site.astro';
 import Schema from '../components/Schema.astro';
 import FeedEntry from '../components/FeedEntry.astro';
-import { getFeed, setPublicCache } from '../lib/posts';
+import { getFeed, getNow, setPublicCache } from '../lib/posts';
+import { formatDate } from '../lib/format';
 
-const { posts, hasMore } = await getFeed({ request: Astro.request, cookies: Astro.cookies });
+const opts = { request: Astro.request, cookies: Astro.cookies };
+const { posts, hasMore } = await getFeed(opts);
+const projects = (await getFeed(opts, { type: 'project' })).posts.slice(0, 6);
+const { current: now } = await getNow(opts);
 setPublicCache(Astro.response.headers);
+
+const projectLink = (p: typeof projects[number]) =>
+  p.project_meta?.live_url ?? `/posts/${p.slug}`;
+const projectName = (p: typeof projects[number]) =>
+  p.project_meta?.name ?? p.title ?? p.slug;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
 ---
 <Site
   title="Neil Busque — everything I build, as I build it"
@@ -19,23 +29,72 @@ setPublicCache(Astro.response.headers);
   </Fragment>
 
   <section class="hero">
-    <div class="kicker">A working notebook, in public</div>
-    <h1>Everything I build, <em>as I build it.</em></h1>
-    <p>
-      I am Neil. I build web apps, AI agents, and automations. No polish, no
-      postmortems written months later. The feed below is the actual log of the work.
-    </p>
-    <span class="status-pill"><span class="dot"></span>Open to work and projects</span>
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow"><span class="idx">●</span> A working notebook, in public</p>
+        <h1 class="hero-display" style="margin-top:18px">Everything I build, <span class="accent">as I build it.</span></h1>
+        <p class="hero-sub">
+          I'm Neil. I build web apps, AI agents, and automations. No polish, no
+          postmortems written months later. This is the live log of the actual work.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="/help">Hire me →</a>
+          <a class="btn ghost" href="#build-log">See what I'm building</a>
+        </div>
+      </div>
+      <aside class="facts" aria-label="At a glance">
+        <div class="row"><span class="k">Role</span><span class="v">Operator &amp; builder</span></div>
+        <div class="row"><span class="k">Focus</span><span class="v">Marketing · automation · AI</span></div>
+        <div class="row"><span class="k">Stack</span><span class="v">Astro · Supabase · n8n · Claude</span></div>
+        <div class="row"><span class="k">Based</span><span class="v">Elizabeth, NJ · EST</span></div>
+        <div class="row"><span class="k">Status</span><span class="v"><span class="open">Open to work</span></span></div>
+      </aside>
+    </div>
   </section>
 
-  <section class="feed">
-    {posts.length === 0 ? (
-      <p style="padding: 30px 0; color: var(--muted);">
-        The feed is warming up. First posts land here soon.
-      </p>
-    ) : (
-      posts.map((post) => <FeedEntry post={post} />)
-    )}
+  {projects.length > 0 && (
+    <section class="section reveal" id="work">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="idx">01</span> Selected work <span class="line"></span></p>
+          <h2 class="section-title" style="margin-top:14px">Things I've shipped</h2>
+        </div>
+        <a class="more-link" href="/projects">All work →</a>
+      </div>
+      <div class="work">
+        {projects.map((p, i) => (
+          <a class="work-item" href={projectLink(p)} rel={p.project_meta?.live_url ? 'noopener' : undefined}>
+            <span class="num">{pad(i)}</span>
+            <span>
+              <span class="wname">{projectName(p)}</span>
+              {p.excerpt && <span class="wdesc">{p.excerpt}</span>}
+              {(p.project_meta?.stack?.length ?? 0) > 0 && (
+                <span class="wstack">{p.project_meta!.stack!.join(' · ')}</span>
+              )}
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="section reveal" id="build-log">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="idx">02</span> Build log <span class="line"></span></p>
+        <h2 class="section-title" style="margin-top:14px">As it happens</h2>
+      </div>
+      <a class="more-link" href="/posts">Archive →</a>
+    </div>
+    <div class="feed">
+      {posts.length === 0 ? (
+        <p class="empty">The feed is warming up. First posts land here soon.</p>
+      ) : (
+        posts.map((post) => <FeedEntry post={post} />)
+      )}
+    </div>
     {hasMore && (
       <nav class="pager">
         <span></span>
@@ -43,4 +102,20 @@ setPublicCache(Astro.response.headers);
       </nav>
     )}
   </section>
+
+  {now && (
+    <section class="section reveal" id="now">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="idx">03</span> Now <span class="line"></span></p>
+          <h2 class="section-title" style="margin-top:14px">What I'm doing now</h2>
+        </div>
+        <a class="more-link" href="/now/">Full /now →</a>
+      </div>
+      <div class="now-strip">
+        <div class="when">{formatDate(now.published_at)}</div>
+        <div class="nbody" set:html={now.body_html}></div>
+      </div>
+    </section>
+  )}
 </Site>

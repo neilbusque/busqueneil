@@ -1,5 +1,6 @@
 ---
 import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getPostBySlug, setPublicCache } from '../../lib/posts';
 import { publicImageUrl } from '../../lib/supabase';
 import { formatDate, readingTime } from '../../lib/format';
@@ -37,6 +38,7 @@ const jsonLd = {
   dateModified: post.updated_at,
   image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
   author: { '@id': 'https://busqueneil.com/#person' },
+  publisher: { '@id': 'https://busqueneil.com/#person' },
   mainEntityOfPage: canonical,
   ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
 };
@@ -47,31 +49,36 @@ const jsonLd = {
   canonical={canonical}
   ogType="article"
   ogImage={ogImage}
-  active="feed"
+  active="writing"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Writing', url: 'https://busqueneil.com/posts' },
+      { name: title, url: canonical },
+    ]} />
   </Fragment>
 
   <article class="article-page">
-    <div class="kicker">{TAG_LABEL[post.type] ?? post.type}</div>
+    <p class="eyebrow"><span class="idx">∗</span> {TAG_LABEL[post.type] ?? post.type}</p>
     {post.title && <h1>{post.title}</h1>}
     <div class="byline">
-      {formatDate(post.published_at)}
-      {post.type === 'article' && <> · {readingTime(post.body_md)}</>}
-      · Neil Busque
+      <span>{formatDate(post.published_at)}</span>
+      {post.type === 'article' && <span>{readingTime(post.body_md)}</span>}
+      <span>Neil Busque</span>
     </div>
 
     {post.type === 'project' && post.project_meta && (
-      <div class="byline" style="border-bottom: 0; margin-bottom: 14px;">
+      <div class="project-meta">
         {post.project_meta.stack?.length && (
-          <>Built with <b>{post.project_meta.stack.join(', ')}</b> · </>
+          <span>Built with {post.project_meta.stack.join(' · ')}</span>
         )}
         {post.project_meta.live_url && (
-          <a href={post.project_meta.live_url} rel="noopener" style="color: var(--coral);">Live app</a>
+          <a href={post.project_meta.live_url} rel="noopener">Live app ↗</a>
         )}
         {post.project_meta.repo_url && (
-          <> · <a href={post.project_meta.repo_url} rel="noopener" style="color: var(--coral);">Code</a></>
+          <a href={post.project_meta.repo_url} rel="noopener">Code ↗</a>
         )}
       </div>
     )}
@@ -92,8 +99,8 @@ const jsonLd = {
       </div>
     )}
 
-    <p style="margin-top: 36px;">
-      <a href="/" style="color: var(--coral); font-weight: 600; text-decoration: none;">← Back to the feed</a>
+    <p style="margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--rule);">
+      <a class="more" href="/">← Back to the feed</a>
     </p>
   </article>
 </Site>

@@ -1,5 +1,6 @@
 ---
 import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getNow, setPublicCache } from '../../lib/posts';
 import { formatDate } from '../../lib/format';
 
@@ -12,46 +13,48 @@ setPublicCache(Astro.response.headers);
   canonical="https://busqueneil.com/now/"
   active="now"
 >
-  <section class="hero" style="padding-bottom: 24px;">
-    <div class="kicker">Now</div>
-    <h1>What I'm up to.</h1>
-    <p>
-      A snapshot of where my head is and what I am working on. I update it when
-      life shifts. Inspired by Derek Sivers' /now idea.
-    </p>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Now', url: 'https://busqueneil.com/now/' },
+    ]} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">●</span> Now</p>
+    <h1>What I'm <span class="accent">up to</span>.</h1>
+    <p class="lede">A snapshot of where my head is and what I'm working on. I update it when life shifts. Inspired by Derek Sivers' /now idea.</p>
     {current?.published_at && (
-      <p style="margin-top: 10px; font-size: 13px; color: var(--muted);">
-        Updated {formatDate(current.published_at)}
-      </p>
+      <p class="updated">Updated {formatDate(current.published_at)}</p>
     )}
-  </section>
+  </header>
 
   <section class="feed">
     {current ? (
-      <article class="article-page" style="padding: 30px 0 40px;">
-        {current.title && <h1 style="font-size: 28px;">{current.title}</h1>}
+      <article class="article-page" style="padding: 8px 0 48px;">
+        {current.title && <h1 style="font-size: clamp(26px,3.4vw,40px); max-width:24ch; margin-bottom:18px;">{current.title}</h1>}
         <div class="prose" set:html={current.body_html} />
       </article>
     ) : (
-      <p style="padding: 30px 0; color: var(--muted);">The first /now entry lands here soon.</p>
+      <p class="empty">The first /now entry lands here soon.</p>
     )}
 
-    <div class="section-rule">
-      <div class="kicker">Archive</div>
+    <div class="section">
+      <p class="eyebrow"><span class="idx">∗</span> Archive <span class="line"></span></p>
       {archive.length === 0 ? (
-        <p style="color: var(--muted); padding: 8px 0 40px;">
-          Past Now states will live here as time passes.
-        </p>
+        <p class="empty">Past Now states will live here as time passes.</p>
       ) : (
-        archive.map((post) => (
-          <article class="entry">
-            <div class="when">{formatDate(post.published_at)}</div>
-            <div class="body">
-              {post.title && <h3><a href={`/posts/${post.slug}`}>{post.title}</a></h3>}
-              <div class="prose" set:html={post.body_html} />
-            </div>
-          </article>
-        ))
+        <div class="feed" style="margin-top:24px;">
+          {archive.map((post) => (
+            <article class="entry">
+              <div class="when">{formatDate(post.published_at)}</div>
+              <div class="body">
+                {post.title && <h3><a href={`/posts/${post.slug}`}>{post.title}</a></h3>}
+                <div class="prose" set:html={post.body_html} />
+              </div>
+            </article>
+          ))}
+        </div>
       )}
     </div>
   </section>
