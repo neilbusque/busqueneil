@@ -29,10 +29,10 @@ const caps = [
 ];
 
 const life = [
+  { t: 'Devotion', s: 'keeps me grounded, every morning' },
   { t: 'The gym', s: 'alternate days, rest day is important' },
   { t: 'A call with my wife', s: 'the best part of the day' },
   { t: 'Building apps and AI agents', s: 'usually in Claude Code' },
-  { t: 'Devotion', s: 'keeps me grounded, every morning' },
   { t: 'Reading books', s: 'a few going at once' },
   { t: 'Travel', s: 'usually back to the Philippines' },
 ];
@@ -147,27 +147,23 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
             <p class="label"><span class="n">03</span> &nbsp;Projects</p>
             <h2>Some projects.</h2>
           </div>
-          <p class="lede">Live software you can open right now. Video walkthroughs coming soon.</p>
+          <p class="lede">Real, live software I designed and built. Video walkthroughs coming soon.</p>
         </div>
         <div class="work-grid reveal">
-          {projects.map((p, i) => {
-            const Tag = p.url ? 'a' : 'div';
-            return (
-              <Tag class="work-card" href={p.url ?? undefined} rel={p.url ? 'noopener' : undefined} target={p.url ? '_blank' : undefined}>
-                <div class="work-media">
-                  <span class="play" set:html={PLAY}></span>
-                  <span class="ph">Demo soon</span>
-                </div>
-                <div class="top">
-                  <span class="pname">{p.name}</span>
-                  <span class="idx">{p.url ? '↗' : pad(i)}</span>
-                </div>
-                <p class="pdesc">{p.desc}</p>
-                <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
-                <div class="liveurl">{p.label}</div>
-              </Tag>
-            );
-          })}
+          {projects.map((p, i) => (
+            <div class="work-card">
+              <div class="work-media">
+                <span class="play" set:html={PLAY}></span>
+                <span class="ph">Demo soon</span>
+              </div>
+              <div class="top">
+                <span class="pname">{p.name}</span>
+                <span class="idx">{pad(i)}</span>
+              </div>
+              <p class="pdesc">{p.desc}</p>
+              <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
