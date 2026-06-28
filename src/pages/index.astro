@@ -29,10 +29,10 @@ const caps = [
 ];
 
 const life = [
-  { t: 'The gym', s: 'most mornings' },
+  { t: 'The gym', s: 'alternate days, rest day is important' },
   { t: 'A call with my wife', s: 'the best part of the day' },
   { t: 'Building apps and AI agents', s: 'usually in Claude Code' },
-  { t: 'Devotion', s: 'keeps me grounded' },
+  { t: 'Devotion', s: 'keeps me grounded, every morning' },
   { t: 'Reading books', s: 'a few going at once' },
   { t: 'Travel', s: 'usually back to the Philippines' },
 ];
@@ -60,7 +60,6 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         <nav class="nav-links">
           <a href="#work" class="nav-hide">Work</a>
           <a href="#about" class="nav-hide">About</a>
-          <a href="/feed" class="nav-hide">Feed</a>
           <a class="nav-cta" href="#hire">Hire me</a>
         </nav>
       </div>
@@ -79,11 +78,11 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
       </div>
       <div class="hero-inner">
         <p class="label hero-eyebrow"><span class="n">●</span> Open to work · New Jersey</p>
-        <h1 class="display">I build with AI now.<br /><span class="muted">Before that, I built everything else.</span></h1>
+        <h1 class="display">I help you build with AI.<br /><span class="muted">And the marketing and systems around it.</span></h1>
         <p class="hero-sub">
-          I'm Neil. I came up through IT, graphic design, web development, funnels,
-          and automation. Now I'm all in on AI, mostly inside Claude Code, building
-          things that used to take a whole team.
+          Need a marketer who can code, an engineer who gets growth, or someone to
+          own your whole AI and automation stack? That's me. Let's build something
+          together, or just have a chat.
         </p>
         <div class="hero-actions">
           <a class="btn primary" href="#hire">Hire me <span class="ico">→</span></a>
@@ -113,8 +112,8 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
               team: full apps, AI agents, and automations, usually in days.
             </p>
             <p>
-              I build in public. Eight products are live, I post the work on
-              <a href="/feed">the feed</a> as I go, and I'm based in New Jersey.
+              I build in public and ship something most weeks. I'm based in New
+              Jersey, and I'm always making something.
             </p>
           </div>
         </div>
@@ -125,8 +124,8 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     <div class="rule"></div>
     <section class="section" id="capabilities">
       <div class="shell">
-        <p class="label sec-label reveal"><span class="n">02</span> &nbsp;What I can do</p>
-        <h2 class="statement reveal" style="font-size:clamp(26px,3.8vw,46px);max-width:20ch">Marketing to AI agents, and most of what's in between.</h2>
+        <p class="label sec-label reveal"><span class="n">02</span> &nbsp;How I can help</p>
+        <h2 class="statement reveal" style="font-size:clamp(26px,3.8vw,46px);max-width:20ch">From your marketing to your AI agents, I can probably help.</h2>
         <div class="caps-grid reveal" style="margin-top:44px">
           {caps.map((c, i) => (
             <div class="cap-card">
@@ -145,10 +144,10 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">03</span> &nbsp;Selected work</p>
-            <h2>Eight products. All mine, end to end.</h2>
+            <p class="label"><span class="n">03</span> &nbsp;Projects</p>
+            <h2>Some projects.</h2>
           </div>
-          <p class="lede">Live software you can open right now. Video walkthroughs are coming soon, one per product.</p>
+          <p class="lede">Live software you can open right now. Video walkthroughs coming soon.</p>
         </div>
         <div class="work-grid reveal">
           {projects.map((p, i) => {
@@ -169,11 +168,6 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
               </Tag>
             );
           })}
-          <a class="work-card more" href="/feed">
-            <div class="top"><span class="pname">More</span><span class="idx">↗</span></div>
-            <p class="pdesc">I ship something most weeks. The full build log, posted in public as it happens, lives on the feed.</p>
-            <div class="liveurl">busqueneil.com/feed</div>
-          </a>
         </div>
       </div>
     </section>
@@ -210,9 +204,10 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
           <p class="label" style="justify-content:center"><span class="n">05</span> &nbsp;Open for work</p>
           <h2>Looking for someone who can do all of it?</h2>
           <p>
-            I'm open to full-time roles across marketing, growth, and AI, and built
-            to take the senior seat where AI, automation, and product live. Bring me
-            in as the person who owns it, end to end.
+            Whether you're hiring for a role or just need something built, I can
+            help. Full-time, fractional, or a one-off project, bring me in to own
+            the part where marketing, automation, and AI come together. Or just say
+            hi.
           </p>
           <div class="roles">
             <span class="role">Fractional CTO</span>
@@ -231,12 +226,13 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     </section>
 
     <!-- talk -->
-    <section class="section" id="talk" style="padding-top:0">
+    <div class="rule"></div>
+    <section class="section" id="talk">
       <div class="shell">
         <div class="talk reveal">
           <div class="l">
-            <h2>Or just talk to me, live.</h2>
-            <p>Skip the form. Start a video call and we'll know in a few minutes if I'm the right fit.</p>
+            <h2>Or let's just talk.</h2>
+            <p>Skip the form. Hop on a quick video call and let's see how I can help.</p>
           </div>
           <a class="btn primary" href="https://talk.busqueneil.com" rel="noopener" target="_blank">Start a live call <span class="ico">→</span></a>
         </div>
@@ -250,14 +246,10 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
           <a class="fbrand" href="/">busqueneil</a>
           <div class="flinks">
             <a href="#work">Work</a>
-            <a href="/feed">Feed</a>
-            <a href="/posts">Writing</a>
-            <a href="/now/">Now</a>
             <a href="/about">About</a>
             <a href="/resume.pdf">Resume</a>
             <a href="mailto:busqueneil@gmail.com">Email</a>
             <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
-            <a href="https://github.com/neilbusque" rel="me noopener" target="_blank">GitHub</a>
           </div>
         </div>
         <div class="colophon">Built in public · New Jersey · © 2026 Neil Busque</div>
