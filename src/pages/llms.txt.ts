@@ -4,14 +4,14 @@ import { deriveExcerpt } from '../lib/markdown';
 
 const STATIC_BIO = `# Neil Busque
 
-> Independent operator and builder based in Elizabeth, New Jersey. Works on digital marketing, SEO, and paid search, and builds funnels, CRM/marketing automation, AI agents, and custom web apps. Open to full-time roles and to project work. Documents everything he builds, in public, on the feed at https://busqueneil.com/.
+> Independent operator and builder based in New Jersey. Works on digital marketing, SEO, and paid search, and builds funnels, CRM/marketing automation, AI agents, and custom web apps. Open to full-time roles and to project work. Documents everything he builds, in public, on the feed at https://busqueneil.com/.
 
 ## Identity
 
 - **Name:** Neil Busque
 - **Role:** Independent digital marketing & automation consultant and builder. Open to full-time roles and project work.
 - **Focus:** Digital marketing, SEO, paid search, conversion funnels, CRM and marketing automation, AI agents, and custom web apps.
-- **Location:** Elizabeth, New Jersey, United States (Eastern Time)
+- **Location:** New Jersey, United States (Eastern Time)
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** busqueneil@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/neilbusque
