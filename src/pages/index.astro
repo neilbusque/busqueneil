@@ -8,7 +8,7 @@ setPublicCache(Astro.response.headers);
 
 const projects = [
   { name: 'Orbit', desc: 'A simple AI-powered CRM. Pipelines, a shared inbox, billing, and an assistant that drafts replies and books calls.', chips: ['Next.js', 'Supabase', 'AI agent'], url: 'https://app.inorbit.one', label: 'app.inorbit.one' },
-  { name: 'Otto', desc: 'An autonomous command center. A CRM whose AI reads email, follows up, and moves deals while I am away.', chips: ['Next 14', 'Claude', 'Gmail API'], url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app' },
+  { name: 'Otto', desc: 'An autonomous command center. A CRM whose AI reads my email, follows up, and moves deals while I am away.', chips: ['Next 14', 'Claude', 'Gmail API'], url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app' },
   { name: 'Magus', desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.', chips: ['Supabase', 'Vapi', 'Cal.com'], url: 'https://magus.neilb.me', label: 'magus.neilb.me' },
   { name: 'Pulse', desc: 'A personal trends radar. It watches the web all day and emails me the signal worth acting on each morning.', chips: ['PWA', 'Cron', 'Resend'], url: 'https://trends.neilb.me', label: 'trends.neilb.me' },
   { name: 'Hop', desc: 'A link shortener with teeth. Real-time analytics, web push, a PWA, and a Chrome extension.', chips: ['Edge', 'Web Push', 'Extension'], url: 'https://links.busqueneil.com', label: 'links.busqueneil.com' },
@@ -17,11 +17,32 @@ const projects = [
   { name: 'Play Together', desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.', chips: ['WebRTC', 'TURN', 'Extension'], url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site' },
 ];
 
+const caps = [
+  { t: 'Marketing & growth', d: 'SEO, paid search, and funnels that turn clicks into customers.' },
+  { t: 'Landing pages & web', d: 'Fast, clean pages built to convert, not just to look nice.' },
+  { t: 'CRM & GoHighLevel', d: 'Pipelines and follow-up so leads stop slipping through the cracks.' },
+  { t: 'Automation', d: 'Zapier and n8n flows that quietly handle the repetitive work.' },
+  { t: 'Design & brand', d: 'A graphic-design background, so the work looks the part too.' },
+  { t: 'AI agents & systems', d: 'Assistants, SDRs, and copilots on Claude that actually do the job.' },
+  { t: 'Web apps & PWAs', d: 'Full products, from a blank file to live, usually in days.' },
+  { t: 'Built in Claude Code', d: 'My daily driver. It is how one person ships all of the above.' },
+];
+
+const life = [
+  { t: 'The gym', s: 'most mornings' },
+  { t: 'A call with my wife', s: 'the best part of the day' },
+  { t: 'Building apps and AI agents', s: 'usually in Claude Code' },
+  { t: 'Devotion', s: 'keeps me grounded' },
+  { t: 'Reading books', s: 'a few going at once' },
+  { t: 'Travel', s: 'usually back to the Philippines' },
+];
+
 const pad = (n: number) => String(n + 1).padStart(2, '0');
+const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 ---
 <Base
-  title="Neil Busque — I build the AI that ships"
-  description="Anyone can call the API. Neil Busque builds the system around it: AI agents, automation, full web apps, and the growth engine they serve. A deep AI and IT background, eight live products. Based in New Jersey. Open to work, including fractional CTO and Head of AI."
+  title="Neil Busque — I build with AI"
+  description="I'm Neil. I came up through IT, design, web development, funnels, and automation, and now I build with AI every day in Claude Code. Marketing to AI agents, I make the whole thing work. Based in New Jersey. Open to work."
   canonical="https://busqueneil.com/"
   ogType="profile"
   ogImage="https://busqueneil.com/assets/art/hero.png"
@@ -35,7 +56,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <!-- nav -->
     <header class="nav">
       <div class="nav-inner">
-        <a class="brand" href="/"><span class="mk">N</span>busqueneil</a>
+        <a class="brand" href="/">busqueneil</a>
         <nav class="nav-links">
           <a href="#work" class="nav-hide">Work</a>
           <a href="#about" class="nav-hide">About</a>
@@ -51,18 +72,18 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <img src="/assets/art/hero.png" alt="" width="2560" height="1440" fetchpriority="high" />
       </div>
       <div class="hero-services">
-        <span>AI Systems</span>
+        <span>AI Agents</span>
         <span>Automation</span>
         <span>Web Apps</span>
-        <span>Growth Engineering</span>
+        <span>Marketing</span>
       </div>
       <div class="hero-inner">
         <p class="label hero-eyebrow"><span class="n">●</span> Open to work · New Jersey</p>
-        <h1 class="display"><span class="muted">Anyone can call the API.</span><br />I build the system.</h1>
+        <h1 class="display">I build with AI now.<br /><span class="muted">Before that, I built everything else.</span></h1>
         <p class="hero-sub">
-          I'm Neil. I've spent my career deep in AI and IT, and I ship production
-          systems the way most people ship slide decks. Eight live products, most
-          built in days.
+          I'm Neil. I came up through IT, graphic design, web development, funnels,
+          and automation. Now I'm all in on AI, mostly inside Claude Code, building
+          things that used to take a whole team.
         </p>
         <div class="hero-actions">
           <a class="btn primary" href="#hire">Hire me <span class="ico">→</span></a>
@@ -76,90 +97,44 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <section class="section" id="about">
       <div class="shell">
         <p class="label sec-label reveal"><span class="n">01</span> &nbsp;About</p>
-        <h2 class="statement reveal">The demo is easy. <span class="muted">Everything around it is the job.</span></h2>
-        <div class="about-grid reveal">
-          <div>
+        <h2 class="statement reveal">I've followed the interesting work wherever it went. <span class="muted">Right now, it's AI.</span></h2>
+        <div class="bio-grid reveal">
+          <img class="bio-portrait" src="/assets/art/headshot.png" width="600" height="750" alt="Neil Busque" loading="lazy" />
+          <div class="bio-body">
             <p>
-              I came up through IT and never left the deep end of it. When AI
-              stopped being a novelty and became infrastructure, I was already
-              building with it every day, not reading about it.
+              I studied IT, then got pulled into graphic design, which led me into
+              web development. From there it was funnels and landing pages, then
+              GoHighLevel, then automation with Zapier and n8n. Every couple of
+              years the interesting work moved somewhere new, and I followed it.
             </p>
             <p>
-              The pattern I keep seeing: the AI core, the prompts, the basic RAG,
-              the API calls, is the easy twenty percent. Anyone can build it. The
-              real work is everything around the model, the routing, the data, the
-              automation, the parts that decide whether it survives real users.
-              <strong>That is the part I own.</strong>
-            </p>
-          </div>
-          <div>
-            <p>
-              I build independently and fast. Eight products are live, most shipped
-              within days of the idea, and I post the work in public on
-              <a href="/feed">the feed</a> as it happens.
+              Now we're in the AI era, and I'm all in. I spend most of my day in
+              Claude Code, and it has let me build things that used to need a whole
+              team: full apps, AI agents, and automations, usually in days.
             </p>
             <p>
-              I grew up in the Philippines, spent years in Korea, and now work from
-              New Jersey. I care about one thing whether I am writing a prompt or a
-              landing page: does it work, and does it keep working without me
-              standing over it.
+              I build in public. Eight products are live, I post the work on
+              <a href="/feed">the feed</a> as I go, and I'm based in New Jersey.
             </p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- how I think -->
-    <section class="section" id="how" style="padding-top:0">
-      <div class="shell">
-        <div class="think reveal">
-          <div class="blk">
-            <span class="num">01</span>
-            <h3>Systems, not wrappers</h3>
-            <p>A nice UI over an API call is not a product. I build the routing, the data, the automation, and the observability that make AI hold up in production.</p>
-          </div>
-          <div class="blk">
-            <span class="num">02</span>
-            <h3>Shipped, not theorized</h3>
-            <p>I learn by deploying. Eight products are live because I build the thing instead of planning the thing. Most of it ships in days, not quarters.</p>
-          </div>
-          <div class="blk">
-            <span class="num">03</span>
-            <h3>Built to move a number</h3>
-            <p>I came up through marketing and growth, so I build software that moves something real: leads, conversions, revenue. The tech serves the outcome.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- what I don't do -->
+    <!-- capabilities -->
     <div class="rule"></div>
-    <section class="section" id="dont">
+    <section class="section" id="capabilities">
       <div class="shell">
-        <div class="dont reveal">
-          <div>
-            <p class="label"><span class="n">02</span> &nbsp;Boundaries</p>
-            <h2>What I don't do.</h2>
-          </div>
-          <div class="dont-list">
-            <div class="item"><span class="x">/</span><p><b>I don't ship AI wrappers dressed up as products.</b> A core API call with a nice interface is not a system, and I won't pretend it is one.</p></div>
-            <div class="item"><span class="x">/</span><p><b>I don't build for the sake of building.</b> If it doesn't move a number you care about, it doesn't ship.</p></div>
-            <div class="item"><span class="x">/</span><p><b>I don't take off-the-shelf work.</b> If the answer is one search away, you don't need me for it, and I'll tell you so.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- generated art strip -->
-    <div class="rule"></div>
-    <section class="section" id="art">
-      <div class="shell">
-        <p class="label sec-label reveal"><span class="n">03</span> &nbsp;Generated in-house</p>
-        <h2 class="statement reveal" style="font-size:clamp(24px,3.4vw,42px);max-width:24ch">Every visual here, including the art, I generated and built myself.</h2>
-        <div class="art-strip reveal" style="margin-top:44px">
-          <figure><img src="/assets/art/neural.png" alt="Generated obsidian neural mesh" loading="lazy" /><figcaption>Neural mesh</figcaption></figure>
-          <figure><img src="/assets/art/terrain.png" alt="Generated obsidian terrain" loading="lazy" /><figcaption>Obsidian terrain</figcaption></figure>
-          <figure><img src="/assets/art/topo.png" alt="Generated contour field" loading="lazy" /><figcaption>Contour field</figcaption></figure>
+        <p class="label sec-label reveal"><span class="n">02</span> &nbsp;What I can do</p>
+        <h2 class="statement reveal" style="font-size:clamp(26px,3.8vw,46px);max-width:20ch">Marketing to AI agents, and most of what's in between.</h2>
+        <div class="caps-grid reveal" style="margin-top:44px">
+          {caps.map((c, i) => (
+            <div class="cap-card">
+              <span class="ci">{pad(i)}</span>
+              <h3>{c.t}</h3>
+              <p>{c.d}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -170,16 +145,20 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">04</span> &nbsp;Selected work</p>
+            <p class="label"><span class="n">03</span> &nbsp;Selected work</p>
             <h2>Eight products. All mine, end to end.</h2>
           </div>
-          <p class="lede">Not slide decks. Live software you can open right now. Each one taken from idea to deployed, usually solo.</p>
+          <p class="lede">Live software you can open right now. Video walkthroughs are coming soon, one per product.</p>
         </div>
         <div class="work-grid reveal">
           {projects.map((p, i) => {
             const Tag = p.url ? 'a' : 'div';
             return (
               <Tag class="work-card" href={p.url ?? undefined} rel={p.url ? 'noopener' : undefined} target={p.url ? '_blank' : undefined}>
+                <div class="work-media">
+                  <span class="play" set:html={PLAY}></span>
+                  <span class="ph">Demo soon</span>
+                </div>
                 <div class="top">
                   <span class="pname">{p.name}</span>
                   <span class="idx">{p.url ? '↗' : pad(i)}</span>
@@ -199,17 +178,41 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- life -->
+    <div class="rule"></div>
+    <section class="section" id="life">
+      <div class="shell">
+        <p class="label sec-label reveal"><span class="n">04</span> &nbsp;Outside the work</p>
+        <div class="life-grid reveal">
+          <div>
+            <h2>How I spend my time.</h2>
+            <p class="life-note">
+              My wife is still in the Philippines, so I go back and forth more than
+              most. The goal is simple: bring her and our cat, <strong>Hiro</strong>,
+              home to the US.
+            </p>
+          </div>
+          <ul class="life-list">
+            {life.map((l, i) => (
+              <li><span class="k">{pad(i)}</span><span>{l.t} <span class="sub">· {l.s}</span></span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
     <!-- hire -->
     <div class="rule"></div>
-    <section class="section" id="hire">
+    <section class="section hire-band" id="hire">
+      <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
       <div class="shell">
         <div class="hire reveal">
           <p class="label" style="justify-content:center"><span class="n">05</span> &nbsp;Open for work</p>
-          <h2>Hire me to own where AI meets the business.</h2>
+          <h2>Looking for someone who can do all of it?</h2>
           <p>
-            Open to full-time roles across digital marketing, SEO, and paid search,
-            and built to take the senior seat where AI, automation, and product
-            live. Bring me in as the person who owns it, end to end.
+            I'm open to full-time roles across marketing, growth, and AI, and built
+            to take the senior seat where AI, automation, and product live. Bring me
+            in as the person who owns it, end to end.
           </p>
           <div class="roles">
             <span class="role">Fractional CTO</span>
@@ -233,7 +236,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <div class="talk reveal">
           <div class="l">
             <h2>Or just talk to me, live.</h2>
-            <p>Skip the form. Start a video call and we'll know in a few minutes if I'm the person you've been trying to hire.</p>
+            <p>Skip the form. Start a video call and we'll know in a few minutes if I'm the right fit.</p>
           </div>
           <a class="btn primary" href="https://talk.busqueneil.com" rel="noopener" target="_blank">Start a live call <span class="ico">→</span></a>
         </div>
