@@ -7,9 +7,59 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 type Status = 'idle' | 'connecting' | 'listening' | 'speaking';
 type Line = { role: 'user' | 'assistant'; text: string };
 
-// Public Vapi client values (safe to ship; same account/voice as ai.neilb.me).
+// Public Vapi client key (safe to ship). The assistant is defined inline below
+// so the call needs only this key (no pre-created assistant ID to drift/expire).
 const VAPI_PUBLIC = '3e884913-28cd-469d-ab8d-c7a6634bea57';
-const VAPI_ASSISTANT = '91156e19-9454-4a02-9224-080261463a5b';
+
+const SYSTEM = `You are Neil Busque's AI assistant, talking with a visitor on his website by voice. Keep every reply short and natural, like a real phone call, usually one or two sentences.
+
+WHO NEIL IS: a builder and marketer who ships fast, usually solo. His path went IT, then graphic design, then web development, then funnels and landing pages, then GoHighLevel, then automation with Zapier and n8n, and now he is all in on AI, building in Claude Code every day. He is based in New Jersey and builds in public, shipping something most weeks.
+
+WHAT NEIL CAN DO: marketing and growth like SEO, paid search, and funnels that convert; fast landing pages and web; CRM and GoHighLevel pipelines and follow-up; automation with Zapier and n8n; design and brand from a graphic-design background; AI agents and systems like assistants, SDRs, and copilots built on Claude and running in production; and full web apps and PWAs, end to end, often in days.
+
+PROOF, live products he built: Orbit, an AI powered CRM. Otto, an autonomous CRM that works leads on its own. Magus, cold email plus an AI SDR that books calls. Pulse, a personal trends radar. Hop, a link shortener with analytics. Prism, a Mac browser with a built-in AI panel. And Tandem, a private app for couples.
+
+WHAT HE IS OPEN TO: full-time roles like Fractional CTO, Head of AI, AI Systems Architect, Growth or Marketing Lead, and Automation Engineer, plus fractional work or one-off projects.
+
+YOUR JOB: greet warmly, ask what the visitor does and what they are trying to solve, then explain specifically how Neil could help them. Steer naturally toward booking a short call with Neil. To book, you need their name and phone number. Ask for those one at a time, only once it makes sense, never all at once up front. The moment you have both a name and a phone number, warmly confirm that Neil will reach out to set up a call.
+
+STYLE: warm, human, and brief. Never sound like a form or a salesperson. Speak in plain sentences with no dashes. If you do not know something about Neil, say he will cover it on the call. Never invent facts about Neil beyond what is here.`;
+
+const GREETING_FIRST =
+  "Hey, I'm Neil's AI. Tell me what you're working on and I'll show you how Neil can help, or set you up with a quick call.";
+
+// Inline assistant: Vapi's native voice (no third-party voice provider).
+const ASSISTANT = {
+  firstMessage: GREETING_FIRST,
+  model: {
+    provider: 'openai',
+    model: 'gpt-4o-mini',
+    temperature: 0.6,
+    messages: [{ role: 'system', content: SYSTEM }],
+  },
+  voice: { provider: 'vapi', voiceId: 'Elliot' },
+  transcriber: { provider: 'deepgram', model: 'nova-2', language: 'en' },
+  // end-of-call report -> /api/vapi -> Otto (lead delivery; never blocks the call)
+  server: { url: 'https://busqueneil.com/api/vapi' },
+  analysisPlan: {
+    structuredDataPlan: {
+      enabled: true,
+      schema: {
+        type: 'object',
+        properties: {
+          name: { type: 'string', description: "Visitor's name, empty string if not given" },
+          phone: { type: 'string', description: 'Phone number, empty string if not given' },
+          email: { type: 'string', description: 'Email, empty string if not given' },
+          interest: { type: 'string', description: 'Short note on what they want and why a call makes sense' },
+        },
+      },
+      messages: [{
+        role: 'system',
+        content: "Extract the visitor's name, phone number, email if mentioned, and a short note on what they want. Use an empty string for anything not provided.",
+      }],
+    },
+  },
+} as const;
 
 export default function VoiceWidget() {
   const [open, setOpen] = useState(false);
@@ -51,7 +101,7 @@ export default function VoiceWidget() {
     setStatus('connecting');
     try {
       const v = await ensureVapi();
-      await v.start(VAPI_ASSISTANT);
+      await v.start(ASSISTANT as any);
     } catch (e) {
       console.error(e);
       setErr('Could not start the call. Allow mic access and try again.');
