@@ -8,6 +8,8 @@ interface Props {
   ogType?: string;
   ogImage?: string;
   noindex?: boolean;
+  /** Dark premium landing (homepage): loads Sora + dark theme-color + body flag. */
+  dark?: boolean;
 }
 
 const {
@@ -17,7 +19,13 @@ const {
   ogType = 'website',
   ogImage = 'https://busqueneil.com/og.png',
   noindex = false,
+  dark = false,
 } = Astro.props;
+
+// Home loads Sora (display) on top of Geist; interior pages stay Geist-only.
+const fontHref = dark
+  ? 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Sora:wght@500;600;700&display=swap'
+  : 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap';
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 ---
@@ -26,14 +34,11 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="theme-color" content={dark ? '#08080C' : '#FFFFFF'} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
-    />
+    <link rel="stylesheet" href={fontHref} />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -59,7 +64,7 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
     <slot name="head" />
   </head>
-  <body>
+  <body class={dark ? 'theme-dark' : undefined}>
     <slot />
     <script is:inline>
       (function () {

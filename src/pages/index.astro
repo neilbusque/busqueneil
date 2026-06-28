@@ -1,121 +1,317 @@
 ---
-import Site from '../layouts/Site.astro';
+import Base from '../layouts/Base.astro';
 import Schema from '../components/Schema.astro';
-import FeedEntry from '../components/FeedEntry.astro';
-import { getFeed, getNow, setPublicCache } from '../lib/posts';
-import { formatDate } from '../lib/format';
+import HeroCanvas from '../components/HeroCanvas.tsx';
+import { setPublicCache } from '../lib/posts';
+import '../styles/home.css';
 
-const opts = { request: Astro.request, cookies: Astro.cookies };
-const { posts, hasMore } = await getFeed(opts);
-const projects = (await getFeed(opts, { type: 'project' })).posts.slice(0, 6);
-const { current: now } = await getNow(opts);
 setPublicCache(Astro.response.headers);
 
-const projectLink = (p: typeof projects[number]) =>
-  p.project_meta?.live_url ?? `/posts/${p.slug}`;
-const projectName = (p: typeof projects[number]) =>
-  p.project_meta?.name ?? p.title ?? p.slug;
-const pad = (n: number) => String(n + 1).padStart(2, '0');
+const projects = [
+  {
+    name: 'Orbit',
+    desc: 'A simple, AI-powered CRM. Built-in assistant (Hiro), voice mode, pipelines, live chat, billing. The whole stack a small team needs.',
+    chips: ['Next.js', 'Supabase', 'AI agent'],
+    url: 'https://app.inorbit.one',
+    label: 'app.inorbit.one',
+  },
+  {
+    name: 'Otto',
+    desc: 'An autonomous AI command center: a CRM with a closing agent that reads email, books calls, and moves deals on its own.',
+    chips: ['Next 14', 'Claude', 'Gmail API'],
+    url: 'https://otto-neilbusque.vercel.app',
+    label: 'otto-neilbusque.vercel.app',
+  },
+  {
+    name: 'Magus',
+    desc: 'Cold-email platform plus an AI SDR that calls and books prospects. Outreach that runs itself, end to end.',
+    chips: ['Supabase', 'Vapi', 'Cal.com'],
+    url: 'https://magus.neilb.me',
+    label: 'magus.neilb.me',
+  },
+  {
+    name: 'Pulse',
+    desc: 'A personal trends dashboard and daily digest. Tracks what is moving across the web and emails me the signal.',
+    chips: ['PWA', 'Cron', 'Resend'],
+    url: 'https://trends.neilb.me',
+    label: 'trends.neilb.me',
+  },
+  {
+    name: 'Hop',
+    desc: 'A link shortener with real analytics, web push, a PWA, OG previews, a link-in-bio, and a Chrome extension.',
+    chips: ['Edge', 'Web Push', 'Extension'],
+    url: 'https://links.busqueneil.com',
+    label: 'links.busqueneil.com',
+  },
+  {
+    name: 'Prism',
+    desc: 'A macOS multi-account browser with profiles, an ad blocker, a sidebar app rail, and a built-in AI panel.',
+    chips: ['Electron', 'Chromium', 'AI ⌘J'],
+    url: null,
+    label: 'macOS desktop app',
+  },
+  {
+    name: 'Tandem',
+    desc: 'A couples habit and connection PWA with shared habits, letters, games, and watch-parties in one private hub.',
+    chips: ['PWA', 'Supabase', 'Realtime'],
+    url: 'https://hub.yengandneil.site',
+    label: 'hub.yengandneil.site',
+  },
+  {
+    name: 'Play Together',
+    desc: 'One-to-one video calls that share tab audio, so two people can watch anything together, perfectly in sync.',
+    chips: ['WebRTC', 'TURN', 'Extension'],
+    url: 'https://watch.yengandneil.site',
+    label: 'watch.yengandneil.site',
+  },
+];
+
+const caps = [
+  {
+    title: 'Marketing, SEO & paid search',
+    body: 'Positioning, funnels, and campaigns that turn spend into pipeline across Meta, Google, and organic.',
+    icon: 'search',
+  },
+  {
+    title: 'Funnels & CRM',
+    body: 'Landing pages, qualification, and CRM/GHL setups wired so no lead ever falls through.',
+    icon: 'funnel',
+  },
+  {
+    title: 'Automation',
+    body: 'n8n, Make, and custom pipelines that quietly run the repetitive work in the background.',
+    icon: 'flow',
+  },
+  {
+    title: 'AI agents & systems',
+    body: 'Production AI agents (SDRs, assistants, copilots) built on Claude and shipped to real users.',
+    icon: 'spark',
+  },
+  {
+    title: 'Web apps & PWAs',
+    body: 'Full-stack products from idea to deploy, usually live within days, not months.',
+    icon: 'code',
+  },
+];
+
+const ICONS: Record<string, string> = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  funnel: '<path d="M3 4h18l-7 8v6l-4 2v-8z"/>',
+  flow: '<rect x="3" y="4" width="6" height="5" rx="1"/><rect x="15" y="15" width="6" height="5" rx="1"/><path d="M9 6.5h4a3 3 0 0 1 3 3V15"/>',
+  spark: '<path d="M12 3l1.8 4.9L19 9.7l-4.2 2.6L13 18l-1-5.2L7 11l4.6-2z"/>',
+  code: '<path d="M8 9l-3 3 3 3"/><path d="M16 9l3 3-3 3"/><path d="M13 6l-2 12"/>',
+};
 ---
-<Site
-  title="Neil Busque — everything I build, as I build it"
-  description="Neil Busque's working notebook in public: web apps, AI agents, and automations, posted as they happen. Based in Elizabeth, NJ. Open to work and projects."
+<Base
+  title="Neil Busque — builder & marketer who ships"
+  description="Neil Busque turns marketing and ideas into systems that run: web apps, AI agents, automation, SEO, and paid search. 8 shipped products. Based in Elizabeth, NJ. Open to work: full-time, fractional CTO, or Head of AI."
   canonical="https://busqueneil.com/"
   ogType="profile"
-  active="feed"
+  dark
 >
   <Fragment slot="head">
     <Schema />
   </Fragment>
 
-  <section class="hero">
-    <div class="hero-grid-bg" aria-hidden="true"></div>
-    <div class="hero-inner">
-      <div>
-        <p class="eyebrow"><span class="idx">●</span> A working notebook, in public</p>
-        <h1 class="hero-display" style="margin-top:18px">Everything I build, <span class="accent">as I build it.</span></h1>
-        <p class="hero-sub">
-          I'm Neil. I build web apps, AI agents, and automations. No polish, no
-          postmortems written months later. This is the live log of the actual work.
-        </p>
-        <div class="hero-actions">
-          <a class="btn" href="/help">Hire me →</a>
-          <a class="btn ghost" href="#build-log">See what I'm building</a>
-        </div>
+  <div class="home-v4">
+    <!-- nav -->
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href="/">busque<b>neil</b></a>
+        <nav class="nav-links">
+          <a href="#work" class="hide-sm">Work</a>
+          <a href="/feed" class="hide-sm">Feed</a>
+          <a href="/about" class="hide-sm">About</a>
+          <a href="/now/" class="hide-sm">Now</a>
+          <a class="nav-hire" href="#hire">Hire me</a>
+        </nav>
       </div>
-      <aside class="facts" aria-label="At a glance">
-        <div class="row"><span class="k">Role</span><span class="v">Operator &amp; builder</span></div>
-        <div class="row"><span class="k">Focus</span><span class="v">Marketing · automation · AI</span></div>
-        <div class="row"><span class="k">Stack</span><span class="v">Astro · Supabase · n8n · Claude</span></div>
-        <div class="row"><span class="k">Based</span><span class="v">Elizabeth, NJ · EST</span></div>
-        <div class="row"><span class="k">Status</span><span class="v"><span class="open">Open to work</span></span></div>
-      </aside>
-    </div>
-  </section>
+    </header>
 
-  {projects.length > 0 && (
-    <section class="section reveal" id="work">
-      <div class="section-head">
+    <!-- hero -->
+    <section class="hero">
+      <HeroCanvas client:load />
+      <div class="hero-inner">
         <div>
-          <p class="eyebrow"><span class="idx">01</span> Selected work <span class="line"></span></p>
-          <h2 class="section-title" style="margin-top:14px">Things I've shipped</h2>
+          <span class="pill"><span class="dot"></span> Open to work · Elizabeth, NJ · EST</span>
+          <h1 class="display">I turn marketing and ideas into <span class="accent">systems that run.</span></h1>
+          <p class="hero-sub">
+            I'm Neil, a builder and marketer who ships. I work at the seam of
+            growth and engineering: web apps, AI agents, automation, SEO, and
+            paid search. Eight products live, and counting.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#hire">Hire me →</a>
+            <a class="btn ghost" href="#work">See the work</a>
+          </div>
         </div>
-        <a class="more-link" href="/projects">All work →</a>
-      </div>
-      <div class="work">
-        {projects.map((p, i) => (
-          <a class="work-item" href={projectLink(p)} rel={p.project_meta?.live_url ? 'noopener' : undefined}>
-            <span class="num">{pad(i)}</span>
-            <span>
-              <span class="wname">{projectName(p)}</span>
-              {p.excerpt && <span class="wdesc">{p.excerpt}</span>}
-              {(p.project_meta?.stack?.length ?? 0) > 0 && (
-                <span class="wstack">{p.project_meta!.stack!.join(' · ')}</span>
-              )}
-            </span>
-            <span class="arrow">↗</span>
-          </a>
-        ))}
+        <aside class="facts" aria-label="At a glance">
+          <div class="row"><span class="k">Role</span><span class="v">Builder · marketer · operator</span></div>
+          <div class="row"><span class="k">Focus</span><span class="v">AI · automation · growth</span></div>
+          <div class="row"><span class="k">Stack</span><span class="v">Next · Astro · Supabase · Claude</span></div>
+          <div class="row"><span class="k">Based</span><span class="v">Elizabeth, NJ · EST</span></div>
+          <div class="row"><span class="k">Status</span><span class="v"><span class="open">● Open to work</span></span></div>
+        </aside>
       </div>
     </section>
-  )}
 
-  <section class="section reveal" id="build-log">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow"><span class="idx">02</span> Build log <span class="line"></span></p>
-        <h2 class="section-title" style="margin-top:14px">As it happens</h2>
-      </div>
-      <a class="more-link" href="/posts">Archive →</a>
-    </div>
-    <div class="feed">
-      {posts.length === 0 ? (
-        <p class="empty">The feed is warming up. First posts land here soon.</p>
-      ) : (
-        posts.map((post) => <FeedEntry post={post} />)
-      )}
-    </div>
-    {hasMore && (
-      <nav class="pager">
-        <span></span>
-        <a href="/posts?page=2">Older posts →</a>
-      </nav>
-    )}
-  </section>
-
-  {now && (
-    <section class="section reveal" id="now">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow"><span class="idx">03</span> Now <span class="line"></span></p>
-          <h2 class="section-title" style="margin-top:14px">What I'm doing now</h2>
+    <!-- what I do -->
+    <section class="section bordered" id="capabilities">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="idx">01</span> What I do <span class="line"></span></p>
+          <h2>One person, the whole stack, from the ad to the app.</h2>
+          <p class="lede">
+            Most work needs a marketer or an engineer. I'm both, which means the
+            strategy and the system that delivers it come from the same hands.
+          </p>
         </div>
-        <a class="more-link" href="/now/">Full /now →</a>
-      </div>
-      <div class="now-strip">
-        <div class="when">{formatDate(now.published_at)}</div>
-        <div class="nbody" set:html={now.body_html}></div>
+        <div class="cap-grid reveal">
+          {caps.map((c) => (
+            <div class="cap">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={ICONS[c.icon]}></svg></span>
+              <h3>{c.title}</h3>
+              <p>{c.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
-  )}
-</Site>
+
+    <!-- showcase -->
+    <section class="section bordered" id="work">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="idx">02</span> Selected work <span class="line"></span></p>
+          <h2>Eight products I designed, built, and shipped.</h2>
+          <p class="lede">
+            Not case studies. Live software. Each one I took from blank file to
+            deployed, usually solo.
+          </p>
+        </div>
+        <div class="show-grid reveal">
+          {projects.map((p) => {
+            const Tag = p.url ? 'a' : 'div';
+            return (
+              <Tag class="show-card" href={p.url ?? undefined} rel={p.url ? 'noopener' : undefined} target={p.url ? '_blank' : undefined}>
+                <div class="top">
+                  <span class="pname">{p.name}</span>
+                  {p.url && <span class="arrow">↗</span>}
+                </div>
+                <p class="pdesc">{p.desc}</p>
+                <div class="chips">
+                  {p.chips.map((c) => <span class="chip">{c}</span>)}
+                </div>
+                <div class="liveurl">{p.label}</div>
+              </Tag>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- bio -->
+    <section class="section bordered" id="about">
+      <div class="shell">
+        <div class="section-head reveal">
+          <p class="eyebrow"><span class="idx">03</span> Who I am <span class="line"></span></p>
+          <h2>Operator who builds.</h2>
+        </div>
+        <div class="bio-grid reveal">
+          <img class="bio-portrait" src="/assets/neil-portrait.webp" width="220" height="220" alt="Neil Busque" loading="lazy" />
+          <div class="bio-body">
+            <p>
+              I'm <strong>Neil Busque</strong>. I work at the seam between
+              marketing and engineering: digital marketing, SEO, and paid search
+              on one side; funnels, CRM, automation, AI agents, and custom web
+              apps on the other. The throughline is the same, turn spend and ideas
+              into systems that actually run.
+            </p>
+            <p>
+              These days I build independently and fast. Web apps, PWAs, AI agents,
+              CRM systems, automations. Most of it shipped within days of the
+              idea, and posted to <a href="/feed">the feed</a> as it happens.
+              Before New Jersey it was Korea, and before that the Philippines.
+            </p>
+            <p>
+              I care about the same thing whether I'm writing an ad or an agent:
+              does it work, and does it keep working without me babysitting it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- open for work -->
+    <section class="section bordered" id="hire">
+      <div class="shell">
+        <div class="hire reveal">
+          <p class="eyebrow" style="justify-content:center"><span class="idx">04</span> Open for work</p>
+          <h2>I can run your AI, growth, and product function.</h2>
+          <p>
+            Open to full-time roles in digital marketing, SEO, paid search, and
+            marketing operations, and ready to step in as the person who owns the
+            AI and systems side end to end.
+          </p>
+          <div class="roles">
+            <span class="role">Fractional CTO</span>
+            <span class="role">Head of AI</span>
+            <span class="role">AI Systems Architect</span>
+            <span class="role">Growth / Marketing Lead</span>
+            <span class="role">Automation Engineer</span>
+          </div>
+          <div class="hire-actions">
+            <a class="btn primary" href="mailto:busqueneil@gmail.com">Email me →</a>
+            <a class="btn ghost" href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
+            <a class="btn ghost" href="/resume.pdf">Resume</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- talk live -->
+    <section class="section bordered" id="talk">
+      <div class="shell">
+        <div class="talk reveal">
+          <div class="talk-card">
+            <div class="ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 10l5-3v10l-5-3"/><rect x="3" y="6" width="12" height="12" rx="2"/>
+              </svg>
+            </div>
+            <h2>Talk to me, live.</h2>
+            <p>
+              Rather just talk it through? Start a live video call and we'll
+              figure out if I'm the right fit in a few minutes.
+            </p>
+            <a class="btn primary" href="https://talk.busqueneil.com" rel="noopener" target="_blank">Start a live call →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="v4-footer">
+      <div class="fin">
+        <div class="ftop">
+          <a class="fbrand" href="/">busque<b>neil</b></a>
+          <div class="flinks">
+            <a href="#work">Work</a>
+            <a href="/feed">Feed</a>
+            <a href="/posts">Writing</a>
+            <a href="/now/">Now</a>
+            <a href="/about">About</a>
+            <a href="/resume.pdf">Resume</a>
+            <a href="mailto:busqueneil@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
+            <a href="https://github.com/neilbusque" rel="me noopener" target="_blank">GitHub</a>
+          </div>
+        </div>
+        <div class="colophon">Built in public · Elizabeth, NJ · © 2026 Neil Busque</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- talk.busqueneil.com live concierge widget (graceful no-op if unavailable) -->
+  <script is:inline src="https://talk.busqueneil.com/widget.js" async></script>
+</Base>

@@ -32,6 +32,7 @@ const { active, ...baseProps } = Astro.props;
       <a class="name" href="/">busque<b>neil</b></a>
       <nav>
         <a href="/projects" aria-current={active === 'projects' ? 'page' : undefined}>Work</a>
+        <a href="/feed" aria-current={active === 'feed' ? 'page' : undefined}>Feed</a>
         <a href="/posts" aria-current={active === 'writing' ? 'page' : undefined}>Writing</a>
         <a href="/now/" aria-current={active === 'now' ? 'page' : undefined}>Now</a>
         <a href="/about" aria-current={active === 'about' ? 'page' : undefined}>About</a>
@@ -46,6 +47,7 @@ const { active, ...baseProps } = Astro.props;
         <div class="footer-brand">busque<b>neil</b></div>
         <div class="footer-links">
           <a href="/projects">Work</a>
+          <a href="/feed">Feed</a>
           <a href="/posts">Writing</a>
           <a href="/now/">Now</a>
           <a href="/about">About</a>

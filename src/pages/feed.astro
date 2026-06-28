@@ -1,0 +1,100 @@
+---
+import Site from '../layouts/Site.astro';
+import FeedEntry from '../components/FeedEntry.astro';
+import { getFeed, getNow, setPublicCache } from '../lib/posts';
+import { formatDate } from '../lib/format';
+
+const opts = { request: Astro.request, cookies: Astro.cookies };
+const { posts, hasMore } = await getFeed(opts);
+const projects = (await getFeed(opts, { type: 'project' })).posts.slice(0, 6);
+const { current: now } = await getNow(opts);
+setPublicCache(Astro.response.headers);
+
+const projectLink = (p: typeof projects[number]) =>
+  p.project_meta?.live_url ?? `/posts/${p.slug}`;
+const projectName = (p: typeof projects[number]) =>
+  p.project_meta?.name ?? p.title ?? p.slug;
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+<Site
+  title="Build log — Neil Busque"
+  description="Neil Busque's working notebook in public: web apps, AI agents, and automations, posted as they happen. Based in Elizabeth, NJ. Open to work and projects."
+  canonical="https://busqueneil.com/feed"
+  ogType="profile"
+  active="feed"
+>
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">●</span> A working notebook, in public</p>
+    <h1>Everything I build, <span class="accent">as I build it.</span></h1>
+    <p class="lede">
+      No polish, no postmortems written months later. This is the live log of the
+      actual work: web apps, AI agents, and automations as they happen.
+    </p>
+  </header>
+
+  {projects.length > 0 && (
+    <section class="section reveal" id="work">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="idx">01</span> Selected work <span class="line"></span></p>
+          <h2 class="section-title" style="margin-top:14px">Things I've shipped</h2>
+        </div>
+        <a class="more-link" href="/projects">All work →</a>
+      </div>
+      <div class="work">
+        {projects.map((p, i) => (
+          <a class="work-item" href={projectLink(p)} rel={p.project_meta?.live_url ? 'noopener' : undefined}>
+            <span class="num">{pad(i)}</span>
+            <span>
+              <span class="wname">{projectName(p)}</span>
+              {p.excerpt && <span class="wdesc">{p.excerpt}</span>}
+              {(p.project_meta?.stack?.length ?? 0) > 0 && (
+                <span class="wstack">{p.project_meta!.stack!.join(' · ')}</span>
+              )}
+            </span>
+            <span class="arrow">↗</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="section reveal" id="build-log">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="idx">02</span> Build log <span class="line"></span></p>
+        <h2 class="section-title" style="margin-top:14px">As it happens</h2>
+      </div>
+      <a class="more-link" href="/posts">Archive →</a>
+    </div>
+    <div class="feed">
+      {posts.length === 0 ? (
+        <p class="empty">The feed is warming up. First posts land here soon.</p>
+      ) : (
+        posts.map((post) => <FeedEntry post={post} />)
+      )}
+    </div>
+    {hasMore && (
+      <nav class="pager">
+        <span></span>
+        <a href="/posts?page=2">Older posts →</a>
+      </nav>
+    )}
+  </section>
+
+  {now && (
+    <section class="section reveal" id="now">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="idx">03</span> Now <span class="line"></span></p>
+          <h2 class="section-title" style="margin-top:14px">What I'm doing now</h2>
+        </div>
+        <a class="more-link" href="/now/">Full /now →</a>
+      </div>
+      <div class="now-strip">
+        <div class="when">{formatDate(now.published_at)}</div>
+        <div class="nbody" set:html={now.body_html}></div>
+      </div>
+    </section>
+  )}
+</Site>
