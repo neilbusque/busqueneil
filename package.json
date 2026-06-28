@@ -18,6 +18,7 @@
     "@shikijs/rehype": "^3.0.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.48.0",
+    "@vapi-ai/web": "^2.5.2",
     "astro": "^5.0.0",
     "preact": "^10.25.0",
     "rehype-sanitize": "^6.0.0",
@@ -30,5 +31,8 @@
     "unified": "^11.0.5"
   },
   "author": "Neil Busque <busqueneil@gmail.com>",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "puppeteer-core": "^25.2.1"
+  }
 }

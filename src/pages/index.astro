@@ -1,8 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import Schema from '../components/Schema.astro';
+import AgentConsole from '../components/AgentConsole.tsx';
 import { setPublicCache } from '../lib/posts';
 import '../styles/home.css';
+
+const TECH = [
+  'Claude Code', 'Next.js', 'Astro', 'React', 'TypeScript', 'Tailwind', 'Supabase',
+  'Vercel', 'Cloudflare', 'n8n', 'Zapier', 'GoHighLevel', 'OpenRouter', 'Stripe',
+  'Resend', 'Three.js', 'WebRTC', 'Electron', 'PostgreSQL', 'Python', 'Node.js',
+];
 
 setPublicCache(Astro.response.headers);
 
@@ -77,19 +84,31 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         <span>Marketing</span>
       </div>
       <div class="hero-inner">
-        <p class="label hero-eyebrow"><span class="n">●</span> Open to work · New Jersey</p>
-        <h1 class="display">I help you build with AI.<br /><span class="muted">And the marketing and systems around it.</span></h1>
-        <p class="hero-sub">
-          Need a marketer who can code, an engineer who gets growth, or someone to
-          own your whole AI and automation stack? That's me. Let's build something
-          together, or just have a chat.
-        </p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#hire">Hire me <span class="ico">→</span></a>
-          <a class="btn ghost" href="#work">See the work</a>
+        <div class="hero-copy">
+          <p class="label hero-eyebrow"><span class="n">●</span> Open to work · New Jersey</p>
+          <h1 class="display">I help you build with AI.<br /><span class="muted">And the marketing and systems around it.</span></h1>
+          <p class="hero-sub">
+            Need a marketer who can code, an engineer who gets growth, or someone to
+            own your whole AI and automation stack? That's me. Let's build something
+            together, or just have a chat.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#hire">Hire me <span class="ico">→</span></a>
+            <a class="btn ghost" href="#work">See the work</a>
+          </div>
+        </div>
+        <div class="hero-console">
+          <AgentConsole client:load />
         </div>
       </div>
     </section>
+
+    <!-- tech marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...TECH, ...TECH].map((t) => <span class="mq">{t}</span>)}
+      </div>
+    </div>
 
     <!-- about -->
     <div class="rule"></div>
@@ -253,5 +272,4 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     </footer>
   </div>
 
-  <script is:inline src="https://talk.busqueneil.com/widget.js" async></script>
 </Base>
