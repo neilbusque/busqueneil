@@ -1,9 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "redirects": [
-    { "source": "/hire", "destination": "/", "permanent": true },
-    { "source": "/hire/:path*", "destination": "/", "permanent": true }
-  ],
   "rewrites": [
     { "source": "/favicon.ico", "destination": "/assets/logo/favicon-32.png" },
     { "source": "/api/chat", "destination": "https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/chat" },
