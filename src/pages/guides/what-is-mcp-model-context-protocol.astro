@@ -1,0 +1,131 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'What Is MCP (Model Context Protocol)? A Plain Guide';
+const description = 'MCP (Model Context Protocol) is an open standard from Anthropic that lets AI models connect to external tools and data through one common interface.';
+const canonical = 'https://busqueneil.com/guides/what-is-mcp-model-context-protocol';
+const published = '2026-06-30';
+const modified = '2026-06-30';
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'TechArticle', headline: title, description,
+  author: { '@id': 'https://busqueneil.com/#person' }, publisher: { '@id': 'https://busqueneil.com/#person' },
+  datePublished: published, dateModified: modified, mainEntityOfPage: canonical,
+  image: 'https://busqueneil.com/og.png',
+  keywords: 'MCP, Model Context Protocol, MCP server, AI tools, Anthropic, agentic AI',
+};
+const faq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is MCP (Model Context Protocol)?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MCP (Model Context Protocol) is an open standard from Anthropic, released in November 2024, that lets AI models connect to external tools and data through one common interface. Think of it as a USB port for AI tools. Instead of custom code for every connection, MCP gives every tool one shared way to plug into a model.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is an MCP server?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'An MCP server is a small program that exposes a specific tool or data source to an AI model. For example, an MCP server can wrap a database, a Notion workspace, or a file system. The AI (the MCP client) talks to the server over the protocol, and the server handles the real work of fetching data or running an action.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is MCP open source?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. MCP is an open standard with an open-source specification and open-source SDKs. Anyone can build an MCP server or client. Since its release in November 2024, a large ecosystem of community and vendor-built servers has grown, and MCP works across Claude, code editors, and many other clients.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is MCP different from a regular API call?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A regular API call is written for one specific service, and the model needs custom glue code to use it. MCP is one shared protocol, so any MCP-aware client can use any MCP server with no custom integration. Write a tool once as an MCP server and every MCP client can use it.',
+      },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'What is MCP', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">05</span> Guide</p>
+    <h1>What Is MCP (Model Context Protocol)? A Plain Guide</h1>
+    <p class="lede">A short, plain explainer of MCP: what it is, the problem it solves, and how MCP servers actually work. I build with MCP every day, so this is the version I wish existed when I started.</p>
+  </header>
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p><strong>TL;DR: MCP (Model Context Protocol) is an open standard from Anthropic, released in November 2024, that lets AI models connect to external tools and data through one common interface. Think of it as a USB port for AI tools. Instead of custom code for every tool, MCP gives every tool one shared way to plug into a model.</strong></p>
+
+      <h2>What MCP is, in plain terms</h2>
+      <p>MCP stands for Model Context Protocol. It is a set of rules for how an AI model talks to the outside world.</p>
+      <p>Here is the analogy that makes it click. Before USB, every device needed its own port and its own cable. Printers, mice, cameras. All different. USB fixed that with one port that fits everything. MCP does the same thing for AI. It is one port that tools plug into, so a model can reach your files, your database, your calendar, or your Notion without a new custom connection each time.</p>
+      <p>Anthropic released MCP in November 2024 and made it open. You can read the official announcement at <a href="https://www.anthropic.com/news/model-context-protocol">anthropic.com/news/model-context-protocol</a> and the full spec at <a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a>.</p>
+
+      <h2>The problem it solves</h2>
+      <p>Before MCP, every tool needed its own glue code. If I wanted Claude to read my database, I wrote custom code for that. If I wanted it to read Notion too, I wrote different custom code for that. Ten tools meant ten one-off integrations, and each one broke in its own way.</p>
+      <p>This got worse fast. Each model and each tool was a new pairing to build and maintain. It was slow, and none of the work carried over.</p>
+      <p>MCP removes the glue. You build a tool once as an MCP server, and any MCP-aware client can use it. Write it once, use it everywhere.</p>
+
+      <h2>How MCP works</h2>
+      <p>MCP has two sides that talk to each other.</p>
+      <ul>
+        <li><strong>The client.</strong> This is the app the model runs in. It could be Claude, a code editor, or another AI tool. The client asks for things.</li>
+        <li><strong>The server.</strong> This is a small program that exposes one tool or data source. It answers the client's requests and does the real work.</li>
+      </ul>
+      <p>A server offers a few kinds of things:</p>
+      <ul>
+        <li><strong>Tools.</strong> Actions the model can run, like "send an email" or "query this table."</li>
+        <li><strong>Resources.</strong> Data the model can read, like a file, a record, or a page of text.</li>
+        <li><strong>Prompts.</strong> Reusable prompt templates the server can hand to the client.</li>
+      </ul>
+      <p>The flow is simple. The client connects to the server, asks what tools and resources it has, and then calls them when the model decides it needs them. The server runs the request and returns the result. The model reads that result and keeps going.</p>
+
+      <h2>A concrete example</h2>
+      <p>Say I want Claude to answer questions about my sales data. I stand up an MCP server that wraps my database. That server exposes one resource ("recent deals") and one tool ("run a query").</p>
+      <p>Now, when I ask Claude "which deals closed last week," it calls the tool, the server runs the query against the real database, and Claude gets the rows back and writes the answer. I never copy-paste data. The model reaches the source directly.</p>
+      <p>The same pattern works for Notion. An MCP server wraps my Notion workspace and exposes my pages as resources and actions like "create a page." Then the model can read and write Notion for me. I use exactly this setup in my day-to-day work.</p>
+
+      <h2>Why it matters now</h2>
+      <p>MCP matters because the ecosystem got big fast. Since November 2024, people have built a large library of ready-made MCP servers for databases, file systems, GitHub, Slack, and hundreds of other tools. Many you can just install.</p>
+      <p>It also matters because MCP is not locked to one product. The same server works across Claude, code editors, and other clients that speak the protocol. Build a tool once, and it plugs into whatever you use next year. That is the whole point of an open standard.</p>
+
+      <h2>MCP vs plain API calls</h2>
+      <p>People ask how this is different from just calling an API. It is a fair question, since a lot of MCP servers call APIs under the hood.</p>
+      <p>The difference is who does the work of connecting.</p>
+      <ol>
+        <li>With a plain API, you write integration code for each service, and the model needs custom glue to use it. That code lives in one app and does not travel.</li>
+        <li>With MCP, you write the tool once as a server, and every MCP client can use it with no new integration. The protocol is the shared contract.</li>
+      </ol>
+      <p>So MCP does not replace APIs. It sits on top of them and gives models one steady, shared way to reach any of them.</p>
+
+      <h2>FAQ</h2>
+      <h3>What is MCP (Model Context Protocol)?</h3>
+      <p>MCP (Model Context Protocol) is an open standard from Anthropic, released in November 2024, that lets AI models connect to external tools and data through one common interface. Think of it as a USB port for AI tools. Instead of custom code for every connection, MCP gives every tool one shared way to plug into a model.</p>
+      <h3>What is an MCP server?</h3>
+      <p>An MCP server is a small program that exposes a specific tool or data source to an AI model. For example, an MCP server can wrap a database, a Notion workspace, or a file system. The AI (the MCP client) talks to the server over the protocol, and the server handles the real work of fetching data or running an action.</p>
+      <h3>Is MCP open source?</h3>
+      <p>Yes. MCP is an open standard with an open-source specification and open-source SDKs. Anyone can build an MCP server or client. Since its release in November 2024, a large ecosystem of community and vendor-built servers has grown, and MCP works across Claude, code editors, and many other clients.</p>
+      <h3>How is MCP different from a regular API call?</h3>
+      <p>A regular API call is written for one specific service, and the model needs custom glue code to use it. MCP is one shared protocol, so any MCP-aware client can use any MCP server with no custom integration. Write a tool once as an MCP server and every MCP client can use it.</p>
+
+      <p>I build AI systems with MCP every day, from CRMs to internal tools. If you want a system like this built for your business, you can <a href="/hire">hire Neil</a>. Want to go deeper? Read my guide on <a href="/guides/build-ai-agent-claude-code">how to build an AI agent</a>, and if you care about getting cited by AI, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>.</p>
+    </div>
+  </article>
+</Site>

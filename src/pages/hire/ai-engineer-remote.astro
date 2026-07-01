@@ -1,0 +1,85 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire a Remote AI Engineer (US, EST) — Neil Busque';
+const description = 'Hire a remote AI engineer. Neil Busque works async from the US East Coast, shipping AI agents, automations, and web apps in days, with public build logs you can watch.';
+const canonical = 'https://busqueneil.com/hire/ai-engineer-remote';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Remote AI Engineer — Neil Busque',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: [
+    { '@type': 'Country', name: 'United States' },
+    'Remote',
+    'Worldwide',
+  ],
+  serviceType: ['Remote AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What timezone does Neil work in?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Eastern Time (US East Coast). That overlaps every US timezone during the workday and catches the tail of European afternoons, so remote teams get real hours of overlap, not just handoffs.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'How does Neil keep remote work on track?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Small specced tasks, frequent deploys, and public build logs. You see progress daily, not at the end of a black-box month. He works async by default and jumps on a call when a decision needs one.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What tools does Neil use for remote delivery?',
+      acceptedAnswer: { '@type': 'Answer', text: 'GitHub for code and review, Vercel for preview and production deploys, and Slack or email for updates. Every change ships to a preview URL you can click, so you are never guessing about status.' },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: 'https://busqueneil.com/hire' },
+      { name: 'Remote AI Engineer', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire · Remote</p>
+    <h1>Hire a <span class="accent">remote AI engineer</span>.</h1>
+    <p class="lede">I am Neil Busque. I build AI agents, automations, and web apps remotely from the US East Coast, async by default, with public build logs so you always know where things stand. Fast, transparent, and in a timezone that overlaps your team.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>Remote that actually works</h2>
+      <p>Remote goes wrong when work disappears into a black box for a month. I run the opposite. Small specced tasks, frequent deploys, and a preview URL for every change, so you can watch the thing take shape instead of waiting for a reveal. I already build in public, so transparency is just how I work.</p>
+
+      <h2>A timezone that overlaps</h2>
+      <p>I am in Eastern Time. That overlaps every US timezone during the workday and catches the end of the European afternoon. You get real hours of live overlap for decisions, plus async progress the rest of the day. No 12-hour handoff gaps.</p>
+
+      <h2>What I ship remotely</h2>
+      <ul>
+        <li><strong>AI agents</strong> wired into your tools. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+        <li><strong>Automations</strong> that remove manual work in n8n, Zapier, and GoHighLevel.</li>
+        <li><strong>Web apps and PWAs</strong> in days, deployed on Vercel. Here is <a href="/guides/ship-web-app-in-days-with-ai">the process</a>.</li>
+        <li><strong>GEO and SEO</strong> so you get found in AI search. See <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>.</li>
+      </ul>
+
+      <h2>Hire me remotely</h2>
+      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or message me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Prefer someone local to the NYC area? See <a href="/hire/ai-engineer-nj">New Jersey</a> or <a href="/hire/ai-engineer-nyc">NYC</a>. Full details on the <a href="/hire">hire page</a>.</p>
+    </div>
+  </article>
+</Site>

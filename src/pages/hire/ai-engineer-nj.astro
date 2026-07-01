@@ -1,0 +1,86 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire an AI Engineer in New Jersey — Neil Busque';
+const description = 'Hire an AI engineer based in New Jersey. Neil Busque builds AI agents, automations, and web apps, on-site or hybrid across NJ, or remote. Full-time or contract.';
+const canonical = 'https://busqueneil.com/hire/ai-engineer-nj';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'AI Engineer in New Jersey — Neil Busque',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: [
+    { '@type': 'State', name: 'New Jersey' },
+    { '@type': 'City', name: 'Newark' },
+    { '@type': 'City', name: 'Jersey City' },
+    { '@type': 'City', name: 'Elizabeth' },
+  ],
+  serviceType: ['AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Where in New Jersey is Neil based?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Neil is based in Elizabeth, New Jersey, in the NJ and NYC metro. He works on-site or hybrid across the state, from Newark and Jersey City down through the Princeton corridor, and remote anywhere.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can Neil work on-site with a New Jersey team?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Being local means no travel cost and easy in-person sprints or standing hybrid days. He is in Eastern Time, so hours line up with your team from day one.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What kinds of New Jersey businesses does Neil work with?',
+      acceptedAnswer: { '@type': 'Answer', text: 'A mix: local service businesses, agencies, professional services, and small-to-mid companies that want AI agents, automation, or custom software without hiring a whole team. He scopes to the business, not a one-size template.' },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: 'https://busqueneil.com/hire' },
+      { name: 'AI Engineer in New Jersey', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire · New Jersey</p>
+    <h1>Hire an <span class="accent">AI engineer in New Jersey</span>.</h1>
+    <p class="lede">I am Neil Busque, an AI engineer based in Elizabeth, NJ. I build AI agents, automations, and web apps for New Jersey companies, on-site, hybrid, or remote. Same timezone, no travel cost, work you can see before you hire.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>Local, and same timezone</h2>
+      <p>I live in the NJ and NYC metro, so I am in Eastern Time and available for in-person work across the state: Newark, Jersey City, the Princeton corridor, or your office. That means real hybrid days and in-person sprints when a build needs them, not just a Zoom link from three timezones away.</p>
+
+      <h2>What I build for NJ companies</h2>
+      <ul>
+        <li><strong>AI agents</strong> that answer leads, update your CRM, and handle repetitive work. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+        <li><strong>Automation</strong> in n8n, Zapier, and GoHighLevel that takes the manual busywork off your team.</li>
+        <li><strong>Custom web apps and PWAs</strong>, shipped in days. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
+        <li><strong>GEO and SEO</strong> so you get found in AI search and Google. See <a href="/guides/geo-generative-engine-optimization-guide">my GEO guide</a>.</li>
+      </ul>
+
+      <h2>Proof you can see first</h2>
+      <p>I build in public. In 2026 I shipped 40 plus web apps, PWAs, AI agents, and automations, from a personal CRM to a link shortener with analytics. Browse <a href="/projects">the work</a> before you decide.</p>
+
+      <h2>Hire me</h2>
+      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Near the city instead? See <a href="/hire/ai-engineer-nyc">hire an AI engineer in NYC</a> or <a href="/hire/ai-engineer-remote">hire a remote AI engineer</a>. Full details on the <a href="/hire">hire page</a>.</p>
+    </div>
+  </article>
+</Site>

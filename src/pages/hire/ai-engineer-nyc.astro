@@ -1,0 +1,80 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire an AI Engineer in NYC (New York) — Neil Busque';
+const description = 'Hire an AI engineer for NYC. Neil Busque is 30 minutes from Manhattan, available on-site in New York or remote, building AI agents, automations, and apps.';
+const canonical = 'https://busqueneil.com/hire/ai-engineer-nyc';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'AI Engineer for NYC — Neil Busque',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: [
+    { '@type': 'City', name: 'New York City' },
+    { '@type': 'City', name: 'Manhattan' },
+    { '@type': 'City', name: 'Brooklyn' },
+  ],
+  serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'AI automation'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Can Neil work on-site in NYC?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Neil is about 30 minutes from Manhattan by train, in Eastern Time, so he can do in-person kickoffs, on-site sprints, or standing days in the office in Manhattan or Brooklyn, then run the rest remote.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Neil work with NYC startups and agencies?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. NYC is dense with startups, agencies, media, and fintech that need AI features and automation shipped fast without a full hire. That is exactly the work Neil does: one agent, one LLM feature, one automation, or a full app.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Neil full-time or contract for NYC roles?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Both. He is open to full-time AI engineer roles in the NYC metro (on-site, hybrid, or remote) and to fixed-scope contract projects. Same timezone means no coordination lag with a New York team.' },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: 'https://busqueneil.com/hire' },
+      { name: 'AI Engineer in NYC', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire · New York City</p>
+    <h1>Hire an <span class="accent">AI engineer for NYC</span>.</h1>
+    <p class="lede">I am Neil Busque, an AI engineer 30 minutes from Manhattan. I build AI agents, LLM features, automations, and apps for New York startups, agencies, and teams. On-site when it helps, remote the rest of the time, always in your timezone.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>Close enough to be in the room</h2>
+      <p>NYC moves fast, and sometimes a build needs people in the same room. I am a short train ride from Manhattan, so I can do in-person kickoffs and on-site sprints in Manhattan or Brooklyn, then run the rest remote. You get the speed of local without paying for a downtown office.</p>
+
+      <h2>Built for how NYC teams work</h2>
+      <p>New York is packed with startups, agencies, media, and fintech that need AI shipped now, not next quarter. I plug in and ship: an AI agent that handles inbound, an LLM feature in your product, an automation that kills a manual process, or a full internal tool. Read <a href="/guides/build-ai-agent-claude-code">how I build agents</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship apps in days</a>.</p>
+
+      <h2>Proof, in public</h2>
+      <p>I shipped 40 plus apps, agents, and automations in 2026, in public. You can see the work at <a href="/projects">my projects</a> and the way I think in <a href="/guides">the guides</a> before we ever talk.</p>
+
+      <h2>Let's talk</h2>
+      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or find me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Based in Jersey instead? See <a href="/hire/ai-engineer-nj">hire an AI engineer in New Jersey</a>, or go fully <a href="/hire/ai-engineer-remote">remote</a>. Full details on the <a href="/hire">hire page</a>.</p>
+    </div>
+  </article>
+</Site>

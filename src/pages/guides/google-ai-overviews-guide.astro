@@ -1,0 +1,127 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'How to Show Up in Google AI Overviews (2026)';
+const description = 'A plain guide to Google AI Overviews: how the AI answer at the top of Google picks its sources, and the concrete steps to get your pages cited in 2026.';
+const canonical = 'https://busqueneil.com/guides/google-ai-overviews-guide';
+const published = '2026-06-30';
+const modified = '2026-06-30';
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'TechArticle', headline: title, description,
+  author: { '@id': 'https://busqueneil.com/#person' }, publisher: { '@id': 'https://busqueneil.com/#person' },
+  datePublished: published, dateModified: modified, mainEntityOfPage: canonical,
+  image: 'https://busqueneil.com/og.png',
+  keywords: 'Google AI Overviews, AI Overviews SEO, Google SGE, rank in AI answers, generative search',
+};
+const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: [
+  {
+    '@type': 'Question',
+    name: 'How do I show up in Google AI Overviews?',
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: 'Rank well in normal Google search first, then answer the exact question in your first paragraph, use headings that match how people ask, and add FAQ and structured data. AI Overviews mostly pull from pages that already rank on page one, so classic SEO is the foundation.',
+    },
+  },
+  {
+    '@type': 'Question',
+    name: 'Is Google SGE the same as AI Overviews?',
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: 'Yes, in practice. SGE (Search Generative Experience) was the Google Labs test name. Google launched the feature publicly as AI Overviews in 2024, so the two names point to the same AI-generated answer at the top of results.',
+    },
+  },
+  {
+    '@type': 'Question',
+    name: 'Do AI Overviews hurt my clicks?',
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: 'They can. Some users read the AI answer and never click. But being cited inside the AI Overview keeps your brand visible, and Google says the links in AI Overviews get clicks too. The fix is to be one of the cited sources, not to opt out.',
+    },
+  },
+  {
+    '@type': 'Question',
+    name: 'How do I check if my page appears in an AI Overview?',
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: 'Search your target question in Google, in an incognito window, and see if an AI Overview shows up. Expand the source links and look for your domain. Repeat for a few questions you want to win, and re-check monthly since results change.',
+    },
+  },
+] };
+---
+<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Google AI Overviews', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">04</span> Guide</p>
+    <h1>How to Show Up in Google AI Overviews (2026)</h1>
+    <p class="lede">Google now puts an AI answer above the normal blue links. Here is how it picks its sources, and what I actually do to get a page cited inside it.</p>
+  </header>
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p><strong>TL;DR: To show up in Google AI Overviews, first rank on page one for the query, because the AI answer mostly cites pages that already rank well. Then answer the exact question in your opening paragraph, use headings that match how people search, and add FAQ and structured data so Google can lift a clean quote. Cover the topic fully and keep your facts current.</strong></p>
+
+      <h2>What AI Overviews are</h2>
+      <p>An AI Overview is the AI-generated answer Google shows at the very top of the results page for many searches. It is a short summary written by Google's model, with links to a handful of source pages next to it. You have probably seen it: you search something, and before the normal links there is a boxed answer with citations.</p>
+      <p>Google started this as an experiment called SGE (Search Generative Experience) in Search Labs, then rolled it out to everyone as AI Overviews in 2024. Google says AI Overviews now reach more than a billion people and appear across a wide range of queries (see the <a href="https://blog.google/products/search/generative-ai-google-search-may-2024/" rel="nofollow">Google Search blog announcement</a>). So this is not a small feature. For a lot of searches it is the first thing people read.</p>
+
+      <h2>How Google picks its sources</h2>
+      <p>Here is the part most people miss. AI Overviews do not invent a fresh set of winners. Google pulls from pages that already rank well and answer the query clearly. Its own guidance is blunt about this: there is nothing special to do to appear, and the best move is to follow normal Search best practices (see <a href="https://developers.google.com/search/docs/appearance/ai-features" rel="nofollow">Google's AI features documentation for Search</a>).</p>
+      <p>So the model reads the top-ranking, trustworthy pages for a question, then stitches together an answer and cites the ones it leaned on. If your page is not in the running on normal search, it is very unlikely to be cited in the AI answer. That is the whole game in one sentence.</p>
+
+      <h2>The concrete plays</h2>
+      <p>These are the moves I run, roughly in order of impact.</p>
+      <ol>
+        <li><strong>Earn normal rankings first.</strong> AI Overviews mostly cite pages that already rank on page one. So do the boring SEO work: match search intent, get real links, keep the page fast, fix technical issues. No shortcut skips this.</li>
+        <li><strong>Answer the question in the first paragraph.</strong> Put a direct, 2 to 3 sentence answer at the top, before the backstory. The model wants a clean, quotable chunk. Give it one.</li>
+        <li><strong>Use headings that match questions.</strong> Write H2s and H3s the way people actually ask ("How do I show up in Google AI Overviews?"), not vague labels like "Overview." This helps Google find the exact passage to lift.</li>
+        <li><strong>Add FAQ and structured data.</strong> A short FAQ section with clear questions and answers gives the model tidy pairs to pull. Adding FAQPage schema and TechArticle or Article schema helps Google understand the page.</li>
+        <li><strong>Cover the topic thoroughly.</strong> Answer the follow-up questions on the same page. AI answers often blend a few related points, so a page that covers the whole question tends to get cited more than a thin one.</li>
+        <li><strong>Keep facts current.</strong> Put dates, numbers, and years in the copy, and update them. Stale facts get skipped, and current, specific ones get pulled.</li>
+      </ol>
+
+      <h3>What does not work</h3>
+      <p>You cannot pay to be in an AI Overview, and there is no toggle to force it. Keyword-stuffing and thin "SEO pages" tend to get ignored. The model is choosing between pages that already earned trust, so trying to game it without ranking first is wasted effort.</p>
+
+      <h2>How AI Overviews differ from ChatGPT and Perplexity GEO</h2>
+      <p>People lump all of this under GEO (generative engine optimization), but Google is its own animal. ChatGPT and Perplexity often reach out to the live web and weigh brand mentions, citations, and third-party sources more loosely. Google leans on its own index and its existing rankings. So for AI Overviews, classic SEO still matters more than it does for the pure chat tools.</p>
+      <p>The practical takeaway: if you optimize only for ChatGPT and skip real Google rankings, you will lose AI Overviews. If you do solid SEO and add the answer-first structure above, you cover both. That is why I treat AI Overviews as SEO plus a few extra habits, not a separate discipline.</p>
+
+      <h2>How to check if you appear</h2>
+      <ol>
+        <li>Open an incognito window so your history does not skew the result.</li>
+        <li>Search the exact question you want to win.</li>
+        <li>If an AI Overview shows up, expand the source links on the right and look for your domain.</li>
+        <li>Repeat for the handful of questions that matter to your business.</li>
+        <li>Re-check monthly. AI Overviews change often, and appearing once does not mean you stay.</li>
+      </ol>
+      <p>If you are not cited, look at who is, read their page, and note what they answer that you do not. Then close that gap on your own page.</p>
+
+      <h2>FAQ</h2>
+
+      <h3>How do I show up in Google AI Overviews?</h3>
+      <p>Rank well in normal Google search first, then answer the exact question in your first paragraph, use headings that match how people ask, and add FAQ and structured data. AI Overviews mostly pull from pages that already rank on page one, so classic SEO is the foundation.</p>
+
+      <h3>Is Google SGE the same as AI Overviews?</h3>
+      <p>Yes, in practice. SGE (Search Generative Experience) was the Google Labs test name. Google launched the feature publicly as AI Overviews in 2024, so the two names point to the same AI-generated answer at the top of results.</p>
+
+      <h3>Do AI Overviews hurt my clicks?</h3>
+      <p>They can. Some users read the AI answer and never click. But being cited inside the AI Overview keeps your brand visible, and Google says the links in AI Overviews get clicks too. The fix is to be one of the cited sources, not to opt out.</p>
+
+      <h3>How do I check if my page appears in an AI Overview?</h3>
+      <p>Search your target question in Google, in an incognito window, and see if an AI Overview shows up. Expand the source links and look for your domain. Repeat for a few questions you want to win, and re-check monthly since results change.</p>
+
+      <p>Want help getting your pages cited in Google AI answers? You can <a href="/hire">hire Neil</a> for GEO and SEO work. For the wider picture across every AI tool, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>, and if you build AI tools, see <a href="/guides/what-is-mcp-model-context-protocol">what MCP is</a>.</p>
+    </div>
+  </article>
+</Site>

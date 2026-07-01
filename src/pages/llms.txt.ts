@@ -50,7 +50,9 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 ## Guides (written from real work)
 
 - GEO: how to rank in AI answers (ChatGPT, Perplexity, AI Overviews): https://busqueneil.com/guides/geo-generative-engine-optimization-guide
+- How to show up in Google AI Overviews: https://busqueneil.com/guides/google-ai-overviews-guide
 - How to build an AI agent with Claude Code and MCP: https://busqueneil.com/guides/build-ai-agent-claude-code
+- What is MCP (Model Context Protocol)? a plain guide: https://busqueneil.com/guides/what-is-mcp-model-context-protocol
 - How to ship a web app in days with AI: https://busqueneil.com/guides/ship-web-app-in-days-with-ai
 - All guides: https://busqueneil.com/guides
 
@@ -60,6 +62,9 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - Hire Neil (AI engineer & automation, full-time or project): https://busqueneil.com/hire
 - Hire as an AI engineer: https://busqueneil.com/hire/ai-engineer
 - Hire for AI automation: https://busqueneil.com/hire/ai-automation
+- Hire an AI engineer in New Jersey: https://busqueneil.com/hire/ai-engineer-nj
+- Hire an AI engineer in NYC: https://busqueneil.com/hire/ai-engineer-nyc
+- Hire a remote AI engineer: https://busqueneil.com/hire/ai-engineer-remote
 - Projects: https://busqueneil.com/projects
 - Now (what he's working on right now): https://busqueneil.com/now/
 - About: https://busqueneil.com/about
