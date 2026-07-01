@@ -1,0 +1,90 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire an AI Engineer (NJ / NYC / Remote) — Neil Busque';
+const description = 'Hire Neil Busque, a freelance AI engineer in New Jersey. AI agents, LLM apps, RAG, MCP integrations, and custom software. Full-time or contract, ships in days.';
+const canonical = 'https://busqueneil.com/hire/ai-engineer';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'AI Engineer for hire — Neil Busque',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
+  serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'RAG', 'MCP integration'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What kind of AI engineering does Neil do?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Applied AI engineering: AI agents, LLM apps, retrieval-augmented generation (RAG), and Model Context Protocol (MCP) integrations that connect models to real tools and data. He ships working software, not slide decks or proofs of concept that never leave the demo.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I hire Neil as a contract AI engineer?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. He takes fixed-scope contracts (one agent, one LLM feature, one integration) and is also open to full-time AI engineer roles. Remote, hybrid, or on-site in the NJ and NYC metro.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What AI stack does Neil work in?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Claude Code and the Claude API as the core, MCP servers for tools, and TypeScript and Python around them. He wires agents into GoHighLevel, n8n, Notion, Slack, Supabase, and custom backends, and deploys on Vercel.',
+      },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: 'https://busqueneil.com/hire' },
+      { name: 'AI Engineer', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire · AI Engineer</p>
+    <h1>Hire a freelance <span class="accent">AI engineer</span>.</h1>
+    <p class="lede">I am Neil Busque, an AI engineer in New Jersey. I build the AI systems that ship: agents, LLM apps, RAG, and MCP integrations wired into real tools. Full-time or contract.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>What you get</h2>
+      <ul>
+        <li><strong>AI agents that act.</strong> Not chatbots. Agents with tools that read your data, take actions, and finish multi-step jobs. Read <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+        <li><strong>LLM apps.</strong> Features powered by language models: drafting, extraction, classification, summarization, search. Built to be reliable in production, not just impressive in a demo.</li>
+        <li><strong>RAG and retrieval.</strong> Grounding models in your documents and data so answers are accurate and cited, not made up.</li>
+        <li><strong>MCP integrations.</strong> Connecting models to your CRM, database, and tools through the Model Context Protocol, so the integration is clean and reusable.</li>
+      </ul>
+
+      <h2>How I work</h2>
+      <p>Small specced tasks, tests on the risky parts, and a real review on every change. AI writes a lot of the code, but I stay the engineer, so what ships actually works. I have shipped 40 plus apps, agents, and automations in 2026, in public. You can read the code philosophy in <a href="/guides/ship-web-app-in-days-with-ai">how I ship in days</a> and browse <a href="/projects">the work</a>.</p>
+
+      <h2>The difference</h2>
+      <p>A lot of people can prompt a model. Fewer can turn that into software a business depends on, with guardrails, tests, and a clean way to maintain it. That engineering discipline is what you are hiring.</p>
+
+      <h2>Start the conversation</h2>
+      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Prefer automation-first framing? See <a href="/hire/ai-automation">hire me for AI automation</a>, or the full <a href="/hire">hire page</a>.</p>
+    </div>
+  </article>
+</Site>

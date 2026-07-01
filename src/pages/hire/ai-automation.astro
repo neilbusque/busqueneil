@@ -1,0 +1,90 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire for AI Automation — Neil Busque, New Jersey';
+const description = 'Hire Neil Busque to automate your business with AI. AI agents and workflows in n8n, Zapier, and GoHighLevel that handle leads, follow-up, and ops. Ships fast.';
+const canonical = 'https://busqueneil.com/hire/ai-automation';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'AI Automation consultant — Neil Busque',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
+  serviceType: ['AI automation', 'Workflow automation', 'Business process automation', 'CRM automation'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What can Neil automate with AI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Lead capture and routing, follow-up and nurture, data entry and enrichment, reporting, content drafting, and CRM hygiene. Anything repetitive with clear rules is a candidate. He combines AI agents with n8n, Zapier, and GoHighLevel so the work runs without you.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is AI automation different from regular automation?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Regular automation follows fixed rules. AI automation adds judgment: reading messy input, deciding what matters, drafting a reply, or classifying a lead. Neil uses plain automation where the steps never change and AI agents where the task needs judgment, so you do not pay for AI you do not need.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How long does an automation build take?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A single workflow is usually days. Neil shipped 20 plus production workflows across 10 plus accounts at an agency, including a one-click onboarding system that cut onboarding from 30 days to 7. Focused scope means fast turnaround.',
+      },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: 'https://busqueneil.com/hire' },
+      { name: 'AI Automation', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire · AI Automation</p>
+    <h1>Automate the <span class="accent">busywork</span> with AI.</h1>
+    <p class="lede">I am Neil Busque. I turn the manual, repetitive work in your business into AI-powered systems that run themselves, so your team stops doing what a workflow should.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>What I automate</h2>
+      <ul>
+        <li><strong>Leads.</strong> Capture, enrich, route, and follow up automatically, so nothing sits and goes cold.</li>
+        <li><strong>Follow-up and nurture.</strong> Timely, personalized sequences across email and SMS, triggered by what people actually do.</li>
+        <li><strong>Ops and admin.</strong> Data entry, reporting, CRM cleanup, and handoffs that eat your team's hours.</li>
+        <li><strong>Content and research.</strong> AI agents that draft, summarize, and pull together information on a schedule.</li>
+      </ul>
+
+      <h2>Plain automation vs AI agents</h2>
+      <p>Not everything needs AI. If the steps never change, I build a plain workflow, because it is cheaper and never surprises you. When the task needs judgment, reading messy input, deciding what matters, writing a reply, I bring in an AI agent. You get the right tool for each job, not AI for the sake of it. Here is <a href="/guides/build-ai-agent-claude-code">how the agents work</a>.</p>
+
+      <h2>Proof</h2>
+      <p>At an agency I shipped 20 plus production n8n workflows across 10 plus client accounts, plus a one-click onboarding system that cut client onboarding from 30 days to 7. I build fast and in public. See <a href="/projects">the work</a>.</p>
+
+      <h2>Let's find your time sinks</h2>
+      <p>Tell me where your team loses hours. Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or message me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Want the engineering angle instead? See <a href="/hire/ai-engineer">hire me as an AI engineer</a>, or the full <a href="/hire">hire page</a>.</p>
+    </div>
+  </article>
+</Site>

@@ -1,0 +1,153 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'How to Build an AI Agent with Claude Code and MCP';
+const description = 'A practical, first-person guide to building an AI agent with Claude Code and MCP. Real steps, tools, and code from someone who ships agents for a living.';
+const canonical = 'https://busqueneil.com/guides/build-ai-agent-claude-code';
+const published = '2026-06-30';
+const modified = '2026-06-30';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  author: { '@id': 'https://busqueneil.com/#person' },
+  publisher: { '@id': 'https://busqueneil.com/#person' },
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: canonical,
+  image: 'https://busqueneil.com/og.png',
+  keywords: 'AI agent, Claude Code, MCP, Model Context Protocol, agentic automation',
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is an AI agent?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'An AI agent is a large language model wrapped in a loop, with tools it can call. The model reads a goal, decides on an action, calls a tool, reads the result, and repeats until the job is done. The tools are what turn a chatbot into an agent that can act on real systems.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is MCP and why does it matter?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'MCP (Model Context Protocol) is an open standard from Anthropic for connecting AI models to tools and data. Instead of writing custom glue for every app, you point your agent at an MCP server and it gets a clean set of tools. One protocol works across Notion, Slack, databases, and more.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do I need to know how to code to build an AI agent?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'You need some comfort with the command line and JSON config, but you do not need to be a senior engineer. Claude Code writes most of the code for you. The hard part is picking the right job, wiring the right tools, and testing on real tasks.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is Claude Code different from a chatbot?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A chatbot answers in text. Claude Code runs a loop with real tools: it reads and writes files, runs commands, and calls MCP servers. It can finish a multi-step task on your machine instead of just describing how to do it.',
+      },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Build an AI agent with Claude Code', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">01</span> Guide</p>
+    <h1>How to Build an AI Agent with Claude Code and MCP</h1>
+    <p class="lede">I build AI agents for a living. Here is how I actually do it, in plain steps, with the tools and config I use every day.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p><strong>TL;DR: To build an AI agent with Claude Code and MCP, you connect a language model to real tools through MCP servers, give it a system prompt or skill that defines the job, wrap it in a loop with guardrails, and test it on real tasks. An agent is a model plus tools plus a loop. Claude Code runs that loop for you, and MCP is the standard way to plug in the tools and data the agent needs.</strong></p>
+
+      <h2>What an AI agent actually is</h2>
+      <p>People overcomplicate this. An AI agent is three things: a language model, a set of tools, and a loop.</p>
+      <p>The model reads a goal. It decides what to do. It calls a tool. It reads the result. Then it does it again, and again, until the job is finished. That loop is the whole trick. Take the loop away and you have a chatbot. Add the loop and real tools, and you have something that can book a call, update a CRM, or clean a spreadsheet without you touching it.</p>
+      <p>The tools are what matter most. A model with no tools can only talk. A model that can read a database, send a Slack message, or edit a file can act. So most of the work in building a good agent is not prompting. It is picking the right tools and wiring them in cleanly.</p>
+
+      <h3>Where Claude Code fits</h3>
+      <p>Claude Code is Anthropic's command-line agent. It already runs the loop for you. It reads and writes files, runs shell commands, and calls tools. You do not have to build the loop from scratch, which is where most people waste a week. You point it at a job and it works through it, step by step, on your machine.</p>
+
+      <h2>What MCP is and why it matters</h2>
+      <p>MCP stands for Model Context Protocol. Anthropic released it as an open standard in November 2024 (see <a href="https://www.anthropic.com/news/model-context-protocol">Anthropic's MCP announcement</a>). The idea is simple. Instead of writing custom code to connect your agent to every single app, you connect it once to an MCP server, and that server hands the agent a clean set of tools.</p>
+      <p>Think of it like a USB port for AI tools. Before MCP, every connection was a one-off. Now there is one standard, and a large ecosystem has grown around it. The official spec lives at <a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a>, and there are hundreds of open-source MCP servers for things like GitHub, Postgres, Slack, and file systems. That reach is why I default to MCP: I write the integration once and reuse it everywhere.</p>
+      <p>I have wired agents into GoHighLevel, n8n, Notion, and Slack this way. The GHL agent pulls contacts, checks pipelines, and sends messages. The Notion one reads and writes tasks. Same pattern every time: the MCP server exposes the tools, and Claude Code decides when to call them.</p>
+
+      <h2>A concrete step-by-step build</h2>
+      <p>Here is the exact order I follow. Do it in this order and you will not paint yourself into a corner.</p>
+      <ol>
+        <li><strong>Pick the job.</strong> One job, narrow and clear. Not "handle my whole business." Something like "when a new lead comes in, enrich it and add it to the CRM." A narrow job is testable. A vague job never ships.</li>
+        <li><strong>Wire tools via MCP servers.</strong> List every action the job needs. Reading a sheet? Sending a message? Match each action to a tool. If an MCP server already exists for that app, use it. If not, a bash or file tool often covers it.</li>
+        <li><strong>Give it a system prompt or skill.</strong> Tell the agent who it is, what the job is, and what "done" looks like. Be specific. Claude Code reads a project file for this, so the instructions live with the work.</li>
+        <li><strong>Add a loop and guardrails.</strong> Claude Code runs the loop. Your job is the guardrails: which tools it can use, what it must ask before doing, and a hard stop so it cannot run forever.</li>
+        <li><strong>Test on real tasks.</strong> Not made-up examples. Real leads, real files, real messages. Watch where it goes wrong, then fix the prompt or the tools. Repeat until it is boring and reliable.</li>
+      </ol>
+
+      <h3>A realistic config snippet</h3>
+      <p>Registering an MCP server with Claude Code is a small block of JSON. Here is a Notion server, the kind I use to give an agent read and write access to a task database:</p>
+      <pre><code>{"{"}
+  "mcpServers": {"{"}
+    "notion": {"{"}
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server"],
+      "env": {"{"} "NOTION_TOKEN": "your-integration-token" {"}"}
+    {"}"}
+  {"}"}
+{"}"}</code></pre>
+      <p>That is it. Once the server is registered, the agent sees the Notion tools and can call them inside its loop. You do not write the API calls. The MCP server does that. You just tell the agent what you want done.</p>
+
+      <h2>Common mistakes</h2>
+      <p>I have made all of these, so learn from them.</p>
+      <ul>
+        <li><strong>Too many tools at once.</strong> A model handed forty tools gets confused about which to reach for. Give it the few it needs for the job. Add more only when a real task proves you need them.</li>
+        <li><strong>No guardrails on actions that cannot be undone.</strong> Sending an email or deleting a record should ask first, or be behind a check. Reads are safe. Writes need a gate.</li>
+        <li><strong>Vague instructions.</strong> "Be helpful" produces nothing useful. "Add the lead to the New Leads pipeline stage, then tag it hot if the deal size is over 10k" produces a working agent.</li>
+        <li><strong>Skipping the real-task test.</strong> An agent that works on your clean example will still break on the messy real thing. Test on the mess.</li>
+        <li><strong>Building an agent when a script would do.</strong> If the steps never change, write a script. Agents earn their cost when the task is open-ended and hard to spell out in advance.</li>
+      </ul>
+
+      <h2>When to build vs buy</h2>
+      <p>Build when the job is specific to you, touches your own systems, and would cost more to buy than to run. Most of my client agents fall here. There is no off-the-shelf tool that knows their exact GHL pipeline and their exact rules, so a custom agent on Claude Code plus a couple of MCP servers wins.</p>
+      <p>Buy when the problem is common and someone already solved it well. If a proven tool does the job for a fair price, use it. Do not build a worse version of a product that already exists just to say you built it.</p>
+      <p>The honest test: could a plain script do this? If yes, write the script, it is cheaper and never surprises you. Is the task open-ended, multi-step, and hard to fully spell out? Then an agent earns its keep. Claude Code and MCP make that agent a weekend of work instead of a month.</p>
+
+      <h2>FAQ</h2>
+      <h3>What is an AI agent?</h3>
+      <p>An AI agent is a large language model wrapped in a loop, with tools it can call. The model reads a goal, decides on an action, calls a tool, reads the result, and repeats until the job is done. The tools are what turn a chatbot into an agent that can act on real systems.</p>
+
+      <h3>What is MCP and why does it matter?</h3>
+      <p>MCP (Model Context Protocol) is an open standard from Anthropic for connecting AI models to tools and data. Instead of writing custom glue for every app, you point your agent at an MCP server and it gets a clean set of tools. One protocol works across Notion, Slack, databases, and more.</p>
+
+      <h3>Do I need to know how to code to build an AI agent?</h3>
+      <p>You need some comfort with the command line and JSON config, but you do not need to be a senior engineer. Claude Code writes most of the code for you. The hard part is picking the right job, wiring the right tools, and testing on real tasks.</p>
+
+      <h3>How is Claude Code different from a chatbot?</h3>
+      <p>A chatbot answers in text. Claude Code runs a loop with real tools: it reads and writes files, runs commands, and calls MCP servers. It can finish a multi-step task on your machine instead of just describing how to do it.</p>
+
+      <p style="margin-top: 2rem;">Want an agent built for your business instead of a guide? <a href="/hire">Hire me</a> and I will build and ship it. If you are still reading up first, see <a href="/guides/geo-generative-engine-optimization-guide">my guide to GEO</a> for getting cited by AI, and <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps in days with AI</a>.</p>
+    </div>
+  </article>
+</Site>

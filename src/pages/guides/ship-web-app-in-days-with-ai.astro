@@ -1,0 +1,184 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'How to Ship a Web App in Days with AI';
+const description = 'How I ship a real web app in a few days with AI using Astro, Supabase, Vercel, and Claude Code. My exact day-by-day process, stack, and rules.';
+const canonical = 'https://busqueneil.com/guides/ship-web-app-in-days-with-ai';
+const published = '2026-06-30';
+const modified = '2026-06-30';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  author: { '@id': 'https://busqueneil.com/#person' },
+  publisher: { '@id': 'https://busqueneil.com/#person' },
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: canonical,
+  image: 'https://busqueneil.com/og.png',
+  keywords: 'ship a web app, build app with AI, Astro, Supabase, Claude Code, PWA',
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How fast can you really build a web app with AI?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A focused single-purpose web app takes me two to four days end to end. Day one is scope and database schema, day two is the core build, and day three is polish and deploy. AI writes most of the code, but I still scope every task, review every diff, and run tests. I have shipped 40 plus apps and PWAs in 2026 this way, including a personal CRM and a link shortener with analytics.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What stack do you use to ship apps fast?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Astro for the frontend, Supabase for the Postgres database and auth, Vercel for hosting and deploys, and Claude Code as the AI coding agent in my terminal. Astro ships almost zero JavaScript by default, Supabase gives me a real database and auth in minutes, and Vercel deploys straight from a git push. The stack is boring on purpose so I can move fast without surprises.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is this just vibe coding?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Vibe coding is accepting whatever the AI writes without reading it. I work in small specced tasks, ask for one thing at a time, read every change, and run tests before I move on. The AI is fast but it makes confident mistakes, so I stay the reviewer. That review loop is the reason the apps actually work in production instead of just demoing well.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What should you not let AI do when building an app?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Do not let it design your database schema without your review, write security or auth rules unchecked, handle secrets or API keys on its own, or make product decisions about what to build. AI is great at filling in code once the shape is clear. It is bad at judgment calls, so those stay with you.',
+      },
+    },
+  ],
+};
+
+const dashboardCode = `---
+// src/pages/dashboard.astro
+import Layout from '../layouts/Layout.astro';
+import { supabase } from '../lib/supabase';
+
+const { data: links } = await supabase
+  .from('links')
+  .select('slug, url, clicks')
+  .order('clicks', { ascending: false });
+---
+<Layout title="Dashboard">
+  <ul>
+    {links?.map((link) => (
+      <li>{link.slug} -> {link.clicks} clicks</li>
+    ))}
+  </ul>
+</Layout>`;
+
+const tableCode = `create table links (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique not null,
+  url text not null,
+  clicks integer not null default 0,
+  created_at timestamptz not null default now()
+);`;
+---
+<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Ship a web app in days with AI', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">02</span> Guide</p>
+    <h1>How I ship a web app in days with AI</h1>
+    <p class="lede">My exact process for going from an idea to a live app in two to four days, using Astro, Supabase, Vercel, and Claude Code. No vibe coding, real reviews, shipped work.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p><strong>TL;DR: I ship a working web app in two to four days by keeping the stack small (Astro, Supabase, Vercel, Claude Code) and the process tight. Day one is scope plus database schema, day two is the core build, day three is polish and deploy. The AI writes most of the code, but I scope every task, read every change, and run tests. That is how I shipped 40 plus apps and PWAs in 2026.</strong></p>
+
+      <p>People assume "build a web app with AI" means you type a wish and get a product. It does not work like that. The AI is a very fast coder that needs a clear spec and a real reviewer. When you give it both, days is a fair timeline for a focused tool. Here is exactly how I do it.</p>
+
+      <h2>The stack I use and why</h2>
+      <p>I use the same four tools for almost every app. Boring is the point. When the stack never surprises me, all my attention goes to the actual product.</p>
+      <ul>
+        <li><strong>Astro</strong> for the frontend. It ships zero JavaScript by default and only adds it where you ask, so pages are fast and simple. See the <a href="https://docs.astro.build/en/concepts/why-astro/">Astro docs on why Astro</a>.</li>
+        <li><strong>Supabase</strong> for the database, auth, and storage. It is hosted Postgres with a real SQL editor, row level security, and auth you can wire up in minutes. See the <a href="https://supabase.com/docs">Supabase docs</a>.</li>
+        <li><strong>Vercel</strong> for hosting. I connect the git repo once, and every push to main deploys automatically with preview URLs on branches. See <a href="https://vercel.com/docs/deployments">Vercel deployments</a>.</li>
+        <li><strong>Claude Code</strong> as the AI coding agent. It runs in my terminal, reads the whole repo, edits files, and runs commands. It is the thing that turns a specced task into a diff I can review.</li>
+      </ul>
+      <p>This stack has carried a personal CRM, a link shortener with analytics and web push notifications, a client portal, and the CMS behind this very site. Same four tools each time.</p>
+
+      <h2>The day-by-day process</h2>
+
+      <h3>Day 1: scope and schema</h3>
+      <p>I do not write code on day one. I write down the single job the app does, the three or four screens it needs, and the exact tables in the database. The schema is the spine of the whole build, so I get it right before anything else. I sketch it in plain English, then have Claude Code turn it into a Supabase migration that I read line by line.</p>
+      <ol>
+        <li>Write one sentence: what does this app do for the user.</li>
+        <li>List the screens. Cut anything that is not needed for version one.</li>
+        <li>Define the tables, columns, and relationships. Add row level security rules.</li>
+        <li>Turn it into a migration and apply it to Supabase.</li>
+      </ol>
+
+      <h3>Day 2: the core build</h3>
+      <p>Now I build the main flow. I go feature by feature, giving Claude Code one small task at a time. Auth first, then the create and read paths, then update and delete. I keep the app running the whole time and check each feature in the browser before moving to the next. If something feels off, I stop and fix it right there instead of piling more on top.</p>
+
+      <h3>Day 3: polish and deploy</h3>
+      <p>Day three is the difference between a demo and a product. I tighten the design, add empty states and loading states, handle errors, and make it work on mobile. If it is a PWA, I add the manifest and a service worker so it installs to the home screen and works offline. Then I connect the repo to Vercel, push to main, add a custom domain, and it is live. Deploys take minutes because the setup is the same every time.</p>
+
+      <h2>How I actually work with the AI</h2>
+      <p>The whole thing lives or dies on how you talk to the AI. My rule is small specced tasks, never big vague ones. "Build the app" produces slop. "Add a form on the new-link page that inserts a row into the links table and redirects to the dashboard" produces a diff I can check in thirty seconds.</p>
+      <ul>
+        <li><strong>One task at a time.</strong> I ask for a single change, read it, then ask for the next. Small diffs are easy to review.</li>
+        <li><strong>Tests on the risky parts.</strong> Auth, payments, and data writes get tests. If the AI breaks them later, I know instantly.</li>
+        <li><strong>I read every diff.</strong> Every line. The AI is confident even when it is wrong, so I am the reviewer, not a spectator.</li>
+        <li><strong>I keep the app running.</strong> I check each change in the browser before I accept it.</li>
+      </ul>
+      <p>This is the opposite of vibe coding. Vibe coding is accepting whatever shows up without reading it. That is how you get an app that demos fine and falls over in production.</p>
+
+      <h2>What I do not let AI do</h2>
+      <p>The AI is great at writing code once the shape is clear. It is bad at judgment. So a few things stay with me.</p>
+      <ul>
+        <li><strong>The database schema.</strong> I design it. A bad schema is expensive to fix later, so I never rubber-stamp what the AI suggests.</li>
+        <li><strong>Security and auth rules.</strong> Row level security and permissions get my eyes on every line. This is where quiet leaks happen.</li>
+        <li><strong>Secrets and keys.</strong> API keys and env vars are mine to handle. The AI never touches them.</li>
+        <li><strong>Product decisions.</strong> What to build and what to cut is a judgment call, and that is my job, not the model's.</li>
+      </ul>
+
+      <h2>A realistic snippet</h2>
+      <p>Here is the shape of a real Astro page that reads from Supabase. Nothing fancy, and that is the point.</p>
+      <pre><code>{dashboardCode}</code></pre>
+      <p>And the table behind it, which I define first on day one.</p>
+      <pre><code>{tableCode}</code></pre>
+      <p>That is the whole loop. A table, a query, a page. Repeat it a few times with clean reviews and you have a real app in days, not months.</p>
+
+      <h2>FAQ</h2>
+
+      <h3>How fast can you really build a web app with AI?</h3>
+      <p>A focused single-purpose web app takes me two to four days end to end. Day one is scope and database schema, day two is the core build, and day three is polish and deploy. AI writes most of the code, but I still scope every task, review every diff, and run tests. I have shipped 40 plus apps and PWAs in 2026 this way, including a personal CRM and a link shortener with analytics.</p>
+
+      <h3>What stack do you use to ship apps fast?</h3>
+      <p>Astro for the frontend, Supabase for the Postgres database and auth, Vercel for hosting and deploys, and Claude Code as the AI coding agent in my terminal. Astro ships almost zero JavaScript by default, Supabase gives me a real database and auth in minutes, and Vercel deploys straight from a git push. The stack is boring on purpose so I can move fast without surprises.</p>
+
+      <h3>Is this just vibe coding?</h3>
+      <p>No. Vibe coding is accepting whatever the AI writes without reading it. I work in small specced tasks, ask for one thing at a time, read every change, and run tests before I move on. The AI is fast but it makes confident mistakes, so I stay the reviewer. That review loop is the reason the apps actually work in production instead of just demoing well.</p>
+
+      <h3>What should you not let AI do when building an app?</h3>
+      <p>Do not let it design your database schema without your review, write security or auth rules unchecked, handle secrets or API keys on its own, or make product decisions about what to build. AI is great at filling in code once the shape is clear. It is bad at judgment calls, so those stay with you.</p>
+
+      <p>If you want an app like this built for you, you can <a href="/hire">hire Neil</a>. Want to go deeper on the AI side? Read <a href="/guides/build-ai-agent-claude-code">the AI agent guide</a>, or see <a href="/projects">the work I have shipped</a>.</p>
+    </div>
+  </article>
+</Site>

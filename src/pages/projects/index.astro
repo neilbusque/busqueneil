@@ -9,10 +9,29 @@ const { posts } = await getFeed(
   { type: 'project' }
 );
 setPublicCache(Astro.response.headers);
+
+const featured = [
+  { name: 'Personal AI CRM', desc: 'A CRM with an AI agent that reads inbound, drafts replies, and moves deals, built on Claude Code with Gmail and calendar wired in.' },
+  { name: 'Client portal', desc: 'An onboarding and delivery portal for clients: intake, build status, and updates in one place. Supabase auth and Postgres behind it.' },
+  { name: 'Link shortener', desc: 'A self-hosted link shortener with click analytics, web push notifications, OG previews, a bio page, and a Chrome extension.' },
+  { name: 'Cold-email app', desc: 'An outbound app with an AI SDR: sequences, inbox, reply handling, and mailbox warmup, built to run 1-to-1 outreach at volume.' },
+  { name: 'This site and its CMS', desc: 'An Astro SSR site with a Supabase-backed build-in-public CMS, dynamic OG images, sitemap, RSS, llms.txt, and a lead-capture assistant.' },
+];
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Selected work by Neil Busque',
+  itemListElement: featured.map((f, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: { '@type': 'CreativeWork', name: f.name, description: f.desc, creator: { '@id': 'https://busqueneil.com/#person' } },
+  })),
+};
 ---
 <Site
-  title="Work — Neil Busque"
-  description="Apps and systems Neil Busque has shipped: web apps, PWAs, AI agents, and automations, each with its stack and live links."
+  title="Work — AI Agents, Apps & Automations | Neil Busque"
+  description="Web apps, PWAs, AI agents, and automations Neil Busque has shipped in 2026, most within days of the idea. A personal AI CRM, a client portal, a link shortener, and more."
   canonical="https://busqueneil.com/projects"
   active="projects"
 >
@@ -21,6 +40,7 @@ setPublicCache(Astro.response.headers);
       { name: 'Home', url: 'https://busqueneil.com/' },
       { name: 'Work', url: 'https://busqueneil.com/projects' },
     ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
   </Fragment>
 
   <header class="page-head">
@@ -28,6 +48,18 @@ setPublicCache(Astro.response.headers);
     <h1>Things I've <span class="accent">shipped</span>.</h1>
     <p class="lede">Apps and systems I've built and put into the world. Each one taught me something; a few of them run my life.</p>
   </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p>I shipped 40 plus web apps, PWAs, AI agents, and automations in 2026, most within days of the idea. I build in public, so the work is the proof. Here is a sample of what I have put into the world, and the live feed of build notes is below it.</p>
+      <ul>
+        {featured.map((f) => (
+          <li><strong>{f.name}.</strong> {f.desc}</li>
+        ))}
+      </ul>
+      <p>Want the story behind how these get built so fast? Read <a href="/guides/ship-web-app-in-days-with-ai">how I ship a web app in days with AI</a> and <a href="/guides/build-ai-agent-claude-code">how I build AI agents</a>. Want one built for you? <a href="/hire">Hire me</a>.</p>
+    </div>
+  </article>
 
   <section class="feed">
     {posts.length === 0 ? (

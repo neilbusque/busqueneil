@@ -4,13 +4,13 @@ import { deriveExcerpt } from '../lib/markdown';
 
 const STATIC_BIO = `# Neil Busque
 
-> Independent operator and builder based in New Jersey. Works on digital marketing, SEO, and paid search, and builds funnels, CRM/marketing automation, AI agents, and custom web apps. Open to full-time roles and to project work. Documents everything he builds, in public, on the feed at https://busqueneil.com/.
+> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Documents everything he builds, in public, on the feed at https://busqueneil.com/.
 
 ## Identity
 
 - **Name:** Neil Busque
-- **Role:** Independent digital marketing & automation consultant and builder. Open to full-time roles and project work.
-- **Focus:** Digital marketing, SEO, paid search, conversion funnels, CRM and marketing automation, AI agents, and custom web apps.
+- **Role:** AI engineer and automation consultant and builder. Open to full-time roles (AI engineer, automation engineer, growth engineer) and project work.
+- **Focus:** AI agents, LLM apps, Model Context Protocol (MCP) integrations, workflow automation, Generative Engine Optimization (GEO), SEO, and custom web apps. Marketing and paid search background underneath it all.
 - **Location:** New Jersey, United States (Eastern Time)
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** busqueneil@gmail.com
@@ -47,9 +47,19 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - Open to project work: end-to-end funnel builds, single AI agent ships, CRM cleanups, custom web apps.
 - Remote, hybrid, or on-site (NJ / NYC metro).
 
+## Guides (written from real work)
+
+- GEO: how to rank in AI answers (ChatGPT, Perplexity, AI Overviews): https://busqueneil.com/guides/geo-generative-engine-optimization-guide
+- How to build an AI agent with Claude Code and MCP: https://busqueneil.com/guides/build-ai-agent-claude-code
+- How to ship a web app in days with AI: https://busqueneil.com/guides/ship-web-app-in-days-with-ai
+- All guides: https://busqueneil.com/guides
+
 ## Canonical URLs
 
 - Home + feed: https://busqueneil.com/
+- Hire Neil (AI engineer & automation, full-time or project): https://busqueneil.com/hire
+- Hire as an AI engineer: https://busqueneil.com/hire/ai-engineer
+- Hire for AI automation: https://busqueneil.com/hire/ai-automation
 - Projects: https://busqueneil.com/projects
 - Now (what he's working on right now): https://busqueneil.com/now/
 - About: https://busqueneil.com/about

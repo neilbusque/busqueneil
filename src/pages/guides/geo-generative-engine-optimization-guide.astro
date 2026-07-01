@@ -1,0 +1,160 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'GEO: How to Rank in AI Answers (2026 Guide)';
+const description = 'A practical guide to Generative Engine Optimization (GEO): how to get cited by ChatGPT, Perplexity, and Google AI Overviews. What works, backed by research.';
+const canonical = 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide';
+const published = '2026-06-30';
+const modified = '2026-06-30';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  author: { '@id': 'https://busqueneil.com/#person' },
+  publisher: { '@id': 'https://busqueneil.com/#person' },
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: canonical,
+  image: 'https://busqueneil.com/og.png',
+  keywords: 'GEO, generative engine optimization, AI SEO, answer engine optimization, AEO, AI Overviews, ChatGPT SEO, Perplexity, LLM optimization',
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is GEO (Generative Engine Optimization)?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'GEO, or Generative Engine Optimization, is the practice of getting your content cited and surfaced in AI-generated answers from tools like ChatGPT, Perplexity, and Google AI Overviews. Where SEO aims for a ranked blue link, GEO aims to be the source the AI quotes when it writes the answer.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How is GEO different from SEO?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'SEO optimizes for a position in a list of links. GEO optimizes to be the passage an AI extracts and cites inside its answer. They overlap: both need crawlable, well-structured, trustworthy content. GEO adds answer-first writing, clear statistics, quotations, cited sources, structured data, and an llms.txt file so AI systems can parse and trust your page.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What actually increases AI citations?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Research from the GEO paper (KDD 2024) found that adding cited sources, statistics, and quotations raised visibility in AI answers by up to 40 percent, while keyword stuffing did not help. In practice: lead with the answer, back claims with numbers and named sources, add FAQ and article structured data, keep your entity consistent across the web, and let AI crawlers reach your site.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I know if AI is citing me?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Ask the engines directly. Search your target questions in ChatGPT, Perplexity, Gemini, and Google AI Overviews and note whether your site is named or linked. Check your server logs for AI crawler user agents like GPTBot, ClaudeBot, and PerplexityBot to confirm they are reaching your pages. Repeat monthly, because AI answers change often.',
+      },
+    },
+  ],
+};
+
+const llmsExample = `# Your Company
+
+> One-line summary of who you are and what you do, written so an AI can quote it.
+
+## What we do
+- Clear, factual bullets an AI can lift verbatim.
+
+## Key pages
+- Home: https://example.com/
+- Pricing: https://example.com/pricing`;
+---
+<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'GEO: rank in AI answers', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">03</span> Guide</p>
+    <h1>GEO: how to rank in AI answers</h1>
+    <p class="lede">Getting found now means getting cited by ChatGPT, Perplexity, and Google AI Overviews, not just ranking a link. Here is what actually works, backed by research and the way I do it.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p><strong>TL;DR: GEO (Generative Engine Optimization) is how you get cited by AI answers like ChatGPT, Perplexity, and Google AI Overviews. The moves that work, from the research and from practice: lead with the answer, back every claim with statistics and named sources, add quotations, mark up the page with FAQ and Article structured data, publish an llms.txt file, keep your entity consistent everywhere, and let AI crawlers reach your site. Keyword stuffing does nothing.</strong></p>
+
+      <h2>What GEO is</h2>
+      <p>GEO stands for Generative Engine Optimization. It is the practice of shaping your content so that AI systems quote it, cite it, and recommend it when they answer a question. You will also hear it called AEO, or Answer Engine Optimization. Same idea.</p>
+      <p>Search used to end in a list of links. More and more, it ends in an answer written by an AI, with a few sources named underneath. If you are not one of those sources, you are invisible, even if you rank first on the old blue-link results. GEO is how you become the source.</p>
+
+      <h2>Why it matters now</h2>
+      <p>Google now shows AI Overviews at the top of many searches, ChatGPT and Perplexity answer questions directly with citations, and a growing share of searches end without a single click to a website. When the AI writes the answer, the game changes from "rank a page" to "be the passage the AI trusts enough to quote."</p>
+      <p>The good news: the same content earns citations across ChatGPT, Perplexity, Gemini, and AI Overviews, because they all reward the same things. Structure and trust travel across engines.</p>
+
+      <h2>What actually works</h2>
+      <p>This is not guesswork. A study titled GEO: Generative Engine Optimization (published at KDD 2024, see the <a href="https://arxiv.org/abs/2311.09735">paper on arXiv</a>) tested nine content changes against real generative engines. The winners were clear. Adding cited sources, statistics, and quotations raised visibility in AI answers by up to 40 percent. Keyword stuffing, the old SEO reflex, did nothing.</p>
+      <p>So the playbook is almost the opposite of thin keyword pages. You earn AI citations by being genuinely useful, specific, and easy to parse. Here is how I do it.</p>
+
+      <h3>1. Lead with the answer</h3>
+      <p>Put the direct answer in the first two or three sentences, before any setup. AI systems extract short, self-contained passages. If your answer is buried under three paragraphs of preamble, it will not get lifted. Every guide on this site opens with a bolded TL;DR for exactly this reason.</p>
+
+      <h3>2. Back claims with statistics and named sources</h3>
+      <p>"This works well" is not quotable. "This raised visibility by up to 40 percent (KDD 2024)" is. Add real numbers, dates, and named sources, and link out to them. AI systems favor content that shows its work, because it is safer to cite.</p>
+
+      <h3>3. Add quotations and clear definitions</h3>
+      <p>A short, clear definition or a direct quote gives the engine a clean block to reuse. Define your terms plainly. Answer the obvious follow-up questions in their own short sections with descriptive headings.</p>
+
+      <h3>4. Mark up the page with structured data</h3>
+      <p>Structured data tells machines what your page is. Add FAQPage schema for question-and-answer blocks, Article or TechArticle for guides, and a clear Person or Organization entity with an author. It does not guarantee a citation, but it removes ambiguity, and ambiguity is what gets you skipped.</p>
+
+      <h3>5. Publish an llms.txt file</h3>
+      <p>llms.txt is a plain-text file at the root of your site that summarizes who you are and points to your key pages, written for AI systems to read. It is a simple, low-effort signal. Mine lives at <a href="/llms.txt">busqueneil.com/llms.txt</a>. The shape is simple:</p>
+      <pre><code>{llmsExample}</code></pre>
+
+      <h3>6. Keep your entity consistent</h3>
+      <p>AI systems build a picture of who you are from everywhere you appear: your site, LinkedIn, GitHub, directories, other people's articles. Use the same name, role, and description everywhere. Link them together with sameAs in your schema. A consistent entity is a trusted entity, and trusted entities get cited.</p>
+
+      <h3>7. Let AI crawlers in</h3>
+      <p>None of this matters if the bots cannot read your page. Check that your robots.txt does not block AI crawlers like GPTBot, ClaudeBot, Claude-SearchBot, and PerplexityBot unless you have a reason to. Note that these are separate agents: blocking one does not block the others. If you want the citations, let them crawl.</p>
+
+      <h2>How to measure it</h2>
+      <p>You cannot open a rank tracker for this yet, so measure it directly. Ask your target questions in ChatGPT, Perplexity, Gemini, and Google AI Overviews, and note whether you are named or linked. Check your server logs for AI crawler user agents to confirm they are reaching your pages. Do it monthly, because AI answers shift constantly.</p>
+
+      <h2>Common mistakes</h2>
+      <ul>
+        <li><strong>Writing for keywords instead of answers.</strong> The research is blunt: stuffing keywords does not move AI visibility. Answer the question well instead.</li>
+        <li><strong>Burying the answer.</strong> If the AI has to dig, it moves on to a page that made it easy.</li>
+        <li><strong>No sources.</strong> Unsupported claims are risky to cite, so engines skip them. Show your evidence.</li>
+        <li><strong>Blocking the crawlers by accident.</strong> A stray robots.txt rule can lock out every AI system. Check it.</li>
+        <li><strong>Treating GEO as separate from SEO.</strong> It is not a replacement. A fast, crawlable, well-structured site is the foundation for both.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+
+      <h3>What is GEO (Generative Engine Optimization)?</h3>
+      <p>GEO, or Generative Engine Optimization, is the practice of getting your content cited and surfaced in AI-generated answers from tools like ChatGPT, Perplexity, and Google AI Overviews. Where SEO aims for a ranked blue link, GEO aims to be the source the AI quotes when it writes the answer.</p>
+
+      <h3>How is GEO different from SEO?</h3>
+      <p>SEO optimizes for a position in a list of links. GEO optimizes to be the passage an AI extracts and cites inside its answer. They overlap: both need crawlable, well-structured, trustworthy content. GEO adds answer-first writing, clear statistics, quotations, cited sources, structured data, and an llms.txt file so AI systems can parse and trust your page.</p>
+
+      <h3>What actually increases AI citations?</h3>
+      <p>Research from the GEO paper (KDD 2024) found that adding cited sources, statistics, and quotations raised visibility in AI answers by up to 40 percent, while keyword stuffing did not help. In practice: lead with the answer, back claims with numbers and named sources, add FAQ and article structured data, keep your entity consistent across the web, and let AI crawlers reach your site.</p>
+
+      <h3>How do I know if AI is citing me?</h3>
+      <p>Ask the engines directly. Search your target questions in ChatGPT, Perplexity, Gemini, and Google AI Overviews and note whether your site is named or linked. Check your server logs for AI crawler user agents like GPTBot, ClaudeBot, and PerplexityBot to confirm they are reaching your pages. Repeat monthly, because AI answers change often.</p>
+
+      <p style="margin-top: 2rem;">Want your site cited by AI instead of ignored? I do GEO and SEO builds for companies. <a href="/hire">Hire me</a>, or read <a href="/guides/build-ai-agent-claude-code">how to build an AI agent</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps in days</a>.</p>
+    </div>
+  </article>
+</Site>

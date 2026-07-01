@@ -8,7 +8,7 @@ interface Props {
   ogType?: string;
   ogImage?: string;
   noindex?: boolean;
-  active?: 'feed' | 'projects' | 'writing' | 'now' | 'about';
+  active?: 'feed' | 'projects' | 'writing' | 'guides' | 'now' | 'about' | 'hire';
 }
 
 const { active, ...baseProps } = Astro.props;
@@ -32,10 +32,10 @@ const { active, ...baseProps } = Astro.props;
       <a class="name" href="/">busque<b>neil</b></a>
       <nav>
         <a href="/projects" aria-current={active === 'projects' ? 'page' : undefined}>Work</a>
+        <a href="/guides" aria-current={active === 'guides' ? 'page' : undefined}>Guides</a>
         <a href="/posts" aria-current={active === 'writing' ? 'page' : undefined}>Writing</a>
-        <a href="/now/" aria-current={active === 'now' ? 'page' : undefined}>Now</a>
         <a href="/about" aria-current={active === 'about' ? 'page' : undefined}>About</a>
-        <a class="hire" href="/help">Hire</a>
+        <a class="hire" href="/hire" aria-current={active === 'hire' ? 'page' : undefined}>Hire</a>
       </nav>
     </header>
 
@@ -45,7 +45,9 @@ const { active, ...baseProps } = Astro.props;
       <div class="footer-cols">
         <div class="footer-brand">busque<b>neil</b></div>
         <div class="footer-links">
+          <a href="/hire">Hire</a>
           <a href="/projects">Work</a>
+          <a href="/guides">Guides</a>
           <a href="/posts">Writing</a>
           <a href="/now/">Now</a>
           <a href="/about">About</a>

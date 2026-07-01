@@ -1,0 +1,116 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Hire Neil Busque — AI Engineer & Automation Builder';
+const description = 'Hire Neil Busque, an AI engineer and automation builder in New Jersey. AI agents, LLM apps, automations, GEO/SEO, and custom web apps. Full-time or project. Ships in days.';
+const canonical = 'https://busqueneil.com/hire';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Neil Busque — AI Engineering & Automation',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
+  serviceType: [
+    'AI agent development',
+    'AI automation',
+    'Generative Engine Optimization (GEO)',
+    'SEO',
+    'Web app development',
+    'Marketing automation',
+  ],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What does Neil Busque build?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AI agents and LLM apps, workflow automation, GEO and SEO systems that get you found in AI search and Google, and custom web apps and PWAs. He works at the seam between marketing and engineering, so the systems he builds are wired to actually drive revenue.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Neil available full-time or for projects?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Both. He is open to full-time roles as an AI engineer, automation engineer, or growth/marketing engineer, and to fixed-scope project work such as a single AI agent, an automation build, a GEO/SEO push, or a custom app. Remote, hybrid, or on-site across the NJ and NYC metro.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How fast can Neil ship?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Fast. He has shipped 40 plus web apps, PWAs, AI agents, and automations in 2026, most within days of the idea, and posts the work in public. A focused app or agent is usually days, not months.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I hire Neil?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Email busqueneil@gmail.com or message him on LinkedIn at linkedin.com/in/neilbusque. Tell him the problem and the outcome you want. He will tell you honestly whether he is the right build for it.',
+      },
+    },
+  ],
+};
+---
+<Site title={title} description={description} canonical={canonical}>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Hire', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Hire</p>
+    <h1>Hire the <span class="accent">AI guy</span> who ships.</h1>
+    <p class="lede">I am Neil Busque, an AI engineer and automation builder in New Jersey. I build AI agents, automations, and web apps, and I get companies found in AI search. Most of it ships in days, and you can see the work before you hire me.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <h2>What I build for you</h2>
+      <ul>
+        <li><strong>AI agents and LLM apps.</strong> Agents that do real work: answer leads, update your CRM, draft content, run research. Built on Claude Code with MCP tools wired into your systems.</li>
+        <li><strong>Workflow automation.</strong> The manual, repetitive work in your business turned into pipelines that run themselves, in n8n, Zapier, and GoHighLevel.</li>
+        <li><strong>GEO and SEO.</strong> Get cited by ChatGPT, Perplexity, and Google AI Overviews, and rank in normal search too. See <a href="/guides/geo-generative-engine-optimization-guide">my GEO guide</a> for how I think about it.</li>
+        <li><strong>Custom web apps and PWAs.</strong> Internal tools, portals, dashboards, customer-facing apps. Shipped in days, not quarters. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
+      </ul>
+
+      <h2>Proof, not promises</h2>
+      <p>I build in public. In 2026 I shipped 40 plus web apps, PWAs, AI agents, and automations, including a personal CRM, a client portal, a link shortener with analytics and web push, a cold-email app, and the CMS behind this site. You can browse <a href="/projects">the work</a> and read <a href="/guides">the guides</a> before you decide. Most people never get to see how someone works until after they hire them. With me, you see it first.</p>
+
+      <h2>Two ways to work with me</h2>
+      <ul>
+        <li><strong>Full-time.</strong> I am open to roles as an AI engineer, automation engineer, or growth engineer. If your team needs someone who can build AI systems and understands how marketing turns into revenue, that is me. <a href="/resume.pdf">Resume here</a>.</li>
+        <li><strong>Project work.</strong> One agent, one automation, one app, one GEO push. Fixed scope, fast turnaround. If you want to start small, I also run <a href="/help/">pay-what-it-was-worth help</a> and <a href="/build/">custom app builds from $100 to start</a>.</li>
+      </ul>
+
+      <h2>Why me</h2>
+      <p>Most AI people either talk about it or code in a vacuum. I do the rare middle: I ship real AI systems, fast, and I wire them to business outcomes because I spent years in digital marketing, SEO, and paid media before this. You get an engineer who understands the funnel, not just the model.</p>
+
+      <h2>Hire me</h2>
+      <p>Tell me the problem and the outcome you want. I will tell you honestly whether I am the right build for it.</p>
+      <ul>
+        <li>Email: <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></li>
+        <li>LinkedIn: <a href="https://www.linkedin.com/in/neilbusque" rel="me">linkedin.com/in/neilbusque</a></li>
+        <li>Resume: <a href="/resume.pdf">busqueneil.com/resume.pdf</a></li>
+      </ul>
+      <p>Prefer a specific angle? See <a href="/hire/ai-engineer">hire me as an AI engineer</a> or <a href="/hire/ai-automation">hire me for AI automation</a>.</p>
+    </div>
+  </article>
+</Site>

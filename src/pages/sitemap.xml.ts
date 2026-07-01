@@ -3,6 +3,13 @@ import { getAllPublished } from '../lib/posts';
 
 const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/', changefreq: 'daily', priority: '1.0' },
+  { loc: 'https://busqueneil.com/hire', changefreq: 'weekly', priority: '0.9' },
+  { loc: 'https://busqueneil.com/hire/ai-engineer', changefreq: 'monthly', priority: '0.7' },
+  { loc: 'https://busqueneil.com/hire/ai-automation', changefreq: 'monthly', priority: '0.7' },
+  { loc: 'https://busqueneil.com/guides', changefreq: 'weekly', priority: '0.8' },
+  { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', changefreq: 'monthly', priority: '0.7' },
+  { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', changefreq: 'monthly', priority: '0.7' },
+  { loc: 'https://busqueneil.com/guides/ship-web-app-in-days-with-ai', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/posts', changefreq: 'daily', priority: '0.8' },
   { loc: 'https://busqueneil.com/projects', changefreq: 'weekly', priority: '0.8' },
   { loc: 'https://busqueneil.com/now/', changefreq: 'weekly', priority: '0.7' },

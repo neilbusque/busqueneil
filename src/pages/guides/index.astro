@@ -1,0 +1,70 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const guides = [
+  {
+    slug: 'geo-generative-engine-optimization-guide',
+    title: 'GEO: How to Rank in AI Answers (2026 Guide)',
+    blurb: 'How to get cited by ChatGPT, Perplexity, and Google AI Overviews. What works, backed by research.',
+  },
+  {
+    slug: 'build-ai-agent-claude-code',
+    title: 'How to Build an AI Agent with Claude Code and MCP',
+    blurb: 'A practical, first-person build: model plus tools plus a loop, with real config and common mistakes.',
+  },
+  {
+    slug: 'ship-web-app-in-days-with-ai',
+    title: 'How to Ship a Web App in Days with AI',
+    blurb: 'My exact day-by-day process and stack (Astro, Supabase, Vercel, Claude Code) for shipping fast.',
+  },
+];
+
+const title = 'Guides — AI, GEO, and Building Software | Neil Busque';
+const description = 'Practical guides on building AI agents, ranking in AI answers with GEO, and shipping web apps fast with AI. Written from real work by Neil Busque.';
+const canonical = 'https://busqueneil.com/guides';
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Guides by Neil Busque',
+  itemListElement: guides.map((g, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://busqueneil.com/guides/${g.slug}`,
+    name: g.title,
+  })),
+};
+---
+<Site title={title} description={description} canonical={canonical} active="writing">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Guides', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Guides</p>
+    <h1>Guides on <span class="accent">AI, GEO, and building</span>.</h1>
+    <p class="lede">How I build AI agents, get sites cited by AI search, and ship web apps in days. Written from real work, not theory.</p>
+  </header>
+
+  <section class="feed">
+    {guides.map((g) => (
+      <article class="feed-entry">
+        <h2 style="margin:0 0 6px;"><a href={`/guides/${g.slug}`}>{g.title}</a></h2>
+        <p style="margin:0;">{g.blurb}</p>
+      </article>
+    ))}
+  </section>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      <p>Want this done for your company instead of doing it yourself? I take on AI, automation, and GEO/SEO builds. <a href="/hire">Hire me</a>.</p>
+    </div>
+  </article>
+</Site>
