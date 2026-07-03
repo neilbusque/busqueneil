@@ -78,5 +78,7 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
         document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
       })();
     </script>
+    {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online. */}
+    {!noindex && <script src="https://talk.busqueneil.com/widget.js" defer></script>}
   </body>
 </html>

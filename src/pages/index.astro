@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Schema from '../components/Schema.astro';
-import VoiceWidget from '../components/VoiceWidget.tsx';
 import { setPublicCache } from '../lib/posts';
 import '../styles/home.css';
 
@@ -267,9 +266,6 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         <div class="colophon">Built in public · New Jersey · © 2026 Neil Busque</div>
       </div>
     </footer>
-
-    <!-- floating voice agent -->
-    <VoiceWidget client:load />
   </div>
 
 </Base>
