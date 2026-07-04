@@ -311,22 +311,22 @@
 .home-v4 .faq-item[open] .faq-ico { transform: rotate(45deg); }
 .home-v4 .faq-a { margin: 0 0 20px; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 68ch; }
 
-/* ---- project collage ---- */
+/* ---- what it can do carousel ---- */
 .home-v4 .collage-band { position: relative; padding: clamp(56px, 8vw, 96px) 0; border-top: 1px solid var(--line); overflow: hidden; }
-.home-v4 .collage-head { text-align: center; margin-bottom: 40px; }
+.home-v4 .collage-head { text-align: center; margin-bottom: clamp(36px, 5vw, 56px); }
 .home-v4 .collage-stat { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 8vw, 88px); line-height: 1; letter-spacing: -0.03em; color: var(--text); margin: 0; }
 .home-v4 .collage-stat .amp { color: var(--v2); }
-.home-v4 .collage-sub { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 14px auto 0; max-width: 40ch; }
-.home-v4 .collage-grid { columns: 4 260px; column-gap: 16px; }
-.home-v4 .collage-tile {
-  break-inside: avoid; margin: 0 0 16px; display: block;
-  border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden;
-  box-shadow: 0 14px 40px -18px rgba(0, 0, 0, 0.75);
-  opacity: 0.9; transition: opacity .3s ease, transform .3s ease, border-color .3s ease;
+.home-v4 .collage-sub { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 16px auto 0; max-width: 46ch; }
+.home-v4 .mq-rows { display: grid; gap: 18px; }
+.home-v4 .mq-rows .marquee { border: none; padding: 6px 0; }
+.home-v4 .marquee-track.rev { animation-direction: reverse; }
+.home-v4 .mq-lg {
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(20px, 2.6vw, 34px); letter-spacing: -0.015em;
+  color: var(--text);
 }
-.home-v4 .collage-tile:hover { opacity: 1; transform: translateY(-4px); border-color: rgba(196, 75, 255, 0.45); }
-.home-v4 .collage-tile img { width: 100%; height: auto; display: block; }
-@media (max-width: 600px) { .home-v4 .collage-grid { columns: 2 150px; column-gap: 12px; } .home-v4 .collage-tile { margin-bottom: 12px; } }
+.home-v4 .mq-lg::after { content: '·'; color: var(--v2); }
+.home-v4 .mq-rows .marquee:nth-child(2) .mq-lg { color: var(--muted); }
 
 /* ---- reveal ---- */
 .home-v4 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }

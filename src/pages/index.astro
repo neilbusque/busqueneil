@@ -127,11 +127,17 @@ const caps = [
   { t: 'Built in Claude Code', d: 'My daily driver. It is how one person ships all of the above.' },
 ];
 
-const collage = [
-  'orbit', 'anvilads', 'vid', 'gleamwork', 'darioo', 'work',
-  'swipe', 'compound', 'ai-architect', 'quantum', 'flow', 'greenleaf',
-  'loft', 'growthprocess', 'hatch', 'build', 'backline', 'anchor',
-  'tandem', 'yourapp', 'watch-together', 'awaken',
+const snippetsA = [
+  'Loom Alternative', 'Replaced Notion', 'AI CRM', 'Teleprompter',
+  'Replaced Calendly', 'All-in-One HQ', 'Wispr Flow Alternative',
+  'Custom Software', 'Replaced Todoist', 'Cold Email SDR', 'Saved Time',
+  'Link Shortener',
+];
+const snippetsB = [
+  'HubSpot Alternative', 'Replaced Slack', 'Automation', 'Deep-Work Timer',
+  'Multi-Account Browser', 'Trends Radar', 'Voice Dictation',
+  'Watch Parties', 'Booked More Calls', 'Owns His Own Stack',
+  'Shipped in Days', 'Built Solo',
 ];
 
 const pad = (n: number) => String(n + 1).padStart(2, '0');
@@ -400,19 +406,24 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- project collage -->
+    <!-- what it can do carousel -->
     <section class="collage-band" id="deployed">
       <div class="shell">
         <div class="collage-head reveal">
           <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
-          <p class="collage-sub">Apps, funnels, agency sites, and client tools. Designed, built, and shipped solo. A wall of the ones that are live right now.</p>
+          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo. Here's the kind of thing it replaces.</p>
         </div>
-        <div class="collage-grid reveal">
-          {collage.map((slug) => (
-            <div class="collage-tile">
-              <img src={`/assets/collage/${slug}.jpg`} alt={`Screenshot of ${slug}`} width="1280" height="800" loading="lazy" />
-            </div>
-          ))}
+      </div>
+      <div class="mq-rows reveal">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
+          </div>
+        </div>
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track rev">
+            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
+          </div>
         </div>
       </div>
     </section>
