@@ -36,7 +36,7 @@ async function callOpenRouter(messages: Array<{ role: string; content: string }>
   const model = env('OPENROUTER_MODEL') || 'anthropic/claude-sonnet-4.6';
   if (!apiKey) throw new Error('OPENROUTER_API_KEY missing');
   const ctl = new AbortController();
-  const timer = setTimeout(() => ctl.abort(), 45000);
+  const timer = setTimeout(() => ctl.abort(), 90000);
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST', signal: ctl.signal,
