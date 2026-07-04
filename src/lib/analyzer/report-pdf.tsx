@@ -39,7 +39,7 @@ function ReportDoc({ url, score, grade, audit, report }: ReportPdfData) {
         <View style={s.metricRow}><Text>Conversion elements present</Text><Text>{conv.presentCount}/{conv.totalCount}</Text></View>
         <View style={{ marginTop: 6 }}>
           {conv.items.map(i => (
-            <Text key={i.key} style={s.muted}>{i.present ? '[x] ' : '[ ] '}{i.label}{i.detail ? ` — ${i.detail}` : ''}</Text>
+            <Text key={i.key} style={s.muted}>{i.present ? '[x] ' : '[ ] '}{i.label}{i.detail ? ` (${i.detail})` : ''}</Text>
           ))}
         </View>
 
