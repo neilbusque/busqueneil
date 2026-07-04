@@ -105,12 +105,6 @@ body.theme-dark { background: #000000; }
 
 /* ---- hero ---- */
 .home-v4 .hero { position: relative; overflow: hidden; background: var(--ink); padding: 0; }
-.home-v4 .hero::before {
-  content: ''; position: absolute; z-index: 0; pointer-events: none;
-  top: -10%; right: -6%; width: 70%; height: 120%;
-  background: radial-gradient(46% 46% at 62% 42%, rgba(124,92,255,0.30), rgba(196,75,255,0.12) 45%, transparent 72%);
-  filter: blur(6px);
-}
 .home-v4 .hero-inner {
   display: grid; grid-template-columns: 1.08fr 0.92fr; align-items: center;
   gap: clamp(24px, 4vw, 56px);
@@ -128,20 +122,14 @@ body.theme-dark { background: #000000; }
 }
 @media (hover: none) { .home-v4 .page-cursor { display: none; } }
 
-/* ---- hero: looping video + parallax + glow pulse ---- */
+/* ---- hero: looping video, blended into the black background ---- */
 .home-v4 .hero-visual { transition: transform .3s cubic-bezier(.2,.7,.2,1); will-change: transform; }
 .home-v4 .hero-figure {
   display: block; width: 100%; height: auto; margin-top: -4%; margin-bottom: -6%;
-  /* feather the video's rectangular edges into the dark hero so there's no box */
-  -webkit-mask-image: radial-gradient(76% 82% at 50% 47%, #000 50%, transparent 86%);
-  mask-image: radial-gradient(76% 82% at 50% 47%, #000 50%, transparent 86%);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .home-v4 .hero::before { animation: heroGlow 9s ease-in-out infinite; }
-}
-@keyframes heroGlow {
-  0%, 100% { opacity: .72; transform: scale(1); }
-  50%      { opacity: 1;   transform: scale(1.06); }
+  /* screen blend + pure-black video background => the box disappears into the page */
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(84% 90% at 50% 47%, #000 66%, transparent 96%);
+  mask-image: radial-gradient(84% 90% at 50% 47%, #000 66%, transparent 96%);
 }
 @media (max-width: 900px) {
   .home-v4 .hero-inner { grid-template-columns: 1fr; padding-top: 88px; gap: 8px; }
