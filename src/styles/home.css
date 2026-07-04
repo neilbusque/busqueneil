@@ -144,6 +144,11 @@ body.theme-dark { background: #000000; }
   line-height: 1.02; letter-spacing: -0.04em;
   margin: 0; max-width: 16ch; text-align: left;
 }
+.home-v4 h1.display .hl {
+  background: linear-gradient(100deg, var(--v1) 10%, var(--v2) 60%, #F0A6FF 95%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
 .home-v4 h1.display .accent {
   display: block; margin-top: 18px;
   font-size: clamp(19px, 2.1vw, 28px); letter-spacing: -0.02em; line-height: 1.15;
