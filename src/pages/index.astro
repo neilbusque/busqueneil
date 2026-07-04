@@ -196,28 +196,6 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- what it can do carousel -->
-    <section class="collage-band" id="deployed">
-      <div class="shell">
-        <div class="collage-head reveal">
-          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
-          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo. Here's the kind of thing it replaces.</p>
-        </div>
-      </div>
-      <div class="mq-rows reveal">
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track">
-            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
-          </div>
-        </div>
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track rev">
-            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- tech marquee -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track">
@@ -423,6 +401,28 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             </ul>
             <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
             <p class="form-note">Straight to my phone. Just say hi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- what it can do carousel -->
+    <section class="collage-band" id="deployed">
+      <div class="shell">
+        <div class="collage-head reveal">
+          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
+          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo. Here's the kind of thing it replaces.</p>
+        </div>
+      </div>
+      <div class="mq-rows reveal">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
+          </div>
+        </div>
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track rev">
+            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
           </div>
         </div>
       </div>
