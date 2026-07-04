@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ExitIntentAnalyzer from '../components/ExitIntentAnalyzer.tsx';
 
 interface Props {
   title: string;
@@ -80,5 +81,6 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     </script>
     {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online. */}
     {!noindex && <script src="https://talk.busqueneil.com/widget.js" defer></script>}
+    <ExitIntentAnalyzer client:idle />
   </body>
 </html>
