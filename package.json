@@ -8,7 +8,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.0",
@@ -33,6 +34,7 @@
   "author": "Neil Busque <busqueneil@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "puppeteer-core": "^25.2.1"
+    "puppeteer-core": "^25.2.1",
+    "vitest": "^2.1.9"
   }
 }
