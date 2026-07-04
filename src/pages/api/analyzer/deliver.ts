@@ -51,8 +51,19 @@ export const POST: APIRoute = async ({ request }) => {
     }
   })();
 
-  const ctx = (globalThis as any).context; // Vercel injects waitUntil via the request context
-  if (ctx?.waitUntil) ctx.waitUntil(heavy); else await heavy;
+  // Prefer Vercel's waitUntil so the ack is instant and the heavy work finishes
+  // in the background (bounded by maxDuration). waitUntil throws when called
+  // outside the Vercel request context (local dev), so we fall back to an inline
+  // await there — delivery is never dropped.
+  let scheduled = false;
+  try {
+    const { waitUntil } = await import('@vercel/functions');
+    waitUntil(heavy);
+    scheduled = true;
+  } catch {
+    scheduled = false;
+  }
+  if (!scheduled) await heavy;
 
   return json({ ok: true });
 };
