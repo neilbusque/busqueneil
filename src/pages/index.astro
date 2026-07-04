@@ -188,11 +188,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           <p class="hero-proof"><span class="tick">✓</span> Ten products below. Every one live and in use right now.</p>
         </div>
         <div class="hero-visual" id="heroVisual">
-          <div class="hero-puppet" id="heroPuppet">
-            <img class="hero-figure" src="/assets/art/neil-hero.webp" alt="3D illustration of Neil Busque building software" width="900" height="1200" fetchpriority="high" />
-            <span class="eye eye-l" aria-hidden="true"><span class="pupil"></span></span>
-            <span class="eye eye-r" aria-hidden="true"><span class="pupil"></span></span>
-          </div>
+          <video class="hero-figure" autoplay muted loop playsinline poster="/assets/art/neil-hero.webp" width="900" height="1200" aria-label="Animated 3D illustration of Neil Busque building software">
+            <source src="/assets/art/neil-hero.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
     </section>
@@ -451,35 +449,20 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   </div>
 
   <script is:inline>
-    // Hero puppet: page-wide cursor spotlight, cursor-tracking eyes, blink, parallax.
+    // Page-wide cursor spotlight + subtle hero parallax.
     (function () {
       if (matchMedia('(hover: none)').matches) return;
-      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       var pc = document.getElementById('pageCursor');
       var hero = document.querySelector('.hero');
       var vis = document.getElementById('heroVisual');
-      var puppet = document.getElementById('heroPuppet');
-      var pupils = [document.querySelector('.eye-l .pupil'), document.querySelector('.eye-r .pupil')];
-      var wa = document.getElementById('heroWhatsapp');
-      var mx = -9999, my = -9999, raf = 0, heroRect = null;
-
+      var mx = 0, my = 0, raf = 0, heroRect = null;
       function frame() {
         raf = 0;
-        var excited = puppet && puppet.classList.contains('excited');
-        for (var i = 0; i < pupils.length; i++) {
-          var p = pupils[i]; if (!p) continue;
-          var r = p.getBoundingClientRect();
-          var ex = r.left + r.width / 2, ey = r.top + r.height / 2;
-          var dx = mx - ex, dy = my - ey, d = Math.hypot(dx, dy) || 1;
-          var max = excited ? 5.5 : 3.4;
-          var ox = dx / d * Math.min(max, d * 0.06), oy = dy / d * Math.min(max, d * 0.06);
-          p.style.transform = 'translate(calc(-50% + ' + ox.toFixed(2) + 'px), calc(-50% + ' + oy.toFixed(2) + 'px))';
-        }
         if (vis && hero) {
           if (!heroRect) heroRect = hero.getBoundingClientRect();
           if (mx >= heroRect.left && mx <= heroRect.right && my >= heroRect.top && my <= heroRect.bottom) {
             var nx = (mx - heroRect.left) / heroRect.width - 0.5, ny = (my - heroRect.top) / heroRect.height - 0.5;
-            vis.style.transform = 'translate(' + (nx * 18).toFixed(1) + 'px,' + (ny * 13).toFixed(1) + 'px) rotate(' + (nx * 2).toFixed(2) + 'deg)';
+            vis.style.transform = 'translate(' + (nx * 16).toFixed(1) + 'px,' + (ny * 12).toFixed(1) + 'px) rotate(' + (nx * 1.6).toFixed(2) + 'deg)';
           } else { vis.style.transform = ''; }
         }
       }
@@ -489,14 +472,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         if (pc) { pc.style.transform = 'translate(' + mx + 'px,' + my + 'px)'; pc.style.opacity = '1'; }
         if (!raf) raf = requestAnimationFrame(frame);
       }, { passive: true });
-      window.addEventListener('scroll', function () { heroRect = null; if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+      window.addEventListener('scroll', function () { heroRect = null; }, { passive: true });
       window.addEventListener('resize', function () { heroRect = null; }, { passive: true });
       document.addEventListener('mouseleave', function () { if (pc) pc.style.opacity = '0'; });
-
-      if (wa && puppet) {
-        wa.addEventListener('pointerenter', function () { puppet.classList.add('excited'); });
-        wa.addEventListener('pointerleave', function () { puppet.classList.remove('excited'); });
-      }
     })();
 
     // Contact form -> Orbit form-lead edge function (same contract as /help funnel).
