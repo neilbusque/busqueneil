@@ -314,36 +314,15 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             </div>
           </div>
           <div class="lead-card">
-            <form id="contactForm" novalidate>
-              <h3 class="lc-title">Send me a message</h3>
-              <p class="lc-sub">Tell me what you're working on and we'll connect. No pitch, no pressure. Happy to show you what's possible or just trade ideas. Prefer WhatsApp? <a href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me there</a>.</p>
-              <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
-              <div class="field">
-                <label for="cf-name">Name</label>
-                <input type="text" id="cf-name" name="name" required autocomplete="name" placeholder="Your name" />
-              </div>
-              <div class="field">
-                <label for="cf-email">Work email</label>
-                <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="you@company.com" />
-              </div>
-              <div class="field">
-                <label for="cf-need">What do you need most?</label>
-                <select id="cf-need" name="need" required>
-                  <option value="AI agents">AI agents</option>
-                  <option value="Automation">Automation</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Web app">Web app</option>
-                  <option value="Not sure yet" selected>Not sure yet</option>
-                </select>
-              </div>
-              <button class="btn primary" type="submit">Get in touch <span class="ico">→</span></button>
-              <p class="form-note">No newsletter, no sequence. Just a reply from me.</p>
-            </form>
-            <div id="formSuccess" class="form-success" hidden>
-              <div class="fs-ico">✓</div>
-              <h3>Got it.</h3>
-              <p>Thanks for reaching out. I'll get back to you soon. Talk soon.</p>
-            </div>
+            <h3 class="lc-title">Just send me a DM</h3>
+            <p class="lc-sub">No form, no pitch, no pressure. Message me on WhatsApp and we'll talk like people.</p>
+            <p class="lc-sub">Even if we never do business together, I love meeting sharp people, trading ideas, and connecting. Want to chat, share what you're building, or just network? I'm in.</p>
+            <ul class="lc-perks">
+              <li><span class="tick">✓</span> Hop on a quick call and I promise you'll walk away with something useful.</li>
+              <li><span class="tick">✓</span> I'll also send you a free tool you can start using right away.</li>
+            </ul>
+            <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
+            <p class="form-note">Straight to my phone. Just say hi.</p>
           </div>
         </div>
       </div>
