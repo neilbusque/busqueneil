@@ -34,6 +34,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (rec.reason === 'daily-ip-cap') return json({ error: 'Too many reports from your network today. Try again tomorrow.' }, 429);
     if (rec.reason === 'global-cap') return json({ error: 'We are at capacity today. Try again tomorrow.' }, 429);
     // On misconfig, still ack so the UX is not broken; nothing was stored.
+    console.error('deliver: lead not recorded', rec.reason);
   }
 
   // Heavy work runs after we respond, still within maxDuration. The Orbit push
