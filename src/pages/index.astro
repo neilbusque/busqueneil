@@ -196,30 +196,23 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- about -->
-    <div class="rule"></div>
-    <section class="section" id="about">
+    <!-- what it can do carousel -->
+    <section class="collage-band" id="deployed">
       <div class="shell">
-        <p class="label sec-label reveal"><span class="n">01</span> &nbsp;About</p>
-        <h2 class="statement reveal">I've followed the interesting work wherever it went. <span class="muted">Right now, it's AI.</span></h2>
-        <div class="bio-grid reveal">
-          <img class="bio-portrait" src="/assets/art/neilpic.png" width="500" height="750" alt="Neil Busque" loading="lazy" />
-          <div class="bio-body">
-            <p>
-              I studied IT, then got pulled into graphic design, which led me into
-              web development. From there it was funnels and landing pages, then
-              GoHighLevel, then automation with Zapier and n8n. Every couple of
-              years the interesting work moved somewhere new, and I followed it.
-            </p>
-            <p>
-              Now we're in the AI era, and I'm all in. I spend most of my day in
-              Claude Code, and it has let me build things that used to need a whole
-              team: full apps, AI agents, and automations, usually in days.
-            </p>
-            <p>
-              I build in public and ship something most weeks. I'm based in New
-              Jersey, and I'm always making something.
-            </p>
+        <div class="collage-head reveal">
+          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
+          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo. Here's the kind of thing it replaces.</p>
+        </div>
+      </div>
+      <div class="mq-rows reveal">
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track">
+            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
+          </div>
+        </div>
+        <div class="marquee" aria-hidden="true">
+          <div class="marquee-track rev">
+            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
           </div>
         </div>
       </div>
@@ -235,7 +228,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <!-- capabilities -->
     <section class="section" id="capabilities">
       <div class="shell">
-        <p class="label sec-label reveal"><span class="n">02</span> &nbsp;How I can help</p>
+        <p class="label sec-label reveal"><span class="n">01</span> &nbsp;How I can help</p>
         <h2 class="statement reveal" style="font-size:clamp(26px,3.8vw,46px);max-width:20ch">From your marketing to your AI agents, I can probably help.</h2>
         <div class="caps-grid reveal" style="margin-top:44px">
           {caps.map((c, i) => (
@@ -255,7 +248,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">03</span> &nbsp;Projects</p>
+            <p class="label"><span class="n">02</span> &nbsp;Projects</p>
             <h2>Real products, live now.</h2>
           </div>
           <p class="lede">Designed, built, and shipped solo. Every one is live right now.</p>
@@ -362,6 +355,35 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- about -->
+    <div class="rule"></div>
+    <section class="section" id="about">
+      <div class="shell">
+        <p class="label sec-label reveal"><span class="n">03</span> &nbsp;About</p>
+        <h2 class="statement reveal">I've followed the interesting work wherever it went. <span class="muted">Right now, it's AI.</span></h2>
+        <div class="bio-grid reveal">
+          <img class="bio-portrait" src="/assets/art/neilpic.png" width="500" height="750" alt="Neil Busque" loading="lazy" />
+          <div class="bio-body">
+            <p>
+              I studied IT, then got pulled into graphic design, which led me into
+              web development. From there it was funnels and landing pages, then
+              GoHighLevel, then automation with Zapier and n8n. Every couple of
+              years the interesting work moved somewhere new, and I followed it.
+            </p>
+            <p>
+              Now we're in the AI era, and I'm all in. I spend most of my day in
+              Claude Code, and it has let me build things that used to need a whole
+              team: full apps, AI agents, and automations, usually in days.
+            </p>
+            <p>
+              I build in public and ship something most weeks. I'm based in New
+              Jersey, and I'm always making something.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- contact / open for work -->
     <div class="rule"></div>
     <section class="section hire-band" id="contact">
@@ -401,28 +423,6 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             </ul>
             <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
             <p class="form-note">Straight to my phone. Just say hi.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- what it can do carousel -->
-    <section class="collage-band" id="deployed">
-      <div class="shell">
-        <div class="collage-head reveal">
-          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
-          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo. Here's the kind of thing it replaces.</p>
-        </div>
-      </div>
-      <div class="mq-rows reveal">
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track">
-            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
-          </div>
-        </div>
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track rev">
-            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
           </div>
         </div>
       </div>
