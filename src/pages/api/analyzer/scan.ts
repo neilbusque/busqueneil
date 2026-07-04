@@ -4,6 +4,7 @@ import { parsePsi } from '../../../lib/analyzer/psiParse';
 import { buildPageAudit, compositeScore, teaserSummary } from '../../../lib/analyzer/audit';
 import { gradeForScore } from '../../../lib/analyzer/report';
 import { signScan } from '../../../lib/analyzer/token';
+import { assertPublicUrl } from '../../../lib/analyzer/ssrf';
 
 export const prerender = false;
 const env = (k: string) => process.env[k] ?? (import.meta as any).env?.[k];
@@ -57,9 +58,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   let url = '';
   try { url = (await request.json())?.url ?? ''; } catch { /* noop */ }
   let parsed: URL;
-  try { parsed = new URL(url.startsWith('http') ? url : `https://${url}`); }
-  catch { return json({ error: 'invalid-url' }, 400); }
-  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return json({ error: 'invalid-url' }, 400);
+  try { parsed = await assertPublicUrl(url); }
+  catch (e) {
+    const msg = (e as Error).message;
+    if (msg === 'unreachable') return json({ error: 'unreachable' }, 502);
+    return json({ error: msg === 'blocked-url' ? 'blocked-url' : 'invalid-url' }, 400);
+  }
 
   const [html, psi] = await Promise.all([fetchHtml(parsed.toString()), fetchPsi(parsed.toString())]);
   if (!html) return json({ error: 'unreachable' }, 502);
