@@ -317,6 +317,7 @@
 .home-v4 .collage-stat { font-family: var(--display); font-weight: 700; font-size: clamp(44px, 8vw, 88px); line-height: 1; letter-spacing: -0.03em; color: var(--text); margin: 0; }
 .home-v4 .collage-stat .amp { color: var(--v2); }
 .home-v4 .collage-sub { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 16px auto 0; max-width: 46ch; }
+.home-v4 .collage-note { text-align: center; margin: clamp(36px, 5vw, 56px) auto 0; max-width: 60ch; color: var(--muted); font-size: clamp(16px, 2vw, 19px); line-height: 1.65; }
 .home-v4 .mq-rows { display: grid; gap: 18px; }
 .home-v4 .mq-rows .marquee { border: none; padding: 6px 0; }
 .home-v4 .marquee-track.rev { animation-direction: reverse; }
