@@ -83,8 +83,8 @@ body.theme-dark { background: #000000; }
 /* ---- nav ---- */
 .home-v4 .nav {
   position: sticky; top: clamp(10px, 1.6vw, 18px); z-index: 50;
-  max-width: 1080px; margin: clamp(10px, 1.6vw, 18px) auto 0;
-  padding: 0 clamp(14px, 3vw, 22px);
+  max-width: var(--shell); margin: clamp(10px, 1.6vw, 18px) auto 0;
+  padding: 0 var(--gutter);
 }
 .home-v4 .nav-inner {
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
