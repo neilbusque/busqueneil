@@ -16,7 +16,13 @@ export default function Analyzer({ initialUrl = '' }: { initialUrl?: string }) {
     try {
       const res = await fetch('/api/analyzer/scan', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: u }) });
       const data = await res.json();
-      if (!res.ok) { setErr(data.error === 'unreachable' ? 'I could not reach that page. Check the URL and try again.' : 'That does not look like a valid URL.'); setPhase('error'); return; }
+      if (!res.ok) {
+        let msg = 'That does not look like a valid URL.';
+        if (data.error === 'unreachable') msg = "I couldn't reach that page. Check the URL and try again.";
+        else if (data.error === 'blocked-url') msg = "That address can't be analyzed. Try a public website URL.";
+        else if (res.status === 429) msg = "You've run a few scans already. Give it a minute and try again.";
+        setErr(msg); setPhase('error'); return;
+      }
       setScan(data); setPhase('teaser');
     } catch { setErr('Something went wrong. Try again.'); setPhase('error'); }
   }
@@ -30,7 +36,13 @@ export default function Analyzer({ initialUrl = '' }: { initialUrl?: string }) {
     try {
       const res = await fetch('/api/analyzer/deliver', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email, hp, scanToken: scan.scanToken }) });
       const data = await res.json();
-      if (!res.ok) { setErr(data.error || 'Could not send. Try again.'); setPhase('teaser'); return; }
+      if (!res.ok) {
+        let msg = 'Something went wrong. Try again, or just reply to my email.';
+        if (data.error === 'expired') msg = 'That result expired. Please run the analysis again.';
+        else if (data.error === 'invalid-email') msg = "That email doesn't look right. Mind checking it?";
+        else if (res.status === 429) msg = data.error;
+        setErr(msg); setPhase('teaser'); return;
+      }
       try { localStorage.setItem('analyzer_converted', '1'); } catch {}
       setPhase('sent');
     } catch { setErr('Could not send. Try again.'); setPhase('teaser'); }
@@ -38,6 +50,9 @@ export default function Analyzer({ initialUrl = '' }: { initialUrl?: string }) {
 
   const conv = scan?.audit?.conversion;
   const mob = scan?.audit?.mobile;
+  const mobileLabel = !mob ? '' : !mob.hasViewportMeta ? 'Poor'
+    : (mob.tapTargetsOk === false || mob.legibleFontOk === false || mob.contentWidthOk === false) ? 'Fair'
+    : 'Good';
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto' }}>
@@ -57,7 +72,7 @@ export default function Analyzer({ initialUrl = '' }: { initialUrl?: string }) {
           </div>
           <div style={grid}>
             <Metric label="Page speed" value={`${scan.audit.speed.score}/100`} />
-            <Metric label="Mobile" value={mob?.hasViewportMeta ? 'Pass' : 'Fail'} />
+            <Metric label="Mobile" value={mobileLabel} />
             <Metric label="Conversion elements" value={`${conv?.presentCount}/${conv?.totalCount}`} />
           </div>
           <p style={{ marginTop: 14 }}>{scan.summary}</p>
@@ -87,4 +102,4 @@ function Metric({ label, value }: { label: string; value: string }) {
 }
 const inp: any = { width: '100%', padding: 14, borderRadius: 10, border: '1px solid #262633', background: '#0f0f16', color: '#fff', marginBottom: 10 };
 const btn: any = { width: '100%', padding: 14, borderRadius: 10, border: 0, color: '#fff', fontWeight: 700, cursor: 'pointer', background: 'linear-gradient(90deg,#7c3aed,#db2777)' };
-const grid: any = { display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 };
+const grid: any = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 };
