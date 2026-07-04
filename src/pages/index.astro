@@ -20,16 +20,37 @@ const featured = [
     url: 'https://www.inorbit.one', label: 'inorbit.one',
   },
   {
-    name: 'Otto',
-    desc: 'An autonomous command center. A CRM whose AI reads my email, follows up, and moves deals while I am away.',
-    chips: ['Next 14', 'Claude', 'Gmail API'],
-    url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app',
+    name: 'Vid',
+    desc: 'A Loom alternative I actually use. Screen and camera recording, instant share links, and pages that gate a CTA behind the watch.',
+    chips: ['WebRTC', 'R2', 'Analytics'],
+    url: 'https://vid.neilb.me', label: 'vid.neilb.me',
   },
   {
-    name: 'Hop',
-    desc: 'A link shortener with teeth. Real-time click analytics, web push, a PWA, and a Chrome extension.',
-    chips: ['Edge', 'Web Push', 'Extension'],
-    url: 'https://links.busqueneil.com', label: 'links.busqueneil.com',
+    name: 'Whisp',
+    desc: 'A Wispr Flow alternative that runs on your Mac, fully offline. Hold a key, talk, and your words land as text in any app.',
+    chips: ['whisper.cpp', 'macOS', 'Local-first'],
+    url: null, label: 'macOS desktop app',
+  },
+  {
+    name: 'Prism',
+    desc: 'A Mac browser for people with ten logins. Separate profiles, a built-in ad blocker, and an AI panel one keystroke away.',
+    chips: ['Electron', 'Chromium', 'AI panel'],
+    url: null, label: 'macOS desktop app',
+  },
+  {
+    name: 'Magus',
+    desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.',
+    chips: ['Supabase', 'Vapi', 'Cal.com'],
+    url: 'https://magus.neilb.me', label: 'magus.neilb.me',
+  },
+];
+
+const more = [
+  {
+    name: 'Flow',
+    desc: 'A deep-work timer that keeps me honest. Sessions, streaks, and a clean board that makes focus feel like a game.',
+    chips: ['PWA', 'Offline', 'Installable'],
+    url: 'https://goflow.space', label: 'goflow.space',
   },
   {
     name: 'Tandem',
@@ -38,31 +59,49 @@ const featured = [
     url: 'https://tandem.yengandneil.site', label: 'tandem.yengandneil.site',
   },
   {
-    name: 'Play Together',
+    name: 'Watch Together',
     desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.',
     chips: ['WebRTC', 'TURN', 'Extension'],
     url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site',
   },
-];
-
-const more = [
-  {
-    name: 'Magus',
-    desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.',
-    chips: ['Supabase', 'Vapi', 'Cal.com'],
-    url: 'https://magus.neilb.me', label: 'magus.neilb.me',
-  },
   {
     name: 'Pulse',
-    desc: 'A personal trends radar. It watches the web all day and emails me the signal worth acting on each morning.',
+    desc: 'A personal trends radar. It watches the web all day and emails me the one signal worth acting on each morning.',
     chips: ['PWA', 'Cron', 'Resend'],
     url: 'https://trends.neilb.me', label: 'trends.neilb.me',
   },
   {
-    name: 'Prism',
-    desc: 'A Mac browser for people with ten logins. Separate profiles, an ad blocker, and a built-in AI panel.',
-    chips: ['Electron', 'Chromium', 'AI panel'],
-    url: null, label: 'macOS desktop app',
+    name: 'Hop',
+    desc: 'A link shortener with teeth. Real-time click analytics, web push, a PWA, and a Chrome extension.',
+    chips: ['Edge', 'Web Push', 'Extension'],
+    url: 'https://links.busqueneil.com', label: 'links.busqueneil.com',
+  },
+];
+
+const faqs = [
+  {
+    q: "Isn't AI-built software full of bugs?",
+    a: 'Every app on this page is live and in daily use, mine or a client’s. I build with tests, I use the thing myself before anyone else touches it, and I fix fast because I own the whole stack. AI writes code quicker. It does not skip the part where I make sure it works.',
+  },
+  {
+    q: 'Why not just build it myself with Lovable or a no-code tool?',
+    a: 'Go for it if it fits. Those tools are great right up until you need a real database, auth, billing, background jobs, or anything custom. That is the wall most people hit. I start where they stop, and you own the code instead of renting a platform.',
+  },
+  {
+    q: "Can't I get the same thing out of ChatGPT?",
+    a: 'You can get a prototype. Getting from a prototype to something that survives real users, payments, and edge cases is a different job. That gap is the part I get paid for.',
+  },
+  {
+    q: 'How do you actually build this fast?',
+    a: 'Claude Code as my daily driver, a stack I have shipped 50+ times, and no committee. One person who has done it before moves faster than a team still arguing about which framework to use.',
+  },
+  {
+    q: 'What happens if it breaks after you hand it off?',
+    a: 'You get the code, the repo, and clear docs. Nothing is locked in a black box. I also stick around. Most people keep me on for tweaks and new features because it beats starting over, and one message reaches the person who built it.',
+  },
+  {
+    q: 'Is this reliable enough to run my business on?',
+    a: 'The same tools I build with run my own CRM, my outreach, and my links every day. If I trust them with my income, they can carry yours. When something needs attention, you are talking to the builder, not a ticket queue.',
   },
 ];
 
@@ -86,6 +125,13 @@ const caps = [
   { t: 'AI agents & systems', d: 'Assistants, SDRs, and copilots on Claude that actually do the job.' },
   { t: 'Web apps & PWAs', d: 'Full products, from a blank file to live, usually in days.' },
   { t: 'Built in Claude Code', d: 'My daily driver. It is how one person ships all of the above.' },
+];
+
+const collage = [
+  'orbit', 'anvilads', 'vid', 'gleamwork', 'darioo', 'work',
+  'swipe', 'compound', 'ai-architect', 'quantum', 'flow', 'greenleaf',
+  'loft', 'growthprocess', 'hatch', 'build', 'backline', 'anchor',
+  'tandem', 'yourapp', 'watch-together', 'awaken',
 ];
 
 const pad = (n: number) => String(n + 1).padStart(2, '0');
@@ -242,9 +288,9 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           )}
           <a class="work-card compact" href="/feed">
             <div class="top">
-              <span class="pname">More builds</span>
+              <span class="pname">50+ more builds</span>
             </div>
-            <p class="pdesc">These 8 are the highlights. The rest ships to the build log as it happens, most weeks.</p>
+            <p class="pdesc">These are the highlights. Fifty-plus more are deployed and running, with new ones shipping to the build log most weeks.</p>
             <p class="liveurl">busqueneil.com/feed →</p>
           </a>
         </div>
@@ -272,6 +318,31 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- faq / objections -->
+    <div class="rule"></div>
+    <section class="section" id="faq">
+      <div class="shell">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">✳</span> &nbsp;Straight answers</p>
+            <h2>The questions everyone asks first.</h2>
+          </div>
+          <p class="lede">You're probably thinking one of these. Here's the honest version.</p>
+        </div>
+        <div class="faq-list reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>
+                <span class="faq-q">{f.q}</span>
+                <span class="faq-ico" aria-hidden="true">+</span>
+              </summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- risk reversal -->
     <div class="rule"></div>
     <section class="section">
@@ -293,10 +364,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <div class="contact-grid reveal">
           <div class="contact-copy">
             <p class="label"><span class="n">04</span> &nbsp;Open for work</p>
-            <h2>Tell me what you need.</h2>
+            <h2>What are you going to build?</h2>
             <p class="pitch">
-              Full-time, fractional, or a one-off project. Bring me in to own the
-              part where marketing, automation, and AI come together.
+              Bring me the idea you keep putting off. Full-time, fractional, or a
+              one-off project. I'll own the part where marketing, automation, and
+              AI come together and turn it into something live.
             </p>
             <div class="roles">
               <span class="role">Fractional CTO</span>
@@ -324,6 +396,23 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
             <p class="form-note">Straight to my phone. Just say hi.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- project collage -->
+    <section class="collage-band" id="deployed">
+      <div class="shell">
+        <div class="collage-head reveal">
+          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
+          <p class="collage-sub">Apps, funnels, agency sites, and client tools. Designed, built, and shipped solo. A wall of the ones that are live right now.</p>
+        </div>
+        <div class="collage-grid reveal">
+          {collage.map((slug) => (
+            <div class="collage-tile">
+              <img src={`/assets/collage/${slug}.jpg`} alt={`Screenshot of ${slug}`} width="1280" height="800" loading="lazy" />
+            </div>
+          ))}
         </div>
       </div>
     </section>
