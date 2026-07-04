@@ -121,6 +121,28 @@ body.theme-dark { background: #060608; }
 .home-v4 .hero-visual { justify-self: center; width: 100%; max-width: 430px; }
 /* image has transparent headroom; nudge it up so the row centers on the character */
 .home-v4 .hero-visual img { margin-top: -4%; margin-bottom: -6%; }
+
+/* ---- hero: alive (idle loop + cursor parallax + spotlight) ---- */
+.home-v4 .hero-visual { transition: transform .3s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+.home-v4 .hero-cursor {
+  position: absolute; top: 0; left: 0; width: 460px; height: 460px; margin: -230px 0 0 -230px;
+  border-radius: 50%; pointer-events: none; z-index: 1; opacity: 0;
+  background: radial-gradient(circle, rgba(124,92,255,0.22), rgba(196,75,255,0.08) 46%, transparent 68%);
+  mix-blend-mode: screen; transition: opacity .35s ease; will-change: transform;
+}
+@media (hover: none) { .home-v4 .hero-cursor { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .home-v4 .hero-figure { animation: heroFloat 6.5s ease-in-out infinite; }
+  .home-v4 .hero::before { animation: heroGlow 9s ease-in-out infinite; }
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0) rotate(-0.7deg); }
+  50%      { transform: translateY(-16px) rotate(0.7deg); }
+}
+@keyframes heroGlow {
+  0%, 100% { opacity: .72; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
 .home-v4 .hero-visual img {
   width: 100%; height: auto; display: block;
   filter: drop-shadow(0 30px 60px rgba(0,0,0,0.55));

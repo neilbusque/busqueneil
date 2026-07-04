@@ -185,10 +185,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           </div>
           <p class="hero-proof"><span class="tick">✓</span> Ten products below. Every one live and in use right now.</p>
         </div>
-        <div class="hero-visual">
-          <img src="/assets/art/neil-hero.webp" alt="3D illustration of Neil Busque building something" width="900" height="1200" fetchpriority="high" />
+        <div class="hero-visual" id="heroVisual">
+          <img class="hero-figure" src="/assets/art/neil-hero.webp" alt="3D illustration of Neil Busque building software" width="900" height="1200" fetchpriority="high" />
         </div>
       </div>
+      <span class="hero-cursor" aria-hidden="true"></span>
     </section>
 
     <!-- tech marquee -->
@@ -445,6 +446,34 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   </div>
 
   <script is:inline>
+    // Hero: make it feel alive — cursor spotlight + parallax tilt toward the pointer.
+    (function () {
+      var hero = document.querySelector('.hero');
+      var vis = document.getElementById('heroVisual');
+      var cur = document.querySelector('.hero-cursor');
+      if (!hero || !cur) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches || matchMedia('(hover: none)').matches) return;
+      var rect = null, tx = 0, ty = 0, rot = 0, cx = 0, cy = 0, active = false, raf = 0;
+      function measure() { rect = hero.getBoundingClientRect(); }
+      function render() {
+        raf = 0;
+        cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+        if (vis) vis.style.transform = 'translate(' + tx + 'px,' + ty + 'px) rotate(' + rot + 'deg)';
+      }
+      hero.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        if (!rect) measure();
+        cx = e.clientX - rect.left; cy = e.clientY - rect.top;
+        var nx = cx / rect.width - 0.5, ny = cy / rect.height - 0.5;
+        tx = nx * 20; ty = ny * 15; rot = nx * 2.4;
+        if (!raf) raf = requestAnimationFrame(render);
+      });
+      hero.addEventListener('pointerenter', function () { measure(); active = true; cur.style.opacity = '1'; });
+      hero.addEventListener('pointerleave', function () { active = false; cur.style.opacity = '0'; if (vis) vis.style.transform = ''; });
+      window.addEventListener('resize', function () { rect = null; }, { passive: true });
+      window.addEventListener('scroll', function () { if (active) rect = null; }, { passive: true });
+    })();
+
     // Contact form -> Orbit form-lead edge function (same contract as /help funnel).
     (function () {
       var form = document.getElementById('contactForm');
