@@ -24,6 +24,7 @@
     "@vercel/functions": "^3.7.5",
     "astro": "^5.0.0",
     "ipaddr.js": "^2.4.0",
+    "nodemailer": "^9.0.3",
     "preact": "^10.25.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
@@ -39,6 +40,7 @@
   "author": "Neil Busque <busqueneil@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@types/nodemailer": "^8.0.1",
     "puppeteer-core": "^25.2.1",
     "vitest": "^2.1.9"
   }

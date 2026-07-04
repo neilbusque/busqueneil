@@ -4,7 +4,7 @@ import { recordLead, markDelivered } from '../../../lib/analyzer/caps';
 import { upsertOrbitLead } from '../../../lib/analyzer/orbit';
 import { runLandingAnalysis } from '../../../lib/analyzer/ai';
 import { renderReportPdf } from '../../../lib/analyzer/report-pdf';
-import { sendReportEmail } from '../../../lib/analyzer/email';
+import { sendReportEmail, sendNotice } from '../../../lib/analyzer/email';
 import type { PageAudit } from '../../../lib/analyzer/audit';
 import type { ScrapedPage } from '../../../lib/analyzer/scrapeExtract';
 
@@ -46,7 +46,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       const pdf = await renderReportPdf({ url, score, grade, audit, report });
       const sent = await sendReportEmail({ to: email, url, score, pdf });
       if (sent) await markDelivered(email, url);
-      if (!orbitOk) await notifyNeil(email, url, score, grade);   // Orbit fallback
+      if (!orbitOk) await sendNotice({                            // Orbit fallback
+        subject: `New analyzer lead: ${email} (${score}/100)`,
+        html: `<p>${esc(email)} analyzed ${esc(url)}, scored ${score}/100 (${grade}). Orbit push failed, add manually.</p>`,
+      });
     } catch (e) {
       console.error('deliver heavy failed', (e as Error)?.message);
     }
@@ -67,14 +70,4 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!scheduled) await heavy;
 
   return json({ ok: true });
-};
-
-async function notifyNeil(email: string, url: string, score: number, grade: string) {
-  const key = env('RESEND_API_KEY');
-  if (!key) return;
-  const from = env('ANALYZER_FROM') || 'Neil Busque <neil@busqueneil.com>';
-  await fetch('https://api.resend.com/emails', {
-    method: 'POST', headers: { authorization: `Bearer ${key}`, 'content-type': 'application/json' },
-    body: JSON.stringify({ from, to: 'busqueneil@gmail.com', subject: `New analyzer lead: ${email} (${score}/100)`, html: `<p>${esc(email)} analyzed ${esc(url)}, scored ${score}/100 (${grade}). Orbit push failed, add manually.</p>` }),
-  });
 };
