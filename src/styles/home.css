@@ -4,6 +4,9 @@
    3-field lead form wired to Orbit. Scoped under .home-v4 so the
    light interior pages are untouched. */
 
+/* dark page ground so the floating nav's top margin doesn't expose white body */
+body.theme-dark { background: #060608; }
+
 .home-v4 {
   --ink:    #060608;
   --ink-2:  #0B0B0E;
