@@ -86,7 +86,8 @@
   border-bottom: 1px solid var(--line);
 }
 .home-v4 .nav-inner { max-width: var(--shell); margin: 0 auto; padding: 16px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.home-v4 .brand { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; }
+.home-v4 .brand { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; display: inline-flex; align-items: center; gap: 9px; }
+.home-v4 .brand-mark { width: 22px; height: 22px; display: block; flex-shrink: 0; }
 .home-v4 .nav-links { display: flex; align-items: center; gap: 30px; }
 .home-v4 .nav-links a { font-size: 14px; color: var(--muted); transition: color .15s ease; }
 .home-v4 .nav-links a:hover { color: var(--text); }
@@ -256,7 +257,8 @@
 .home-v4 .v4-footer { border-top: 1px solid var(--line); padding: 60px var(--gutter); }
 .home-v4 .v4-footer .fin { max-width: var(--shell); margin: 0 auto; }
 .home-v4 .v4-footer .ftop { display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: center; }
-.home-v4 .v4-footer .fbrand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; }
+.home-v4 .v4-footer .fbrand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -0.02em; display: inline-flex; align-items: center; gap: 10px; }
+.home-v4 .v4-footer .fbrand-mark { width: 24px; height: 24px; display: block; flex-shrink: 0; }
 .home-v4 .v4-footer .flinks { display: flex; flex-wrap: wrap; gap: 22px; }
 .home-v4 .v4-footer .flinks a { font-size: 14px; color: var(--muted); transition: color .15s ease; }
 .home-v4 .v4-footer .flinks a:hover { color: var(--text); }
