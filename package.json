@@ -8,19 +8,26 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.0",
     "@astrojs/rss": "^4.0.0",
     "@astrojs/vercel": "^8.0.0",
+    "@react-pdf/renderer": "^4.5.1",
     "@resvg/resvg-js": "^2.6.2",
     "@shikijs/rehype": "^3.0.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.48.0",
     "@vapi-ai/web": "^2.5.2",
+    "@vercel/functions": "^3.7.5",
     "astro": "^5.0.0",
+    "ipaddr.js": "^2.4.0",
+    "nodemailer": "^9.0.3",
     "preact": "^10.25.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "rehype-sanitize": "^6.0.0",
     "rehype-slug": "^6.0.0",
     "rehype-stringify": "^10.0.1",
@@ -33,6 +40,8 @@
   "author": "Neil Busque <busqueneil@gmail.com>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "puppeteer-core": "^25.2.1"
+    "@types/nodemailer": "^8.0.1",
+    "puppeteer-core": "^25.2.1",
+    "vitest": "^2.1.9"
   }
 }

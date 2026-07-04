@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Analyzer from '../components/Analyzer.tsx';
+
+export const prerender = false;
+
+const initialUrl = new URL(Astro.request.url).searchParams.get('url') ?? '';
+---
+<Base
+  title="Free Landing Page Analyzer"
+  description="Get an instant score on your landing page speed, mobile setup, and conversion elements. Free, no signup required to see your score."
+  dark
+  noConcierge
+>
+  <main style="min-height:100vh;background:#08080C;color:#fff;padding:80px 20px;">
+    <div style="max-width:720px;margin:0 auto;">
+      <h1 style="font-size:40px;font-weight:800;text-align:center;">Free Landing Page Analyzer</h1>
+      <p style="text-align:center;color:#9ca3af;margin:12px 0 28px;">Paste your URL. Get an instant score on speed, mobile, and the conversion elements that matter. The full breakdown lands in your inbox.</p>
+      <Analyzer client:load initialUrl={initialUrl} />
+    </div>
+  </main>
+</Base>
