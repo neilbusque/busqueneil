@@ -12,15 +12,65 @@ const TECH = [
 
 setPublicCache(Astro.response.headers);
 
-const projects = [
-  { name: 'Orbit', desc: 'A simple AI-powered CRM. Pipelines, a shared inbox, billing, and an assistant that drafts replies and books calls.', chips: ['Next.js', 'Supabase', 'AI agent'], url: 'https://app.inorbit.one', label: 'app.inorbit.one' },
-  { name: 'Otto', desc: 'An autonomous command center. A CRM whose AI reads my email, follows up, and moves deals while I am away.', chips: ['Next 14', 'Claude', 'Gmail API'], url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app' },
-  { name: 'Magus', desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.', chips: ['Supabase', 'Vapi', 'Cal.com'], url: 'https://magus.neilb.me', label: 'magus.neilb.me' },
-  { name: 'Pulse', desc: 'A personal trends radar. It watches the web all day and emails me the signal worth acting on each morning.', chips: ['PWA', 'Cron', 'Resend'], url: 'https://trends.neilb.me', label: 'trends.neilb.me' },
-  { name: 'Hop', desc: 'A link shortener with teeth. Real-time analytics, web push, a PWA, and a Chrome extension.', chips: ['Edge', 'Web Push', 'Extension'], url: 'https://links.busqueneil.com', label: 'links.busqueneil.com' },
-  { name: 'Prism', desc: 'A Mac browser for people with ten logins. Separate profiles, an ad blocker, and a built-in AI panel.', chips: ['Electron', 'Chromium', 'AI panel'], url: null, label: 'macOS desktop app' },
-  { name: 'Tandem', desc: 'A private app for two. Shared habits, letters, games, and watch parties, all in one quiet hub.', chips: ['PWA', 'Supabase', 'Realtime'], url: 'https://hub.yengandneil.site', label: 'hub.yengandneil.site' },
-  { name: 'Play Together', desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.', chips: ['WebRTC', 'TURN', 'Extension'], url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site' },
+/* Build timelines below come from git history (first commit -> ship commit),
+   mined 2026-07-03. Do not embellish these numbers. */
+const featured = [
+  {
+    name: 'Orbit', built: 'built in 2 days',
+    desc: 'A simple AI-powered CRM. Pipelines, a shared inbox, billing, and an assistant that drafts replies and books calls. Now at v2.5 after 1,600+ commits.',
+    chips: ['Next.js', 'Supabase', 'AI agent'],
+    url: 'https://www.inorbit.one', label: 'inorbit.one',
+    img: '/assets/work/orbit.webp', alt: 'Orbit CRM marketing site with product dashboard',
+  },
+  {
+    name: 'Otto', built: 'built in a day',
+    desc: 'An autonomous command center. A CRM whose AI reads my email, follows up, and moves deals while I am away.',
+    chips: ['Next 14', 'Claude', 'Gmail API'],
+    url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app',
+    img: '/assets/work/otto.webp', alt: 'Otto command center chat interface',
+  },
+  {
+    name: 'Hop', built: 'built in a day',
+    desc: 'A link shortener with teeth. Real-time click analytics, web push, a PWA, and a Chrome extension.',
+    chips: ['Edge', 'Web Push', 'Extension'],
+    url: 'https://links.busqueneil.com', label: 'links.busqueneil.com',
+    img: '/assets/work/hop.webp', alt: 'Hop dashboard with live click analytics',
+  },
+  {
+    name: 'Tandem', built: 'v1 in a day',
+    desc: 'A private app for two. Shared habits, letters, games, and watch parties, all in one quiet hub.',
+    chips: ['PWA', 'Supabase', 'Realtime'],
+    url: 'https://tandem.yengandneil.site', label: 'tandem.yengandneil.site',
+    img: '/assets/work/tandem.webp', alt: 'Tandem couples app landing page',
+  },
+  {
+    name: 'Play Together', built: 'built in a day',
+    desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.',
+    chips: ['WebRTC', 'TURN', 'Extension'],
+    url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site',
+    img: '/assets/work/play-together.webp', alt: 'Watch Together room creation screen',
+  },
+];
+
+const more = [
+  {
+    name: 'Magus', built: 'v1 in 3 days',
+    desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.',
+    chips: ['Supabase', 'Vapi', 'Cal.com'],
+    url: 'https://magus.neilb.me', label: 'magus.neilb.me',
+  },
+  {
+    name: 'Pulse', built: 'built in a day',
+    desc: 'A personal trends radar. It watches the web all day and emails me the signal worth acting on each morning.',
+    chips: ['PWA', 'Cron', 'Resend'],
+    url: 'https://trends.neilb.me', label: 'trends.neilb.me',
+  },
+  {
+    name: 'Prism', built: 'built in a day',
+    desc: 'A Mac browser for people with ten logins. Separate profiles, an ad blocker, and a built-in AI panel.',
+    chips: ['Electron', 'Chromium', 'AI panel'],
+    url: null, label: 'macOS desktop app',
+  },
 ];
 
 const caps = [
@@ -34,27 +84,18 @@ const caps = [
   { t: 'Built in Claude Code', d: 'My daily driver. It is how one person ships all of the above.' },
 ];
 
-const life = [
-  { t: 'Devotion', s: 'keeps me grounded, every morning' },
-  { t: 'The gym', s: 'alternate days, rest day is important' },
-  { t: 'A call with my wife', s: 'the best part of the day' },
-  { t: 'Building apps and AI agents', s: 'usually in Claude Code' },
-  { t: 'Reading books', s: 'a few going at once' },
-  { t: 'Travel', s: 'usually back to the Philippines' },
-];
-
 const pad = (n: number) => String(n + 1).padStart(2, '0');
-const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 ---
 <Base
   title="Neil Busque — AI Engineer & Automation Builder"
-  description="I'm Neil Busque, an AI engineer in New Jersey. I build AI agents, automations, and web apps, and help companies rank in AI search and SEO. Open to work."
+  description="AI engineer and automation builder available fractional or project-based. I build agents, funnels, and the systems around them, usually solo, usually fast. Based in New Jersey."
   canonical="https://busqueneil.com/"
   ogType="profile"
-  ogImage="https://busqueneil.com/assets/art/hero.png"
+  ogImage="https://busqueneil.com/assets/og-v5.png"
   dark
 >
   <Fragment slot="head">
+    <link rel="preload" as="image" href="/assets/art/hero-poster.webp" fetchpriority="high" />
     <Schema />
   </Fragment>
 
@@ -66,7 +107,7 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         <nav class="nav-links">
           <a href="#work" class="nav-hide">Work</a>
           <a href="#about" class="nav-hide">About</a>
-          <a class="nav-cta" href="#hire">Hire me</a>
+          <a class="nav-cta" href="#contact">Get in touch</a>
         </nav>
       </div>
     </header>
@@ -74,37 +115,31 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     <!-- hero -->
     <section class="hero">
       <div class="hero-art">
-        <img src="/assets/art/hero.png" alt="" width="2560" height="1440" fetchpriority="high" />
-      </div>
-      <div class="hero-services">
-        <span>AI Agents</span>
-        <span>Automation</span>
-        <span>Web Apps</span>
-        <span>Marketing</span>
+        <img src="/assets/art/hero-poster.webp" alt="" width="1920" height="1080" fetchpriority="high" />
+        <video id="heroVideo" muted loop playsinline preload="none" poster="/assets/art/hero-poster.webp" aria-hidden="true">
+          <source src="/assets/art/hero-loop.webm" type="video/webm" />
+          <source src="/assets/art/hero-loop.mp4" type="video/mp4" />
+        </video>
       </div>
       <div class="hero-inner">
         <div class="hero-copy">
           <p class="label hero-eyebrow"><span class="n">●</span> Open to work · New Jersey</p>
-          <h1 class="display">I help you build with AI.<br /><span class="muted">And the marketing and systems around it.</span></h1>
+          <h1 class="display">One person to own your AI, automation, and growth stack.<span class="accent">Ships in days, not quarters.</span></h1>
           <p class="hero-sub">
-            Need a marketer who can code, an engineer who gets growth, or someone to
-            own your whole AI and automation stack? That's me. Let's build something
-            together, or just have a chat.
+            Fractional AI engineer and marketer. I build agents, automations, and
+            the funnels around them, usually solo, usually fast.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="#hire">Hire me <span class="ico">→</span></a>
+            <div>
+              <a class="btn primary" href="#contact">Book a free call <span class="ico">→</span></a>
+              <p class="cta-note">20 minutes. No prep needed.</p>
+            </div>
             <a class="btn ghost" href="#work">See the work</a>
           </div>
+          <p class="hero-proof"><span class="tick">✓</span> 8 products below. Every v1 shipped in 3 days or less.</p>
         </div>
       </div>
     </section>
-
-    <!-- tech marquee -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        {[...TECH, ...TECH].map((t) => <span class="mq">{t}</span>)}
-      </div>
-    </div>
 
     <!-- about -->
     <div class="rule"></div>
@@ -135,8 +170,14 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
       </div>
     </section>
 
+    <!-- tech marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...TECH, ...TECH].map((t) => <span class="mq">{t}</span>)}
+      </div>
+    </div>
+
     <!-- capabilities -->
-    <div class="rule"></div>
     <section class="section" id="capabilities">
       <div class="shell">
         <p class="label sec-label reveal"><span class="n">02</span> &nbsp;How I can help</p>
@@ -160,92 +201,131 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         <div class="sec-head reveal">
           <div>
             <p class="label"><span class="n">03</span> &nbsp;Projects</p>
-            <h2>Some projects.</h2>
+            <h2>Real products, live now.</h2>
           </div>
-          <p class="lede">Real, live software I designed and built. Video walkthroughs coming soon.</p>
+          <p class="lede">Designed, built, and shipped solo. Build times below come straight from git history.</p>
         </div>
         <div class="work-grid reveal">
-          {projects.map((p, i) => (
-            <div class="work-card">
+          {featured.map((p) => (
+            <a class="work-card" href={p.url} target="_blank" rel="noopener">
               <div class="work-media">
-                <span class="play" set:html={PLAY}></span>
-                <span class="ph">Demo soon</span>
+                <img src={p.img} alt={p.alt} width="1280" height="800" loading="lazy" />
               </div>
               <div class="top">
                 <span class="pname">{p.name}</span>
-                <span class="idx">{pad(i)}</span>
+                <span class="built">{p.built}</span>
               </div>
               <p class="pdesc">{p.desc}</p>
               <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
-            </div>
+              <p class="liveurl"><span class="live-dot"></span>{p.label}</p>
+            </a>
           ))}
+          {more.map((p) =>
+            p.url ? (
+              <a class="work-card compact" href={p.url} target="_blank" rel="noopener">
+                <div class="top">
+                  <span class="pname">{p.name}</span>
+                  <span class="built">{p.built}</span>
+                </div>
+                <p class="pdesc">{p.desc}</p>
+                <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
+                <p class="liveurl"><span class="live-dot"></span>{p.label}</p>
+              </a>
+            ) : (
+              <div class="work-card compact">
+                <div class="top">
+                  <span class="pname">{p.name}</span>
+                  <span class="built">{p.built}</span>
+                </div>
+                <p class="pdesc">{p.desc}</p>
+                <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
+                <p class="liveurl">{p.label}</p>
+              </div>
+            )
+          )}
+          <a class="work-card compact" href="/feed">
+            <div class="top">
+              <span class="pname">More builds</span>
+            </div>
+            <p class="pdesc">These 8 are the highlights. The rest ships to the build log as it happens, most weeks.</p>
+            <p class="liveurl">busqueneil.com/feed →</p>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- life -->
+    <!-- risk reversal -->
     <div class="rule"></div>
-    <section class="section" id="life">
+    <section class="section">
       <div class="shell">
-        <p class="label sec-label reveal"><span class="n">04</span> &nbsp;Outside the work</p>
-        <div class="life-grid reveal">
-          <div>
-            <h2>How I spend my time.</h2>
-            <p class="life-note">
-              My wife is still in the Philippines, so I go back and forth more than
-              most. The goal is simple: bring her and our cat, <strong>Hiro</strong>,
-              home to the US.
-            </p>
-          </div>
-          <ul class="life-list">
-            {life.map((l, i) => (
-              <li><span class="k">{pad(i)}</span><span>{l.t} <span class="sub">· {l.s}</span></span></li>
-            ))}
-          </ul>
+        <div class="assure reveal">
+          <p class="label" style="justify-content:center"><span class="n">✳</span> &nbsp;No pressure</p>
+          <h2>Not sure I'm the right fit?</h2>
+          <p>Let's talk for 20 minutes anyway. If I can't help, I'll tell you who can. No pitch, no follow-up sequence, no hard feelings.</p>
+          <a class="btn ghost" href="#contact">Get in touch</a>
         </div>
       </div>
     </section>
 
-    <!-- hire -->
+    <!-- contact / open for work -->
     <div class="rule"></div>
-    <section class="section hire-band" id="hire">
+    <section class="section hire-band" id="contact">
       <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
       <div class="shell">
-        <div class="hire reveal">
-          <p class="label" style="justify-content:center"><span class="n">05</span> &nbsp;Open for work</p>
-          <h2>Looking for someone who can do all of it?</h2>
-          <p>
-            Whether you're hiring for a role or just need something built, I can
-            help. Full-time, fractional, or a one-off project, bring me in to own
-            the part where marketing, automation, and AI come together. Or just say
-            hi.
-          </p>
-          <div class="roles">
-            <span class="role">Fractional CTO</span>
-            <span class="role">Head of AI</span>
-            <span class="role">AI Systems Architect</span>
-            <span class="role">Growth / Marketing Lead</span>
-            <span class="role">Automation Engineer</span>
+        <div class="contact-grid reveal">
+          <div class="contact-copy">
+            <p class="label"><span class="n">04</span> &nbsp;Open for work</p>
+            <h2>Tell me what you need.</h2>
+            <p class="pitch">
+              Full-time, fractional, or a one-off project. Bring me in to own the
+              part where marketing, automation, and AI come together.
+            </p>
+            <div class="roles">
+              <span class="role">Fractional CTO</span>
+              <span class="role">Head of AI</span>
+              <span class="role">AI Systems Architect</span>
+              <span class="role">Growth / Marketing Lead</span>
+              <span class="role">Automation Engineer</span>
+            </div>
+            <div class="alt-contact">
+              <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
+              <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
+              <a href="/resume.pdf">Resume</a>
+              <a href="https://talk.busqueneil.com" rel="noopener" target="_blank">Around right now? Start a live call</a>
+            </div>
           </div>
-          <div class="hire-actions">
-            <a class="btn primary" href="mailto:busqueneil@gmail.com">Email me <span class="ico">→</span></a>
-            <a class="btn ghost" href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
-            <a class="btn ghost" href="/resume.pdf">Resume</a>
+          <div class="lead-card">
+            <form id="contactForm" novalidate>
+              <h3 class="lc-title">Book a free call</h3>
+              <p class="lc-sub">Tell me what you need and I'll reply within a day with times. 20 minutes. No prep needed.</p>
+              <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+              <div class="field">
+                <label for="cf-name">Name</label>
+                <input type="text" id="cf-name" name="name" required autocomplete="name" placeholder="Your name" />
+              </div>
+              <div class="field">
+                <label for="cf-email">Work email</label>
+                <input type="email" id="cf-email" name="email" required autocomplete="email" placeholder="you@company.com" />
+              </div>
+              <div class="field">
+                <label for="cf-need">What do you need most?</label>
+                <select id="cf-need" name="need" required>
+                  <option value="AI agents">AI agents</option>
+                  <option value="Automation">Automation</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Web app">Web app</option>
+                  <option value="Not sure yet" selected>Not sure yet</option>
+                </select>
+              </div>
+              <button class="btn primary" type="submit">Get in touch <span class="ico">→</span></button>
+              <p class="form-note">No newsletter, no sequence. Just a reply from me.</p>
+            </form>
+            <div id="formSuccess" class="form-success" hidden>
+              <div class="fs-ico">✓</div>
+              <h3>Got it.</h3>
+              <p>I'll reply within a day with times for a call. Talk soon.</p>
+            </div>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- talk -->
-    <div class="rule"></div>
-    <section class="section" id="talk">
-      <div class="shell">
-        <div class="talk reveal">
-          <div class="l">
-            <h2>Or let's just talk.</h2>
-            <p>Skip the form. Hop on a quick video call and let's see how I can help.</p>
-          </div>
-          <a class="btn primary" href="https://talk.busqueneil.com" rel="noopener" target="_blank">Start a live call <span class="ico">→</span></a>
         </div>
       </div>
     </section>
@@ -268,4 +348,63 @@ const PLAY = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
     </footer>
   </div>
 
+  <script is:inline>
+    // Hero video: start only after full page load, skip on reduced motion / Save-Data.
+    (function () {
+      var v = document.getElementById('heroVideo');
+      if (!v) return;
+      var conn = navigator.connection || {};
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches || conn.saveData) { v.remove(); return; }
+      var start = function () {
+        v.addEventListener('playing', function () { v.classList.add('playing'); }, { once: true });
+        v.play().catch(function () { /* poster stays */ });
+      };
+      if (document.readyState === 'complete') start();
+      else window.addEventListener('load', start, { once: true });
+      v.addEventListener('error', function () { v.remove(); }, true);
+    })();
+
+    // Contact form -> Orbit form-lead edge function (same contract as /help funnel).
+    (function () {
+      var form = document.getElementById('contactForm');
+      if (!form) return;
+      var ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/form-lead'
+        : '/api/form-lead';
+      var ANON = 'sb_publishable_vxcbGxMEjdCxYm77sOwldg_hkWcIRbO';
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+        var btn = form.querySelector('[type="submit"]');
+        var old = form.querySelector('.form-msg'); if (old) old.remove();
+
+        var data = { form: 'home-contact' };
+        new FormData(form).forEach(function (value, key) {
+          if (key === 'bot-field') { data.bot_field = value; return; }
+          data[key] = value;
+        });
+
+        btn.disabled = true; btn.firstChild.textContent = 'Sending... ';
+        fetch(ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: 'Bearer ' + ANON },
+          body: JSON.stringify(data),
+        })
+          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { ok: r.ok && b && b.ok }; }); })
+          .then(function (res) {
+            if (!res.ok) throw new Error('submit failed');
+            form.hidden = true;
+            document.getElementById('formSuccess').hidden = false;
+          })
+          .catch(function () {
+            btn.disabled = false; btn.firstChild.textContent = 'Get in touch ';
+            var m = document.createElement('p');
+            m.className = 'form-msg err';
+            m.innerHTML = 'Something went wrong. Email me instead: <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>';
+            form.appendChild(m);
+          });
+      });
+    })();
+  </script>
 </Base>
