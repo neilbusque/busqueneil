@@ -12,65 +12,69 @@ const TECH = [
 
 setPublicCache(Astro.response.headers);
 
-/* Build timelines below come from git history (first commit -> ship commit),
-   mined 2026-07-03. Do not embellish these numbers. */
 const featured = [
   {
-    name: 'Orbit', built: 'built in 2 days',
+    name: 'Orbit',
     desc: 'A simple AI-powered CRM. Pipelines, a shared inbox, billing, and an assistant that drafts replies and books calls. Now at v2.5 after 1,600+ commits.',
     chips: ['Next.js', 'Supabase', 'AI agent'],
     url: 'https://www.inorbit.one', label: 'inorbit.one',
-    img: '/assets/work/orbit.webp', alt: 'Orbit CRM marketing site with product dashboard',
   },
   {
-    name: 'Otto', built: 'built in a day',
+    name: 'Otto',
     desc: 'An autonomous command center. A CRM whose AI reads my email, follows up, and moves deals while I am away.',
     chips: ['Next 14', 'Claude', 'Gmail API'],
     url: 'https://otto-neilbusque.vercel.app', label: 'otto-neilbusque.vercel.app',
-    img: '/assets/work/otto.webp', alt: 'Otto command center chat interface',
   },
   {
-    name: 'Hop', built: 'built in a day',
+    name: 'Hop',
     desc: 'A link shortener with teeth. Real-time click analytics, web push, a PWA, and a Chrome extension.',
     chips: ['Edge', 'Web Push', 'Extension'],
     url: 'https://links.busqueneil.com', label: 'links.busqueneil.com',
-    img: '/assets/work/hop.webp', alt: 'Hop dashboard with live click analytics',
   },
   {
-    name: 'Tandem', built: 'v1 in a day',
+    name: 'Tandem',
     desc: 'A private app for two. Shared habits, letters, games, and watch parties, all in one quiet hub.',
     chips: ['PWA', 'Supabase', 'Realtime'],
     url: 'https://tandem.yengandneil.site', label: 'tandem.yengandneil.site',
-    img: '/assets/work/tandem.webp', alt: 'Tandem couples app landing page',
   },
   {
-    name: 'Play Together', built: 'built in a day',
+    name: 'Play Together',
     desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.',
     chips: ['WebRTC', 'TURN', 'Extension'],
     url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site',
-    img: '/assets/work/play-together.webp', alt: 'Watch Together room creation screen',
   },
 ];
 
 const more = [
   {
-    name: 'Magus', built: 'v1 in 3 days',
+    name: 'Magus',
     desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.',
     chips: ['Supabase', 'Vapi', 'Cal.com'],
     url: 'https://magus.neilb.me', label: 'magus.neilb.me',
   },
   {
-    name: 'Pulse', built: 'built in a day',
+    name: 'Pulse',
     desc: 'A personal trends radar. It watches the web all day and emails me the signal worth acting on each morning.',
     chips: ['PWA', 'Cron', 'Resend'],
     url: 'https://trends.neilb.me', label: 'trends.neilb.me',
   },
   {
-    name: 'Prism', built: 'built in a day',
+    name: 'Prism',
     desc: 'A Mac browser for people with ten logins. Separate profiles, an ad blocker, and a built-in AI panel.',
     chips: ['Electron', 'Chromium', 'AI panel'],
     url: null, label: 'macOS desktop app',
   },
+];
+
+const testimonials = [
+  { src: '/assets/testimonials/testimonial4.png', w: 814, h: 634, alt: 'Client praising 25 landing pages that outperformed and drove more leads and bookings' },
+  { src: '/assets/testimonials/testimonial1.png', w: 1012, h: 202, alt: 'Client: You’re the man Neil, I already love working with you' },
+  { src: '/assets/testimonials/testimonial8.png', w: 1132, h: 298, alt: 'Client testimonial about working with Neil Busque' },
+  { src: '/assets/testimonials/testimonial3.png', w: 952, h: 260, alt: 'Client testimonial about working with Neil Busque' },
+  { src: '/assets/testimonials/testimonial7.png', w: 1526, h: 254, alt: 'Client testimonial about working with Neil Busque' },
+  { src: '/assets/testimonials/testimonial5.png', w: 864, h: 230, alt: 'Client testimonial about working with Neil Busque' },
+  { src: '/assets/testimonials/testimonial2.png', w: 490, h: 130, alt: 'Client testimonial about working with Neil Busque' },
+  { src: '/assets/testimonials/testimonial6.png', w: 482, h: 160, alt: 'Client testimonial about working with Neil Busque' },
 ];
 
 const caps = [
@@ -131,12 +135,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           </p>
           <div class="hero-actions">
             <div>
-              <a class="btn primary" href="#contact">Book a free call <span class="ico">→</span></a>
-              <p class="cta-note">20 minutes. No prep needed.</p>
+              <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Message me on WhatsApp <span class="ico">→</span></a>
+              <p class="cta-note">Just say hi. No pitch, happy to chat or show you around.</p>
             </div>
-            <a class="btn ghost" href="#work">See the work</a>
           </div>
-          <p class="hero-proof"><span class="tick">✓</span> 8 products below. Every v1 shipped in 3 days or less.</p>
+          <p class="hero-proof"><span class="tick">✓</span> 8 products below. Every one live and in use right now.</p>
         </div>
       </div>
     </section>
@@ -148,7 +151,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <p class="label sec-label reveal"><span class="n">01</span> &nbsp;About</p>
         <h2 class="statement reveal">I've followed the interesting work wherever it went. <span class="muted">Right now, it's AI.</span></h2>
         <div class="bio-grid reveal">
-          <img class="bio-portrait" src="/assets/art/headshot.png" width="600" height="750" alt="Neil Busque" loading="lazy" />
+          <img class="bio-portrait" src="/assets/art/neilpic.png" width="500" height="750" alt="Neil Busque" loading="lazy" />
           <div class="bio-body">
             <p>
               I studied IT, then got pulled into graphic design, which led me into
@@ -203,17 +206,13 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <p class="label"><span class="n">03</span> &nbsp;Projects</p>
             <h2>Real products, live now.</h2>
           </div>
-          <p class="lede">Designed, built, and shipped solo. Build times below come straight from git history.</p>
+          <p class="lede">Designed, built, and shipped solo. Every one is live right now.</p>
         </div>
         <div class="work-grid reveal">
           {featured.map((p) => (
             <a class="work-card" href={p.url} target="_blank" rel="noopener">
-              <div class="work-media">
-                <img src={p.img} alt={p.alt} width="1280" height="800" loading="lazy" />
-              </div>
               <div class="top">
                 <span class="pname">{p.name}</span>
-                <span class="built">{p.built}</span>
               </div>
               <p class="pdesc">{p.desc}</p>
               <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
@@ -225,7 +224,6 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
               <a class="work-card compact" href={p.url} target="_blank" rel="noopener">
                 <div class="top">
                   <span class="pname">{p.name}</span>
-                  <span class="built">{p.built}</span>
                 </div>
                 <p class="pdesc">{p.desc}</p>
                 <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
@@ -235,7 +233,6 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
               <div class="work-card compact">
                 <div class="top">
                   <span class="pname">{p.name}</span>
-                  <span class="built">{p.built}</span>
                 </div>
                 <p class="pdesc">{p.desc}</p>
                 <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
@@ -254,15 +251,36 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- testimonials -->
+    <div class="rule"></div>
+    <section class="section" id="testimonials">
+      <div class="shell">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">✳</span> &nbsp;Kind words</p>
+            <h2>What it's like to work with me.</h2>
+          </div>
+          <p class="lede">Straight from clients and collaborators. Real messages, nothing edited.</p>
+        </div>
+        <div class="testi-grid reveal">
+          {testimonials.map((t) => (
+            <figure class="testi-card">
+              <img src={t.src} alt={t.alt} width={t.w} height={t.h} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- risk reversal -->
     <div class="rule"></div>
     <section class="section">
       <div class="shell">
         <div class="assure reveal">
           <p class="label" style="justify-content:center"><span class="n">✳</span> &nbsp;No pressure</p>
-          <h2>Not sure I'm the right fit?</h2>
-          <p>Let's talk for 20 minutes anyway. If I can't help, I'll tell you who can. No pitch, no follow-up sequence, no hard feelings.</p>
-          <a class="btn ghost" href="#contact">Get in touch</a>
+          <h2>Let's just connect.</h2>
+          <p>Seriously, no pitch and no pressure. Send me a message and we'll chat. I'm happy to show you what I'm building, walk you through what's actually possible with AI right now, or just trade ideas and let you pick my brain. Come say hi.</p>
+          <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Message me on WhatsApp <span class="ico">→</span></a>
         </div>
       </div>
     </section>
@@ -288,6 +306,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
               <span class="role">Automation Engineer</span>
             </div>
             <div class="alt-contact">
+              <a href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">WhatsApp</a>
               <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
               <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
               <a href="/resume.pdf">Resume</a>
@@ -296,8 +315,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           </div>
           <div class="lead-card">
             <form id="contactForm" novalidate>
-              <h3 class="lc-title">Book a free call</h3>
-              <p class="lc-sub">Tell me what you need and I'll reply within a day with times. 20 minutes. No prep needed.</p>
+              <h3 class="lc-title">Send me a message</h3>
+              <p class="lc-sub">Tell me what you're working on and we'll connect. No pitch, no pressure. Happy to show you what's possible or just trade ideas. Prefer WhatsApp? <a href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me there</a>.</p>
               <p class="hp" aria-hidden="true"><label>Don't fill this out: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
               <div class="field">
                 <label for="cf-name">Name</label>
@@ -323,7 +342,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <div id="formSuccess" class="form-success" hidden>
               <div class="fs-ico">✓</div>
               <h3>Got it.</h3>
-              <p>I'll reply within a day with times for a call. Talk soon.</p>
+              <p>Thanks for reaching out. I'll get back to you soon. Talk soon.</p>
             </div>
           </div>
         </div>
