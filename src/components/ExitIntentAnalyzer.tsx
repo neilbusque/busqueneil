@@ -36,11 +36,18 @@ export default function ExitIntentAnalyzer() {
     return () => { clearTimeout(dwell); document.removeEventListener('mouseout', onMouseOut); window.removeEventListener('scroll', onScroll); };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
   if (!open) return null;
   const go = (e: Event) => { e.preventDefault(); location.href = url ? `/analyzer?url=${encodeURIComponent(url)}` : '/analyzer'; };
   return (
     <div onClick={() => setOpen(false)} style={overlay}>
-      <div onClick={(e) => e.stopPropagation()} style={card}>
+      <div onClick={(e) => e.stopPropagation()} style={card} role="dialog" aria-modal="true" aria-label="Free landing page analyzer">
         <button onClick={() => setOpen(false)} aria-label="Close" style={close}>×</button>
         <h3 style={{ fontSize: 22, fontWeight: 800, margin: '0 0 6px' }}>Before you go, how does your page score?</h3>
         <p style={{ color: '#9ca3af', margin: '0 0 14px' }}>Free instant grade on speed, mobile, and conversion. No signup to see your score.</p>
