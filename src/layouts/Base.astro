@@ -11,6 +11,8 @@ interface Props {
   noindex?: boolean;
   /** Dark premium landing (homepage): loads Sora + dark theme-color + body flag. */
   dark?: boolean;
+  /** Suppress the floating Talk concierge bubble (focused conversion pages). */
+  noConcierge?: boolean;
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   ogImage = 'https://busqueneil.com/og.png',
   noindex = false,
   dark = false,
+  noConcierge = false,
 } = Astro.props;
 
 // Home loads Sora (display) on top of Geist; interior pages stay Geist-only.
@@ -80,7 +83,7 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
       })();
     </script>
     {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online. */}
-    {!noindex && <script src="https://talk.busqueneil.com/widget.js" defer></script>}
+    {!noindex && !noConcierge && <script src="https://talk.busqueneil.com/widget.js" defer></script>}
     <ExitIntentAnalyzer client:idle />
   </body>
 </html>
