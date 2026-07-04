@@ -37,16 +37,31 @@ async function fetchPsi(url: string): Promise<ReturnType<typeof parsePsi>> {
   } catch { return null; } finally { clearTimeout(timer); }
 }
 
-async function fetchHtml(url: string): Promise<string | null> {
+async function fetchHtml(startUrl: string): Promise<string | null> {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), 10000);
+  const ua = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36 Busqueneil-Analyzer';
   try {
-    const r = await fetch(url, {
-      redirect: 'follow', signal: ctl.signal,
-      headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36 Busqueneil-Analyzer', accept: 'text/html,application/xhtml+xml' },
-    });
-    if (!r.ok) return null;
-    return await r.text();
+    let current = startUrl;
+    // Follow redirects manually, re-validating each hop against the SSRF guard
+    // so a public URL cannot redirect us into a private or metadata address.
+    for (let hop = 0; hop < 5; hop++) {
+      let safe: URL;
+      try { safe = await assertPublicUrl(current); } catch { return null; }
+      const r = await fetch(safe.toString(), {
+        method: 'GET', redirect: 'manual', signal: ctl.signal,
+        headers: { 'user-agent': ua, accept: 'text/html,application/xhtml+xml' },
+      });
+      if (r.status >= 300 && r.status < 400) {
+        const loc = r.headers.get('location');
+        if (!loc) return null;
+        current = new URL(loc, safe).toString();
+        continue;
+      }
+      if (!r.ok) return null;
+      return await r.text();
+    }
+    return null;
   } catch { return null; } finally { clearTimeout(timer); }
 }
 
