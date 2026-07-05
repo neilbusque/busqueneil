@@ -220,8 +220,8 @@ export default function Analyzer({ initialUrl = '' }: { initialUrl?: string }) {
           ) : (
             <div class="az-sent az-rise">
               <div class="az-sent-mark">✓</div>
-              <div class="az-sent-head">On its way to your inbox</div>
-              <p class="az-sent-sub">Your full report lands in a minute or two. If you do not see it, check spam.</p>
+              <div class="az-sent-head">Building your report now</div>
+              <p class="az-sent-sub">It takes a few minutes to write your full teardown and PDF. It will land in your inbox shortly. If you do not see it, check spam and the Promotions tab.</p>
             </div>
           )}
         </div>

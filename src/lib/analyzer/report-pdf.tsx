@@ -14,7 +14,9 @@ const s = StyleSheet.create({
   h1: { fontSize: 24, fontFamily: 'Helvetica-Bold' },
   h2: { fontSize: 13, fontFamily: 'Helvetica-Bold', marginTop: 18, marginBottom: 6, color: VIOLET },
   muted: { color: MUTE },
-  scoreBig: { fontSize: 60, fontFamily: 'Helvetica-Bold', color: VIOLET },
+  scoreLine: { fontSize: 44, lineHeight: 1.25, marginTop: 12, marginBottom: 10 },
+  scoreBig: { fontSize: 44, fontFamily: 'Helvetica-Bold', color: VIOLET },
+  scoreRest: { fontSize: 15, color: MUTE },
   metricRow: { flexDirection: 'row', justifyContent: 'space-between', borderBottom: `1 solid ${LINE}`, paddingVertical: 4 },
   finding: { marginBottom: 10, paddingBottom: 8, borderBottom: `1 solid ${LINE}` },
   sevCrit: { color: MAGENTA, fontFamily: 'Helvetica-Bold' },
@@ -28,10 +30,10 @@ function ReportDoc({ url, score, grade, audit, report }: ReportPdfData) {
       <Page size="A4" style={s.page}>
         <Text style={s.muted}>Landing Page Report</Text>
         <Text style={s.h1}>{url}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end', marginTop: 12 }}>
+        <Text style={s.scoreLine}>
           <Text style={s.scoreBig}>{score}</Text>
-          <Text style={{ fontSize: 18, marginLeft: 6, marginBottom: 10 }}>/100  ·  Grade {grade}</Text>
-        </View>
+          <Text style={s.scoreRest}>  /100    Grade {grade}</Text>
+        </Text>
 
         <Text style={s.h2}>The four numbers</Text>
         <View style={s.metricRow}><Text>Page speed (Lighthouse mobile)</Text><Text>{audit.speed.score}/100</Text></View>
