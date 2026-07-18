@@ -1,0 +1,200 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CaseStudyCTA from '../../components/CaseStudyCTA.astro';
+import { caseStudies } from '../../data/case-studies';
+import '../../styles/case-study.css';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return caseStudies.map((cs, i) => ({
+    params: { slug: cs.slug },
+    props: {
+      cs,
+      prev: i > 0 ? caseStudies[i - 1] : caseStudies[caseStudies.length - 1],
+      next: i < caseStudies.length - 1 ? caseStudies[i + 1] : caseStudies[0],
+      index: i + 1,
+    },
+  }));
+}
+
+const { cs, prev, next, index } = Astro.props;
+const url = `https://busqueneil.com/case-studies/${cs.slug}`;
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: cs.name,
+  headline: `${cs.name}: ${cs.tagline}`,
+  description: cs.summary,
+  url,
+  dateCreated: cs.year,
+  creator: { '@id': 'https://busqueneil.com/#person' },
+  author: { '@id': 'https://busqueneil.com/#person' },
+  keywords: cs.stack.join(', '),
+  ...(cs.liveUrl ? { sameAs: [cs.liveUrl] } : {}),
+};
+---
+<Site
+  title={`${cs.name} case study: ${cs.tagline} | Neil Busque`}
+  description={cs.summary}
+  canonical={url}
+  active="projects"
+>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Case studies', url: 'https://busqueneil.com/case-studies' },
+      { name: cs.name, url },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <!-- ============ HERO ============ -->
+  <header class="cs-hero">
+    <div class="cs-topgrid">
+      <div>
+        <p class="eyebrow"><span class="idx">{pad(index)}</span> {cs.category}<span class="line"></span></p>
+        <h1>{cs.name}<span class="accent">.</span></h1>
+        <p class="cs-tagline">{cs.tagline}</p>
+        <p class="cs-lede">{cs.lede}</p>
+        <div class="cs-actions">
+          {cs.liveUrl && (
+            <a class="btn" href={cs.liveUrl} target="_blank" rel="noopener">View it live</a>
+          )}
+          <a class="btn ghost" href="#work-with-me">Book a call</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="facts">
+          {cs.facts.map((f) => (
+            <div class="row"><div class="k">{f.k}</div><div class="v">{f.v}</div></div>
+          ))}
+          <div class="row"><div class="k">Status</div><div class="v"><span class="open">{cs.status}</span></div></div>
+        </div>
+        <div class="cs-stack">
+          {cs.stack.map((s) => <span class="cs-chip">{s}</span>)}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ METRICS ============ -->
+  {cs.metrics && cs.metrics.length > 0 && (
+    <section class="cs-metrics reveal">
+      {cs.metrics.map((m) => (
+        <div class="m"><div class="mv">{m.value}</div><div class="ml">{m.label}</div></div>
+      ))}
+    </section>
+  )}
+
+  <!-- ============ PROBLEM ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">01 &middot; Problem</span><h2>{cs.problem.title}</h2></div>
+      <div class="cs-sec-body reveal">
+        {cs.problem.body.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPROACH ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">02 &middot; Approach</span><h2>{cs.approach.title}</h2></div>
+      <div class="cs-sec-body reveal">
+        {cs.approach.body.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">03 &middot; Build</span><h2>How it came together</h2></div>
+      <div class="cs-sec-body reveal" style="max-width:none">
+        <div class="cs-tl">
+          {cs.timeline.map((t) => (
+            <div class="row">
+              <div class="when">{t.when}</div>
+              <div><div class="t">{t.title}</div><div class="w">{t.what}</div></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">04 &middot; Capabilities</span><h2>What it actually does</h2></div>
+      <div class="cs-sec-body reveal" style="max-width:none">
+        <div class="cs-feats">
+          {cs.features.map((g) => (
+            <div class="cs-feat">
+              <h3>{g.group}</h3>
+              <ul>{g.items.map((i) => <li>{i}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HARD PARTS ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">05 &middot; Engineering</span><h2>The parts that were hard</h2></div>
+      <div class="cs-sec-body reveal" style="max-width:none">
+        <div class="cs-hard">
+          {cs.hardParts.map((h, i) => (
+            <div class="cs-hardrow">
+              <h3><span class="hn">{pad(i + 1)}</span>{h.title}</h3>
+              <div class="pair">
+                <div class="cell"><span class="k">The problem</span><p>{h.problem}</p></div>
+                <div class="cell sol"><span class="k">What I did</span><p>{h.solution}</p></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTCOME ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">06 &middot; Outcome</span><h2>{cs.outcome.title}</h2></div>
+      <div class="cs-sec-body reveal">
+        {cs.outcome.body.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LESSONS ============ -->
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">07 &middot; Takeaways</span><h2>What I would tell you</h2></div>
+      <div class="cs-sec-body reveal" style="max-width:none">
+        <ol class="cs-lessons">
+          {cs.lessons.map((l) => <li>{l}</li>)}
+        </ol>
+        <p style="margin-top:26px;color:var(--ink-2);font-size:17px;line-height:1.72;max-width:68ch">{cs.proof}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <div id="work-with-me"></div>
+  <CaseStudyCTA product={cs.name} />
+
+  <!-- ============ PREV / NEXT ============ -->
+  <nav class="cs-nav">
+    <a href={`/case-studies/${prev.slug}`}><span class="k">Previous</span>{prev.name}</a>
+    <a class="next" href={`/case-studies/${next.slug}`}><span class="k">Next</span>{next.name}</a>
+  </nav>
+</Site>

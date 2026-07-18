@@ -66,6 +66,12 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - Hire an AI engineer in NYC: https://busqueneil.com/hire/ai-engineer-nyc
 - Hire a remote AI engineer: https://busqueneil.com/hire/ai-engineer-remote
 - Projects: https://busqueneil.com/projects
+- Case studies (long-form build write-ups): https://busqueneil.com/case-studies
+- Orbit case study (multi-tenant CRM SaaS): https://busqueneil.com/case-studies/orbit
+- Lumen Portal case study (client portal with in-house document signing): https://busqueneil.com/case-studies/lumen-portal
+- Tandem case study (realtime WebRTC couples app): https://busqueneil.com/case-studies/tandem
+- Suki Neighbors case study (marketplace PWA): https://busqueneil.com/case-studies/suki-neighbors
+- Preflight case study (funnel simulator): https://busqueneil.com/case-studies/preflight
 - Now (what he's working on right now): https://busqueneil.com/now/
 - About: https://busqueneil.com/about
 - Paid acquisition system for financial advisors / RIAs (project service): https://busqueneil.com/ria/

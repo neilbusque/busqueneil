@@ -1,0 +1,26 @@
+---
+import { BOOKING_URL, WHATSAPP_URL, EMAIL_URL } from '../data/case-studies/types';
+
+interface Props {
+  /** product name, so the copy can reference what they just read */
+  product?: string;
+  body?: string;
+}
+
+const { product, body } = Astro.props;
+
+const b = body ?? (product
+  ? `${product} started as a problem I had and an empty repo. If you are sitting on something similar, a tool your team keeps rebuilding in spreadsheets, a client experience held together by email threads, an idea you have never had time to test, book a call and we will scope it properly.`
+  : 'If you are sitting on a tool your team keeps rebuilding in spreadsheets, a client experience held together by email threads, or an idea you have never had time to test, book a call and we will scope it properly.');
+---
+<section class="cs-cta reveal">
+  <p class="eyebrow"><span class="idx">&#8727;</span> Work with me<span class="line"></span></p>
+  <h2>Got a project? Let&rsquo;s <span class="accent">talk</span>.</h2>
+  <p>{b}</p>
+  <div class="acts">
+    <a class="btn" href={BOOKING_URL} target="_blank" rel="noopener">Book a call</a>
+    <a class="btn ghost" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn ghost" href={EMAIL_URL}>Email me</a>
+  </div>
+  <p class="fine">Free 20 minutes &middot; New Jersey &middot; EST &middot; No pitch deck</p>
+</section>

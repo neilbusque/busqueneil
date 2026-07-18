@@ -1,0 +1,103 @@
+---
+import Site from '../../layouts/Site.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CaseStudyCTA from '../../components/CaseStudyCTA.astro';
+import { caseStudies } from '../../data/case-studies';
+import '../../styles/case-study.css';
+
+export const prerender = true;
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const itemList = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Case studies by Neil Busque',
+  itemListElement: caseStudies.map((cs, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `https://busqueneil.com/case-studies/${cs.slug}`,
+    item: {
+      '@type': 'CreativeWork',
+      name: cs.name,
+      description: cs.summary,
+      url: `https://busqueneil.com/case-studies/${cs.slug}`,
+      creator: { '@id': 'https://busqueneil.com/#person' },
+    },
+  })),
+};
+---
+<Site
+  title="Case studies — apps I designed, built and shipped | Neil Busque"
+  description="Deep build write-ups on five products I shipped: a multi-workspace CRM, a client portal with in-house document signing, a realtime couples app, a marketplace PWA, and a funnel simulator. The decisions, the hard parts, the outcomes."
+  canonical="https://busqueneil.com/case-studies"
+  active="projects"
+>
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Case studies', url: 'https://busqueneil.com/case-studies' },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(itemList)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">&#8727;</span> Case studies<span class="line"></span></p>
+    <h1>How these got <span class="accent">built</span>.</h1>
+    <p class="lede">
+      Five products, start to finish. Not screenshots and adjectives. The problem each one solves,
+      the architecture decisions and why I made them, the engineering that actually fought back,
+      and where it landed. If you are trying to work out whether I can build the thing you need, read one of these.
+    </p>
+  </header>
+
+  <section style="padding-top: clamp(28px, 4vw, 44px)">
+    <div class="cs-index">
+      {caseStudies.map((cs, i) => (
+        <a class="cs-card" href={`/case-studies/${cs.slug}`}>
+          <div class="num">{pad(i + 1)}</div>
+          <div>
+            <div class="cname">{cs.name}</div>
+            <p class="ctag">{cs.summary}</p>
+            <div class="cmeta">
+              <span>{cs.category}</span>
+              <span>{cs.year}</span>
+              <span class="on">{cs.status}</span>
+            </div>
+            <span class="read">Read the build &rarr;</span>
+          </div>
+          <div class="cstack">
+            {cs.stack.slice(0, 5).map((s) => <span class="cs-chip">{s}</span>)}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="cs-sec">
+    <div class="cs-sec-grid">
+      <div class="label"><span class="n">&#8727; &middot; How I work</span><h2>Same pattern every time</h2></div>
+      <div class="cs-sec-body reveal">
+        <p>
+          Every one of these started the same way. A problem I could describe in one sentence, a hard opinion about
+          what the first version had to do, and a deploy on day one so there was always something real to argue with.
+        </p>
+        <p>
+          I do not write specs for six weeks. I ship a thin version that works end to end, put it in front of the
+          people who have the problem, then let their reaction decide what gets built next. Everything you see in these
+          write-ups is production. Real users, real payment rails, real data, real security boundaries that had to hold up.
+        </p>
+        <p>
+          The stack is deliberately boring so the product can be interesting. Postgres with row level security doing the
+          access control, typed clients, serverless functions at the edges, and a database that stays correct even when the
+          frontend is wrong. That is what makes it possible to ship a feature in a day and still sleep at night.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div id="work-with-me"></div>
+  <CaseStudyCTA
+    body="I build web apps, client portals, internal tools, and AI systems for people who need the thing working, not planned. If you have a project, book a call. Twenty minutes, no pitch deck, and you will leave with a straight answer on whether it is worth building and roughly what it takes."
+  />
+</Site>
