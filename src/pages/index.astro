@@ -62,11 +62,10 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
   canonical="https://busqueneil.com/"
   ogType="profile"
   ogImage="https://busqueneil.com/assets/og-v5.png"
-  dark
 >
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/assets/art/neil-hero.webp" fetchpriority="high" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" />
+    <link rel="preload" as="image" href="/assets/art/neil-cutout.png" fetchpriority="high" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600..700;1,9..144,600..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap" />
     <Schema />
   </Fragment>
 
@@ -91,8 +90,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <div class="hero-inner">
           <div class="hero-copy">
             <p class="hero-kicker"><span class="dot"></span> Open for work · New Jersey</p>
-            <h1 class="display">You bring the idea. <span class="hl">I ship it in days.</span></h1>
-            <p class="hero-sub">Bring me a <b>"we should build that"</b> and I turn it into a custom website or web app. Built solo, built fast, and <b>you own all of it</b>.</p>
+            <h1 class="display">You plant the idea. <span class="hl">I grow it into something live.</span></h1>
+            <p class="hero-sub">Bring me a <b>"we should build that"</b> and I turn it into a custom website or web app, usually in days. Built solo, built fast, and <b>you own all of it</b>.</p>
             <div class="hero-actions">
               <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Tell me your idea <span class="ico">→</span></a>
               <a class="btn ghost" href="#process">Watch how it works</a>
@@ -100,9 +99,10 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <p class="hero-proof"><span class="tick">✦</span> Scroll to watch an idea become a shipped product.</p>
           </div>
           <div class="hero-visual" id="heroVisual">
-            <video class="hero-figure" autoplay muted loop playsinline poster="/assets/art/neil-hero.webp" width="900" height="1200" aria-label="Animated 3D illustration of Neil Busque building software">
-              <source src="/assets/art/neil-hero.mp4" type="video/mp4" />
-            </video>
+            <img class="hero-grove" src="/assets/art/hero-grove.jpg" width="1100" height="1182" alt="" aria-hidden="true" fetchpriority="high" />
+            <img class="hero-figure" src="/assets/art/neil-cutout.png" width="640" height="1413" alt="Neil Busque" fetchpriority="high" />
+            <span class="hero-chip c1"><span class="ok">✓</span> shipped in 4 days</span>
+            <span class="hero-chip c2"><span class="ok">✓</span> you own the repo</span>
           </div>
         </div>
       </div>
@@ -368,7 +368,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
     <!-- contact -->
     <section class="section hire-band" id="contact">
-      <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
+      <img class="hire-art" src="/assets/art/grove-band.jpg" alt="" width="2400" height="1028" loading="lazy" />
       <div class="shell">
         <div class="contact-grid reveal">
           <div class="contact-copy">
