@@ -99,8 +99,88 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- process film (Task 2/3) -->
-    <section class="section film" id="process" data-film></section>
+    <!-- process film -->
+    <section class="film" id="process" data-film>
+      <div class="film-pin">
+        <!-- day/night sky (two crossfading layers + a rotating celestial wheel) -->
+        <div class="film-sky" aria-hidden="true">
+          <div class="sky-layer sky-day"></div>
+          <div class="sky-layer sky-night"></div>
+          <div class="celestial" id="celestial">
+            <span class="sun"></span>
+            <span class="moon"></span>
+          </div>
+        </div>
+
+        <div class="film-hud">
+          <p class="film-step"><span class="film-n" id="filmN">01</span> / 05</p>
+          <p class="film-day" id="filmDay" hidden>Day 1</p>
+        </div>
+
+        <div class="film-stage">
+          <!-- beat 1: the idea -->
+          <div class="beat" data-beat="1">
+            <svg class="scribble" id="filmScribble" viewBox="0 0 420 200" fill="none" aria-hidden="true">
+              <path d="M24,150 C70,60 120,52 156,118 C182,166 214,168 244,104 C268,54 320,44 356,96 C378,128 392,120 404,92"
+                stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+            <div class="note">we should build that</div>
+          </div>
+
+          <!-- beat 2: we talk it through -->
+          <div class="beat" data-beat="2">
+            <div class="callframe">
+              <div class="tile you"><span class="av">You</span><span class="live-dot"></span></div>
+              <div class="tile me"><span class="av">Neil</span><span class="live-dot"></span></div>
+            </div>
+            <p class="beat-tag">a quick call, virtually</p>
+          </div>
+
+          <!-- beat 3: building (laptop persists through the day cycle) -->
+          <div class="beat beat-build" data-beat="3">
+            <div class="laptop">
+              <div class="lid">
+                <div class="code">
+                  <span class="ln"></span><span class="ln"></span><span class="ln"></span>
+                  <span class="ln"></span><span class="ln"></span><span class="ln"></span>
+                </div>
+              </div>
+              <div class="deck"></div>
+            </div>
+          </div>
+
+          <!-- beat 5: shipped -->
+          <div class="beat beat-ship" data-beat="5">
+            <div class="out out-site">
+              <div class="browser"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <span class="out-label">3D website</span>
+            </div>
+            <div class="out out-app">
+              <div class="phone"></div>
+              <span class="out-label">Web app</span>
+            </div>
+            <span class="stamp">Shipped</span>
+          </div>
+        </div>
+
+        <p class="film-caption" id="filmCaption" aria-hidden="true"></p>
+      </div>
+
+      <!-- static, readable version for mobile + reduced-motion -->
+      <div class="film-fallback">
+        <div class="shell">
+          <p class="label"><span class="n">✳</span> &nbsp;How it works</p>
+          <h2 class="statement">From a scribble to something you own, in about a week.</h2>
+          <ol class="film-steps">
+            <li><span class="fs-n">01</span><p>It starts as a scribble. "We should build that."</p></li>
+            <li><span class="fs-n">02</span><p>We hop on a quick call and nail down what it actually is.</p></li>
+            <li><span class="fs-n">03</span><p>I build it. Just me, heads down.</p></li>
+            <li><span class="fs-n">04</span><p>Days pass. Sun up, sun down, sun up.</p></li>
+            <li><span class="fs-n">05</span><p>You get it back. A site and an app you own, live.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
 
     <!-- museum (Task 4/5) -->
     <div class="rule"></div>
