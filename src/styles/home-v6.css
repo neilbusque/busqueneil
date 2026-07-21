@@ -511,3 +511,18 @@
 /* --- build input sprout --- */
 .v6 .input-sprout { width: 30px; height: 36px; flex: none; margin-left: 12px; transform-origin: bottom center; transform: scale(0.45); opacity: 0.65; transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s ease; }
 @media (max-width: 600px) { .v6 .input-sprout { display: none; } }
+
+/* --- after day 5: review -> optimize -> handoff or keep growing --- */
+.v6 .after-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: clamp(30px, 5vh, 48px); }
+.v6 .after-card { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px 32px; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; }
+.v6 .after-card:hover { transform: translateY(-4px); border-color: rgba(31, 157, 85, 0.4); box-shadow: 0 26px 52px -30px rgba(22, 40, 28, 0.4), 0 0 34px -18px var(--glow); }
+.v6 .after-card:not(:last-child)::after { content: '→'; position: absolute; top: 50%; right: -16px; transform: translateY(-50%); z-index: 1; font-size: 15px; color: var(--leaf); background: var(--paper); border: 1px solid var(--line); border-radius: 50%; width: 30px; height: 30px; display: grid; place-items: center; }
+.v6 .ac-n { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; color: var(--sun); }
+.v6 .after-card h3 { font-family: var(--display); font-weight: 700; font-size: 21px; letter-spacing: -0.01em; margin: 14px 0 10px; }
+.v6 .after-card p { color: var(--muted); font-size: 14.5px; line-height: 1.68; margin: 0; }
+.v6 .after-verdict { text-align: center; margin: clamp(28px, 4vh, 40px) auto 0; max-width: 56ch; color: var(--muted); font-size: clamp(15.5px, 1.7vw, 18px); line-height: 1.65; }
+.v6 .after-verdict b { color: var(--ink); }
+@media (max-width: 860px) {
+  .v6 .after-grid { grid-template-columns: 1fr; }
+  .v6 .after-card:not(:last-child)::after { content: '↓'; top: auto; bottom: -16px; right: 50%; transform: translateX(50%); }
+}
