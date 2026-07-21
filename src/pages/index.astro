@@ -6,6 +6,12 @@ import '../styles/home-v6.css';
 
 setPublicCache(Astro.response.headers);
 
+const TECH = [
+  'Claude Code', 'Next.js', 'Astro', 'React', 'TypeScript', 'Tailwind', 'Supabase',
+  'Vercel', 'Cloudflare', 'n8n', 'Zapier', 'GoHighLevel', 'Stripe', 'Resend',
+  'Three.js', 'WebRTC', 'Electron', 'PostgreSQL', 'Python', 'Node.js', 'GSAP',
+];
+
 // Museum pieces: 5 real screenshots + 2 "coming soon" pedestals.
 const museum = [
   { name: 'Orbit', shot: '/assets/work/orbit.webp', url: 'https://www.inorbit.one', tag: 'AI CRM' },
@@ -13,8 +19,8 @@ const museum = [
   { name: 'Otto', shot: '/assets/work/otto.webp', url: null, tag: 'Command center' },
   { name: 'Hop', shot: '/assets/work/hop.webp', url: 'https://links.busqueneil.com', tag: 'Link shortener' },
   { name: 'Play Together', shot: '/assets/work/play-together.webp', url: null, tag: 'Realtime games' },
-  { name: 'Your app', shot: null, url: null, tag: 'Coming soon' },
-  { name: 'Your site', shot: null, url: null, tag: 'Coming soon' },
+  { name: 'Your app', shot: null, url: null, tag: 'This spot is open' },
+  { name: 'Your site', shot: null, url: null, tag: 'This spot is open' },
 ];
 
 const caps = [
@@ -60,6 +66,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 >
   <Fragment slot="head">
     <link rel="preload" as="image" href="/assets/art/neil-hero.webp" fetchpriority="high" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" />
     <Schema />
   </Fragment>
 
@@ -83,12 +90,14 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="hero-inner">
           <div class="hero-copy">
-            <h1 class="display">Bring me a <span class="hl">“we should build that.”</span><span class="accent">I turn it into a custom website or app, live in days. You own all of it.</span></h1>
+            <p class="hero-kicker"><span class="dot"></span> Open for work · New Jersey</p>
+            <h1 class="display">You bring the idea. <span class="hl">I ship it in days.</span></h1>
+            <p class="hero-sub">Bring me a <b>"we should build that"</b> and I turn it into a custom website or web app. Built solo, built fast, and <b>you own all of it</b>.</p>
             <div class="hero-actions">
-              <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Tell me what you want to build <span class="ico">→</span></a>
-              <p class="cta-note">Straight to my phone. No pitch, just say hi.</p>
+              <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Tell me your idea <span class="ico">→</span></a>
+              <a class="btn ghost" href="#process">Watch how it works</a>
             </div>
-            <p class="hero-proof"><span class="tick">✓</span> Scroll to watch an idea become a shipped product.</p>
+            <p class="hero-proof"><span class="tick">✦</span> Scroll to watch an idea become a shipped product.</p>
           </div>
           <div class="hero-visual" id="heroVisual">
             <video class="hero-figure" autoplay muted loop playsinline poster="/assets/art/neil-hero.webp" width="900" height="1200" aria-label="Animated 3D illustration of Neil Busque building software">
@@ -99,18 +108,27 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- tech marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {[...TECH, ...TECH].map((t) => <span class="mq">{t}</span>)}
+      </div>
+    </div>
+
     <!-- process film -->
     <section class="film" id="process" data-film>
       <div class="film-pin">
-        <!-- day/night sky (two crossfading layers + a rotating celestial wheel) -->
+        <!-- one dark sky: dawn glow + night stars crossfade, celestial wheel turns -->
         <div class="film-sky" aria-hidden="true">
-          <div class="sky-layer sky-day"></div>
+          <div class="sky-layer sky-dawn"></div>
           <div class="sky-layer sky-night"></div>
+          <div class="stars"></div>
           <div class="celestial" id="celestial">
             <span class="sun"></span>
             <span class="moon"></span>
           </div>
         </div>
+        <div class="film-ground" aria-hidden="true"></div>
 
         <div class="film-hud">
           <p class="film-step"><span class="film-n" id="filmN">01</span> / 05</p>
@@ -124,25 +142,47 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
               <path d="M24,150 C70,60 120,52 156,118 C182,166 214,168 244,104 C268,54 320,44 356,96 C378,128 392,120 404,92"
                 stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
             </svg>
-            <div class="note">we should build that</div>
+            <div class="note">"we should build that"</div>
           </div>
 
           <!-- beat 2: we talk it through -->
           <div class="beat" data-beat="2">
             <div class="callframe">
-              <div class="tile you"><span class="av">You</span><span class="live-dot"></span></div>
-              <div class="tile me"><span class="av">Neil</span><span class="live-dot"></span></div>
+              <div class="call-tiles">
+                <div class="tile you">
+                  <span class="you-avatar">You</span>
+                  <span class="who">You</span>
+                  <span class="live-dot"></span>
+                </div>
+                <div class="tile me">
+                  <img src="/assets/art/neilpic.png" alt="" width="500" height="750" loading="lazy" />
+                  <span class="who">Neil</span>
+                  <span class="live-dot"></span>
+                </div>
+              </div>
+              <div class="call-bar" aria-hidden="true">
+                <span>🎙</span><span>📷</span><span class="end">✕</span>
+              </div>
             </div>
-            <p class="beat-tag">a quick call, virtually</p>
           </div>
 
           <!-- beat 3: building (laptop persists through the day cycle) -->
           <div class="beat beat-build" data-beat="3">
             <div class="laptop">
               <div class="lid">
-                <div class="code">
-                  <span class="ln"></span><span class="ln"></span><span class="ln"></span>
-                  <span class="ln"></span><span class="ln"></span><span class="ln"></span>
+                <span class="cam"></span>
+                <div class="screen">
+                  <div class="editor">
+                    <div class="tab-bar"><i></i><i></i><i></i><span class="tab-name">your-idea.tsx — building</span></div>
+                    <span class="cl"><span class="c-kw">import</span><span class="c-pl"> {'{ dream }'} </span><span class="c-kw">from</span><span class="c-str"> 'your-head'</span></span>
+                    <span class="cl"><span class="c-com">// ok. let's make this real.</span></span>
+                    <span class="cl"><span class="c-kw">const</span><span class="c-fn"> app</span><span class="c-pl"> = </span><span class="c-fn">build</span><span class="c-pl">(dream, {'{'}</span></span>
+                    <span class="cl"><span class="c-pl">&nbsp;&nbsp;design: </span><span class="c-str">'yours'</span><span class="c-pl">,</span></span>
+                    <span class="cl"><span class="c-pl">&nbsp;&nbsp;owner: </span><span class="c-str">'also yours'</span><span class="c-pl">,</span></span>
+                    <span class="cl"><span class="c-pl">{'}'})</span></span>
+                    <span class="cl"><span class="c-kw">await</span><span class="c-fn"> app</span><span class="c-pl">.</span><span class="c-fn">deploy</span><span class="c-pl">()</span><span class="c-com">  // → live</span></span>
+                  </div>
+                  <img class="ship-shot" src="/assets/work/orbit.webp" alt="" width="1280" height="800" loading="lazy" />
                 </div>
               </div>
               <div class="deck"></div>
@@ -151,13 +191,13 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
           <!-- beat 5: shipped -->
           <div class="beat beat-ship" data-beat="5">
-            <div class="out out-site">
-              <div class="browser"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-              <span class="out-label">3D website</span>
+            <div class="out">
+              <div class="device-l"><img src="/assets/work/orbit.webp" alt="Custom web platform example" width="1280" height="800" loading="lazy" /></div>
+              <span class="out-label">Your website</span>
             </div>
-            <div class="out out-app">
-              <div class="phone"></div>
-              <span class="out-label">Web app</span>
+            <div class="out">
+              <div class="device-p"><img src="/assets/work/tandem.webp" alt="Custom web app example" width="1280" height="800" loading="lazy" /></div>
+              <span class="out-label">Your web app</span>
             </div>
             <span class="stamp">Shipped</span>
           </div>
@@ -169,8 +209,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <!-- static, readable version for mobile + reduced-motion -->
       <div class="film-fallback">
         <div class="shell">
-          <p class="label"><span class="n">✳</span> &nbsp;How it works</p>
-          <h2 class="statement">From a scribble to something you own, in about a week.</h2>
+          <p class="label"><span class="n">01</span> &nbsp;How it works</p>
+          <h2 class="statement">From a scribble to something you own, <span class="hl">in about a week.</span></h2>
           <ol class="film-steps">
             <li><span class="fs-n">01</span><p>It starts as a scribble. "We should build that."</p></li>
             <li><span class="fs-n">02</span><p>We hop on a quick call and nail down what it actually is.</p></li>
@@ -183,12 +223,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     </section>
 
     <!-- museum -->
-    <div class="rule"></div>
     <section class="museum" id="museum" data-museum>
       <div class="shell museum-head">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">✳</span> &nbsp;The gallery</p>
+            <p class="label"><span class="n">02</span> &nbsp;The gallery</p>
             <h2>Step through a few of the builds.</h2>
           </div>
           <p class="lede">Real products, live and in use. Scroll sideways to walk the room, then open any piece to take a closer look.</p>
@@ -196,7 +235,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
       <div class="museum-viewport">
         <div class="museum-track">
-          {museum.map((p) => (
+          {museum.map((p, i) => (
             <article
               class={`piece${p.shot ? '' : ' ghost'}`}
               data-full={p.shot ?? undefined}
@@ -209,16 +248,17 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
                   <div class="mk-screen">
                     {p.shot
                       ? <img src={p.shot} alt={`${p.name} screenshot`} loading="lazy" width="1280" height="800" />
-                      : <span class="soon">Coming soon</span>}
+                      : <span class="soon">could be yours</span>}
                   </div>
                   <div class="mk-base" aria-hidden="true"></div>
                 </div>
                 <div class="pedestal" aria-hidden="true"></div>
               </div>
               <div class="piece-meta">
+                <span class="piece-num">№ {pad(i)}</span>
                 <span class="piece-name">{p.name}</span>
                 <span class="piece-tag">{p.tag}</span>
-                {p.shot && <button class="piece-open" type="button">View <span aria-hidden="true">↗</span></button>}
+                {p.shot && <button class="piece-open" type="button">View piece</button>}
               </div>
             </article>
           ))}
@@ -238,12 +278,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     </section>
 
     <!-- testimonials -->
-    <div class="rule"></div>
     <section class="section testimonials" id="testimonials">
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">✳</span> &nbsp;Kind words</p>
+            <p class="label"><span class="n">03</span> &nbsp;Kind words</p>
             <h2>What it's like to work with me.</h2>
           </div>
           <p class="lede">Straight from clients and collaborators. Real messages, nothing edited.</p>
@@ -262,8 +301,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <div class="rule"></div>
     <section class="section" id="capabilities">
       <div class="shell">
-        <p class="label sec-label reveal"><span class="n">✳</span> &nbsp;What I build</p>
-        <h2 class="statement reveal">From a landing page to custom software you own.</h2>
+        <p class="label sec-label reveal"><span class="n">04</span> &nbsp;What I build</p>
+        <h2 class="statement reveal">From a landing page to <span class="hl">custom software you own.</span></h2>
         <div class="caps-grid reveal">
           {caps.map((c, i) => (
             <div class="cap-card">
@@ -280,7 +319,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <div class="rule"></div>
     <section class="section build" id="build">
       <div class="shell">
-        <p class="label reveal"><span class="n">✳</span> &nbsp;Your turn</p>
+        <p class="label reveal"><span class="n">05</span> &nbsp;Your turn</p>
         <h2 class="statement reveal">So, what do you want to build?</h2>
         <svg class="build-squiggle reveal" viewBox="0 0 260 22" fill="none" aria-hidden="true">
           <path d="M4,14 C44,3 78,21 120,11 C160,2 210,20 256,10" stroke="var(--v1)" stroke-width="4" stroke-linecap="round"/>
@@ -308,7 +347,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">✳</span> &nbsp;Straight answers</p>
+            <p class="label"><span class="n">06</span> &nbsp;Straight answers</p>
             <h2>Why me, and not the tools yourself.</h2>
           </div>
           <p class="lede">You're probably thinking one of these. Here's the honest version.</p>
@@ -328,13 +367,12 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     </section>
 
     <!-- contact -->
-    <div class="rule"></div>
     <section class="section hire-band" id="contact">
       <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
       <div class="shell">
         <div class="contact-grid reveal">
           <div class="contact-copy">
-            <p class="label"><span class="n">✳</span> &nbsp;Let's build it</p>
+            <p class="label"><span class="n">07</span> &nbsp;Let's build it</p>
             <h2>Bring me the idea you keep putting off.</h2>
             <p class="pitch">Full-time, fractional, or a one-off project. I'll own the part where design, marketing, automation, and AI come together, and turn your idea into something live and yours.</p>
             <div class="roles">
@@ -355,8 +393,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <h3 class="lc-title">Just send me a DM</h3>
             <p class="lc-sub">No form, no pitch, no pressure. Message me on WhatsApp and we'll talk like people.</p>
             <ul class="lc-perks">
-              <li><span class="tick">✓</span> Hop on a quick call and you'll walk away with something useful.</li>
-              <li><span class="tick">✓</span> I'll send you a free tool you can start using right away.</li>
+              <li><span class="tick">✦</span> Hop on a quick call and you'll walk away with something useful.</li>
+              <li><span class="tick">✦</span> I'll send you a free tool you can start using right away.</li>
             </ul>
             <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
             <p class="form-note">Straight to my phone. Just say hi.</p>

@@ -56,7 +56,7 @@ function initCursor() {
   document.addEventListener('mouseleave', () => { if (pc) pc.style.opacity = '0'; });
 }
 
-/* ---- process film: pinned, scrubbed 5-beat sequence ---- */
+/* ---- process film: pinned, scrubbed 5-beat sequence in one dark sky ---- */
 function initProcessFilm() {
   const root = document.querySelector<HTMLElement>('#process[data-film]');
   if (!root) return;
@@ -66,31 +66,31 @@ function initProcessFilm() {
   const b1 = beat(1), b2 = beat(2), b3 = beat(3), b5 = beat(5);
   const caption = root.querySelector<HTMLElement>('#filmCaption')!;
   const night = root.querySelector<HTMLElement>('.sky-night')!;
+  const stars = root.querySelector<HTMLElement>('.stars')!;
   const wheel = root.querySelector<HTMLElement>('#celestial')!;
   const filmN = root.querySelector<HTMLElement>('#filmN')!;
   const filmDay = root.querySelector<HTMLElement>('#filmDay')!;
   const path = root.querySelector<SVGPathElement>('#filmScribble path')!;
-  const codeLines = root.querySelectorAll<HTMLElement>('.beat-build .code .ln');
   const note = b1.querySelector<HTMLElement>('.note')!;
-  const outSite = b5.querySelector<HTMLElement>('.out-site')!;
-  const outApp = b5.querySelector<HTMLElement>('.out-app')!;
+  const codeLines = b3.querySelectorAll<HTMLElement>('.editor .cl');
+  const shipShot = b3.querySelector<HTMLElement>('.ship-shot')!;
+  const outs = b5.querySelectorAll<HTMLElement>('.out');
   const stamp = b5.querySelector<HTMLElement>('.stamp')!;
 
   const captions = [
-    'It starts as a scribble. We should build that.',
+    'It starts as a scribble.',
     'We hop on a quick call and nail down what it actually is.',
     'Then I build it. Just me, heads down.',
     'Days pass. Sun up, sun down, sun up.',
-    'You get it back. A site and an app you own, live.',
+    'You get it back, live. And you own it.',
   ];
 
   const len = path.getTotalLength();
   gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
   gsap.set([b1, b2, b3, b5], { autoAlpha: 0 });
-  gsap.set(note, { autoAlpha: 0, y: 16 });
-  gsap.set(codeLines, { scaleX: 0 });
+  gsap.set(note, { autoAlpha: 0, y: 16, rotate: -3 });
   gsap.set(caption, { autoAlpha: 0 });
-  gsap.set([outSite, outApp, stamp], { autoAlpha: 0 });
+  gsap.set([outs[0], outs[1], stamp], { autoAlpha: 0 });
 
   const setCap = (i: number) => () => { caption.textContent = captions[i]; };
   const setN = (n: string) => () => { filmN.textContent = n; };
@@ -109,7 +109,7 @@ function initProcessFilm() {
   tl.to(b1, { autoAlpha: 1, duration: 0.2 });
   tl.to(path, { strokeDashoffset: 0, duration: 0.8 }, '<');
   cap(0);
-  tl.to(note, { autoAlpha: 1, y: 0, duration: 0.3 }, '-=0.1');
+  tl.to(note, { autoAlpha: 1, y: 0, duration: 0.3, ease: 'back.out(1.6)' }, '-=0.1');
   tl.to({}, { duration: 0.4 });
   tl.to(b1, { autoAlpha: 0, y: -30, duration: 0.3 });
 
@@ -120,38 +120,40 @@ function initProcessFilm() {
   tl.to({}, { duration: 0.4 });
   tl.to(b2, { autoAlpha: 0, y: -30, duration: 0.3 });
 
-  // BEAT 3 — building
+  // BEAT 3 — building: editor lines type themselves
   tl.add(setN('03'));
   tl.fromTo(b3, { autoAlpha: 0, y: 40, scale: 0.96 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.4 });
   cap(2);
-  tl.to(codeLines, { scaleX: 1, duration: 0.5, stagger: 0.08 }, '<');
+  tl.to(codeLines, { width: '100%', duration: 0.34, ease: 'none', stagger: 0.11 }, '<');
   tl.to({}, { duration: 0.25 });
 
-  // BEAT 4 — days pass (laptop stays; celestial wheel turns 720deg; night crossfades; day ticks)
+  // BEAT 4 — days pass (laptop stays; wheel turns 720deg; night+stars crossfade; day ticks)
   tl.add(setN('04'));
   cap(3);
   tl.add(setDay(1), '<');
   tl.to(wheel, { rotation: 180, duration: 0.6, ease: 'none' });
-  tl.to(night, { opacity: 1, duration: 0.6, ease: 'sine.inOut' }, '<');
+  tl.to([night, stars], { opacity: 1, duration: 0.6, ease: 'sine.inOut' }, '<');
   tl.to(wheel, { rotation: 360, duration: 0.6, ease: 'none' });
-  tl.to(night, { opacity: 0, duration: 0.6, ease: 'sine.inOut' }, '<');
+  tl.to([night, stars], { opacity: 0, duration: 0.6, ease: 'sine.inOut' }, '<');
   tl.add(setDay(2));
   tl.to(wheel, { rotation: 540, duration: 0.6, ease: 'none' });
-  tl.to(night, { opacity: 1, duration: 0.6, ease: 'sine.inOut' }, '<');
+  tl.to([night, stars], { opacity: 1, duration: 0.6, ease: 'sine.inOut' }, '<');
   tl.to(wheel, { rotation: 720, duration: 0.6, ease: 'none' });
-  tl.to(night, { opacity: 0, duration: 0.6, ease: 'sine.inOut' }, '<');
+  tl.to([night, stars], { opacity: 0, duration: 0.6, ease: 'sine.inOut' }, '<');
   tl.add(setDay(3));
-  tl.to({}, { duration: 0.2 });
+  // the build resolves: the editor becomes the product
+  tl.to(shipShot, { autoAlpha: 1, duration: 0.35 });
+  tl.to({}, { duration: 0.25 });
   tl.to(b3, { autoAlpha: 0, y: -30, duration: 0.3 });
   tl.to(filmDay, { autoAlpha: 0, duration: 0.2 }, '<');
 
   // BEAT 5 — shipped
   tl.add(setN('05'));
   tl.to(b5, { autoAlpha: 1, duration: 0.2 });
-  tl.fromTo(outSite, { autoAlpha: 0, x: -60 }, { autoAlpha: 1, x: 0, duration: 0.4 }, '<');
-  tl.fromTo(outApp, { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.4 }, '-=0.25');
+  tl.fromTo(outs[0], { autoAlpha: 0, x: -60 }, { autoAlpha: 1, x: 0, duration: 0.4 }, '<');
+  tl.fromTo(outs[1], { autoAlpha: 0, x: 60 }, { autoAlpha: 1, x: 0, duration: 0.4 }, '-=0.25');
   cap(4);
-  tl.fromTo(stamp, { autoAlpha: 0, scale: 1.6 }, { autoAlpha: 1, scale: 1, rotate: -10, duration: 0.35, ease: 'back.out(2)' }, '-=0.1');
+  tl.fromTo(stamp, { autoAlpha: 0, scale: 1.6 }, { autoAlpha: 1, scale: 1, rotate: -9, duration: 0.35, ease: 'back.out(2)' }, '-=0.1');
   tl.to({}, { duration: 0.4 });
 }
 
