@@ -1,6 +1,6 @@
 {
   "name": "busqueneil",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "private": true,
   "type": "module",
   "description": "Neil Busque — personal site. Astro SSR premium landing + Supabase build-in-public feed.",
@@ -23,6 +23,7 @@
     "@vapi-ai/web": "^2.5.2",
     "@vercel/functions": "^3.7.5",
     "astro": "^5.0.0",
+    "gsap": "^3.15.0",
     "ipaddr.js": "^2.4.0",
     "nodemailer": "^9.0.3",
     "preact": "^10.25.0",
