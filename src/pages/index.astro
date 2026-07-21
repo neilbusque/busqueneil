@@ -302,13 +302,68 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- faq (Task 7) -->
+    <!-- faq -->
     <div class="rule"></div>
-    <section class="section" id="faq"></section>
+    <section class="section" id="faq">
+      <div class="shell">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">✳</span> &nbsp;Straight answers</p>
+            <h2>Why me, and not the tools yourself.</h2>
+          </div>
+          <p class="lede">You're probably thinking one of these. Here's the honest version.</p>
+        </div>
+        <div class="faq-list reveal">
+          {faqs.map((f) => (
+            <details class="faq-item">
+              <summary>
+                <span class="faq-q">{f.q}</span>
+                <span class="faq-ico" aria-hidden="true">+</span>
+              </summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
 
-    <!-- contact (Task 7) -->
+    <!-- contact -->
     <div class="rule"></div>
-    <section class="section" id="contact"></section>
+    <section class="section hire-band" id="contact">
+      <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
+      <div class="shell">
+        <div class="contact-grid reveal">
+          <div class="contact-copy">
+            <p class="label"><span class="n">✳</span> &nbsp;Let's build it</p>
+            <h2>Bring me the idea you keep putting off.</h2>
+            <p class="pitch">Full-time, fractional, or a one-off project. I'll own the part where design, marketing, automation, and AI come together, and turn your idea into something live and yours.</p>
+            <div class="roles">
+              <span class="role">Custom websites</span>
+              <span class="role">Web apps &amp; PWAs</span>
+              <span class="role">AI agents</span>
+              <span class="role">Automation</span>
+              <span class="role">Fractional builder</span>
+            </div>
+            <div class="alt-contact">
+              <a href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">WhatsApp</a>
+              <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
+              <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
+              <a href="/resume.pdf">Resume</a>
+            </div>
+          </div>
+          <div class="lead-card">
+            <h3 class="lc-title">Just send me a DM</h3>
+            <p class="lc-sub">No form, no pitch, no pressure. Message me on WhatsApp and we'll talk like people.</p>
+            <ul class="lc-perks">
+              <li><span class="tick">✓</span> Hop on a quick call and you'll walk away with something useful.</li>
+              <li><span class="tick">✓</span> I'll send you a free tool you can start using right away.</li>
+            </ul>
+            <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
+            <p class="form-note">Straight to my phone. Just say hi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- footer -->
     <footer class="v6-footer">
