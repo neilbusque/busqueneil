@@ -237,17 +237,70 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </dialog>
     </section>
 
-    <!-- testimonials (Task 6) -->
+    <!-- testimonials -->
     <div class="rule"></div>
-    <section class="section" id="testimonials"></section>
+    <section class="section testimonials" id="testimonials">
+      <div class="shell">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">✳</span> &nbsp;Kind words</p>
+            <h2>What it's like to work with me.</h2>
+          </div>
+          <p class="lede">Straight from clients and collaborators. Real messages, nothing edited.</p>
+        </div>
+        <div class="testi-grid reveal">
+          {testimonials.map((t) => (
+            <figure class="testi-card">
+              <img src={t.src} alt={t.alt} width={t.w} height={t.h} loading="lazy" />
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
 
-    <!-- capabilities (Task 6) -->
+    <!-- capabilities -->
     <div class="rule"></div>
-    <section class="section" id="capabilities"></section>
+    <section class="section" id="capabilities">
+      <div class="shell">
+        <p class="label sec-label reveal"><span class="n">✳</span> &nbsp;What I build</p>
+        <h2 class="statement reveal">From a landing page to custom software you own.</h2>
+        <div class="caps-grid reveal">
+          {caps.map((c, i) => (
+            <div class="cap-card">
+              <span class="ci">{pad(i)}</span>
+              <h3>{c.t}</h3>
+              <p>{c.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
-    <!-- what do you want to build (Task 6) -->
+    <!-- what do you want to build -->
     <div class="rule"></div>
-    <section class="section build" id="build"></section>
+    <section class="section build" id="build">
+      <div class="shell">
+        <p class="label reveal"><span class="n">✳</span> &nbsp;Your turn</p>
+        <h2 class="statement reveal">So, what do you want to build?</h2>
+        <svg class="build-squiggle reveal" viewBox="0 0 260 22" fill="none" aria-hidden="true">
+          <path d="M4,14 C44,3 78,21 120,11 C160,2 210,20 256,10" stroke="var(--v1)" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <p class="build-sub reveal">Type it the way you would say it out loud. It goes straight to my phone, and we take it from there.</p>
+        <form class="build-form reveal" id="buildForm">
+          <div class="build-input-wrap">
+            <input id="buildInput" name="idea" type="text" autocomplete="off" placeholder="A booking app, a funnel, an AI assistant..." />
+            <button class="btn primary" type="submit">Send it to me <span class="ico">→</span></button>
+          </div>
+          <div class="chips">
+            <button type="button" class="chip" data-fill="I want to build a web app">Web app</button>
+            <button type="button" class="chip" data-fill="I want a custom website">Website</button>
+            <button type="button" class="chip" data-fill="I need an automation">Automation</button>
+            <button type="button" class="chip" data-fill="I have an AI idea">AI agent</button>
+            <button type="button" class="chip" data-fill="I have an idea but I am not sure yet">Not sure yet</button>
+          </div>
+        </form>
+      </div>
+    </section>
 
     <!-- faq (Task 7) -->
     <div class="rule"></div>

@@ -202,10 +202,27 @@ function initMuseum() {
   });
 }
 
+/* ---- "what do you want to build" -> WhatsApp with the idea prefilled ---- */
+function initBuildCTA() {
+  const form = document.querySelector<HTMLFormElement>('#buildForm');
+  if (!form) return;
+  const input = form.querySelector<HTMLInputElement>('#buildInput')!;
+  form.querySelectorAll<HTMLButtonElement>('.chip[data-fill]').forEach((c) =>
+    c.addEventListener('click', () => { input.value = c.dataset.fill!; input.focus(); }),
+  );
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const idea = input.value.trim() || 'I have something I want to build';
+    const msg = encodeURIComponent('Hey Neil, ' + idea + '. Can we talk?');
+    window.open('https://api.whatsapp.com/send/?phone=9083164140&text=' + msg, '_blank', 'noopener');
+  });
+}
+
 function boot() {
   initReveals();
   initCursor();
   initLightbox();
+  initBuildCTA();
   if (!reduce && desktop()) { initProcessFilm(); initMuseum(); }
 }
 

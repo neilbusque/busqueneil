@@ -295,3 +295,43 @@ body.theme-dark { background: #000; }
 .v6 .lb-meta h3 { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; margin: 0; }
 .v6 .lb-close { position: absolute; top: -14px; right: -14px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; display: grid; place-items: center; }
 .v6 .lb-close:hover { background: rgba(255,255,255,0.08); }
+
+/* ============================================================
+   TESTIMONIALS  (#testimonials)
+   ============================================================ */
+.v6 .testi-grid { columns: 3 320px; column-gap: 18px; margin-top: clamp(30px, 5vh, 52px); }
+.v6 .testi-card { break-inside: avoid; margin: 0 0 18px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); box-shadow: 0 22px 54px -32px rgba(0,0,0,0.85); }
+.v6 .testi-card img { width: 100%; height: auto; display: block; }
+@media (max-width: 640px) { .v6 .testi-grid { columns: 1; } }
+
+/* ============================================================
+   CAPABILITIES  (#capabilities)
+   ============================================================ */
+.v6 .sec-label { margin-bottom: 6px; }
+.v6 .caps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: clamp(30px, 5vh, 48px); background: var(--line); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.v6 .cap-card { background: var(--ink-2); padding: 26px 22px 32px; transition: background .25s ease; }
+.v6 .cap-card:hover { background: #101018; }
+.v6 .cap-card .ci { font-family: var(--mono); font-size: 12px; color: var(--v1); }
+.v6 .cap-card h3 { font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: -0.02em; margin: 14px 0 9px; }
+.v6 .cap-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin: 0; }
+@media (max-width: 980px) { .v6 .caps-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .v6 .caps-grid { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   BUILD CTA  (#build)
+   ============================================================ */
+.v6 .build { text-align: center; }
+.v6 .build .label { justify-content: center; }
+.v6 .build .statement { margin: 16px auto 0; max-width: 20ch; }
+.v6 .build-squiggle { width: min(260px, 60vw); height: auto; margin: 14px auto 0; display: block; filter: drop-shadow(0 4px 16px var(--glow)); }
+.v6 .build-sub { color: var(--muted); max-width: 46ch; margin: 18px auto 0; line-height: 1.65; }
+.v6 .build-form { margin: 32px auto 0; max-width: 640px; }
+.v6 .build-input-wrap { display: flex; gap: 10px; align-items: center; background: var(--card); border: 1px solid var(--line-2); border-radius: 12px; padding: 8px; transition: border-color .2s ease, box-shadow .2s ease; }
+.v6 .build-input-wrap:focus-within { border-color: var(--v1); box-shadow: 0 0 0 3px var(--glow); }
+.v6 #buildInput { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--text); font-family: var(--sans); font-size: 16px; padding: 12px 14px; outline: none; }
+.v6 #buildInput::placeholder { color: var(--dim); }
+.v6 .build-input-wrap .btn { white-space: nowrap; }
+.v6 .build .chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 18px; }
+.v6 .build .chip { font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--muted); background: transparent; border: 1px solid var(--line-2); border-radius: 999px; padding: 9px 16px; cursor: pointer; transition: color .2s ease, border-color .2s ease; }
+.v6 .build .chip:hover { color: var(--text); border-color: #fff; }
+@media (max-width: 560px) { .v6 .build-input-wrap { flex-direction: column; align-items: stretch; } .v6 .build-input-wrap .btn { justify-content: center; } }
