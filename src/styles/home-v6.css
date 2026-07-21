@@ -453,3 +453,61 @@
 .v6 .v6-footer .flinks a { font-size: 14px; color: var(--muted); transition: color .2s ease; }
 .v6 .v6-footer .flinks a:hover { color: var(--ink); }
 .v6 .v6-footer .colophon { margin-top: 28px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.05em; color: var(--dim); }
+
+/* ============================================================
+   v7.1 — seed story, why-me, interactivity layer
+   ============================================================ */
+
+/* --- the seed + the plant (persistent film props) --- */
+.v6 .seed { position: absolute; left: calc(26% + clamp(38px, 4.8vw, 60px)); bottom: 16vh; width: 16px; height: 20px; z-index: 2; opacity: 0;
+  background: radial-gradient(circle at 36% 30%, #C98A4B 0%, #8F5A2B 60%, #6B3F1D 100%); border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; transform: rotate(-14deg);
+  box-shadow: 0 4px 10px -3px rgba(22, 40, 28, 0.4); }
+.v6 .plant { position: absolute; left: 26%; bottom: 13.5vh; width: clamp(84px, 10.5vw, 132px); height: auto; z-index: 2; }
+.v6 .plant .soil { fill: rgba(22, 40, 28, 0.35); opacity: 0; }
+.v6 .plant .stem { stroke: #2F6644; stroke-width: 5; stroke-linecap: round; }
+.v6 .plant .leaf { fill: #2F8F58; opacity: 0.95; }
+.v6 .plant .lf1 { transform-origin: 60px 190px; }
+.v6 .plant .lf2 { transform-origin: 60px 160px; }
+.v6 .plant .lf3 { transform-origin: 59px 112px; }
+.v6 .plant .bloom { fill: #F0A54A; transform-origin: 58px 40px; filter: drop-shadow(0 0 14px rgba(232, 155, 45, 0.75)); }
+/* laptop makes room for the plant */
+.v6 .film-pin .beat-build { transform: translateX(6%); }
+
+/* click-to-plant mini sprouts */
+.v6 .mini-sprout { position: absolute; bottom: 11vh; width: 26px; height: 40px; z-index: 2; pointer-events: none; transform-origin: bottom center; }
+
+/* --- why me: comparison --- */
+.v6 .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: clamp(30px, 5vh, 48px); align-items: stretch; }
+.v6 .cmp-card { border-radius: 18px; padding: 28px 28px 30px; border: 1px solid var(--line); }
+.v6 .cmp-bad { background: rgba(22, 40, 28, 0.035); }
+.v6 .cmp-good { background: var(--card); border-color: rgba(31, 157, 85, 0.45); box-shadow: 0 30px 60px -36px rgba(31, 157, 85, 0.45), 0 0 0 4px rgba(31, 157, 85, 0.07); position: relative; }
+.v6 .cmp-good::before { content: 'the difference'; position: absolute; top: -11px; right: 22px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #fff; background: linear-gradient(120deg, var(--leaf), var(--teal)); padding: 5px 12px; border-radius: 999px; }
+.v6 .cmp-title { font-family: var(--display); font-weight: 700; font-size: 19px; margin: 0 0 16px; letter-spacing: -0.01em; }
+.v6 .cmp-bad .cmp-title { color: var(--muted); }
+.v6 .cmp-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 13px; }
+.v6 .cmp-card li { display: grid; grid-template-columns: auto 1fr; gap: 11px; font-size: 15px; line-height: 1.55; }
+.v6 .cmp-bad li { color: var(--muted); }
+.v6 .cmp-card .x { color: #C25555; font-weight: 600; }
+.v6 .cmp-card .ok { color: var(--leaf); font-weight: 700; }
+.v6 .cmp-verdict { text-align: center; margin: clamp(28px, 4vh, 40px) auto 0; max-width: 52ch; color: var(--muted); font-size: clamp(16px, 1.8vw, 19px); line-height: 1.65; }
+.v6 .cmp-verdict b { color: var(--ink); }
+@media (max-width: 800px) { .v6 .cmp-grid { grid-template-columns: 1fr; } }
+
+/* --- scroll-growth vine --- */
+.v6 .vine { position: fixed; left: 16px; top: 0; bottom: 0; width: 3px; z-index: 60; pointer-events: none; display: none; }
+.v6 .vine-stem { position: absolute; inset: 0; background: linear-gradient(180deg, var(--leaf), var(--teal)); border-radius: 3px; transform-origin: top center; transform: scaleY(0); opacity: 0.55; }
+.v6 .vine-tip { position: absolute; left: -6px; top: 0; width: 16px; height: 16px; transform: translateY(-8px) rotate(-20deg); opacity: 0.8; }
+@media (min-width: 1160px) { .v6 .vine { display: block; } }
+@media (prefers-reduced-motion: reduce) { .v6 .vine { display: none; } }
+
+/* --- capability cards: cursor-lit spotlight --- */
+.v6 .cap-card::after { background: radial-gradient(300px 220px at var(--mx, 50%) var(--my, 0%), rgba(31, 157, 85, 0.13), transparent 70%); }
+
+/* --- museum hover tilt --- */
+.v6 .piece .mk { perspective: 900px; }
+.v6 .mk-screen { transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; }
+.v6 .piece:not(.ghost):hover .mk-screen { transform: rotateX(3.5deg) rotateY(-4deg) translateY(-5px); box-shadow: 0 52px 84px -32px rgba(22, 40, 28, 0.55); }
+
+/* --- build input sprout --- */
+.v6 .input-sprout { width: 30px; height: 36px; flex: none; margin-left: 12px; transform-origin: bottom center; transform: scale(0.45); opacity: 0.65; transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s ease; }
+@media (max-width: 600px) { .v6 .input-sprout { display: none; } }

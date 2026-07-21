@@ -71,6 +71,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
 
   <div class="v6">
     <div class="page-cursor" id="pageCursor" aria-hidden="true"></div>
+    <!-- scroll-growth vine (desktop) -->
+    <div class="vine" id="vineProgress" aria-hidden="true">
+      <span class="vine-stem"></span>
+      <svg class="vine-tip" viewBox="0 0 24 24" fill="#1F9D55"><path d="M12 2C7 7 4 12 5 17c4 1 9-2 12-7 2-3 3-6 3-8-3 0-6 0-8 0z"/></svg>
+    </div>
 
     <!-- nav -->
     <header class="nav">
@@ -91,7 +96,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           <div class="hero-copy">
             <p class="hero-kicker"><span class="dot"></span> Open for work · New Jersey</p>
             <h1 class="display">You plant the idea. <span class="hl">I grow it into something live.</span></h1>
-            <p class="hero-sub">Bring me a <b>"we should build that"</b> and I turn it into a custom website or web app, usually in days. Built solo, built fast, and <b>you own all of it</b>.</p>
+            <p class="hero-sub">Bring me a <b>"we should build that"</b> and I turn it into a custom website or web app, with the <b>first working draft in about 5 days</b>. Built solo, built fast, and <b>you own all of it</b>.</p>
             <div class="hero-actions">
               <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Tell me your idea <span class="ico">→</span></a>
               <a class="btn ghost" href="#process">Watch how it works</a>
@@ -135,13 +140,20 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
           <p class="film-day" id="filmDay" hidden>Day 1</p>
         </div>
 
+        <!-- the seed + the plant: persistent across beats, growing as days pass -->
+        <div class="seed" id="filmSeed" aria-hidden="true"></div>
+        <svg class="plant" id="filmPlant" viewBox="0 0 120 244" fill="none" aria-hidden="true">
+          <ellipse class="soil" cx="62" cy="238" rx="26" ry="6" />
+          <path class="stem" d="M62,236 C58,196 66,168 58,132 C52,104 62,76 58,44" />
+          <path class="leaf lf1" d="M60,190 C40,184 28,168 30,150 C48,156 58,172 60,190 Z" />
+          <path class="leaf lf2" d="M60,160 C80,152 90,136 88,120 C70,126 61,142 60,160 Z" />
+          <path class="leaf lf3" d="M59,112 C41,106 32,92 34,76 C50,82 58,96 59,112 Z" />
+          <circle class="bloom" cx="58" cy="40" r="12" />
+        </svg>
+
         <div class="film-stage">
           <!-- beat 1: the idea -->
           <div class="beat" data-beat="1">
-            <svg class="scribble" id="filmScribble" viewBox="0 0 420 200" fill="none" aria-hidden="true">
-              <path d="M24,150 C70,60 120,52 156,118 C182,166 214,168 244,104 C268,54 320,44 356,96 C378,128 392,120 404,92"
-                stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
-            </svg>
             <div class="note">"we should build that"</div>
           </div>
 
@@ -210,13 +222,13 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="film-fallback">
         <div class="shell">
           <p class="label"><span class="n">01</span> &nbsp;How it works</p>
-          <h2 class="statement">From a scribble to something you own, <span class="hl">in about a week.</span></h2>
+          <h2 class="statement">Plant an idea. <span class="hl">Get a working draft in about 5 days.</span></h2>
           <ol class="film-steps">
-            <li><span class="fs-n">01</span><p>It starts as a scribble. "We should build that."</p></li>
-            <li><span class="fs-n">02</span><p>We hop on a quick call and nail down what it actually is.</p></li>
-            <li><span class="fs-n">03</span><p>I build it. Just me, heads down.</p></li>
-            <li><span class="fs-n">04</span><p>Days pass. Sun up, sun down, sun up.</p></li>
-            <li><span class="fs-n">05</span><p>You get it back. A site and an app you own, live.</p></li>
+            <li><span class="fs-n">01</span><p>Every product starts as a seed. Your "we should build that."</p></li>
+            <li><span class="fs-n">02</span><p>We hop on one quick call and pick exactly what to grow.</p></li>
+            <li><span class="fs-n">03</span><p>I plant it and get to work. Just me, heads down.</p></li>
+            <li><span class="fs-n">04</span><p>First working draft in your hands in about 5 days. Not weeks.</p></li>
+            <li><span class="fs-n">05</span><p>It grows into your web app. Or your site. Live, and yours.</p></li>
           </ol>
         </div>
       </div>
@@ -315,11 +327,47 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
+    <!-- why me, not AI alone -->
+    <div class="rule"></div>
+    <section class="section why" id="why">
+      <div class="shell">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">05</span> &nbsp;Why me</p>
+            <h2>Anyone can use AI. <span class="grad">That is not the job.</span></h2>
+          </div>
+          <p class="lede">AI gets you a demo in an afternoon. The last stretch, auth, payments, edge cases, design, deploys, is what decides whether real customers can use it. That is the part I sell.</p>
+        </div>
+        <div class="cmp-grid reveal">
+          <div class="cmp-card cmp-bad">
+            <p class="cmp-title">Using AI on your own</p>
+            <ul>
+              <li><span class="x">✕</span> A slick demo by Friday, stuck on auth and payments by Monday</li>
+              <li><span class="x">✕</span> Prompting in circles every time something breaks</li>
+              <li><span class="x">✕</span> Looks like every other AI template</li>
+              <li><span class="x">✕</span> Nobody to call when it goes down</li>
+            </ul>
+          </div>
+          <div class="cmp-card cmp-good">
+            <p class="cmp-title">Working with me</p>
+            <ul>
+              <li><span class="ok">✓</span> 50+ live products shipped on this exact stack</li>
+              <li><span class="ok">✓</span> Auth, billing, deploys, and the boring parts handled</li>
+              <li><span class="ok">✓</span> A design background, so it looks like yours, not a template</li>
+              <li><span class="ok">✓</span> First working draft in about 5 days, and you own the repo</li>
+              <li><span class="ok">✓</span> One message reaches the person who built it, for good</li>
+            </ul>
+          </div>
+        </div>
+        <p class="cmp-verdict reveal">AI makes everyone fast. It does not make anything finished. <b>Finished is what you hire me for.</b></p>
+      </div>
+    </section>
+
     <!-- what do you want to build -->
     <div class="rule"></div>
     <section class="section build" id="build">
       <div class="shell">
-        <p class="label reveal"><span class="n">05</span> &nbsp;Your turn</p>
+        <p class="label reveal"><span class="n">06</span> &nbsp;Your turn</p>
         <h2 class="statement reveal">So, what do you want to build?</h2>
         <svg class="build-squiggle reveal" viewBox="0 0 260 22" fill="none" aria-hidden="true">
           <path d="M4,14 C44,3 78,21 120,11 C160,2 210,20 256,10" stroke="var(--v1)" stroke-width="4" stroke-linecap="round"/>
@@ -327,6 +375,11 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
         <p class="build-sub reveal">Type it the way you would say it out loud. It goes straight to my phone, and we take it from there.</p>
         <form class="build-form reveal" id="buildForm">
           <div class="build-input-wrap">
+            <svg class="input-sprout" id="inputSprout" viewBox="0 0 40 48" fill="none" aria-hidden="true">
+              <path class="s-stem" d="M20,46 C19,36 22,30 20,20" stroke="#1F9D55" stroke-width="3" stroke-linecap="round"/>
+              <path class="s-leaf" d="M20,30 C12,27 8,20 9,13 C16,16 20,22 20,30 Z" fill="#2F8F58"/>
+              <path class="s-leaf2" d="M20,24 C28,21 32,14 31,7 C24,10 20,16 20,24 Z" fill="#1F9D55"/>
+            </svg>
             <input id="buildInput" name="idea" type="text" autocomplete="off" placeholder="A booking app, a funnel, an AI assistant..." />
             <button class="btn primary" type="submit">Send it to me <span class="ico">→</span></button>
           </div>
@@ -347,8 +400,8 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="sec-head reveal">
           <div>
-            <p class="label"><span class="n">06</span> &nbsp;Straight answers</p>
-            <h2>Why me, and not the tools yourself.</h2>
+            <p class="label"><span class="n">07</span> &nbsp;Straight answers</p>
+            <h2>The questions everyone asks first.</h2>
           </div>
           <p class="lede">You're probably thinking one of these. Here's the honest version.</p>
         </div>
@@ -372,7 +425,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       <div class="shell">
         <div class="contact-grid reveal">
           <div class="contact-copy">
-            <p class="label"><span class="n">07</span> &nbsp;Let's build it</p>
+            <p class="label"><span class="n">08</span> &nbsp;Let's build it</p>
             <h2>Bring me the idea you keep putting off.</h2>
             <p class="pitch">Full-time, fractional, or a one-off project. I'll own the part where design, marketing, automation, and AI come together, and turn your idea into something live and yours.</p>
             <div class="roles">
