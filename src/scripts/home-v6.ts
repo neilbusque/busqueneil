@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const desktop = () => matchMedia('(min-width: 768px)').matches;
 
 /* ---- reveal-on-scroll (works everywhere; static under reduced-motion) ---- */
 function initReveals() {
@@ -223,7 +222,14 @@ function boot() {
   initCursor();
   initLightbox();
   initBuildCTA();
-  if (!reduce && desktop()) { initProcessFilm(); initMuseum(); }
+  // gsap.matchMedia builds the pinned scenes only for desktop + motion, and
+  // auto-reverts every animation/ScrollTrigger it created when the query stops
+  // matching (e.g. resizing below 768px), so no orphaned pin-spacer gap is left.
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    initProcessFilm();
+    initMuseum();
+  });
 }
 
 if (document.readyState !== 'loading') boot();

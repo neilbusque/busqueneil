@@ -51,7 +51,7 @@ const faqs = [
 const pad = (n: number) => String(n + 1).padStart(2, '0');
 ---
 <Base
-  title="Neil Busque — I turn your idea into a custom website or app, live in days"
+  title="Neil Busque: I turn your idea into a custom website or app, live in days"
   description="Bring me a rough idea. I design and build the custom website or web app around it, usually solo, usually in days. You own the code. Based in New Jersey."
   canonical="https://busqueneil.com/"
   ogType="profile"
@@ -200,7 +200,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
             <article
               class={`piece${p.shot ? '' : ' ghost'}`}
               data-full={p.shot ?? undefined}
-              data-title={p.shot ? `${p.name} — ${p.tag}` : undefined}
+              data-title={p.shot ? `${p.name} · ${p.tag}` : undefined}
               data-url={p.url ?? undefined}
             >
               <div class="spot" aria-hidden="true"></div>
