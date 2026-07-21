@@ -182,9 +182,60 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
       </div>
     </section>
 
-    <!-- museum (Task 4/5) -->
+    <!-- museum -->
     <div class="rule"></div>
-    <section class="section museum" id="museum" data-museum></section>
+    <section class="museum" id="museum" data-museum>
+      <div class="shell museum-head">
+        <div class="sec-head reveal">
+          <div>
+            <p class="label"><span class="n">✳</span> &nbsp;The gallery</p>
+            <h2>Step through a few of the builds.</h2>
+          </div>
+          <p class="lede">Real products, live and in use. Scroll sideways to walk the room, then open any piece to take a closer look.</p>
+        </div>
+      </div>
+      <div class="museum-viewport">
+        <div class="museum-track">
+          {museum.map((p) => (
+            <article
+              class={`piece${p.shot ? '' : ' ghost'}`}
+              data-full={p.shot ?? undefined}
+              data-title={p.shot ? `${p.name} — ${p.tag}` : undefined}
+              data-url={p.url ?? undefined}
+            >
+              <div class="spot" aria-hidden="true"></div>
+              <div class="rig">
+                <div class="mk">
+                  <div class="mk-screen">
+                    {p.shot
+                      ? <img src={p.shot} alt={`${p.name} screenshot`} loading="lazy" width="1280" height="800" />
+                      : <span class="soon">Coming soon</span>}
+                  </div>
+                  <div class="mk-base" aria-hidden="true"></div>
+                </div>
+                <div class="pedestal" aria-hidden="true"></div>
+              </div>
+              <div class="piece-meta">
+                <span class="piece-name">{p.name}</span>
+                <span class="piece-tag">{p.tag}</span>
+                {p.shot && <button class="piece-open" type="button">View <span aria-hidden="true">↗</span></button>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <dialog class="museum-lightbox" id="museumLightbox">
+        <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+        <div class="lb-inner">
+          <img id="lbImg" alt="" />
+          <div class="lb-meta">
+            <h3 id="lbTitle"></h3>
+            <a id="lbLink" class="btn ghost" target="_blank" rel="noopener" hidden>Visit live <span class="ico">↗</span></a>
+          </div>
+        </div>
+      </dialog>
+    </section>
 
     <!-- testimonials (Task 6) -->
     <div class="rule"></div>

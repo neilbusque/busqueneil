@@ -239,3 +239,59 @@ body.theme-dark { background: #000; }
 
 /* caption */
 .v6 .film-caption { position: absolute; left: 0; right: 0; bottom: clamp(28px, 6vh, 60px); z-index: 3; text-align: center; font-family: var(--mono); font-size: clamp(13px, 1.8vw, 17px); color: #fff; padding: 0 8vw; margin: 0; opacity: 0; text-shadow: 0 2px 22px rgba(0,0,0,0.65); }
+
+/* ============================================================
+   MUSEUM  (#museum)
+   ============================================================ */
+.v6 .museum { padding: clamp(72px, 10vh, 130px) 0; overflow: hidden; }
+.v6 .museum-head { margin-bottom: clamp(30px, 5vh, 56px); }
+.v6 .museum-viewport { position: relative; }
+
+/* default (mobile + reduced-motion): readable vertical / wrapped grid */
+.v6 .museum-track { display: grid; grid-template-columns: 1fr; gap: 40px; padding: 0 var(--gutter); }
+
+.v6 .piece { position: relative; display: flex; flex-direction: column; align-items: center; }
+.v6 .piece .spot { position: absolute; top: -6%; left: 50%; width: 118%; height: 120%; transform: translateX(-50%); background: radial-gradient(circle at 50% 30%, var(--glow) 0%, transparent 62%); opacity: 0.7; pointer-events: none; z-index: 0; }
+.v6 .piece.ghost .spot { background: radial-gradient(circle at 50% 30%, rgba(255,255,255,0.06) 0%, transparent 62%); }
+.v6 .piece .rig { position: relative; z-index: 1; width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+/* laptop mockup */
+.v6 .mk { width: 100%; }
+.v6 .mk-screen { position: relative; aspect-ratio: 16 / 10; background: #050507; border: 1px solid var(--line-2); border-radius: 12px 12px 4px 4px; padding: 9px; box-shadow: 0 40px 90px -34px rgba(0,0,0,0.85); overflow: hidden; }
+.v6 .mk-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 6px; display: block; }
+.v6 .piece.ghost .mk-screen { display: grid; place-items: center; background: repeating-linear-gradient(-45deg, #0d0d12, #0d0d12 12px, #0b0b0f 12px, #0b0b0f 24px); border-style: dashed; }
+.v6 .soon { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+.v6 .mk-base { height: 12px; margin: 0 -14px; background: linear-gradient(#17171d, #0b0b10); border: 1px solid var(--line-2); border-top: 0; border-radius: 0 0 14px 14px; position: relative; }
+.v6 .mk-base::after { content: ''; position: absolute; top: 0; left: 50%; width: 64px; height: 5px; margin-left: -32px; background: var(--line-2); border-radius: 0 0 5px 5px; }
+/* pedestal */
+.v6 .pedestal { width: 62%; height: 26px; margin-top: 2px; background: linear-gradient(#101015, #050507); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 10px 10px; box-shadow: 0 30px 40px -26px rgba(0,0,0,0.9); position: relative; }
+.v6 .pedestal::before { content: ''; position: absolute; top: 100%; left: 50%; width: 120%; height: 22px; transform: translateX(-50%); background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), transparent 70%); }
+
+.v6 .piece-meta { position: relative; z-index: 1; margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.v6 .piece-name { font-family: var(--display); font-weight: 700; font-size: clamp(19px, 2.2vw, 24px); letter-spacing: -0.02em; }
+.v6 .piece-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.v6 .piece-open { margin-top: 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; color: var(--text); background: transparent; border: 1px solid var(--line-2); border-radius: 999px; padding: 7px 15px; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+.v6 .piece-open:hover { background: rgba(255,255,255,0.06); border-color: #fff; }
+
+/* desktop: horizontal room */
+@media (min-width: 768px) {
+  .v6 .museum-viewport { overflow-x: auto; scrollbar-width: none; }
+  .v6 .museum-viewport::-webkit-scrollbar { display: none; }
+  .v6 .museum-track { display: flex; grid-template-columns: none; width: max-content; gap: clamp(48px, 6vw, 104px); align-items: center; padding: 40px clamp(48px, 10vw, 160px); min-height: 82vh; }
+  .v6 .piece { width: clamp(360px, 42vw, 560px); flex: 0 0 auto; }
+  .v6 .piece.ghost { width: clamp(300px, 30vw, 400px); }
+}
+@media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+  .v6 .museum-viewport { overflow: visible; }
+  .v6 .museum-track { flex-wrap: wrap; width: auto; justify-content: center; min-height: 0; }
+}
+
+/* lightbox */
+.v6 .museum-lightbox { border: 0; padding: 0; background: transparent; max-width: min(1040px, 94vw); max-height: 90vh; overflow: visible; color: var(--text); }
+.v6 .museum-lightbox::backdrop { background: rgba(4,4,8,0.82); backdrop-filter: blur(8px); }
+.v6 .lb-inner { background: var(--card); border: 1px solid var(--line-2); border-radius: 16px; overflow: hidden; box-shadow: 0 50px 120px -30px rgba(0,0,0,0.9); }
+.v6 .lb-inner img { width: 100%; max-height: 70vh; object-fit: contain; background: #050507; display: block; }
+.v6 .lb-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 20px; flex-wrap: wrap; }
+.v6 .lb-meta h3 { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: -0.02em; margin: 0; }
+.v6 .lb-close { position: absolute; top: -14px; right: -14px; z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel); color: var(--text); font-size: 22px; line-height: 1; cursor: pointer; display: grid; place-items: center; }
+.v6 .lb-close:hover { background: rgba(255,255,255,0.08); }

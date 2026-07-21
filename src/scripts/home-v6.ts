@@ -156,10 +156,57 @@ function initProcessFilm() {
   tl.to({}, { duration: 0.4 });
 }
 
+/* ---- museum lightbox (works everywhere) ---- */
+function initLightbox() {
+  const dlg = document.querySelector<HTMLDialogElement>('#museumLightbox');
+  if (!dlg || typeof dlg.showModal !== 'function') return;
+  const img = dlg.querySelector<HTMLImageElement>('#lbImg')!;
+  const title = dlg.querySelector<HTMLElement>('#lbTitle')!;
+  const link = dlg.querySelector<HTMLAnchorElement>('#lbLink')!;
+  const inner = dlg.querySelector<HTMLElement>('.lb-inner')!;
+  document.querySelectorAll<HTMLElement>('#museum .piece[data-full]').forEach((p) => {
+    p.querySelector('.piece-open')?.addEventListener('click', () => {
+      img.src = p.dataset.full!;
+      img.alt = p.dataset.title || '';
+      title.textContent = p.dataset.title || '';
+      const u = p.dataset.url;
+      if (u) { link.href = u; link.hidden = false; } else { link.hidden = true; }
+      dlg.showModal();
+    });
+  });
+  dlg.querySelector('#lbClose')?.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (!inner.contains(e.target as Node)) dlg.close(); });
+}
+
+/* ---- museum: pinned horizontal room ---- */
+function initMuseum() {
+  const root = document.querySelector<HTMLElement>('#museum[data-museum]');
+  if (!root) return;
+  const viewport = root.querySelector<HTMLElement>('.museum-viewport');
+  const track = root.querySelector<HTMLElement>('.museum-track');
+  if (!viewport || !track) return;
+  viewport.style.overflow = 'hidden';
+  const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+  gsap.to(track, {
+    x: () => -distance(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: viewport,
+      start: 'top top',
+      end: () => '+=' + (distance() + window.innerHeight * 0.4),
+      scrub: 0.6,
+      pin: viewport,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+}
+
 function boot() {
   initReveals();
   initCursor();
-  if (!reduce && desktop()) { initProcessFilm(); }
+  initLightbox();
+  if (!reduce && desktop()) { initProcessFilm(); initMuseum(); }
 }
 
 if (document.readyState !== 'loading') boot();
