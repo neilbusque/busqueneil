@@ -2,107 +2,30 @@
 import Base from '../layouts/Base.astro';
 import Schema from '../components/Schema.astro';
 import { setPublicCache } from '../lib/posts';
-import '../styles/home.css';
-
-const TECH = [
-  'Claude Code', 'Next.js', 'Astro', 'React', 'TypeScript', 'Tailwind', 'Supabase',
-  'Vercel', 'Cloudflare', 'n8n', 'Zapier', 'GoHighLevel', 'OpenRouter', 'Stripe',
-  'Resend', 'Three.js', 'WebRTC', 'Electron', 'PostgreSQL', 'Python', 'Node.js',
-];
+import '../styles/home-v6.css';
 
 setPublicCache(Astro.response.headers);
 
-const featured = [
-  {
-    name: 'Orbit',
-    desc: 'A simple AI-powered CRM. Pipelines, a shared inbox, billing, and an assistant that drafts replies and books calls. Now at v2.5 after 1,600+ commits.',
-    chips: ['Next.js', 'Supabase', 'AI agent'],
-    url: 'https://www.inorbit.one', label: 'inorbit.one',
-  },
-  {
-    name: 'Vid',
-    desc: 'A Loom alternative I actually use. Screen and camera recording, instant share links, and pages that gate a CTA behind the watch.',
-    chips: ['WebRTC', 'R2', 'Analytics'],
-    url: 'https://vid.neilb.me', label: 'vid.neilb.me',
-  },
-  {
-    name: 'Whisp',
-    desc: 'A Wispr Flow alternative that runs on your Mac, fully offline. Hold a key, talk, and your words land as text in any app.',
-    chips: ['whisper.cpp', 'macOS', 'Local-first'],
-    url: null, label: 'macOS desktop app',
-  },
-  {
-    name: 'Prism',
-    desc: 'A Mac browser for people with ten logins. Separate profiles, a built-in ad blocker, and an AI panel one keystroke away.',
-    chips: ['Electron', 'Chromium', 'AI panel'],
-    url: null, label: 'macOS desktop app',
-  },
-  {
-    name: 'Magus',
-    desc: 'Cold email plus an AI SDR. It writes, sends, calls, and books, then hands you a calendar that fills itself.',
-    chips: ['Supabase', 'Vapi', 'Cal.com'],
-    url: 'https://magus.neilb.me', label: 'magus.neilb.me',
-  },
+// Museum pieces: 5 real screenshots + 2 "coming soon" pedestals.
+const museum = [
+  { name: 'Orbit', shot: '/assets/work/orbit.webp', url: 'https://www.inorbit.one', tag: 'AI CRM' },
+  { name: 'Tandem', shot: '/assets/work/tandem.webp', url: 'https://tandem.yengandneil.site', tag: 'A private app for two' },
+  { name: 'Otto', shot: '/assets/work/otto.webp', url: null, tag: 'Command center' },
+  { name: 'Hop', shot: '/assets/work/hop.webp', url: 'https://links.busqueneil.com', tag: 'Link shortener' },
+  { name: 'Play Together', shot: '/assets/work/play-together.webp', url: null, tag: 'Realtime games' },
+  { name: 'Your app', shot: null, url: null, tag: 'Coming soon' },
+  { name: 'Your site', shot: null, url: null, tag: 'Coming soon' },
 ];
 
-const more = [
-  {
-    name: 'Flow',
-    desc: 'A deep-work timer that keeps me honest. Sessions, streaks, and a clean board that makes focus feel like a game.',
-    chips: ['PWA', 'Offline', 'Installable'],
-    url: 'https://goflow.space', label: 'goflow.space',
-  },
-  {
-    name: 'Tandem',
-    desc: 'A private app for two. Shared habits, letters, games, and watch parties, all in one quiet hub.',
-    chips: ['PWA', 'Supabase', 'Realtime'],
-    url: 'https://tandem.yengandneil.site', label: 'tandem.yengandneil.site',
-  },
-  {
-    name: 'Watch Together',
-    desc: 'Watch anything together. One-to-one video calls that share tab audio and stay perfectly in sync.',
-    chips: ['WebRTC', 'TURN', 'Extension'],
-    url: 'https://watch.yengandneil.site', label: 'watch.yengandneil.site',
-  },
-  {
-    name: 'Pulse',
-    desc: 'A personal trends radar. It watches the web all day and emails me the one signal worth acting on each morning.',
-    chips: ['PWA', 'Cron', 'Resend'],
-    url: 'https://trends.neilb.me', label: 'trends.neilb.me',
-  },
-  {
-    name: 'Hop',
-    desc: 'A link shortener with teeth. Real-time click analytics, web push, a PWA, and a Chrome extension.',
-    chips: ['Edge', 'Web Push', 'Extension'],
-    url: 'https://links.busqueneil.com', label: 'links.busqueneil.com',
-  },
-];
-
-const faqs = [
-  {
-    q: "Isn't AI-built software full of bugs?",
-    a: 'Every app on this page is live and in daily use, mine or a client’s. I build with tests, I use the thing myself before anyone else touches it, and I fix fast because I own the whole stack. AI writes code quicker. It does not skip the part where I make sure it works.',
-  },
-  {
-    q: 'Why not just build it myself with Lovable or a no-code tool?',
-    a: 'Go for it if it fits. Those tools are great right up until you need a real database, auth, billing, background jobs, or anything custom. That is the wall most people hit. I start where they stop, and you own the code instead of renting a platform.',
-  },
-  {
-    q: "Can't I get the same thing out of ChatGPT?",
-    a: 'You can get a prototype. Getting from a prototype to something that survives real users, payments, and edge cases is a different job. That gap is the part I get paid for.',
-  },
-  {
-    q: 'How do you actually build this fast?',
-    a: 'Claude Code as my daily driver, a stack I have shipped 50+ times, and no committee. One person who has done it before moves faster than a team still arguing about which framework to use.',
-  },
-  {
-    q: 'What happens if it breaks after you hand it off?',
-    a: 'You get the code, the repo, and clear docs. Nothing is locked in a black box. I also stick around. Most people keep me on for tweaks and new features because it beats starting over, and one message reaches the person who built it.',
-  },
-  {
-    q: 'Is this reliable enough to run my business on?',
-    a: 'The same tools I build with run my own CRM, my outreach, and my links every day. If I trust them with my income, they can carry yours. When something needs attention, you are talking to the builder, not a ticket queue.',
-  },
+const caps = [
+  { t: 'Custom websites', d: 'Fast, clean sites built to convert, not just to look nice.' },
+  { t: 'Web apps & PWAs', d: 'Full products, from a blank file to live, usually in days.' },
+  { t: 'AI agents & systems', d: 'Assistants, SDRs, and copilots that actually do the job.' },
+  { t: 'Automation', d: 'Zapier and n8n flows that quietly handle the repetitive work.' },
+  { t: 'CRM & GoHighLevel', d: 'Pipelines and follow-up so leads stop slipping through.' },
+  { t: 'Marketing & growth', d: 'SEO, paid search, and funnels that turn clicks into customers.' },
+  { t: 'Design & brand', d: 'A graphic-design background, so the work looks the part too.' },
+  { t: 'You own all of it', d: 'The code, the repo, the accounts. Never locked in a black box.' },
 ];
 
 const testimonials = [
@@ -116,35 +39,20 @@ const testimonials = [
   { src: '/assets/testimonials/testimonial6.png', w: 482, h: 160, alt: 'Client testimonial about working with Neil Busque' },
 ];
 
-const caps = [
-  { t: 'Marketing & growth', d: 'SEO, paid search, and funnels that turn clicks into customers.' },
-  { t: 'Landing pages & web', d: 'Fast, clean pages built to convert, not just to look nice.' },
-  { t: 'CRM & GoHighLevel', d: 'Pipelines and follow-up so leads stop slipping through the cracks.' },
-  { t: 'Automation', d: 'Zapier and n8n flows that quietly handle the repetitive work.' },
-  { t: 'Design & brand', d: 'A graphic-design background, so the work looks the part too.' },
-  { t: 'AI agents & systems', d: 'Assistants, SDRs, and copilots on Claude that actually do the job.' },
-  { t: 'Web apps & PWAs', d: 'Full products, from a blank file to live, usually in days.' },
-  { t: 'Built in Claude Code', d: 'My daily driver. It is how one person ships all of the above.' },
-];
-
-const snippetsA = [
-  'Loom Alternative', 'Replaced Notion', 'AI CRM', 'Teleprompter',
-  'Replaced Calendly', 'All-in-One HQ', 'Wispr Flow Alternative',
-  'Custom Software', 'Replaced Todoist', 'Cold Email SDR', 'Saved Time',
-  'Link Shortener',
-];
-const snippetsB = [
-  'HubSpot Alternative', 'Replaced Slack', 'Automation', 'Deep-Work Timer',
-  'Multi-Account Browser', 'Trends Radar', 'Voice Dictation',
-  'Watch Parties', 'Booked More Calls', 'Owns His Own Stack',
-  'Shipped in Days', 'Built Solo',
+const faqs = [
+  { q: 'What if I do not like it?', a: 'We agree on what "done" looks like before I start, you see progress the whole way, and I keep working until it matches. You own the code either way, so you are never stuck with something you did not sign off on.' },
+  { q: "Isn't AI-built software full of bugs?", a: 'Every app in the gallery above is live and in daily use, mine or a client’s. I build with tests, I use the thing myself before anyone else touches it, and I fix fast because I own the whole stack. AI writes code quicker. It does not skip the part where I make sure it works.' },
+  { q: 'Why not just build it myself with Lovable or a no-code tool?', a: 'Go for it if it fits. Those tools are great right up until you need a real database, auth, billing, background jobs, or anything custom. That is the wall most people hit. I start where they stop, and you own the code instead of renting a platform.' },
+  { q: "Can't I get the same thing out of ChatGPT myself?", a: 'You can get a prototype. Getting from a prototype to something that survives real users, payments, and edge cases is a different job. That gap is the part I get paid for.' },
+  { q: 'How do you actually build this fast?', a: 'A stack I have shipped 50-plus times, modern AI tooling as my daily driver, and no committee. One person who has done it before moves faster than a team still arguing about which framework to use.' },
+  { q: 'What happens if it breaks after you hand it off?', a: 'You get the code, the repo, and clear docs. Nothing is locked in a black box. I also stick around. Most people keep me on for tweaks and new features because it beats starting over, and one message reaches the person who built it.' },
 ];
 
 const pad = (n: number) => String(n + 1).padStart(2, '0');
 ---
 <Base
-  title="Neil Busque — AI Engineer & Automation Builder"
-  description="AI engineer and automation builder available fractional or project-based. I build agents, funnels, and the systems around them, usually solo, usually fast. Based in New Jersey."
+  title="Neil Busque — I turn your idea into a custom website or app, live in days"
+  description="Bring me a rough idea. I design and build the custom website or web app around it, usually solo, usually in days. You own the code. Based in New Jersey."
   canonical="https://busqueneil.com/"
   ogType="profile"
   ogImage="https://busqueneil.com/assets/og-v5.png"
@@ -155,284 +63,76 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     <Schema />
   </Fragment>
 
-  <div class="home-v4">
-    <!-- cursor spotlight (whole page) -->
+  <div class="v6">
     <div class="page-cursor" id="pageCursor" aria-hidden="true"></div>
+
     <!-- nav -->
     <header class="nav">
       <div class="nav-inner">
-        <a class="brand" href="/">busqueneil</a>
+        <a class="brand" href="/">busque<b>neil</b></a>
         <nav class="nav-links">
-          <a href="#work" class="nav-hide">Work</a>
-          <a href="#about" class="nav-hide">About</a>
-          <a class="nav-cta" href="#contact">Get in touch</a>
+          <a href="#museum" class="nav-hide">Work</a>
+          <a href="#capabilities" class="nav-hide">What I build</a>
+          <a class="nav-cta" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Get in touch</a>
         </nav>
       </div>
     </header>
 
     <!-- hero -->
     <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <h1 class="display">I help you turn <span class="hl">“we should build that”</span> into something live this week.<span class="accent">Apps, agents, funnels, automations.</span></h1>
-          <div class="hero-actions">
-            <div>
-              <a class="btn primary" id="heroWhatsapp" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Message me on WhatsApp <span class="ico">→</span></a>
-              <p class="cta-note">Just say hi. No pitch, happy to chat or show you around.</p>
+      <div class="shell">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <h1 class="display">Bring me a <span class="hl">“we should build that.”</span><span class="accent">I turn it into a custom website or app, live in days. You own all of it.</span></h1>
+            <div class="hero-actions">
+              <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Tell me what you want to build <span class="ico">→</span></a>
+              <p class="cta-note">Straight to my phone. No pitch, just say hi.</p>
             </div>
+            <p class="hero-proof"><span class="tick">✓</span> Scroll to watch an idea become a shipped product.</p>
           </div>
-          <p class="hero-proof"><span class="tick">✓</span> Ten products below. Every one live and in use right now.</p>
-        </div>
-        <div class="hero-visual" id="heroVisual">
-          <video class="hero-figure" autoplay muted loop playsinline poster="/assets/art/neil-hero.webp" width="900" height="1200" aria-label="Animated 3D illustration of Neil Busque building software">
-            <source src="/assets/art/neil-hero.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </div>
-    </section>
-
-    <!-- tech marquee -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        {[...TECH, ...TECH].map((t) => <span class="mq">{t}</span>)}
-      </div>
-    </div>
-
-    <!-- capabilities -->
-    <section class="section" id="capabilities">
-      <div class="shell">
-        <p class="label sec-label reveal"><span class="n">01</span> &nbsp;How I can help</p>
-        <h2 class="statement reveal" style="font-size:clamp(26px,3.8vw,46px);max-width:20ch">From your marketing to your AI agents, I can probably help.</h2>
-        <div class="caps-grid reveal" style="margin-top:44px">
-          {caps.map((c, i) => (
-            <div class="cap-card">
-              <span class="ci">{pad(i)}</span>
-              <h3>{c.t}</h3>
-              <p>{c.d}</p>
-            </div>
-          ))}
+          <div class="hero-visual" id="heroVisual">
+            <video class="hero-figure" autoplay muted loop playsinline poster="/assets/art/neil-hero.webp" width="900" height="1200" aria-label="Animated 3D illustration of Neil Busque building software">
+              <source src="/assets/art/neil-hero.mp4" type="video/mp4" />
+            </video>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- work -->
+    <!-- process film (Task 2/3) -->
+    <section class="section film" id="process" data-film></section>
+
+    <!-- museum (Task 4/5) -->
     <div class="rule"></div>
-    <section class="section" id="work">
-      <div class="shell">
-        <div class="sec-head reveal">
-          <div>
-            <p class="label"><span class="n">02</span> &nbsp;Projects</p>
-            <h2>Real products, live now.</h2>
-          </div>
-          <p class="lede">Designed, built, and shipped solo. Every one is live right now. Want the full build story behind five of them? <a href="/case-studies">Read the case studies</a>.</p>
-        </div>
-        <div class="work-grid reveal">
-          {featured.map((p) => (
-            <a class="work-card" href={p.url} target="_blank" rel="noopener">
-              <div class="top">
-                <span class="pname">{p.name}</span>
-              </div>
-              <p class="pdesc">{p.desc}</p>
-              <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
-              <p class="liveurl"><span class="live-dot"></span>{p.label}</p>
-            </a>
-          ))}
-          {more.map((p) =>
-            p.url ? (
-              <a class="work-card compact" href={p.url} target="_blank" rel="noopener">
-                <div class="top">
-                  <span class="pname">{p.name}</span>
-                </div>
-                <p class="pdesc">{p.desc}</p>
-                <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
-                <p class="liveurl"><span class="live-dot"></span>{p.label}</p>
-              </a>
-            ) : (
-              <div class="work-card compact">
-                <div class="top">
-                  <span class="pname">{p.name}</span>
-                </div>
-                <p class="pdesc">{p.desc}</p>
-                <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
-                <p class="liveurl">{p.label}</p>
-              </div>
-            )
-          )}
-          <a class="work-card compact" href="/feed">
-            <div class="top">
-              <span class="pname">50+ more builds</span>
-            </div>
-            <p class="pdesc">These are the highlights. Fifty-plus more are deployed and running, with new ones shipping to the build log most weeks.</p>
-            <p class="liveurl">busqueneil.com/feed →</p>
-          </a>
-        </div>
-      </div>
-    </section>
+    <section class="section museum" id="museum" data-museum></section>
 
-    <!-- testimonials -->
+    <!-- testimonials (Task 6) -->
     <div class="rule"></div>
-    <section class="section" id="testimonials">
-      <div class="shell">
-        <div class="sec-head reveal">
-          <div>
-            <p class="label"><span class="n">✳</span> &nbsp;Kind words</p>
-            <h2>What it's like to work with me.</h2>
-          </div>
-          <p class="lede">Straight from clients and collaborators. Real messages, nothing edited.</p>
-        </div>
-        <div class="testi-grid reveal">
-          {testimonials.map((t) => (
-            <figure class="testi-card">
-              <img src={t.src} alt={t.alt} width={t.w} height={t.h} loading="lazy" />
-            </figure>
-          ))}
-        </div>
-      </div>
-    </section>
+    <section class="section" id="testimonials"></section>
 
-    <!-- faq / objections -->
+    <!-- capabilities (Task 6) -->
     <div class="rule"></div>
-    <section class="section" id="faq">
-      <div class="shell">
-        <div class="sec-head reveal">
-          <div>
-            <p class="label"><span class="n">✳</span> &nbsp;Straight answers</p>
-            <h2>The questions everyone asks first.</h2>
-          </div>
-          <p class="lede">You're probably thinking one of these. Here's the honest version.</p>
-        </div>
-        <div class="faq-list reveal">
-          {faqs.map((f) => (
-            <details class="faq-item">
-              <summary>
-                <span class="faq-q">{f.q}</span>
-                <span class="faq-ico" aria-hidden="true">+</span>
-              </summary>
-              <p class="faq-a">{f.a}</p>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
+    <section class="section" id="capabilities"></section>
 
-    <!-- about -->
+    <!-- what do you want to build (Task 6) -->
     <div class="rule"></div>
-    <section class="section" id="about">
-      <div class="shell">
-        <p class="label sec-label reveal"><span class="n">03</span> &nbsp;About</p>
-        <h2 class="statement reveal">I've followed the interesting work wherever it went. <span class="muted">Right now, it's AI.</span></h2>
-        <div class="bio-grid reveal">
-          <img class="bio-portrait" src="/assets/art/neilpic.png" width="500" height="750" alt="Neil Busque" loading="lazy" />
-          <div class="bio-body">
-            <p>
-              I studied IT, then got pulled into graphic design, which led me into
-              web development. From there it was funnels and landing pages, then
-              GoHighLevel, then automation with Zapier and n8n. Every couple of
-              years the interesting work moved somewhere new, and I followed it.
-            </p>
-            <p>
-              Now we're in the AI era, and I'm all in. I spend most of my day in
-              Claude Code, and it has let me build things that used to need a whole
-              team: full apps, AI agents, and automations, usually in days.
-            </p>
-            <p>
-              I build in public and ship something most weeks. I'm based in New
-              Jersey, and I'm always making something.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="section build" id="build"></section>
 
-    <!-- contact / open for work -->
+    <!-- faq (Task 7) -->
     <div class="rule"></div>
-    <section class="section hire-band" id="contact">
-      <img class="hire-art" src="/assets/art/terrain.png" alt="" loading="lazy" />
-      <div class="shell">
-        <div class="contact-grid reveal">
-          <div class="contact-copy">
-            <p class="label"><span class="n">04</span> &nbsp;Open for work</p>
-            <h2>What are you going to build?</h2>
-            <p class="pitch">
-              Bring me the idea you keep putting off. Full-time, fractional, or a
-              one-off project. I'll own the part where marketing, automation, and
-              AI come together and turn it into something live.
-            </p>
-            <div class="roles">
-              <span class="role">Fractional CTO</span>
-              <span class="role">Head of AI</span>
-              <span class="role">AI Systems Architect</span>
-              <span class="role">Growth / Marketing Lead</span>
-              <span class="role">Automation Engineer</span>
-            </div>
-            <div class="alt-contact">
-              <a href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">WhatsApp</a>
-              <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
-              <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>
-              <a href="/resume.pdf">Resume</a>
-              <a href="https://talk.busqueneil.com" rel="noopener" target="_blank">Around right now? Start a live call</a>
-            </div>
-          </div>
-          <div class="lead-card">
-            <h3 class="lc-title">Just send me a DM</h3>
-            <p class="lc-sub">No form, no pitch, no pressure. Message me on WhatsApp and we'll talk like people.</p>
-            <p class="lc-sub">Even if we never do business together, I love meeting sharp people, trading ideas, and connecting. Want to chat, share what you're building, or just network? I'm in.</p>
-            <ul class="lc-perks">
-              <li><span class="tick">✓</span> Hop on a quick call and I promise you'll walk away with something useful.</li>
-              <li><span class="tick">✓</span> I'll also send you a free tool you can start using right away.</li>
-            </ul>
-            <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" rel="noopener" target="_blank">Message me on WhatsApp <span class="ico">→</span></a>
-            <p class="form-note">Straight to my phone. Just say hi.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="faq"></section>
 
-    <!-- what it can do carousel -->
-    <section class="collage-band" id="deployed">
-      <div class="shell">
-        <div class="collage-head reveal">
-          <p class="collage-stat"><span class="amp">50+</span> projects deployed</p>
-          <p class="collage-sub">Apps, funnels, agency sites, client tools, and automations. All built and shipped solo.</p>
-        </div>
-      </div>
-      <div class="mq-rows reveal">
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track">
-            {[...snippetsA, ...snippetsA].map((s) => <span class="mq mq-lg">{s}</span>)}
-          </div>
-        </div>
-        <div class="marquee" aria-hidden="true">
-          <div class="marquee-track rev">
-            {[...snippetsB, ...snippetsB].map((s) => <span class="mq mq-lg">{s}</span>)}
-          </div>
-        </div>
-      </div>
-      <div class="shell">
-        <p class="collage-note reveal">It's less about replacing software and more about making it fit how you actually work. Software tuned to your one business, that you own. Build it for yourself, for your team, to sell, to run as a lead magnet, or whatever you have in mind.</p>
-      </div>
-    </section>
-
-    <!-- risk reversal -->
+    <!-- contact (Task 7) -->
     <div class="rule"></div>
-    <section class="section">
-      <div class="shell">
-        <div class="assure reveal">
-          <p class="label" style="justify-content:center"><span class="n">✳</span> &nbsp;No pressure</p>
-          <h2>Let's just connect.</h2>
-          <p>Seriously, no pitch and no pressure. Send me a message and we'll chat. I'm happy to show you what I'm building, walk you through what's actually possible with AI right now, or just trade ideas and let you pick my brain. Come say hi.</p>
-          <a class="btn primary" href="https://api.whatsapp.com/send/?phone=9083164140" target="_blank" rel="noopener">Message me on WhatsApp <span class="ico">→</span></a>
-        </div>
-      </div>
-    </section>
+    <section class="section" id="contact"></section>
 
     <!-- footer -->
-    <footer class="v4-footer">
+    <footer class="v6-footer">
       <div class="fin">
         <div class="ftop">
-          <a class="fbrand" href="/">busqueneil</a>
+          <a class="fbrand" href="/">busque<b>neil</b></a>
           <div class="flinks">
-            <a href="#work">Work</a>
+            <a href="#museum">Work</a>
             <a href="/about">About</a>
             <a href="/resume.pdf">Resume</a>
             <a href="mailto:busqueneil@gmail.com">Email</a>
@@ -444,76 +144,7 @@ const pad = (n: number) => String(n + 1).padStart(2, '0');
     </footer>
   </div>
 
-  <script is:inline>
-    // Page-wide cursor spotlight + subtle hero parallax.
-    (function () {
-      if (matchMedia('(hover: none)').matches) return;
-      var pc = document.getElementById('pageCursor');
-      var hero = document.querySelector('.hero');
-      var vis = document.getElementById('heroVisual');
-      var mx = 0, my = 0, raf = 0, heroRect = null;
-      function frame() {
-        raf = 0;
-        if (vis && hero) {
-          if (!heroRect) heroRect = hero.getBoundingClientRect();
-          if (mx >= heroRect.left && mx <= heroRect.right && my >= heroRect.top && my <= heroRect.bottom) {
-            var nx = (mx - heroRect.left) / heroRect.width - 0.5, ny = (my - heroRect.top) / heroRect.height - 0.5;
-            vis.style.transform = 'translate(' + (nx * 16).toFixed(1) + 'px,' + (ny * 12).toFixed(1) + 'px) rotate(' + (nx * 1.6).toFixed(2) + 'deg)';
-          } else { vis.style.transform = ''; }
-        }
-      }
-      window.addEventListener('pointermove', function (e) {
-        if (e.pointerType === 'touch') return;
-        mx = e.clientX; my = e.clientY;
-        if (pc) { pc.style.transform = 'translate(' + mx + 'px,' + my + 'px)'; pc.style.opacity = '1'; }
-        if (!raf) raf = requestAnimationFrame(frame);
-      }, { passive: true });
-      window.addEventListener('scroll', function () { heroRect = null; }, { passive: true });
-      window.addEventListener('resize', function () { heroRect = null; }, { passive: true });
-      document.addEventListener('mouseleave', function () { if (pc) pc.style.opacity = '0'; });
-    })();
-
-    // Contact form -> Orbit form-lead edge function (same contract as /help funnel).
-    (function () {
-      var form = document.getElementById('contactForm');
-      if (!form) return;
-      var ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-        ? 'https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/form-lead'
-        : '/api/form-lead';
-      var ANON = 'sb_publishable_vxcbGxMEjdCxYm77sOwldg_hkWcIRbO';
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!form.reportValidity()) return;
-        var btn = form.querySelector('[type="submit"]');
-        var old = form.querySelector('.form-msg'); if (old) old.remove();
-
-        var data = { form: 'home-contact' };
-        new FormData(form).forEach(function (value, key) {
-          if (key === 'bot-field') { data.bot_field = value; return; }
-          data[key] = value;
-        });
-
-        btn.disabled = true; btn.firstChild.textContent = 'Sending... ';
-        fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: 'Bearer ' + ANON },
-          body: JSON.stringify(data),
-        })
-          .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { ok: r.ok && b && b.ok }; }); })
-          .then(function (res) {
-            if (!res.ok) throw new Error('submit failed');
-            form.hidden = true;
-            document.getElementById('formSuccess').hidden = false;
-          })
-          .catch(function () {
-            btn.disabled = false; btn.firstChild.textContent = 'Get in touch ';
-            var m = document.createElement('p');
-            m.className = 'form-msg err';
-            m.innerHTML = 'Something went wrong. Email me instead: <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>';
-            form.appendChild(m);
-          });
-      });
-    })();
+  <script>
+    import '../scripts/home-v6.ts';
   </script>
 </Base>
