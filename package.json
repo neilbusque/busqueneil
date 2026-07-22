@@ -1,6 +1,6 @@
 {
   "name": "busqueneil",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "private": true,
   "type": "module",
   "description": "Neil Busque — personal site. Astro SSR premium landing + Supabase build-in-public feed.",
