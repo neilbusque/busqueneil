@@ -1,0 +1,123 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+
+export const prerender = true;
+
+const title = 'Contact Neil Busque — tell me what you want to build';
+const description = 'Send Neil Busque a message about your web app, website, funnel, or automation idea. Goes straight to his inbox. Replies within a day.';
+const canonical = 'https://busqueneil.com/contact';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: title,
+  url: canonical,
+  about: { '@id': 'https://busqueneil.com/#person' },
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="contact">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+
+  <span class="eyebrow">Contact</span>
+  <h1 class="sec">Tell me what <span class="mark-hl">you want to build.</span></h1>
+  <p class="story-lede">A rough idea is enough. Write it the way you would say it out loud, and I will come back with how I would build it and what it would take.</p>
+
+  <div class="contact-grid">
+    <div>
+      <form class="contact-form v8-card" id="cform" novalidate>
+        <div class="field">
+          <label for="cf-name">Your name</label>
+          <input id="cf-name" name="name" type="text" autocomplete="name" required />
+          <span class="ferr">Tell me who I am talking to.</span>
+        </div>
+        <div class="field">
+          <label for="cf-email">Email</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" required />
+          <span class="ferr">I need a real email to reply to.</span>
+        </div>
+        <div class="field">
+          <label for="cf-need">What do you need?</label>
+          <select id="cf-need" name="need">
+            <option>Web app</option>
+            <option>Website</option>
+            <option>Landing page or funnel</option>
+            <option>Automation or AI</option>
+            <option selected>Not sure yet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cf-msg">Your idea</label>
+          <textarea id="cf-msg" name="message" required placeholder="What are you trying to build, and what should it do?"></textarea>
+          <span class="ferr">Give me at least a sentence to work with.</span>
+        </div>
+        <input type="text" name="bot_field" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px" />
+        <p class="form-note">Goes straight to my inbox. No newsletter, no drip sequence.</p>
+        <button class="btn-sun" type="submit">Send it to Neil</button>
+        <span class="form-fail" id="cfail">Something broke on my end. Email me instead: busqueneil@gmail.com</span>
+      </form>
+      <div class="form-done v8-card" id="cdone" role="status">
+        <span class="hand">Got it. Talk soon.</span>
+        <p>Your message is in my inbox. I read everything myself and reply within a day, usually faster. If it is urgent, hit the WhatsApp button.</p>
+      </div>
+    </div>
+    <aside class="contact-aside">
+      <p class="aside-note hand">I reply within a day, usually faster ↓</p>
+      <a class="cway v8-card" href="mailto:busqueneil@gmail.com">Email <span>busqueneil@gmail.com</span></a>
+      <a class="cway v8-card" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20" target="_blank" rel="noopener">WhatsApp <span>fastest way to reach me</span></a>
+      <a class="cway v8-card" href="https://www.linkedin.com/in/neilbusque/" rel="me">LinkedIn <span>connect or DM</span></a>
+      <img class="art-img" src="/assets/art/paper-plane.webp" alt="" width="1200" height="896" loading="lazy" />
+    </aside>
+  </div>
+
+  <script>
+    function bindContactForm() {
+      const form = document.getElementById('cform') as HTMLFormElement | null;
+      if (!form || form.dataset.bound) return;
+      form.dataset.bound = '1';
+      const fail = document.getElementById('cfail')!;
+      const done = document.getElementById('cdone')!;
+      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      const validate = () => {
+        let ok = true;
+        for (const name of ['name', 'email', 'message']) {
+          const input = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+          const bad = !input.value.trim() || (name === 'email' && !/^\S+@\S+\.\S+$/.test(input.value));
+          input.closest('.field')?.classList.toggle('invalid', bad);
+          if (bad) ok = false;
+        }
+        return ok;
+      };
+      for (const name of ['name', 'email', 'message']) {
+        (form.elements.namedItem(name) as HTMLElement).addEventListener('blur', validate);
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        fail.style.display = 'none';
+        if (!validate()) return;
+        btn.disabled = true;
+        const label = btn.textContent;
+        btn.textContent = 'Sending…';
+        try {
+          const data = Object.fromEntries(new FormData(form).entries());
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const out = await res.json().catch(() => ({}));
+          if (!res.ok || !out.ok) throw new Error(out.error || 'send failed');
+          form.style.display = 'none';
+          done.style.display = 'block';
+        } catch {
+          fail.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      });
+    }
+    bindContactForm();
+    document.addEventListener('astro:page-load', bindContactForm);
+  </script>
+</AppShell>

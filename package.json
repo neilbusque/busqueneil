@@ -1,6 +1,6 @@
 {
   "name": "busqueneil",
-  "version": "9.0.0",
+  "version": "9.4.0",
   "private": true,
   "type": "module",
   "description": "Neil Busque — personal site. Astro SSR premium landing + Supabase build-in-public feed.",
@@ -40,7 +40,6 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@types/nodemailer": "^8.0.1",
-    "puppeteer-core": "^25.2.1",
     "vitest": "^2.1.9"
   }
 }

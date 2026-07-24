@@ -48,6 +48,27 @@ export async function sendReportEmail(opts: { to: string; url: string; score: nu
   }
 }
 
+/** Contact-form message to Neil's own inbox, Reply-To the visitor. */
+export async function sendContactEmail(opts: { subject: string; html: string; text: string; replyTo: string }): Promise<boolean> {
+  const t = transport();
+  const user = env('GMAIL_USER');
+  if (!t || !user) return false;
+  try {
+    await t.sendMail({
+      from: `busqueneil.com <${user}>`,
+      to: user,
+      replyTo: opts.replyTo,
+      subject: opts.subject,
+      html: opts.html,
+      text: opts.text,
+    });
+    return true;
+  } catch (e) {
+    console.error('gmail contact send failed', (e as Error)?.message);
+    return false;
+  }
+}
+
 /** Internal heads-up to Neil (e.g. when the Orbit push fails). */
 export async function sendNotice(opts: { subject: string; html: string }): Promise<boolean> {
   const t = transport();

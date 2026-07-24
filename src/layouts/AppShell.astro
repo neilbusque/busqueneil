@@ -6,17 +6,18 @@ import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string; description: string; canonical?: string; ogImage?: string; noindex?: boolean;
-  active: 'home' | 'story' | 'work' | 'blog' | 'shop' | 'hire';
+  active: 'home' | 'story' | 'work' | 'blog' | 'shop' | 'hire' | 'contact';
 }
 const { active, ...baseProps } = Astro.props;
 
 const NAV = [
-  { key: 'home',  href: '/',      label: 'Home' },
-  { key: 'story', href: '/story', label: 'Story' },
-  { key: 'work',  href: '/work',  label: 'Work' },
-  { key: 'blog',  href: '/blog',  label: 'Blog' },
-  { key: 'shop',  href: '/shop',  label: 'Shop' },
-  { key: 'hire',  href: '/hire',  label: 'Hire' },
+  { key: 'home',    href: '/',        label: 'Home' },
+  { key: 'story',   href: '/story',   label: 'Story' },
+  { key: 'work',    href: '/work',    label: 'Work' },
+  { key: 'blog',    href: '/blog',    label: 'Blog' },
+  { key: 'shop',    href: '/shop',    label: 'Shop' },
+  { key: 'hire',    href: '/hire',    label: 'Hire' },
+  { key: 'contact', href: '/contact', label: 'Contact' },
 ] as const;
 
 const ICONS: Record<string, string> = {
@@ -26,11 +27,17 @@ const ICONS: Record<string, string> = {
   blog: 'M5 5h14M5 10h14M5 15h9',
   shop: 'M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2',
   hire: 'M21 8l-9 6-9-6M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z',
+  contact: 'M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1zM8 9h8M8 13h5',
 };
+
+const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20';
 ---
 <Base {...baseProps} v8={true} noConcierge={true}>
   <slot name="head" slot="head" />
   <ClientRouter slot="head" />
+  <script is:inline slot="head">
+    if (localStorage.getItem('v9-rail') === '1') document.documentElement.classList.add('rail-collapsed');
+  </script>
   <div class="v8 shell">
     <slot name="intro" />
     <div class="shell-strip">
@@ -42,16 +49,20 @@ const ICONS: Record<string, string> = {
       <a class="rail-brand" href="/" aria-label="Neil Busque home">
         <RibbonMark size={40} />
       </a>
+      <button class="rail-toggle" type="button" aria-label="Collapse sidebar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l-6 6 6 6" /></svg>
+      </button>
       <nav class="rail-nav" aria-label="Primary">
         {NAV.map((n) => (
-          <a class:list={['rail-item', { active: active === n.key }]} href={n.href} aria-current={active === n.key ? 'page' : undefined}>
+          <a class:list={['rail-item', { active: active === n.key }]} href={n.href} title={n.label} aria-current={active === n.key ? 'page' : undefined}>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICONS[n.key]} /></svg>
             <span>{n.label}</span>
           </a>
         ))}
       </nav>
       <div class="rail-foot">
         <img class="rail-avatar" src="/assets/art/neil-cutout.png" alt="Neil Busque" loading="lazy" />
-        <a class="btn-sun rail-cta" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something">WhatsApp me</a>
+        <a class="btn-sun rail-cta" href="/contact">Contact me</a>
       </div>
     </aside>
     <main class="shell-main" transition:animate="fade">
@@ -60,11 +71,16 @@ const ICONS: Record<string, string> = {
         <span>© 2026 Neil Busque</span>
         <span class="shell-foot-links">
           <a href="/rss.xml">RSS</a><a href="/resume.pdf">Resume</a>
+          <a href="/contact">Contact</a>
           <a href="https://www.linkedin.com/in/neilbusque/" rel="me">LinkedIn</a>
           <a href="https://github.com/neilbusque" rel="me">GitHub</a>
         </span>
       </footer>
     </main>
+    <a class="fab-idea" href={WA_HREF} target="_blank" rel="noopener" aria-label="Got an idea? Message Neil on WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
+      <span class="hand">Got an idea?</span>
+    </a>
     <nav class="shell-tabbar" aria-label="Primary mobile">
       {NAV.map((n) => (
         <a class:list={['tab-item', { active: active === n.key }]} href={n.href} aria-current={active === n.key ? 'page' : undefined}>
@@ -74,4 +90,24 @@ const ICONS: Record<string, string> = {
       ))}
     </nav>
   </div>
+  <script>
+    const KEY = 'v9-rail';
+    function syncClass() {
+      document.documentElement.classList.toggle('rail-collapsed', localStorage.getItem(KEY) === '1');
+    }
+    function bindToggle() {
+      const btn = document.querySelector('.rail-toggle');
+      if (!btn) return;
+      const label = () => btn.setAttribute('aria-label',
+        document.documentElement.classList.contains('rail-collapsed') ? 'Expand sidebar' : 'Collapse sidebar');
+      label();
+      btn.addEventListener('click', () => {
+        const collapsed = document.documentElement.classList.toggle('rail-collapsed');
+        localStorage.setItem(KEY, collapsed ? '1' : '0');
+        label();
+      });
+    }
+    bindToggle();
+    document.addEventListener('astro:after-swap', () => { syncClass(); bindToggle(); });
+  </script>
 </Base>
