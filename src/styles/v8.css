@@ -16,7 +16,6 @@
 .v8 .sec { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(30px, 3.6vw, 44px); text-transform: uppercase; letter-spacing: -0.015em; line-height: 1.02; margin: 10px 0 8px; }
 .v8 .script { font-family: 'Fraunces', Georgia, serif; font-style: italic; }
 .v8 .hand { font-family: 'Caveat', cursive; color: var(--ink); }
-.v8 .sig { font-family: 'Mrs Saint Delafield', cursive; color: var(--ink); }
 .v8 .mark-hl { background: var(--sun); padding: 0 .18em; border-radius: .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; color: #242424; }
 .v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 18px; box-shadow: 0 1px 2px rgba(36,36,36,.04), 0 12px 32px -18px rgba(36,36,36,.12); }
 .v8 .btn-sun { display: inline-block; font-weight: 650; font-size: 15px; color: #242424; background: var(--sun); padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; text-decoration: none; box-shadow: 0 2px 0 rgba(36,36,36,.9); transition: transform .15s ease, box-shadow .15s ease; }
@@ -35,7 +34,7 @@
 .v8 .strip-mail { margin-left: auto; color: inherit; text-decoration: none; }
 .v8 .shell-rail { position: fixed; inset: 0 auto 0 0; width: 224px; display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--paper); border-right: 1px solid var(--hair); z-index: 50; }
 .v8 .rail-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 8px; }
-.v8 .rail-sig { font-family: 'Mrs Saint Delafield', cursive; font-size: 34px; line-height: 1; transform: rotate(-3deg); display: inline-block; color: var(--ink); }
+.v8 .rail-sig { height: 44px; width: auto; transform: rotate(-2deg); display: inline-block; }
 .v8 .rail-nav { display: flex; flex-direction: column; gap: 4px; }
 .v8 .rail-item { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; text-decoration: none; color: var(--muted); font-weight: 550; font-size: 15px; transition: background .15s ease, color .15s ease; }
 .v8 .rail-item:hover { background: rgba(36,36,36,.05); color: var(--ink); }
@@ -163,7 +162,7 @@
 .v8 .darkcta p { color: #B8B0A4; max-width: 48ch; margin: 0 0 26px; }
 .v8 .darkcta .hero-ctas { align-items: center; gap: 20px; }
 .v8 .darkcta .btn-ghost { border-color: #4A463F; color: #F4EFE8; }
-.v8 .darkcta .sig { position: absolute; right: 48px; bottom: 34px; font-size: 56px; color: var(--sun); transform: rotate(-6deg); }
+.v8 .darkcta .sig { position: absolute; right: 48px; bottom: 30px; height: 64px; width: auto; transform: rotate(-6deg); }
 .v8 .darkcta .mark-hl { color: var(--ink); }
 
 @media (max-width: 980px) {
