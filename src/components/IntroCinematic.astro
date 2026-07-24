@@ -1,0 +1,25 @@
+---
+import RibbonMark from './RibbonMark.astro';
+---
+<div class="intro" id="v8-intro" aria-hidden="true">
+  <div class="intro-stage">
+    <div class="intro-mark"><RibbonMark size={128} /></div>
+    <div class="intro-word">Neil Busque<span class="intro-dot">.</span></div>
+    <div class="intro-tag">From idea to product</div>
+  </div>
+</div>
+<script is:inline>
+  (() => {
+    const el = document.getElementById('v8-intro');
+    if (!el) return;
+    const seen = sessionStorage.getItem('v8-intro');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (seen || reduced) { el.remove(); return; }
+    sessionStorage.setItem('v8-intro', '1');
+    el.classList.add('play');
+    const done = () => { el.classList.add('leave'); setTimeout(() => el.remove(), 450); cleanup(); };
+    const cleanup = () => ['click', 'keydown', 'wheel', 'touchstart'].forEach((e) => window.removeEventListener(e, done));
+    ['click', 'keydown', 'wheel', 'touchstart'].forEach((e) => window.addEventListener(e, done, { passive: true }));
+    setTimeout(done, 2000);
+  })();
+</script>

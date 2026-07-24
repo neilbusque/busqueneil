@@ -53,3 +53,22 @@
   .v8 .tab-item.active { color: #201E18; }
   .v8 .tab-item.active svg { background: linear-gradient(100deg, var(--sun-hi), var(--sun)); border-radius: 8px; padding: 2px; box-sizing: content-box; }
 }
+
+/* ---- cinematic intro ---- */
+.v8 .intro { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background-color: var(--paper); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 32px 32px; }
+.v8 .intro-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.v8 .intro-word { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: clamp(28px, 5vw, 44px); opacity: 0; }
+.v8 .intro-dot { color: var(--gold); }
+.v8 .intro-tag { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); opacity: 0; }
+.v8 .intro.play .rm-stem-l { animation: introStem .4s cubic-bezier(.2,.8,.25,1) both; transform-origin: 50% 100%; }
+.v8 .intro.play .rm-stem-r { animation: introStem .4s cubic-bezier(.2,.8,.25,1) .15s both; transform-origin: 50% 100%; }
+.v8 .intro.play .rm-ribbon { animation: introRibbon .5s cubic-bezier(.2,.8,.25,1) .35s both; transform-origin: 20% 15%; }
+.v8 .intro.play .rm-fold-t, .v8 .intro.play .rm-fold-b { animation: introFade .3s ease .75s both; }
+.v8 .intro.play .intro-word { animation: introUp .45s cubic-bezier(.2,.8,.25,1) .85s both; }
+.v8 .intro.play .intro-tag { animation: introUp .45s cubic-bezier(.2,.8,.25,1) 1.05s both; }
+.v8 .intro.leave { animation: introLeave .45s cubic-bezier(.6,0,.8,.2) both; }
+@keyframes introStem { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes introRibbon { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes introFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes introUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes introLeave { to { opacity: 0; transform: translateY(-3vh); } }
