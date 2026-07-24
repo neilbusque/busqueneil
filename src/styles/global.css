@@ -13,10 +13,10 @@
   --rule:        #E7E7EC;   /* 1px hairline dividers */
   --rule-2:      #D8D8DE;   /* slightly stronger hairline */
   --ink-rule:    #0A0A0B;   /* 2px structural ink rules */
-  --accent:      #3B3DF5;   /* electric indigo: display accent, focus, dots */
-  --accent-ink:  #2A2BD6;   /* body links (AA on white) */
-  --accent-deep: #1E1FB0;   /* link hover */
-  --accent-wash: #EEEEFF;   /* rare tint fills */
+  --accent:      #9A6B00;   /* deep gold: display accent, focus, dots (yellow family, AA-safe as text) */
+  --accent-ink:  #8A6000;   /* body links (AA on white) */
+  --accent-deep: #6E4D00;   /* link hover */
+  --accent-wash: #FFF6CF;   /* rare tint fills (pale lemon) */
   --code-bg:     #0B0B12;
   --code-ink:    #E7E7F2;
 
@@ -56,7 +56,7 @@ body {
 }
 
 img { max-width: 100%; height: auto; display: block; }
-::selection { background: var(--accent); color: #fff; }
+::selection { background: #FFE862; color: #242424; }
 
 a { color: var(--accent-ink); }
 
@@ -142,12 +142,12 @@ a { color: var(--accent-ink); }
   font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #fff;
-  background: var(--accent);
+  color: #242424;
+  background: #FFE862;
   padding: 8px 16px;
   border-radius: 2px;
 }
-.masthead nav .hire:hover { background: var(--accent-deep); color: #fff; }
+.masthead nav .hire:hover { background: #FFD640; color: #242424; }
 .masthead nav .hire::after { display: none; }
 @media (max-width: 620px) {
   .masthead { flex-wrap: wrap; }
