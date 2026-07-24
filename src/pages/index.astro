@@ -31,6 +31,7 @@ function shortDate(iso: string | null): string {
   return iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 }
 function tagFor(p: Post): string {
+  if (p.tags?.includes('video')) return 'Video';
   if (p.type === 'article') return p.tags.includes('tutorial') ? 'Tutorial' : 'Article';
   const map: Record<string, string> = { status: 'Thought', project: 'Build', now: 'Now' };
   return map[p.type] ?? 'Post';
