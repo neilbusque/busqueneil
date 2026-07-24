@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/favicon.ico", "destination": "/assets/logo/favicon-32.png" },
+    { "source": "/favicon.ico", "destination": "/assets/brand/favicon-32.png" },
     { "source": "/api/chat", "destination": "https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/chat" },
     { "source": "/api/form-lead", "destination": "https://cubglfkgnjvlwelkmnbh.supabase.co/functions/v1/form-lead" }
   ],

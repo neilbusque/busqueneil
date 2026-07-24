@@ -1,0 +1,24 @@
+/* v8 "App Shell" — Ribbon N yellow system. Scoped under .v8 so funnels/admin/guides are untouched. */
+.v8 {
+  --paper: #FAF8F2; --surface: #FFFFFF; --ink: #201E18; --muted: #6B675C;
+  --sun: #FFC61A; --sun-hi: #FFD84D; --fold: #E3A50E; --amber: #E89B2D; --gold: #DFA100;
+  --hair: #E8E2D2; --grid: rgba(32, 30, 24, .045);
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-font-smoothing: antialiased;
+}
+.v8 h1, .v8 h2, .v8 h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+.v8 .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.v8 .mark-hl { background: linear-gradient(100deg, var(--sun-hi), var(--sun)); padding: 0 .18em; border-radius: .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; color: #201E18; }
+.v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: 18px; box-shadow: 0 1px 2px rgba(32,30,24,.04), 0 12px 32px -18px rgba(32,30,24,.12); }
+.v8 .btn-sun { display: inline-block; font-weight: 650; font-size: 15px; color: #201E18; background: linear-gradient(100deg, var(--sun-hi), var(--sun)); padding: 12px 24px; border-radius: 999px; border: 0; cursor: pointer; text-decoration: none; box-shadow: 0 6px 16px -8px rgba(223,161,0,.6); transition: transform .15s ease, box-shadow .15s ease; }
+.v8 .btn-sun:hover { transform: translateY(-1px); box-shadow: 0 10px 22px -8px rgba(223,161,0,.7); }
+.v8 .btn-ghost { display: inline-block; font-weight: 650; font-size: 15px; color: var(--ink); background: transparent; border: 1px solid var(--hair); padding: 12px 24px; border-radius: 999px; text-decoration: none; }
+.v8 .chip { font-size: 12px; font-weight: 600; letter-spacing: .06em; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--hair); color: var(--muted); background: var(--surface); }
+@media (prefers-reduced-motion: reduce) {
+  .v8 * { animation: none !important; transition: none !important; }
+}
