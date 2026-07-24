@@ -34,7 +34,6 @@
 .v8 .strip-mail { margin-left: auto; color: inherit; text-decoration: none; }
 .v8 .shell-rail { position: fixed; inset: 0 auto 0 0; width: 224px; display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--paper); border-right: 1px solid var(--hair); z-index: 50; }
 .v8 .rail-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 8px; }
-.v8 .rail-sig { height: 44px; width: auto; transform: rotate(-2deg); display: inline-block; }
 .v8 .rail-nav { display: flex; flex-direction: column; gap: 4px; }
 .v8 .rail-item { display: flex; align-items: center; gap: 11px; padding: 9px 12px; border-radius: 10px; text-decoration: none; color: var(--muted); font-weight: 550; font-size: 15px; transition: background .15s ease, color .15s ease; }
 .v8 .rail-item:hover { background: rgba(36,36,36,.05); color: var(--ink); }

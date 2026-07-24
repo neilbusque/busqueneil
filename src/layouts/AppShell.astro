@@ -1,6 +1,7 @@
 ---
 import '../styles/v8.css';
 import Base from './Base.astro';
+import RibbonMark from '../components/RibbonMark.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -39,7 +40,7 @@ const ICONS: Record<string, string> = {
     </div>
     <aside class="shell-rail">
       <a class="rail-brand" href="/" aria-label="Neil Busque home">
-        <img class="rail-sig" src="/assets/brand/sig-ink.png" alt="Neil." width="480" height="283" />
+        <RibbonMark size={40} />
       </a>
       <nav class="rail-nav" aria-label="Primary">
         {NAV.map((n) => (
