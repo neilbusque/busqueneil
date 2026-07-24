@@ -1,8 +1,8 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
-import PostCard from '../components/PostCard.astro';
 import { getFeed } from '../lib/posts';
 import { filterToQuery, FILTERS } from '../lib/blogFilters';
+import type { Post } from '../lib/types';
 
 const url = Astro.url;
 const filter = url.searchParams.get('filter');
@@ -11,16 +11,35 @@ const q = filterToQuery(filter);
 const { posts, hasMore } = await getFeed({ request: Astro.request, cookies: Astro.cookies }, { page, ...q });
 const chipHref = (key: string) => (key === 'all' ? '/blog' : `/blog?filter=${key}`);
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
+
+function shortDate(iso: string | null): string {
+  return iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+}
+function tagFor(p: Post): string {
+  if (p.type === 'article') return p.tags.includes('tutorial') ? 'Tutorial' : 'Article';
+  const map: Record<string, string> = { status: 'Thought', project: 'Build', now: 'Now' };
+  return map[p.type] ?? 'Post';
+}
 ---
 <AppShell title="Blog — Neil Busque" description="Thoughts, tutorials, and build logs from Neil Busque." active="blog">
   <span class="eyebrow">The blog</span>
-  <h1>Thoughts, tutorials, and <span class="mark-hl">builds.</span></h1>
+  <h1 class="sec">Thoughts, tutorials, and <span class="mark-hl">builds.</span></h1>
   <div class="blog-chips">
     {FILTERS.map((f) => (
       <a class:list={['chip', { on: (filter ?? 'all') === f.key }]} href={chipHref(f.key)}>{f.label}</a>
     ))}
   </div>
-  <div class="blog-grid">{posts.map((p) => <PostCard post={p} />)}</div>
+  <ul class="postlist">
+    {posts.map((p) => (
+      <li>
+        <a href={`/posts/${p.slug}`}>
+          <span class="pd">{shortDate(p.published_at)}</span>
+          <span class="pt">{p.title ?? 'Untitled'}</span>
+          <span class:list={['tag', { video: p.tags.includes('video') }]}>{tagFor(p)}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
   {posts.length === 0 && <p>Nothing here yet. Check back soon.</p>}
   <div class="pager">
     {page > 1 && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page - 1) })}`}>Newer</a>}
