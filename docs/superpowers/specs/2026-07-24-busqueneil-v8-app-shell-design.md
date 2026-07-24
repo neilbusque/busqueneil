@@ -13,14 +13,31 @@ explicit mandate: no scroll-jacked film, no heavy animation, fast everywhere.
 
 ## Brand (new, canonical)
 
-"Dot & Square" system from `NeilOS/context/deliverables/neil/logo-dot-square/` (see its README):
+"Ribbon N" system from `NeilOS/context/deliverables/neil/logo-ribbon-n/` (see its README):
 
-- Mark: forest-ink rounded square + emerald dot top-right. Wordmark "Neil Busque." with emerald period.
-- Palette: paper `#FAF8F2`, forest ink `#16281C`, emerald `#1F9D55` / teal `#0E8C7F`, amber `#E89B2D`
-  (annotations only), hairline `#E6E1D4`. Grid-paper texture as an ambient surface.
-- Type: Fraunces 600 display (italic gradient emphasis), Inter UI/body, Caveat amber annotations (sparingly).
+- Mark: custom-drawn paper-fold N — charcoal stems, sun-yellow ribbon diagonal, amber crease facets.
+  Small sizes (≤32px) use the fold-less `mark-small.svg`. Wordmark "Neil Busque." with gold period.
+- Palette: paper `#FAF8F2`, charcoal ink `#201E18`, sun yellow `#FFC61A` (hi `#FFD84D`), fold amber
+  `#E3A50E`, deep amber `#E89B2D` (annotations only), hairline `#E8E2D2`. Grid-paper texture as an
+  ambient surface. Rule: yellow is fills/highlights/buttons-with-dark-text, never yellow text on ivory.
+- Type: Fraunces 600 display with the yellow highlighter swipe on key words, Inter UI/body, Caveat
+  amber annotations (sparingly).
 - Light theme only in v8 (matches brand; cuts scope). No em dashes in copy.
 - Favicons/app icons/OG replaced site-wide from the new asset set.
+
+## Cinematic opening (first load)
+
+The site opens like an app launching, then gets out of the way:
+
+- Sequence on `/` first visit: paper-grid ground → the ribbon N draws itself center screen
+  (stems rise, ribbon unfolds corner to corner, creases pop) → mark glides up into its rail/tab-bar
+  position → "Neil Busque." wordmark settles with the gold period landing last → shell and hero
+  content stagger in. Total ≤ 2s, pure CSS/WAAPI (no GSAP dependency).
+- Skippable by click/scroll/key; plays once per session (sessionStorage), never on interior routes.
+- `prefers-reduced-motion` gets an instant crossfade. The intro overlays already-painted content so
+  LCP stays sub-1s (the overlay is painted content, not a blocker; no layout shift when it lifts).
+- Micro-echoes of it elsewhere (cheap, no scroll-jacking): the active nav pill slides, view
+  transitions crossfade, the ribbon in the rail mark re-folds subtly on hover.
 
 ## The shell (one layout, every main page)
 
