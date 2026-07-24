@@ -93,10 +93,10 @@ a { color: var(--accent-ink); }
 .ticker .live { display: inline-flex; align-items: center; gap: 7px; color: var(--ink); }
 .ticker .dot {
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
-  box-shadow: 0 0 0 0 rgba(59,61,245,.5);
+  box-shadow: 0 0 0 0 rgba(255,232,98,.6);
   animation: pulse 2.4s infinite;
 }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(59,61,245,.45); } 70% { box-shadow: 0 0 0 6px rgba(59,61,245,0); } 100% { box-shadow: 0 0 0 0 rgba(59,61,245,0); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,232,98,.6); } 70% { box-shadow: 0 0 0 6px rgba(255,232,98,0); } 100% { box-shadow: 0 0 0 0 rgba(255,232,98,0); } }
 @media (prefers-reduced-motion: reduce) { .ticker .dot { animation: none; } }
 .ticker .sep { color: var(--rule-2); }
 .ticker .right { margin-left: auto; }
