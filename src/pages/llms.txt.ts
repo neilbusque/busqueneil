@@ -4,7 +4,7 @@ import { deriveExcerpt } from '../lib/markdown';
 
 const STATIC_BIO = `# Neil Busque
 
-> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Documents everything he builds, in public, on the feed at https://busqueneil.com/.
+> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Documents everything he builds, in public, on the blog at https://busqueneil.com/blog.
 
 ## Identity
 
@@ -65,15 +65,14 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - Hire an AI engineer in New Jersey: https://busqueneil.com/hire/ai-engineer-nj
 - Hire an AI engineer in NYC: https://busqueneil.com/hire/ai-engineer-nyc
 - Hire a remote AI engineer: https://busqueneil.com/hire/ai-engineer-remote
-- Projects: https://busqueneil.com/projects
-- Case studies (long-form build write-ups): https://busqueneil.com/case-studies
+- Work (projects and case studies): https://busqueneil.com/work
 - Orbit case study (multi-tenant CRM SaaS): https://busqueneil.com/case-studies/orbit
 - Lumen Portal case study (client portal with in-house document signing): https://busqueneil.com/case-studies/lumen-portal
 - Tandem case study (realtime WebRTC couples app): https://busqueneil.com/case-studies/tandem
 - Suki Neighbors case study (marketplace PWA): https://busqueneil.com/case-studies/suki-neighbors
 - Preflight case study (funnel simulator): https://busqueneil.com/case-studies/preflight
-- Now (what he's working on right now): https://busqueneil.com/now/
-- About: https://busqueneil.com/about
+- Blog (includes now updates, filter with ?filter=now): https://busqueneil.com/blog
+- Story: https://busqueneil.com/story
 - Paid acquisition system for financial advisors / RIAs (project service): https://busqueneil.com/ria/
 - Resume (PDF): https://busqueneil.com/resume.pdf
 - RSS feed: https://busqueneil.com/rss.xml
