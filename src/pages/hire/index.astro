@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -65,7 +65,7 @@ const faq = {
   ],
 };
 ---
-<Site title={title} description={description} canonical={canonical}>
+<AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
@@ -75,11 +75,16 @@ const faq = {
     <script type="application/ld+json" set:html={JSON.stringify(faq)} />
   </Fragment>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire</p>
-    <h1>Hire the <span class="accent">AI guy</span> who ships.</h1>
-    <p class="lede">I am Neil Busque, an AI engineer and automation builder in New Jersey. I build AI agents, automations, and web apps, and I get companies found in AI search. Most of it ships in days, and you can see the work before you hire me.</p>
-  </header>
+  <span class="eyebrow">Hire</span>
+  <h1>Let's build <span class="mark-hl">your thing.</span></h1>
+  <p class="hero-sub">I am Neil Busque, an AI engineer and automation builder in New Jersey. I build AI agents, automations, and web apps, and I get companies found in AI search. Most of it ships in days, and you can see the work before you hire me.</p>
+
+  <div class="hire-steps">
+    <div class="hire-step"><b>1</b><span>Brief</span></div>
+    <div class="hire-step"><b>2</b><span>Build days</span></div>
+    <div class="hire-step"><b>3</b><span>Review</span></div>
+    <div class="hire-step"><b>4</b><span>Handoff or keep me</span></div>
+  </div>
 
   <article class="article-page" style="padding-top: 8px;">
     <div class="prose">
@@ -116,4 +121,12 @@ const faq = {
       <p>Hiring for a specific area? <a href="/hire/ai-engineer-nj">AI engineer in New Jersey</a>, <a href="/hire/ai-engineer-nyc">AI engineer in NYC</a>, or <a href="/hire/ai-engineer-remote">remote AI engineer</a>.</p>
     </div>
   </article>
-</Site>
+
+  <div class="hire-cta v8-card">
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20hire%20you">WhatsApp me</a>
+      <a class="btn-ghost" href="mailto:busqueneil@gmail.com">Email me</a>
+    </div>
+  </div>
+</AppShell>

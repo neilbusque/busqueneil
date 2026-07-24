@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -45,7 +45,7 @@ const faq = {
   ],
 };
 ---
-<Site title={title} description={description} canonical={canonical}>
+<AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
@@ -77,4 +77,4 @@ const faq = {
       <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or find me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Based in Jersey instead? See <a href="/hire/ai-engineer-nj">hire an AI engineer in New Jersey</a>, or go fully <a href="/hire/ai-engineer-remote">remote</a>. Full details on the <a href="/hire">hire page</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>

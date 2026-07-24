@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -46,7 +46,7 @@ const faq = {
   ],
 };
 ---
-<Site title={title} description={description} canonical={canonical}>
+<AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
@@ -83,4 +83,4 @@ const faq = {
       <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Near the city instead? See <a href="/hire/ai-engineer-nyc">hire an AI engineer in NYC</a> or <a href="/hire/ai-engineer-remote">hire a remote AI engineer</a>. Full details on the <a href="/hire">hire page</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>
