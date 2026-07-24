@@ -121,3 +121,8 @@
 .v8 .tl-body { padding: 16px 20px; margin-bottom: 14px; }
 .v8 .tl-body h3 { margin: 0 0 4px; font-size: 17px; }
 .v8 .tl-body p { margin: 0; font-size: 14.5px; color: var(--muted); }
+
+/* ---- work: case-study list ---- */
+.v8 .cs-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.v8 .cs-row { display: flex; justify-content: space-between; gap: 14px; padding: 16px 20px; text-decoration: none; color: var(--ink); font-size: 15px; flex-wrap: wrap; }
+.v8 .cs-row span { color: var(--muted); }

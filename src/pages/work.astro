@@ -1,0 +1,52 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import { caseStudies } from '../data/case-studies';
+
+const CLIENTS = ['Bravo Team', 'StoutCap', 'Fantum Growth', 'Darioo', 'Catalyze Growth Partners', 'Upstrm / TheWavMan', 'David Wong', 'Heart Life', 'Matador Solutions', 'Noosa Sports Chiropractic'];
+const APPS = [
+  { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', tag: 'CRM + AI agents' },
+  { name: 'Tandem', img: '/assets/work/tandem.webp', tag: 'Couples app' },
+  { name: 'Darioo', img: '/assets/work/darioo.webp', tag: 'Client site + app' },
+  { name: 'Otto', img: '/assets/work/otto.webp', tag: 'AI command center' },
+  { name: 'Hop', img: '/assets/work/hop.webp', tag: 'Link shortener' },
+  { name: 'Play Together', img: '/assets/work/play-together.webp', tag: 'Realtime games' },
+  { name: 'Orbit dashboard', img: '/assets/work/orbit-dashboard.webp', tag: 'Mission control UI' },
+  { name: 'Scott Greenleaf', img: '/assets/work/scottgreenleaf.webp', tag: 'Client rebuild' },
+];
+const csBySlug = new Map(caseStudies.map((c) => [c.slug, c]));
+const csFor = (name: string) => {
+  const key = name.toLowerCase().split(' ')[0];
+  return csBySlug.has(key) ? `/case-studies/${key}` : null;
+};
+---
+<AppShell title="Work — Neil Busque" description="Apps, sites, and client builds by Neil Busque. Real products, live right now." active="work">
+  <span class="eyebrow">The work</span>
+  <h1>Built by one person. <span class="mark-hl">Shipped for real.</span></h1>
+  <div class="work-grid" style="margin-top:22px">
+    {APPS.map((w) => {
+      const href = csFor(w.name);
+      const Tag = href ? 'a' : 'div';
+      return (
+        <Tag class="v8-card work-card" href={href ?? undefined}>
+          <img src={w.img} alt={w.name} loading="lazy" />
+          <div class="work-meta"><b>{w.name}</b><span>{w.tag}</span></div>
+        </Tag>
+      );
+    })}
+  </div>
+
+  <section class="home-sec">
+    <span class="eyebrow">Case studies</span>
+    <h2>The deep dives.</h2>
+    <ul class="cs-list">
+      {caseStudies.map((cs) => (
+        <li><a class="v8-card cs-row" href={`/case-studies/${cs.slug}`}><b>{cs.name}</b><span>{cs.summary}</span></a></li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="home-sec">
+    <span class="eyebrow">Worked with</span>
+    <div class="client-strip">{CLIENTS.map((c) => <span class="chip">{c}</span>)}</div>
+  </section>
+</AppShell>

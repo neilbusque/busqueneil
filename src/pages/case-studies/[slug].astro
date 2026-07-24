@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CaseStudyCTA from '../../components/CaseStudyCTA.astro';
 import { caseStudies } from '../../data/case-studies';
@@ -37,11 +37,11 @@ const jsonLd = {
   ...(cs.liveUrl ? { sameAs: [cs.liveUrl] } : {}),
 };
 ---
-<Site
+<AppShell
   title={`${cs.name} case study: ${cs.tagline} | Neil Busque`}
   description={cs.summary}
   canonical={url}
-  active="projects"
+  active="work"
 >
   <Fragment slot="head">
     <Breadcrumb items={[
@@ -197,4 +197,4 @@ const jsonLd = {
     <a href={`/case-studies/${prev.slug}`}><span class="k">Previous</span>{prev.name}</a>
     <a class="next" href={`/case-studies/${next.slug}`}><span class="k">Next</span>{next.name}</a>
   </nav>
-</Site>
+</AppShell>
