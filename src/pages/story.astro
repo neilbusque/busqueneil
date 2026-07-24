@@ -1,0 +1,37 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+
+const TIMELINE = [
+  { k: 'Philippines', d: 'Where I am from. No awards, no fancy university. What I had was curiosity and work ethic.' },
+  { k: 'IT support', d: 'First tech job. I learned that most problems are patience plus attention to detail.' },
+  { k: 'Graphic design', d: 'Taught myself design. Learned what good looks like, pixel by pixel.' },
+  { k: 'Web development', d: 'Started building sites for real businesses. Shipped things people paid for.' },
+  { k: 'Funnels + CRM', d: 'GoHighLevel, landing pages, email. Learned marketing by doing it for clients.' },
+  { k: 'Automation', d: 'Zapier, n8n, APIs. I fell in love with making busywork disappear.' },
+  { k: 'AI', d: 'Went all in on Claude Code and AI builds. This is where everything I learned compounds.' },
+  { k: 'New Jersey', d: 'Where I live and work now. Building products every single day.' },
+];
+---
+<AppShell title="My story — Neil Busque" description="From the Philippines to New Jersey. No awards, no shortcuts, just work." active="story">
+  <span class="eyebrow">My story</span>
+  <h1>I'm not a big agency. <span class="mark-hl">That's the point.</span></h1>
+  <p class="story-lede">I didn't win awards. I didn't go to a top university. I came from the Philippines, I work hard, and I keep working until it's right. Everything below is how I got here.</p>
+
+  <div class="timeline">
+    {TIMELINE.map((t, i) => (
+      <div class="tl-row">
+        <div class="tl-marker"><span class="tl-dot"></span>{i < TIMELINE.length - 1 && <span class="tl-line"></span>}</div>
+        <div class="tl-body v8-card"><h3>{t.k}</h3><p>{t.d}</p></div>
+      </div>
+    ))}
+  </div>
+
+  <section class="home-sec v8-card why-card">
+    <h2>When you hire me, you get <span class="mark-hl">me.</span></h2>
+    <p>Not an agency that hands you to a junior account manager. You get my personal number. You talk to the person actually building your product. My best interest is to see you succeed, and I keep working until you are proud of what we made.</p>
+    <div class="hero-ctas" style="margin-top:18px">
+      <a class="btn-sun" href="/hire">Work with me</a>
+      <a class="btn-ghost" href="/work">See what I've built</a>
+    </div>
+  </section>
+</AppShell>
