@@ -1,0 +1,29 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import PostCard from '../components/PostCard.astro';
+import { getFeed } from '../lib/posts';
+import { filterToQuery, FILTERS } from '../lib/blogFilters';
+
+const url = Astro.url;
+const filter = url.searchParams.get('filter');
+const page = Math.max(1, parseInt(url.searchParams.get('page') ?? '1', 10) || 1);
+const q = filterToQuery(filter);
+const { posts, hasMore } = await getFeed({ request: Astro.request, cookies: Astro.cookies }, { page, ...q });
+const chipHref = (key: string) => (key === 'all' ? '/blog' : `/blog?filter=${key}`);
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
+---
+<AppShell title="Blog — Neil Busque" description="Thoughts, tutorials, and build logs from Neil Busque." active="blog">
+  <span class="eyebrow">The blog</span>
+  <h1>Thoughts, tutorials, and <span class="mark-hl">builds.</span></h1>
+  <div class="blog-chips">
+    {FILTERS.map((f) => (
+      <a class:list={['chip', { on: (filter ?? 'all') === f.key }]} href={chipHref(f.key)}>{f.label}</a>
+    ))}
+  </div>
+  <div class="blog-grid">{posts.map((p) => <PostCard post={p} />)}</div>
+  {posts.length === 0 && <p>Nothing here yet. Check back soon.</p>}
+  <div class="pager">
+    {page > 1 && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page - 1) })}`}>Newer</a>}
+    {hasMore && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page + 1) })}`}>Older</a>}
+  </div>
+</AppShell>

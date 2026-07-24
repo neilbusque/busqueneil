@@ -1,0 +1,11 @@
+---
+import type { Post } from '../lib/types';
+interface Props { post: Post; }
+const { post } = Astro.props;
+const TYPE_LABEL: Record<string, string> = { status: 'Thought', article: 'Article', project: 'Build', now: 'Now' };
+const date = post.published_at ? new Date(post.published_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+---
+<a class="post-card v8-card" href={`/posts/${post.slug}`}>
+  <div class="post-meta"><span class="chip">{TYPE_LABEL[post.type] ?? 'Post'}</span><span>{date}</span></div>
+  <h3 class="post-title">{post.title ?? TYPE_LABEL[post.type] ?? 'Untitled'}</h3>
+</a>

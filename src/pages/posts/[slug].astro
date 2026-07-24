@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getPostBySlug, setPublicCache } from '../../lib/posts';
 import { publicImageUrl } from '../../lib/supabase';
@@ -43,13 +43,12 @@ const jsonLd = {
   ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
 };
 ---
-<Site
+<AppShell
   title={`${title} — Neil Busque`}
   description={description}
   canonical={canonical}
-  ogType="article"
   ogImage={ogImage}
-  active="writing"
+  active="blog"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -103,4 +102,4 @@ const jsonLd = {
       <a class="more" href="/">← Back to the feed</a>
     </p>
   </article>
-</Site>
+</AppShell>
