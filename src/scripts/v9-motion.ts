@@ -26,6 +26,30 @@ const FAILSAFE_MS = 2500;
 let observer: IntersectionObserver | null = null;
 let failsafe: number | null = null;
 let cellResize: number | null = null;
+let clipObserver: IntersectionObserver | null = null;
+
+// Work-card clips. preload="none" means nothing downloads until a card is actually on screen,
+// and reduced-motion never plays at all: the poster is the full fallback, so the card still
+// shows the product either way.
+function initClips() {
+  clipObserver?.disconnect();
+  clipObserver = null;
+
+  const clips = [...document.querySelectorAll<HTMLVideoElement>('video[data-wc-clip]')];
+  if (!clips.length || !motionOK()) return;
+
+  clipObserver = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const v = e.target as HTMLVideoElement;
+      // play() rejects on some browsers' autoplay policies; the poster is already correct, so
+      // swallowing it is the right fallback rather than logging noise on a marketing page.
+      if (e.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    }
+  }, { threshold: 0.35 });
+
+  clips.forEach((v) => clipObserver!.observe(v));
+}
 
 const motionOK = () => matchMedia('(prefers-reduced-motion: no-preference)').matches;
 
@@ -106,6 +130,8 @@ function teardown() {
     cellResize = null;
   }
   window.removeEventListener('resize', onCellResize);
+  clipObserver?.disconnect();
+  clipObserver = null;
 }
 
 function onCellResize() {
@@ -120,6 +146,7 @@ function initReveal() {
   // even when motion is reduced. Only its entrance is gated below.
   const cells = buildCellGrid();
   if (cells.length) window.addEventListener('resize', onCellResize);
+  initClips();
 
   if (!motionOK()) return;
 

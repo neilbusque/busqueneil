@@ -249,18 +249,28 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    brightness(0) flattens each brand's palette to ink through the PNG alpha, so nine
    unrelated logos read as one row instead of a ransom note. Per-logo height comes from
    the --lh set in ClientLogos.astro. */
-/* v11: an even 5x2 wall on a shared optical box. The flex-wrap version broke 5 + 4 with the
-   one wordmark orphaned at the start of row two, and the marks read at wildly different weights. */
-.v8 .client-logos { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin-top: 26px; background: var(--hair); border: 1px solid var(--hair); }
-.v8 .client-cell { display: grid; place-items: center; height: 92px; padding: 18px; background: var(--surface); }
+/* v11.1: a continuous left-to-right marquee. The track holds the set twice and shifts -50%,
+   so the loop is seamless and no mark is ever orphaned on a half-empty row. Masked at both
+   edges so logos fade in and out rather than popping at the boundary. */
+.v8 .client-logos { position: relative; margin-top: 26px; overflow: hidden; border-block: 1px solid var(--hair);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%); }
+.v8 .client-track { display: flex; width: max-content; animation: clientmarquee 42s linear infinite; }
+.v8 .client-logos:hover .client-track { animation-play-state: paused; }
+@keyframes clientmarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.v8 .client-cell { flex: 0 0 auto; display: grid; place-items: center; width: 190px; height: 92px; padding: 18px; background: var(--surface); }
+/* motion off: drop the duplicate set and wrap what is left into a static row */
+@media (prefers-reduced-motion: reduce) {
+  .v8 .client-track { animation: none; width: 100%; flex-wrap: wrap; justify-content: center; }
+  .v8 .client-cell[aria-hidden="true"] { display: none; }
+}
 /* max-width must be relative: a fixed cap overflows the cell once the column is narrower. */
 .v8 .client-logo { height: var(--lh); max-height: 26px; max-width: 100%; width: auto; object-fit: contain; filter: brightness(0) saturate(0); opacity: .58; transition: opacity .18s ease; }
 .v8 .client-cell:hover .client-logo { opacity: .88; }
 .v8 .client-word { font-family: 'Fraunces', Georgia, serif; font-size: 15px; letter-spacing: -.01em; color: var(--ink); opacity: .62; }
 @media (max-width: 640px) {
-  /* 10 marks / 2 cols = 5 full rows. At 3 cols the last row held a single orphaned mark. */
-  .v8 .client-logos { grid-template-columns: repeat(2, 1fr); }
-  .v8 .client-cell { height: 74px; padding: 14px; }
+  .v8 .client-cell { width: 148px; height: 74px; padding: 14px; }
+  .v8 .client-track { animation-duration: 30s; }
   .v8 .client-word { font-size: 14px; }
 }
 
@@ -282,7 +292,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .wc-chrome i { width: 8px; height: 8px; border-radius: 50%; background: #E2DFD9; display: block; }
 .v8 .wc-bar { flex: 1; height: 7px; border-radius: 99px; background: #EFEDE9; margin-left: 8px; }
 .v8 .wc-shot { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #F4F3F1; }
-.v8 .workcard img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.v8 .workcard img, .v8 .wc-video { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; background: #F4F3F1; }
 .v8 .wc-live { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: rgba(255,255,255,.92); border: 1px solid var(--hair); padding: 5px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
 .v8 .wc-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,.22); }
 .v8 .workmeta { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; font-size: 15px; }
@@ -304,7 +314,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .postlist .tag { font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--hair); padding: 3px 10px; border-radius: 999px; background: var(--surface); }
 .v8 .postlist .tag.video { background: var(--sun); border-color: transparent; color: var(--ink); }
 
-.v8 .price-card { padding: 22px 26px; margin: 22px 0 4px; }
+.v8 .price-card { padding: clamp(24px, 3vw, 32px); margin: calc(var(--gap-sec) * .4) 0 0; }
 .v8 .price-card p { margin: 8px 0 0; max-width: 62ch; font-size: 15.5px; }
 .v8 .price-card .price-alt { color: var(--muted); font-size: 14.5px; }
 .v8 .guarantee-line { font-size: 14px; color: var(--muted); border-left: 3px solid var(--sun); padding-left: 12px; margin: 0 0 18px; max-width: 52ch; }
@@ -316,6 +326,19 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .statement { margin-top: var(--gap-sec); text-align: center; }
 .v8 .statement p { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(26px, 3.6vw, 46px); text-transform: uppercase; letter-spacing: -0.032em; line-height: 1.08; max-width: 20ch; margin: 0 auto; }
 .v8 .statement .script { font-family: 'Fraunces', Georgia, serif; font-style: italic; text-transform: none; letter-spacing: 0; }
+/* the supporting beat under the statement: this is where the "experienced, not AI slop" point
+   actually lands, so it is set as readable prose rather than more display type */
+.v8 .statement p.statement-sub { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; text-transform: none; letter-spacing: -.005em; max-width: 58ch; margin: 22px auto 0; color: var(--muted); font-size: 16.5px; line-height: 1.68; }
+
+/* ---- guarantee: promises the site already makes, pulled into one visible block ---- */
+.v8 .guar { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
+.v8 .guar li { background: var(--surface); padding: 26px 24px; display: flex; flex-direction: column; gap: 8px; }
+.v8 .guar b { font-size: 16.5px; letter-spacing: -.015em; line-height: 1.35; }
+.v8 .guar span { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+/* the counter is a structural device: four promises, numbered, so they read as a list of terms */
+.v8 .guar li { counter-increment: guar; position: relative; padding-left: 62px; }
+.v8 .guar li::before { content: counter(guar, decimal-leading-zero); position: absolute; left: 24px; top: 28px; font-size: 11px; font-weight: 600; letter-spacing: .14em; color: var(--soft); font-variant-numeric: tabular-nums; }
+.v8 .guar { counter-reset: guar; }
 
 /* ---- dark cta panel ---- */
 .v8 .darkcta { margin-top: var(--gap-sec); background: var(--dark); color: #EFEAE3; border-radius: 22px; padding: clamp(38px, 5vw, 64px); position: relative; overflow: hidden; }
@@ -373,6 +396,10 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   /* the mobile rhythm comes from --gap-sec being redefined below, not per-rule overrides */
 
   .v8 .svc li { padding: 16px 4px; }
+  .v8 .guar { grid-template-columns: 1fr; }
+  .v8 .guar li { padding: 20px 18px 20px 54px; }
+  .v8 .guar li::before { left: 18px; top: 22px; }
+  .v8 .statement p.statement-sub { font-size: 15px; margin-top: 16px; }
 
   .v8 .darkcta { padding: 30px 22px; border-radius: 20px; }
   .v8 .darkcta .sig { right: 20px; bottom: 16px; height: 44px; }
@@ -380,6 +407,8 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   .v8 .shell-foot { margin-top: 48px; }
   .v8 .contact-form { gap: 15px; }
   .v8 .price-card, .v8 .hire-cta, .v8 .why-card, .v8 .nowcta { padding: 20px 18px; }
+  .v8 .hire-steps { grid-template-columns: 1fr 1fr; }
+  .v8 .hire-step { padding: 14px 16px; font-size: 13.5px; }
 
   .v8 .contact-form .btn-sun { width: 100%; }
 }
@@ -444,8 +473,15 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 }
 
 /* ---- hire ---- */
-.v8 .hire-steps { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 8px; }
-.v8 .hire-step { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border: 1px solid var(--hair); border-radius: 12px; background: var(--surface); font-size: 14px; }
-.v8 .hire-step b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--sun); color: var(--ink); font-size: 13px; }
-.v8 .hire-cta { padding: clamp(22px, 4vw, 34px); margin-top: 32px; }
-.v8 .hire-cta .guarantee { font-size: 17px; color: var(--ink); max-width: 60ch; margin: 0 0 16px; }
+/* the four steps are a real sequence, so they stay numbered and now read as one connected run
+   rather than four loose chips */
+.v8 .hire-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin: calc(var(--gap-sec) * .4) 0 0; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
+.v8 .hire-step { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border: 0; border-radius: 0; background: var(--surface); font-size: 14.5px; font-weight: 500; }
+.v8 .hire-step b { flex: 0 0 auto; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--sun); color: var(--ink); font-size: 12.5px; font-weight: 700; }
+.v8 .hire-cta { padding: clamp(26px, 4vw, 40px); margin-top: var(--gap-sec); }
+/* the guarantee is the last thing read before the buttons, so it gets weight, not grey 14px */
+.v8 .hire-cta .guarantee { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.026em; line-height: 1.14; font-size: clamp(20px, 2.4vw, 27px); color: var(--ink); max-width: 24ch; margin: 14px 0 20px; }
+/* audit: /hire's body sat 4px under the price card but carried 96px beneath it. The inline
+   padding-top:8px hack on the element is replaced by this scoped, symmetric rule. */
+.v8 .article-page { padding: var(--gap-sec) 0 0; }
+.v8 .hire-steps + .v8-card, .v8 .price-card + .article-page { margin-top: 0; }

@@ -15,11 +15,14 @@ const [{ posts: latest }, { current: now }] = await Promise.all([
 const latest3 = latest.filter((p) => p.type !== 'now').slice(0, 3);
 
 const WORK = [
-  { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', href: '/case-studies/orbit', tag: 'CRM + AI agents' },
-  { name: 'Tandem', img: '/assets/work/tandem.webp', href: '/case-studies/tandem', tag: 'Couples app', note: 'built this for my wife' },
-  { name: 'Darioo', img: '/assets/work/darioo.webp', href: '/work', tag: 'Client site + app' },
+  { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', href: '/case-studies/orbit', tag: 'CRM + AI agents', clip: 'orbit' },
+  { name: 'Tandem', img: '/assets/work/tandem.webp', href: '/case-studies/tandem', tag: 'Couples app', note: 'built this for my wife', clip: 'tandem' },
+  { name: 'Darioo', img: '/assets/work/darioo.webp', href: '/work', tag: 'Client site + app', clip: 'darioo' },
   { name: 'Otto', img: '/assets/work/otto.webp', href: '/work', tag: 'AI command center' },
 ];
+/* `clip` = a muted looping screen recording of the real product, played only when the card is
+   on screen and only when motion is allowed. Otto has no clip: it sits behind a password gate
+   and its screens carry Neil's real inbox, so it stays a still. */
 const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
 
 const nowText = now?.title || 'Building in public, every day.';
@@ -105,14 +108,26 @@ function tagFor(p: Post): string {
           {w.note && <span class="worknote">{w.note}</span>}
           <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
           <div class="wc-shot">
-            <img
-              src={w.img}
-              srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
-              sizes="(max-width: 980px) calc(100vw - 40px), 50vw"
-              alt={w.name}
-              width="1280" height="800"
-              loading="lazy"
-            />
+            {w.clip
+              ? <video
+                  class="wc-video"
+                  poster={`/assets/work/${w.clip}-poster.webp`}
+                  width="960" height="600"
+                  muted loop playsinline preload="none"
+                  aria-label={`${w.name}, recorded`}
+                  data-wc-clip
+                >
+                  <source src={`/assets/work/${w.clip}.webm`} type="video/webm" />
+                  <source src={`/assets/work/${w.clip}.mp4`} type="video/mp4" />
+                </video>
+              : <img
+                  src={w.img}
+                  srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+                  sizes="(max-width: 980px) calc(100vw - 40px), 50vw"
+                  alt={w.name}
+                  width="1280" height="800"
+                  loading="lazy"
+                />}
             <span class="wc-live">Live</span>
           </div>
           <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
@@ -169,13 +184,39 @@ function tagFor(p: Post): string {
   <!-- STATEMENT -->
   <div class="statement">
     <p>Anyone can use AI. <span class="mark-hl">Finished</span> <span class="script">is what you hire me for.</span></p>
+    <p class="statement-sub">AI will hand you a demo that falls over on the first real user. Shipping it takes
+      someone who has done it 40 times this year and knows what breaks. You are not hiring a prompt.
+      You are hiring the person who fixes it.</p>
   </div>
+
+  <!-- GUARANTEE -->
+  <section class="hsec">
+    <span class="eyebrow">Working with me</span>
+    <h2 class="sec">The <span class="mark-hl">guarantee.</span></h2>
+    <ul class="guar">
+      <li>
+        <b>I keep working until you are proud of it.</b>
+        <span>No scope clock. Done means you are happy with it, not that the hours ran out.</span>
+      </li>
+      <li>
+        <b>If I am not the right fit, I tell you on the first call.</b>
+        <span>It costs you nothing, and you still leave with an honest read on your problem.</span>
+      </li>
+      <li>
+        <b>You talk to me. Every time.</b>
+        <span>No account manager, no junior, no handoff. One person from the first call to live.</span>
+      </li>
+      <li>
+        <b>$100 to start, and we agree the rest before I build.</b>
+        <span>That covers build costs. You pay the balance when it is done and working.</span>
+      </li>
+    </ul>
+  </section>
 
   <!-- DARK CTA -->
   <div class="darkcta">
     <h2>Tell me what you want to <span class="mark-hl">build.</span></h2>
     <p>Send me the idea in a few sentences. I answer personally, usually the same day.</p>
-    <p class="guarantee-line">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
     <div class="hero-ctas" style="margin-top:0">
       <a class="btn-sun" href="/contact">Send me your idea</a>
       <a class="btn-ghost" href={WA_BUILD}>Or message on WhatsApp</a>

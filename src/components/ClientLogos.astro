@@ -17,12 +17,19 @@ const CLIENTS = [
   { name: 'Noosa Sports Chiropractic', src: '/assets/clients/noosa-sports-chiropractic.webp', h: 32, w: 127 },
 ];
 ---
-<div class="client-logos">
-  {CLIENTS.map((c) => (
-    <div class="client-cell">
-      {c.src
-        ? <img class="client-logo" src={c.src} alt={c.name} width={c.w} height={c.h} style={`--lh:${c.h}px`} loading="lazy" decoding="async" />
-        : <span class="client-word">{c.name}</span>}
-    </div>
-  ))}
+<!-- Marquee: one track holding the set twice, translated -50% so the loop is seamless. The
+     second copy is aria-hidden so screen readers and search engines read the list once. Under
+     prefers-reduced-motion the animation stops and the track wraps into a static row instead. -->
+<div class="client-logos" role="list" aria-label="Clients Neil has worked with">
+  <div class="client-track">
+    {[0, 1].map((pass) => (
+      CLIENTS.map((c) => (
+        <div class="client-cell" role={pass === 0 ? 'listitem' : undefined} aria-hidden={pass === 1 ? 'true' : undefined}>
+          {c.src
+            ? <img class="client-logo" src={c.src} alt={pass === 0 ? c.name : ''} width={c.w} height={c.h} style={`--lh:${c.h}px`} loading="lazy" decoding="async" />
+            : <span class="client-word">{c.name}</span>}
+        </div>
+      ))
+    ))}
+  </div>
 </div>
