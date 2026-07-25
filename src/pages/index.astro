@@ -21,7 +21,6 @@ const WORK = [
   { name: 'Otto', img: '/assets/work/otto.webp', href: '/work', tag: 'AI command center' },
 ];
 const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
-const WA_SHOP = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20about%20the%20shop';
 
 const nowText = now?.title || 'Building in public, every day.';
 const nowDateStr = now?.published_at
@@ -116,15 +115,6 @@ function tagFor(p: Post): string {
 
   <!-- PRAISE -->
   <Testimonials />
-
-  <!-- SHOP -->
-  <section class="hsec">
-    <span class="eyebrow">Shop</span>
-    <h2 class="sec">Things I made that <span class="mark-hl">you can buy.</span></h2>
-    <p style="color:var(--muted); max-width:56ch; margin-top:14px;">The shop opens soon. Templates, playbooks, and the tools I use to ship real products, packaged for you.</p>
-    <p style="margin-top:18px"><a class="btn-sun" href={WA_SHOP}>Tell me what you want first</a></p>
-    <p style="margin-top:14px"><span class="hand">first drops are in the works</span></p>
-  </section>
 
   <!-- NOW + BLOG -->
   <section class="hsec">
