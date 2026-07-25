@@ -319,16 +319,22 @@ a { color: var(--accent-ink); }
   gap: 16px;
 }
 
-.prose { max-width: var(--measure); }
-.prose p { margin-bottom: 18px; color: var(--ink-2); font-size: 17px; line-height: 1.7; }
+/* Long-form reading type. Sans headings, serif body, the Medium/Charter arrangement.
+   Source Serif 4 is the closest screen-reading serif to Charter available on Google Fonts.
+   Scoped to .prose so the Archivo/Fraunces brand display type is untouched. */
+.prose { max-width: 68ch; font-family: 'Source Serif 4', Charter, Georgia, 'Times New Roman', serif; }
+.prose p { margin-bottom: 24px; color: var(--ink-2); font-size: 19.5px; line-height: 1.75; letter-spacing: -0.003em; }
 .prose > :first-child { margin-top: 0; }
 .prose h2, .prose h3 { font-family: var(--sans); font-weight: 600; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; margin: 38px 0 14px; }
-.prose h2 { font-size: 26px; }
+.prose h2 { font-size: 27px; margin-top: 46px; }
 .prose h3 { font-size: 20px; }
+/* code and UI bits stay sans inside a serif column */
+.prose code, .prose kbd, .prose pre { font-family: var(--mono, ui-monospace, monospace); font-size: 15px; }
 .prose a { color: var(--accent-ink); text-underline-offset: 2px; }
 .prose a:hover { color: var(--accent-deep); }
-.prose ul, .prose ol { margin: 0 0 18px 22px; color: var(--ink-2); }
-.prose li { margin-bottom: 7px; }
+.prose ul, .prose ol { margin: 0 0 24px 22px; color: var(--ink-2); }
+.prose li { margin-bottom: 10px; font-size: 19.5px; line-height: 1.7; }
+.prose em, .prose i { font-style: italic; }
 .prose strong { color: var(--ink); font-weight: 600; }
 .prose blockquote { border-left: 2px solid var(--accent); padding-left: 18px; margin: 0 0 18px; color: var(--muted); }
 .prose img { border: 1px solid var(--rule); margin: 6px 0 18px; }

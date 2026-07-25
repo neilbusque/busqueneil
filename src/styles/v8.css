@@ -78,6 +78,8 @@ html.rail-collapsed .v8 .rail-toggle { transform: translateY(-50%) rotate(180deg
 html.rail-collapsed .v8 .rail-item { justify-content: center; padding: 10px 0; }
 html.rail-collapsed .v8 .rail-item span,
 html.rail-collapsed .v8 .rail-name,
+html.rail-collapsed .v8 .rail-role,
+html.rail-collapsed .v8 .rail-names,
 html.rail-collapsed .v8 .rail-socials { display: none; }
 html.rail-collapsed .v8 .rail-brand { justify-content: center; padding: 4px 0; }
 html.rail-collapsed .v8 .rail-foot,
@@ -152,7 +154,9 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .intro.play .rm-fold-t, .v8 .intro.play .rm-fold-b { animation: introFade .3s ease .75s both; }
 .v8 .intro.play .intro-word { animation: introUp .45s cubic-bezier(.2,.8,.25,1) .85s both; }
 .v8 .intro.play .intro-tag { animation: introUp .45s cubic-bezier(.2,.8,.25,1) 1.05s both; }
-.v8 .intro.leave { animation: introLeave .45s cubic-bezier(.6,0,.8,.2) both; }
+/* once it is fading out it must stop eating clicks, or the first ~0.5s of an eager
+   visitor's tap on the hero CTA lands on the overlay instead. */
+.v8 .intro.leave { animation: introLeave .45s cubic-bezier(.6,0,.8,.2) both; pointer-events: none; }
 @keyframes introStem { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @keyframes introRibbon { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes introFade { from { opacity: 0; } to { opacity: 1; } }
@@ -490,6 +494,15 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .hire-step b { flex: 0 0 auto; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--sun); color: var(--ink); font-size: 12.5px; font-weight: 700; }
 .v8 .hire-cta { padding: clamp(26px, 4vw, 40px); margin-top: var(--gap-sec); }
 .v8 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: calc(var(--gap-sec) * .4); }
+/* ---- stack ---- */
+.v8 .stack-note { color: var(--muted); font-size: 15.5px; line-height: 1.6; max-width: 60ch; margin: 6px 0 0; }
+.v8 .stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 26px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
+.v8 .stack-group { background: var(--surface); padding: 22px 20px; display: flex; flex-direction: column; gap: 12px; }
+.v8 .stack-label { font-size: 10.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--soft); }
+.v8 .stack-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.v8 .stack-list li { font-size: 13px; font-weight: 500; letter-spacing: -.005em; color: var(--ink); border: 1px solid var(--hair); background: var(--surface); padding: 5px 11px; border-radius: 999px; }
+@media (max-width: 980px) { .v8 .stack { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .v8 .stack { grid-template-columns: 1fr; } }
 .v8 .svc-card { display: flex; flex-direction: column; gap: 10px; padding: 26px 24px; text-decoration: none; color: var(--ink); transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .svc-card:hover { transform: translateY(-3px); border-color: var(--hair-strong); box-shadow: 0 2px 4px rgba(22,21,15,.04), 0 26px 44px -28px rgba(22,21,15,.4); }
 .v8 .svc-card b { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.022em; font-size: 17px; line-height: 1.15; }

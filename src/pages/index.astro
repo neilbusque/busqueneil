@@ -25,6 +25,18 @@ const WORK = [
    and its screens carry Neil's real inbox, so it stays a still. */
 const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
 
+/* Grouped by job rather than by vendor, so a visitor scanning for "do you know my CRM"
+   finds it in one place instead of reading a flat logo soup. */
+const STACK = [
+  { label: 'Build', items: ['Claude', 'Codex', 'VS Code', 'Astro', 'Next.js', 'React', 'TypeScript'] },
+  { label: 'Infrastructure', items: ['Vercel', 'Supabase', 'Postgres', 'Cloudflare', 'Porkbun'] },
+  { label: 'Automation', items: ['n8n', 'Zapier', 'Make', 'MCP'] },
+  { label: 'CRM and email', items: ['GoHighLevel', 'HubSpot', 'Klaviyo', 'Mailgun'] },
+  { label: 'Web and commerce', items: ['WordPress', 'Shopify', 'ClickFunnels'] },
+  { label: 'Design', items: ['Figma', 'Canva', 'Photoshop', 'Illustrator'] },
+  { label: 'Marketing', items: ['Meta Ads', 'Google Ads', 'GA4', 'Search Console', 'DataForSEO'] },
+];
+
 const nowText = now?.title || 'Building in public, every day.';
 const nowDateStr = now?.published_at
   ? new Date(now.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
@@ -190,6 +202,23 @@ function tagFor(p: Post): string {
       someone who has done it 40 times this year and knows what breaks. You are not hiring a prompt.
       You are hiring the person who fixes it.</p>
   </div>
+
+  <!-- STACK -->
+  <section class="hsec">
+    <span class="eyebrow">Tools I work in</span>
+    <h2 class="sec">The <span class="mark-hl">stack.</span></h2>
+    <p class="stack-note">Grouped by what I reach for them for. I pick the tool that fits your setup, not the one I feel like using.</p>
+    <div class="stack">
+      {STACK.map((group) => (
+        <div class="stack-group">
+          <span class="stack-label">{group.label}</span>
+          <ul class="stack-list">
+            {group.items.map((t) => <li>{t}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
 
   <!-- GUARANTEE -->
   <section class="hsec">
