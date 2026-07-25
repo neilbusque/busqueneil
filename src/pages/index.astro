@@ -3,6 +3,7 @@ import AppShell from '../layouts/AppShell.astro';
 import IntroCinematic from '../components/IntroCinematic.astro';
 import Schema from '../components/Schema.astro';
 import ClientLogos from '../components/ClientLogos.astro';
+import StackIcon from '../components/StackIcon.astro';
 import Testimonials from '../components/Testimonials.astro';
 import { getFeed, getNow } from '../lib/posts';
 import type { Post } from '../lib/types';
@@ -216,7 +217,7 @@ function tagFor(p: Post): string {
         <div class="stack-group">
           <span class="stack-label">{group.label}</span>
           <ul class="stack-list">
-            {group.items.map((t) => <li>{t}</li>)}
+            {group.items.map((t) => <StackIcon name={t} />)}
           </ul>
         </div>
       ))}
