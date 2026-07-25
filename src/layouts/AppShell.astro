@@ -46,8 +46,9 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
   </script>
   <div class="v8 shell">
     <slot name="intro" />
-    <!-- Availability status pulled 2026-07-25 (Neil): no "open to work" / "available for
-         projects" line anywhere on the site. Location + email only. -->
+    {/* Availability status pulled 2026-07-25 (Neil): no open-to-work / available-for-
+        projects line anywhere on the site. Location + email only. Braces, not an HTML
+        comment: an HTML comment ships to the page and the phrase shows up in the source. */}
     <div class="shell-strip">
       <span>New Jersey</span>
       <a class="strip-mail" href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a>
