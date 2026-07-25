@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>busqueneil.com v10 premium refinement mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;900&family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  /* deeper, warmer ink reads richer than the old mid-charcoal #242424 */
+  --paper:#F7F2ED; --surface:#FFFFFF; --ink:#171614; --muted:#6B6459; --soft:#9A9287;
+  --sun:#FFE45C; --hair:#E7DFD5; --hair-strong:#D9CFC2; --dark:#171512;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Inter,system-ui,sans-serif; font-size:17px; line-height:1.7;
+}
+/* the old 44px grid texture read as noise; this is a single quiet warm wash instead */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:radial-gradient(120% 80% at 78% 0%, rgba(255,228,92,.10) 0%, rgba(255,228,92,0) 55%);
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 clamp(22px,5vw,64px)}
+
+/* ---------- type system ---------- */
+.label{
+  font-size:10.5px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--soft); display:flex; align-items:center; gap:12px;
+}
+.label::after{content:"";height:1px;flex:1;background:var(--hair)}
+h1,h2,h3{margin:0;font-family:Archivo,sans-serif;text-wrap:balance}
+.display{
+  font-weight:900; text-transform:uppercase; font-size:clamp(52px,7.4vw,96px);
+  line-height:.88; letter-spacing:-.035em;
+}
+.sec{font-weight:900;text-transform:uppercase;font-size:clamp(26px,3.1vw,40px);line-height:1.02;letter-spacing:-.028em}
+.script{font-family:Fraunces,Georgia,serif;font-style:italic;font-weight:500;text-transform:none;letter-spacing:-.01em}
+.lede{color:var(--muted);font-size:17.5px;line-height:1.72;max-width:52ch}
+/* the highlight is now a precise underline, not a full block fill */
+.mark{position:relative;display:inline-block}
+.mark::after{
+  content:"";position:absolute;left:-.04em;right:-.04em;bottom:.1em;height:.30em;
+  background:var(--sun);z-index:-1;border-radius:2px;
+}
+
+/* ---------- buttons: ink primary, yellow demoted to accent ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-size:15px;font-weight:600;letter-spacing:-.01em;text-decoration:none;
+  padding:14px 26px;border-radius:999px;border:1px solid transparent;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s,background .18s;
+}
+.btn-ink{
+  background:var(--ink);color:#F8F5F1;
+  box-shadow:0 1px 1px rgba(23,22,20,.16),0 10px 24px -12px rgba(23,22,20,.5);
+}
+.btn-ink:hover{transform:translateY(-1px);box-shadow:0 2px 3px rgba(23,22,20,.18),0 16px 30px -14px rgba(23,22,20,.55)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--hair-strong)}
+.btn-line:hover{background:#fff;border-color:var(--ink)}
+.arrowlink{
+  display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;
+  color:var(--ink);text-decoration:none;padding:14px 2px;
+}
+.arrowlink svg{transition:transform .2s cubic-bezier(.2,.7,.3,1)}
+.arrowlink:hover svg{transform:translateX(5px)}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:236px 1fr;gap:0;min-height:100vh}
+.rail{
+  position:sticky;top:14px;align-self:start;height:calc(100vh - 28px);margin:14px 0 14px 14px;
+  background:var(--surface);border:1px solid var(--hair);border-radius:18px;
+  box-shadow:0 1px 2px rgba(23,22,20,.03),0 24px 48px -34px rgba(23,22,20,.28);
+  display:flex;flex-direction:column;padding:20px 14px;
+}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 10px 22px;text-decoration:none}
+.brand svg{display:block}
+.nav{display:flex;flex-direction:column;gap:1px}
+.nav a{
+  position:relative;
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;
+  color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;letter-spacing:-.01em;
+  transition:background .16s,color .16s;
+}
+.nav a:hover{background:#F5F0EA;color:var(--ink)}
+.nav a.on{color:var(--ink);font-weight:600;background:#F3EDE5}
+/* active state carries the brand yellow as a precise marker, not a filled pill */
+.nav a.on::before{
+  content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:20px;border-radius:0 2px 2px 0;background:var(--sun);
+}
+.nav a svg{opacity:.75}
+.railfoot{margin-top:auto;display:flex;flex-direction:column;gap:14px}
+.who{display:flex;align-items:center;gap:11px;padding:0 8px}
+.who img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:top center;background:var(--sun)}
+.who b{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.who span{display:block;font-size:11.5px;color:var(--soft);font-weight:500}
+.socials{display:flex;gap:7px;padding:0 8px}
+.socials a{
+  width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--hair);
+  border-radius:9px;color:var(--muted);transition:.16s;
+}
+.socials a:hover{color:var(--ink);border-color:var(--hair-strong);background:#fff}
+
+.main{padding:0 0 90px}
+.strip{
+  display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted);
+  padding:18px clamp(22px,5vw,64px) 0;letter-spacing:.01em;
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 3px rgba(255,228,92,.3)}
+.strip b{font-weight:600;color:var(--ink)}
+.strip .mail{margin-left:auto;color:var(--muted);text-decoration:none}
+.strip .mail:hover{color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:end;gap:20px;padding:64px 0 0}
+.avail{
+  display:inline-flex;align-items:center;gap:9px;background:var(--surface);
+  border:1px solid var(--hair);border-radius:999px;padding:7px 15px 7px 12px;
+  font-size:12.5px;font-weight:500;color:var(--muted);
+}
+.hi{display:block;font-size:clamp(20px,2vw,27px);color:var(--muted);margin:26px 0 8px}
+.hero .lede{margin:26px 0 0}
+.ctas{display:flex;align-items:center;gap:14px;margin-top:30px;flex-wrap:wrap}
+
+.figure{position:relative;justify-self:end;align-self:end}
+/* soft warm disc grounds the cutout so it stops floating on the page */
+.figure::before{
+  content:"";position:absolute;left:50%;bottom:6%;transform:translateX(-50%);
+  width:330px;height:330px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,228,92,.34) 0%,rgba(255,228,92,0) 70%);
+}
+/* a real contact shadow at the feet replaces the rectangular drop-shadow smudge */
+.figure::after{
+  content:"";position:absolute;left:50%;bottom:2px;transform:translateX(-50%);
+  width:210px;height:22px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(23,22,20,.26) 0%,rgba(23,22,20,0) 72%);
+}
+.figure img{position:relative;display:block;width:min(262px,26vw)}
+/* note sits clear of the silhouette instead of running under the head */
+.note{
+  position:absolute;left:-138px;top:34px;width:150px;text-align:right;
+  transform:rotate(-3deg);
+  font-family:Caveat,cursive;font-size:19px;line-height:1.2;color:var(--soft);
+}
+.note svg{display:block;margin:4px 0 0 auto}
+
+/* ---------- stats ---------- */
+.stats{display:flex;gap:0;margin-top:74px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.stat{flex:1;padding:26px 0;border-right:1px solid var(--hair)}
+.stat:last-child{border-right:0}
+.stat b{
+  display:block;font-family:Archivo,sans-serif;font-weight:700;font-size:34px;
+  letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;
+}
+.stat span{font-size:12.5px;color:var(--soft);letter-spacing:.01em}
+
+section{margin-top:82px}
+.sechead{display:flex;flex-direction:column;gap:16px;margin-bottom:34px}
+
+/* ---------- services ---------- */
+.svc{list-style:none;margin:0;padding:0;border-top:1px solid var(--hair)}
+.svc li{
+  display:grid;grid-template-columns:52px 1fr minmax(0,34ch);gap:24px;align-items:baseline;
+  padding:24px 10px;border-bottom:1px solid var(--hair);transition:background .2s,padding .2s;
+}
+.svc li:hover{background:#FBF8F4;padding-left:16px}
+.svc .n{font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--soft);font-variant-numeric:tabular-nums}
+.svc .nm{font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(19px,2.1vw,27px);letter-spacing:-.028em;text-transform:uppercase}
+.svc .d{font-size:14.5px;color:var(--muted);line-height:1.6}
+
+/* ---------- work ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.card{
+  display:block;text-decoration:none;color:inherit;background:var(--surface);
+  border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;
+  box-shadow:0 1px 2px rgba(23,22,20,.03);
+  transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s,border-color .25s;
+}
+.card:hover{transform:translateY(-3px);border-color:var(--hair-strong);box-shadow:0 2px 4px rgba(23,22,20,.04),0 26px 44px -28px rgba(23,22,20,.4)}
+.card .shot{aspect-ratio:16/10;overflow:hidden;background:#EFE9E1;border-bottom:1px solid var(--hair)}
+.card img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.meta{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:15px 18px}
+.meta b{font-size:15.5px;font-weight:600;letter-spacing:-.015em}
+.meta span{font-size:12.5px;color:var(--soft)}
+
+/* ---------- clients ---------- */
+.clients{display:flex;flex-wrap:wrap;gap:9px}
+.chip{
+  font-size:12.5px;color:var(--muted);border:1px solid var(--hair);background:var(--surface);
+  padding:7px 14px;border-radius:999px;letter-spacing:-.005em;
+}
+
+/* ---------- closing ---------- */
+.close{
+  margin-top:92px;background:var(--dark);color:#EFEAE3;border-radius:22px;
+  padding:clamp(38px,5vw,64px);position:relative;overflow:hidden;
+}
+.close::before{
+  content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,228,92,.16) 0%,rgba(255,228,92,0) 70%);
+}
+.close h2{font-family:Archivo,sans-serif;font-weight:900;text-transform:uppercase;
+  font-size:clamp(28px,3.8vw,50px);line-height:1;letter-spacing:-.032em;max-width:15ch;margin:0 0 16px}
+.close p{color:#ADA69B;max-width:46ch;margin:0 0 8px;font-size:16px}
+.guar{
+  border-left:2px solid var(--sun);padding-left:14px;color:#C6BFB4;font-size:14px;
+  margin:20px 0 26px;max-width:50ch;
+}
+.close .btn-ink{background:var(--sun);color:var(--ink);box-shadow:none}
+.close .btn-ink:hover{background:#FFEF8A}
+.close .btn-line{border-color:#3A3630;color:#EFEAE3}
+.close .btn-line:hover{background:#211E1A;border-color:#544E45}
+.close .ctas{margin-top:0}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .rail{display:none}
+  .hero{grid-template-columns:1fr}
+  .figure{justify-self:center;margin-top:42px}
+  .grid{grid-template-columns:1fr}
+  .svc li{grid-template-columns:38px 1fr;gap:14px}
+  .svc .d{grid-column:2}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="rail">
+    <a class="brand" href="#">
+      <svg width="34" height="34" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M12 52V12h9l22 30V12h9v40h-9L21 22v30z" fill="#171614"/>
+        <path d="M21 12l22 30V12h9L30 52 21 12z" fill="#FFE45C"/>
+      </svg>
+    </a>
+    <nav class="nav">
+      <a class="on" href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z"/></svg>Home</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3zM5 4v16M17 8h2v13"/></svg>Story</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>Work</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5h14M5 10h14M5 15h9"/></svg>Blog</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2"/></svg>Shop</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9 6-9-6M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></svg>Hire</a>
+      <a href="#"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1zM8 9h8M8 13h5"/></svg>Contact</a>
+    </nav>
+    <div class="railfoot">
+      <div class="who">
+        <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" />
+        <span><b>Neil Busque</b><span>New Jersey</span></span>
+      </div>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.4 21v-7.2h2.42l.36-2.8H13.4V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.06v2.8h2.43V21z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6"/><circle cx="12" cy="12" r="3.8"/><circle cx="17" cy="7" r=".5" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 8.5H4.06V19.5h2.88zM5.5 7.19a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38zM19.94 13.06c0-2.75-1.47-4.03-3.43-4.03-1.58 0-2.29.87-2.68 1.48V8.5h-2.88c.04.81 0 11 0 11h2.88v-6.14c0-.33.02-.66.12-.89.26-.66.86-1.34 1.86-1.34 1.31 0 1.84.99 1.84 2.44v5.93h2.88z"/></svg></a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="strip">
+      <span class="dot"></span><b>Open to W2 roles and freelance builds</b>
+      <span style="color:var(--soft)">·</span><span>New Jersey</span>
+      <a class="mail" href="#">busqueneil@gmail.com</a>
+    </div>
+
+    <div class="wrap">
+      <header class="hero">
+        <div>
+          <span class="avail"><span class="dot"></span>Available for new projects</span>
+          <span class="hi script">hey, I&rsquo;m</span>
+          <h1 class="display">Neil<br />Busque.</h1>
+          <p class="lede">I turn ideas into working products. Web apps, websites, landing pages, funnels, and automation, built with you directly and live in days.</p>
+          <div class="ctas">
+            <a class="btn btn-ink" href="#">Start your build</a>
+            <a class="arrowlink" href="#">See the work
+              <svg width="38" height="12" viewBox="0 0 38 12" fill="none"><path d="M1 6h34M30 1.5 35.5 6 30 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="figure">
+          <span class="note">you talk to me, not an agency
+            <svg width="54" height="26" viewBox="0 0 54 26" fill="none" aria-hidden="true"><path d="M2 3c10 12 24 18 49 19M44 15l7 7-10 3" stroke="#9A9287" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" />
+        </div>
+      </header>
+
+      <div class="stats">
+        <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
+        <div class="stat"><b>Days</b><span>idea to first version</span></div>
+        <div class="stat"><b>One</b><span>person, start to finish</span></div>
+      </div>
+
+      <section>
+        <div class="sechead">
+          <span class="label">What I do</span>
+          <h2 class="sec">Five ways I can <span class="mark">help.</span></h2>
+        </div>
+        <ul class="svc">
+          <li><span class="n">01</span><span class="nm">Web Apps</span><span class="d">Real working software: portals, dashboards, tools. Not demos.</span></li>
+          <li><span class="n">02</span><span class="nm">Websites</span><span class="d">Sites that look designed and feel fast. Never a template.</span></li>
+          <li><span class="n">03</span><span class="nm">Landing Pages</span><span class="d">One page with one job: turn a visitor into a lead.</span></li>
+          <li><span class="n">04</span><span class="nm">Funnels</span><span class="d">The whole path from click to booked call, wired end to end.</span></li>
+          <li><span class="n">05</span><span class="nm">Automation</span><span class="d">n8n, Zapier, GHL, and custom glue. Busywork runs itself.</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="sechead">
+          <span class="label">Selected work</span>
+          <h2 class="sec">Real products, <span class="mark">live</span> right now.</h2>
+        </div>
+        <div class="grid">
+          <a class="card" href="#"><div class="shot"><img src="/assets/work/orbit-app-sm.webp" alt="Orbit CRM" /></div><div class="meta"><b>Orbit CRM</b><span>CRM + AI agents</span></div></a>
+          <a class="card" href="#"><div class="shot"><img src="/assets/work/tandem-sm.webp" alt="Tandem" /></div><div class="meta"><b>Tandem</b><span>Couples app</span></div></a>
+          <a class="card" href="#"><div class="shot"><img src="/assets/work/darioo-sm.webp" alt="Darioo" /></div><div class="meta"><b>Darioo</b><span>Client site + app</span></div></a>
+          <a class="card" href="#"><div class="shot"><img src="/assets/work/otto-sm.webp" alt="Otto" /></div><div class="meta"><b>Otto</b><span>AI command center</span></div></a>
+        </div>
+      </section>
+
+      <section>
+        <div class="sechead">
+          <span class="label">Worked with</span>
+        </div>
+        <div class="clients">
+          <span class="chip">Bravo Team</span><span class="chip">StoutCap</span><span class="chip">Fantum Growth</span>
+          <span class="chip">Darioo</span><span class="chip">Catalyze Growth Partners</span><span class="chip">Upstrm / TheWavMan</span>
+          <span class="chip">David Wong</span><span class="chip">Heart Life</span><span class="chip">Matador Solutions</span>
+          <span class="chip">Noosa Sports Chiropractic</span>
+        </div>
+      </section>
+
+      <div class="close">
+        <h2>Tell me what you want to <span class="mark" style="color:#fff">build.</span></h2>
+        <p>Send me the idea in a few sentences. I answer personally, usually the same day.</p>
+        <p class="guar">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+        <div class="ctas">
+          <a class="btn btn-ink" href="#">Send me your idea</a>
+          <a class="btn btn-line" href="#">Or message on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
