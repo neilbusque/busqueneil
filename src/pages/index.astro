@@ -29,15 +29,19 @@ const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20
 /* Grouped by job rather than by vendor, so a visitor scanning for "do you know my CRM"
    finds it in one place instead of reading a flat logo soup. */
 const STACK = [
-  { label: 'Build', items: ['Claude', 'Codex', 'VS Code', 'Astro', 'Next.js', 'React', 'TypeScript'] },
-  { label: 'Infrastructure', items: ['Vercel', 'Supabase', 'Postgres', 'Cloudflare', 'Porkbun'] },
-  { label: 'Automation', items: ['n8n', 'Zapier', 'Make', 'MCP'] },
-  { label: 'CRM and email', items: ['GoHighLevel', 'HubSpot', 'Klaviyo', 'Mailgun'] },
-  { label: 'Web and commerce', items: ['WordPress', 'Shopify', 'ClickFunnels'] },
+  { label: 'Build', items: ['Claude', 'Codex', 'VS Code', 'Astro', 'Next.js', 'React', 'TypeScript', 'Node'] },
+  { label: 'Infrastructure', items: ['Vercel', 'Railway', 'Supabase', 'Postgres', 'Cloudflare', 'Porkbun'] },
+  // Neil's actual strength, so it gets its own group instead of being buried in Automation
+  { label: 'APIs and integrations', items: ['REST APIs', 'Webhooks', 'MCP servers', 'OAuth', 'Puppeteer'] },
+  { label: 'Automation', items: ['n8n', 'Zapier', 'Make'] },
+  { label: 'CRM and email', items: ['GoHighLevel', 'HubSpot', 'Klaviyo', 'Resend', 'Mailgun', 'Twilio'] },
+  { label: 'Web and commerce', items: ['WordPress', 'Shopify', 'Stripe', 'ClickFunnels'] },
+  { label: 'AI and media', items: ['OpenRouter', 'ElevenLabs', 'Remotion', 'Kie.ai'] },
+  { label: 'Social', items: ['Zernio', 'Postiz'] },
   { label: 'Design', items: ['Figma', 'Canva', 'Photoshop', 'Illustrator'] },
   { label: 'Ads', items: ['Meta Ads', 'Google Ads'] },
-  // 8 groups fills the 4-col grid exactly; at 7 the last cell rendered as a grey gap
   { label: 'Analytics and SEO', items: ['GA4', 'Search Console', 'DataForSEO'] },
+  { label: 'Data', items: ['Apify', 'Firecrawl', 'Trawl'] },
 ];
 
 const nowText = now?.title || 'Shipping something, every day.';
@@ -213,7 +217,10 @@ function tagFor(p: Post): string {
   <section class="hsec">
     <span class="eyebrow">Tools I work in</span>
     <h2 class="sec">The <span class="mark-hl">stack.</span></h2>
-    <p class="stack-note">Grouped by what I reach for them for. I pick the tool that fits your setup, not the one I feel like using.</p>
+    <p class="stack-note">Grouped by what I reach for them for. The one worth calling out is
+      <strong>APIs and integrations</strong>: webhooks, OAuth, MCP servers, and making two systems
+      that were never meant to talk to each other talk to each other. That is most of what real
+      automation actually is, and it is the part I am best at.</p>
     <div class="stack">
       {STACK.map((group) => (
         <div class="stack-group">
