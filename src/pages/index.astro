@@ -1,6 +1,5 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
-import IntroCinematic from '../components/IntroCinematic.astro';
 import Schema from '../components/Schema.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import Testimonials from '../components/Testimonials.astro';
@@ -38,55 +37,42 @@ function tagFor(p: Post): string {
   return map[p.type] ?? 'Post';
 }
 ---
-<AppShell title="Neil Busque — From idea to product" description="I build AI apps, websites, portals, and automation. You work directly with me, and it ships in days." active="home">
-  <IntroCinematic slot="intro" />
+<AppShell title="Neil Busque — AI Product Builder" description="Custom AI apps, websites, and automations, designed and shipped directly by Neil Busque. From rough idea to working product, usually in days." active="home">
   <Fragment slot="head"><Schema /></Fragment>
 
   <!-- HERO -->
   <section class="hero">
-    <div>
-      <span class="script script-hi">hey <span class="wave" aria-hidden="true">&#128075;</span>, I&rsquo;m</span>
-      <h1>Neil<br>Busque.</h1>
-      <p class="hero-sub">I turn ideas into working products. Web apps, websites, landing pages, funnels, and automation, built with you directly and live in days.</p>
+    <div class="hero-copy">
+      <p class="hero-kicker"><span>Neil Busque</span><i aria-hidden="true"></i>Independent product builder</p>
+      <h1>From rough idea to <span class="hero-em">working product.</span></h1>
+      <p class="hero-sub">I design and build custom apps, websites, and automations for founders and small teams. You work directly with me from the first sketch to the live link, usually in days.</p>
       <div class="hero-ctas">
-        <a class="btn-sun" href="/hire">Start your build</a>
-        <a class="link-arrow" href="/work">See the work
-          <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <a class="btn-sun" href="/contact">Tell me what you&rsquo;re building</a>
+        <a class="btn-ghost" href="/work">See live work</a>
       </div>
+      <p class="hero-reassurance"><span aria-hidden="true">&#10003;</span> One builder, no agency handoffs, no black-box platform.</p>
     </div>
-    <div class="hero-photo-wrap">
-      <span class="note who">that&rsquo;s me. you talk to me, not an agency
-        <!-- points down-right, at the photo. The old path curved down-LEFT, away from it. -->
-        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M8 2 C 20 16, 32 22, 48 28 M40 22 L 50 29 L 38 32" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
-    </div>
+    <figure class="hero-photo-wrap">
+      <div class="hero-photo-stage" aria-hidden="true">
+        <span class="hero-stage-index">01 / DESIGN &middot; BUILD &middot; LAUNCH</span>
+        <span class="hero-monogram">NB</span>
+        <span class="hero-stage-line"></span>
+      </div>
+      <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque, product designer and builder" width="640" height="1413" fetchpriority="high" decoding="async" />
+      <figcaption class="hero-caption">You talk to the person doing the work.</figcaption>
+    </figure>
   </section>
 
   <!-- STATS -->
   <div class="stats">
     <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
     <div class="stat"><b>Days</b><span>idea to first version</span></div>
-    <div class="stat"><b>1 person</b><span>start to finish, no handoffs</span></div>
+    <div class="stat"><b>1:1</b><span>direct from start to finish</span></div>
   </div>
 
-  <!-- SERVICES -->
-  <section class="hsec">
-    <span class="eyebrow">What I do</span>
-    <h2 class="sec">Five ways I can <span class="mark-hl">help.</span></h2>
-    <ul class="svc">
-      <li><span class="num">01</span><span class="name">Web Apps</span><span class="desc">Real working software: portals, dashboards, tools. Not demos.</span></li>
-      <li><span class="num">02</span><span class="name">Websites</span><span class="desc">Sites that look designed and feel fast. Never a template.</span></li>
-      <li><span class="num">03</span><span class="name">Landing Pages</span><span class="desc">One page with one job: turn a visitor into a lead.</span></li>
-      <li><span class="num">04</span><span class="name">Funnels</span><span class="desc">The whole path from click to booked call, wired end to end.</span></li>
-      <li><span class="num">05</span><span class="name">Automation</span><span class="desc">n8n, Zapier, GHL, and custom glue. Busywork runs itself.</span></li>
-    </ul>
-  </section>
-
   <!-- CLIENTS -->
-  <section class="hsec">
-    <span class="eyebrow">Worked with</span>
+  <section class="hsec client-proof">
+    <span class="eyebrow">Trusted by teams at</span>
     <ClientLogos />
   </section>
 
@@ -111,11 +97,24 @@ function tagFor(p: Post): string {
       ))}
     </div>
     <p style="margin-top:22px"><a class="link-arrow" href="/work">All work
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+      <svg width="44" height="16" viewBox="0 0 44 16" fill="none" aria-hidden="true"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
   </section>
 
   <!-- PRAISE -->
   <Testimonials />
+
+  <!-- SERVICES -->
+  <section class="hsec">
+    <span class="eyebrow">What I build</span>
+    <h2 class="sec">One partner for the <span class="mark-hl">whole build.</span></h2>
+    <ul class="svc">
+      <li><span class="num">01</span><span class="name">Web Apps</span><span class="desc">Portals, dashboards, and tools that people can actually use. Not demos.</span></li>
+      <li><span class="num">02</span><span class="name">Websites</span><span class="desc">Fast, original sites built around your offer, not a recycled template.</span></li>
+      <li><span class="num">03</span><span class="name">Landing Pages</span><span class="desc">One focused page with one job: turn the right visitor into a lead.</span></li>
+      <li><span class="num">04</span><span class="name">Funnels</span><span class="desc">The full path from first click to booked call, wired end to end.</span></li>
+      <li><span class="num">05</span><span class="name">Automation</span><span class="desc">AI, n8n, Zapier, GHL, and custom systems that keep busywork moving.</span></li>
+    </ul>
+  </section>
 
   <!-- SHOP -->
   <section class="hsec">
@@ -151,7 +150,7 @@ function tagFor(p: Post): string {
               ))}
             </ul>
             <p style="margin-top:18px"><a class="link-arrow" href="/blog">Read the blog
-              <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+              <svg width="44" height="16" viewBox="0 0 44 16" fill="none" aria-hidden="true"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
           </>
         ) : (
           <div class="v8-card nowcta">

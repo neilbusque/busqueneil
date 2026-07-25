@@ -44,6 +44,7 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
   <script is:inline slot="head">
     if (localStorage.getItem('v9-rail') === '1') document.documentElement.classList.add('rail-collapsed');
   </script>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="v8 shell">
     <slot name="intro" />
     {/* Availability status pulled 2026-07-25 (Neil): no open-to-work / available-for-
@@ -86,7 +87,7 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
         </div>
       </div>
     </aside>
-    <main class="shell-main" transition:animate="fade">
+    <main class="shell-main" id="main-content" transition:animate="fade">
       <slot />
       <footer class="shell-foot">
         <span>© 2026 Neil Busque</span>
