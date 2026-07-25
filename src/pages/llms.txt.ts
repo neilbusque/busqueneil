@@ -4,7 +4,7 @@ import { deriveExcerpt } from '../lib/markdown';
 
 const STATIC_BIO = `# Neil Busque
 
-> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Documents everything he builds, in public, on the blog at https://busqueneil.com/blog.
+> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Publishes the work on the blog at https://busqueneil.com/blog.
 
 ## Identity
 
@@ -31,7 +31,7 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 
 ## Selected shipped work (2026)
 
-- A personal CRM, a client portal, a self-hosted link shortener with analytics and web push, a cold-email app, and several offer funnels, each shipped fast and documented in public.
+- A personal CRM, a client portal, a self-hosted link shortener with analytics and web push, a cold-email app, and several offer funnels, each shipped fast and written up on the blog.
 - This site itself: an Astro SSR build with a Supabase-backed build-in-public CMS, dynamic OG images, sitemap/RSS/llms, and a conversational lead-capture assistant.
 
 ## Prior experience
