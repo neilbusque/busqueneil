@@ -5,7 +5,7 @@ import RibbonMark from '../components/RibbonMark.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
-  title: string; description: string; canonical?: string; ogImage?: string; noindex?: boolean;
+  title: string; description: string; canonical?: string; ogImage?: string; ogType?: string; noindex?: boolean;
   active: 'home' | 'story' | 'work' | 'blog' | 'resources' | 'shop' | 'hire' | 'contact';
 }
 const { active, ...baseProps } = Astro.props;
@@ -15,7 +15,6 @@ const NAV = [
   { key: 'story',   href: '/story',   label: 'Story' },
   { key: 'work',    href: '/work',    label: 'Work' },
   { key: 'resources', href: '/resources', label: 'Resources' },
-  { key: 'blog',    href: '/blog',    label: 'Blog' },
   { key: 'shop',    href: '/shop',    label: 'Shop' },
   { key: 'hire',    href: '/hire',    label: 'Hire' },
   { key: 'contact', href: '/contact', label: 'Contact' },

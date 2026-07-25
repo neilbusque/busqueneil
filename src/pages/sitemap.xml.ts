@@ -15,7 +15,6 @@ const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/hire/ai-engineer-nj', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/hire/ai-engineer-remote', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides', changefreq: 'weekly', priority: '0.8' },
   { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/guides/google-ai-overviews-guide', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', changefreq: 'monthly', priority: '0.7' },

@@ -22,9 +22,10 @@ function tagFor(p: Post): string {
   return map[p.type] ?? 'Post';
 }
 ---
-<AppShell title="Blog — build logs and tutorials | Neil Busque" description="Build logs, tutorials, and notes from Neil Busque on shipping AI apps, automations, and websites fast. Written while building, not after." active="blog">
+<AppShell title="Blog — thoughts, builds, and what I am working on | Neil Busque" description="The blog: what Neil Busque is building, what he is thinking about, what broke and what he learned. Written while building, not after. Step-by-step tutorials live under Resources." active="resources">
   <span class="eyebrow">The blog</span>
-  <h1 class="sec">Thoughts, tutorials, and <span class="mark-hl">builds.</span></h1>
+  <h1 class="sec">Thoughts, builds, and <span class="mark-hl">everything else.</span></h1>
+  <p class="res-lede">What I am working on, what I am thinking about, and what went wrong. Looking for a step-by-step instead? Those live in <a href="/resources">Resources</a>.</p>
   <div class="blog-chips">
     {FILTERS.map((f) => (
       <a class:list={['chip', { on: (filter ?? 'all') === f.key }]} href={chipHref(f.key)}>{f.label}</a>

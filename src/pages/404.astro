@@ -1,23 +1,24 @@
 ---
 // Server-rendered on purpose: a prerendered 404 makes the SSR function fetch
 // the static page internally, which fails behind deployment protection.
-import Site from '../layouts/Site.astro';
+import AppShell from '../layouts/AppShell.astro';
 ---
-<Site
+<AppShell
   title="Not found — Neil Busque"
   description="That page does not exist."
+  active="home"
   noindex
 >
   <header class="page-head">
     <p class="eyebrow"><span class="idx">404</span> Not found</p>
-    <h1>That page <span class="accent">isn't here</span>.</h1>
+    <h1>That page <span class="accent">isn&rsquo;t here</span>.</h1>
     <p class="lede">
-      It may have moved when the site was rebuilt. The good stuff lives on
-      <a href="/">the feed</a>, or check <a href="/now/">/now</a> to see what I'm up to.
+      It may have moved when the site was rebuilt. Try <a href="/work">the work</a>,
+      the <a href="/resources">tutorials and blog</a>, or tell me what you were after.
     </p>
-    <div class="hero-actions" style="margin-top:28px;">
-      <a class="btn" href="/">Back to the feed →</a>
-      <a class="btn ghost" href="/projects">See the work</a>
+    <div class="hero-ctas" style="margin-top:28px;">
+      <a class="btn-sun" href="/">Back home</a>
+      <a class="btn-ghost" href="/contact">Tell me what you needed</a>
     </div>
   </header>
-</Site>
+</AppShell>

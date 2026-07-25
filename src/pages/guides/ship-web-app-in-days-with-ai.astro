@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -88,11 +88,11 @@ const tableCode = `create table links (
   created_at timestamptz not null default now()
 );`;
 ---
-<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
       { name: 'Ship a web app in days with AI', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
@@ -105,7 +105,7 @@ const tableCode = `create table links (
     <p class="lede">My exact process for going from an idea to a live app in two to four days, using Astro, Supabase, Vercel, and Claude Code. No vibe coding, real reviews, shipped work.</p>
   </header>
 
-  <article class="article-page" style="padding-top: 8px;">
+  <article class="article-page">
     <div class="prose">
       <p><strong>TL;DR: I ship a working web app in two to four days by keeping the stack small (Astro, Supabase, Vercel, Claude Code) and the process tight. Day one is scope plus database schema, day two is the core build, day three is polish and deploy. The AI writes most of the code, but I scope every task, read every change, and run tests. That is how I shipped 40 plus apps and PWAs in 2026.</strong></p>
 
@@ -181,4 +181,4 @@ const tableCode = `create table links (
       <p>If you want an app like this built for you, you can <a href="/hire">hire Neil</a>. Want to go deeper on the AI side? Read <a href="/guides/build-ai-agent-claude-code">the AI agent guide</a>, or see <a href="/projects">the work I have shipped</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>

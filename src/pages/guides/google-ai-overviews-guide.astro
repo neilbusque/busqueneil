@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -52,11 +52,11 @@ const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: 
   },
 ] };
 ---
-<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
       { name: 'Google AI Overviews', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
@@ -67,7 +67,7 @@ const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: 
     <h1>How to Show Up in Google AI Overviews (2026)</h1>
     <p class="lede">Google now puts an AI answer above the normal blue links. Here is how it picks its sources, and what I actually do to get a page cited inside it.</p>
   </header>
-  <article class="article-page" style="padding-top: 8px;">
+  <article class="article-page">
     <div class="prose">
       <p><strong>TL;DR: To show up in Google AI Overviews, first rank on page one for the query, because the AI answer mostly cites pages that already rank well. Then answer the exact question in your opening paragraph, use headings that match how people search, and add FAQ and structured data so Google can lift a clean quote. Cover the topic fully and keep your facts current.</strong></p>
 
@@ -124,4 +124,4 @@ const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: 
       <p>Want help getting your pages cited in Google AI answers? You can <a href="/hire">hire Neil</a> for GEO and SEO work. For the wider picture across every AI tool, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>, and if you build AI tools, see <a href="/guides/what-is-mcp-model-context-protocol">what MCP is</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>

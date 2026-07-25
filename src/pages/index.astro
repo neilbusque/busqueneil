@@ -131,8 +131,11 @@ function tagFor(p: Post): string {
                   aria-label={`${w.name}, recorded`}
                   data-wc-clip
                 >
-                  <source src={`/assets/work/${w.clip}.webm`} type="video/webm" />
+                  {/* H.264 first on purpose. Chrome picks the first source it can play, and
+                      three concurrent VP9 decodes on this page produced MEDIA_ERR_DECODE on two
+                      of the three cards while H.264 decodes fine (and is hardware-accelerated). */}
                   <source src={`/assets/work/${w.clip}.mp4`} type="video/mp4" />
+                  <source src={`/assets/work/${w.clip}.webm`} type="video/webm" />
                 </video>
               : <img
                   src={w.img}

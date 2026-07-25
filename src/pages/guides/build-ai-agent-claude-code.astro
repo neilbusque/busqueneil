@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -62,11 +62,11 @@ const faq = {
   ],
 };
 ---
-<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
       { name: 'Build an AI agent with Claude Code', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
@@ -79,7 +79,7 @@ const faq = {
     <p class="lede">I build AI agents for a living. Here is how I actually do it, in plain steps, with the tools and config I use every day.</p>
   </header>
 
-  <article class="article-page" style="padding-top: 8px;">
+  <article class="article-page">
     <div class="prose">
       <p><strong>TL;DR: To build an AI agent with Claude Code and MCP, you connect a language model to real tools through MCP servers, give it a system prompt or skill that defines the job, wrap it in a loop with guardrails, and test it on real tasks. An agent is a model plus tools plus a loop. Claude Code runs that loop for you, and MCP is the standard way to plug in the tools and data the agent needs.</strong></p>
 
@@ -150,4 +150,4 @@ const faq = {
       <p style="margin-top: 2rem;">Want an agent built for your business instead of a guide? <a href="/hire">Hire me</a> and I will build and ship it. If you are still reading up first, see <a href="/guides/geo-generative-engine-optimization-guide">my guide to GEO</a> for getting cited by AI, and <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps in days with AI</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>

@@ -4,8 +4,8 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getFeed } from '../../lib/posts';
 import type { Post } from '../../lib/types';
 
-const title = 'Resources — Tutorials and Writing | Neil Busque';
-const description = 'Tutorials on AI agents, MCP, GEO, and shipping fast, plus what I am writing about while I build. All of it from real work, not theory.';
+const title = 'Resources — Tutorials and Blog | Neil Busque';
+const description = 'Tutorials on AI agents, MCP, GEO, and shipping fast, plus the blog: what I am building, what I am thinking about, and what went wrong. All from real work.';
 const canonical = 'https://busqueneil.com/resources';
 
 // Tutorials keep living at /guides/* so their existing rankings are untouched. This is the hub.
@@ -45,8 +45,8 @@ const list = {
   </Fragment>
 
   <span class="eyebrow">Resources</span>
-  <h1 class="sec">Tutorials and <span class="mark-hl">writing.</span></h1>
-  <p class="res-lede">Two different things. Tutorials are how to do something, written from builds that actually shipped. Writing is what I am thinking about while I build.</p>
+  <h1 class="sec">Tutorials and the <span class="mark-hl">blog.</span></h1>
+  <p class="res-lede">Two different things. Tutorials are how to do something, written from builds that actually shipped. The blog is everything else: what I am working on, what I am thinking about, and what I got wrong.</p>
 
   <section class="hsec">
     <span class="eyebrow">Tutorials</span>
@@ -67,8 +67,9 @@ const list = {
   </section>
 
   <section class="hsec">
-    <span class="eyebrow">Writing</span>
-    <h2 class="sec">What I&rsquo;m <span class="mark-hl">thinking about.</span></h2>
+    <span class="eyebrow">Blog</span>
+    <h2 class="sec">Everything <span class="mark-hl">else.</span></h2>
+    <p class="stack-note">Thoughts, experiences, what I am working on, what broke and what I learned from it. Anything that is not a step-by-step lands here.</p>
     {posts.length > 0 ? (
       <ul class="postlist res">
         {posts.map((p) => (
@@ -84,10 +85,10 @@ const list = {
       </ul>
     ) : (
       <div class="v8-card nowcta">
-        <p>Newest writing lands on the blog first.</p>
+        <p>Newest posts land on the blog first.</p>
       </div>
     )}
-    <p style="margin-top:22px"><a class="link-arrow" href="/blog">All writing
+    <p style="margin-top:22px"><a class="link-arrow" href="/blog">Read the blog
       <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
   </section>
 </AppShell>

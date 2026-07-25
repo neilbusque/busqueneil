@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -73,11 +73,11 @@ const llmsExample = `# Your Company
 - Home: https://example.com/
 - Pricing: https://example.com/pricing`;
 ---
-<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
       { name: 'GEO: rank in AI answers', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
@@ -90,7 +90,7 @@ const llmsExample = `# Your Company
     <p class="lede">Getting found now means getting cited by ChatGPT, Perplexity, and Google AI Overviews, not just ranking a link. Here is what actually works, backed by research and the way I do it.</p>
   </header>
 
-  <article class="article-page" style="padding-top: 8px;">
+  <article class="article-page">
     <div class="prose">
       <p><strong>TL;DR: GEO (Generative Engine Optimization) is how you get cited by AI answers like ChatGPT, Perplexity, and Google AI Overviews. The moves that work, from the research and from practice: lead with the answer, back every claim with statistics and named sources, add quotations, mark up the page with FAQ and Article structured data, publish an llms.txt file, keep your entity consistent everywhere, and let AI crawlers reach your site. Keyword stuffing does nothing.</strong></p>
 
@@ -157,4 +157,4 @@ const llmsExample = `# Your Company
       <p style="margin-top: 2rem;">Want your site cited by AI instead of ignored? I do GEO and SEO builds for companies. <a href="/hire">Hire me</a>, or read <a href="/guides/build-ai-agent-claude-code">how to build an AI agent</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps in days</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>

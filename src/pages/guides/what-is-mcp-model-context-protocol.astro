@@ -1,5 +1,5 @@
 ---
-import Site from '../../layouts/Site.astro';
+import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
@@ -54,11 +54,11 @@ const faq = {
   ],
 };
 ---
-<Site title={title} description={description} canonical={canonical} ogType="article" active="writing">
+<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Guides', url: 'https://busqueneil.com/guides' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
       { name: 'What is MCP', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
@@ -69,7 +69,7 @@ const faq = {
     <h1>What Is MCP (Model Context Protocol)? A Plain Guide</h1>
     <p class="lede">A short, plain explainer of MCP: what it is, the problem it solves, and how MCP servers actually work. I build with MCP every day, so this is the version I wish existed when I started.</p>
   </header>
-  <article class="article-page" style="padding-top: 8px;">
+  <article class="article-page">
     <div class="prose">
       <p><strong>TL;DR: MCP (Model Context Protocol) is an open standard from Anthropic, released in November 2024, that lets AI models connect to external tools and data through one common interface. Think of it as a USB port for AI tools. Instead of custom code for every tool, MCP gives every tool one shared way to plug into a model.</strong></p>
 
@@ -128,4 +128,4 @@ const faq = {
       <p>I build AI systems with MCP every day, from CRMs to internal tools. If you want a system like this built for your business, you can <a href="/hire">hire Neil</a>. Want to go deeper? Read my guide on <a href="/guides/build-ai-agent-claude-code">how to build an AI agent</a>, and if you care about getting cited by AI, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>.</p>
     </div>
   </article>
-</Site>
+</AppShell>
