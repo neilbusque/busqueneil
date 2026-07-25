@@ -1,6 +1,6 @@
 ---
 // Person + WebSite + ProfilePage + FAQPage JSON-LD for the homepage.
-// Keep this aligned with the visible homepage positioning.
+// Positioning kept current: independent operator & builder, open to work.
 
 const person = {
   '@type': 'Person',
@@ -10,9 +10,9 @@ const person = {
   familyName: 'Busque',
   url: 'https://busqueneil.com/',
   image: 'https://busqueneil.com/assets/brand/og-default.png',
-  jobTitle: 'AI Product Builder & Automation Consultant',
+  jobTitle: 'AI Engineer & Automation Consultant',
   description:
-    'Product builder based in New Jersey. Designs and ships custom AI apps, websites, automation systems, and digital products for founders and small teams. Documents the work in public at busqueneil.com.',
+    'AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, automation systems, and custom web apps, and helps companies get found in AI search (GEO) and traditional SEO. Documents everything he builds, in public, at busqueneil.com. Open to full-time roles and project work.',
   email: 'mailto:busqueneil@gmail.com',
   address: {
     '@type': 'PostalAddress',
@@ -22,7 +22,7 @@ const person = {
   },
   hasOccupation: {
     '@type': 'Occupation',
-    name: 'AI Product Builder & Automation Consultant',
+    name: 'AI Engineer & Automation Consultant',
     occupationLocation: { '@type': 'City', name: 'New Jersey' },
     skills: 'AI agents, LLM applications, Model Context Protocol (MCP), workflow automation, n8n, generative engine optimization (GEO), SEO, paid search, CRM, web app development',
   },
@@ -66,7 +66,7 @@ const website = {
   url: 'https://busqueneil.com/',
   name: 'Neil Busque',
   description:
-    'Neil Busque designs and ships custom AI apps, websites, and automations for founders and small teams. Based in New Jersey.',
+    'Neil Busque is an AI engineer who builds AI agents, automations, and web apps in public, and helps companies rank in AI search and SEO. Based in New Jersey.',
   inLanguage: 'en-US',
   publisher: { '@id': 'https://busqueneil.com/#person' },
 };
@@ -75,7 +75,7 @@ const profilePage = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   dateCreated: '2026-05-13',
-  dateModified: '2026-07-25',
+  dateModified: '2026-06-30',
   mainEntity: person,
 };
 
@@ -88,7 +88,7 @@ const faqPage = {
       name: 'Who is Neil Busque?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Neil Busque is a product builder based in New Jersey. He designs and ships custom AI apps, websites, automation systems, and digital products, and documents the work in public at busqueneil.com.',
+        text: 'Neil Busque is an AI engineer and builder based in New Jersey. He builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. He also builds custom web apps and PWAs, and documents the work in public at busqueneil.com.',
       },
     },
     {
@@ -104,7 +104,15 @@ const faqPage = {
       name: 'What does Neil Busque do?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'He turns rough ideas into working products: custom web apps, websites, AI agents, landing pages, funnels, and automation systems. He handles the design and build directly and posts the work in public at busqueneil.com.',
+        text: 'He builds AI systems that do real work: AI agents and LLM apps on Claude Code, workflow automation in n8n and GoHighLevel, and custom web apps and PWAs. He also gets companies found in AI search through GEO, and in Google through SEO and paid search. He ships fast and posts the work in public at busqueneil.com.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Neil Busque available for hire?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes. Neil is open to full-time roles as an AI engineer, automation engineer, or growth engineer, and to project work such as an AI agent, an automation build, a GEO or SEO push, or a custom app. Reach him at busqueneil@gmail.com or on LinkedIn at linkedin.com/in/neilbusque.',
       },
     },
     {
@@ -112,7 +120,7 @@ const faqPage = {
       name: 'How can I contact Neil Busque?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Email busqueneil@gmail.com, use the contact page at busqueneil.com/contact, or message him through the WhatsApp link on the site.',
+        text: 'Email busqueneil@gmail.com or message him on LinkedIn at linkedin.com/in/neilbusque. The contact widget on busqueneil.com also offers WhatsApp, SMS, and phone options.',
       },
     },
   ],
