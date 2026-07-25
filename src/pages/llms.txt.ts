@@ -59,6 +59,7 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 ## Canonical URLs
 
 - Home + feed: https://busqueneil.com/
+- Resources (tutorials + writing): https://busqueneil.com/resources
 - Services overview: https://busqueneil.com/services
 - AI automation services: https://busqueneil.com/services/ai-automation-services
 - AI agent development services: https://busqueneil.com/services/ai-agent-development

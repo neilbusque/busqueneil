@@ -315,6 +315,14 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .postlist .pt { font-weight: 600; font-size: 16px; }
 .v8 .postlist .tag { font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--hair); padding: 3px 10px; border-radius: 999px; background: var(--surface); }
 .v8 .postlist .tag.video { background: var(--sun); border-color: transparent; color: var(--ink); }
+/* resources variant: no date column, and the row carries a blurb under the title.
+   The base .postlist grid is 92px/1fr/auto for date/title/tag, which would squeeze
+   the title into the 92px date column here. */
+.v8 .postlist.res li a { grid-template-columns: 1fr auto; align-items: center; padding: 18px 4px; }
+.v8 .postlist.res .pl-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.v8 .postlist.res .pl-title { font-weight: 600; font-size: 16.5px; letter-spacing: -.012em; }
+.v8 .postlist.res .pl-blurb { color: var(--muted); font-size: 14px; line-height: 1.55; }
+.v8 .res-lede { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 62ch; margin: 16px 0 0; }
 
 .v8 .price-card { padding: clamp(24px, 3vw, 32px); margin: calc(var(--gap-sec) * .4) 0 0; }
 .v8 .price-card p { margin: 8px 0 0; max-width: 62ch; font-size: 15.5px; }

@@ -6,7 +6,7 @@ import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string; description: string; canonical?: string; ogImage?: string; noindex?: boolean;
-  active: 'home' | 'story' | 'work' | 'blog' | 'shop' | 'hire' | 'contact';
+  active: 'home' | 'story' | 'work' | 'blog' | 'resources' | 'shop' | 'hire' | 'contact';
 }
 const { active, ...baseProps } = Astro.props;
 
@@ -14,6 +14,7 @@ const NAV = [
   { key: 'home',    href: '/',        label: 'Home' },
   { key: 'story',   href: '/story',   label: 'Story' },
   { key: 'work',    href: '/work',    label: 'Work' },
+  { key: 'resources', href: '/resources', label: 'Resources' },
   { key: 'blog',    href: '/blog',    label: 'Blog' },
   { key: 'shop',    href: '/shop',    label: 'Shop' },
   { key: 'hire',    href: '/hire',    label: 'Hire' },
@@ -31,6 +32,7 @@ const ICONS: Record<string, string> = {
   story: 'M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3zM5 4v16M17 8h2v13',
   work: 'M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2',
   blog: 'M5 5h14M5 10h14M5 15h9',
+  resources: 'M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z',
   shop: 'M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2',
   hire: 'M21 8l-9 6-9-6M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z',
   contact: 'M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1zM8 9h8M8 13h5',

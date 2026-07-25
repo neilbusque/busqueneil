@@ -4,6 +4,7 @@ import { caseStudies } from '../data/case-studies';
 
 const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/', changefreq: 'daily', priority: '1.0' },
+  { loc: 'https://busqueneil.com/resources', changefreq: 'weekly', priority: '0.8' },
   { loc: 'https://busqueneil.com/services', changefreq: 'monthly', priority: '0.9' },
   { loc: 'https://busqueneil.com/services/ai-automation-services', changefreq: 'monthly', priority: '0.9' },
   { loc: 'https://busqueneil.com/services/ai-agent-development', changefreq: 'monthly', priority: '0.9' },
