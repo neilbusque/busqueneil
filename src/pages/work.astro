@@ -45,7 +45,16 @@ const CAPABILITIES = [
   { label: 'Ship in days', body: 'Spec, plan, build, review, deploy. Forty plus products this year, most live within days of the idea.' },
 ];
 
-const CASE_STUDY_BY_CARD: Record<string, string> = { Orbit: 'orbit', Tandem: 'tandem' };
+/* Card name -> case-study slug. Preflight and Portal already had full write-ups that nothing
+   on the site linked to; the slugs are 'lumen-portal' and 'suki-neighbors', not the app names,
+   which is why guessing the URL 404s. A case study always wins over the raw live link, because
+   the write-up ends in a CTA and the live app does not. */
+const CASE_STUDY_BY_CARD: Record<string, string> = {
+  Orbit: 'orbit',
+  Tandem: 'tandem',
+  Preflight: 'preflight',
+  Portal: 'lumen-portal',
+};
 const csBySlug = new Map(caseStudies.map((c) => [c.slug, c]));
 const csFor = (name: string) => {
   const slug = CASE_STUDY_BY_CARD[name];
@@ -112,8 +121,11 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
     <h2 class="sec">The tools that run <span class="mark-hl">my work.</span></h2>
     <p class="stack-note">Internal builds. Most have no public URL, which is the point: they exist because I needed them, not because they were a product idea.</p>
     <div class="workgrid">
-      {PRIVATE_APPS.map((w) => (
-        <div class="workcard">
+      {PRIVATE_APPS.map((w) => {
+        const href = linkFor(w);
+        const Tag = href ? 'a' : 'div';
+        return (
+        <Tag class="workcard" href={href ?? undefined}>
           {w.img ? (
             <>
               <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
@@ -126,8 +138,9 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
             <div class="wc-internal" aria-hidden="true"><span>Internal</span></div>
           )}
           <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
-        </div>
-      ))}
+        </Tag>
+        );
+      })}
     </div>
   </section>
 
@@ -153,6 +166,8 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
     <section class="hsec">
       <span class="eyebrow">Case studies</span>
       <h2 class="sec">The deep <span class="mark-hl">dives.</span></h2>
+      <p class="stack-note">The full story on the builds worth explaining: the problem, what I
+        decided and why, the parts that were genuinely hard, and where it landed.</p>
       <ul class="cs-list">
         {caseStudies.map((cs) => (
           <li><a class="v8-card cs-row" href={`/case-studies/${cs.slug}`}><b>{cs.name}</b><span>{cs.summary}</span></a></li>
