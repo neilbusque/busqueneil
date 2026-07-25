@@ -103,7 +103,14 @@ function tagFor(p: Post): string {
       {WORK.map((w) => (
         <a class="workcard" href={w.href}>
           {w.note && <span class="worknote">{w.note}</span>}
-          <img src={w.img} alt={w.name} loading="lazy" />
+          <img
+            src={w.img}
+            srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+            sizes="(max-width: 980px) calc(100vw - 40px), 50vw"
+            alt={w.name}
+            width="1280" height="800"
+            loading="lazy"
+          />
           <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
         </a>
       ))}

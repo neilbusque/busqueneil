@@ -34,7 +34,14 @@ const csFor = (name: string) => {
       const Tag = href ? 'a' : 'div';
       return (
         <Tag class="v8-card work-card" href={href ?? undefined}>
-          <img src={w.img} alt={w.name} loading="lazy" />
+          <img
+            src={w.img}
+            srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+            sizes="(max-width: 900px) calc(100vw - 40px), 33vw"
+            alt={w.name}
+            width="1280" height="800"
+            loading="lazy"
+          />
           <div class="work-meta"><b>{w.name}</b><span>{w.tag}</span></div>
         </Tag>
       );

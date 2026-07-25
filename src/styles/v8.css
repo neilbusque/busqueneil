@@ -1,4 +1,6 @@
 /* v8 "App Shell" — Ribbon N yellow system. Scoped under .v8 so funnels/admin/guides are untouched. */
+/* Anchor jumps must clear the sticky status strip, or the target lands underneath it. */
+html { scroll-padding-top: 52px; }
 .v8 {
   --paper: #F7F1ED; --surface: #FFFFFF; --ink: #242424; --muted: #6B675F;
   /* --soft was #A8A29A: only 2.26:1 on paper, failed WCAG AA. #726D65 is 4.59:1 and still
@@ -75,6 +77,11 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    fixed to the viewport and was covering LinkedIn/GitHub at <=768px. */
 .v8 .shell-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 72px; padding-top: 20px; padding-bottom: 56px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--muted); }
 .v8 .shell-foot a { color: inherit; text-decoration: none; margin-left: 14px; }
+/* Socials live in the desktop rail; the rail is hidden under 900px, so phones and tablets
+   get them here instead. */
+.v8 .foot-socials { display: none; gap: 8px; }
+.v8 .foot-socials a { display: grid; place-items: center; width: 44px; height: 44px; margin: 0; border: 1px solid var(--hair); border-radius: 10px; color: var(--muted); }
+@media (max-width: 900px) { .v8 .foot-socials { display: flex; } }
 .v8 .shell-tabbar { display: none; }
 @media (max-width: 900px) {
   .v8 .shell-rail { display: none; }
@@ -133,7 +140,10 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .hero .script-hi { font-size: clamp(24px, 2.4vw, 34px); color: var(--muted); display: block; margin-bottom: 6px; }
 .v8 .hero h1 { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(64px, 8.6vw, 124px); line-height: .92; letter-spacing: -0.02em; text-transform: uppercase; margin: 0; }
 .v8 .hero .hero-sub { font-size: 17.5px; color: var(--muted); max-width: 46ch; margin: 22px 0 0; }
-.v8 .hero .hero-ctas { display: flex; align-items: center; gap: 20px; margin-top: 26px; flex-wrap: wrap; }
+/* Global, not scoped to .hero: every CTA block reuses this class, and without it the
+   buttons stacked edge to edge with 0px between them on phones. */
+.v8 .hero-ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.v8 .hero .hero-ctas { gap: 20px; margin-top: 26px; }
 .v8 .link-arrow { font-weight: 650; display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; }
 .v8 .hero-photo-wrap { position: relative; justify-self: end; align-self: end; }
 .v8 .hero-photo { width: min(330px, 30vw); display: block; filter: drop-shadow(0 24px 34px rgba(36,36,36,.28)); }
@@ -141,7 +151,8 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .note.who { right: -8px; top: -34px; }
 .v8 .note svg { display: block; margin-top: 2px; }
 
-.v8 .stats { display: flex; gap: clamp(28px, 6vw, 90px); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 26px 0; margin-top: 44px; }
+/* flex-wrap guards against a repeat of the 320px sideways-scroll bug if stat copy grows */
+.v8 .stats { display: flex; flex-wrap: wrap; gap: clamp(28px, 6vw, 90px); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 26px 0; margin-top: 44px; }
 .v8 .stat b { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 34px; letter-spacing: -0.01em; display: block; line-height: 1; }
 .v8 .stat span { font-size: 13px; color: var(--muted); }
 
@@ -239,15 +250,20 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   .v8 .contact-form { gap: 15px; }
   .v8 .price-card, .v8 .hire-cta, .v8 .why-card, .v8 .nowcta { padding: 20px 18px; }
 
-  /* touch targets: buttons were 40-41px, footer links 16px, chips 31px. 44px minimum. */
-  .v8 .btn-sun, .v8 .btn-ghost, .v8 .fab-idea { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .v8 .contact-form .btn-sun { width: 100%; }
-  .v8 .shell-foot-links { display: flex; flex-wrap: wrap; gap: 2px 20px; }
-  .v8 .shell-foot a { display: inline-flex; align-items: center; min-height: 44px; margin-left: 0; }
+}
+
+/* ---- touch targets: 900px, matching where the tab bar takes over. Scoping these to
+   640px left tablets (641-900px) with phone chrome but desktop-sized hit areas. ---- */
+@media (max-width: 900px) {
+  .v8 .btn-sun, .v8 .btn-ghost, .v8 .fab-idea { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .v8 .shell-foot-links { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+  .v8 .shell-foot a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; margin-left: 0; }
   .v8 .blog-chips { gap: 10px; }
   .v8 .blog-chips .chip { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; }
   .v8 .link-arrow { min-height: 44px; }
-  .v8 .rail-socials a { width: 44px; height: 44px; }
+  .v8 .strip-mail { display: inline-flex; align-items: center; min-height: 44px; }
+  .v8 .prose a, .v8 .price-card .price-alt a { padding: 4px 0; display: inline-block; }
 }
 
 /* ---- story timeline ---- */
