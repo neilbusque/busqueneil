@@ -1,0 +1,131 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'AI Automation Consultant | Neil Busque, NJ and NYC';
+const description = 'An AI automation consultant finds where your hours go and builds the systems that take that work back. Neil Busque, New Jersey. One person, no agency, live in days.';
+const canonical = 'https://busqueneil.com/services/ai-automation-consultant';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI Automation Consultant',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['AI automation consulting', 'Workflow automation', 'Business process automation', 'AI strategy'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+        "@type": "Question",
+        "name": "What does an AI automation consultant do?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An AI automation consultant audits how work moves through a business, identifies the repetitive steps costing the most hours, and designs systems that take those steps over. A consultant who only produces a strategy deck stops at the diagnosis. The useful version also builds the automation and stays reachable when it needs changing."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "When should I hire an AI automation consultant?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When your team is spending real hours on work that does not need judgment, when leads or tickets are going cold because follow-up depends on someone remembering, or when you have bought tools that do not talk to each other. If you already know exactly what to build, you need a builder rather than a consultant."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "What does it cost to hire an AI automation consultant?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends entirely on scope, so any number quoted before a conversation is a guess. Neil Busque scopes the work on a call and agrees the price before building anything, so you know what you are getting first. If he is not the right fit, he says so on that call."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "Consultant, agency, or in-house hire?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An agency gives you process and a queue. An in-house hire gives you availability but takes months to find and is expensive for one problem. A single consultant who also builds gives you speed and direct access, and is the right fit when the work is bounded rather than continuous."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "Do you work with businesses in New Jersey and New York?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Neil is based in Elizabeth, New Jersey and works with teams across the NJ and NYC metro, plus remote clients across the United States. The work itself is mostly remote, and he is reachable in Eastern time."
+        }
+    }
+],
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="hire">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'AI Automation Consultant', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">&#8727;</span> Services &#183; Consulting</p>
+    <h1>AI automation <span class="accent">consultant</span>.</h1>
+    <p class="lede">Most teams do not need more software. They need someone to work out which hours are being wasted and then actually build the fix. That is the job.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <h2>What an AI automation consultant does</h2>
+      <p>The job has two halves and most people only sell the first. The first half is diagnosis: working out where your hours actually go, which is rarely where people think. The second half is building the thing. A consultant who hands you a strategy deck and leaves has done a third of the work, because the deck does not run your follow-up on a Tuesday.</p>
+      <p>I do both. The call is the diagnosis, the build is the deliverable, and I am the same person for both.</p>
+
+      <h2>When it is worth hiring one</h2>
+      <ul>
+        <li>Your team spends hours on work that needs no judgment.</li>
+        <li>Leads or tickets go cold because follow-up depends on someone remembering.</li>
+        <li>You have bought tools that do not talk to each other, so a person is the integration.</li>
+        <li>You know something should be automated but not what, or in what order.</li>
+      </ul>
+      <p>If you already know exactly what needs building, skip the consulting framing entirely and just tell me what to build.</p>
+
+      <h2>Consultant, agency, or in-house</h2>
+      <p>An agency sells you process, a queue, and usually a junior on the actual work. An in-house hire gives you permanent availability, but takes months to recruit and is a lot of salary for one bounded problem. One consultant who also builds gives you speed and a direct line, and is the right shape when the work has an end. I will tell you on the first call if your problem is actually an in-house problem.</p>
+
+      <h2>How I run it</h2>
+      <ol>
+        <li><strong>Diagnosis call.</strong> Where the hours go, what breaks, what you have already tried.</li>
+        <li><strong>Scope in writing.</strong> What gets automated, what does not, and what done looks like.</li>
+        <li><strong>Build.</strong> Days, not quarters. You see it as it goes.</li>
+        <li><strong>Handoff or keep me.</strong> It is your system either way.</li>
+      </ol>
+
+      <h2>What I build with</h2>
+      <p>n8n, Zapier, and GoHighLevel for workflows, and Claude with MCP tools where the task needs judgment. I use plain automation wherever a rule would do, because a model where a rule belongs is how automation becomes expensive and unpredictable. More on <a href="/services/ai-automation-services">AI automation services</a> and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+
+      <h2>Serving New Jersey, NYC, and remote</h2>
+      <p>I am Neil Busque, based in Elizabeth, New Jersey. I work with teams across the NJ and NYC metro and remotely across the United States, in Eastern time. Most of the work happens remotely no matter where you are.</p>
+
+      <h2>Proof before you commit</h2>
+      <p>I build in public, so you can check the work before you spend a call on me. In 2026 I shipped 40 plus web apps, PWAs, AI agents, and automations, and previously shipped 20 plus production n8n workflows across 10 plus client accounts, including a one-click onboarding system that cut onboarding from 30 days to 7. See <a href="/work">the work</a>, read <a href="/guides">the guides</a>, then <a href="/contact">tell me where your hours go</a>.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20talk%20about%20a%20build">Or message on WhatsApp</a>
+    </div>
+  </div>
+</AppShell>

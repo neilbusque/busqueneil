@@ -59,6 +59,10 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 ## Canonical URLs
 
 - Home + feed: https://busqueneil.com/
+- Services overview: https://busqueneil.com/services
+- AI automation services: https://busqueneil.com/services/ai-automation-services
+- AI agent development services: https://busqueneil.com/services/ai-agent-development
+- AI automation consultant: https://busqueneil.com/services/ai-automation-consultant
 - Hire Neil (AI engineer & automation, full-time or project): https://busqueneil.com/hire
 - Hire as an AI engineer: https://busqueneil.com/hire/ai-engineer
 - Hire for AI automation: https://busqueneil.com/hire/ai-automation

@@ -1,0 +1,129 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'AI Agent Development Services | Neil Busque';
+const description = 'AI agent development services: agents that do real work in your systems, not chatbots. Built on Claude with MCP tools, wired into your CRM and inbox, shipped in days.';
+const canonical = 'https://busqueneil.com/services/ai-agent-development';
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'AI Agent Development Services',
+  url: canonical,
+  image: 'https://busqueneil.com/og.png',
+  provider: { '@id': 'https://busqueneil.com/#person' },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['AI agent development', 'LLM application development', 'MCP tool integration', 'AI automation'],
+  description,
+};
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+        "@type": "Question",
+        "name": "What is AI agent development?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI agent development is building software that uses a language model to decide what to do next, then act through real tools. Unlike a chatbot, which only replies, an agent reads your data, calls your systems, and completes the task. A support agent might read an email, look the customer up in the CRM, draft a reply, and log the interaction, all without a person in the loop."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "How is an AI agent different from a chatbot?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A chatbot answers questions. An agent takes actions. The difference is tool access: an agent is wired into your CRM, inbox, database, and calendar, so it can change the state of your business rather than just describe it. That is also why agents need guardrails a chatbot does not."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "What do you build agents on?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Claude, with MCP tools connecting the agent to whatever systems the work touches. MCP is what lets an agent read and write in your CRM, inbox, or database with permissions you control, instead of pasting between tabs."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "How long does it take to build an AI agent?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A focused agent is usually days rather than months. The scope of what it is allowed to touch drives the timeline far more than the model work does, which is why the first call is about boundaries."
+        }
+    },
+    {
+        "@type": "Question",
+        "name": "How do you stop an AI agent doing something wrong?",
+        "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By constraining what it can reach and requiring approval on anything outward-facing. Reads are usually open, writes are scoped, and anything that sends to a customer is queued for a human unless you explicitly decide otherwise. Agents fail; the build decides whether that failure is visible and cheap or silent and expensive."
+        }
+    }
+],
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="hire">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'AI Agent Development', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">&#8727;</span> Services &#183; AI Agents</p>
+    <h1>AI agent development <span class="accent">services</span>.</h1>
+    <p class="lede">Agents that do real work inside your systems: answer leads, update the CRM, run research, draft what a person sends. Not a chatbot bolted onto a website.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <h2>What an AI agent actually is</h2>
+      <p>An agent is not a chat window. It is a program that reads a situation, decides what to do, and then does it through real tools in your stack. The distinction that matters commercially is simple: a chatbot describes your business, an agent changes it.</p>
+
+      <h2>Agents I build</h2>
+      <ul>
+        <li><strong>Inbox and lead agents.</strong> Read what came in, classify it, look the person up, draft the reply, log it, and escalate the ones that need you.</li>
+        <li><strong>CRM agents.</strong> Keep records clean, enrich contacts, move deals on real signals rather than on someone remembering.</li>
+        <li><strong>Research agents.</strong> Pull sources on a schedule, summarize, and hand you a brief instead of a tab graveyard.</li>
+        <li><strong>Ops agents.</strong> Watch for a condition, do the multi-step thing that follows, and tell you when it could not.</li>
+      </ul>
+
+      <h2>The stack</h2>
+      <p>I build on Claude with MCP tools, which is the piece most teams are missing. MCP is how an agent reaches your CRM, inbox, calendar, or database under permissions you set, instead of being a clever text box with no hands. The agent runs against your real systems, which is also why the scoping conversation matters more than the model choice.</p>
+
+      <h2>Guardrails, because agents fail</h2>
+      <p>Every agent I ship has a boundary on what it can touch and an approval step on anything a customer will see. Reads are usually open, writes are scoped to what the job needs, and outward-facing actions queue for a person unless you decide otherwise. The goal is not an agent that never makes a mistake. It is a build where mistakes are visible and cheap instead of silent and expensive.</p>
+
+      <h2>How the work runs</h2>
+      <ol>
+        <li><strong>One call to find the job.</strong> Which repeated decision are we handing over, and what is it allowed to touch.</li>
+        <li><strong>I scope it before building.</strong> You see the boundaries in writing first.</li>
+        <li><strong>I build and wire it in.</strong> Into your actual systems, not a demo environment.</li>
+        <li><strong>You watch it run.</strong> With logs, so you can see what it did and why.</li>
+      </ol>
+
+      <h2>Who you are working with</h2>
+      <p>Me, directly, from the first call to live. I am Neil Busque, based in Elizabeth, New Jersey, working across the NJ and NYC metro and remote across the United States. I shipped 40 plus web apps, agents, and automations in 2026, including a CRM with agents built into it. You can see <a href="/work">the work</a> and read <a href="/guides/build-ai-agent-claude-code">how I build agents</a> before you talk to me.</p>
+
+      <h2>Start here</h2>
+      <p>Tell me the decision you want handed over and I will tell you whether an agent is the right shape for it. <a href="/contact">Send me the problem</a>, or read about <a href="/services/ai-automation-services">AI automation services</a> more broadly.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20talk%20about%20a%20build">Or message on WhatsApp</a>
+    </div>
+  </div>
+</AppShell>

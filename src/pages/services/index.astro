@@ -1,0 +1,73 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+
+export const prerender = true;
+
+const title = 'Services — AI Automation, Agents, and Consulting | Neil Busque';
+const description = 'What I build: AI automation services, AI agent development, and automation consulting for teams in New Jersey, New York, and remote. One person, start to finish.';
+const canonical = 'https://busqueneil.com/services';
+
+const SERVICES = [
+  {
+    href: '/services/ai-automation-services',
+    name: 'AI Automation Services',
+    blurb: 'The agents and workflows that take repetitive work off your desk and run it without you.',
+  },
+  {
+    href: '/services/ai-agent-development',
+    name: 'AI Agent Development',
+    blurb: 'Agents that act inside your systems: read the lead, update the CRM, draft the reply. Not a chatbot.',
+  },
+  {
+    href: '/services/ai-automation-consultant',
+    name: 'AI Automation Consulting',
+    blurb: 'Work out where the hours actually go, then build the fix. Diagnosis and build from the same person.',
+  },
+];
+
+const list = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: SERVICES.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: s.name,
+    url: `https://busqueneil.com${s.href}`,
+  })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="hire">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(list)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">&#8727;</span> Services</p>
+    <h1>What I <span class="accent">build</span>.</h1>
+    <p class="lede">Three ways people usually start. All of them are me from the first call to live, with no account manager in between.</p>
+  </header>
+
+  <div class="svc-grid">
+    {SERVICES.map((s) => (
+      <a class="v8-card svc-card" href={s.href}>
+        <b>{s.name}</b>
+        <span>{s.blurb}</span>
+        <span class="svc-go">Read more &#8594;</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/hire">Or hire me full-time</a>
+    </div>
+  </div>
+</AppShell>

@@ -4,6 +4,10 @@ import { caseStudies } from '../data/case-studies';
 
 const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/', changefreq: 'daily', priority: '1.0' },
+  { loc: 'https://busqueneil.com/services', changefreq: 'monthly', priority: '0.9' },
+  { loc: 'https://busqueneil.com/services/ai-automation-services', changefreq: 'monthly', priority: '0.9' },
+  { loc: 'https://busqueneil.com/services/ai-agent-development', changefreq: 'monthly', priority: '0.9' },
+  { loc: 'https://busqueneil.com/services/ai-automation-consultant', changefreq: 'monthly', priority: '0.9' },
   { loc: 'https://busqueneil.com/hire', changefreq: 'weekly', priority: '0.9' },
   { loc: 'https://busqueneil.com/hire/ai-engineer', changefreq: 'monthly', priority: '0.7' },
   { loc: 'https://busqueneil.com/hire/ai-automation', changefreq: 'monthly', priority: '0.7' },
@@ -27,10 +31,6 @@ const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
     changefreq: 'monthly',
     priority: '0.8',
   })),
-  { loc: 'https://busqueneil.com/ria/', changefreq: 'monthly', priority: '0.5' },
-  { loc: 'https://busqueneil.com/build/', changefreq: 'monthly', priority: '0.5' },
-  { loc: 'https://busqueneil.com/help/', changefreq: 'monthly', priority: '0.5' },
-  { loc: 'https://busqueneil.com/support/', changefreq: 'monthly', priority: '0.5' },
   { loc: 'https://busqueneil.com/resume.pdf', changefreq: 'monthly', priority: '0.4' },
 ];
 
