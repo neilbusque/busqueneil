@@ -15,7 +15,6 @@ const STATIC_BIO = `# Neil Busque
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** busqueneil@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/neilbusque
-- **GitHub:** https://github.com/neilbusque
 - **Phone/SMS/WhatsApp:** +1 908-316-4140 (text or WhatsApp). Also reachable via the Neil AI chat assistant on https://busqueneil.com
 
 ## What he does
