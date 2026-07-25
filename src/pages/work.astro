@@ -1,8 +1,8 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
 import { caseStudies } from '../data/case-studies';
+import ClientLogos from '../components/ClientLogos.astro';
 
-const CLIENTS = ['Bravo Team', 'StoutCap', 'Fantum Growth', 'Darioo', 'Catalyze Growth Partners', 'Upstrm / TheWavMan', 'David Wong', 'Heart Life', 'Matador Solutions', 'Noosa Sports Chiropractic'];
 const APPS = [
   { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', tag: 'CRM + AI agents' },
   { name: 'Tandem', img: '/assets/work/tandem.webp', tag: 'Couples app' },
@@ -60,7 +60,7 @@ const csFor = (name: string) => {
 
   <section class="home-sec">
     <span class="eyebrow">Worked with</span>
-    <div class="client-strip">{CLIENTS.map((c) => <span class="chip">{c}</span>)}</div>
+    <ClientLogos />
   </section>
 
   <section class="home-sec v8-card why-card">

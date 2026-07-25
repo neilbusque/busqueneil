@@ -49,15 +49,8 @@ html { scroll-padding-top: 52px; }
 .v8.shell { --rail-w: 232px; --rail-inset: 10px; --rail-gap: 18px; min-height: 100vh; }
 html.rail-collapsed .v8.shell { --rail-w: 84px; }
 .v8 .shell-strip { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--muted); background: color-mix(in srgb, var(--paper) 85%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--hair); padding: 7px 20px 7px calc(var(--rail-inset) + var(--rail-w) + var(--rail-gap)); transition: padding-left .25s ease; }
-.v8 .strip-live { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--ink); }
 .v8 .strip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 3px rgba(255,232,98,.35); }
 .v8 .strip-mail { margin-left: auto; color: inherit; text-decoration: none; }
-.v8 .strip-short { display: none; }
-@media (max-width: 640px) {
-  .v8 .strip-long { display: none; }
-  .v8 .strip-short { display: inline; }
-  .v8 .shell-strip .strip-sep, .v8 .shell-strip .strip-sep + span { display: none; }
-}
 .v8 .shell-rail { position: fixed; inset: var(--rail-inset) auto var(--rail-inset) var(--rail-inset); width: var(--rail-w); display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--surface); border: 1px solid var(--hair); border-radius: 22px; box-shadow: 0 1px 2px rgba(23,22,20,.03), 0 24px 48px -34px rgba(23,22,20,.28); z-index: 50; transition: width .25s ease; }
 .v8 .rail-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 8px; }
 .v8 .rail-toggle { position: absolute; top: 50%; right: -14px; width: 28px; height: 28px; display: grid; place-items: center; background: var(--surface); color: var(--muted); border: 1px solid var(--hair); border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgba(23,22,20,.10); transform: translateY(-50%); transition: color .15s ease, transform .25s ease; }
@@ -108,7 +101,10 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .shell-tabbar { display: none; }
 @media (max-width: 900px) {
   .v8 .shell-rail { display: none; }
-  .v8 .shell-strip { padding-left: 20px; }
+  /* phones scroll the status strip away instead of pinning it: it costs a line of
+     vertical space on every screen and adds nothing once you are past the top. */
+  .v8 .shell-strip { position: static; padding-left: 20px; backdrop-filter: none; }
+  html { scroll-padding-top: 0; }
   .v8 .shell-main { margin-left: 0; padding-bottom: 132px; }
   .v8 .shell-foot { padding-bottom: 72px; }
   /* clears the floating pill: pill height ~54 + its 12px lift + safe area + 12px gap */
@@ -214,6 +210,29 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .clients b { font-size: 12.5px; font-weight: 500; letter-spacing: -.005em; color: var(--muted); background: var(--surface); border: 1px solid var(--hair); padding: 7px 14px; border-radius: 999px; }
 .v8 .clients .sep { display: none; }
 
+/* ---- client logo wall ----
+   brightness(0) flattens each brand's palette to ink through the PNG alpha, so nine
+   unrelated logos read as one row instead of a ransom note. Per-logo height comes from
+   the --lh set in ClientLogos.astro. */
+.v8 .client-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 22px clamp(30px, 4.2vw, 54px); margin-top: 26px; }
+.v8 .client-logo { height: var(--lh); width: auto; filter: brightness(0) saturate(0); opacity: .55; transition: opacity .18s ease; }
+.v8 .client-logo:hover { opacity: .85; }
+.v8 .client-word { font-weight: 650; font-size: 16px; letter-spacing: -.01em; color: var(--ink); opacity: .55; }
+@media (max-width: 640px) {
+  .v8 .client-logos { gap: 20px 28px; }
+  .v8 .client-logo { height: calc(var(--lh) * .82); }
+  .v8 .client-word { font-size: 14px; }
+}
+
+/* ---- praise wall (real client message screenshots) ----
+   CSS columns, not grid: the shots have wildly different heights and a grid would leave
+   dead space under the short ones. */
+.v8 .praise-note { font-size: 14.5px; color: var(--muted); margin: 14px 0 0; }
+.v8 .praise-wall { columns: 2; column-gap: 18px; margin-top: 26px; }
+.v8 .praise-shot { break-inside: avoid; margin: 0 0 18px; background: var(--surface); border: 1px solid var(--hair); border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px rgba(23,22,20,.04), 0 18px 34px -28px rgba(23,22,20,.4); }
+.v8 .praise-shot img { display: block; width: 100%; height: auto; }
+@media (max-width: 640px) { .v8 .praise-wall { columns: 1; } }
+
 /* ---- home v9 work grid (distinct from work.astro's .work-grid) ---- */
 .v8 .workgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 28px; }
 .v8 .workcard { position: relative; display: block; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; text-decoration: none; color: var(--ink); box-shadow: 0 1px 2px rgba(23,22,20,.03); transition: transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease, border-color .25s ease; }
@@ -276,7 +295,9 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   /* the desktop note hangs 138px to the left of the figure, which runs off a phone screen
      once the hero stacks and the figure centres */
   .v8 .note.who { left: 0; right: auto; top: -40px; text-align: left; }
-  .v8 .note.who svg { margin-left: 0; transform: scaleX(-1); }
+  /* no scaleX flip: the arrow already points down-right, and the photo sits below-right
+     of the note on phones too. */
+  .v8 .note.who svg { margin-left: 0; }
   /* was min(330px, 30vw), which collapsed to a 117px thumbnail once the hero stacked */
   .v8 .hero-photo { width: min(300px, 58vw); }
   .v8 .workgrid, .v8 .nowwrap { grid-template-columns: 1fr; }

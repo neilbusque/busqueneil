@@ -1,0 +1,26 @@
+---
+/* Shared "Worked with" logo wall (home + work). Every logo is rendered as an ink
+   silhouette (brightness(0) in CSS) so nine unrelated brand palettes read as one row.
+   `h` is the display height in px, tuned per logo so they match optically, not
+   mathematically. `w` is the matching intrinsic width, so the row does not shift on load.
+   David Wong has no company mark, so he sits in the row as a wordmark. */
+const CLIENTS = [
+  { name: 'Bravo Team', src: '/assets/clients/bravo-team.webp', h: 34, w: 96 },
+  { name: 'StoutCap', src: '/assets/clients/stoutcap.webp', h: 24, w: 132 },
+  { name: 'Fantum Growth', src: '/assets/clients/fantum-growth.webp', h: 34, w: 89 },
+  { name: 'Darioo', src: '/assets/clients/darioo.webp', h: 26, w: 133 },
+  { name: 'Catalyze Growth Partners', src: '/assets/clients/catalyze-growth-partners.webp', h: 48, w: 40 },
+  { name: 'Upstrm / TheWavMan', src: '/assets/clients/upstrm.webp', h: 26, w: 133 },
+  { name: 'David Wong' },
+  { name: 'Heart Life', src: '/assets/clients/heart-life.webp', h: 32, w: 204 },
+  { name: 'Matador Solutions', src: '/assets/clients/matador.webp', h: 32, w: 149 },
+  { name: 'Noosa Sports Chiropractic', src: '/assets/clients/noosa-sports-chiropractic.webp', h: 32, w: 127 },
+];
+---
+<div class="client-logos">
+  {CLIENTS.map((c) => (
+    c.src
+      ? <img class="client-logo" src={c.src} alt={c.name} width={c.w} height={c.h} style={`--lh:${c.h}px`} loading="lazy" decoding="async" />
+      : <span class="client-word">{c.name}</span>
+  ))}
+</div>

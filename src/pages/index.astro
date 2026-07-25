@@ -2,6 +2,8 @@
 import AppShell from '../layouts/AppShell.astro';
 import IntroCinematic from '../components/IntroCinematic.astro';
 import Schema from '../components/Schema.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import Testimonials from '../components/Testimonials.astro';
 import { getFeed, getNow } from '../lib/posts';
 import type { Post } from '../lib/types';
 
@@ -12,7 +14,6 @@ const [{ posts: latest }, { current: now }] = await Promise.all([
 ]);
 const latest3 = latest.filter((p) => p.type !== 'now').slice(0, 3);
 
-const CLIENTS = ['Bravo Team', 'StoutCap', 'Fantum Growth', 'Darioo', 'Catalyze Growth Partners', 'Upstrm / TheWavMan', 'David Wong', 'Heart Life', 'Matador Solutions', 'Noosa Sports Chiropractic'];
 const WORK = [
   { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', href: '/case-studies/orbit', tag: 'CRM + AI agents' },
   { name: 'Tandem', img: '/assets/work/tandem.webp', href: '/case-studies/tandem', tag: 'Couples app', note: 'built this for my wife' },
@@ -44,8 +45,7 @@ function tagFor(p: Post): string {
   <!-- HERO -->
   <section class="hero">
     <div>
-      <span class="avail"><span class="strip-dot"></span>Available for new projects</span>
-      <span class="script script-hi">hey, I&rsquo;m</span>
+      <span class="script script-hi">hey <span class="wave" aria-hidden="true">&#128075;</span>, I&rsquo;m</span>
       <h1>Neil<br>Busque.</h1>
       <p class="hero-sub">I turn ideas into working products. Web apps, websites, landing pages, funnels, and automation, built with you directly and live in days.</p>
       <div class="hero-ctas">
@@ -57,7 +57,8 @@ function tagFor(p: Post): string {
     </div>
     <div class="hero-photo-wrap">
       <span class="note who">that&rsquo;s me. you talk to me, not an agency
-        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <!-- points down-right, at the photo. The old path curved down-LEFT, away from it. -->
+        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M8 2 C 20 16, 32 22, 48 28 M40 22 L 50 29 L 38 32" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
       <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
     </div>
@@ -86,13 +87,7 @@ function tagFor(p: Post): string {
   <!-- CLIENTS -->
   <section class="hsec">
     <span class="eyebrow">Worked with</span>
-    <div class="clients">
-      {CLIENTS.map((c, i) => (
-        <>
-          <b>{c}</b>{i < CLIENTS.length - 1 && <span class="sep">&middot;</span>}
-        </>
-      ))}
-    </div>
+    <ClientLogos />
   </section>
 
   <!-- WORK -->
@@ -118,6 +113,9 @@ function tagFor(p: Post): string {
     <p style="margin-top:22px"><a class="link-arrow" href="/work">All work
       <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
   </section>
+
+  <!-- PRAISE -->
+  <Testimonials />
 
   <!-- SHOP -->
   <section class="hsec">
