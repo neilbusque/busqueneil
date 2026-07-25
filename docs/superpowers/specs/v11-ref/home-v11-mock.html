@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>busqueneil.com v11 "Blueprint" — home mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;900&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   v11 "Blueprint" — pure white + hairline grid.
+   Change vs v10: --paper #F7F2ED -> #FFFFFF, warm hairlines -> neutral,
+   the removed 44px texture returns as a LARGE 88px hairline module at 4.5%
+   (v10 cut it because 44px at high contrast read as noise; this is the
+   opposite end of that dial), and the hero turns the grid into the signature.
+   ============================================================ */
+:root{
+  --paper:#FFFFFF; --surface:#FFFFFF; --ink:#16150F; --muted:#605A51; --soft:#6E6860;
+  --sun:#FFE45C; --sun-deep:#FFD53D; --sun-pale:#FFF6C9;
+  --hair:#E9E7E2; --hair-strong:#D8D5CE; --dark:#14130F;
+  --grid:rgba(22,21,15,.045); --grid-strong:rgba(22,21,15,.075);
+  --mod:88px;               /* the grid module everything snaps to */
+  --r:14px;
+  --gap-sec:96px;           /* ONE section rhythm, site-wide (audit: home 76 / work 44 / hire ad-hoc) */
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ---- the substrate: one hairline grid across the whole page ---- */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(to right, var(--grid) 0 1px, transparent 1px var(--mod)),
+    repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px var(--mod));
+  /* fade the grid out toward the bottom so it frames rather than tiles */
+  -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,.35) 100%);
+          mask-image:linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,.35) 100%);
+}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 40px}
+
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;letter-spacing:-.01em;text-wrap:balance;margin:0}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.eyebrow::after{content:"";height:1px;flex:1;background:var(--hair)}
+.sec{font-family:Archivo,sans-serif;font-weight:900;font-size:clamp(26px,3.1vw,40px);text-transform:uppercase;letter-spacing:-.028em;line-height:1.02;margin:14px 0 8px}
+.script{font-family:Fraunces,Georgia,serif;font-style:italic}
+.hand{font-family:Caveat,cursive}
+.mark-hl{position:relative;display:inline-block}
+.mark-hl::after{content:"";position:absolute;left:-.04em;right:-.04em;bottom:.1em;height:.30em;background:var(--sun);z-index:-1;border-radius:2px}
+.btn-sun{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#F8F5F1;background:var(--ink);padding:14px 26px;border-radius:999px;text-decoration:none;box-shadow:0 1px 1px rgba(22,21,15,.16),0 10px 24px -12px rgba(22,21,15,.5)}
+.btn-ghost{display:inline-flex;align-items:center;font-weight:600;font-size:15px;color:var(--ink);border:1px solid var(--hair-strong);padding:14px 26px;border-radius:999px;text-decoration:none;background:#fff}
+.link-arrow{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;color:var(--ink);text-decoration:none}
+
+/* ================= HERO — the signature =================
+   The grid stops being wallpaper here: a warm bloom lights it, a cluster of
+   cells fills in behind Neil (each cell = a shipped product; they light in a
+   slow stagger on load), and he stands on a real contact shadow instead of
+   floating on a flat disc. This is the whole answer to "hero looks flat".   */
+/* padding-top has to clear HALF the photo's overhang past the text column,
+   or the figure's head crops against the top of the document. */
+.hero{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+      padding:calc(var(--mod) * 1.35) 0 calc(var(--mod) * .55)}
+/* The hero grid is REAL DOM cells, not a background image. Two reasons:
+   every lit cell lands exactly on a grid line, and GSAP can drive them with a
+   grid-aware stagger (stagger:{grid:[r,c], from:'edges'}) instead of 7 hand-set delays. */
+.hero-field{position:absolute;inset:-40px -40px 0;z-index:-1;overflow:hidden;pointer-events:none}
+.cellgrid{position:absolute;inset:0;display:grid;
+  grid-template-columns:repeat(auto-fill, calc(var(--mod)/2));
+  grid-auto-rows:calc(var(--mod)/2);
+  -webkit-mask-image:radial-gradient(80% 78% at 70% 44%, #000 0%, rgba(0,0,0,.55) 46%, transparent 76%);
+          mask-image:radial-gradient(80% 78% at 70% 44%, #000 0%, rgba(0,0,0,.55) 46%, transparent 76%)}
+.cellgrid > i{display:block;border-right:1px solid var(--grid-strong);border-bottom:1px solid var(--grid-strong)}
+.cellgrid > i.on{background:var(--sun);opacity:var(--o,.5)}
+.cellgrid > i.ink{background:var(--ink);opacity:.09}
+/* the warm bloom = the colour lift, still 100% brand (sun + amber, no new hues) */
+.hero-field::after{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(46% 54% at 68% 34%, rgba(255,213,61,.34) 0%, rgba(255,228,92,.12) 44%, transparent 72%),
+    radial-gradient(40% 46% at 86% 68%, rgba(255,246,201,.60) 0%, transparent 70%)}
+.hero h1{font-family:Archivo,sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(48px,7.4vw,104px);line-height:.92;letter-spacing:-.035em;margin:10px 0 0}
+.script-hi{font-size:22px;color:var(--muted)}
+.hero-sub{max-width:44ch;color:var(--muted);font-size:16.5px;line-height:1.62;margin:22px 0 0}
+.hero-ctas{display:flex;align-items:center;gap:22px;margin-top:30px}
+/* size the cutout by HEIGHT, not width: it is 640x1413, so a 330px width
+   resolved to 728px tall and pushed his head off the top of the page. */
+.hero-photo-wrap{position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:clamp(360px,38vw,470px)}
+.hero-photo{position:relative;height:clamp(360px,38vw,470px);width:auto;z-index:2}
+/* real contact shadow at the feet, so he is standing ON the grid */
+.contact-shadow{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:210px;height:26px;
+  background:radial-gradient(50% 50% at 50% 50%, rgba(22,21,15,.30) 0%, rgba(22,21,15,.10) 45%, transparent 72%);
+  filter:blur(3px);z-index:1}
+.note{position:absolute;font-family:Caveat,cursive;font-size:19px;line-height:1.25;color:var(--ink);z-index:3;width:190px}
+.note.who{top:6px;right:-6px;text-align:right}
+
+/* ---- STATS: audit fix. Was 66px off the hero + 396px tall stacked on phone.
+        Now it snaps to a grid line and sits tight under the hero.          ---- */
+.stats{position:relative;display:grid;grid-template-columns:repeat(3,1fr);
+       border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+       margin-top:calc(var(--mod) * .5);background:rgba(255,255,255,.6)}
+.stat{padding:22px 0 22px 26px;border-left:1px solid var(--hair)}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{display:block;font-family:Archivo,sans-serif;font-weight:900;font-size:27px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:5px;font-size:12.5px;color:var(--soft);letter-spacing:.01em}
+
+section.blk{position:relative;margin-top:var(--gap-sec)}
+
+/* ---- SERVICES ---- */
+.svc{list-style:none;margin:26px 0 0;padding:0}
+.svc li{display:grid;grid-template-columns:44px 1fr 1.15fr;align-items:baseline;gap:18px;padding:20px 0;border-top:1px solid var(--hair)}
+.svc li:last-child{border-bottom:1px solid var(--hair)}
+.svc .num{font-size:11px;font-weight:600;letter-spacing:.14em;color:var(--soft);font-variant-numeric:tabular-nums}
+.svc .name{font-family:Archivo,sans-serif;font-weight:900;text-transform:uppercase;font-size:19px;letter-spacing:-.02em}
+.svc .desc{color:var(--muted);font-size:14px;line-height:1.55}
+
+/* ---- CLIENTS: audit fix. Was a ragged 5+4 wrap with the one wordmark
+        orphaned at the start of row 2. Now a fixed even 5-col grid with a
+        shared optical box, so every mark reads the same weight.          ---- */
+.logos{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:26px;background:var(--hair);border:1px solid var(--hair)}
+.logo{display:grid;place-items:center;height:92px;background:#fff;padding:18px}
+/* max-width must be relative, not a fixed 118px, or the cell overflows once the
+   column is narrower than the logo (this pushed the phone document to 470px). */
+.logo img{max-height:26px;max-width:100%;width:auto;object-fit:contain;filter:grayscale(1) brightness(0) opacity(.62)}
+.logo .wordmark{font-family:Fraunces,Georgia,serif;font-size:15px;color:var(--ink);opacity:.62}
+
+/* ---- WORK: cards get browser chrome + a live badge; the stills become
+        looping screen recordings of the real apps.                       ---- */
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:26px}
+.work-card{position:relative;border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;background:#fff;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(22,21,15,.04),0 22px 44px -34px rgba(22,21,15,.30)}
+.chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--hair);background:#FCFCFB}
+.chrome i{width:8px;height:8px;border-radius:50%;background:#E2DFD9;display:block}
+.chrome .bar{flex:1;height:7px;border-radius:99px;background:#EFEDE9;margin-left:8px}
+.shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#F4F3F1}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top}
+.live{position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--hair);padding:5px 10px;border-radius:999px;backdrop-filter:blur(6px)}
+.live::before{content:"";width:6px;height:6px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 3px rgba(34,197,94,.22)}
+.work-meta{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;font-size:13.5px}
+.work-meta b{font-family:Archivo,sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:14px}
+.work-meta span{color:var(--soft);font-size:12.5px}
+.worknote{position:absolute;top:-14px;right:14px;font-family:Caveat,cursive;font-size:17px;background:var(--sun);padding:3px 12px;border-radius:999px;z-index:3;transform:rotate(-2deg)}
+
+/* ---- DARK CTA: unchanged in spirit; on white it now reads as a deliberate slab ---- */
+.darkcta{position:relative;margin-top:var(--gap-sec);background:var(--dark);color:#F6F3EE;border-radius:calc(var(--r) + 6px);padding:64px 56px;overflow:hidden}
+.darkcta::after{content:"";position:absolute;inset:0;background:radial-gradient(52% 76% at 88% 22%, rgba(255,213,61,.22) 0%, transparent 64%)}
+.darkcta > *{position:relative;z-index:1}
+.darkcta h2{font-family:Archivo,sans-serif;font-weight:900;text-transform:uppercase;font-size:40px;line-height:1.02;letter-spacing:-.03em;max-width:14ch}
+.darkcta p{color:#B9B3A9;max-width:46ch;margin:18px 0 0;font-size:15px;line-height:1.6}
+.darkcta .btn-yellow{display:inline-flex;font-weight:600;font-size:15px;color:var(--ink);background:var(--sun);padding:14px 26px;border-radius:999px;text-decoration:none;margin-top:26px}
+
+.pagenote{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:70px 40px 90px;color:var(--soft);font-size:12.5px}
+
+@media(max-width:900px){
+  .wrap{padding:0 20px}
+  :root{--mod:64px;--gap-sec:60px}
+  .hero{grid-template-columns:1fr;gap:0;padding:36px 0 20px}
+  /* the field bleeds by the wrap's padding, which is 20px here, not 40px.
+     At -40px it ran 20px past each viewport edge and scrolled the page sideways. */
+  .hero-field{inset:-24px -20px 0}
+  .hero-photo-wrap{min-height:300px;order:2;margin-top:18px}
+  .hero-photo{width:min(300px,58vw)}
+  .note.who{position:static;display:block;width:auto;text-align:left;margin-bottom:8px}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .stat{padding:16px 0 16px 14px}
+  .stat b{font-size:19px}
+  .stat span{font-size:11px}
+  .svc li{grid-template-columns:30px 1fr;gap:10px}
+  .svc .desc{grid-column:2;font-size:13px}
+  /* 10 marks / 2 cols = 5 full rows. At 3 cols the last row held a single
+     orphaned mark, which is the same raggedness the desktop wall had. */
+  .logos{grid-template-columns:repeat(2,1fr)}
+  .logo{height:74px;padding:14px}
+  .work-grid{grid-template-columns:1fr}
+  .darkcta{padding:34px 24px}
+  .darkcta h2{font-size:28px}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="wrap">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-field">
+      <div class="cellgrid" id="cellgrid"></div>
+    </div>
+    <div>
+      <span class="script script-hi">hey 👋, I&rsquo;m</span>
+      <h1>Neil<br>Busque.</h1>
+      <p class="hero-sub">I turn ideas into working products. Web apps, websites, landing pages, funnels, and automation, built with you directly and live in days.</p>
+      <div class="hero-ctas">
+        <a class="btn-sun" href="#">Start your build</a>
+        <a class="link-arrow" href="#">See the work
+          <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <span class="note who">that&rsquo;s me. you talk to me, not an agency
+        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="contact-shadow"></span>
+      <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque" />
+    </div>
+  </section>
+
+  <!-- ===================== STATS ===================== -->
+  <div class="stats">
+    <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
+    <!-- audit fix: "Days" alone read as a missing number next to 40+ and 1 person -->
+    <div class="stat"><b>Days</b><span>not months. idea to first version</span></div>
+    <div class="stat"><b>1 person</b><span>start to finish, no handoffs</span></div>
+  </div>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="blk">
+    <span class="eyebrow">What I do</span>
+    <h2 class="sec">Five ways I can <span class="mark-hl">help.</span></h2>
+    <ul class="svc">
+      <li><span class="num">01</span><span class="name">Web Apps</span><span class="desc">Real working software: portals, dashboards, tools. Not demos.</span></li>
+      <li><span class="num">02</span><span class="name">Websites</span><span class="desc">Sites that look designed and feel fast. Never a template.</span></li>
+      <li><span class="num">03</span><span class="name">Landing Pages</span><span class="desc">One page with one job: turn a visitor into a lead.</span></li>
+      <li><span class="num">04</span><span class="name">Funnels</span><span class="desc">The whole path from click to booked call, wired end to end.</span></li>
+      <li><span class="num">05</span><span class="name">Automation</span><span class="desc">n8n, Zapier, GHL, and custom glue. Busywork runs itself.</span></li>
+    </ul>
+  </section>
+
+  <!-- ===================== CLIENTS ===================== -->
+  <section class="blk">
+    <span class="eyebrow">Worked with</span>
+    <div class="logos">
+      <div class="logo"><img src="/assets/clients/bravo-team.webp" alt="Bravo Team"></div>
+      <div class="logo"><img src="/assets/clients/stoutcap.webp" alt="Stoutcap"></div>
+      <div class="logo"><img src="/assets/clients/fantum-growth.webp" alt="Fantum Growth"></div>
+      <div class="logo"><img src="/assets/clients/darioo.webp" alt="Darioo"></div>
+      <div class="logo"><img src="/assets/clients/upstrm.webp" alt="Upstrm"></div>
+      <div class="logo"><img src="/assets/clients/catalyze-growth-partners.webp" alt="Catalyze Growth Partners"></div>
+      <div class="logo"><img src="/assets/clients/heart-life.webp" alt="Heart Life"></div>
+      <div class="logo"><img src="/assets/clients/matador.webp" alt="Matador"></div>
+      <div class="logo"><img src="/assets/clients/noosa-sports-chiropractic.webp" alt="Noosa Sports Chiropractic"></div>
+      <div class="logo"><span class="wordmark">David Wongk</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== WORK ===================== -->
+  <section class="blk">
+    <span class="eyebrow">Selected work</span>
+    <h2 class="sec">Real products, <span class="mark-hl">live</span> right now.</h2>
+    <div class="work-grid">
+      <a class="work-card" href="#">
+        <div class="chrome"><i></i><i></i><i></i><span class="bar"></span></div>
+        <div class="shot"><img src="/assets/work/orbit-app.webp" alt=""><span class="live">Live</span></div>
+        <div class="work-meta"><b>Orbit CRM</b><span>CRM + AI agents</span></div>
+      </a>
+      <a class="work-card" href="#">
+        <span class="worknote">built this for my wife</span>
+        <div class="chrome"><i></i><i></i><i></i><span class="bar"></span></div>
+        <div class="shot"><img src="/assets/work/tandem.webp" alt=""><span class="live">Live</span></div>
+        <div class="work-meta"><b>Tandem</b><span>Couples app</span></div>
+      </a>
+      <a class="work-card" href="#">
+        <div class="chrome"><i></i><i></i><i></i><span class="bar"></span></div>
+        <div class="shot"><img src="/assets/work/darioo.webp" alt=""><span class="live">Live</span></div>
+        <div class="work-meta"><b>Darioo</b><span>Client site + app</span></div>
+      </a>
+      <a class="work-card" href="#">
+        <div class="chrome"><i></i><i></i><i></i><span class="bar"></span></div>
+        <div class="shot"><img src="/assets/work/otto.webp" alt=""><span class="live">Live</span></div>
+        <div class="work-meta"><b>Otto</b><span>AI command center</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== DARK CTA ===================== -->
+  <section class="darkcta">
+    <h2>Tell me what you want to build.</h2>
+    <p>Send me the idea in a few sentences. I answer personally, usually the same day.</p>
+    <a class="btn-yellow" href="#">Send me your idea</a>
+  </section>
+
+</div>
+
+<div class="pagenote">
+  v11 “Blueprint” mock. Grid module 88px at 4.5% ink (v10 cut a 44px texture for being noisy; this is the far end of that dial).
+  In the build, the hero cells light in a slow stagger and each work card plays a muted looping screen recording of the real app.
+</div>
+
+<script>
+/* Mock-only: fill the hero grid and light a hand-picked cluster so the still
+   shows the resting state. In the build this is a GSAP timeline:
+   gsap.to('.cellgrid > i.on', {opacity:'var(--o)', duration:.5, ease:'power2.out',
+     stagger:{grid:[rows,cols], from:'edges', amount:1.4}}) on load, then a slow
+   ambient loop, both gated behind prefers-reduced-motion. */
+(function () {
+  const g = document.getElementById('cellgrid');
+  if (!g) return;
+  const cell = 44; // --mod/2 at desktop
+  const cols = Math.ceil(g.clientWidth / cell), rows = Math.ceil(g.clientHeight / cell);
+  // cluster sits up and left of the figure so the lit cells are not hidden behind him
+  const lit = { '1:9': .30, '2:8': .55, '2:10': .34, '3:9': .62, '3:11': .09, '4:8': .45, '5:10': .26, '1:12': .22, '4:13': .38 };
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const i = document.createElement('i');
+      const key = r + ':' + c;
+      if (key in lit) {
+        i.className = key === '3:11' ? 'on ink' : 'on';
+        i.style.setProperty('--o', lit[key]);
+      }
+      g.appendChild(i);
+    }
+  }
+})();
+</script>
+</body>
+</html>
