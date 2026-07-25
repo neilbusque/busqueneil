@@ -1,25 +1,56 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
 
+/* The career arc as a sequence. Each step is where the next one came from, which is the whole
+   point of the page: none of it was a plan, but none of it was wasted either. */
 const TIMELINE = [
-  { k: 'Philippines', d: 'Where I am from. No awards, no fancy university. What I had was curiosity and work ethic.' },
-  { k: 'IT support', d: 'First tech job. I learned that most problems are patience plus attention to detail.' },
-  { k: 'Graphic design', d: 'Taught myself design. Learned what good looks like, pixel by pixel.' },
-  { k: 'Web development', d: 'Started building sites for real businesses. Shipped things people paid for.' },
-  { k: 'Funnels + CRM', d: 'GoHighLevel, landing pages, email. Learned marketing by doing it for clients.' },
-  { k: 'Automation', d: 'Zapier, n8n, APIs. I fell in love with making busywork disappear.' },
-  { k: 'AI', d: 'Went all in on Claude Code and AI builds. This is where everything I learned compounds.' },
-  { k: 'New Jersey', d: 'Where I live and work now. Building products every single day.' },
+  { k: 'Information Technology', d: 'College in the Philippines. Graduated top of my class. Java, C++, JavaScript, HTML, and Android, back when I thought programming was the whole job.' },
+  { k: 'Graphic design', d: 'Logos, flyers, t-shirts. I competed on 99designs and won hundreds of contests. Losing one teaches you faster than any course does.' },
+  { k: 'Engineering company', d: 'Built and ran their website, then their marketing and SEO. First time I watched design and code turn into revenue for someone else.' },
+  { k: 'Paid ads and marketing', d: 'Facebook ads, funnels, the whole demand side. I stopped thinking of myself as someone who just makes things look good.' },
+  { k: 'CRM and automation', d: 'GoHighLevel, Zapier, n8n. I fell for making busywork disappear, which is really programming again wearing a different hat.' },
+  { k: 'AI', d: 'Claude Code and Codex, every day. Where all of it compounds: the engineering, the design eye, and knowing what a business actually needs.' },
+  { k: 'New Jersey', d: 'Where I live and build now. Still learning something most days, still in the gym to keep my head straight.' },
 ];
 ---
-<AppShell title="My story — from the Philippines to New Jersey | Neil Busque" description="How Neil Busque went from IT support in the Philippines to building AI apps and automations in New Jersey. No awards, no shortcuts, just work." active="story">
+<AppShell
+  title="My story — from the Philippines to New Jersey | Neil Busque"
+  description="How Neil Busque went from an IT degree in the Philippines to design contests, marketing, and building AI products in New Jersey. Including the part his mom made possible."
+  active="story"
+>
   <span class="eyebrow">My story</span>
-  <h1 class="sec">I'm not a big agency. <span class="mark-hl">That's the point.</span></h1>
-  <p class="story-lede">I didn't win awards. I didn't go to a top university. I came from the Philippines, I work hard, and I keep working until it's right. Everything below is how I got here.</p>
+  <h1 class="sec">None of it was a plan. <span class="mark-hl">All of it got used.</span></h1>
+  <p class="story-lede">I studied Information Technology, ended up designing t-shirts, ended up running ads, and ended up building AI products. Each one only makes sense because of the one before it.</p>
 
   <img class="art-img" style="margin-bottom:34px" src="/assets/art/journey.webp" alt="A paper airplane flying from tropical islands to a city skyline" width="1400" height="594" loading="lazy" />
 
-  <h2 class="sec" style="font-size:clamp(22px,2.6vw,30px); margin-bottom:18px;">How I got here.</h2>
+  <article class="article-page" style="padding-top:0">
+    <div class="prose">
+      <h2>My mom went first</h2>
+      <p>I am from the Philippines. I live in New Jersey now, and the reason for that is my mom.</p>
+      <p>I was in high school when she left. Wages back home are low and the math on a normal life does not work no matter how hard you run at it, so she went to the United States to work, alone, so the rest of us would have a shot at something better. That is an easy sentence to write and a very hard thing to actually do.</p>
+      <p>It took more than ten years. She brought us over one at a time: my brothers, then my dad, then finally me, a few years ago. I know what that decade cost her, and it is why I do not have a casual relationship with work.</p>
+      <p>My wife is still in the Philippines, so I go back. Getting her here is the next one, and it is what all of this is pointed at.</p>
+
+      <h2>What I learned, in order</h2>
+      <p>I studied Information Technology in college and graduated top of my class. I wrote Java, C++, JavaScript, HTML, and Android apps, and at the time I assumed that was the whole job: learn to code, get a coding job, done.</p>
+      <p>Then I got into graphic design. Logos, flyers, t-shirts. I competed on 99designs and won hundreds of contests, which sounds better than it felt, because mostly it means I lost a lot of them first and paid close attention to why. Nothing sharpens taste like watching someone else win with the thing you almost made.</p>
+      <p>After that an engineering company hired me to build their website, and it turned into their marketing, their SEO, and a long list of things I did not know how to do yet. That was the first time I saw design and code turn into money for somebody, and it changed what I thought I was for.</p>
+      <p>Then Facebook ads. Then funnels, CRM, GoHighLevel, automation with Zapier and n8n. Then video editing and growing social accounts, because the work kept asking for one more thing I did not have.</p>
+      <p>Now it is AI. I am in Claude Code and Codex every day, and it is the first time all of it lines up at once: the engineering from college, the eye from design, and years of learning what a business actually needs versus what it says it wants. I still learn something new most days. On my own time I am usually at the gym, which is the only reliable way I have found to keep my head straight.</p>
+
+      <h2>I tried the AI builders too</h2>
+      <p>I did not arrive at this by reading about it. I used the AI app builders myself, the ones everyone is trying right now. They are genuinely good, and for a simple app they will get you there.</p>
+      <p>Complex is where it falls apart. The first version appears fast, then something real breaks, the AI fixes one thing and quietly breaks two more, and you spend your credits going in circles instead of shipping. It is not that the tools are bad. It is that a tool that can generate a screen is not the same as a tool that can hold a whole system in its head, and knowing which one you are holding is most of the skill.</p>
+      <p>So I use AI heavily and I stay the engineer. That combination is the entire offer.</p>
+
+      <h2>How I work</h2>
+      <p>I do not have an agency behind me and I am not trying to build one. You get me on the first call, you get me building it, and you get my phone number. That is not positioning, it is just what I can honestly promise.</p>
+      <p>And if we never end up working together, that is genuinely fine. I am happy to help you think something through, tell you what I would do about AI in your business, or tell you the thing you are about to pay for is not worth building. Message me either way.</p>
+    </div>
+  </article>
+
+  <h2 class="sec" style="font-size:clamp(22px,2.6vw,30px); margin:var(--gap-sec) 0 18px;">The order it happened in.</h2>
   <div class="timeline">
     {TIMELINE.map((t, i) => (
       <div class="tl-row">
@@ -29,11 +60,11 @@ const TIMELINE = [
     ))}
   </div>
 
-  <section class="home-sec v8-card why-card">
+  <section class="hsec v8-card why-card">
     <h2>When you hire me, you get <span class="mark-hl">me.</span></h2>
-    <p>Not an agency that hands you to a junior account manager. You get my personal number. You talk to the person actually building your product. My best interest is to see you succeed, and I keep working until you are proud of what we made.</p>
+    <p>Not an agency that hands you to a junior account manager. You talk to the person actually building your product, and I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call and it costs you nothing.</p>
     <div class="hero-ctas" style="margin-top:18px">
-      <a class="btn-sun" href="/hire">Work with me</a>
+      <a class="btn-sun" href="/contact">Say hi, no pitch needed</a>
       <a class="btn-ghost" href="/work">See what I've built</a>
     </div>
   </section>
