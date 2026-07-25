@@ -3,67 +3,170 @@ import AppShell from '../layouts/AppShell.astro';
 import { caseStudies } from '../data/case-studies';
 import ClientLogos from '../components/ClientLogos.astro';
 
-const APPS = [
-  { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', tag: 'CRM + AI agents' },
-  { name: 'Tandem', img: '/assets/work/tandem.webp', tag: 'Couples app' },
-  { name: 'Darioo', img: '/assets/work/darioo.webp', tag: 'Client site + app' },
-  { name: 'Otto', img: '/assets/work/otto.webp', tag: 'AI command center' },
-  { name: 'Hop', img: '/assets/work/hop.webp', tag: 'Link shortener' },
-  { name: 'Play Together', img: '/assets/work/play-together.webp', tag: 'Realtime games' },
-  { name: 'Orbit dashboard', img: '/assets/work/orbit-dashboard.webp', tag: 'Mission control UI' },
-  { name: 'Scott Greenleaf', img: '/assets/work/scottgreenleaf.webp', tag: 'Client rebuild' },
+/* The work splits four ways, because "a client site" and "an internal tool I use every day"
+   are not the same claim and should not sit in one undifferentiated grid.
+   `href` on a card means it is genuinely reachable; cards without one are internal builds
+   that have no public URL, and they carry no screenshot rather than a staged one. */
+type Item = { name: string; tag: string; img?: string; href?: string; note?: string };
+
+const WEBSITES: Item[] = [
+  { name: 'Darioo', tag: 'Manufacturing site + app', img: '/assets/work/darioo.webp', href: 'https://darioo.com' },
+  { name: 'Scott Greenleaf', tag: 'Client rebuild', img: '/assets/work/scottgreenleaf.webp' },
 ];
-// Explicit card -> case study mapping. Matching on the first word used to send both
-// "Orbit CRM" and "Orbit dashboard" to the same Orbit write-up.
-const CASE_STUDY_BY_CARD: Record<string, string> = {
-  'Orbit CRM': 'orbit',
-  Tandem: 'tandem',
-};
+
+// Everything on neilb.app: free, no account gymnastics, anyone can open them.
+const PUBLIC_APPS: Item[] = [
+  { name: 'Orbit', tag: 'CRM with AI agents', img: '/assets/work/orbit-app.webp', href: 'https://inorbit.one' },
+  { name: 'Tandem', tag: 'App for couples', img: '/assets/work/tandem.webp', href: 'https://tandem.yengandneil.site', note: 'built this for my wife' },
+  { name: 'Preflight', tag: 'Score a funnel before you spend', img: '/assets/work/preflight.webp', href: 'https://preflight.neilb.app' },
+  { name: 'Flow', tag: 'Deep-work timer that blocks the noise', img: '/assets/work/flow.webp', href: 'https://goflow.space' },
+  { name: 'Cue', tag: 'Teleprompter for talking-head video', img: '/assets/work/cue.webp', href: 'https://cue.neilb.app' },
+  { name: 'Watch Together', tag: 'Watch in sync, far apart', img: '/assets/work/watch-together.webp', href: 'https://watch.yengandneil.site' },
+];
+
+// Internal tools. These run my own work; most have no public URL by design.
+const PRIVATE_APPS: Item[] = [
+  { name: 'Portal', tag: 'Client portal: files, updates, approvals' },
+  { name: 'Vid', tag: 'Screen recorder and share links', img: '/assets/work/vid.webp' },
+  { name: 'Prism', tag: 'Purpose-built browser for research' },
+  { name: 'Hop', tag: 'Link shortener with analytics and push', img: '/assets/work/hop.webp' },
+  { name: 'Magus', tag: 'Outreach agent: research, draft, follow up' },
+  { name: 'Otto', tag: 'AI command center for my own ops', img: '/assets/work/otto.webp' },
+];
+
+/* What I actually do with Claude Code day to day. Framed as capability rather than as a list
+   of internal skill filenames, which would mean nothing to someone deciding whether to hire me. */
+const CAPABILITIES = [
+  { label: 'Agents with real tools', body: 'Claude wired through MCP into a CRM, an inbox, a database. The agent acts, it does not just answer.' },
+  { label: 'Multi-agent builds', body: 'Work split across subagents that research, build, and adversarially review each other before anything ships.' },
+  { label: 'Headless QA', body: 'Every page driven in a real browser at four widths and both motion modes before it goes live. Screenshots, not vibes.' },
+  { label: 'Research and outreach', body: 'Agents that find the companies, enrich them, and draft the first touch in my voice.' },
+  { label: 'GEO and SEO systems', body: 'Schema, citable answers, and keyword targets picked from live SERP data, not guesses.' },
+  { label: 'Ship in days', body: 'Spec, plan, build, review, deploy. Forty plus products this year, most live within days of the idea.' },
+];
+
+const CASE_STUDY_BY_CARD: Record<string, string> = { Orbit: 'orbit', Tandem: 'tandem' };
 const csBySlug = new Map(caseStudies.map((c) => [c.slug, c]));
 const csFor = (name: string) => {
   const slug = CASE_STUDY_BY_CARD[name];
   return slug && csBySlug.has(slug) ? `/case-studies/${slug}` : null;
 };
+const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
 ---
-<AppShell title="Work — AI apps, websites, and client builds | Neil Busque" description="Real products Neil Busque has shipped: AI apps, CRMs, portals, client sites, and automations. Live right now, with deep dives on how each one was built." active="work">
+<AppShell
+  title="Work — apps, websites, and internal tools | Neil Busque"
+  description="What Neil Busque has shipped: free apps anyone can use, client websites, the internal tools that run his own work, and what he builds with Claude Code."
+  active="work"
+>
   <span class="eyebrow">The work</span>
   <h1 class="sec">Built by one person. <span class="mark-hl">Shipped for real.</span></h1>
-  <div class="work-grid" style="margin-top:22px">
-    {APPS.map((w) => {
-      const href = csFor(w.name);
-      const Tag = href ? 'a' : 'div';
-      return (
-        <Tag class="v8-card work-card" href={href ?? undefined}>
-          <img
-            src={w.img}
-            srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
-            sizes="(max-width: 900px) calc(100vw - 40px), 33vw"
-            alt={w.name}
-            width="1280" height="800"
-            loading="lazy"
-          />
-          <div class="work-meta"><b>{w.name}</b><span>{w.tag}</span></div>
-        </Tag>
-      );
-    })}
-  </div>
+  <p class="res-lede">Four kinds of thing. Apps anyone can open, websites I built for clients, the internal tools that run my own work, and the creative work around them.</p>
 
-  <section class="home-sec">
-    <span class="eyebrow">Case studies</span>
-    <h2>The deep dives.</h2>
-    <ul class="cs-list">
-      {caseStudies.map((cs) => (
-        <li><a class="v8-card cs-row" href={`/case-studies/${cs.slug}`}><b>{cs.name}</b><span>{cs.summary}</span></a></li>
+  <section class="hsec">
+    <span class="eyebrow">Apps, free to use</span>
+    <h2 class="sec">Open any of <span class="mark-hl">these.</span></h2>
+    <p class="stack-note">No invite, no demo call. They live at <a href="https://neilb.app">neilb.app</a>.</p>
+    <div class="workgrid">
+      {PUBLIC_APPS.map((w) => {
+        const href = linkFor(w);
+        const Tag = href ? 'a' : 'div';
+        return (
+          <Tag class="workcard" href={href ?? undefined}>
+            {w.note && <span class="worknote">{w.note}</span>}
+            <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
+            <div class="wc-shot">
+              <img src={w.img} srcset={`${w.img!.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+                sizes="(max-width: 900px) calc(100vw - 40px), 33vw" alt={w.name} width="1280" height="800" loading="lazy" />
+              <span class="wc-live">Live</span>
+            </div>
+            <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
+          </Tag>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Websites</span>
+    <h2 class="sec">Built for <span class="mark-hl">clients.</span></h2>
+    <div class="workgrid">
+      {WEBSITES.map((w) => {
+        const href = linkFor(w);
+        const Tag = href ? 'a' : 'div';
+        return (
+          <Tag class="workcard" href={href ?? undefined}>
+            <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
+            <div class="wc-shot">
+              <img src={w.img} srcset={`${w.img!.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+                sizes="(max-width: 900px) calc(100vw - 40px), 33vw" alt={w.name} width="1280" height="800" loading="lazy" />
+            </div>
+            <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
+          </Tag>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Apps, private</span>
+    <h2 class="sec">The tools that run <span class="mark-hl">my work.</span></h2>
+    <p class="stack-note">Internal builds. Most have no public URL, which is the point: they exist because I needed them, not because they were a product idea.</p>
+    <div class="workgrid">
+      {PRIVATE_APPS.map((w) => (
+        <div class="workcard">
+          {w.img ? (
+            <>
+              <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
+              <div class="wc-shot">
+                <img src={w.img} srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
+                  sizes="(max-width: 900px) calc(100vw - 40px), 33vw" alt={w.name} width="1280" height="800" loading="lazy" />
+              </div>
+            </>
+          ) : (
+            <div class="wc-internal" aria-hidden="true"><span>Internal</span></div>
+          )}
+          <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">What I build with</span>
+    <h2 class="sec">Claude Code, <span class="mark-hl">daily.</span></h2>
+    <ul class="caps">
+      {CAPABILITIES.map((c) => (
+        <li><b>{c.label}</b><span>{c.body}</span></li>
       ))}
     </ul>
   </section>
 
-  <section class="home-sec">
+  <section class="hsec">
+    <span class="eyebrow">Other creative work</span>
+    <h2 class="sec">Graphics, banners, <span class="mark-hl">video.</span></h2>
+    <p class="stack-note">Brand marks, ad creative, social graphics, and short video. It comes with the builds more often than not, because a working product with bad creative still does not convert.</p>
+    <p style="margin-top:18px"><a class="link-arrow" href="/contact">Ask me for samples
+      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+  </section>
+
+  {caseStudies.length > 0 && (
+    <section class="hsec">
+      <span class="eyebrow">Case studies</span>
+      <h2 class="sec">The deep <span class="mark-hl">dives.</span></h2>
+      <ul class="cs-list">
+        {caseStudies.map((cs) => (
+          <li><a class="v8-card cs-row" href={`/case-studies/${cs.slug}`}><b>{cs.name}</b><span>{cs.summary}</span></a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section class="hsec">
     <span class="eyebrow">Worked with</span>
     <ClientLogos />
   </section>
 
-  <section class="home-sec v8-card why-card">
+  <section class="hsec v8-card why-card">
     <h2>Want one of these for <span class="mark-hl">your business?</span></h2>
     <p>Every product above started as a sentence from someone like you. Tell me what you are trying to build and I will tell you how I would do it, what it would take, and whether I am the right person for it.</p>
     <div class="hero-ctas" style="margin-top:18px">

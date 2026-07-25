@@ -490,6 +490,21 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 /* ---- process: five real steps, each on its own card with a mark drawn on the same
    12-unit geometry as the site's hairline grid, so the icons belong to the system. ---- */
 .v8 .process { margin-top: var(--gap-sec); }
+/* internal builds have no public URL and get no staged screenshot; this stands in for the
+   shot so the card keeps the grid's rhythm without pretending to show a product tour */
+.v8 .wc-internal { aspect-ratio: 16/10; display: grid; place-items: center; border-bottom: 1px solid var(--hair);
+  background-color: #FBFAF8;
+  background-image: repeating-linear-gradient(to right, var(--grid) 0 1px, transparent 1px 44px),
+                    repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px 44px); }
+.v8 .wc-internal span { font-size: 10.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--soft); border: 1px solid var(--hair); background: var(--surface); padding: 6px 12px; border-radius: 999px; }
+/* ---- capabilities ---- */
+.v8 .caps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
+.v8 .caps li { background: var(--surface); padding: 22px 20px; display: flex; flex-direction: column; gap: 7px; }
+.v8 .caps b { font-size: 15px; letter-spacing: -.014em; }
+.v8 .caps span { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+@media (max-width: 900px) { .v8 .caps { grid-template-columns: 1fr; } }
 .v8 .steps { list-style: none; margin: 26px 0 0; padding: 0; counter-reset: step;
   display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hair);
   border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
