@@ -19,8 +19,10 @@ const CLIENTS = [
 ---
 <div class="client-logos">
   {CLIENTS.map((c) => (
-    c.src
-      ? <img class="client-logo" src={c.src} alt={c.name} width={c.w} height={c.h} style={`--lh:${c.h}px`} loading="lazy" decoding="async" />
-      : <span class="client-word">{c.name}</span>
+    <div class="client-cell">
+      {c.src
+        ? <img class="client-logo" src={c.src} alt={c.name} width={c.w} height={c.h} style={`--lh:${c.h}px`} loading="lazy" decoding="async" />
+        : <span class="client-word">{c.name}</span>}
+    </div>
   ))}
 </div>
