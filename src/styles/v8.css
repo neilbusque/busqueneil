@@ -1,7 +1,9 @@
 /* v8 "App Shell" — Ribbon N yellow system. Scoped under .v8 so funnels/admin/guides are untouched. */
 .v8 {
   --paper: #F7F1ED; --surface: #FFFFFF; --ink: #242424; --muted: #6B675F;
-  --sun: #FFE862; --sun-deep: #FFD640; --soft: #A8A29A; --dark: #1E1C19;
+  /* --soft was #A8A29A: only 2.26:1 on paper, failed WCAG AA. #726D65 is 4.59:1 and still
+     reads lighter than --muted, so the hierarchy survives. */
+  --sun: #FFE862; --sun-deep: #FFD640; --soft: #726D65; --dark: #1E1C19;
   --hair: #E5DCD2; --grid: rgba(36, 36, 36, .035);
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--ink);
@@ -23,11 +25,6 @@
 .v8 .btn-ghost { display: inline-block; font-weight: 650; font-size: 15px; color: var(--ink); background: transparent; border: 1px solid var(--hair); padding: 12px 24px; border-radius: 999px; text-decoration: none; }
 .v8 .chip { font-size: 12px; font-weight: 600; letter-spacing: .06em; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--hair); color: var(--muted); background: var(--surface); }
 .v8 a, .v8 button { touch-action: manipulation; }
-/* branded custom cursor (JS adds html.bn-cursor only on fine pointers with motion allowed) */
-html.bn-cursor, html.bn-cursor .v8 a, html.bn-cursor .v8 button { cursor: none; }
-html.bn-cursor input, html.bn-cursor textarea, html.bn-cursor select { cursor: auto; }
-#bn-cursor { position: fixed; top: 0; left: 0; width: 8px; height: 8px; border-radius: 50%; background: #242424; z-index: 9999; pointer-events: none; }
-#bn-cursor-ring { position: fixed; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(36,36,36,.5); background: rgba(255,232,98,0); z-index: 9998; pointer-events: none; }
 .v8 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) {
   .v8 * { animation: none !important; transition: none !important; }
@@ -40,6 +37,12 @@ html.rail-collapsed .v8.shell { --rail-w: 84px; }
 .v8 .strip-live { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--ink); }
 .v8 .strip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 3px rgba(255,232,98,.35); }
 .v8 .strip-mail { margin-left: auto; color: inherit; text-decoration: none; }
+.v8 .strip-short { display: none; }
+@media (max-width: 640px) {
+  .v8 .strip-long { display: none; }
+  .v8 .strip-short { display: inline; }
+  .v8 .shell-strip .strip-sep, .v8 .shell-strip .strip-sep + span { display: none; }
+}
 .v8 .shell-rail { position: fixed; inset: var(--rail-inset) auto var(--rail-inset) var(--rail-inset); width: var(--rail-w); display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--surface); border: 1px solid var(--hair); border-radius: 22px; box-shadow: 0 1px 2px rgba(36,36,36,.04), 0 18px 44px -22px rgba(36,36,36,.18); z-index: 50; transition: width .25s ease; }
 .v8 .rail-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 8px; }
 .v8 .rail-toggle { position: absolute; top: 50%; right: -14px; width: 28px; height: 28px; display: grid; place-items: center; background: var(--surface); color: var(--muted); border: 1px solid var(--hair); border-radius: 50%; cursor: pointer; box-shadow: 0 2px 6px rgba(36,36,36,.12); transform: translateY(-50%); transition: color .15s ease, transform .25s ease; }
@@ -68,13 +71,16 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .fab-idea { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: inline-flex; align-items: center; gap: 9px; background: var(--sun); color: #242424; text-decoration: none; padding: 11px 20px 11px 16px; border-radius: 999px; box-shadow: 0 2px 0 rgba(36,36,36,.9), 0 14px 30px -14px rgba(36,36,36,.35); transition: transform .15s ease, background .15s ease; }
 .v8 .fab-idea:hover { background: var(--sun-deep); transform: translateY(-2px); }
 .v8 .fab-idea .hand { font-size: 19px; font-weight: 600; line-height: 1; }
-.v8 .shell-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--muted); }
+/* padding-bottom keeps the footer links clear of the floating WhatsApp button, which is
+   fixed to the viewport and was covering LinkedIn/GitHub at <=768px. */
+.v8 .shell-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 72px; padding-top: 20px; padding-bottom: 56px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--muted); }
 .v8 .shell-foot a { color: inherit; text-decoration: none; margin-left: 14px; }
 .v8 .shell-tabbar { display: none; }
 @media (max-width: 900px) {
   .v8 .shell-rail { display: none; }
   .v8 .shell-strip { padding-left: 20px; }
-  .v8 .shell-main { margin-left: 0; padding-bottom: 96px; }
+  .v8 .shell-main { margin-left: 0; padding-bottom: 120px; }
+  .v8 .shell-foot { padding-bottom: 72px; }
   .v8 .fab-idea { right: 14px; bottom: calc(76px + env(safe-area-inset-bottom)); padding: 10px 16px 10px 13px; }
   .v8 .fab-idea .hand { font-size: 17px; }
   .v8 .tab-item span { font-size: 10px; letter-spacing: 0; }
@@ -178,6 +184,14 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .postlist .pt { font-weight: 600; font-size: 16px; }
 .v8 .postlist .tag { font-size: 11.5px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--hair); padding: 3px 10px; border-radius: 999px; background: var(--surface); }
 .v8 .postlist .tag.video { background: var(--sun); border-color: transparent; color: var(--ink); }
+
+.v8 .price-card { padding: 22px 26px; margin: 22px 0 4px; }
+.v8 .price-card p { margin: 8px 0 0; max-width: 62ch; font-size: 15.5px; }
+.v8 .price-card .price-alt { color: var(--muted); font-size: 14.5px; }
+.v8 .guarantee-line { font-size: 14px; color: var(--muted); border-left: 3px solid var(--sun); padding-left: 12px; margin: 0 0 18px; max-width: 52ch; }
+.v8 .darkcta .guarantee-line { color: #B8B0A4; }
+.v8 .nowcta { padding: 26px 28px; }
+.v8 .nowcta p { margin: 0; color: var(--muted); max-width: 46ch; }
 
 /* ---- statement ---- */
 .v8 .statement { margin-top: 90px; text-align: center; }

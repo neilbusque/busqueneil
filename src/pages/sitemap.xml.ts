@@ -21,6 +21,7 @@ const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
   { loc: 'https://busqueneil.com/blog', changefreq: 'daily', priority: '0.8' },
   { loc: 'https://busqueneil.com/shop', changefreq: 'weekly', priority: '0.7' },
   { loc: 'https://busqueneil.com/contact', changefreq: 'monthly', priority: '0.8' },
+  { loc: 'https://busqueneil.com/analyzer', changefreq: 'monthly', priority: '0.6' },
   ...caseStudies.map((cs) => ({
     loc: `https://busqueneil.com/case-studies/${cs.slug}`,
     changefreq: 'monthly',

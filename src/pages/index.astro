@@ -59,13 +59,13 @@ function tagFor(p: Post): string {
       <span class="note who">that&rsquo;s me. you talk to me, not an agency
         <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
-      <img class="hero-photo" src="/assets/art/neil-cutout.png" alt="Neil Busque" fetchpriority="high" />
+      <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
     </div>
   </section>
 
   <!-- STATS -->
   <div class="stats">
-    <div class="stat"><b>10+</b><span>products shipped</span></div>
+    <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
     <div class="stat"><b>Days</b><span>idea to first version</span></div>
     <div class="stat"><b>1 person</b><span>start to finish, no handoffs</span></div>
   </div>
@@ -132,19 +132,31 @@ function tagFor(p: Post): string {
         {nowDateStr && <span class="nowdate">Updated {nowDateStr}</span>}
       </div>
       <div>
-        <ul class="postlist">
-          {latest3.map((p) => (
-            <li>
-              <a href={`/posts/${p.slug}`}>
-                <span class="pd">{shortDate(p.published_at)}</span>
-                <span class="pt">{p.title ?? 'Untitled'}</span>
-                <span class:list={['tag', { video: p.tags.includes('video') }]}>{tagFor(p)}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p style="margin-top:18px"><a class="link-arrow" href="/blog">Read the blog
-          <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+        {latest3.length > 0 ? (
+          <>
+            <ul class="postlist">
+              {latest3.map((p) => (
+                <li>
+                  <a href={`/posts/${p.slug}`}>
+                    <span class="pd">{shortDate(p.published_at)}</span>
+                    <span class="pt">{p.title ?? 'Untitled'}</span>
+                    <span class:list={['tag', { video: p.tags.includes('video') }]}>{tagFor(p)}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p style="margin-top:18px"><a class="link-arrow" href="/blog">Read the blog
+              <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+          </>
+        ) : (
+          <div class="v8-card nowcta">
+            <p>Most of what I build never makes it to a blog post. The fastest way to see whether I can build your thing is to ask me.</p>
+            <div class="hero-ctas" style="margin-top:16px">
+              <a class="btn-sun" href="/contact">Send me your idea</a>
+              <a class="btn-ghost" href="/work">See the work</a>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -157,11 +169,12 @@ function tagFor(p: Post): string {
   <!-- DARK CTA -->
   <div class="darkcta">
     <h2>Tell me what you want to <span class="mark-hl">build.</span></h2>
-    <p>Message me on WhatsApp or send an email. I answer personally, usually the same day, and I will tell you honestly if I am not the right fit.</p>
+    <p>Send me the idea in a few sentences. I answer personally, usually the same day.</p>
+    <p class="guarantee-line">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
     <div class="hero-ctas" style="margin-top:0">
-      <a class="btn-sun" href={WA_BUILD}>WhatsApp me</a>
-      <a class="btn-ghost" href="mailto:busqueneil@gmail.com">Email me</a>
+      <a class="btn-sun" href="/contact">Send me your idea</a>
+      <a class="btn-ghost" href={WA_BUILD}>Or message on WhatsApp</a>
     </div>
-    <img class="sig" src="/assets/brand/sig-sun.png" alt="Neil" width="480" height="283" />
+    <img class="sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
   </div>
 </AppShell>

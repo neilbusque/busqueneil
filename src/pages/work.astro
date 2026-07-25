@@ -13,13 +13,19 @@ const APPS = [
   { name: 'Orbit dashboard', img: '/assets/work/orbit-dashboard.webp', tag: 'Mission control UI' },
   { name: 'Scott Greenleaf', img: '/assets/work/scottgreenleaf.webp', tag: 'Client rebuild' },
 ];
+// Explicit card -> case study mapping. Matching on the first word used to send both
+// "Orbit CRM" and "Orbit dashboard" to the same Orbit write-up.
+const CASE_STUDY_BY_CARD: Record<string, string> = {
+  'Orbit CRM': 'orbit',
+  Tandem: 'tandem',
+};
 const csBySlug = new Map(caseStudies.map((c) => [c.slug, c]));
 const csFor = (name: string) => {
-  const key = name.toLowerCase().split(' ')[0];
-  return csBySlug.has(key) ? `/case-studies/${key}` : null;
+  const slug = CASE_STUDY_BY_CARD[name];
+  return slug && csBySlug.has(slug) ? `/case-studies/${slug}` : null;
 };
 ---
-<AppShell title="Work — Neil Busque" description="Apps, sites, and client builds by Neil Busque. Real products, live right now." active="work">
+<AppShell title="Work — AI apps, websites, and client builds | Neil Busque" description="Real products Neil Busque has shipped: AI apps, CRMs, portals, client sites, and automations. Live right now, with deep dives on how each one was built." active="work">
   <span class="eyebrow">The work</span>
   <h1 class="sec">Built by one person. <span class="mark-hl">Shipped for real.</span></h1>
   <div class="work-grid" style="margin-top:22px">
@@ -48,5 +54,14 @@ const csFor = (name: string) => {
   <section class="home-sec">
     <span class="eyebrow">Worked with</span>
     <div class="client-strip">{CLIENTS.map((c) => <span class="chip">{c}</span>)}</div>
+  </section>
+
+  <section class="home-sec v8-card why-card">
+    <h2>Want one of these for <span class="mark-hl">your business?</span></h2>
+    <p>Every product above started as a sentence from someone like you. Tell me what you are trying to build and I will tell you how I would do it, what it would take, and whether I am the right person for it.</p>
+    <div class="hero-ctas" style="margin-top:18px">
+      <a class="btn-sun" href="/contact">Send me your idea</a>
+      <a class="btn-ghost" href="/hire">How working with me works</a>
+    </div>
   </section>
 </AppShell>
