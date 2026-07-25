@@ -95,6 +95,13 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .shell-foot a { color: inherit; text-decoration: none; margin-left: 14px; }
 /* Socials live in the desktop rail; the rail is hidden under 900px, so phones and tablets
    get them here instead. */
+/* Story / Blog / Shop leave the phone tab bar, so they surface here instead. Desktop
+   already has them in the rail, so this row is mobile-only. */
+.v8 .foot-secondary { display: none; }
+@media (max-width: 900px) {
+  .v8 .foot-secondary { display: flex; flex-wrap: wrap; gap: 2px 20px; width: 100%; order: -1; }
+  .v8 .foot-secondary a { font-weight: 600; color: var(--ink); }
+}
 .v8 .foot-socials { display: none; gap: 8px; }
 .v8 .foot-socials a { display: grid; place-items: center; width: 44px; height: 44px; margin: 0; border: 1px solid var(--hair); border-radius: 10px; color: var(--muted); }
 @media (max-width: 900px) { .v8 .foot-socials { display: flex; } }
@@ -102,15 +109,27 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 @media (max-width: 900px) {
   .v8 .shell-rail { display: none; }
   .v8 .shell-strip { padding-left: 20px; }
-  .v8 .shell-main { margin-left: 0; padding-bottom: 120px; }
+  .v8 .shell-main { margin-left: 0; padding-bottom: 132px; }
   .v8 .shell-foot { padding-bottom: 72px; }
-  .v8 .fab-idea { right: 14px; bottom: calc(76px + env(safe-area-inset-bottom)); padding: 10px 16px 10px 13px; }
+  /* clears the floating pill: pill height ~54 + its 12px lift + safe area + 12px gap */
+  .v8 .fab-idea { right: 14px; bottom: calc(78px + max(12px, env(safe-area-inset-bottom))); padding: 10px 16px 10px 13px; }
   .v8 .fab-idea .hand { font-size: 17px; }
   .v8 .tab-item span { font-size: 10px; letter-spacing: 0; }
-  .v8 .shell-tabbar { display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--hair); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
-  .v8 .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; font-weight: 600; color: var(--muted); text-decoration: none; padding: 4px 0; border-radius: 10px; }
-  .v8 .tab-item.active { color: var(--ink); }
-  .v8 .tab-item.active svg { background: var(--sun); border-radius: 8px; padding: 2px; box-sizing: content-box; }
+  /* floating pill bar (Tandem pattern): the outer nav is full-bleed and click-through,
+     the visible pill is inset from the screen edges and lifts off the home indicator. */
+  .v8 .shell-tabbar { display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    padding: 0 12px max(12px, env(safe-area-inset-bottom)); pointer-events: none; }
+  .v8 .tabbar-pill { pointer-events: auto; display: flex; max-width: 420px; margin: 0 auto;
+    background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(12px);
+    border: 1px solid var(--hair); border-radius: 26px;
+    box-shadow: 0 1px 2px rgba(23,22,20,.05), 0 18px 36px -18px rgba(23,22,20,.42); }
+  .v8 .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 4px; font-size: 10.5px; font-weight: 500; letter-spacing: 0; color: var(--muted);
+    text-decoration: none; padding: 9px 0 8px; border-radius: 26px; position: relative; }
+  .v8 .tab-item.active { color: var(--ink); font-weight: 600; }
+  /* active marker is the same 3px yellow language as the desktop rail, as a dot */
+  .v8 .tab-item.active::after { content: ""; position: absolute; bottom: 3px; width: 4px; height: 4px;
+    border-radius: 50%; background: var(--sun); }
 }
 
 /* ---- cinematic intro ---- */
@@ -253,7 +272,11 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   /* The 64px clamp floor made "BUSQUE." wider than a 320px screen and forced the whole
      page to scroll sideways. Scale with the viewport instead, capped at the desktop size. */
   .v8 .hero h1 { font-size: clamp(40px, 15vw, 64px); }
-  .v8 .hero-photo-wrap { justify-self: center; margin-top: 40px; }
+  .v8 .hero-photo-wrap { justify-self: center; margin-top: 56px; }
+  /* the desktop note hangs 138px to the left of the figure, which runs off a phone screen
+     once the hero stacks and the figure centres */
+  .v8 .note.who { left: 0; right: auto; top: -40px; text-align: left; }
+  .v8 .note.who svg { margin-left: 0; transform: scaleX(-1); }
   /* was min(330px, 30vw), which collapsed to a 117px thumbnail once the hero stacked */
   .v8 .hero-photo { width: min(300px, 58vw); }
   .v8 .workgrid, .v8 .nowwrap { grid-template-columns: 1fr; }
