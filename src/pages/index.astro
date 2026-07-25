@@ -35,7 +35,9 @@ const STACK = [
   { label: 'CRM and email', items: ['GoHighLevel', 'HubSpot', 'Klaviyo', 'Mailgun'] },
   { label: 'Web and commerce', items: ['WordPress', 'Shopify', 'ClickFunnels'] },
   { label: 'Design', items: ['Figma', 'Canva', 'Photoshop', 'Illustrator'] },
-  { label: 'Marketing', items: ['Meta Ads', 'Google Ads', 'GA4', 'Search Console', 'DataForSEO'] },
+  { label: 'Ads', items: ['Meta Ads', 'Google Ads'] },
+  // 8 groups fills the 4-col grid exactly; at 7 the last cell rendered as a grey gap
+  { label: 'Analytics and SEO', items: ['GA4', 'Search Console', 'DataForSEO'] },
 ];
 
 const nowText = now?.title || 'Shipping something, every day.';
@@ -225,6 +227,69 @@ function tagFor(p: Post): string {
   </section>
 
   <!-- GUARANTEE -->
+  <!-- DIY -->
+  <!-- Grounded in what people actually report about the AI app builders: credits vanishing in
+       debugging loops, a fix that creates two new bugs, hallucinated imports and layouts that
+       break on real use, and being locked to whatever stack the tool picked. No vendor named:
+       naming dates fast and reads petty, and the pattern is the same across all of them. -->
+  <section class="hsec">
+    <span class="eyebrow">Why not just build it yourself</span>
+    <h2 class="sec">The demo is easy. <span class="mark-hl">The last 20% is not.</span></h2>
+    <p class="stack-note">I use the same AI tools you would. I am an AI builder, that is the whole job.
+      The difference is what happens at the point where they stop working.</p>
+    <ul class="diy">
+      <li>
+        <b>You get something that looks finished in an afternoon.</b>
+        <span>Then a real user filters by date and it crashes. The demo was never the hard part.</span>
+      </li>
+      <li>
+        <b>Then the loop starts.</b>
+        <span>The AI fixes one bug and introduces two. Every attempt costs credits, and a month&rsquo;s
+          worth can disappear in a single debugging session. People have run past a thousand dollars
+          in tokens without shipping anything.</span>
+      </li>
+      <li>
+        <b>The code looks right and is not.</b>
+        <span>Imports to packages that do not exist, layouts that break on a phone, auth left wide
+          open. It holds up until someone real touches it.</span>
+      </li>
+      <li>
+        <b>You are stuck with whatever it picked.</b>
+        <span>One stack, one host, its choices. Moving off it later costs more than starting right did.</span>
+      </li>
+    </ul>
+    <p class="diy-close">I do not stop at the demo, and I already know what breaks. That is the
+      difference you are paying for.</p>
+  </section>
+
+  <!-- WHY ME -->
+  <section class="hsec">
+    <span class="eyebrow">Why people pick me</span>
+    <h2 class="sec">Your thing becomes <span class="mark-hl">my thing.</span></h2>
+    <ul class="why">
+      <li>
+        <b>You are not item nine on a list.</b>
+        <span>I take a small number of builds at a time on purpose. When you message me about yours,
+          I already have it loaded. Nothing here runs off a checklist someone else wrote.</span>
+      </li>
+      <li>
+        <b>You get my actual phone number.</b>
+        <span>Not a ticket queue, not a form, not an account manager who has to go and ask someone.
+          Me, on WhatsApp, usually the same day.</span>
+      </li>
+      <li>
+        <b>I care whether it works, not whether it shipped.</b>
+        <span>Shipping is the easy part. I want the thing doing the job you hired it for, and I keep
+          going until it does.</span>
+      </li>
+      <li>
+        <b>The bar is that you tell someone about it.</b>
+        <span>Not &ldquo;it went fine&rdquo;. I want you telling a friend who built your thing.
+          That is the only review that counts.</span>
+      </li>
+    </ul>
+  </section>
+
   <section class="hsec">
     <span class="eyebrow">Working with me</span>
     <h2 class="sec">The <span class="mark-hl">guarantee.</span></h2>
