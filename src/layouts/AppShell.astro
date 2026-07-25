@@ -93,10 +93,12 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
         </span>
       </footer>
     </main>
+    {active !== 'contact' && (
     <a class="fab-idea" href={WA_HREF} target="_blank" rel="noopener" aria-label="Let's connect on WhatsApp">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
       <span class="hand">Let's connect!</span>
     </a>
+    )}
     <nav class="shell-tabbar" aria-label="Primary mobile">
       {NAV.map((n) => (
         <a class:list={['tab-item', { active: active === n.key }]} href={n.href} aria-current={active === n.key ? 'page' : undefined}>
