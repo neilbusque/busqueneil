@@ -64,6 +64,7 @@ I take on focused problems where software can remove repeated work, help a team 
 
 - Home + feed: https://busqueneil.com/
 - Resources (tutorials + writing): https://busqueneil.com/resources
+- Free tools and guides (no signup): https://busqueneil.com/free
 - Services overview: https://busqueneil.com/services
 - Web app development: https://busqueneil.com/services/web-apps
 - Website design and development: https://busqueneil.com/services/websites
