@@ -103,11 +103,36 @@ function tagFor(p: Post): string {
     <span class="eyebrow">What I do</span>
     <h2 class="sec">Five ways I can <span class="mark-hl">help.</span></h2>
     <ul class="svc">
-      <li><span class="num">01</span><span class="name">Web Apps</span><span class="desc">Real working software: portals, dashboards, tools. Not demos.</span></li>
-      <li><span class="num">02</span><span class="name">Websites</span><span class="desc">Sites that look designed and feel fast. Never a template.</span></li>
-      <li><span class="num">03</span><span class="name">Landing Pages</span><span class="desc">One page with one job: turn a visitor into a lead.</span></li>
-      <li><span class="num">04</span><span class="name">Funnels</span><span class="desc">The whole path from click to booked call, wired end to end.</span></li>
-      <li><span class="num">05</span><span class="name">Automation</span><span class="desc">n8n, Zapier, GHL, and custom glue. Busywork runs itself.</span></li>
+      <li>
+        <span class="num">01</span>
+        <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="5" y="8" width="14" height="10" rx="2"/><path d="M5 12h14M9 21h6"/></svg></span>
+        <span class="name">Web Apps</span>
+        <span class="desc">Portals, dashboards, internal tools. Working software, not demos.</span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 13h7"/></svg></span>
+        <span class="name">Websites</span>
+        <span class="desc">Sites that look designed and load fast. Never a template.</span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6"/><path d="M9 17h4"/></svg></span>
+        <span class="name">Landing Pages</span>
+        <span class="desc">One page, one job. Turn a visitor into a lead.</span>
+      </li>
+      <li>
+        <span class="num">04</span>
+        <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/><rect class="cell" x="10" y="14" width="4" height="4"/></svg></span>
+        <span class="name">Funnels</span>
+        <span class="desc">Click to booked call, wired end to end.</span>
+      </li>
+      <li>
+        <span class="num">05</span>
+        <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><rect class="cell" x="14" y="4" width="6" height="6"/><path d="M7 10v4a3 3 0 0 0 3 3h7"/><path d="M15 15l2 2-2 2"/></svg></span>
+        <span class="name">Automation</span>
+        <span class="desc">n8n, Zapier, GHL. Busywork runs itself.</span>
+      </li>
     </ul>
     <p style="margin-top:22px"><a class="link-arrow" href="/services">All services
       <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
@@ -194,7 +219,7 @@ function tagFor(p: Post): string {
           </>
         ) : (
           <div class="v8-card nowcta">
-            <p>Most of what I build never makes it to a blog post. The fastest way to find out whether I can build your thing is to ask me.</p>
+            <p>Most of what I build never makes it to a post. Fastest way to find out if I can build yours is to ask.</p>
             <div class="hero-ctas" style="margin-top:16px">
               <a class="btn-sun" href="/contact">Tell me what you need</a>
               <a class="btn-ghost" href="/work">See the work</a>
@@ -208,19 +233,16 @@ function tagFor(p: Post): string {
   <!-- STATEMENT -->
   <div class="statement">
     <p>Anyone can use AI. <span class="mark-hl">Finished</span> <span class="script">is what you hire me for.</span></p>
-    <p class="statement-sub">AI will hand you a demo that falls over on the first real user. Shipping it takes
-      someone who has done it 40 times this year and knows what breaks. You are not hiring a prompt.
-      You are hiring the person who fixes it.</p>
+    <p class="statement-sub">AI hands you a demo that falls over on the first real user. You are
+      hiring the person who fixes it.</p>
   </div>
 
   <!-- STACK -->
   <section class="hsec">
     <span class="eyebrow">Tools I work in</span>
     <h2 class="sec">The <span class="mark-hl">stack.</span></h2>
-    <p class="stack-note">Grouped by what I reach for them for. The one worth calling out is
-      <strong>APIs and integrations</strong>: webhooks, OAuth, MCP servers, and making two systems
-      that were never meant to talk to each other talk to each other. That is most of what real
-      automation actually is, and it is the part I am best at.</p>
+    <p class="stack-note">Best part of my job is wiring things together. Webhooks, OAuth, MCP
+      servers, two systems that were never meant to talk.</p>
     <div class="stack">
       {STACK.map((group) => (
         <div class="stack-group">
@@ -242,32 +264,27 @@ function tagFor(p: Post): string {
   <section class="hsec">
     <span class="eyebrow">Why not just build it yourself</span>
     <h2 class="sec">The demo is easy. <span class="mark-hl">The last 20% is not.</span></h2>
-    <p class="stack-note">I have used the AI app builders myself. They are genuinely good, and for a
-      simple app they will get you there. Complex is where it falls apart, and that is the whole
-      difference between a tool that generates a screen and one that can hold a system together.</p>
+    <p class="stack-note">I use them too. For a simple app they work. Complex is where they fall over.</p>
     <ul class="diy">
       <li>
-        <b>You get something that looks finished in an afternoon.</b>
-        <span>Then a real user filters by date and it crashes. The demo was never the hard part.</span>
+        <b>It looks finished in an afternoon.</b>
+        <span>Then someone filters by date and it crashes.</span>
       </li>
       <li>
         <b>Then the loop starts.</b>
-        <span>The AI fixes one bug and introduces two. Every attempt costs credits, and a month&rsquo;s
-          worth can disappear in a single debugging session. People have run past a thousand dollars
-          in tokens without shipping anything.</span>
+        <span>It fixes one bug and adds two. Every attempt costs credits. People have burned past
+          a thousand dollars in tokens without shipping.</span>
       </li>
       <li>
         <b>The code looks right and is not.</b>
-        <span>Imports to packages that do not exist, layouts that break on a phone, auth left wide
-          open. It holds up until someone real touches it.</span>
+        <span>Imports to packages that do not exist. Layouts that break on a phone. Auth left wide open.</span>
       </li>
       <li>
-        <b>You are stuck with whatever it picked.</b>
-        <span>One stack, one host, its choices. Moving off it later costs more than starting right did.</span>
+        <b>You are stuck with what it picked.</b>
+        <span>One stack, one host. Moving off it later costs more than starting right.</span>
       </li>
     </ul>
-    <p class="diy-close">I do not stop at the demo, and I already know what breaks. That is the
-      difference you are paying for.</p>
+    <p class="diy-close">I already know what breaks.</p>
   </section>
 
   <!-- WHY ME -->
@@ -277,23 +294,20 @@ function tagFor(p: Post): string {
     <ul class="why">
       <li>
         <b>You are not item nine on a list.</b>
-        <span>I take a small number of builds at a time on purpose. When you message me about yours,
-          I already have it loaded. Nothing here runs off a checklist someone else wrote.</span>
+        <span>I take a few builds at a time on purpose. Message me about yours and I already have
+          it loaded.</span>
       </li>
       <li>
         <b>You get my actual phone number.</b>
-        <span>Not a ticket queue, not a form, not an account manager who has to go and ask someone.
-          Me, on WhatsApp, usually the same day.</span>
+        <span>Me, on WhatsApp, usually the same day. No ticket queue in between.</span>
       </li>
       <li>
-        <b>I care whether it works, not whether it shipped.</b>
-        <span>Shipping is the easy part. I want the thing doing the job you hired it for, and I keep
-          going until it does.</span>
+        <b>Shipping is the easy part.</b>
+        <span>I want it doing the job you hired it for, and I keep going until it does.</span>
       </li>
       <li>
-        <b>The bar is that you tell someone about it.</b>
-        <span>Not &ldquo;it went fine&rdquo;. I want you telling a friend who built your thing.
-          That is the only review that counts.</span>
+        <b>I want you telling a friend who built it.</b>
+        <span>Anything less than that and I did not finish the job.</span>
       </li>
     </ul>
   </section>
@@ -304,19 +318,19 @@ function tagFor(p: Post): string {
     <ul class="guar">
       <li>
         <b>I keep working until you are proud of it.</b>
-        <span>No scope clock. Done means you are happy with it, not that the hours ran out.</span>
+        <span>No scope clock. Done means you are happy, not that the hours ran out.</span>
       </li>
       <li>
         <b>If I am not the right fit, I tell you on the first call.</b>
-        <span>It costs you nothing, and you still leave with an honest read on your problem.</span>
+        <span>Costs you nothing, and you leave with an honest read on your problem.</span>
       </li>
       <li>
         <b>You talk to me. Every time.</b>
-        <span>No account manager, no junior, no handoff. One person from the first call to live.</span>
+        <span>One person from the first call to live.</span>
       </li>
       <li>
         <b>You see the scope before I start.</b>
-        <span>We agree exactly what gets built on the call, so nothing about it surprises you later.</span>
+        <span>We agree what gets built on the call. Nothing surprises you later.</span>
       </li>
     </ul>
   </section>
