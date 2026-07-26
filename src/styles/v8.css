@@ -15,7 +15,7 @@ html { scroll-padding-top: 52px; }
   --hair: #EAEAEA; --hair-strong: #D4D4D4; --r: 8px;
   /* Vercel-grey rail: a faint tint against the white page, not another white panel */
   --rail-bg: #FAFAFA;
-  --gap-sec: 80px;
+  --gap-sec: 104px;
   font-family: 'Geist', system-ui, -apple-system, sans-serif;
   color: var(--ink);
   background-color: var(--paper);
@@ -30,7 +30,7 @@ html { scroll-padding-top: 52px; }
 /* label: fine letter-spaced small caps trailed by a hairline, so structure reads before the words do */
 .v8 .eyebrow { display: flex; align-items: center; gap: 12px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: .08em; color: var(--soft); }
 .v8 .eyebrow::after { content: ""; height: 1px; flex: 1; background: var(--hair); }
-.v8 .sec { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.028em; line-height: 1.15; margin: 14px 0 8px; }
+.v8 .sec { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.028em; line-height: 1.15; margin: 18px 0 12px; }
 /* A page title and a section heading both use .sec, so without this they render identically
    and the page has no hierarchy. h1.sec is the page title and gets its own step up. */
 .v8 h1.sec { font-size: clamp(30px, 3.8vw, 46px); letter-spacing: -0.035em; line-height: 1.06; }
@@ -333,7 +333,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .postlist.res .pl-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .v8 .postlist.res .pl-title { font-weight: 600; font-size: 16.5px; letter-spacing: -.012em; }
 .v8 .postlist.res .pl-blurb { color: var(--muted); font-size: 14px; line-height: 1.55; }
-.v8 .res-lede { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 62ch; margin: 16px 0 0; }
+.v8 .res-lede { color: var(--muted); font-size: 17px; line-height: 1.7; max-width: 62ch; margin: 20px 0 0; }
 
 .v8 .price-card { padding: clamp(24px, 3vw, 32px); margin: calc(var(--gap-sec) * .4) 0 0; }
 .v8 .price-card p { margin: 8px 0 0; max-width: 62ch; font-size: 15.5px; }
@@ -398,7 +398,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 @media (max-width: 980px) {
   /* v11: shrink the module and the rhythm at the token level; every section follows. */
-  .v8 { --gap-sec: 56px; }
+  .v8 { --gap-sec: 72px; }
   .v8 .hero { grid-template-columns: 1fr; gap: 0; padding: 36px 0 20px; }
   /* the field bleeds by the wrap's padding, which is 20px here, not 40px. At -40px it ran
      20px past each viewport edge and scrolled the page sideways. */
@@ -548,10 +548,16 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    shot so the card keeps the grid's rhythm without pretending to show a product tour */
 /* v12: the grid fill here went with the rest of the grid texture. A flat neutral panel does
    the same job (stand in for a missing screenshot) without reintroducing the pattern. */
-.v8 .wc-internal { aspect-ratio: 16/10; display: grid; place-items: center; border-bottom: 1px solid var(--hair);
-  background-color: #FAFAFA; }
-.v8 .wc-internal span { font-size: 10.5px; font-weight: 500; letter-spacing: .08em;
-  color: var(--soft); border: 1px solid var(--hair); background: var(--surface); padding: 6px 12px; border-radius: 999px; }
+.v8 .wc-internal { aspect-ratio: 16/10; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; border-bottom: 1px solid var(--hair); position: relative; overflow: hidden;
+  background: linear-gradient(160deg, #FFFFFF 0%, #FAFAFA 55%, #F5F5F5 100%); }
+/* one soft yellow bloom so the tile belongs to the brand rather than reading as a dead cell */
+.v8 .wc-internal::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(52% 60% at 76% 22%, rgba(255,228,92,.30) 0%, transparent 68%); }
+.v8 .wc-mono { position: relative; z-index: 1; display: grid; place-items: center; width: 54px; height: 54px;
+  border-radius: 14px; background: var(--ink); color: #FFFFFF; font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
+.v8 .wc-tagline { position: relative; z-index: 1; font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--soft); }
 /* ---- capabilities ---- */
 .v8 .caps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
@@ -581,14 +587,14 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    leaves a dead cell in the last row. The <a> is flex-column on purpose: a grid-stretched
    anchor vertically centers its content box, which pushes card text out of alignment with
    its siblings. ---- */
-.v8 .offer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: calc(var(--gap-sec) * .4); }
+.v8 .offer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px; margin-top: calc(var(--gap-sec) * .34); }
 .v8 .offer-card { grid-column: span 2; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-decoration: none; color: var(--ink);
   transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 3; }
 .v8 .offer-card:hover { border-color: var(--hair-strong); }
 .v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F0F0F0; border-bottom: 1px solid var(--hair); }
 .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
-.v8 .offer-body { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; flex: 1; }
+.v8 .offer-body { display: flex; flex-direction: column; gap: 11px; padding: 24px 24px 26px; flex: 1; }
 .v8 .offer-num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
 .v8 .offer-name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 17px; line-height: 1.15; }
 .v8 .offer-desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
@@ -606,7 +612,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 /* ---- process strip on the services hub ---- */
 .v8 .steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
-.v8 .steps li { background: var(--surface); padding: 20px 18px; display: flex; flex-direction: column; gap: 7px; }
+.v8 .steps li { background: var(--surface); padding: 26px 22px; display: flex; flex-direction: column; gap: 9px; }
 .v8 .steps .step-n { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); }
 .v8 .steps b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 14px; }
 .v8 .steps span:last-child { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
@@ -616,7 +622,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 /* ---- FAQ (services hub + guides) ---- */
 .v8 .faq { margin-top: 26px; border-top: 1px solid var(--hair); }
 .v8 .faq details { border-bottom: 1px solid var(--hair); }
-.v8 .faq summary { cursor: pointer; list-style: none; padding: 17px 34px 17px 0; position: relative;
+.v8 .faq summary { cursor: pointer; list-style: none; padding: 22px 34px 22px 0; position: relative;
   font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -.018em; }
 .v8 .faq summary::-webkit-details-marker { display: none; }
 .v8 .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 19px; font-weight: 500; color: var(--soft); }

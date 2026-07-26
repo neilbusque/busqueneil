@@ -6,7 +6,11 @@ import ClientLogos from '../components/ClientLogos.astro';
 /* The work splits four ways, because "a client site" and "an internal tool I use every day"
    are not the same claim and should not sit in one undifferentiated grid.
    `href` on a card means it is genuinely reachable; cards without one are internal builds
-   that have no public URL, and they carry no screenshot rather than a staged one. */
+   that have no public URL, and they carry no screenshot rather than a staged one.
+   That rule survived the 2026-07-25 pass deliberately: a staged or AI-generated mockup would
+   present a picture of software as if it were a capture of the real thing, on a site whose
+   whole argument is that the work is real. Those cards get a monogram tile instead, which
+   reads as a choice where an empty grey box read as a broken image. */
 type Item = { name: string; tag: string; img?: string; href?: string; note?: string };
 
 const WEBSITES: Item[] = [
@@ -135,7 +139,10 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
               </div>
             </>
           ) : (
-            <div class="wc-internal" aria-hidden="true"><span>Internal</span></div>
+            <div class="wc-internal" aria-hidden="true">
+              <span class="wc-mono">{w.name.charAt(0)}</span>
+              <span class="wc-tagline">Internal build</span>
+            </div>
           )}
           <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
         </Tag>

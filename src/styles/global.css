@@ -187,7 +187,7 @@ a { color: var(--accent-ink); }
 /* ===================================================================
    PAGE HEAD (inner pages)
    =================================================================== */
-.page-head { padding: clamp(52px, 8vw, 104px) 0 clamp(18px, 3vw, 30px); position: relative; }
+.page-head { padding: clamp(56px, 8vw, 112px) 0 clamp(26px, 3.4vw, 40px); position: relative; }
 .page-head .eyebrow { margin-bottom: 18px; }
 /* Archivo, not var(--sans). var(--sans) leads with Geist, which is a leftover from the
    pre-v8 stack: it made interior H1s (/services, /hire/*, /guides/*) render in a different
@@ -320,12 +320,12 @@ a { color: var(--accent-ink); }
    Source Serif 4 is the closest screen-reading serif to Charter available on Google Fonts.
    Scoped to .prose so the Archivo/Fraunces brand display type is untouched. */
 .prose { max-width: 68ch; font-family: 'Geist', system-ui, -apple-system, sans-serif; }
-.prose p { margin-bottom: 22px; color: var(--ink-2); font-size: 17px; line-height: 1.7; letter-spacing: -0.006em; }
+.prose p { margin-bottom: 26px; color: var(--ink-2); font-size: 17.5px; line-height: 1.78; letter-spacing: -0.006em; }
 .prose > :first-child { margin-top: 0; }
 /* Archivo at reading weight (700, not the .sec 900) so article subheads match the site's
    display face without shouting over Source Serif body copy. */
-.prose h2, .prose h3 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; color: var(--ink); line-height: 1.2; letter-spacing: -0.02em; margin: 38px 0 14px; }
-.prose h2 { font-size: 27px; margin-top: 46px; }
+.prose h2, .prose h3 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; color: var(--ink); line-height: 1.25; letter-spacing: -0.02em; margin: 46px 0 16px; }
+.prose h2 { font-size: 27px; margin-top: 58px; }
 .prose h3 { font-size: 20px; }
 /* code and UI bits stay sans inside a serif column */
 .prose code, .prose kbd, .prose pre { font-family: var(--mono, ui-monospace, monospace); font-size: 15px; }
