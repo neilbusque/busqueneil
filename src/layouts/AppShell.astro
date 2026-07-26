@@ -6,24 +6,31 @@ import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string; description: string; canonical?: string; ogImage?: string; ogType?: string; noindex?: boolean;
-  active: 'home' | 'story' | 'work' | 'services' | 'blog' | 'resources' | 'shop' | 'hire' | 'contact';
+  active: 'home' | 'story' | 'work' | 'services' | 'blog' | 'resources' | 'free' | 'hire' | 'contact';
 }
 const { active, ...baseProps } = Astro.props;
 
+/* Order follows what a visitor needs, not the order these pages were built: proof first
+   (Work), then the offer (Services), then who I am, then the reading, then the two asks.
+   `story` keeps its /story URL — it holds the page's rankings and inbound links — while the
+   label becomes "About Me", which is what people actually scan a nav for. */
 const NAV = [
-  { key: 'home',    href: '/',        label: 'Home' },
-  { key: 'story',   href: '/story',   label: 'Story' },
-  { key: 'work',    href: '/work',    label: 'Work' },
-  { key: 'services', href: '/services', label: 'Services' },
+  { key: 'home',      href: '/',          label: 'Home' },
+  { key: 'work',      href: '/work',      label: 'Work' },
+  { key: 'services',  href: '/services',  label: 'Services' },
+  { key: 'story',     href: '/story',     label: 'About Me' },
   { key: 'resources', href: '/resources', label: 'Resources' },
-  { key: 'shop',    href: '/shop',    label: 'Shop' },
-  { key: 'hire',    href: '/hire',    label: 'Hire' },
-  { key: 'contact', href: '/contact', label: 'Contact' },
+  { key: 'hire',      href: '/hire',      label: 'Hire' },
+  { key: 'free',      href: '/free',      label: 'Free' },
 ] as const;
 
+const BOOK_HREF = 'https://book.busqueneil.com/';
+
 // The phone bar carries only the four that matter: where you land, the proof, the offer,
-// and the ask. Seven tabs on a 320px screen was noise. The rest stay in the mobile footer.
-const TAB_KEYS = ['home', 'work', 'hire', 'contact'] as const;
+// and the ask. Eight tabs on a 320px screen was noise. The rest stay in the mobile footer.
+// 'contact' left the rail entirely (Neil): the floating WhatsApp button already carries
+// the ask, and /contact is still linked from every service CTA and from the footer.
+const TAB_KEYS = ['home', 'work', 'services', 'free'] as const;
 const TABS = TAB_KEYS.map((k) => NAV.find((n) => n.key === k)!);
 const SECONDARY = NAV.filter((n) => !TAB_KEYS.includes(n.key as (typeof TAB_KEYS)[number]));
 
@@ -34,7 +41,7 @@ const ICONS: Record<string, string> = {
   services: 'M12 3l8 4.5-8 4.5-8-4.5zM4 12l8 4.5 8-4.5M4 16.5 12 21l8-4.5',
   blog: 'M5 5h14M5 10h14M5 15h9',
   resources: 'M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z',
-  shop: 'M6 8h12l-1 12H7zM9 8V6a3 3 0 0 1 6 0v2',
+  free: 'M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z',
   hire: 'M21 8l-9 6-9-6M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z',
   contact: 'M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1zM8 9h8M8 13h5',
 };
@@ -83,6 +90,12 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
         ))}
       </nav>
       <div class="rail-foot">
+        {/* The primary conversion action, deliberately not a nav item: booking is a
+            destination, not a section of the site. */}
+        <a class="rail-book" href={BOOK_HREF} target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span>Book a call</span>
+        </a>
         <div class="rail-id">
           <img class="rail-avatar" src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="44" height="44" loading="lazy" />
           <span class="rail-names">

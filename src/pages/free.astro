@@ -1,0 +1,145 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL } from '../lib/seo';
+
+export const prerender = true;
+
+const title = 'Free Tools and Guides | Neil Busque';
+const description = 'Free apps, a landing page analyzer, and step-by-step guides. No email required, no trial, no upsell. Open anything on this page and use it.';
+const canonical = 'https://busqueneil.com/free';
+
+/* Everything here has to be genuinely free and genuinely live. No email walls, no "free
+   trial", no lead magnet that is really a form. If it needs an address to unlock, it does
+   not belong on this page. */
+const TOOLS = [
+  {
+    name: 'Landing Page Analyzer',
+    href: '/analyzer',
+    blurb: 'Paste a URL and get a score on speed, mobile, and the conversion elements that matter. No signup to see your score.',
+    tag: 'Tool',
+  },
+  {
+    name: 'Preflight',
+    href: 'https://preflight.neilb.app',
+    blurb: 'Build and click through a whole funnel, ads to booking, before you spend a dollar driving traffic into it.',
+    tag: 'App',
+    img: '/assets/work/preflight.webp',
+  },
+  {
+    name: 'Flow',
+    href: 'https://goflow.space',
+    blurb: 'A deep-work timer that actually blocks the noise instead of politely suggesting you focus.',
+    tag: 'App',
+    img: '/assets/work/flow.webp',
+  },
+  {
+    name: 'Cue',
+    href: 'https://cue.neilb.app',
+    blurb: 'A teleprompter for talking-head video, so you can read a script without looking like you are reading a script.',
+    tag: 'App',
+    img: '/assets/work/cue.webp',
+  },
+  {
+    name: 'Watch Together',
+    href: 'https://watch.yengandneil.site',
+    blurb: 'Watch something in sync with someone far away. I built it for my own long-distance marriage.',
+    tag: 'App',
+    img: '/assets/work/watch-together.webp',
+  },
+];
+
+const GUIDES = [
+  { slug: 'how-to-build-an-mcp-server', title: 'How to Build an MCP Server', blurb: 'A working server in about 30 lines, then the parts that actually break.' },
+  { slug: 'n8n-vs-zapier-vs-make', title: 'n8n vs Zapier vs Make', blurb: '20+ shipped workflows across all three. How they differ and how to pick.' },
+  { slug: 'postgres-row-level-security', title: 'Postgres Row-Level Security', blurb: 'Turn it on without breaking the app, plus the three gotchas that bite.' },
+  { slug: 'geo-generative-engine-optimization-guide', title: 'GEO and AI Search', blurb: 'The useful parts of AI search optimization, without the llms.txt myths.' },
+  { slug: 'google-ai-overviews-guide', title: 'Google AI Overviews', blurb: 'Google’s guidance, translated into a checklist for your site.' },
+  { slug: 'build-ai-agent-claude-code', title: 'Build an AI Agent with Claude Code', blurb: 'One job, a few tools, clear approval rules, and real tests.' },
+  { slug: 'what-is-mcp-model-context-protocol', title: 'What Is MCP?', blurb: 'What MCP connects, and where the USB analogy falls short.' },
+  { slug: 'ship-web-app-in-days-with-ai', title: 'Ship a Web App in Days with AI', blurb: 'The small-scope workflow that gets an idea to a reviewed, live app.' },
+];
+
+const list = {
+  '@type': 'ItemList',
+  '@id': `${canonical}#free-list`,
+  name: 'Free tools and guides by Neil Busque',
+  itemListElement: [
+    ...TOOLS.map((t, i) => ({
+      '@type': 'ListItem', position: i + 1, name: t.name,
+      url: t.href.startsWith('http') ? t.href : `https://busqueneil.com${t.href}`,
+    })),
+    ...GUIDES.map((g, i) => ({
+      '@type': 'ListItem', position: TOOLS.length + i + 1, name: g.title,
+      url: `https://busqueneil.com/guides/${g.slug}`,
+    })),
+  ],
+};
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#webpage`,
+  name: title,
+  description,
+  url: canonical,
+  about: ORGANIZATION_REF,
+  mainEntity: list,
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="free">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Free', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
+  </Fragment>
+
+  <span class="eyebrow">Free</span>
+  <h1 class="sec">Take any of this, <span class="mark-hl">free.</span></h1>
+  <p class="res-lede">Apps I built and use, a tool that scores your landing page, and every guide I have written. Nothing here needs an email address, a trial, or a credit card. If it did, it would not be on this page.</p>
+
+  <section class="hsec">
+    <span class="eyebrow">Tools and apps</span>
+    <h2 class="sec">Open them right <span class="mark-hl">now.</span></h2>
+    <div class="offer-grid free-grid">
+      {TOOLS.map((t) => (
+        <a class="v8-card offer-card" href={t.href} target={t.href.startsWith('http') ? '_blank' : undefined} rel={t.href.startsWith('http') ? 'noopener' : undefined}>
+          {t.img
+            ? <img class="offer-shot" src={t.img} alt={`${t.name}, a free app built by Neil Busque`} width="640" height="400" loading="lazy" decoding="async" />
+            : <div class="offer-shot free-shot" aria-hidden="true"><span>{t.name.charAt(0)}</span></div>}
+          <div class="offer-body">
+            <span class="offer-num">{t.tag}</span>
+            <span class="offer-name">{t.name}</span>
+            <span class="offer-desc">{t.blurb}</span>
+            <span class="offer-go">Open &#8594;</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Guides</span>
+    <h2 class="sec">Everything I have <span class="mark-hl">written.</span></h2>
+    <ul class="cs-list free-list">
+      {GUIDES.map((g) => (
+        <li>
+          <a class="v8-card cs-row" href={`/guides/${g.slug}`}>
+            <b>{g.title}</b>
+            <span>{g.blurb}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">If you want more than a tool</span>
+    <p class="guarantee">Use all of it free. If you would rather I just built the thing, book a call and tell me what you need.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
+      <a class="btn-ghost" href="/services">Or see what I build</a>
+    </div>
+  </div>
+</AppShell>

@@ -33,7 +33,7 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/work', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/blog', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/shop', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/free', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/analyzer' },
   /* /case-studies is deliberately absent: it 301s to /work (see case-studies/index.astro).
      A sitemap should only list URLs that return 200, or Search Console reports the entry

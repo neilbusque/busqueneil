@@ -692,3 +692,27 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 }
 /* a hand waving on a loop is exactly the kind of motion this setting exists to stop */
 @media (prefers-reduced-motion: reduce) { .v8 .hero h1 .wave { animation: none; } }
+
+/* ---- book-a-call CTA in the rail foot ----
+   Ink fill so it outranks every nav item without needing the accent; the rail is already
+   a quiet grey surface, so a filled button is the strongest available signal there. */
+.v8 .rail-book { display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 14px; padding: 10px 12px; border-radius: 6px; background: var(--ink); color: #FFFFFF;
+  font-size: 13.5px; font-weight: 600; letter-spacing: -.01em; text-decoration: none; white-space: nowrap;
+  transition: background .14s ease; }
+.v8 .rail-book:hover { background: #383838; }
+.v8 .rail-book svg { flex: 0 0 auto; }
+/* collapsed rail: the label goes, the icon stays centred */
+.rail-collapsed .v8 .rail-book span, .v8 .shell.is-collapsed .rail-book span { display: none; }
+
+/* ---- free page ---- */
+.v8 .free-grid .offer-card:nth-child(4), .v8 .free-grid .offer-card:nth-child(5) { grid-column: span 3; }
+.v8 .free-shot { display: grid; place-items: center; aspect-ratio: 16 / 10; border-bottom: 1px solid var(--hair);
+  background: linear-gradient(160deg, #FFFFFF 0%, #FAFAFA 55%, #F5F5F5 100%); position: relative; }
+.v8 .free-shot::after { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(52% 60% at 74% 24%, rgba(255,228,92,.32) 0%, transparent 68%); }
+.v8 .free-shot span { position: relative; z-index: 1; display: grid; place-items: center; width: 54px; height: 54px;
+  border-radius: 14px; background: var(--ink); color: #FFFFFF; font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
+.v8 .free-list { gap: 10px; }
+.v8 .free-list .cs-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+.v8 .free-list .cs-row b { font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
