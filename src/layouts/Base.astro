@@ -108,17 +108,9 @@ const pageSchema = {
     <link rel="alternate" type="application/rss+xml" title="Neil Busque" href="/rss.xml" />
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />}
 
-    {/* SearchAtlas OTTO — data-astro-rerun so it re-runs on ClientRouter swaps */}
-    <script
-      nowprocket
-      nitro-exclude
-      type="text/javascript"
-      id="sa-dynamic-optimization"
-      data-uuid="7b32a386-4d29-4078-be81-88c2fe99a353"
-      src="https://dashboard.searchatlas.com/scripts/dynamic_optimization.js"
-      is:inline
-      data-astro-rerun
-    ></script>
+    {/* SearchAtlas OTTO — must render byte-exact to the vendor snippet, no extra attributes.
+        is:inline is a compiler directive and is stripped from the output. */}
+    <script nowprocket nitro-exclude type="text/javascript" id="sa-dynamic-optimization" data-uuid="7b32a386-4d29-4078-be81-88c2fe99a353" src="https://dashboard.searchatlas.com/scripts/dynamic_optimization.js" is:inline></script>
 
     <slot name="head" />
   </head>
