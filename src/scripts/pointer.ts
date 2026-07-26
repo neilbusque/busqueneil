@@ -1,96 +1,85 @@
-/* Pointer effect — a soft sun-yellow spotlight that trails the cursor, plus a ring that
-   snaps onto interactive elements.
+/* Pointer effect — a pixel comet.
 
-   Why this is hand-rolled instead of canvas-ui (canvasui.dev): every cursor-lens component
-   there (glass, magnify, frost) is built on the HTML-in-Canvas API — `ctx.drawElementImage()`
-   and `canvas.requestPaint()`. Both are still behind an experimental flag; Chrome 150 stable
-   reports them undefined. They also require wrapping the whole page in a
-   `<canvas layoutsubtree>`, which would put the real DOM inside a canvas. For a site whose
-   job is ranking and converting, that is a large accessibility and SEO risk in exchange for
-   an effect essentially nobody would see.
+   A short tail of small yellow squares that trail the cursor, each one lagging a little more
+   than the one ahead of it and fading as it goes. No ring, no circle, no cursor replacement:
+   the real cursor stays exactly where it is and this sits behind it.
 
-   This does the same job with a compositor-only transform: no layout, no paint of page
-   content, no DOM restructure, and it degrades to nothing where it should. */
+   Why hand-rolled instead of canvas-ui (canvasui.dev): every cursor component there
+   (glass, magnify, frost) is built on the HTML-in-Canvas API — ctx.drawElementImage() and
+   canvas.requestPaint(). Both are still flag-gated; Chrome 150 stable reports them undefined.
+   They also need the page wrapped in <canvas layoutsubtree>, which is a large accessibility
+   and SEO risk for an effect almost nobody could see.
+
+   ⚠️ Mount inside .v8, never <body>. v8.css scopes every rule under `.v8`, which is a div
+   INSIDE body, so appending to body leaves these nodes completely unstyled — static divs in
+   normal flow that extend the page sideways. */
 
 const FINE = '(pointer: fine)';
 const REDUCED = '(prefers-reduced-motion: reduce)';
 
+/** Tail length. Enough to read as a comet, short enough to stay subtle. */
+const N = 14;
+
 export function initPointer(): void {
-  // Touch and stylus users have no hover state to decorate, and a trailing glow on a
-  // reduced-motion setting is exactly the kind of thing that setting exists to stop.
   if (!window.matchMedia(FINE).matches || window.matchMedia(REDUCED).matches) return;
   if (document.querySelector('[data-pointer-fx]')) return;
 
-  const glow = document.createElement('div');
-  glow.className = 'ptr-glow';
-  glow.setAttribute('data-pointer-fx', '');
-  glow.setAttribute('aria-hidden', 'true');
+  const host = document.querySelector('.v8.shell') ?? document.querySelector('.v8');
+  if (!host) return;
 
-  const ring = document.createElement('div');
-  ring.className = 'ptr-ring';
-  ring.setAttribute('aria-hidden', 'true');
+  const wrap = document.createElement('div');
+  wrap.className = 'ptr-comet';
+  wrap.setAttribute('data-pointer-fx', '');
+  wrap.setAttribute('aria-hidden', 'true');
 
-  /* ⚠️ Mount inside .v8, not <body>. v8.css scopes everything under `.v8`, and `.v8` is a
-     div *inside* body — appending to body meant `.v8 .ptr-glow` never matched, so both nodes
-     rendered as unstyled static divs in normal flow. A 380px block at the end of the document
-     with a translate on it pushed the page 719px wide when the cursor neared a corner, which
-     is the "extra space on the right when I hover" symptom. */
-  const host = document.querySelector('.v8.shell') ?? document.querySelector('.v8') ?? document.body;
-  host.append(glow, ring);
+  const bits: HTMLElement[] = [];
+  for (let i = 0; i < N; i++) {
+    const b = document.createElement('i');
+    const t = i / (N - 1);
+    // head is biggest and most opaque; the tail thins out to a faint 3px speck
+    b.style.width = b.style.height = `${Math.round(9 - t * 6)}px`;
+    b.style.opacity = `${(1 - t) * 0.5 + 0.06}`;
+    wrap.appendChild(b);
+    bits.push(b);
+  }
+  host.appendChild(wrap);
 
-  let tx = window.innerWidth / 2;
-  let ty = window.innerHeight / 2;
-  let gx = tx, gy = ty, rx = tx, ry = ty;
-  let raf = 0;
-  let visible = false;
-
-  const INTERACTIVE = 'a, button, summary, input, textarea, select, [role="button"]';
+  let tx = innerWidth / 2, ty = innerHeight / 2;
+  const xs = new Array(N).fill(tx);
+  const ys = new Array(N).fill(ty);
+  let raf = 0, on = false;
 
   function onMove(e: PointerEvent) {
-    tx = e.clientX;
-    ty = e.clientY;
-    if (!visible) {
-      visible = true;
-      glow.classList.add('on');
-      ring.classList.add('on');
-    }
-    // Snap the ring to whatever interactive element is under the cursor. elementFromPoint
-    // rather than :hover so it also works for elements that arrive under a still cursor.
-    const hit = (e.target as Element | null)?.closest?.(INTERACTIVE) ?? null;
-    ring.classList.toggle('over', Boolean(hit));
+    tx = e.clientX; ty = e.clientY;
+    if (!on) { on = true; wrap.classList.add('on'); }
   }
-
-  function onLeave() {
-    visible = false;
-    glow.classList.remove('on');
-    ring.classList.remove('on');
-  }
+  function onLeave() { on = false; wrap.classList.remove('on'); }
 
   function frame() {
-    // Two different follow rates: the glow lags for weight, the ring is nearly immediate so
-    // it still reads as a cursor rather than a delayed blob.
-    gx += (tx - gx) * 0.12;
-    gy += (ty - gy) * 0.12;
-    rx += (tx - rx) * 0.35;
-    ry += (ty - ry) * 0.35;
-    glow.style.transform = `translate3d(${gx}px, ${gy}px, 0) translate(-50%, -50%)`;
-    ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+    // each square chases the one in front of it, which is what makes the tail curve
+    xs[0] += (tx - xs[0]) * 0.34;
+    ys[0] += (ty - ys[0]) * 0.34;
+    for (let i = 1; i < N; i++) {
+      xs[i] += (xs[i - 1] - xs[i]) * 0.34;
+      ys[i] += (ys[i - 1] - ys[i]) * 0.34;
+    }
+    for (let i = 0; i < N; i++) {
+      // round to whole pixels so the squares land on the pixel grid and read as pixel art
+      bits[i].style.transform = `translate3d(${Math.round(xs[i])}px, ${Math.round(ys[i])}px, 0) translate(-50%, -50%)`;
+    }
     raf = requestAnimationFrame(frame);
   }
 
-  window.addEventListener('pointermove', onMove, { passive: true });
+  addEventListener('pointermove', onMove, { passive: true });
   document.addEventListener('pointerleave', onLeave);
-  window.addEventListener('blur', onLeave);
+  addEventListener('blur', onLeave);
   raf = requestAnimationFrame(frame);
 
-  // Astro's ClientRouter swaps <body>; without this the nodes are orphaned and the rAF
-  // keeps running against detached elements on every navigation.
   document.addEventListener('astro:before-swap', () => {
     cancelAnimationFrame(raf);
-    window.removeEventListener('pointermove', onMove);
+    removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerleave', onLeave);
-    window.removeEventListener('blur', onLeave);
-    glow.remove();
-    ring.remove();
+    removeEventListener('blur', onLeave);
+    wrap.remove();
   }, { once: true });
 }

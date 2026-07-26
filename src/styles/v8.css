@@ -37,8 +37,14 @@ html { scroll-padding-top: 52px; }
 .v8 .script { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-style: italic; }
 .v8 .hand { font-family: 'Geist', system-ui, -apple-system, sans-serif; color: var(--ink); }
 /* the accent is now a precise underline under the baseline, not a block behind the word */
-.v8 .mark-hl { position: relative; display: inline-block; background: none; padding: 0; color: inherit; }
-.v8 .mark-hl::after { content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .04em; height: .22em; background: var(--sun); z-index: -1; border-radius: 2px; }
+/* Painted as a background gradient on the span itself, NOT a z-index:-1 pseudo-element.
+   The old ::after sat at z-index:-1, so inside any positioned ancestor with its own
+   background (.darkcta) it painted *behind* that panel and vanished — which is why the
+   underline disappeared on "Got something you want built?". A background-image has no
+   stacking context to lose and works on light and dark panels alike. */
+.v8 .mark-hl { display: inline; padding: 0; color: inherit;
+  background-image: linear-gradient(var(--sun), var(--sun));
+  background-repeat: no-repeat; background-size: 100% .22em; background-position: 0 92%; }
 .v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); }
 /* primary is ink; the yellow primary survives only inside the dark panel (see .darkcta below) */
 .v8 .btn-sun { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: #FFFFFF; background: var(--ink); padding: 12px 22px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background .14s ease, border-color .14s ease; }
@@ -663,25 +669,18 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .article-page { padding: var(--gap-sec) 0 0; }
 .v8 .price-card + .article-page { margin-top: 0; }
 
-/* ---- pointer effect (src/scripts/pointer.ts) ----------------------------------------
-   Both layers are pointer-events:none and fixed, so they never sit between the cursor and
-   a link. Only `transform` and `opacity` animate, so this stays on the compositor and never
-   triggers layout or repaint of page content. */
-.v8 .ptr-glow, .v8 .ptr-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 60; contain: layout size style;
-  opacity: 0; transition: opacity .25s ease; will-change: transform; }
-.v8 .ptr-glow.on, .v8 .ptr-ring.on { opacity: 1; }
-/* the one place the sun yellow gets to be atmospheric rather than a precise accent */
-.v8 .ptr-glow { width: 380px; height: 380px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,228,92,.30) 0%, rgba(255,228,92,.12) 38%, transparent 68%);
-  filter: blur(6px); }
-.v8 .ptr-ring { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--hair-strong);
-  transition: opacity .25s ease, width .18s cubic-bezier(.2,.7,.3,1), height .18s cubic-bezier(.2,.7,.3,1),
-              border-color .18s ease, background .18s ease; }
-/* over a link the ring opens up and picks up the accent, so hover is felt as well as seen */
-.v8 .ptr-ring.over { width: 44px; height: 44px; border-color: var(--sun); background: rgba(255,228,92,.10); }
+/* ---- pointer: pixel comet (src/scripts/pointer.ts) --------------------------------------
+   Squares, not circles, with no border-radius and whole-pixel transforms so they sit on the
+   pixel grid. pointer-events:none and `contain` so a tail near a corner can never extend the
+   page — an earlier version of this effect did exactly that. */
+.v8 .ptr-comet { position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0;
+  transition: opacity .3s ease; contain: layout size style; }
+.v8 .ptr-comet.on { opacity: 1; }
+.v8 .ptr-comet i { position: absolute; left: 0; top: 0; display: block; background: var(--sun);
+  border-radius: 0; will-change: transform; box-shadow: 0 0 0 1px rgba(255,228,92,.22); }
 
-@media (hover: none), (pointer: coarse) { .v8 .ptr-glow, .v8 .ptr-ring { display: none; } }
-@media (prefers-reduced-motion: reduce) { .v8 .ptr-glow, .v8 .ptr-ring { display: none; } }
+@media (hover: none), (pointer: coarse) { .v8 .ptr-comet { display: none; } }
+@media (prefers-reduced-motion: reduce) { .v8 .ptr-comet { display: none; } }
 
 
 /* ---- hero wave ---------------------------------------------------------------------
@@ -728,3 +727,12 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 /* ---- analyzer: the React tool sits in the normal content column now ---- */
 .v8 .az-wrap { margin-top: calc(var(--gap-sec) * .34); }
 .v8 .az-wrap .az { max-width: 640px; margin: 0; }
+
+/* ---- about: portrait slot ----
+   4:5 crop so a phone portrait drops in without redesigning the page. Swap the src in
+   story.astro; nothing else needs to change. */
+.v8 .about-photo { margin: 30px 0 8px; max-width: 340px; }
+.v8 .about-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%;
+  border: 1px solid var(--hair); border-radius: 8px; background: #FAFAFA; display: block; }
+.v8 .about-photo figcaption { margin-top: 10px; font-size: 13px; color: var(--soft); }
+@media (max-width: 640px) { .v8 .about-photo { max-width: 100%; } }

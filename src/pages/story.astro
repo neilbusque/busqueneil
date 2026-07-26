@@ -19,7 +19,7 @@ const profile = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
   '@id': `${canonical}#webpage`,
-  name: "Neil Busque's Story: My Mom Went First",
+  name: 'About Neil Busque',
   url: canonical,
   isPartOf: WEBSITE_REF,
   dateCreated: '2026-05-13',
@@ -33,59 +33,59 @@ const profile = {
 };
 ---
 <AppShell
-  title="Neil Busque's Story: My Mom Went First"
-  description="Neil Busque's story, from the sacrifice his mom made in the Philippines to a career in design, marketing, automation, and AI engineering."
+  title="About Neil Busque | Design, Engineering and AI"
+  description="Who I am, what I build, and how I work. Design, programming, engineering and AI in one person, based in New Jersey and building for small teams."
   canonical={canonical}
   active="story"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(profile)} />
   <span class="eyebrow">About me</span>
-  <h1 class="sec">I got here because of <span class="mark-hl">my mom.</span></h1>
-  <p class="story-lede">I am from the Philippines and live in New Jersey now. That sentence took my mom more than ten years to make true. Everything else on this page is what I have tried to do with the chance she gave me.</p>
+  <h1 class="sec">Design, engineering, and the part in <span class="mark-hl">between.</span></h1>
+  <p class="story-lede">I am Neil Busque. I build web apps, websites, funnels, and automations for small teams, from New Jersey. One person, start to finish, no handoffs.</p>
 
-  <img class="art-img" style="margin-bottom:34px" src="/assets/art/journey.webp" alt="A paper airplane flying from tropical islands to a city skyline" width="1400" height="594" loading="lazy" />
+  {/* Photo slot. Swap the src for a real portrait when Neil has one he likes; the figure and
+      caption stay as they are. Keep it 4:5 — the CSS crops to that ratio. */}
+  <figure class="about-photo">
+    <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="900" height="1125" loading="lazy" />
+    <figcaption>That is me. You work with me directly.</figcaption>
+  </figure>
 
   <article class="article-page" style="padding-top:0">
     <div class="prose">
-      <h2>My mom went first</h2>
-      <p>I am from the Philippines. I live in New Jersey because of my mom.</p>
-      <p>I was in high school when she left. Wages back home are low, and the math on a normal life often does not work no matter how hard you run at it. So she went to the United States and worked, alone, so the rest of us would get a shot.</p>
-      <p>It took her more than ten years. She brought us over one at a time. My brothers, then my dad, then me, a few years ago. I know what that decade cost her.</p>
-      <p>My wife is still in the Philippines, so I go back when I can. Getting her here is next. That is what the work is for.</p>
+      <h2>Who I am</h2>
+      <p>I am a builder who came at it from three directions instead of one. I studied Information Technology and graduated top of my class. Then I spent years in graphic design, winning hundreds of contests on 99designs. Then marketing, paid ads, funnels, CRM, and automation, because the work kept asking for one more thing I did not have yet.</p>
+      <p>Most people in this field have one of those. I have all three, and the combination is the whole point: I can design the thing, build the thing, and understand why the business needed it in the first place. The handoffs where projects usually lose their shape do not exist when it is one person carrying all three.</p>
 
-      <h2>What I learned, in order</h2>
-      <p>I studied Information Technology and graduated top of my class. Java, C++, JavaScript, HTML, Android. I thought that was the whole job. Learn to code, get a coding job, done.</p>
-      <p>Then graphic design. Logos, flyers, t-shirts. I competed on 99designs and won hundreds of contests. It sounds better than it felt. Mostly it means I lost a lot first and paid attention to why.</p>
-      <p>An engineering company hired me to build their website. It turned into their marketing, their SEO, and a long list of things I did not know how to do yet. First time I watched design and code turn into money for someone.</p>
-      <p>Then Facebook ads. Funnels, CRM, GoHighLevel, automation. Video editing, growing social accounts. The work kept asking for one more thing I did not have yet.</p>
-      <p>Over the years, I have worked with coaches, agency owners, product sellers, eCommerce businesses, and other small teams. The businesses were different, but the job was usually the same: understand where the work was getting stuck, then use design, code, marketing, or automation to make it move.</p>
-      <p>Now it is AI. Claude Code and Codex, every day. It is the first time all of it lines up at once. The engineering from college, the eye from design, and years of learning what a business needs instead of what it asks for. On my own time I am at the gym. It keeps my head straight.</p>
-
-      <h2>I tried the AI builders too</h2>
-      <p>I use the AI app builders myself. They are good, and for a simple app they get you there.</p>
-      <p>The trouble starts when the app gets complicated. The first version comes fast. Then a real edge case appears, one fix breaks something else, and nobody is quite sure what changed. Generating a screen and keeping a whole system dependable are different jobs.</p>
-      <p>So I lean on AI hard and stay the engineer.</p>
+      <h2>How I try to get better</h2>
+      <p>I read constantly and I follow people who are genuinely better than me rather than people who are good at sounding like it. When something I built breaks, I write down why, and that note is worth more than any course I have taken.</p>
+      <p>I am not interested in being adequate at this. I want the work to be the best version of itself, and that means shipping a lot, looking hard at what came out, and being honest when it is not there yet. More than 40 products this year is not a brag about volume; it is how I keep the feedback loop short enough to actually learn from.</p>
+      <p>The gym is part of the same thing. It is the one habit I have never negotiated with, and it keeps my head straight when a build is going badly.</p>
 
       <h2>What I actually like doing</h2>
-      <p>Building the first working version of something. Not the polish, not the planning document, the moment an idea stops being a conversation and turns into a URL you can open. That is the part I would do for free, and it is why I have shipped more than 40 products this year instead of one perfect one.</p>
-      <p>I like problems where the answer is not more software. A lot of what I get asked to build should not be built, and finding that out on the first call is more satisfying to me than taking the money and building it anyway.</p>
-      <p>I also like the unglamorous half: the migration, the permissions model, the reason a form works on your phone but not your client's. Most people find that boring. It is usually where the actual difficulty lives.</p>
-
-      <h2>How I spend my time</h2>
-      <p>Most of the week is client work and my own products, in Claude Code and Codex, from New Jersey on Eastern time.</p>
-      <p>The gym is the other fixed point. It is the thing that keeps my head straight when a build is going badly, and the one habit I have never negotiated with.</p>
-      <p>The rest goes to my wife. She is still in the Philippines, so a lot of my week is timed around an eleven-hour difference, and a fair amount of what I have built exists because of that gap. Tandem started as an app for the two of us. Watch Together did too. Getting her here is the point of all of it.</p>
-      <p>When I am not building for someone else, I am usually building something small for myself and writing down what broke. That is where most of <a href="/free">the free tools</a> and every guide came from.</p>
+      <p>The first working version. Not the polish, not the planning document, the moment an idea stops being a conversation and turns into a URL you can open.</p>
+      <p>I also like problems where the answer is not more software. A lot of what I get asked to build should not be built, and finding that out on the first call is more satisfying to me than taking the money and building it anyway.</p>
+      <p>And the unglamorous half: the migration, the permissions model, the reason a form works on your phone but not your client's. Most people find that boring. It is usually where the actual difficulty lives.</p>
 
       <h2>How I can help you</h2>
       <p>Concretely, five things: <a href="/services/web-apps">web apps</a>, <a href="/services/websites">websites</a>, <a href="/services/landing-pages">landing pages</a>, <a href="/services/funnels">funnels</a>, and <a href="/services/ai-automation-services">automation</a>.</p>
-      <p>Underneath those it is usually one of three jobs. You have a manual process eating hours a week and it should be a system. You have traffic that is not converting and nobody can say which step is leaking. Or you have an idea and need someone who can take it from a sentence to a working product without a six-month discovery phase.</p>
-      <p>What you get is one person who has done the design, the code, the marketing, and the operations side, so the handoffs that usually lose things do not exist. Most first versions are live in days.</p>
+      <p>Underneath those it is usually one of three jobs. You have a manual process eating hours a week that should be a system. You have traffic that is not converting and nobody can say which step is leaking. Or you have an idea and need someone who can take it from a sentence to a working product without a six-month discovery phase.</p>
+      <p>Most first versions are live in days. You own the code and the accounts at the end, always.</p>
 
       <h2>How I work</h2>
       <p>I do not have an agency behind me and I am not building one. You get me on the first call, me building it, and my phone number.</p>
-      <p>Scope before build, so you know what is included and what is not. Progress you can watch on a real URL instead of a status update. You own the code and the accounts at the end, always.</p>
-      <p>And if we never work together, that is fine. I am still happy to help you think something through, or tell you when the thing you are about to pay for is not worth building. <a href="https://book.busqueneil.com/">Book a call</a> or message me either way.</p>
+      <p>Scope before build, so you know what is included and what is not. Progress you can watch on a real URL instead of a status update. And if I am not the right fit, I will tell you on the first call and it costs you nothing.</p>
+      <p>I lean on AI hard and stay the engineer. I use the AI app builders myself and they are good for a simple app, but generating a screen and keeping a whole system dependable are different jobs. The first version comes fast, then a real edge case appears, one fix breaks something else, and nobody is quite sure what changed. That is the part I am there for.</p>
+
+      <h2>How I spend my time</h2>
+      <p>Most of the week is client work and my own products, in Claude Code and Codex, on Eastern time.</p>
+      <p>The rest goes to my wife. She is still in the Philippines, so a lot of my week is timed around an eleven-hour difference, and a fair amount of what I have built exists because of that gap. Tandem started as an app for the two of us. Watch Together did too.</p>
+      <p>When I am not building for someone else, I am building something small for myself and writing down what broke. That is where <a href="/free">the free tools</a> and every guide came from.</p>
+
+      <h2>Why I am here at all</h2>
+      <p>I am from the Philippines. I live in New Jersey because of my mom.</p>
+      <p>I was in high school when she left. Wages back home are low, and the math on a normal life often does not work no matter how hard you run at it. So she went to the United States and worked, alone, so the rest of us would get a shot.</p>
+      <p>It took her more than ten years. She brought us over one at a time. My brothers, then my dad, then me, a few years ago. I know what that decade cost her. My wife is still in the Philippines, so I go back when I can, and getting her here is next.</p>
+      <p>That is what the work is for.</p>
     </div>
   </article>
 
