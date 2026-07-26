@@ -1,19 +1,38 @@
 ---
-// The homepage establishes the site's identity. Page-specific schema lives with each page.
+// The homepage establishes one connected identity graph. Page-specific schema references
+// these stable IDs so crawlers see one person, one brand, and one website across every route.
+import {
+  AUTHOR,
+  LOGO,
+  ORGANIZATION_ID,
+  ORGANIZATION_REF,
+  PERSON_ID,
+  PERSON_REF,
+  PROFILE_IMAGE_URL,
+  SOCIAL_IMAGE,
+  WEBSITE_ID,
+} from '../lib/seo';
 
 const person = {
-  '@context': 'https://schema.org',
   '@type': 'Person',
-  '@id': 'https://busqueneil.com/#person',
+  '@id': PERSON_ID,
   name: 'Neil Busque',
   givenName: 'Neil',
   familyName: 'Busque',
+  alternateName: 'busqueneil',
   url: 'https://busqueneil.com/',
-  image: 'https://busqueneil.com/assets/brand/og-default.png',
+  mainEntityOfPage: { '@id': 'https://busqueneil.com/story#webpage' },
+  image: {
+    '@type': 'ImageObject',
+    url: PROFILE_IMAGE_URL,
+    contentUrl: PROFILE_IMAGE_URL,
+    caption: 'Neil Busque',
+  },
   jobTitle: 'AI Engineer and Product Builder',
   description:
     'Neil Busque is an AI engineer and product builder in New Jersey. He builds practical AI agents, automations, web apps, and websites for small teams and growing companies.',
   email: 'mailto:busqueneil@gmail.com',
+  telephone: '+1-908-316-4140',
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'New Jersey',
@@ -23,9 +42,10 @@ const person = {
   hasOccupation: {
     '@type': 'Occupation',
     name: 'AI Engineer and Product Builder',
-    occupationLocation: { '@type': 'City', name: 'New Jersey' },
+    occupationLocation: { '@type': 'State', name: 'New Jersey' },
     skills: 'AI agents, LLM applications, Model Context Protocol (MCP), workflow automation, n8n, generative engine optimization (GEO), SEO, paid search, CRM, web app development',
   },
+  worksFor: ORGANIZATION_REF,
   alumniOf: {
     '@type': 'CollegeOrUniversity',
     name: 'STI Tagum College',
@@ -55,22 +75,68 @@ const person = {
   ],
   sameAs: [
     'https://www.linkedin.com/in/neilbusque',
+    'https://www.facebook.com/neilvbusque/',
+    'https://www.instagram.com/neil_busque/',
+  ],
+};
+
+const organization = {
+  '@type': 'Organization',
+  '@id': ORGANIZATION_ID,
+  name: 'busqueneil',
+  alternateName: 'Neil Busque',
+  url: 'https://busqueneil.com/',
+  slogan: 'Useful software, built with you.',
+  description:
+    'A New Jersey product studio led by Neil Busque, building AI agents, automations, web apps, and websites for small teams.',
+  logo: LOGO,
+  image: SOCIAL_IMAGE,
+  founder: AUTHOR,
+  email: 'busqueneil@gmail.com',
+  telephone: '+1-908-316-4140',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Elizabeth',
+    addressRegion: 'NJ',
+    addressCountry: 'US',
+  },
+  areaServed: [
+    { '@type': 'State', name: 'New Jersey' },
+    { '@type': 'City', name: 'New York City' },
+    { '@type': 'Country', name: 'United States' },
+    'Remote',
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'project inquiries',
+    email: 'busqueneil@gmail.com',
+    telephone: '+1-908-316-4140',
+    availableLanguage: ['English'],
+  },
+  sameAs: [
+    'https://www.linkedin.com/in/neilbusque',
+    'https://www.facebook.com/neilvbusque/',
+    'https://www.instagram.com/neil_busque/',
   ],
 };
 
 const website = {
-  '@context': 'https://schema.org',
   '@type': 'WebSite',
-  '@id': 'https://busqueneil.com/#website',
+  '@id': WEBSITE_ID,
   url: 'https://busqueneil.com/',
-  name: 'Neil Busque',
-  alternateName: 'busqueneil',
+  name: 'busqueneil',
+  alternateName: 'Neil Busque',
   description:
     'The personal site of Neil Busque, a New Jersey AI engineer and product builder who ships agents, automations, web apps, and websites.',
   inLanguage: 'en-US',
-  publisher: { '@id': 'https://busqueneil.com/#person' },
+  publisher: ORGANIZATION_REF,
+  creator: PERSON_REF,
+  about: [PERSON_REF, ORGANIZATION_REF],
 };
 
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [LOGO, SOCIAL_IMAGE, organization, person, website],
+};
 ---
-<script type="application/ld+json" set:html={JSON.stringify(website)} />
-<script type="application/ld+json" set:html={JSON.stringify(person)} />
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

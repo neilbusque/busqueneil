@@ -26,13 +26,22 @@ try {
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
 
 const list = {
-  '@context': 'https://schema.org',
   '@type': 'ItemList',
+  '@id': `${canonical}#guide-list`,
   name: 'Tutorials by Neil Busque',
   itemListElement: TUTORIALS.map((t, i) => ({
     '@type': 'ListItem', position: i + 1, name: t.title,
     url: `https://busqueneil.com/guides/${t.slug}`,
   })),
+};
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#webpage`,
+  name: title,
+  description,
+  url: canonical,
+  mainEntity: list,
 };
 ---
 <AppShell title={title} description={description} canonical={canonical} active="resources">
@@ -41,7 +50,7 @@ const list = {
       { name: 'Home', url: 'https://busqueneil.com/' },
       { name: 'Resources', url: canonical },
     ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(list)} />
+    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
   </Fragment>
 
   <span class="eyebrow">Resources</span>

@@ -1,25 +1,29 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
 
 export const prerender = true;
 
 const title = 'How to Show Up in Google AI Overviews in 2026';
 const description = 'Google AI Overviews SEO without the myths: how retrieval works, what makes a page eligible, what Google says to ignore, and how to measure visibility.';
 const canonical = 'https://busqueneil.com/guides/google-ai-overviews-guide';
+const guideImage = `${SITE_URL}/og/guides/google-ai-overviews-guide.png`;
 const published = '2026-06-30';
 const modified = '2026-07-25';
 
 const article = {
-  '@context': 'https://schema.org', '@type': 'TechArticle', headline: title, description,
-  author: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/story' },
-  publisher: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/' },
-  datePublished: published, dateModified: modified, mainEntityOfPage: canonical,
-  image: 'https://busqueneil.com/og.png',
+  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published, dateModified: modified, mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image: guideImage,
+  inLanguage: 'en-US',
   keywords: 'Google AI Overviews, AI Overviews SEO, Google SGE, rank in AI answers, generative search',
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },

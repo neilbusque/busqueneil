@@ -3,6 +3,7 @@ import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CaseStudyCTA from '../../components/CaseStudyCTA.astro';
 import { caseStudies } from '../../data/case-studies';
+import { AUTHOR, PUBLISHER, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
 import '../../styles/case-study.css';
 
 export const prerender = true;
@@ -26,21 +27,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
+  '@id': `${url}#creative-work`,
   name: cs.name,
   headline: `${cs.name}: ${cs.tagline}`,
   description: cs.summary,
   url,
   dateCreated: cs.year,
-  creator: {
-    '@type': 'Person',
-    name: 'Neil Busque',
-    url: 'https://busqueneil.com/story',
-  },
-  author: {
-    '@type': 'Person',
-    name: 'Neil Busque',
-    url: 'https://busqueneil.com/story',
-  },
+  creator: AUTHOR,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  image: SOCIAL_IMAGE_URL,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${url}#webpage` },
+  inLanguage: 'en-US',
   keywords: cs.stack.join(', '),
   ...(cs.liveUrl ? { sameAs: [cs.liveUrl] } : {}),
 };

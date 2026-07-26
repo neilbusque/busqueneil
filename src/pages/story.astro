@@ -1,5 +1,6 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
+import { AUTHOR, PROFILE_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
 
 /* The career arc as a sequence. Each step is where the next one came from, which is the whole
    point of the page: none of it was a plan, but none of it was wasted either. */
@@ -17,14 +18,15 @@ const canonical = 'https://busqueneil.com/story';
 const profile = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
+  '@id': `${canonical}#webpage`,
+  name: "Neil Busque's Story",
+  url: canonical,
+  isPartOf: WEBSITE_REF,
   dateCreated: '2026-05-13',
   dateModified: '2026-07-25',
   mainEntity: {
-    '@type': 'Person',
-    '@id': 'https://busqueneil.com/#person',
-    name: 'Neil Busque',
-    url: 'https://busqueneil.com/',
-    image: 'https://busqueneil.com/assets/art/neil-avatar.webp',
+    ...AUTHOR,
+    image: PROFILE_IMAGE_URL,
     jobTitle: 'AI Engineer and Product Builder',
     sameAs: ['https://www.linkedin.com/in/neilbusque/'],
   },

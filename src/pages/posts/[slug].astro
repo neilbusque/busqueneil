@@ -5,6 +5,7 @@ import { getPostBySlug, setPublicCache } from '../../lib/posts';
 import { publicImageUrl } from '../../lib/supabase';
 import { formatDate, readingTime } from '../../lib/format';
 import { deriveExcerpt } from '../../lib/markdown';
+import { AUTHOR, PUBLISHER, WEBSITE_REF } from '../../lib/seo';
 
 const { slug } = Astro.params;
 const post = slug
@@ -31,23 +32,18 @@ const TAG_LABEL: Record<string, string> = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': post.type === 'project' ? 'CreativeWork' : 'BlogPosting',
+  '@id': `${canonical}#article`,
   headline: title,
   description,
   url: canonical,
   datePublished: post.published_at,
   dateModified: post.updated_at,
   image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
-  author: {
-    '@type': 'Person',
-    name: 'Neil Busque',
-    url: 'https://busqueneil.com/story',
-  },
-  publisher: {
-    '@type': 'Person',
-    name: 'Neil Busque',
-    url: 'https://busqueneil.com/',
-  },
-  mainEntityOfPage: canonical,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  inLanguage: 'en-US',
   ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
 };
 ---

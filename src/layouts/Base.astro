@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ExitIntentAnalyzer from '../components/ExitIntentAnalyzer.tsx';
+import { ORGANIZATION_REF, PERSON_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ const {
   description,
   canonical,
   ogType = 'website',
-  ogImage = 'https://busqueneil.com/assets/brand/og-default.png',
+  ogImage = SOCIAL_IMAGE_URL,
   noindex = false,
   dark = false,
   noConcierge = false,
@@ -37,6 +38,24 @@ const fontHref = v8
     : 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap';
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonicalUrl}#webpage`,
+  url: canonicalUrl,
+  name: title,
+  description,
+  inLanguage: 'en-US',
+  isPartOf: WEBSITE_REF,
+  about: [PERSON_REF, ORGANIZATION_REF],
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: ogImage,
+    contentUrl: ogImage,
+    width: 1200,
+    height: 630,
+  },
+};
 ---
 <!doctype html>
 <html lang="en">
@@ -52,6 +71,9 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Neil Busque" />
+    <meta name="application-name" content="busqueneil" />
+    <meta name="apple-mobile-web-app-title" content="busqueneil" />
+    <meta name="color-scheme" content="light" />
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="author" href="https://busqueneil.com/story" />
@@ -62,20 +84,29 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${title} | Neil Busque`} />
-    <meta property="og:site_name" content="Neil Busque" />
+    <meta property="og:site_name" content="busqueneil" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`${title} | Neil Busque`} />
 
-    <link rel="icon" type="image/svg+xml" href="/assets/brand/mark-small.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon-180.png" />
+    <link rel="icon" type="image/svg+xml" href="/assets/brand/mark-small.svg?v=12" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png?v=12" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png?v=12" />
+    <link rel="shortcut icon" href="/favicon.ico?v=12" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon-180.png?v=12" />
+    <link rel="mask-icon" href="/assets/brand/mark-mono.svg?v=12" color="#16150F" />
+    <link rel="manifest" href="/site.webmanifest?v=12" />
+    <link rel="me" href="https://www.linkedin.com/in/neilbusque/" />
+    <link rel="me" href="https://www.facebook.com/neilvbusque/" />
+    <link rel="me" href="https://www.instagram.com/neil_busque/" />
     <link rel="alternate" type="application/rss+xml" title="Neil Busque" href="/rss.xml" />
+    {!noindex && <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />}
 
     <slot name="head" />
   </head>

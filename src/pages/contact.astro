@@ -1,5 +1,6 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
+import { ORGANIZATION_REF, PERSON_REF, WEBSITE_REF } from '../lib/seo';
 
 export const prerender = true;
 
@@ -10,9 +11,11 @@ const canonical = 'https://busqueneil.com/contact';
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
+  '@id': `${canonical}#webpage`,
   name: title,
   url: canonical,
-  about: { '@id': 'https://busqueneil.com/#person' },
+  isPartOf: WEBSITE_REF,
+  about: [PERSON_REF, ORGANIZATION_REF],
 };
 ---
 <AppShell title={title} description={description} canonical={canonical} active="contact">

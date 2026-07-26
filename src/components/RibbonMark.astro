@@ -1,13 +1,13 @@
 ---
 interface Props { size?: number; variant?: 'full' | 'small' | 'ivory'; }
 const { size = 32, variant = 'full' } = Astro.props;
-const stem = variant === 'ivory' ? '#F7F1ED' : '#242424';
+const stem = variant === 'ivory' ? '#F7F1ED' : '#16150F';
 const showFolds = variant !== 'small';
 ---
 <svg class="ribbon-mark" width={size} height={size} viewBox="0 0 120 120" aria-hidden="true">
   <polygon class="rm-stem-l" points="16,16 40,16 40,104 16,104" fill={stem} />
   <polygon class="rm-stem-r" points="80,16 104,16 104,104 80,104" fill={stem} />
-  <polygon class="rm-ribbon" points="16,16 40,16 104,104 80,104" fill="#FFE862" />
-  {showFolds && <polygon class="rm-fold-t" points="40,16 40,49 16,16" fill="#FFD640" />}
-  {showFolds && <polygon class="rm-fold-b" points="80,104 80,71 104,104" fill="#FFD640" />}
+  <polygon class="rm-ribbon" points="16,16 40,16 104,104 80,104" fill="#FFE45C" />
+  {showFolds && <polygon class="rm-fold-t" points="40,16 40,49 16,16" fill="#F7C843" />}
+  {showFolds && <polygon class="rm-fold-b" points="80,104 80,71 104,104" fill="#F7C843" />}
 </svg>

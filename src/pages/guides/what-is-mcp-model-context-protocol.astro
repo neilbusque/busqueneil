@@ -1,25 +1,29 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
 
 export const prerender = true;
 
 const title = 'What Is MCP? A Plain Model Context Protocol Guide';
 const description = 'MCP is an open protocol for connecting AI applications to tools and data. Learn how hosts, clients, servers, tools, resources, and prompts fit together.';
 const canonical = 'https://busqueneil.com/guides/what-is-mcp-model-context-protocol';
+const guideImage = `${SITE_URL}/og/guides/what-is-mcp-model-context-protocol.png`;
 const published = '2026-06-30';
 const modified = '2026-07-25';
 
 const article = {
-  '@context': 'https://schema.org', '@type': 'TechArticle', headline: title, description,
-  author: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/story' },
-  publisher: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/' },
-  datePublished: published, dateModified: modified, mainEntityOfPage: canonical,
-  image: 'https://busqueneil.com/og.png',
+  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published, dateModified: modified, mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image: guideImage,
+  inLanguage: 'en-US',
   keywords: 'MCP, Model Context Protocol, MCP server, AI tools, Anthropic, agentic AI',
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },

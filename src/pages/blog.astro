@@ -21,8 +21,28 @@ function tagFor(p: Post): string {
   const map: Record<string, string> = { status: 'Thought', project: 'Build', now: 'Now' };
   return map[p.type] ?? 'Post';
 }
+const canonical = 'https://busqueneil.com/blog';
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#webpage`,
+  name: "Neil Busque's Blog",
+  description: 'Build notes and lessons about AI products, automations, websites, and the systems behind them.',
+  url: canonical,
+  mainEntity: {
+    '@type': 'ItemList',
+    '@id': `${canonical}#posts-list`,
+    itemListElement: posts.map((post, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: post.title ?? 'Untitled',
+      url: `https://busqueneil.com/posts/${post.slug}`,
+    })),
+  },
+};
 ---
-<AppShell title="Neil Busque's Blog | Build Notes and Lessons" description="Notes from Neil Busque on building AI products, automations, websites, and the systems behind them, including what broke and what he learned." active="resources">
+<AppShell title="Neil Busque's Blog | Build Notes and Lessons" description="Notes from Neil Busque on building AI products, automations, websites, and the systems behind them, including what broke and what he learned." canonical={canonical} active="resources">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
   <span class="eyebrow">The blog</span>
   <h1 class="sec">Build notes and <span class="mark-hl">lessons.</span></h1>
   <p class="res-lede">What I am making, what broke, and what I learned fixing it. If you want the cleaner step-by-step version, head to <a href="/resources">Resources</a>.</p>

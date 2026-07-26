@@ -1,6 +1,7 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
 
 export const prerender = true;
 
@@ -10,11 +11,15 @@ const canonical = 'https://busqueneil.com/hire/ai-engineer-nj';
 
 const service = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
   name: 'AI Engineer in New Jersey | Neil Busque',
   url: canonical,
-  image: 'https://busqueneil.com/og.png',
-  provider: { '@id': 'https://busqueneil.com/#person' },
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
   areaServed: [
     { '@type': 'State', name: 'New Jersey' },
     { '@type': 'City', name: 'Newark' },

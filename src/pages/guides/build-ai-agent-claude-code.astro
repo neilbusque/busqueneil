@@ -1,12 +1,14 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
 
 export const prerender = true;
 
 const title = 'How to Build an AI Agent with Claude Code and MCP';
 const description = 'A practical AI agent pattern using Claude Code and MCP: choose one job, connect only the tools it needs, set approval rules, and test real failures.';
 const canonical = 'https://busqueneil.com/guides/build-ai-agent-claude-code';
+const guideImage = `${SITE_URL}/og/guides/build-ai-agent-claude-code.png`;
 const published = '2026-06-30';
 const modified = '2026-07-25';
 
@@ -15,16 +17,19 @@ const article = {
   '@type': 'TechArticle',
   headline: title,
   description,
-  author: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/story' },
-  publisher: { '@type': 'Person', name: 'Neil Busque', url: 'https://busqueneil.com/' },
+  '@id': `${canonical}#article`,
+  author: AUTHOR,
+  publisher: PUBLISHER,
   datePublished: published,
   dateModified: modified,
-  mainEntityOfPage: canonical,
-  image: 'https://busqueneil.com/og.png',
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image: guideImage,
+  inLanguage: 'en-US',
   keywords: 'AI agent, Claude Code, MCP, Model Context Protocol, agentic automation',
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} ogType="article" active="resources">
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
