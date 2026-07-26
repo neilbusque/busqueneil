@@ -241,14 +241,20 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .svc li { border-top: 1px solid var(--hair); }
 /* The grid lives on the anchor, not the li, so the whole row is one click target that leads
    to its service page. Keeping the grid on the li would leave the row hoverable but dead. */
-.v8 .svc-row { display: grid; grid-template-columns: 34px 34px 1fr 1.15fr 22px; align-items: center; gap: 16px; padding: 18px 0; text-decoration: none; color: inherit; transition: padding-left .18s ease, background .18s ease; }
+.v8 .svc-row { position: relative; display: grid; grid-template-columns: 34px 34px 1fr 1.15fr 22px; align-items: center; gap: 16px; padding: 18px 0 18px 14px; text-decoration: none; color: inherit; transition: background .16s ease; }
 .v8 .svc-row .svc-cta { justify-self: end; padding-right: 4px; font-size: 18px; color: var(--soft); transition: transform .18s ease, color .18s ease; }
 .v8 .svc-row:hover .svc-cta { color: var(--ink); transform: translateX(3px); }
 .v8 .svc-art { display: block; width: 26px; height: 26px; color: var(--ink); }
 .v8 .svc-art svg { width: 100%; height: 100%; }
 .v8 .svc-art .cell { fill: var(--sun); stroke: var(--ink); }
 .v8 .svc li:first-child { border-top: 1px solid var(--hair); }
-.v8 .svc li:hover .svc-row { background: #FAFAFA; padding-left: 16px; }
+/* Hover must not change the box. padding-left:16px here shifted the whole row sideways on
+   hover, which read as content jumping. The affordance is now a left accent bar that fades
+   in over reserved space, plus the background: both are paint-only. */
+.v8 .svc li:hover .svc-row { background: #FAFAFA; }
+.v8 .svc-row::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
+  border-radius: 0 2px 2px 0; background: var(--sun); opacity: 0; transition: opacity .16s ease; }
+.v8 .svc li:hover .svc-row::before { opacity: 1; }
 .v8 .svc .num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
 .v8 .svc .name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.028em; }
 .v8 .svc .desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: none; text-align: left; }
