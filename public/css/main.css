@@ -902,6 +902,31 @@ footer {
   align-items: flex-end;
   gap: 0.6rem;
   font-family: var(--sans);
+  /* The closed panel still takes part in this flex column, so this container measures
+     about 370x610 even when only the 60px launcher is visible. It declared no
+     pointer-events, so it defaulted to auto and swallowed every click in that whole
+     invisible box: measured with elementFromPoint, anything in the bottom-right column
+     up to ~630px above the fold was unclickable on /help, /build, /ria and /support.
+     Neutralise the wrapper and let the real controls opt back in. .nc-panel is left
+     alone deliberately: it sets pointer-events itself in BOTH states (none when closed,
+     auto under .is-open), so it is unaffected by this and must not be blanket-reset. */
+  pointer-events: none;
+}
+#neilos-chat .nc-launch,
+#neilos-chat .nc-teaser {
+  pointer-events: auto;
+}
+
+/* ---- Talk concierge pill: sit above the AI chat launcher, not on top of it ----
+   The funnels run both widgets. Talk defaults to bottom-right 22px, which is exactly
+   where the AI chat launcher lives (bottom 20px, 60px tall), so the pill is lifted clear
+   of it. widget.js reads --talk-bottom through its shadow boundary, and only the four
+   funnel pages that actually load the chat widget need the offset, hence :has() rather
+   than a blanket rule: the /thanks pages have no chat launcher, so the pill keeps its
+   default position there. */
+html:has(#neilos-chat) #talk-widget-root {
+  --talk-bottom: 92px;
+  --talk-bottom-sm: 92px;
 }
 
 /* launcher bubble */

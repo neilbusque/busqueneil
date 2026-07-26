@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 const error = Astro.url.searchParams.get('error');
 Astro.response.headers.set('Cache-Control', 'no-store');
 ---
-<Base title="Sign in — busqueneil" description="Admin sign-in." noindex>
+<Base title="Sign in — busqueneil" description="Admin sign-in." noindex noConcierge>
   <main class="wrap" style="max-width: 420px; padding-top: 90px;">
     <h1 style="font-family: var(--serif); font-weight: 600; font-size: 30px; margin-bottom: 24px;">
       Sign in
