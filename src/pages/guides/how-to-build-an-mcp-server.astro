@@ -1,0 +1,181 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'How to Build an MCP Server (Python and TypeScript)';
+const description = 'A working MCP server in about 30 lines, then the parts that actually break: tool descriptions, return sizes, auth, and testing. Written from shipped servers.';
+const canonical = 'https://busqueneil.com/guides/how-to-build-an-mcp-server';
+const guideImage = `${SITE_URL}/assets/brand/og-social.png`;
+const published = '2026-07-25';
+const modified = '2026-07-25';
+
+const FAQ = [
+  {
+    q: 'How do I build an MCP server?',
+    a: 'Install an MCP SDK (FastMCP for Python, @modelcontextprotocol/sdk for TypeScript), create a server instance, decorate one function as a tool, and run it over stdio. That is a working server in about 30 lines. The remaining work is writing tool descriptions the model can act on, keeping return payloads small, and handling auth.',
+  },
+  {
+    q: 'What language should I write an MCP server in?',
+    a: 'Python with FastMCP is the fastest path if you are wrapping an API or a database, because the decorator generates the schema from your type hints. TypeScript is the better choice when the server ships alongside an existing Node codebase and you want one dependency tree.',
+  },
+  {
+    q: 'How do I test an MCP server?',
+    a: 'Use the MCP Inspector (npx @modelcontextprotocol/inspector) to call tools directly without a model in the loop. It shows the exact JSON schema your server advertises, which is where most bugs are. Only after that is clean should you wire it into a host like Claude Code.',
+  },
+  {
+    q: 'Do MCP servers run locally or remotely?',
+    a: 'Both. A local server runs as a subprocess and talks over stdio, which is the simplest option and keeps credentials on your machine. A remote server runs as an HTTP service and is what you want when a team needs to share one connection or the server needs to reach private infrastructure.',
+  },
+  {
+    q: 'Why is my MCP tool not being called?',
+    a: 'Almost always the description. The model picks tools by reading their descriptions, so a tool described as "gets data" will lose to one described as "look up a customer by email and return their plan, MRR, and last login." Rewrite the description before you touch the code.',
+  },
+];
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
+  author: AUTHOR, publisher: PUBLISHER,
+  datePublished: published, dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF, image: guideImage, inLanguage: 'en-US',
+  proficiencyLevel: 'Beginner',
+  keywords: 'MCP server, how to build an MCP server, FastMCP, Python MCP server, TypeScript MCP server, Model Context Protocol',
+};
+const faqSchema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
+      { name: 'How to build an MCP server', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">06</span> Guide</p>
+    <h1>How to build an MCP server</h1>
+    <p class="lede">A working server in about 30 lines, then the four things that actually decide whether it is useful: tool descriptions, return size, auth, and testing. Written from servers I run every day.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: install an MCP SDK, create a server, decorate a function as a tool, and run it over stdio. That is a working MCP server in about 30 lines. Everything after that is making the tools legible to a model and keeping the responses small.</strong></p>
+
+      <p>If you do not yet know what MCP is or how hosts, clients, and servers relate, read <a href="/guides/what-is-mcp-model-context-protocol">the plain MCP explainer</a> first. This guide assumes you want to write one.</p>
+
+      <h2>The smallest server that works (Python)</h2>
+      <p>FastMCP is the fastest path. It reads your type hints and docstring and generates the tool schema for you.</p>
+      <pre><code>{`# pip install fastmcp
+from fastmcp import FastMCP
+
+mcp = FastMCP("invoices")
+
+@mcp.tool()
+def find_invoice(email: str) -> dict:
+    """Look up the most recent invoice for a customer by email address.
+
+    Returns the invoice id, amount in cents, status, and issue date.
+    Use this when someone asks about a specific customer's billing.
+    """
+    row = db.query_one(
+        "select id, amount_cents, status, issued_at from invoices "
+        "where customer_email = %s order by issued_at desc limit 1",
+        [email],
+    )
+    if not row:
+        return {"found": False, "reason": f"No invoice for {email}"}
+    return {"found": True, **row}
+
+if __name__ == "__main__":
+    mcp.run()`}</code></pre>
+      <p>That is a complete server. Point a host at it and the model can look up invoices.</p>
+
+      <h2>The same thing in TypeScript</h2>
+      <p>Reach for this when the server lives beside an existing Node codebase and you would rather not maintain a second runtime.</p>
+      <pre><code>{`// npm i @modelcontextprotocol/sdk zod
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { z } from "zod";
+
+const server = new McpServer({ name: "invoices", version: "1.0.0" });
+
+server.tool(
+  "find_invoice",
+  "Look up the most recent invoice for a customer by email address. " +
+  "Returns id, amount in cents, status, and issue date.",
+  { email: z.string().email() },
+  async ({ email }) => {
+    const row = await db.findInvoice(email);
+    return {
+      content: [{ type: "text", text: JSON.stringify(row ?? { found: false }) }],
+    };
+  }
+);
+
+await server.connect(new StdioServerTransport());`}</code></pre>
+
+      <h2>The description is the interface</h2>
+      <p>This is the part people skip, and it is the part that decides whether the server gets used.</p>
+      <p>A model does not read your code. It reads the name, the description, and the parameter schema, then decides which tool to call. So the description is not documentation for humans. It is the actual interface.</p>
+      <p>Compare these two:</p>
+      <ul>
+        <li><strong>Bad:</strong> "Gets invoice data."</li>
+        <li><strong>Good:</strong> "Look up the most recent invoice for a customer by email address. Returns the invoice id, amount in cents, status, and issue date. Use this when someone asks about a specific customer's billing."</li>
+      </ul>
+      <p>The second one tells the model when to reach for it, what it needs, and what comes back. When a tool is being ignored, rewrite its description before you debug anything else. That has been the fix for me more often than any code change.</p>
+
+      <h2>Return small, structured payloads</h2>
+      <p>Every byte your tool returns becomes context the model has to carry. A tool that dumps 200 rows of JSON will technically work and will quietly ruin the conversation around it.</p>
+      <p>Three rules I follow:</p>
+      <ol>
+        <li><strong>Paginate by default.</strong> Return 10-25 rows with a total count, not everything.</li>
+        <li><strong>Return fields, not records.</strong> If the model needs a name and a status, do not send the whole row because it was easier.</li>
+        <li><strong>Say why something is empty.</strong> <code>{`{"found": false, "reason": "No invoice for x@y.com"}`}</code> lets the model tell the user something useful. A bare <code>null</code> makes it guess.</li>
+      </ol>
+      <p>I learned this the annoying way, by building a tool that returned a full table and watching every conversation using it fall apart three turns in.</p>
+
+      <h2>Auth and permissions</h2>
+      <p>A local stdio server inherits your environment, so read credentials from environment variables and never hard-code them. That is usually enough for a personal server.</p>
+      <p>The moment a server can write, add a second layer. Separate read tools from write tools, name the write ones unambiguously (<code>send_email</code>, not <code>process</code>), and keep genuinely destructive operations out of the tool surface entirely. A model that can delete records will eventually delete records.</p>
+      <p>For remote servers, do not rely on the host for authorization. Authenticate the request at your server, scope it to one tenant, and enforce that scope in the query rather than in the prompt. If your data lives in Postgres, <a href="/guides/postgres-row-level-security">row-level security</a> is the right place to enforce it.</p>
+
+      <h2>Test without a model in the loop</h2>
+      <p>Debugging a server through a chat window is miserable, because you cannot tell whether the tool is broken or the model just did not call it.</p>
+      <pre><code>{`npx @modelcontextprotocol/inspector python server.py`}</code></pre>
+      <p>The Inspector lists your tools, shows the exact JSON schema you are advertising, and lets you call each one with your own arguments. Get it clean there first. Most of the bugs I have hit were visible in that schema: an optional parameter that was actually required, or a description that made sense to me and nowhere near enough sense to a model.</p>
+
+      <h2>What I have built with this</h2>
+      <p>I run MCP servers daily rather than as a demo. One wraps my CRM so an agent can read contacts, log interactions, and create tasks. One wraps a self-hosted SEO stack for keyword and SERP data. One handles cold outbound: leads, campaigns, and reply threads.</p>
+      <p>The pattern that keeps working is narrow servers. One server, one domain, a handful of well-described tools. Every time I have built a server that tried to do everything, the model got worse at choosing, not better.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>If you want an agent connected to your own tools without building the plumbing yourself, that is <a href="/services/ai-automation-services">work I do</a>. Or read how I <a href="/guides/build-ai-agent-claude-code">build the agent that sits on top of these servers</a>.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/resources">Read the other guides</a>
+    </div>
+  </div>
+</AppShell>

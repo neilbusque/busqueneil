@@ -1,0 +1,161 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Postgres Row-Level Security: A Practical Guide';
+const description = 'What row-level security is, how to turn it on without breaking your app, and the three gotchas that bite every time. Includes a 10-second audit query.';
+const canonical = 'https://busqueneil.com/guides/postgres-row-level-security';
+const guideImage = `${SITE_URL}/assets/brand/og-social.png`;
+const published = '2026-07-25';
+const modified = '2026-07-25';
+
+const FAQ = [
+  {
+    q: 'What is row-level security?',
+    a: 'Row-level security (RLS) is a Postgres feature that filters which rows a query can see or change, based on policies you attach to each table. Instead of every query needing a correct WHERE clause, the database enforces the rule itself, so a forgotten filter in application code cannot leak another tenant\'s data.',
+  },
+  {
+    q: 'Does enabling RLS break my app?',
+    a: 'It can, and that is the point. Enabling RLS with no policies denies everything, so any query that was relying on unrestricted access stops working. Server-side code using a service-role key bypasses RLS entirely, so apps that read through server routes usually survive. Apps querying the database directly from the browser need policies written first.',
+  },
+  {
+    q: 'Is RLS enough on its own?',
+    a: 'No. RLS filters rows but does not remove table privileges. A role can still hold GRANTs it should not have, and enabling RLS without revoking those grants leaves a gap. Do both: enable and force RLS, then revoke the privileges the public role never needed.',
+  },
+  {
+    q: 'Does RLS slow down queries?',
+    a: 'A policy is a predicate added to your query, so it costs roughly what the same WHERE clause would cost. The usual performance problem is not RLS itself but an unindexed column inside the policy: if your policy filters on tenant_id, that column needs an index or every query does a sequential scan.',
+  },
+  {
+    q: 'Why did my delete succeed but nothing was deleted?',
+    a: 'Because an UPDATE or DELETE that RLS filters out is not an error. PostgREST returns success with zero rows affected, which is indistinguishable from a successful write if you only check for an error. Always select the affected rows back and check the count.',
+  },
+];
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
+  author: AUTHOR, publisher: PUBLISHER,
+  datePublished: published, dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF, image: guideImage, inLanguage: 'en-US',
+  keywords: 'row-level security, postgres row level security, RLS, Supabase RLS, multi-tenant Postgres, database security',
+};
+const faqSchema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
+      { name: 'Postgres row-level security', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">08</span> Guide</p>
+    <h1>Postgres row-level security</h1>
+    <p class="lede">What it is, how to turn it on without taking your app down, and the three things that bite every time. I found a live data leak in one of my own apps doing exactly this, so the warnings here are not hypothetical.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: row-level security makes Postgres itself decide which rows a query may see or change. You enable it per table and attach policies. Done properly it means a forgotten WHERE clause in application code cannot leak another tenant's data.</strong></p>
+
+      <h2>The problem it solves</h2>
+      <p>In a multi-tenant app, every query needs the same filter: only this account's rows. Written in application code, that filter has to be correct in every query, forever, including the one someone adds at 6pm on a Friday.</p>
+      <p>It only has to be missed once. RLS moves the rule into the database, so the filter applies whether or not the query remembered it.</p>
+
+      <h2>Turning it on</h2>
+      <pre><code>{`-- 1. enable, and force it for the table owner too
+alter table orders enable row level security;
+alter table orders force row level security;
+
+-- 2. without a policy, nothing is visible. add one.
+create policy "tenant reads own orders"
+  on orders for select
+  using (tenant_id = current_setting('app.tenant_id')::uuid);
+
+create policy "tenant writes own orders"
+  on orders for insert
+  with check (tenant_id = current_setting('app.tenant_id')::uuid);`}</code></pre>
+      <p>Two details worth knowing. <code>force row level security</code> matters because without it the table's owner bypasses policies, and that is frequently the role your migrations run as. And <code>using</code> versus <code>with check</code> are not the same: <code>using</code> decides which existing rows are visible, <code>with check</code> validates rows being written. A policy with only <code>using</code> will happily let someone insert a row belonging to another tenant.</p>
+
+      <h2>Audit what you have in 10 seconds</h2>
+      <p>Before writing any policies, find out where you actually stand:</p>
+      <pre><code>{`select
+  (select count(*) from pg_class c
+     join pg_namespace n on n.oid = c.relnamespace
+   where n.nspname = 'public' and c.relkind = 'r'
+     and not c.relrowsecurity) as tables_without_rls,
+  (select count(distinct table_name)
+   from information_schema.role_table_grants
+   where table_schema = 'public'
+     and grantee in ('anon', 'authenticated')) as tables_granted_to_public;`}</code></pre>
+      <p>Both numbers should be near zero. If the second one is high, RLS alone will not save you, which is the next section.</p>
+
+      <h2>Gotcha 1: RLS does not revoke privileges</h2>
+      <p>This is the one that cost me. Enabling RLS filters rows. It does not remove a role's table privileges. A public role can still hold <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, even <code>TRUNCATE</code>, on tables you thought were protected.</p>
+      <p>On one of my own apps I ran the audit above and found the anonymous key, which ships in the browser bundle and is therefore public, could read real customer names, phone numbers, and addresses, and held delete rights on every table in the schema. That is a live data leak, not a hardening task for next quarter.</p>
+      <p>So do both:</p>
+      <pre><code>{`revoke all on all tables in schema public from anon;
+grant select on public.published_posts to anon;  -- grant back only what is public`}</code></pre>
+      <p>Then prove it. Hit your own API with nothing but the public key and try to read the table you care about. A theoretical audit convinces nobody, including you.</p>
+
+      <h2>Gotcha 2: a refused write is not an error</h2>
+      <p>If you use PostgREST or Supabase, an <code>UPDATE</code> or <code>DELETE</code> that RLS filters out does not raise. It returns success with zero rows affected. So this code is silently wrong:</p>
+      <pre><code>{`const { error } = await supabase
+  .from('tasks').update({ active: false }).eq('id', id);
+if (error) throw error;   // never fires. the row is still there.`}</code></pre>
+      <p>The user taps delete, the sheet closes, the list reloads, and the row is still sitting there with no explanation. Optimistic UI makes it worse: the row vanishes locally and reappears on the next load.</p>
+      <p>Select the affected rows back and check the count:</p>
+      <pre><code>{`const { data, error } = await supabase
+  .from('tasks').update({ active: false }).eq('id', id).select('id');
+if (error) throw error;
+if (!data?.length) throw new Error('You can only change items you created.');`}</code></pre>
+      <p>This bites hardest where an <code>UPDATE</code> is your delete path. If you archive with <code>active: false</code>, writing a policy that only guards <code>DELETE</code> leaves the real deletion path wide open.</p>
+
+      <h2>Gotcha 3: index the columns your policies filter on</h2>
+      <p>A policy is a predicate bolted onto every query touching that table. If it filters on <code>tenant_id</code> and that column has no index, every query becomes a sequential scan and the table gets slower as it grows.</p>
+      <pre><code>{`create index concurrently on orders (tenant_id);`}</code></pre>
+      <p>When people say RLS is slow, this is almost always what they actually hit.</p>
+
+      <h2>The order that does not break things</h2>
+      <ol>
+        <li><strong>Audit first.</strong> Run the query above and write the numbers down.</li>
+        <li><strong>Check how your app reads.</strong> If every query goes through server routes on a service-role key, RLS will not break anything, because that key bypasses policies. If the browser queries the database directly, you need policies before you enable.</li>
+        <li><strong>Enable and force, table by table.</strong> Not all at once.</li>
+        <li><strong>Write policies, then revoke grants.</strong> Both halves, in that order.</li>
+        <li><strong>Verify as an attacker.</strong> Public key, real endpoint, try to read something you should not.</li>
+        <li><strong>Index the policy columns.</strong></li>
+      </ol>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>If you have an app in production and are not sure where it stands, the audit query above takes ten seconds and is worth running today. If you would rather someone else went through it properly, that is <a href="/services/web-apps">part of what I do</a>.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/resources">Read the other guides</a>
+    </div>
+  </div>
+</AppShell>

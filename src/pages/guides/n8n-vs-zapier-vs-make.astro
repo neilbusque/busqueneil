@@ -1,0 +1,136 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'n8n vs Zapier vs Make: Which to Pick in 2026';
+const description = 'An honest comparison from someone who has shipped 20+ production workflows across all three. Pricing models, where each breaks, and how to pick without regret.';
+const canonical = 'https://busqueneil.com/guides/n8n-vs-zapier-vs-make';
+const guideImage = `${SITE_URL}/assets/brand/og-social.png`;
+const published = '2026-07-25';
+const modified = '2026-07-25';
+
+const FAQ = [
+  {
+    q: 'Is n8n better than Zapier?',
+    a: 'n8n is better when you run high volumes, need custom code inside a workflow, or want to self-host for data-residency reasons, because it charges per workflow execution rather than per task. Zapier is better when you want the widest app library and nobody on the team wants to think about hosting. Neither is better in the abstract; the volume and the team decide it.',
+  },
+  {
+    q: 'What is the real difference in pricing?',
+    a: 'Zapier bills per task, where a task is roughly one action step. A 10-step workflow run 1,000 times is about 10,000 tasks. n8n bills per workflow execution, so that same run is 1,000 executions no matter how many steps it has. Make sits in between with operations that are cheaper per unit than Zapier tasks. Long workflows at volume are where the gap becomes dramatic.',
+  },
+  {
+    q: 'Can I self-host Make or Zapier?',
+    a: 'No. Both are cloud-only SaaS. n8n is the only one of the three with a self-hosted option, which is usually the deciding factor for teams with data-residency requirements or a very high execution count.',
+  },
+  {
+    q: 'Which is easiest for a non-technical person?',
+    a: 'Zapier, clearly. Its linear editor and templates mean someone in operations can build a useful automation the same afternoon. Make is more capable but its visual canvas takes longer to learn. n8n assumes you are comfortable with data structures and the occasional line of JavaScript.',
+  },
+  {
+    q: 'Should I switch from Zapier to n8n?',
+    a: 'Switch when your Zapier bill is climbing because of multi-step workflows rather than more automations, when you keep hitting things Zapier cannot express, or when you need to self-host. Do not switch just because n8n is cheaper per run: somebody has to maintain a self-hosted instance, and that time is not free.',
+  },
+];
+
+const article = {
+  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
+  author: AUTHOR, publisher: PUBLISHER,
+  datePublished: published, dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF, image: guideImage, inLanguage: 'en-US',
+  keywords: 'n8n vs zapier, n8n vs make, make vs zapier, workflow automation, zapier alternative, automation tools',
+};
+const faqSchema = {
+  '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
+      { name: 'n8n vs Zapier vs Make', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">07</span> Guide</p>
+    <h1>n8n vs Zapier vs Make</h1>
+    <p class="lede">I have shipped more than 20 production workflows across all three, for real clients who noticed when something broke. Here is how they actually differ, and how to pick without regretting it in six months.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: pick Zapier if the widest app library and the shortest learning curve matter most. Pick Make if you want more logic per dollar and do not mind a steeper editor. Pick n8n if you run high volume, want custom code inside workflows, or need to self-host. The pricing model, not the feature list, is usually what decides it.</strong></p>
+
+      <h2>The difference that actually costs money</h2>
+      <p>All three look similar in a feature table. They do not bill similarly, and that is where teams get surprised.</p>
+      <ul>
+        <li><strong>Zapier bills per task.</strong> A task is roughly one action step. A 10-step workflow that runs 1,000 times is about 10,000 tasks.</li>
+        <li><strong>Make bills per operation.</strong> Same broad idea, but operations are cheaper per unit, so the same workflow costs meaningfully less.</li>
+        <li><strong>n8n bills per workflow execution.</strong> That same 10-step workflow run 1,000 times is 1,000 executions. The step count does not change the bill.</li>
+      </ul>
+      <p>This is why teams hit a wall on Zapier without adding a single new automation. Their workflows got longer, not more numerous. If your automations are short, the models are comparable. If they are long and run constantly, the gap gets dramatic.</p>
+      <p>Always check current pricing before you commit. All three have changed their tiers more than once, and any specific numbers I print here will age badly.</p>
+
+      <h2>Where each one is genuinely better</h2>
+
+      <h3>Zapier</h3>
+      <p>The app library is the biggest, and that matters more than people expect. Obscure tools frequently have a Zapier integration and nothing else, and writing your own connector costs more than the price difference.</p>
+      <p>It is also the only one a non-technical teammate reliably picks up alone. If the person maintaining the automation is in operations rather than engineering, that is worth real money.</p>
+      <p>Where it hurts: cost at volume, and a linear model that makes genuinely branchy logic awkward.</p>
+
+      <h3>Make</h3>
+      <p>Better value than Zapier for the same work, and the visual canvas handles branching, iteration, and error paths more naturally. When a workflow has real conditional logic, Make expresses it more cleanly.</p>
+      <p>Where it hurts: the canvas is harder to learn than it looks, and complex scenarios turn into a sprawl that is genuinely hard to hand to someone else.</p>
+
+      <h3>n8n</h3>
+      <p>Execution-based pricing, self-hosting, and a Code node that runs real JavaScript or Python. That last one matters more than the marketing suggests: the moment a workflow needs a transform the visual nodes cannot express, having a real language available is the difference between finishing and starting over.</p>
+      <p>It also has the strongest AI and agent tooling of the three right now, which is where most of my recent work has gone.</p>
+      <p>Where it hurts: self-hosting is a real responsibility. Upgrades, backups, and uptime become yours. Their cloud option removes that, and then you are comparing on features rather than on hosting.</p>
+
+      <h2>How I actually choose</h2>
+      <p>Four questions, in this order:</p>
+      <ol>
+        <li><strong>Who maintains this in six months?</strong> If the answer is a non-technical teammate, Zapier, almost regardless of cost. An automation nobody can safely edit is a liability.</li>
+        <li><strong>How many steps, how often?</strong> Long workflows at high frequency point to n8n. Short workflows at low frequency mean it barely matters.</li>
+        <li><strong>Does it need real code?</strong> If yes, n8n. Working around a missing transform in a visual tool is where projects quietly rot.</li>
+        <li><strong>Any data-residency constraint?</strong> If the data cannot leave your infrastructure, self-hosted n8n is the only one of the three that qualifies.</li>
+      </ol>
+
+      <h2>What I have shipped</h2>
+      <p>Before working independently I ran operations at a marketing agency and shipped more than 20 production n8n workflows across more than 10 client accounts. The one I still point at is a client-onboarding system that cut a 30-day process down to 7 days, mostly by removing handoffs where a human was waiting on another human to remember something.</p>
+      <p>I have also built and maintained plenty in Zapier and Make. The honest summary: the tool has rarely been the reason an automation succeeded or failed. Whether anyone mapped the process before building it has decided almost every one.</p>
+
+      <h2>The mistake that costs the most</h2>
+      <p>Automating a broken process. If a workflow has five steps because of a decision nobody remembers making, automating it just makes the wrong thing happen faster and harder to change.</p>
+      <p>Map it first. Ask which steps exist because they are necessary and which exist because of history. In my experience the map usually removes more steps than the automation does.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>If you would rather have someone map and build it, that is <a href="/services/ai-automation-services">what I do</a>. If the workflow needs judgment rather than fixed rules, read about <a href="/guides/build-ai-agent-claude-code">building an AI agent</a> instead.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/services/ai-automation-services">See the automation service</a>
+    </div>
+  </div>
+</AppShell>

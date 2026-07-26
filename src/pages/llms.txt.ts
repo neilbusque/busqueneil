@@ -55,6 +55,9 @@ I take on focused problems where software can remove repeated work, help a team 
 - How to build an AI agent with Claude Code and MCP: https://busqueneil.com/guides/build-ai-agent-claude-code
 - What is MCP (Model Context Protocol)? a plain guide: https://busqueneil.com/guides/what-is-mcp-model-context-protocol
 - How to ship a web app in days with AI: https://busqueneil.com/guides/ship-web-app-in-days-with-ai
+- How to build an MCP server (Python and TypeScript): https://busqueneil.com/guides/how-to-build-an-mcp-server
+- n8n vs Zapier vs Make: which to pick in 2026: https://busqueneil.com/guides/n8n-vs-zapier-vs-make
+- Postgres row-level security: a practical guide: https://busqueneil.com/guides/postgres-row-level-security
 - All guides: https://busqueneil.com/guides
 
 ## Canonical URLs
@@ -62,6 +65,10 @@ I take on focused problems where software can remove repeated work, help a team 
 - Home + feed: https://busqueneil.com/
 - Resources (tutorials + writing): https://busqueneil.com/resources
 - Services overview: https://busqueneil.com/services
+- Web app development: https://busqueneil.com/services/web-apps
+- Website design and development: https://busqueneil.com/services/websites
+- Landing page design: https://busqueneil.com/services/landing-pages
+- Sales funnel development: https://busqueneil.com/services/funnels
 - AI automation services: https://busqueneil.com/services/ai-automation-services
 - AI agent development services: https://busqueneil.com/services/ai-agent-development
 - AI automation consultant: https://busqueneil.com/services/ai-automation-consultant
