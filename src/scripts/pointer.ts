@@ -1,8 +1,7 @@
-/* Pointer effect — a pixel comet.
+/* Pointer effect — yellow pixels that appear only while the cursor is moving.
 
-   A short tail of small yellow squares that trail the cursor, each one lagging a little more
-   than the one ahead of it and fading as it goes. No ring, no circle, no cursor replacement:
-   the real cursor stays exactly where it is and this sits behind it.
+   No shape follows the cursor. Nothing renders at rest. Moving the pointer emits small yellow
+   pixels along the path, which fade out and vanish. Stop moving and the trail simply drains.
 
    Why hand-rolled instead of canvas-ui (canvasui.dev): every cursor component there
    (glass, magnify, frost) is built on the HTML-in-Canvas API — ctx.drawElementImage() and
@@ -11,14 +10,18 @@
    and SEO risk for an effect almost nobody could see.
 
    ⚠️ Mount inside .v8, never <body>. v8.css scopes every rule under `.v8`, which is a div
-   INSIDE body, so appending to body leaves these nodes completely unstyled — static divs in
-   normal flow that extend the page sideways. */
+   INSIDE body, so appending to body leaves these nodes unstyled — static divs in normal flow
+   that extend the page sideways. That bug shipped once already. */
 
 const FINE = '(pointer: fine)';
 const REDUCED = '(prefers-reduced-motion: reduce)';
 
-/** Tail length. Enough to read as a comet, short enough to stay subtle. */
-const N = 14;
+/** Reusable pixel pool. Big enough for fast movement, small enough to stay subtle. */
+const POOL = 26;
+/** Minimum px travelled before another pixel is emitted, so slow drags do not carpet. */
+const STEP = 22;
+/** How long a pixel lives, in ms. */
+const LIFE = 620;
 
 export function initPointer(): void {
   if (!window.matchMedia(FINE).matches || window.matchMedia(REDUCED).matches) return;
@@ -27,59 +30,56 @@ export function initPointer(): void {
   const host = document.querySelector('.v8.shell') ?? document.querySelector('.v8');
   if (!host) return;
 
-  const wrap = document.createElement('div');
-  wrap.className = 'ptr-comet';
-  wrap.setAttribute('data-pointer-fx', '');
-  wrap.setAttribute('aria-hidden', 'true');
+  const layer = document.createElement('div');
+  layer.className = 'ptr-px';
+  layer.setAttribute('data-pointer-fx', '');
+  layer.setAttribute('aria-hidden', 'true');
 
-  const bits: HTMLElement[] = [];
-  for (let i = 0; i < N; i++) {
+  const pool: HTMLElement[] = [];
+  for (let i = 0; i < POOL; i++) {
     const b = document.createElement('i');
-    const t = i / (N - 1);
-    // head is biggest and most opaque; the tail thins out to a faint 3px speck
-    b.style.width = b.style.height = `${Math.round(9 - t * 6)}px`;
-    b.style.opacity = `${(1 - t) * 0.5 + 0.06}`;
-    wrap.appendChild(b);
-    bits.push(b);
+    layer.appendChild(b);
+    pool.push(b);
   }
-  host.appendChild(wrap);
+  host.appendChild(layer);
 
-  let tx = innerWidth / 2, ty = innerHeight / 2;
-  const xs = new Array(N).fill(tx);
-  const ys = new Array(N).fill(ty);
-  let raf = 0, on = false;
+  let next = 0;
+  let lastX: number | null = null;
+  let lastY: number | null = null;
+
+  function emit(x: number, y: number) {
+    const el = pool[next];
+    next = (next + 1) % POOL;
+
+    // 2-4px, whole pixels, with a little scatter so the trail is not a ruled line
+    const size = 2 + ((next * 7) % 3);
+    const jx = ((next * 13) % 9) - 4;
+    const jy = ((next * 17) % 9) - 4;
+
+    el.style.width = el.style.height = `${size}px`;
+    el.style.transform = `translate3d(${Math.round(x + jx)}px, ${Math.round(y + jy)}px, 0)`;
+
+    // restart the fade even if this element is mid-animation
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = `ptr-fade ${LIFE}ms linear forwards`;
+  }
 
   function onMove(e: PointerEvent) {
-    tx = e.clientX; ty = e.clientY;
-    if (!on) { on = true; wrap.classList.add('on'); }
-  }
-  function onLeave() { on = false; wrap.classList.remove('on'); }
-
-  function frame() {
-    // each square chases the one in front of it, which is what makes the tail curve
-    xs[0] += (tx - xs[0]) * 0.34;
-    ys[0] += (ty - ys[0]) * 0.34;
-    for (let i = 1; i < N; i++) {
-      xs[i] += (xs[i - 1] - xs[i]) * 0.34;
-      ys[i] += (ys[i - 1] - ys[i]) * 0.34;
-    }
-    for (let i = 0; i < N; i++) {
-      // round to whole pixels so the squares land on the pixel grid and read as pixel art
-      bits[i].style.transform = `translate3d(${Math.round(xs[i])}px, ${Math.round(ys[i])}px, 0) translate(-50%, -50%)`;
-    }
-    raf = requestAnimationFrame(frame);
+    const x = e.clientX;
+    const y = e.clientY;
+    if (lastX === null || lastY === null) { lastX = x; lastY = y; return; }
+    const dx = x - lastX;
+    const dy = y - lastY;
+    if (dx * dx + dy * dy < STEP * STEP) return;
+    lastX = x; lastY = y;
+    emit(x, y);
   }
 
   addEventListener('pointermove', onMove, { passive: true });
-  document.addEventListener('pointerleave', onLeave);
-  addEventListener('blur', onLeave);
-  raf = requestAnimationFrame(frame);
 
   document.addEventListener('astro:before-swap', () => {
-    cancelAnimationFrame(raf);
     removeEventListener('pointermove', onMove);
-    document.removeEventListener('pointerleave', onLeave);
-    removeEventListener('blur', onLeave);
-    wrap.remove();
+    layer.remove();
   }, { once: true });
 }

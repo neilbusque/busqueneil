@@ -669,18 +669,21 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .article-page { padding: var(--gap-sec) 0 0; }
 .v8 .price-card + .article-page { margin-top: 0; }
 
-/* ---- pointer: pixel comet (src/scripts/pointer.ts) --------------------------------------
-   Squares, not circles, with no border-radius and whole-pixel transforms so they sit on the
-   pixel grid. pointer-events:none and `contain` so a tail near a corner can never extend the
-   page — an earlier version of this effect did exactly that. */
-.v8 .ptr-comet { position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0;
-  transition: opacity .3s ease; contain: layout size style; }
-.v8 .ptr-comet.on { opacity: 1; }
-.v8 .ptr-comet i { position: absolute; left: 0; top: 0; display: block; background: var(--sun);
-  border-radius: 0; will-change: transform; box-shadow: 0 0 0 1px rgba(255,228,92,.22); }
+/* ---- pointer: yellow pixels while moving (src/scripts/pointer.ts) -----------------------
+   Nothing renders at rest — each pixel is opacity 0 until an animation is assigned to it, and
+   ends at opacity 0. No shape tracks the cursor. pointer-events:none plus `contain` so a
+   pixel emitted in a corner can never extend the page. */
+.v8 .ptr-px { position: fixed; inset: 0; pointer-events: none; z-index: 60; contain: layout size style; }
+.v8 .ptr-px i { position: absolute; left: 0; top: 0; display: block; background: var(--sun);
+  opacity: 0; will-change: transform, opacity; }
+@keyframes ptr-fade {
+  0%   { opacity: .85; }
+  40%  { opacity: .5; }
+  100% { opacity: 0; }
+}
 
-@media (hover: none), (pointer: coarse) { .v8 .ptr-comet { display: none; } }
-@media (prefers-reduced-motion: reduce) { .v8 .ptr-comet { display: none; } }
+@media (hover: none), (pointer: coarse) { .v8 .ptr-px { display: none; } }
+@media (prefers-reduced-motion: reduce) { .v8 .ptr-px { display: none; } }
 
 
 /* ---- hero wave ---------------------------------------------------------------------
