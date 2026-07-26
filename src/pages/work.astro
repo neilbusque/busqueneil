@@ -37,12 +37,12 @@ const PRIVATE_APPS: Item[] = [
 /* What I actually do with Claude Code day to day. Framed as capability rather than as a list
    of internal skill filenames, which would mean nothing to someone deciding whether to hire me. */
 const CAPABILITIES = [
-  { label: 'Agents with real tools', body: 'Claude wired through MCP into a CRM, an inbox, a database. The agent acts, it does not just answer.' },
-  { label: 'Multi-agent builds', body: 'Work split across subagents that research, build, and adversarially review each other before anything ships.' },
-  { label: 'Headless QA', body: 'Every page driven in a real browser at four widths and both motion modes before it goes live. Screenshots, not vibes.' },
-  { label: 'Research and outreach', body: 'Agents that find the companies, enrich them, and draft the first touch in my voice.' },
-  { label: 'GEO and SEO systems', body: 'Schema, citable answers, and keyword targets picked from live SERP data, not guesses.' },
-  { label: 'Ship in days', body: 'Spec, plan, build, review, deploy. Forty plus products this year, most live within days of the idea.' },
+  { label: 'Agents connected to your tools', body: 'Claude connected to a CRM, inbox, or database through MCP, with clear permissions and approval steps.' },
+  { label: 'Parallel AI workflows', body: 'Separate agents can research, build, and review the same task, while I make the decisions and check the result.' },
+  { label: 'Browser QA', body: 'I run every important flow in a real browser, at multiple screen sizes, before it goes live.' },
+  { label: 'Research and outreach', body: 'Agents that find the right companies, fill in the missing context, and draft a useful first message.' },
+  { label: 'Search and AI visibility', body: 'Helpful pages, clean technical SEO, and topics chosen from the questions people actually search.' },
+  { label: 'Fast, reviewed shipping', body: 'Scope, plan, build, review, deploy. More than 40 products this year, most live within days of the idea.' },
 ];
 
 /* Card name -> case-study slug. Preflight and Portal already had full write-ups that nothing
@@ -63,18 +63,18 @@ const csFor = (name: string) => {
 const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
 ---
 <AppShell
-  title="Work — apps, websites, and internal tools | Neil Busque"
-  description="What Neil Busque has shipped: free apps anyone can use, client websites, the internal tools that run his own work, and what he builds with Claude Code."
+  title="Neil Busque's Work | AI Apps, Websites and Automations"
+  description="Explore the AI apps, client websites, automations, and internal tools Neil Busque has designed, built, tested, and shipped."
   active="work"
 >
   <span class="eyebrow">The work</span>
   <h1 class="sec">Built by one person. <span class="mark-hl">Shipped for real.</span></h1>
-  <p class="res-lede">Four kinds of thing. Apps anyone can open, websites I built for clients, the internal tools that run my own work, and the creative work around them.</p>
+  <p class="res-lede">A mix of public apps, client websites, and private tools I built because I needed them. If there is a link, you can open the real thing.</p>
 
   <section class="hsec">
     <span class="eyebrow">Apps, free to use</span>
     <h2 class="sec">Open any of <span class="mark-hl">these.</span></h2>
-    <p class="stack-note">No invite, no demo call. They live at <a href="https://neilb.app">neilb.app</a>.</p>
+    <p class="stack-note">No invite and no demo call. Open one and try it. The full collection lives at <a href="https://neilb.app">neilb.app</a>.</p>
     <div class="workgrid">
       {PUBLIC_APPS.map((w) => {
         const href = linkFor(w);
@@ -119,7 +119,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
   <section class="hsec">
     <span class="eyebrow">Apps, private</span>
     <h2 class="sec">The tools that run <span class="mark-hl">my work.</span></h2>
-    <p class="stack-note">Internal builds. Most have no public URL, which is the point: they exist because I needed them, not because they were a product idea.</p>
+    <p class="stack-note">Most of these do not have a public URL. I built them to solve problems in my own work, not to make a prettier portfolio grid.</p>
     <div class="workgrid">
       {PRIVATE_APPS.map((w) => {
         const href = linkFor(w);
@@ -166,8 +166,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
     <section class="hsec">
       <span class="eyebrow">Case studies</span>
       <h2 class="sec">The deep <span class="mark-hl">dives.</span></h2>
-      <p class="stack-note">The full story on the builds worth explaining: the problem, what I
-        decided and why, the parts that were genuinely hard, and where it landed.</p>
+      <p class="stack-note">The longer version: what went wrong, what I decided, what was harder than expected, and what finally shipped.</p>
       <ul class="cs-list">
         {caseStudies.map((cs) => (
           <li><a class="v8-card cs-row" href={`/case-studies/${cs.slug}`}><b>{cs.name}</b><span>{cs.summary}</span></a></li>
@@ -183,7 +182,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
 
   <section class="hsec v8-card why-card">
     <h2>Want one of these for <span class="mark-hl">your business?</span></h2>
-    <p>Every product above started as a sentence from someone like you. Tell me what you are trying to build and I will tell you how I would do it, what it would take, and whether I am the right person for it.</p>
+    <p>Every product above started as a rough sentence. Tell me what you want yours to do and I will give you an honest read on the build, the likely scope, and whether I am the right person for it.</p>
     <div class="hero-ctas" style="margin-top:18px">
       <a class="btn-sun" href="/contact">Tell me what you need</a>
       <a class="btn-ghost" href="/hire">How working with me works</a>

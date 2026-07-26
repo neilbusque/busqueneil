@@ -22,10 +22,10 @@ function tagFor(p: Post): string {
   return map[p.type] ?? 'Post';
 }
 ---
-<AppShell title="Blog — thoughts, builds, and what I am working on | Neil Busque" description="The blog: what Neil Busque is building, what he is thinking about, what broke and what he learned. Written while building, not after. Step-by-step tutorials live under Resources." active="resources">
+<AppShell title="Neil Busque's Blog | Build Notes and Lessons" description="Notes from Neil Busque on building AI products, automations, websites, and the systems behind them, including what broke and what he learned." active="resources">
   <span class="eyebrow">The blog</span>
-  <h1 class="sec">Thoughts, builds, and <span class="mark-hl">everything else.</span></h1>
-  <p class="res-lede">What I am working on, what I am thinking about, and what went wrong. Looking for a step-by-step instead? Those live in <a href="/resources">Resources</a>.</p>
+  <h1 class="sec">Build notes and <span class="mark-hl">lessons.</span></h1>
+  <p class="res-lede">What I am making, what broke, and what I learned fixing it. If you want the cleaner step-by-step version, head to <a href="/resources">Resources</a>.</p>
   <div class="blog-chips">
     {FILTERS.map((f) => (
       <a class:list={['chip', { on: (filter ?? 'all') === f.key }]} href={chipHref(f.key)}>{f.label}</a>
@@ -42,7 +42,7 @@ function tagFor(p: Post): string {
       </li>
     ))}
   </ul>
-  {posts.length === 0 && <p>Nothing here yet. Check back soon.</p>}
+  {posts.length === 0 && <p>No posts match that filter yet.</p>}
   <div class="pager">
     {page > 1 && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page - 1) })}`}>Newer</a>}
     {hasMore && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page + 1) })}`}>Older</a>}

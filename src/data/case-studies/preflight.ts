@@ -15,7 +15,7 @@ export const preflight: CaseStudy = {
 
   facts: [
     { k: 'Role', v: 'Solo builder, product + design + engineering' },
-    { k: 'Timeline', v: '3 weeks, May–July 2026' },
+    { k: 'Timeline', v: '3 weeks, May to July 2026' },
     { k: 'Stack', v: 'Vite, React 18, TypeScript, React Flow, Supabase' },
     { k: 'Live', v: 'preflight.neilb.app' },
   ],

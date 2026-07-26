@@ -31,8 +31,16 @@ const jsonLd = {
   description: cs.summary,
   url,
   dateCreated: cs.year,
-  creator: { '@id': 'https://busqueneil.com/#person' },
-  author: { '@id': 'https://busqueneil.com/#person' },
+  creator: {
+    '@type': 'Person',
+    name: 'Neil Busque',
+    url: 'https://busqueneil.com/story',
+  },
+  author: {
+    '@type': 'Person',
+    name: 'Neil Busque',
+    url: 'https://busqueneil.com/story',
+  },
   keywords: cs.stack.join(', '),
   ...(cs.liveUrl ? { sameAs: [cs.liveUrl] } : {}),
 };
@@ -41,6 +49,7 @@ const jsonLd = {
   title={`${cs.name} case study: ${cs.tagline} | Neil Busque`}
   description={cs.summary}
   canonical={url}
+  ogType="article"
   active="work"
 >
   <Fragment slot="head">

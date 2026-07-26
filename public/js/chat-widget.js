@@ -238,7 +238,7 @@
       .catch(function () {
         typing(false);
         bubble('assistant',
-          "Sorry, I hit a snag. You can text Neil at 908-316-4140 or email neil@busqueneil.com.");
+          "Sorry, I hit a snag. You can text Neil at 908-316-4140 or email busqueneil@gmail.com.");
       })
       .finally(function () {
         busy = false;

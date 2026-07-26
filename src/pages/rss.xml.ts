@@ -7,9 +7,9 @@ export const GET: APIRoute = async ({ request, cookies, site }) => {
   const posts = await getAllPublished({ request, cookies });
 
   const response = await rss({
-    title: 'Neil Busque',
+    title: 'Neil Busque: Notes from the Build',
     description:
-      'Everything Neil Busque builds, as he builds it: web apps, AI agents, automations.',
+      'Notes on building AI agents, useful automations, and web products that make it into the real world.',
     site: site ?? 'https://busqueneil.com',
     items: posts.slice(0, 50).map((p) => ({
       title: p.title ?? deriveExcerpt(p.body_md, 70),

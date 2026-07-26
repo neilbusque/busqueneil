@@ -4,17 +4,17 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getFeed } from '../../lib/posts';
 import type { Post } from '../../lib/types';
 
-const title = 'Resources — Tutorials and Blog | Neil Busque';
-const description = 'Tutorials on AI agents, MCP, GEO, and shipping fast, plus the blog: what I am building, what I am thinking about, and what went wrong. All from real work.';
+const title = 'AI, Automation and Web App Guides | Neil Busque';
+const description = 'Practical guides to AI agents, MCP, AI search, and shipping web apps, plus honest notes from the products Neil Busque is building.';
 const canonical = 'https://busqueneil.com/resources';
 
 // Tutorials keep living at /guides/* so their existing rankings are untouched. This is the hub.
 const TUTORIALS = [
-  { slug: 'geo-generative-engine-optimization-guide', title: 'GEO: How to Rank in AI Answers', blurb: 'Getting cited by ChatGPT, Perplexity, and AI Overviews. What actually works.' },
-  { slug: 'google-ai-overviews-guide', title: 'How to Show Up in Google AI Overviews', blurb: 'How Google’s AI answer picks its sources, and the steps to get cited inside it.' },
-  { slug: 'build-ai-agent-claude-code', title: 'How to Build an AI Agent with Claude Code and MCP', blurb: 'A real build: model plus tools plus a loop, with config and the common mistakes.' },
-  { slug: 'what-is-mcp-model-context-protocol', title: 'What Is MCP (Model Context Protocol)?', blurb: 'A plain explainer: what MCP is, the problem it solves, and how servers work.' },
-  { slug: 'ship-web-app-in-days-with-ai', title: 'How to Ship a Web App in Days with AI', blurb: 'The workflow I use to go from an idea to a live, working app in days.' },
+  { slug: 'geo-generative-engine-optimization-guide', title: 'GEO and AI Search: What Actually Helps', blurb: 'The useful parts of AI search optimization, without the llms.txt myths or schema tricks.' },
+  { slug: 'google-ai-overviews-guide', title: 'How to Show Up in Google AI Overviews', blurb: 'Google’s current guidance, translated into a practical checklist for your site.' },
+  { slug: 'build-ai-agent-claude-code', title: 'How to Build an AI Agent with Claude Code and MCP', blurb: 'A working pattern: one job, a few tools, clear approval rules, and real tests.' },
+  { slug: 'what-is-mcp-model-context-protocol', title: 'What Is MCP (Model Context Protocol)?', blurb: 'What MCP connects, how clients and servers work, and where the USB analogy falls short.' },
+  { slug: 'ship-web-app-in-days-with-ai', title: 'How I Ship a Web App in Days with AI', blurb: 'The small-scope workflow I use to move from an idea to a reviewed, live app.' },
 ];
 
 // The feed is a live query; if it fails the tutorials half of the page must still render.
@@ -46,7 +46,7 @@ const list = {
 
   <span class="eyebrow">Resources</span>
   <h1 class="sec">Tutorials and the <span class="mark-hl">blog.</span></h1>
-  <p class="res-lede">Two different things. Tutorials are how to do something, written from builds that actually shipped. The blog is everything else: what I am working on, what I am thinking about, and what I got wrong.</p>
+  <p class="res-lede">The guides explain how I do the work. The blog is looser: what I am building, what broke, and what I changed my mind about.</p>
 
   <section class="hsec">
     <span class="eyebrow">Tutorials</span>
@@ -69,7 +69,7 @@ const list = {
   <section class="hsec">
     <span class="eyebrow">Blog</span>
     <h2 class="sec">Everything <span class="mark-hl">else.</span></h2>
-    <p class="stack-note">Thoughts, experiences, what I am working on, what broke and what I learned from it. Anything that is not a step-by-step lands here.</p>
+    <p class="stack-note">Build notes, lessons, and the occasional opinion I could not fit into a step-by-step guide.</p>
     {posts.length > 0 ? (
       <ul class="postlist res">
         {posts.map((p) => (

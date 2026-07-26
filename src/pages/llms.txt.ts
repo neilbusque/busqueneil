@@ -4,34 +4,37 @@ import { deriveExcerpt } from '../lib/markdown';
 
 const STATIC_BIO = `# Neil Busque
 
-> AI engineer and builder based in New Jersey. Builds AI agents, LLM apps, and automation systems, and helps companies get found in AI search (GEO) and traditional SEO. Also builds custom web apps and PWAs. Open to full-time roles and to project work. Publishes the work on the blog at https://busqueneil.com/blog.
+> AI engineer and product builder in New Jersey. I build AI agents, practical automations, and web products, then write down what worked and what did not. The site includes my work, services, story, and technical guides.
 
 ## Identity
 
 - **Name:** Neil Busque
-- **Role:** AI engineer and automation consultant and builder. Open to full-time roles (AI engineer, automation engineer, growth engineer) and project work.
-- **Focus:** AI agents, LLM apps, Model Context Protocol (MCP) integrations, workflow automation, Generative Engine Optimization (GEO), SEO, and custom web apps. Marketing and paid search background underneath it all.
+- **Role:** AI engineer, product builder, and automation consultant.
+- **Focus:** AI agents, LLM applications, MCP integrations, workflow automation, technical SEO, AI search visibility, and custom web products.
 - **Location:** New Jersey, United States (Eastern Time)
 - **Education:** Background in IT from STI Tagum College (Philippines)
 - **Email:** busqueneil@gmail.com
 - **LinkedIn:** https://www.linkedin.com/in/neilbusque
 - **Phone/SMS/WhatsApp:** +1 908-316-4140 (text or WhatsApp). Also reachable via the Neil AI chat assistant on https://busqueneil.com
 
-## What he does
+## What I do
 
-Neil builds the systems that turn marketing into revenue. The work covers:
+I take on focused problems where software can remove repeated work, help a team move faster, or turn an idea into a working product.
 
-- **Digital marketing & SEO**: on-page and technical SEO, content, AI-search visibility, and organic growth.
-- **Paid media**: Meta Ads and Google Ads / paid search campaign architecture, pixel and CAPI wiring, landing-page conversion.
-- **Conversion funnels & CRM**: funnel design and build, GoHighLevel and CRM configuration, lead capture and routing.
-- **Workflow automation**: n8n and Zapier pipelines for lead handling, follow-up, reporting, and pipeline hygiene.
-- **AI agents**: built on Claude Code with MCP servers across GoHighLevel, n8n, Notion, Slack, and more.
-- **Web apps and PWAs**: a dozen-plus shipped in 2026, including a personal CRM, a client portal, a link shortener, and this site's own CMS. Most built and deployed in days.
+- **AI agents and LLM features:** systems that can use approved tools, work with business data, and finish a defined job.
+- **Workflow automation:** n8n, Zapier, and GoHighLevel workflows for leads, follow-up, reporting, and operations.
+- **Web apps and PWAs:** focused products such as internal tools, portals, marketplaces, and funnel utilities.
+- **SEO and AI search:** useful, crawlable content with sound technical foundations and clear first-hand evidence.
+- **Marketing systems:** CRM setup, lead capture, paid search, landing pages, and the handoffs between them.
 
 ## Selected shipped work (2026)
 
-- A personal CRM, a client portal, a self-hosted link shortener with analytics and web push, a cold-email app, and several offer funnels, each shipped fast and written up on the blog.
-- This site itself: an Astro SSR build with a Supabase-backed build-in-public CMS, dynamic OG images, sitemap/RSS/llms, and a conversational lead-capture assistant.
+- Orbit, a multi-tenant CRM product with role-based workspaces and practical pipeline tools.
+- Lumen Portal, a client portal with document signing built directly into the product.
+- Tandem, a private couples app with real-time calls, shared rituals, and low-friction daily connection.
+- Suki Neighbors, a marketplace PWA for local communities.
+- Preflight, a funnel simulator that helps teams find weak points before buying traffic.
+- This site, built with Astro and Supabase, including a small publishing system, dynamic social images, and a conversational contact assistant.
 
 ## Prior experience
 
@@ -40,16 +43,15 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - **May 2023 - Sept 2024:** Social Media Manager and Digital Marketer at Stout Capital. Grew social following 400%+ in 4 months; ran paid Meta and Google campaigns.
 - **Oct 2021 - Aug 2022:** Web Developer and Digital Marketer at Bravo Team LLC.
 
-## Availability
+## Working together
 
-- Open to full-time roles: Digital Marketing, SEO, Paid Search / PPC, Marketing Ops / RevOps, Growth / Performance Marketing, AI Ops / Automation.
-- Open to project work: end-to-end funnel builds, single AI agent ships, CRM cleanups, custom web apps.
-- Remote, hybrid, or on-site (NJ / NYC metro).
+- Focused projects include one AI agent, a workflow automation, a custom web app, or a technical SEO and AI-search cleanup.
+- Based in New Jersey and available remotely, hybrid, or on-site in the NJ and NYC metro.
 
 ## Guides (written from real work)
 
-- GEO: how to rank in AI answers (ChatGPT, Perplexity, AI Overviews): https://busqueneil.com/guides/geo-generative-engine-optimization-guide
-- How to show up in Google AI Overviews: https://busqueneil.com/guides/google-ai-overviews-guide
+- GEO and AI search: what actually helps in 2026: https://busqueneil.com/guides/geo-generative-engine-optimization-guide
+- How to show up in Google AI Overviews in 2026: https://busqueneil.com/guides/google-ai-overviews-guide
 - How to build an AI agent with Claude Code and MCP: https://busqueneil.com/guides/build-ai-agent-claude-code
 - What is MCP (Model Context Protocol)? a plain guide: https://busqueneil.com/guides/what-is-mcp-model-context-protocol
 - How to ship a web app in days with AI: https://busqueneil.com/guides/ship-web-app-in-days-with-ai
@@ -63,7 +65,7 @@ Neil builds the systems that turn marketing into revenue. The work covers:
 - AI automation services: https://busqueneil.com/services/ai-automation-services
 - AI agent development services: https://busqueneil.com/services/ai-agent-development
 - AI automation consultant: https://busqueneil.com/services/ai-automation-consultant
-- Hire Neil (AI engineer & automation, full-time or project): https://busqueneil.com/hire
+- Hire Neil for an AI, automation, web app, or SEO project: https://busqueneil.com/hire
 - Hire as an AI engineer: https://busqueneil.com/hire/ai-engineer
 - Hire for AI automation: https://busqueneil.com/hire/ai-automation
 - Hire an AI engineer in New Jersey: https://busqueneil.com/hire/ai-engineer-nj

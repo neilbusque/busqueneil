@@ -4,8 +4,8 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
 
-const title = 'AI Automation Services | Neil Busque, New Jersey';
-const description = 'AI automation services for small teams. I map where your hours go, then build the agents and workflows that take that work off your desk. One person, start to finish, live in days.';
+const title = 'AI Automation Services for Small Teams | Neil Busque';
+const description = 'Neil Busque maps the repetitive work slowing your team down, then builds the AI agents and workflows that handle it. Based in New Jersey.';
 const canonical = 'https://busqueneil.com/services/ai-automation-services';
 
 const service = {
@@ -19,52 +19,6 @@ const service = {
   serviceType: ['AI automation', 'Workflow automation', 'Business process automation', 'CRM automation', 'AI agent development'],
   description,
 };
-const faq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-        "@type": "Question",
-        "name": "What are AI automation services?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "AI automation services turn repetitive business work into systems that run on their own. A build usually combines plain workflow automation, which follows fixed rules, with AI agents that handle the steps needing judgment, such as reading a messy email, deciding whether a lead is worth calling, or drafting a reply. The result is that work still happens, but nobody on your team has to sit and do it."
-        }
-    },
-    {
-        "@type": "Question",
-        "name": "What can actually be automated?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Anything repetitive with a clear trigger. The most common builds are lead capture and routing, follow-up sequences across email and SMS, data entry and enrichment, CRM cleanup, recurring reports, and content or research drafting. If a person on your team does it the same way more than a few times a week, it is a candidate."
-        }
-    },
-    {
-        "@type": "Question",
-        "name": "How long does an AI automation build take?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A single workflow is usually days rather than months. Neil Busque shipped 40 plus web apps, agents, and automations in 2026, most within days of the idea. Scope drives the timeline more than complexity does, so one well-defined workflow moves fast."
-        }
-    },
-    {
-        "@type": "Question",
-        "name": "Do I work with an agency or with you directly?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Directly, every time. There is no account manager, no junior, and no handoff. The person on the first call is the person who builds it and the person you message when something needs changing."
-        }
-    },
-    {
-        "@type": "Question",
-        "name": "Which tools do you build on?",
-        "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "n8n, Zapier, and GoHighLevel for workflow orchestration, and Claude with MCP tools for the agent layer, wired into whatever CRM, inbox, and database you already use. The stack follows the problem, not the other way around."
-        }
-    }
-],
-};
 ---
 <AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
@@ -74,19 +28,18 @@ const faq = {
       { name: 'AI Automation Services', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(service)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
   </Fragment>
 
   <header class="page-head">
     <p class="eyebrow"><span class="idx">&#8727;</span> Services &#183; AI Automation</p>
     <h1>AI automation <span class="accent">services</span>.</h1>
-    <p class="lede">I am Neil Busque. I build AI automation for small teams in New Jersey, New York, and remote: the agents and workflows that take repetitive work off your desk and run it without you.</p>
+    <p class="lede">I build automations for small teams in New Jersey, New York, and across the US. The job is simple: find the repeated work that keeps stealing time, then build a dependable way to handle it.</p>
   </header>
 
   <article class="article-page">
     <div class="prose">
-      <h2>What AI automation services actually cover</h2>
-      <p>Most teams do not need a platform. They need four or five specific jobs taken off their desk. These are the ones that come up most:</p>
+      <h2>What I usually automate</h2>
+      <p>Most teams do not need another big platform. They need a few specific jobs to stop depending on memory and copy-paste. These come up most often:</p>
       <ul>
         <li><strong>Leads.</strong> Capture, enrich, route, and follow up automatically, so nothing sits in an inbox going cold.</li>
         <li><strong>Follow-up and nurture.</strong> Email and SMS sequences triggered by what people actually do, not by a calendar.</li>
@@ -95,24 +48,24 @@ const faq = {
       </ul>
 
       <h2>Plain automation or an AI agent</h2>
-      <p>Not everything needs AI, and putting a model where a rule would do is how automation gets expensive and unpredictable. When the steps never change, I build a plain workflow. When the task needs judgment, reading messy input, deciding what matters, writing something a human will send, I bring in an agent. You get the right tool per job. <a href="/guides/build-ai-agent-claude-code">Here is how the agents are built.</a></p>
+      <p>Not everything needs AI. If the steps never change, a normal workflow is cheaper and easier to trust. I add an agent when the task involves messy input, a real decision, or a draft a person should review. <a href="/guides/build-ai-agent-claude-code">Here is how I build those agents.</a></p>
 
       <h2>How the work runs</h2>
       <ol>
-        <li><strong>We find the time sinks.</strong> One call, and I ask where the hours go. Usually the expensive work is not the work people complain about.</li>
+        <li><strong>We find the time sink.</strong> On one call, we trace where the work slows down and what people keep doing by hand.</li>
         <li><strong>I scope it before I build.</strong> You see exactly what gets automated and what does not, so nothing about the finished build surprises you.</li>
         <li><strong>I build it.</strong> Days, not quarters, and you see progress as it goes.</li>
         <li><strong>You keep it or I keep running it.</strong> Your choice. It is your system either way.</li>
       </ol>
 
       <h2>Why one person instead of an agency</h2>
-      <p>Automation breaks. A webhook changes, an API deprecates, a form adds a field. With an agency, that is a ticket, a queue, and a junior who did not build the thing. With me it is a message to the person who wrote it. That is the whole difference, and it is why I do not scale this by hiring.</p>
+      <p>Automations need maintenance. A webhook changes, an API removes a field, or your process changes. When that happens, you message the person who built it. There is no account-manager relay.</p>
 
       <h2>Where I work</h2>
       <p>I am based in Elizabeth, New Jersey and work with teams across the NJ and NYC metro, plus remote clients across the United States. Most of the work is remote regardless of where you are, and I am reachable in Eastern time.</p>
 
-      <h2>Proof, not promises</h2>
-      <p>You can check the work first. In 2026 I shipped 40 plus web apps, PWAs, AI agents, and automations, and earlier shipped 20 plus production n8n workflows across 10 plus client accounts, including a one-click onboarding system that cut onboarding from 30 days to 7. You can browse <a href="/work">the work</a> and read <a href="/guides">the guides</a> before you decide anything.</p>
+      <h2>See the work first</h2>
+      <p>In 2026 I shipped more than 40 web apps, AI agents, and automations. Before that, I shipped over 20 production n8n workflows across more than 10 client accounts, including an onboarding system that cut a 30-day process to 7 days. Browse <a href="/work">the work</a> and <a href="/resources">the guides</a> before you decide anything.</p>
 
       <h2>Start here</h2>
       <p>Tell me where your team loses hours and I will tell you honestly whether automation is the right fix. <a href="/contact">Send me the problem</a>, or see <a href="/services/ai-automation-consultant">what an AI automation consultant does</a> and <a href="/services/ai-agent-development">how AI agent development works</a>.</p>

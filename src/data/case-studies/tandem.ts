@@ -15,7 +15,7 @@ export const tandem: CaseStudy = {
 
   facts: [
     { k: 'Role', v: 'Solo builder, product + engineering' },
-    { k: 'Timeline', v: 'June 2026 – ongoing, 40+ shipped releases' },
+    { k: 'Timeline', v: 'June 2026 to present, 40+ shipped releases' },
     { k: 'Users', v: '800+ signups, Pro tier live with real paid sales' },
     { k: 'Stack', v: 'React, Vite, Supabase, WebRTC, Vercel' },
   ],

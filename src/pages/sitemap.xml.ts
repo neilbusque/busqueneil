@@ -2,45 +2,43 @@ import type { APIRoute } from 'astro';
 import { getAllPublished } from '../lib/posts';
 import { caseStudies } from '../data/case-studies';
 
-const STATIC_URLS: { loc: string; changefreq: string; priority: string }[] = [
-  { loc: 'https://busqueneil.com/', changefreq: 'daily', priority: '1.0' },
-  { loc: 'https://busqueneil.com/resources', changefreq: 'weekly', priority: '0.8' },
-  { loc: 'https://busqueneil.com/services', changefreq: 'monthly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/services/ai-automation-services', changefreq: 'monthly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/services/ai-agent-development', changefreq: 'monthly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/services/ai-automation-consultant', changefreq: 'monthly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/hire', changefreq: 'weekly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/hire/ai-engineer', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/hire/ai-automation', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-nj', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-remote', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides/google-ai-overviews-guide', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides/what-is-mcp-model-context-protocol', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/guides/ship-web-app-in-days-with-ai', changefreq: 'monthly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/story', changefreq: 'monthly', priority: '0.8' },
-  { loc: 'https://busqueneil.com/work', changefreq: 'weekly', priority: '0.9' },
-  { loc: 'https://busqueneil.com/blog', changefreq: 'daily', priority: '0.8' },
-  { loc: 'https://busqueneil.com/shop', changefreq: 'weekly', priority: '0.7' },
-  { loc: 'https://busqueneil.com/contact', changefreq: 'monthly', priority: '0.8' },
-  { loc: 'https://busqueneil.com/analyzer', changefreq: 'monthly', priority: '0.6' },
+const LAST_UPDATED = '2026-07-25';
+
+const STATIC_URLS: { loc: string; lastmod?: string }[] = [
+  { loc: 'https://busqueneil.com/', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/resources', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-automation-services', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-agent-development', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-automation-consultant', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire/ai-engineer', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire/ai-automation', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire/ai-engineer-nj', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/hire/ai-engineer-remote', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/google-ai-overviews-guide', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/what-is-mcp-model-context-protocol', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/ship-web-app-in-days-with-ai', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/story', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/work', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/blog', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/analyzer' },
   ...caseStudies.map((cs) => ({
     loc: `https://busqueneil.com/case-studies/${cs.slug}`,
-    changefreq: 'monthly',
-    priority: '0.8',
   })),
-  { loc: 'https://busqueneil.com/resume.pdf', changefreq: 'monthly', priority: '0.4' },
+  { loc: 'https://busqueneil.com/resume.pdf' },
 ];
 
 export const GET: APIRoute = async ({ request, cookies }) => {
   const posts = await getAllPublished({ request, cookies });
 
   const urls = [
-    ...STATIC_URLS.map(
-      (u) =>
-        `<url><loc>${u.loc}</loc><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`
+    ...STATIC_URLS.map((u) =>
+      `<url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`
     ),
     ...posts.map(
       (p) =>

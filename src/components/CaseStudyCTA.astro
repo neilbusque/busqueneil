@@ -10,8 +10,8 @@ interface Props {
 const { product, body } = Astro.props;
 
 const b = body ?? (product
-  ? `${product} started as a problem I had and an empty repo. If you are sitting on something similar, a tool your team keeps rebuilding in spreadsheets, a client experience held together by email threads, an idea you have never had time to test, book a call and we will scope it properly.`
-  : 'If you are sitting on a tool your team keeps rebuilding in spreadsheets, a client experience held together by email threads, or an idea you have never had time to test, book a call and we will scope it properly.');
+  ? `${product} started with a real problem and an empty repo. If you have something similar sitting in a spreadsheet, buried in email threads, or waiting in your notes, tell me about it. I will help you work out the smallest useful version.`
+  : 'If your team keeps rebuilding the same tool in spreadsheets, holding a client experience together with email threads, or sitting on an idea nobody has time to test, tell me about it. I will help you scope the smallest useful version.');
 ---
 <section class="cs-cta reveal">
   <p class="eyebrow"><span class="idx">&#8727;</span> Work with me<span class="line"></span></p>
@@ -22,5 +22,5 @@ const b = body ?? (product
     <a class="btn ghost" href={WHATSAPP_URL} target="_blank" rel="noopener">WhatsApp</a>
     <a class="btn ghost" href={EMAIL_URL}>Email me</a>
   </div>
-  <p class="fine">Free 20 minutes &middot; New Jersey &middot; EST &middot; No pitch deck</p>
+  <p class="fine">Free 20 minutes &middot; New Jersey &middot; Eastern Time &middot; No pitch deck</p>
 </section>

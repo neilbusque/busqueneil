@@ -44,7 +44,9 @@ const STACK = [
   { label: 'Data', items: ['Apify', 'Firecrawl', 'Trawl'] },
 ];
 
-const nowText = now?.title || 'Shipping something, every day.';
+const nowPublished = now?.published_at ? new Date(now.published_at) : null;
+const nowIsFresh = nowPublished ? Date.now() - nowPublished.getTime() < 1000 * 60 * 60 * 24 * 75 : false;
+const nowText = nowIsFresh ? (now?.title || 'Building something new.') : 'Building, writing, and getting better at both.';
 const nowDateStr = now?.published_at
   ? new Date(now.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   : null;
@@ -59,7 +61,7 @@ function tagFor(p: Post): string {
   return map[p.type] ?? 'Post';
 }
 ---
-<AppShell title="Neil Busque — From idea to product" description="I build AI apps, websites, portals, and automation. You work directly with me, and it ships in days." active="home">
+<AppShell title="Neil Busque | AI Engineer and Product Builder" description="I build AI agents, automations, web apps, and websites for small teams. You work with me directly, and most first versions ship in days." active="home">
   <IntroCinematic slot="intro" />
   <Fragment slot="head"><Schema /></Fragment>
 
@@ -71,7 +73,7 @@ function tagFor(p: Post): string {
     <div>
       <span class="script script-hi">hey <span class="wave" aria-hidden="true">&#128075;</span> I&rsquo;m</span>
       <h1>Neil<br>Busque</h1>
-      <p class="hero-sub">I turn ideas into working products. Web apps, websites, landing pages, funnels, and automation, built with you directly and live in days.</p>
+      <p class="hero-sub">I build the useful version of your idea: AI agents, web apps, websites, funnels, and automations. You work with me directly, and most first versions are live in days.</p>
       <div class="hero-ctas">
         <a class="btn-sun" href="/hire">Start your build</a>
         <a class="link-arrow" href="/work">See the work
@@ -80,7 +82,7 @@ function tagFor(p: Post): string {
       </div>
     </div>
     <div class="hero-photo-wrap">
-      <span class="note who">that&rsquo;s me. you talk to me, not an agency
+      <span class="note who">that&rsquo;s me. you work with me directly
         <!-- v11: the note now sits ABOVE and right of the figure, so the arrow points down-LEFT
              at him. It pointed down-right when the note lived to his left. -->
         <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -107,31 +109,31 @@ function tagFor(p: Post): string {
         <span class="num">01</span>
         <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="5" y="8" width="14" height="10" rx="2"/><path d="M5 12h14M9 21h6"/></svg></span>
         <span class="name">Web Apps</span>
-        <span class="desc">Portals, dashboards, internal tools. Working software, not demos.</span>
+        <span class="desc">Portals, dashboards, and internal tools your team can actually use.</span>
       </li>
       <li>
         <span class="num">02</span>
         <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 13h7"/></svg></span>
         <span class="name">Websites</span>
-        <span class="desc">Sites that look designed and load fast. Never a template.</span>
+        <span class="desc">Fast, custom sites that feel like your business, not a template.</span>
       </li>
       <li>
         <span class="num">03</span>
         <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6"/><path d="M9 17h4"/></svg></span>
         <span class="name">Landing Pages</span>
-        <span class="desc">One page, one job. Turn a visitor into a lead.</span>
+        <span class="desc">A focused page that makes the next step obvious.</span>
       </li>
       <li>
         <span class="num">04</span>
         <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18l-7 8v6l-4 2v-8z"/><rect class="cell" x="10" y="14" width="4" height="4"/></svg></span>
         <span class="name">Funnels</span>
-        <span class="desc">Click to booked call, wired end to end.</span>
+        <span class="desc">From first click to booked call, with every handoff connected.</span>
       </li>
       <li>
         <span class="num">05</span>
         <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><rect class="cell" x="14" y="4" width="6" height="6"/><path d="M7 10v4a3 3 0 0 0 3 3h7"/><path d="M15 15l2 2-2 2"/></svg></span>
         <span class="name">Automation</span>
-        <span class="desc">n8n, Zapier, GHL. Busywork runs itself.</span>
+        <span class="desc">n8n, Zapier, and GHL workflows that take repetitive work off your plate.</span>
       </li>
     </ul>
     <p style="margin-top:22px"><a class="link-arrow" href="/services">All services
@@ -147,7 +149,7 @@ function tagFor(p: Post): string {
   <!-- WORK -->
   <section class="hsec">
     <span class="eyebrow">Selected work</span>
-    <h2 class="sec">Real products, <span class="mark-hl">live</span> right now.</h2>
+    <h2 class="sec">Working products you can <span class="mark-hl">open.</span></h2>
     <div class="workgrid">
       {WORK.map((w) => (
         <a class="workcard" href={w.href}>
@@ -219,7 +221,7 @@ function tagFor(p: Post): string {
           </>
         ) : (
           <div class="v8-card nowcta">
-            <p>Most of what I build never makes it to a post. Fastest way to find out if I can build yours is to ask.</p>
+            <p>Most of what I build never becomes a post. The fastest way to find out if I can build yours is to ask.</p>
             <div class="hero-ctas" style="margin-top:16px">
               <a class="btn-sun" href="/contact">Tell me what you need</a>
               <a class="btn-ghost" href="/work">See the work</a>
@@ -232,17 +234,15 @@ function tagFor(p: Post): string {
 
   <!-- STATEMENT -->
   <div class="statement">
-    <p>Anyone can use AI. <span class="mark-hl">Finished</span> <span class="script">is what you hire me for.</span></p>
-    <p class="statement-sub">AI hands you a demo that falls over on the first real user. You are
-      hiring the person who fixes it.</p>
+    <p>AI can start the work. <span class="mark-hl">Finished</span> <span class="script">is what you hire me for.</span></p>
+    <p class="statement-sub">The first draft is fast. The real job is making it dependable enough for customers and coworkers.</p>
   </div>
 
   <!-- STACK -->
   <section class="hsec">
     <span class="eyebrow">Tools I work in</span>
     <h2 class="sec">The <span class="mark-hl">stack.</span></h2>
-    <p class="stack-note">Best part of my job is wiring things together. Webhooks, OAuth, MCP
-      servers, two systems that were never meant to talk.</p>
+    <p class="stack-note">My favorite part is making two tools that were never meant to talk work together. Webhooks, OAuth, MCP servers, whatever the job needs.</p>
     <div class="stack">
       {STACK.map((group) => (
         <div class="stack-group">
@@ -264,27 +264,26 @@ function tagFor(p: Post): string {
   <section class="hsec">
     <span class="eyebrow">Why not just build it yourself</span>
     <h2 class="sec">The demo is easy. <span class="mark-hl">The last 20% is not.</span></h2>
-    <p class="stack-note">I use them too. For a simple app they work. Complex is where they fall over.</p>
+    <p class="stack-note">I use them too. They are great for a first pass. The trouble starts when the app has real users, real data, and edge cases.</p>
     <ul class="diy">
       <li>
-        <b>It looks finished in an afternoon.</b>
-        <span>Then someone filters by date and it crashes.</span>
+        <b>The first screen looks finished in an afternoon.</b>
+        <span>Then a real user takes the path the demo never covered.</span>
       </li>
       <li>
-        <b>Then the loop starts.</b>
-        <span>It fixes one bug and adds two. Every attempt costs credits. People have burned past
-          a thousand dollars in tokens without shipping.</span>
+        <b>Then the debugging loop starts.</b>
+        <span>One fix creates another bug, the context gets messier, and you stop knowing which change caused what.</span>
       </li>
       <li>
-        <b>The code looks right and is not.</b>
-        <span>Imports to packages that do not exist. Layouts that break on a phone. Auth left wide open.</span>
+        <b>The code can look right and still be wrong.</b>
+        <span>A package that does not exist. A layout that breaks on a phone. A permission rule that exposes the wrong data.</span>
       </li>
       <li>
-        <b>You are stuck with what it picked.</b>
-        <span>One stack, one host. Moving off it later costs more than starting right.</span>
+        <b>You inherit choices you never made.</b>
+        <span>The stack, the host, and the database shape are already decided. Changing them later is the expensive part.</span>
       </li>
     </ul>
-    <p class="diy-close">I already know what breaks.</p>
+    <p class="diy-close">I use the speed. I still own the engineering.</p>
   </section>
 
   <!-- WHY ME -->
@@ -293,21 +292,20 @@ function tagFor(p: Post): string {
     <h2 class="sec">Your thing becomes <span class="mark-hl">my thing.</span></h2>
     <ul class="why">
       <li>
-        <b>You are not item nine on a list.</b>
-        <span>I take a few builds at a time on purpose. Message me about yours and I already have
-          it loaded.</span>
+        <b>I know what we talked about last time.</b>
+        <span>I keep the client list short on purpose. You do not have to re-explain the project every time you message me.</span>
       </li>
       <li>
         <b>You get my actual phone number.</b>
         <span>Me, on WhatsApp, usually the same day. No ticket queue in between.</span>
       </li>
       <li>
-        <b>Shipping is the easy part.</b>
-        <span>I want it doing the job you hired it for, and I keep going until it does.</span>
+        <b>Going live is not the finish line.</b>
+        <span>I want the thing doing the job you hired it to do, and I keep working until it does.</span>
       </li>
       <li>
-        <b>I want you telling a friend who built it.</b>
-        <span>Anything less than that and I did not finish the job.</span>
+        <b>I care about the handoff.</b>
+        <span>You should understand what you own, where it lives, and what to do when something changes.</span>
       </li>
     </ul>
   </section>
@@ -318,7 +316,7 @@ function tagFor(p: Post): string {
     <ul class="guar">
       <li>
         <b>I keep working until you are proud of it.</b>
-        <span>No scope clock. Done means you are happy, not that the hours ran out.</span>
+        <span>Done means the agreed build works and you are happy to put your name on it.</span>
       </li>
       <li>
         <b>If I am not the right fit, I tell you on the first call.</b>
@@ -330,7 +328,7 @@ function tagFor(p: Post): string {
       </li>
       <li>
         <b>You see the scope before I start.</b>
-        <span>We agree what gets built on the call. Nothing surprises you later.</span>
+        <span>We agree on the job, timeline, and price before I build. No vague invoice at the end.</span>
       </li>
     </ul>
   </section>
@@ -338,7 +336,7 @@ function tagFor(p: Post): string {
   <!-- DARK CTA -->
   <div class="darkcta">
     <h2>Tell me what you want to <span class="mark-hl">build.</span></h2>
-    <p>Send me the idea in a few sentences. I answer personally, usually the same day.</p>
+    <p>A rough idea is enough. Send me a few sentences and I will tell you how I would approach it.</p>
     <div class="hero-ctas" style="margin-top:0">
       <a class="btn-sun" href="/contact">Send me your idea</a>
       <a class="btn-ghost" href={WA_BUILD}>Or message on WhatsApp</a>

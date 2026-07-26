@@ -4,14 +4,14 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
 
-const title = 'Hire a Remote AI Engineer (US, EST) — Neil Busque';
-const description = 'Hire a remote AI engineer. Neil Busque works async from the US East Coast, shipping AI agents, automations, and web apps in days, with public build logs.';
+const title = 'Remote AI Engineer in US Eastern Time | Neil Busque';
+const description = 'Neil Busque is a remote AI engineer building agents, automations, and web apps from the US East Coast, with clear updates and frequent preview links.';
 const canonical = 'https://busqueneil.com/hire/ai-engineer-remote';
 
 const service = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Remote AI Engineer — Neil Busque',
+  name: 'Remote AI Engineer | Neil Busque',
   url: canonical,
   image: 'https://busqueneil.com/og.png',
   provider: { '@id': 'https://busqueneil.com/#person' },
@@ -23,27 +23,6 @@ const service = {
   serviceType: ['Remote AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
   description,
 };
-const faq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What timezone does Neil work in?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Eastern Time (US East Coast). That overlaps every US timezone during the workday and catches the tail of European afternoons, so remote teams get real hours of overlap, not just handoffs.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'How does Neil keep remote work on track?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Small specced tasks, frequent deploys, and public build logs. You see progress daily, not at the end of a black-box month. He works async by default and jumps on a call when a decision needs one.' },
-    },
-    {
-      '@type': 'Question',
-      name: 'What tools does Neil use for remote delivery?',
-      acceptedAnswer: { '@type': 'Answer', text: 'GitHub for code and review, Vercel for preview and production deploys, and Slack or email for updates. Every change ships to a preview URL you can click, so you are never guessing about status.' },
-    },
-  ],
-};
 ---
 <AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
@@ -53,22 +32,21 @@ const faq = {
       { name: 'Remote AI Engineer', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(service)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
   </Fragment>
 
   <header class="page-head">
     <p class="eyebrow"><span class="idx">∗</span> Hire · Remote</p>
     <h1>Hire a <span class="accent">remote AI engineer</span>.</h1>
-    <p class="lede">I am Neil Busque. I build AI agents, automations, and web apps remotely from the US East Coast, async by default, with public build logs so you always know where things stand. Fast, transparent, and in a timezone that overlaps your team.</p>
+    <p class="lede">I build AI agents, automations, and web apps remotely from the US East Coast. You get written updates, frequent preview links, and calls when a decision is easier to make together.</p>
   </header>
 
   <article class="article-page" style="padding-top: 8px;">
     <div class="prose">
       <h2>Remote that actually works</h2>
-      <p>Remote goes wrong when work disappears into a black box for a month. I run the opposite. Small specced tasks, frequent deploys, and a preview URL for every change, so you can watch the thing take shape instead of waiting for a reveal. You see the work as it happens, not at the end.</p>
+      <p>Remote work goes wrong when the project disappears for a month. I keep the tasks small, deploy often, and share preview links as the build takes shape. You can review real progress instead of reading a status paragraph.</p>
 
       <h2>A timezone that overlaps</h2>
-      <p>I am in Eastern Time. That overlaps every US timezone during the workday and catches the end of the European afternoon. You get real hours of live overlap for decisions, plus async progress the rest of the day. No 12-hour handoff gaps.</p>
+      <p>I am in Eastern Time. That gives me working overlap with every US timezone and part of the European afternoon, while leaving enough uninterrupted time to build.</p>
 
       <h2>What I ship remotely</h2>
       <ul>

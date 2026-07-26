@@ -12,15 +12,34 @@ const TIMELINE = [
   { k: 'AI', d: 'Claude Code and Codex, every day. Where all of it compounds: the engineering, the design eye, and knowing what a business actually needs.' },
   { k: 'New Jersey', d: 'Where I live and build now. Still learning something most days, still in the gym to keep my head straight.' },
 ];
+
+const canonical = 'https://busqueneil.com/story';
+const profile = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  dateCreated: '2026-05-13',
+  dateModified: '2026-07-25',
+  mainEntity: {
+    '@type': 'Person',
+    '@id': 'https://busqueneil.com/#person',
+    name: 'Neil Busque',
+    url: 'https://busqueneil.com/',
+    image: 'https://busqueneil.com/assets/art/neil-avatar.webp',
+    jobTitle: 'AI Engineer and Product Builder',
+    sameAs: ['https://www.linkedin.com/in/neilbusque/'],
+  },
+};
 ---
 <AppShell
-  title="My story — from the Philippines to New Jersey | Neil Busque"
-  description="How Neil Busque went from an IT degree in the Philippines to design contests, marketing, and building AI products in New Jersey. Including the part his mom made possible."
+  title="Neil Busque's Story: Philippines to New Jersey"
+  description="Neil Busque's path from an IT degree in the Philippines to design, marketing, automation, and building AI products in New Jersey."
+  canonical={canonical}
   active="story"
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(profile)} />
   <span class="eyebrow">My story</span>
   <h1 class="sec">I got here because <span class="mark-hl">someone went first.</span></h1>
-  <p class="story-lede">I am from the Philippines and I live in New Jersey now. That one sentence took my mom more than ten years to make true. Everything else on this page is what I have done with it.</p>
+  <p class="story-lede">I am from the Philippines and live in New Jersey now. That sentence took my mom more than ten years to make true. Everything else on this page is what I have tried to do with the chance she gave me.</p>
 
   <img class="art-img" style="margin-bottom:34px" src="/assets/art/journey.webp" alt="A paper airplane flying from tropical islands to a city skyline" width="1400" height="594" loading="lazy" />
 
@@ -28,7 +47,7 @@ const TIMELINE = [
     <div class="prose">
       <h2>My mom went first</h2>
       <p>I am from the Philippines. I live in New Jersey because of my mom.</p>
-      <p>I was in high school when she left. Wages back home are low and the math on a normal life never works, no matter how hard you run at it. So she went to the United States and worked, alone, so the rest of us would get a shot.</p>
+      <p>I was in high school when she left. Wages back home are low, and the math on a normal life often does not work no matter how hard you run at it. So she went to the United States and worked, alone, so the rest of us would get a shot.</p>
       <p>It took her more than ten years. She brought us over one at a time. My brothers, then my dad, then me, a few years ago. I know what that decade cost her.</p>
       <p>My wife is still in the Philippines, so I go back when I can. Getting her here is next. That is what the work is for.</p>
 
@@ -41,12 +60,12 @@ const TIMELINE = [
 
       <h2>I tried the AI builders too</h2>
       <p>I use the AI app builders myself. They are good, and for a simple app they get you there.</p>
-      <p>Complex is where they fall apart. The first version comes fast, then something real breaks, the fix quietly breaks two more things, and you spend your credits going in circles. Generating a screen and holding a whole system together are different jobs.</p>
+      <p>The trouble starts when the app gets complicated. The first version comes fast. Then a real edge case appears, one fix breaks something else, and nobody is quite sure what changed. Generating a screen and keeping a whole system dependable are different jobs.</p>
       <p>So I lean on AI hard and stay the engineer.</p>
 
       <h2>How I work</h2>
       <p>I do not have an agency behind me and I am not building one. You get me on the first call, me building it, and my phone number.</p>
-      <p>And if we never work together, that is fine. Happy to help you think something through, or tell you the thing you are about to pay for is not worth building. Message me either way.</p>
+      <p>And if we never work together, that is fine. I am still happy to help you think something through, or tell you when the thing you are about to pay for is not worth building. Message me either way.</p>
     </div>
   </article>
 

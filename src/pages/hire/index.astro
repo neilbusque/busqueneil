@@ -4,14 +4,14 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 
 export const prerender = true;
 
-const title = 'Hire Neil Busque — AI Engineer & Automation Builder';
-const description = 'Hire Neil Busque, an AI engineer and automation builder in New Jersey. AI agents, automations, GEO/SEO, and custom web apps. Full-time or project, shipped in days.';
+const title = 'Hire Neil Busque | AI Engineer and Product Builder';
+const description = 'Hire Neil Busque to build an AI agent, automation, web app, or search-ready website. Based in New Jersey and available for focused projects.';
 const canonical = 'https://busqueneil.com/hire';
 
 const service = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Neil Busque — AI Engineering & Automation',
+  name: 'Neil Busque | AI Engineering and Automation',
   url: canonical,
   image: 'https://busqueneil.com/og.png',
   provider: { '@id': 'https://busqueneil.com/#person' },
@@ -26,44 +26,6 @@ const service = {
   ],
   description,
 };
-const faq = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'What does Neil Busque build?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'AI agents and LLM apps, workflow automation, GEO and SEO systems that get you found in AI search and Google, and custom web apps and PWAs. He works at the seam between marketing and engineering, so the systems he builds are wired to actually drive revenue.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Is Neil available full-time or for projects?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Both. He is open to full-time roles as an AI engineer, automation engineer, or growth/marketing engineer, and to fixed-scope project work such as a single AI agent, an automation build, a GEO/SEO push, or a custom app. Remote, hybrid, or on-site across the NJ and NYC metro.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How fast can Neil ship?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Fast. He has shipped 40 plus web apps, PWAs, AI agents, and automations in 2026, most within days of the idea, and publishes the work. A focused app or agent is usually days, not months.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'How do I hire Neil?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Email busqueneil@gmail.com or message him on LinkedIn at linkedin.com/in/neilbusque. Tell him the problem and the outcome you want. He will tell you honestly whether he is the right build for it.',
-      },
-    },
-  ],
-};
 ---
 <AppShell title={title} description={description} canonical={canonical} active="hire">
   <Fragment slot="head">
@@ -72,12 +34,11 @@ const faq = {
       { name: 'Hire', url: canonical },
     ]} />
     <script type="application/ld+json" set:html={JSON.stringify(service)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
   </Fragment>
 
   <span class="eyebrow">Hire</span>
-  <h1 class="sec">Let's build <span class="mark-hl">your thing.</span></h1>
-  <p class="hero-sub">I am Neil Busque, an AI engineer and automation builder in New Jersey. I build AI agents, automations, and web apps, and I get companies found in AI search. Most of it ships in days, and you can see the work before you hire me.</p>
+  <h1 class="sec">Let's build the <span class="mark-hl">useful version.</span></h1>
+  <p class="hero-sub">I am Neil Busque, an AI engineer and product builder in New Jersey. I build agents, automations, web apps, and websites for small teams. You work with me directly, and you can see the work before you hire me.</p>
 
   <!-- The five real steps. Each carries an on-brand mark drawn on the same 12-unit grid as
        the site's hairline module, so the icons read as part of the Blueprint system rather
@@ -95,8 +56,8 @@ const faq = {
           </svg>
         </span>
         <span class="step-n">01</span>
-        <b>We jump on a call</b>
-        <span>You tell me the problem and what done looks like. If I am not the right fit, I say so here and it costs you nothing.</span>
+        <b>We talk through the problem</b>
+        <span>You tell me what is happening now and what a good outcome looks like. If I am not the right fit, I say so here.</span>
       </li>
       <li class="step">
         <span class="step-art" aria-hidden="true">
@@ -108,7 +69,7 @@ const faq = {
         </span>
         <span class="step-n">02</span>
         <b>I scope the project</b>
-        <span>Exactly what gets built and what does not, in writing, before anything starts.</span>
+        <span>I write down what gets built, what does not, and the decisions we still need to make.</span>
       </li>
       <li class="step">
         <span class="step-art" aria-hidden="true">
@@ -121,7 +82,7 @@ const faq = {
         </span>
         <span class="step-n">03</span>
         <b>We agree on it</b>
-        <span>Scope, timeline, and price settled up front, so nothing about the finished build surprises you.</span>
+        <span>We settle the scope, timeline, and price before the work starts.</span>
       </li>
       <li class="step">
         <span class="step-art" aria-hidden="true">
@@ -133,7 +94,7 @@ const faq = {
         </span>
         <span class="step-n">04</span>
         <b>I build, you review</b>
-        <span>Days, not quarters. You see it as it goes and tell me what to change while it is cheap to change.</span>
+        <span>You see the build as it takes shape and can change direction while changes are still cheap.</span>
       </li>
       <li class="step">
         <span class="step-art" aria-hidden="true">
@@ -144,8 +105,8 @@ const faq = {
           </svg>
         </span>
         <span class="step-n">05</span>
-        <b>Then we optimize</b>
-        <span>Once it is live we watch what it actually does and tighten it. Keep me on for that or take it in-house.</span>
+        <b>Then we watch it work</b>
+        <span>Once it is live, we fix the parts real use exposes. Keep me on for that or take it in-house.</span>
       </li>
     </ol>
   </section>
@@ -154,26 +115,26 @@ const faq = {
     <div class="prose">
       <h2>What I build for you</h2>
       <ul>
-        <li><strong>AI agents and LLM apps.</strong> Agents that do real work: answer leads, update your CRM, draft content, run research. Built on Claude Code with MCP tools wired into your systems.</li>
+        <li><strong>AI agents and LLM apps.</strong> Agents that answer leads, update your CRM, draft content, or run research, with approval steps where people still need control.</li>
         <li><strong>Workflow automation.</strong> The manual, repetitive work in your business turned into pipelines that run themselves, in n8n, Zapier, and GoHighLevel.</li>
-        <li><strong>GEO and SEO.</strong> Get cited by ChatGPT, Perplexity, and Google AI Overviews, and rank in normal search too. See <a href="/guides/geo-generative-engine-optimization-guide">my GEO guide</a> for how I think about it.</li>
+        <li><strong>Search and AI visibility.</strong> Helpful pages, technical SEO, and a site structure that search engines and AI-powered search can understand. See <a href="/guides/geo-generative-engine-optimization-guide">my AI search guide</a>.</li>
         <li><strong>Custom web apps and PWAs.</strong> Internal tools, portals, dashboards, customer-facing apps. Shipped in days, not quarters. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
       </ul>
 
-      <h2>Proof, not promises</h2>
-      <p>You can check the work before you decide. In 2026 I shipped 40 plus web apps, PWAs, AI agents, and automations, including a personal CRM, a client portal, a link shortener with analytics and web push, a cold-email app, and the CMS behind this site. You can browse <a href="/work">the work</a> and read <a href="/guides">the guides</a> before you decide. Most people never get to see how someone works until after they hire them. With me, you see it first.</p>
+      <h2>See the work before we talk</h2>
+      <p>In 2026 I shipped more than 40 web apps, AI agents, and automations, including a CRM, a client portal, a link shortener, a cold-email app, and the CMS behind this site. Browse <a href="/work">the work</a> and read <a href="/resources">the guides</a>. You should not have to take my process on faith.</p>
 
       <h2>Two ways to work with me</h2>
       <ul>
-        <li><strong>Join your team.</strong> W2, full-time. I am open to roles as an AI engineer, automation engineer, or growth engineer. If your team needs someone who can build AI systems and understands how marketing turns into revenue, that is me. <a href="/resume.pdf">Resume here</a>.</li>
-        <li><strong>A one-off project.</strong> One agent, one automation, one app, one GEO push. Fixed scope, fast turnaround, and you know what gets built before I start.</li>
+        <li><strong>Join your team.</strong> Full-time work as an AI, automation, or growth engineer. I bring an engineering mindset and years of hands-on marketing experience. <a href="/resume.pdf">Read my resume</a>.</li>
+        <li><strong>Build one focused project.</strong> One agent, automation, app, or search-content overhaul. The scope is clear before I start.</li>
       </ul>
 
       <h2>Why me</h2>
-      <p>Most AI people either talk about it or code in a vacuum. I do the rare middle: I ship real AI systems, fast, and I wire them to business outcomes because I spent years in digital marketing, SEO, and paid media before this. You get an engineer who understands the funnel, not just the model.</p>
+      <p>I came to AI through web development, design, automation, SEO, and paid media. That mix helps me spot when the right answer is an agent, when it is a plain workflow, and when the product problem has nothing to do with AI at all.</p>
 
       <h2>Hire me</h2>
-      <p>Tell me the problem and the outcome you want. I will tell you honestly whether I am the right build for it.</p>
+      <p>Tell me what is not working and what you want to be different. I will tell you honestly whether I am the right person for it.</p>
       <ul>
         <li>Email: <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></li>
         <li>LinkedIn: <a href="https://www.linkedin.com/in/neilbusque" rel="me">linkedin.com/in/neilbusque</a></li>

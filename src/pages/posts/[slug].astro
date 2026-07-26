@@ -37,24 +37,33 @@ const jsonLd = {
   datePublished: post.published_at,
   dateModified: post.updated_at,
   image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
-  author: { '@id': 'https://busqueneil.com/#person' },
-  publisher: { '@id': 'https://busqueneil.com/#person' },
+  author: {
+    '@type': 'Person',
+    name: 'Neil Busque',
+    url: 'https://busqueneil.com/story',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Neil Busque',
+    url: 'https://busqueneil.com/',
+  },
   mainEntityOfPage: canonical,
   ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
 };
 ---
 <AppShell
-  title={`${title} — Neil Busque`}
+  title={`${title} | Neil Busque`}
   description={description}
   canonical={canonical}
   ogImage={ogImage}
+  ogType="article"
   active="blog"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Writing', url: 'https://busqueneil.com/posts' },
+      { name: 'Writing', url: 'https://busqueneil.com/blog' },
       { name: title, url: canonical },
     ]} />
   </Fragment>
@@ -99,7 +108,7 @@ const jsonLd = {
     )}
 
     <p style="margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--rule);">
-      <a class="more" href="/">← Back to the feed</a>
+      <a class="more" href="/blog">← Back to writing</a>
     </p>
   </article>
 </AppShell>
