@@ -48,7 +48,10 @@ const ICONS: Record<string, string> = {
 
 const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20';
 ---
-<Base {...baseProps} v8={true} noConcierge={true}>
+{/* The Talk widget is ON site-wide (Neil). It only renders a bubble while he is actually
+    live — it polls /api/availability on the talk origin — so there is no permanent floating
+    element competing with the page. It also now occupies the slot the WhatsApp FAB used to. */}
+<Base {...baseProps} v8={true}>
   <slot name="head" slot="head" />
   <ClientRouter slot="head" />
   <script is:inline slot="head">
@@ -113,6 +116,9 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
           <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.06V19.5h2.88zM5.5 7.19a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38zM19.94 13.06c0-2.75-1.47-4.03-3.43-4.03-1.58 0-2.29.87-2.68 1.48V8.5h-2.88c.04.81 0 11 0 11h2.88v-6.14c0-.33.02-.66.12-.89.26-.66.86-1.34 1.86-1.34 1.31 0 1.84.99 1.84 2.44v5.93h2.88z" /></svg>
           </a>
+          <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
+          </a>
         </div>
       </div>
     </aside>
@@ -138,15 +144,12 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
           <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.06V19.5h2.88zM5.5 7.19a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38zM19.94 13.06c0-2.75-1.47-4.03-3.43-4.03-1.58 0-2.29.87-2.68 1.48V8.5h-2.88c.04.81 0 11 0 11h2.88v-6.14c0-.33.02-.66.12-.89.26-.66.86-1.34 1.86-1.34 1.31 0 1.84.99 1.84 2.44v5.93h2.88z" /></svg>
           </a>
+          <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
+          </a>
         </span>
       </footer>
     </main>
-    {active !== 'contact' && (
-    <a class="fab-idea" href={WA_HREF} target="_blank" rel="noopener" aria-label="Let's connect on WhatsApp">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
-      <span class="hand">Let's connect!</span>
-    </a>
-    )}
     <nav class="shell-tabbar" aria-label="Primary mobile">
       <div class="tabbar-pill">
         {TABS.map((n) => (

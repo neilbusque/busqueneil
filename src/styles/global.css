@@ -7,16 +7,24 @@
   --paper:       #FFFFFF;
   --paper-2:     #FAFAFB;   /* faint alternating panel */
   --paper-3:     #F4F4F6;   /* image placeholder / inset */
-  --ink:         #0A0A0B;   /* display + body */
-  --ink-2:       #3A3A40;   /* secondary prose */
-  --muted:       #8A8A92;   /* mono metadata, bylines */
-  --rule:        #E7E7EC;   /* 1px hairline dividers */
-  --rule-2:      #D8D8DE;   /* slightly stronger hairline */
-  --ink-rule:    #0A0A0B;   /* 2px structural ink rules */
-  --accent:      #9A6B00;   /* deep gold: display accent, focus, dots (yellow family, AA-safe as text) */
-  --accent-ink:  #8A6000;   /* body links (AA on white) */
-  --accent-deep: #6E4D00;   /* link hover */
-  --accent-wash: #FFF6CF;   /* rare tint fills (pale lemon) */
+  /* v12: aligned to the .v8 shell scale. These were the leftover Swiss values (#3A3A40,
+     #8A8A92, #E7E7EC bluish greys and a #9A6B00 dark-gold accent), and because every article
+     page — service details, guides, hire pages, story, case studies — renders inside .prose
+     and .page-head, those pages ran a visibly different palette from the shell around them.
+     Body copy read blue-grey and links read brown next to a neutral+yellow chrome. */
+  --ink:         #0A0A0A;   /* display + body */
+  --ink-2:       #525252;   /* secondary prose */
+  --muted:       #737373;   /* mono metadata, bylines */
+  --rule:        #EAEAEA;   /* 1px hairline dividers */
+  --rule-2:      #D4D4D4;   /* slightly stronger hairline */
+  --ink-rule:    #0A0A0A;   /* 2px structural ink rules */
+  /* The accent is a yellow UNDERLINE, never yellow text: #FFE45C on white is 1.3:1 and
+     unusable for type. Anything that used to be gold text is now ink carrying the underline. */
+  --accent:      #0A0A0A;
+  --accent-ink:  #0A0A0A;   /* body links: ink + sun underline */
+  --accent-deep: #383838;   /* link hover */
+  --accent-wash: #FFF9E0;   /* rare tint fills (pale lemon) */
+  --sun:         #FFE45C;   /* brand accent, available outside .v8 too */
   --code-bg:     #0B0B12;
   --code-ink:    #E7E7F2;
 
@@ -75,7 +83,7 @@ a { color: var(--accent-ink); }
   align-items: center;
   gap: 10px;
 }
-.eyebrow .idx { color: var(--accent); }
+.eyebrow .idx { color: var(--muted); }
 .eyebrow .line { flex: 1; height: 1px; background: var(--rule); }
 
 /* ===================================================================
@@ -199,7 +207,9 @@ a { color: var(--accent-ink); }
   font-size: clamp(32px, 4.2vw, 56px); letter-spacing: -0.035em; line-height: 1.05;
   max-width: 18ch;
 }
-.page-head h1 .accent { color: var(--accent); }
+.page-head h1 .accent { color: var(--ink);
+  background-image: linear-gradient(var(--sun), var(--sun)); background-repeat: no-repeat;
+  background-size: 100% .18em; background-position: 0 92%; }
 .page-head .lede { margin-top: 22px; color: var(--ink-2); font-size: clamp(16px, 1.4vw, 18px); max-width: 56ch; line-height: 1.6; }
 .page-head .updated { margin-top: 14px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
@@ -329,8 +339,8 @@ a { color: var(--accent-ink); }
 .prose h3 { font-size: 20px; }
 /* code and UI bits stay sans inside a serif column */
 .prose code, .prose kbd, .prose pre { font-family: var(--mono, ui-monospace, monospace); font-size: 15px; }
-.prose a { color: var(--accent-ink); text-underline-offset: 2px; }
-.prose a:hover { color: var(--accent-deep); }
+.prose a { color: var(--accent-ink); text-decoration-color: var(--sun); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.prose a:hover { color: var(--accent-deep); text-decoration-color: var(--accent-deep); }
 .prose ul, .prose ol { margin: 0 0 24px 22px; color: var(--ink-2); }
 .prose li { margin-bottom: 10px; font-size: 19.5px; line-height: 1.7; }
 .prose em, .prose i { font-style: italic; }
