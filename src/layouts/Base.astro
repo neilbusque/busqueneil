@@ -157,8 +157,13 @@ const pageSchema = {
         document.addEventListener('astro:page-load', arm);
       })();
     </script>
-    {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online. */}
-    {!noindex && !noConcierge && (
+    {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online.
+        Gated on noConcierge ALONE. It used to also require !noindex, which silently coupled two
+        unrelated things: a robots directive is about crawlers, the pill is about visitors. The
+        side effect was that /404 — a page where offering a live human is worth more than
+        anywhere else on the site — never showed it. Pages that genuinely should not have the
+        pill now say so explicitly with noConcierge, which is the prop that means it. */}
+    {!noConcierge && (
       <script
         src="https://talk.busqueneil.com/widget.js"
         data-talk-widget
