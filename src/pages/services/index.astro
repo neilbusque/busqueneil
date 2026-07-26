@@ -12,11 +12,13 @@ const canonical = 'https://busqueneil.com/services';
 
 /* The five offers match the "Five ways I can help" list on the home page, in the same order,
    so a visitor who clicks a card there lands on the thing they clicked.
-   Cards carry commissioned isometric illustrations rather than product screenshots. The
-   screenshots were real work, but five different products meant five different palettes —
-   Orbit purple, Darioo magenta, a dark photo — fighting the neutral+yellow system on every
-   other surface. The proof did not disappear: client logos, the "Open the work first"
-   section, and the case studies all still sit on this page. */
+   Cards carry hand-authored abstract SVG marks. Two earlier passes were wrong: product
+   screenshots put five different palettes (Orbit purple, Darioo magenta, a dark photo)
+   against a neutral system, and AI renders produced literal objects plus, on one, invented
+   lettering. Geometry is not what image models are for. These are one system — 640x400,
+   white ground, hairline greys, exactly one #FFE45C element each — around 1KB apiece and
+   crisp at any density. The proof did not disappear: client logos, "Open the work first",
+   and the case studies all still sit on this page. */
 const OFFERS = [
   {
     href: '/services/web-apps',
@@ -24,8 +26,8 @@ const OFFERS = [
     name: 'Web Apps',
     blurb: 'Portals, dashboards, CRMs, and internal tools your team can actually use, with real logins and real data.',
     tags: ['Dashboards', 'Client portals', 'CRM', 'Internal tools'],
-    img: '/assets/art/svc-web-apps.webp',
-    alt: 'Isometric illustration of dashboard panels representing web app development',
+    img: '/assets/art/svc-web-apps.svg',
+    alt: 'Abstract mark: stacked planes',
   },
   {
     href: '/services/websites',
@@ -33,8 +35,8 @@ const OFFERS = [
     name: 'Websites',
     blurb: 'Fast, custom sites that feel like your business instead of a template, and that search engines can actually read.',
     tags: ['Custom design', 'Astro / Next', 'SEO-ready', 'CMS'],
-    img: '/assets/art/svc-websites.webp',
-    alt: 'Isometric illustration of a browser window representing website development',
+    img: '/assets/art/svc-websites.svg',
+    alt: 'Abstract mark: a modular grid with one cell resolved',
   },
   {
     href: '/services/landing-pages',
@@ -42,8 +44,8 @@ const OFFERS = [
     name: 'Landing Pages',
     blurb: 'One focused page that makes the next step obvious, written and built to convert traffic you are already paying for.',
     tags: ['Copy included', 'A/B ready', 'Fast load', 'Tracking'],
-    img: '/assets/art/svc-landing-pages.webp',
-    alt: 'Isometric illustration of a focused page with a call-to-action button',
+    img: '/assets/art/svc-landing-pages.svg',
+    alt: 'Abstract mark: converging lines meeting one point',
   },
   {
     href: '/services/funnels',
@@ -51,8 +53,8 @@ const OFFERS = [
     name: 'Funnels',
     blurb: 'From first click to booked call, with every handoff connected: page, form, CRM, follow-up, and the reporting that tells you what worked.',
     tags: ['Lead capture', 'CRM wiring', 'Email + SMS', 'Booking'],
-    img: '/assets/art/svc-funnels.webp',
-    alt: 'Isometric illustration of a funnel feeding into a booking card',
+    img: '/assets/art/svc-funnels.svg',
+    alt: 'Abstract mark: successive narrowing to a single output',
   },
   {
     href: '/services/ai-automation-services',
@@ -60,8 +62,8 @@ const OFFERS = [
     name: 'Automation',
     blurb: 'n8n, Zapier, GHL, and custom AI agents that take repetitive work off your plate and keep it off.',
     tags: ['n8n', 'AI agents', 'CRM sync', 'Reporting'],
-    img: '/assets/art/svc-automation.webp',
-    alt: 'Isometric illustration of connected workflow nodes representing automation',
+    img: '/assets/art/svc-automation.svg',
+    alt: 'Abstract mark: a closed loop of nodes with one running',
   },
 ];
 
