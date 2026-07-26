@@ -22,6 +22,10 @@ const GUIDES = {
     label: 'PRODUCT BUILD',
     title: 'How to Ship a Web App in Days with AI',
   },
+  'why-hire-a-person-when-ai-can-build-it': {
+    label: 'HIRING',
+    title: 'Why You Still Need a Person When AI Does the Building',
+  },
   'what-is-mcp-model-context-protocol': {
     label: 'MCP',
     title: 'What Is MCP? A Plain Model Context Protocol Guide',

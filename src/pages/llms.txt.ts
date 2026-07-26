@@ -58,6 +58,7 @@ I take on focused problems where software can remove repeated work, help a team 
 - How to build an MCP server (Python and TypeScript): https://busqueneil.com/guides/how-to-build-an-mcp-server
 - n8n vs Zapier vs Make: which to pick in 2026: https://busqueneil.com/guides/n8n-vs-zapier-vs-make
 - Postgres row-level security: a practical guide: https://busqueneil.com/guides/postgres-row-level-security
+- Why you still need a person when AI does the building (six real defects AI shipped): https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it
 - All guides: https://busqueneil.com/guides
 
 ## Canonical URLs

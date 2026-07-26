@@ -29,6 +29,7 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/guides/how-to-build-an-mcp-server', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/n8n-vs-zapier-vs-make', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/postgres-row-level-security', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/story', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/work', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },

@@ -1,0 +1,147 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+/* The hire-me argument, made with evidence instead of adjectives. Every defect below is
+   a real one from Neil's own logs, with the real number attached. If any of these get
+   edited later, keep the numbers accurate or cut the item: the whole piece works because
+   a reader can check it. No invented clients, no invented testimonials. */
+
+const title = 'Why Hire a Person When AI Can Build It?';
+const description = 'AI ships work that looks finished. Six real defects it shipped for me, what each one cost, and the review layer a person adds on top of the same AI.';
+const canonical = 'https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it';
+const guideImage = `${SITE_URL}/og/guides/why-hire-a-person-when-ai-can-build-it.png`;
+const published = '2026-07-26';
+const modified = '2026-07-26';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  '@id': `${canonical}#article`,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image: guideImage,
+  inLanguage: 'en-US',
+  keywords: 'hire a developer or use AI, can AI replace developers, AI code review, AI QA, AI limitations, hire an AI engineer',
+};
+
+const rlsCheck = `-- Tables with row level security still off, and tables the public
+-- browser key can touch. Both numbers should be 0.
+select
+  (select count(*) from pg_class c
+     join pg_namespace n on n.oid = c.relnamespace
+   where n.nspname = 'public' and c.relkind = 'r'
+     and not c.relrowsecurity) as tables_without_rls,
+  (select count(distinct table_name)
+     from information_schema.role_table_grants
+   where table_schema = 'public'
+     and grantee in ('anon', 'authenticated')) as tables_open_to_anon;`;
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
+      { name: 'Why hire a person when AI can build it', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">09</span> Essay</p>
+    <h1>Why you still need a person when AI does the building</h1>
+    <p class="lede">I build with AI every day, and it is genuinely fast. It is also confident when it is wrong, and it never checks the one thing that matters: what your customer actually gets. Here are six defects it shipped for me, and what each one cost before a person caught it.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: AI will get you about eighty percent of a product, and that eighty percent looks finished. The missing part is not more code. It is somebody who opens the real page on a real phone, checks the real database, and is accountable when a customer hits the gap. I use the same AI you would. The difference is what gets checked before it goes live.</strong></p>
+
+      <p>If you have been building with AI on your own, you already know the good part. A feature that used to take a week takes an afternoon. What is harder to see is the failure mode, because AI does not fail loudly. It does not throw an error and stop. It hands you something that renders, passes its tests, deploys clean, and is quietly broken in a way nobody notices until it costs money.</p>
+
+      <p>I know that pattern well, because it happens to me. I ship a lot: more than forty apps, sites, and automations so far in 2026, most of them live within days of the idea. That volume is only possible because AI writes most of the code. It is only <em>safe</em> because I assume the code is wrong until I have seen the result with my own eyes.</p>
+
+      <p>Here is what that means in practice.</p>
+
+      <h2>Six things AI shipped for me that looked perfect</h2>
+
+      <h3>1. A card that looked broken, in code that was correct</h3>
+      <p>On my couples app, three small cards float over a phone mockup in the hero. For weeks they looked like they were sitting <em>behind</em> the phone: the screenshot and the dark bezel showed straight through them. Nothing was wrong with the layout. The stacking order was right, the tests were green, and every review of the code said fine. The cause was one color stop in a shared style that fades to fifty percent transparency, which is invisible over a plain section and obvious over a photo. No test can see that. A screenshot and a pair of eyes found it in about a minute.</p>
+
+      <h3>2. A chat bubble that ate the entire phone menu</h3>
+      <p>My site has a live video bubble that appears only while I am actually online. On a phone it sat exactly on top of my navigation bar and swallowed all four buttons. Anyone who landed on the site while I was available could not use the menu at all. It survived every normal check for one simple reason: the element only exists when I am live, so any pass I ran while offline saw a perfect page. I found it by scripting a click test on every link at three screen widths, with the bubble forced on. Screenshots would not have caught it either, because a floating bubble in the corner looks like a floating bubble in the corner.</p>
+
+      <h3>3. Zero traffic on a technically perfect site</h3>
+      <p>This site had <strong>zero impressions in Google for sixteen straight months</strong>. Not weak rankings. Nothing. Every page returned a clean 200, the markup was valid, the robots file was correct, and the links were all real. Nine of the nine pages I spot-checked came back as <em>unknown to Google</em>. The sitemap had simply never been submitted, on either property. That is not a coding problem, so no coding tool was ever going to raise its hand. It is somebody remembering to check whether the thing is actually indexed.</p>
+
+      <h3>4. A public key that could read customer names, phones, and addresses</h3>
+      <p>Databases like Supabase ship permissive by default: row level security off, and the public browser key holding full privileges on every table. The app works perfectly that way, so nothing complains. On one of my own apps that had been live for weeks, the public key alone could read real buyer names, phone numbers, and addresses, and could delete every one of thirty-one tables. That is a live breach, not a hardening task for next quarter. Ten seconds of SQL tells you where you stand:</p>
+      <pre><code>{rlsCheck}</code></pre>
+      <p>Then prove it from the outside with the public key, because an audit nobody tested convinces nobody.</p>
+
+      <h3>5. A send limit that burned thirty-eight of forty slots</h3>
+      <p>An email job had a sensible cap: no more than forty per run. The cap was applied before the filters that skip people who were already contacted, so a run would claim forty slots, discard thirty-eight of them as duplicates, and send two. Worse, the ordering was stable, so the same wasted run would repeat every hour, forever. The code did exactly what it said. The order of two steps was the whole bug, and you only see it by reading what actually happened in production rather than what the function intends.</p>
+
+      <h3>6. Seven hundred megabytes a day of nobody's fault</h3>
+      <p>A photo feature minted a fresh signed link for every image on every load. Perfectly reasonable code. It also meant the browser cache never matched, so every photo re-downloaded at full size every time anyone opened the app: about <strong>703 MB per day</strong>. The first warning was an email from the host about exceeding the free plan. The fix took an afternoon and cut the bucket from 209 MB to 124 MB, with the largest file dropping from 5.7 MB to 643 KB. Nothing was broken. It was just expensive, silently.</p>
+
+      <h2>The pattern in all six</h2>
+      <p>None of these were bad code. Every one of them passed the checks that AI can run on itself. They failed in the same five places, and those five places are exactly what a person is for.</p>
+      <ul>
+        <li><strong>It cannot see the result.</strong> A model reads code, not the rendered page. Transparency, overlap, and contrast are visual facts. Someone has to look.</li>
+        <li><strong>It has no phone.</strong> Thumbs, notches, keyboards, and a live camera behave differently from a headless browser. Real devices find things test runners cannot.</li>
+        <li><strong>It has no production data.</strong> Your real rows are messier than any fixture. The cap bug and the egress bug were both invisible until someone read live numbers.</li>
+        <li><strong>It stops caring at the merge.</strong> A model has no stake in what happens on day thirty. I have had a scheduled job sit deployed and active with nothing ever calling it, while 192 games quietly stalled for days. Nothing errored, because nothing ran.</li>
+        <li><strong>It does not remember last time.</strong> The same class of bug comes back unless someone writes it down and checks for it on purpose. That memory is a job, and it is mine.</li>
+      </ul>
+      <p>There is a security version of this too. On a drawing game where one player must never learn the other's secret word, the first two rounds of protection looked airtight and both had a hole a clever player could walk through. It took three passes to actually close, and it closed only because someone kept attacking it after the code looked done.</p>
+
+      <h2>What I bring to the table</h2>
+      <p>Not resistance to AI. I use it harder than most people do, and I bring a review layer that does not exist when a model reviews its own work.</p>
+      <ul>
+        <li><strong>Speed stays.</strong> Same tools, same pace. Focused apps in days, not quarters, and I will show you the ones already running.</li>
+        <li><strong>I review the finished thing, not the diff.</strong> Real browser, real widths, real device, and a scripted click test on interactive elements so "it looks fine" is a measurement instead of an opinion.</li>
+        <li><strong>I try to break the safeguards.</strong> A guard that has never failed a test is a guess. I re-break it on purpose and confirm the test screams.</li>
+        <li><strong>I read production, not fixtures.</strong> Live rows, live logs, live spend. Most expensive bugs are perfectly legal code meeting real usage.</li>
+        <li><strong>Security defaults get read line by line.</strong> Permissions, keys, and access rules, proven from the outside with the public key in hand.</li>
+        <li><strong>Everything gets written down.</strong> Each defect becomes a note with the symptom, the cause, and the check that would have caught it, so the same one cannot come back next quarter.</li>
+        <li><strong>One person, start to finish.</strong> Strategy, build, QA, deploy, and the follow-up. Nothing falls in the gap between roles, and you always know who is accountable.</li>
+      </ul>
+
+      <h2>Three ways that usually works</h2>
+      <ul>
+        <li><strong>Build it with me.</strong> You describe the job, I ship version one in days and stay on it after launch.</li>
+        <li><strong>Audit what AI already shipped.</strong> You have a site, an app, or a set of automations that mostly work. I go find the quiet ones: indexing, security defaults, mobile reality, spend, and the jobs that are not actually running.</li>
+        <li><strong>Bring me in-house.</strong> If the plan is to lean on AI heavily, the missing hire is the person who is accountable for what it produces. That is the role I want.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+
+      <h3>Can AI replace a developer?</h3>
+      <p>It replaces most of the typing, not the judgment. In my own work AI writes the majority of the code, and every expensive defect I have found in 2026 still came from something outside the code: a transparent color over a photo, a floating element covering a menu, a sitemap never submitted, a database left open by default, two steps in the wrong order, a cache that never matched. Each one shipped clean and cost real money or real exposure. Someone has to own that layer.</p>
+
+      <h3>Why can't AI review its own work?</h3>
+      <p>Because it is grading the same reasoning that produced the answer, with none of the inputs that reveal the problem. It cannot see the rendered page, hold a phone, query your live database, or feel the consequence of being wrong on day thirty. Ask it to check itself and it will confidently agree with itself, which is exactly what happened on all six defects above.</p>
+
+      <h3>How do you find the bugs AI misses?</h3>
+      <p>By checking the output instead of the intention. Screenshots at 390, 768, and 1440 pixels. A scripted hit test on every button and link, including the elements that only appear in certain states. Real devices for anything involving a camera, a keyboard, or a notification. Live database queries and log reads instead of local fixtures. Deliberately breaking each safeguard to confirm the alarm works. And a written record of every past defect, so the checks compound instead of resetting.</p>
+
+      <h3>Is hiring a person slower than just using AI?</h3>
+      <p>Shipping is the same speed, because I use the same AI. What changes is what you do not spend later: the month of invisible search traffic, the exposed customer records, the send limit burning itself every hour, the hosting bill nobody could explain. One of those costs more than the work does.</p>
+
+      <h3>What is the fastest way to find out if this applies to you?</h3>
+      <p>Two checks, today. Open your site on a phone and try to tap every link in the footer and the bottom bar. Then look up whether your pages are actually indexed. If either one surprises you, there are almost certainly more, and they are the cheap kind to fix now.</p>
+
+      <p>If you want a second pair of eyes on something AI already built, <a href="https://book.busqueneil.com/">book a call</a> or <a href="/contact">tell me what it should do</a>. You can also see <a href="/work">what I have shipped</a>, read <a href="/guides/ship-web-app-in-days-with-ai">how I ship a web app in days with AI</a>, or take one of the <a href="/free">free tools</a> and use it without talking to me at all.</p>
+    </div>
+  </article>
+</AppShell>
