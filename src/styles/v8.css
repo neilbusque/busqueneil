@@ -751,7 +751,13 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 @keyframes pet-float { 0%, 100% { transform: translateY(0) rotate(-3deg); }
                        50%      { transform: translateY(-11px) rotate(3deg); } }
 @media (max-width: 900px) {
+  /* ⚠️ Anchor from the BOTTOM here, not the top. Once the hero stacks, .hero-photo-wrap is
+     taller than the figure and the figure is bottom-aligned inside it, so `top: 12%` of the
+     wrap lands ABOVE the photo — measured at -8% down the figure, i.e. floating in space.
+     The photo is height:min(360px,62vw), so offsetting from the bottom by a fraction of that
+     same expression keeps the cloud on his shoulder at every width. */
   .v8 .pet-a { margin-left: -74px; height: clamp(38px, 10vw, 56px); }
-  .v8 .pet-b { margin-left: -116px; top: 12%; height: clamp(42px, 11vw, 64px); }
+  .v8 .pet-b { margin-left: -112px; top: auto; bottom: calc(min(360px, 62vw) * 0.68);
+    height: clamp(42px, 11vw, 64px); }
 }
 @media (prefers-reduced-motion: reduce) { .v8 .pet-a, .v8 .pet-b { animation: none; } }
