@@ -106,6 +106,20 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    fixed to the viewport and was covering LinkedIn/GitHub at <=768px. */
 .v8 .shell-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 72px; padding-top: 20px; padding-bottom: 56px; border-top: 1px solid var(--hair); font-size: 13px; color: var(--muted); }
 .v8 .shell-foot a { color: inherit; text-decoration: none; margin-left: 14px; }
+/* ---- Talk concierge pill: keep it off the site's own bottom chrome ----
+   The pill (talk.busqueneil.com/widget.js) is fixed to the bottom-right and appears
+   only while Neil is actually live, which is exactly why this was easy to miss: at
+   390px it sat squarely on the phone tab bar and swallowed all four tabs, and at
+   1440px it covered RSS / Resume / Contact / LinkedIn. Measured with elementFromPoint,
+   not by eye. The widget reads --talk-bottom through the shadow boundary and stamps
+   html[data-talk-bubble="live"] while the pill is up, so the footer only pays for the
+   clearance when there is something to clear. */
+#talk-widget-root { --talk-bottom: 22px; }
+@media (max-width: 900px) {
+  /* the fixed tab bar owns the bottom ~72px here, safe-area padding included */
+  #talk-widget-root { --talk-bottom: 92px; --talk-bottom-sm: 92px; }
+}
+html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 /* Socials live in the desktop rail; the rail is hidden under 900px, so phones and tablets
    get them here instead. */
 /* Story / Blog / Shop leave the phone tab bar, so they surface here instead. Desktop
@@ -710,7 +724,19 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .rail-collapsed .v8 .rail-book span, .v8 .shell.is-collapsed .rail-book span { display: none; }
 
 /* ---- free page ---- */
-.v8 .free-grid .offer-card:nth-child(4), .v8 .free-grid .offer-card:nth-child(5) { grid-column: span 3; }
+/* Six cards since Orbit joined, so the grid is a clean 3 + 3. The inherited
+   nth-child(4)/(5) span-3 rhythm was tuned for the original five and left card 6
+   stranded alone in a row with four empty columns. Both overrides are needed: the
+   span AND the taller 16/7 shot that rode with it.
+   ⚠️ Scoped to the 6-column layout ONLY. Unscoped, this out-specifies the
+   max-width:980px `span 1` rule, so cards 4 and 5 went full-bleed on tablet and, in
+   the single-column phone grid, `span 2` invented an implicit second column and
+   crushed cards 1/3/6 to 2px wide. */
+@media (min-width: 981px) {
+  .v8 .free-grid .offer-card:nth-child(4), .v8 .free-grid .offer-card:nth-child(5) { grid-column: span 2; }
+  .v8 .free-grid .offer-card:nth-child(4) .offer-shot,
+  .v8 .free-grid .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 10; }
+}
 .v8 .free-shot { display: grid; place-items: center; aspect-ratio: 16 / 10; border-bottom: 1px solid var(--hair);
   background: linear-gradient(160deg, #FFFFFF 0%, #FAFAFA 55%, #F5F5F5 100%); position: relative; }
 .v8 .free-shot::after { content: ""; position: absolute; inset: 0;

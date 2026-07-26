@@ -6,13 +6,21 @@ import { ORGANIZATION_REF, SOCIAL_IMAGE_URL } from '../lib/seo';
 export const prerender = true;
 
 const title = 'Free Tools and Guides | Neil Busque';
-const description = 'Free apps and a landing page analyzer you can open right now. No email required, no trial, no upsell. Everything here is live and genuinely free.';
+const description = 'Free apps, a CRM with AI agents, and a landing page analyzer you can open right now. No credit card, no trial, no upsell. Everything here is live and genuinely free.';
 const canonical = 'https://busqueneil.com/free';
 
-/* Everything here has to be genuinely free and genuinely live. No email walls, no "free
-   trial", no lead magnet that is really a form. If it needs an address to unlock, it does
-   not belong on this page. */
+/* Everything here has to be genuinely free and genuinely live. No "free trial", no lead
+   magnet that is really a form, no credit card. Orbit is the one entry that needs an
+   account, because it stores your data; its free plan is a real free plan, not a countdown.
+   Anything that unlocks only after a sales call does not belong on this page. */
 const TOOLS = [
+  {
+    name: 'Orbit',
+    href: 'https://www.inorbit.one',
+    blurb: 'A CRM where AI agents do the follow-up: they watch your contacts, draft the next message, and tell you who is going cold. Free plan, no card.',
+    tag: 'App',
+    img: '/assets/work/orbit-dark.webp',
+  },
   {
     name: 'Landing Page Analyzer',
     href: '/analyzer',
@@ -81,7 +89,7 @@ const collection = {
 
   <span class="eyebrow">Free</span>
   <h1 class="sec">Take any of this, <span class="mark-hl">free.</span></h1>
-  <p class="res-lede">Apps I built and use, plus a tool that scores your landing page. Nothing here needs an email address, a trial, or a credit card. If it did, it would not be on this page.</p>
+  <p class="res-lede">Apps I built and use, plus a tool that scores your landing page. Nothing here needs a credit card, a trial, or a call with me first. Orbit is the only one that asks you to make an account, because it holds your data, and its free plan stays free.</p>
 
   <section class="hsec">
     <span class="eyebrow">Tools and apps</span>
