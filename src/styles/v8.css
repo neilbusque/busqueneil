@@ -600,7 +600,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 3; }
 .v8 .offer-card:hover { border-color: var(--hair-strong); }
-.v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F0F0F0; border-bottom: 1px solid var(--hair); }
+.v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 50%; background: #FAFAFA; border-bottom: 1px solid var(--hair); }
 .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
 .v8 .offer-body { display: flex; flex-direction: column; gap: 11px; padding: 24px 24px 26px; flex: 1; }
 .v8 .offer-num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
