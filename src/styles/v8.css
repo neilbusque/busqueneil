@@ -232,7 +232,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .stat { padding: 22px 0 22px 26px; border-left: 1px solid var(--hair); }
 .v8 .stat:first-child { border-left: 0; padding-left: 0; }
 .v8 .stat b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 27px; letter-spacing: -0.03em; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
-.v8 .stat span { font-size: 12.5px; color: var(--soft); }
+.v8 .stat span { font-size: 13px; color: var(--soft); line-height: 1.5; }
 
 /* v11: ONE section rhythm. Was home 76px, /work 44px, /hire an ad-hoc ladder. */
 .v8 .hsec { margin-top: var(--gap-sec); }
@@ -442,8 +442,8 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   .v8 .hero .hero-ctas { margin-top: 22px; gap: 14px; }
   .v8 .stats { margin-top: 32px; padding: 0; }
   .v8 .stat { padding: 16px 0 16px 14px; }
-  .v8 .stat b { font-size: 19px; }
-  .v8 .stat span { font-size: 12px; }
+  .v8 .stat b { font-size: 20px; }
+  .v8 .stat span { font-size: 13px; line-height: 1.45; }
   /* the mobile rhythm comes from --gap-sec being redefined below, not per-rule overrides */
 
   .v8 .svc li { padding: 16px 4px; }
@@ -475,10 +475,10 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 @media (max-width: 480px) {
   .v8 .stats { grid-template-columns: 1fr; }
-  .v8 .stat, .v8 .stat:first-child { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 14px 0; border-left: 0; border-top: 1px solid var(--hair); }
+  .v8 .stat, .v8 .stat:first-child { display: grid; grid-template-columns: minmax(88px, auto) minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 15px 0; border-left: 0; border-top: 1px solid var(--hair); }
   .v8 .stat:first-child { border-top: 0; }
   .v8 .stat b { font-size: 21px; }
-  .v8 .stat span { font-size: 12.5px; }
+  .v8 .stat span { font-size: 13.5px; line-height: 1.45; }
   .v8 .darkcta .hero-ctas { align-items: stretch; gap: 12px; }
   .v8 .darkcta .btn-sun, .v8 .darkcta .btn-ghost { width: 100%; box-sizing: border-box; }
   .v8 .hire-steps { grid-template-columns: 1fr; }
