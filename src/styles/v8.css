@@ -735,22 +735,23 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 @media (max-width: 640px) { .v8 .about-photo { max-width: 100%; } }
 
 /* ---- hero sidekicks -------------------------------------------------------------------
-   Two small companions at Neil's feet. They sit on the same baseline as the cutout and bob
-   very slightly out of phase, so they read as alive without competing with the headline.
-   Sized in vw with a px cap so they shrink with the figure instead of overlapping it. */
-.v8 .hero-pets { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
-  display: flex; align-items: flex-end; gap: clamp(6px, 1.2vw, 16px); z-index: 2; pointer-events: none; }
-.v8 .hero-pets .pet { display: block; width: auto; height: clamp(46px, 5.6vw, 72px);
-  filter: drop-shadow(0 6px 12px rgba(10,10,10,.10)); }
-/* the cloud is a disc and reads optically smaller than the wide sticker beside it */
-.v8 .hero-pets .pet-b { height: clamp(40px, 4.9vw, 63px); }
-.v8 .pet-a { animation: pet-bob 4.2s ease-in-out infinite; }
-.v8 .pet-b { animation: pet-bob 4.2s ease-in-out infinite 1.6s; }
-@keyframes pet-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-/* they flank the figure rather than stack under it once the hero goes single-column */
+   Claude sits at Neil's feet, Codex floats at shoulder height. Both are positioned against
+   .hero-photo-wrap (which is already position:relative), NOT against the hero, so they track
+   the figure when the column resizes instead of drifting away from it. */
+.v8 .hero-pets { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.v8 .hero-pets .pet { position: absolute; display: block; width: auto;
+  filter: drop-shadow(0 6px 14px rgba(10,10,10,.14)); }
+/* at his feet, just left of centre so it does not sit on top of his shoes */
+.v8 .pet-a { bottom: 0; left: 50%; margin-left: -104px; height: clamp(46px, 5.6vw, 72px);
+  animation: pet-bob 4.2s ease-in-out infinite; }
+/* floating by his shoulder. Left side on purpose: the "that's me" note lives top-right. */
+.v8 .pet-b { top: 15%; left: 50%; margin-left: -168px; height: clamp(52px, 6.6vw, 86px);
+  animation: pet-float 5.4s ease-in-out infinite 1.2s; }
+@keyframes pet-bob   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes pet-float { 0%, 100% { transform: translateY(0) rotate(-3deg); }
+                       50%      { transform: translateY(-11px) rotate(3deg); } }
 @media (max-width: 900px) {
-  .v8 .hero-pets { gap: 10px; }
-  .v8 .hero-pets .pet { height: clamp(38px, 10vw, 56px); }
-  .v8 .hero-pets .pet-b { height: clamp(33px, 8.7vw, 49px); }
+  .v8 .pet-a { margin-left: -74px; height: clamp(38px, 10vw, 56px); }
+  .v8 .pet-b { margin-left: -116px; top: 12%; height: clamp(42px, 11vw, 64px); }
 }
 @media (prefers-reduced-motion: reduce) { .v8 .pet-a, .v8 .pet-b { animation: none; } }
