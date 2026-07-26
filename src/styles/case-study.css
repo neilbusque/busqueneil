@@ -160,8 +160,7 @@
 .cs-feats { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; border-top: 1px solid var(--rule); }
 .cs-feat { padding: 26px 26px 26px 0; border-bottom: 1px solid var(--rule); }
 .cs-feat h3 {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--accent); font-weight: 500; margin-bottom: 14px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); font-weight: 500; margin-bottom: 14px;
 }
 .cs-feat ul { list-style: none; padding: 0; margin: 0; }
 .cs-feat li {

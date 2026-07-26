@@ -47,6 +47,12 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
   <script is:inline slot="head">
     if (localStorage.getItem('v9-rail') === '1') document.documentElement.classList.add('rail-collapsed');
   </script>
+  <script>
+    import { initPointer } from '../scripts/pointer';
+    initPointer();
+    // ClientRouter tears the old body out on navigation, so re-arm after each swap.
+    document.addEventListener('astro:page-load', () => initPointer());
+  </script>
   <div class="v8 shell">
     <slot name="intro" />
     {/* Availability status: Neil turned the strip back to an open-to-work line on
