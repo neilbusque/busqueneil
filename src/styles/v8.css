@@ -740,14 +740,17 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    Sized in vw with a px cap so they shrink with the figure instead of overlapping it. */
 .v8 .hero-pets { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
   display: flex; align-items: flex-end; gap: clamp(6px, 1.2vw, 16px); z-index: 2; pointer-events: none; }
-.v8 .hero-pets .pet { display: block; width: auto; height: clamp(58px, 7.4vw, 96px);
-  filter: drop-shadow(0 8px 14px rgba(10,10,10,.13)); }
+.v8 .hero-pets .pet { display: block; width: auto; height: clamp(46px, 5.6vw, 72px);
+  filter: drop-shadow(0 6px 12px rgba(10,10,10,.10)); }
+/* the cloud is a disc and reads optically smaller than the wide sticker beside it */
+.v8 .hero-pets .pet-b { height: clamp(40px, 4.9vw, 63px); }
 .v8 .pet-a { animation: pet-bob 4.2s ease-in-out infinite; }
 .v8 .pet-b { animation: pet-bob 4.2s ease-in-out infinite 1.6s; }
 @keyframes pet-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 /* they flank the figure rather than stack under it once the hero goes single-column */
 @media (max-width: 900px) {
   .v8 .hero-pets { gap: 10px; }
-  .v8 .hero-pets .pet { height: clamp(48px, 13vw, 72px); }
+  .v8 .hero-pets .pet { height: clamp(38px, 10vw, 56px); }
+  .v8 .hero-pets .pet-b { height: clamp(33px, 8.7vw, 49px); }
 }
 @media (prefers-reduced-motion: reduce) { .v8 .pet-a, .v8 .pet-b { animation: none; } }
