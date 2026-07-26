@@ -193,7 +193,7 @@ function initReveal() {
     .filter((el) => !(el.classList.contains('v8-card') && el.closest('.tl-row')));
   if (!targets.length) return;
 
-  gsap.set(targets, { opacity: 0, y: 26 });
+  gsap.set(targets, { opacity: 0, y: 8 });
   const pending = new Set<Element>(targets);
 
   observer = new IntersectionObserver((entries, obs) => {

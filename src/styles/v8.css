@@ -8,46 +8,40 @@ html { scroll-padding-top: 52px; }
    the warm paper ground goes pure white, hairlines go neutral so they do not read dirty on
    white, and the 44px grid texture v10 removed returns as an 88px module at 4.5% ink. */
 .v8 {
-  --paper: #FFFFFF; --surface: #FFFFFF; --ink: #16150F; --muted: #605A51;
+  --paper: #FFFFFF; --surface: #FFFFFF; --ink: #0A0A0A; --muted: #525252;
   /* --soft must stay >=4.5:1 on the ground (it carries labels, dates and form notes).
-     On white #6E6860 measures 5.32:1, so this is safer than the old #726D65 on paper. */
-  --sun: #FFE45C; --sun-deep: #FFEF8A; --soft: #6E6860; --dark: #14130F;
-  --hair: #E9E7E2; --hair-strong: #D8D5CE; --r: 14px;
-  /* the grid substrate + the one section rhythm everything snaps to */
-  --grid: rgba(22,21,15,.045); --grid-strong: rgba(22,21,15,.075);
-  --mod: 88px; --gap-sec: 96px;
-  font-family: 'Inter', system-ui, sans-serif;
+     #737373 measures 4.61:1 on white. Do not lighten it further. */
+  --sun: #FFE45C; --sun-deep: #FFEF8A; --soft: #737373; --dark: #0A0A0A;
+  --hair: #EAEAEA; --hair-strong: #D4D4D4; --r: 8px;
+  --gap-sec: 80px;
+  font-family: 'Geist', 'Inter', system-ui, sans-serif;
   color: var(--ink);
   background-color: var(--paper);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-/* v11: the grid substrate. 88px module at 4.5% ink (v10's texture was 44px at full strength,
-   which read as noise); masked so it fades out toward the footer and frames rather than tiles. */
-.v8.shell::before {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    repeating-linear-gradient(to right, var(--grid) 0 1px, transparent 1px var(--mod)),
-    repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px var(--mod));
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,.35) 100%);
-          mask-image: linear-gradient(to bottom, #000 0%, #000 62%, rgba(0,0,0,.35) 100%);
-}
+/* v12: the grid substrate is gone. Neil: "remove the grid lines because it looks
+   distracting". Nothing decorative sits on the ground now — structure comes from
+   hairlines and whitespace. Do not reintroduce a repeating-linear-gradient here. */
 .v8 .shell-main, .v8 .shell-rail, .v8 .shell-strip, .v8 .shell-tabbar { position: relative; z-index: 1; }
-.v8 h1, .v8 h2, .v8 h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+.v8 h1, .v8 h2, .v8 h3 { font-family: 'Geist', 'Inter', system-ui, sans-serif; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
 /* label: fine letter-spaced small caps trailed by a hairline, so structure reads before the words do */
-.v8 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 10.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--soft); }
+.v8 .eyebrow { display: flex; align-items: center; gap: 12px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: .08em; color: var(--soft); }
 .v8 .eyebrow::after { content: ""; height: 1px; flex: 1; background: var(--hair); }
-.v8 .sec { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(26px, 3.1vw, 40px); text-transform: uppercase; letter-spacing: -0.028em; line-height: 1.02; margin: 14px 0 8px; }
+.v8 .sec { font-family: 'Geist', 'Inter', system-ui, sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.028em; line-height: 1.15; margin: 14px 0 8px; }
+/* A page title and a section heading both use .sec, so without this they render identically
+   and the page has no hierarchy. h1.sec is the page title and gets its own step up. */
+.v8 h1.sec { font-size: clamp(30px, 3.8vw, 46px); letter-spacing: -0.035em; line-height: 1.06; }
 .v8 .script { font-family: 'Fraunces', Georgia, serif; font-style: italic; }
 .v8 .hand { font-family: 'Caveat', cursive; color: var(--ink); }
 /* the accent is now a precise underline under the baseline, not a block behind the word */
 .v8 .mark-hl { position: relative; display: inline-block; background: none; padding: 0; color: inherit; }
-.v8 .mark-hl::after { content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .1em; height: .30em; background: var(--sun); z-index: -1; border-radius: 2px; }
-.v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); box-shadow: 0 1px 2px rgba(23,22,20,.03); }
+.v8 .mark-hl::after { content: ""; position: absolute; left: -.04em; right: -.04em; bottom: .04em; height: .22em; background: var(--sun); z-index: -1; border-radius: 2px; }
+.v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); }
 /* primary is ink; the yellow primary survives only inside the dark panel (see .darkcta below) */
-.v8 .btn-sun { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: #F8F5F1; background: var(--ink); padding: 14px 26px; border-radius: 999px; border: 1px solid transparent; cursor: pointer; text-decoration: none; box-shadow: 0 1px 1px rgba(23,22,20,.16), 0 10px 24px -12px rgba(23,22,20,.5); transition: transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s ease, background .18s ease; }
+.v8 .btn-sun { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: #FFFFFF; background: var(--ink); padding: 12px 22px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background .14s ease, border-color .14s ease; }
 .v8 .btn-sun:hover { background: #241F1B; transform: translateY(-1px); box-shadow: 0 2px 3px rgba(23,22,20,.18), 0 16px 30px -14px rgba(23,22,20,.55); }
-.v8 .btn-ghost { display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: var(--ink); background: transparent; border: 1px solid var(--hair-strong); padding: 14px 26px; border-radius: 999px; text-decoration: none; transition: background .18s ease, border-color .18s ease; }
+.v8 .btn-ghost { display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: var(--ink); background: var(--surface); border: 1px solid var(--hair); padding: 12px 22px; border-radius: 6px; text-decoration: none; transition: background .18s ease, border-color .18s ease; }
 .v8 .btn-ghost:hover { background: var(--surface); border-color: var(--ink); }
 .v8 .chip { font-size: 12.5px; font-weight: 500; letter-spacing: -.005em; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--hair); color: var(--muted); background: var(--surface); }
 .v8 a, .v8 button { touch-action: manipulation; }
@@ -155,7 +149,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 /* ---- cinematic intro ---- */
 .v8 .intro { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background-color: var(--paper); background-image: radial-gradient(120% 80% at 78% 0%, rgba(255,228,92,.10) 0%, rgba(255,228,92,0) 55%); }
 .v8 .intro-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.v8 .intro-word { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.015em; font-size: clamp(28px, 5vw, 44px); opacity: 0; }
+.v8 .intro-word { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -0.015em; font-size: clamp(28px, 5vw, 44px); opacity: 0; }
 .v8 .intro-tag { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); opacity: 0; }
 .v8 .intro.play .rm-stem-l { animation: introStem .4s cubic-bezier(.2,.8,.25,1) both; transform-origin: 50% 100%; }
 .v8 .intro.play .rm-stem-r { animation: introStem .4s cubic-bezier(.2,.8,.25,1) .15s both; transform-origin: 50% 100%; }
@@ -195,25 +189,19 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .avail { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--hair); background: var(--surface); border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 600; margin-bottom: 22px; }
 /* v11: padding-top has to clear half the cutout's overhang past the text column,
    or the figure's head crops against the top of the document. */
-.v8 .hero { position: relative; padding: calc(var(--mod) * 1.35) 0 calc(var(--mod) * .55); display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
-/* The hero grid is REAL DOM cells, not a background image, for two reasons: every lit cell
-   lands exactly on a grid line, and GSAP can drive them with stagger:{grid:[r,c]} instead of
-   hand-set delays. Built by src/scripts/v9-motion.ts. */
+.v8 .hero { position: relative; padding: clamp(56px, 8vw, 110px) 0 clamp(32px, 4vw, 52px); display: grid; grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+/* v12: the hero cell grid is gone with the rest of the grid texture (Neil: "remove the grid
+   lines"). The warm bloom stays — it is colour, not a grid, and it is the one place the sun
+   yellow gets to be large. .hero-field is kept as the bloom's positioning context; the
+   [data-cellgrid] hook in v9-motion.ts no-ops now that the node is not rendered. */
 .v8 .hero-field { position: absolute; inset: -40px -40px 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .v8 .hero > *:not(.hero-field) { position: relative; z-index: 1; }
-.v8 .cellgrid { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(auto-fill, calc(var(--mod) / 2)); grid-auto-rows: calc(var(--mod) / 2);
-  -webkit-mask-image: radial-gradient(80% 78% at 70% 44%, #000 0%, rgba(0,0,0,.55) 46%, transparent 76%);
-          mask-image: radial-gradient(80% 78% at 70% 44%, #000 0%, rgba(0,0,0,.55) 46%, transparent 76%); }
-.v8 .cellgrid > i { display: block; border-right: 1px solid var(--grid-strong); border-bottom: 1px solid var(--grid-strong); }
-.v8 .cellgrid > i.on { background: var(--sun); opacity: var(--o, .5); }
-.v8 .cellgrid > i.on.ink { background: var(--ink); opacity: .09; }
-/* the warm bloom is the colour lift, still brand-only (sun + amber, no new hues) */
 .v8 .hero-field::after { content: ""; position: absolute; inset: 0;
   background:
-    radial-gradient(46% 54% at 68% 34%, rgba(255,213,61,.34) 0%, rgba(255,228,92,.12) 44%, transparent 72%),
-    radial-gradient(40% 46% at 86% 68%, rgba(255,246,201,.60) 0%, transparent 70%); }
+    radial-gradient(46% 54% at 68% 34%, rgba(255,213,61,.30) 0%, rgba(255,228,92,.10) 44%, transparent 72%),
+    radial-gradient(40% 46% at 86% 68%, rgba(255,246,201,.52) 0%, transparent 70%); }
 .v8 .hero .script-hi { font-size: clamp(24px, 2.4vw, 34px); color: var(--muted); display: block; margin-bottom: 6px; }
-.v8 .hero h1 { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(52px, 7.4vw, 96px); line-height: .88; letter-spacing: -0.035em; text-transform: uppercase; margin: 0; }
+.v8 .hero h1 { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; font-size: clamp(46px, 6.2vw, 80px); line-height: 1.0; letter-spacing: -0.04em; margin: 0; }
 .v8 .hero .hero-sub { font-size: 17.5px; line-height: 1.72; color: var(--muted); max-width: 52ch; margin: 26px 0 0; }
 /* Global, not scoped to .hero: every CTA block reuses this class, and without it the
    buttons stacked edge to edge with 0px between them on phones. */
@@ -237,10 +225,10 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 /* v11: a fixed 3-up that snaps to a grid line. It was flex 1 1 180px, which wrapped to three
    stacked rows on a phone and made this band 396px tall for three short lines. */
-.v8 .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 0; margin-top: calc(var(--mod) * .5); }
+.v8 .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 0; margin-top: clamp(32px, 4vw, 48px); }
 .v8 .stat { padding: 22px 0 22px 26px; border-left: 1px solid var(--hair); }
 .v8 .stat:first-child { border-left: 0; padding-left: 0; }
-.v8 .stat b { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 27px; letter-spacing: -0.03em; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
+.v8 .stat b { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; font-size: 27px; letter-spacing: -0.03em; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
 .v8 .stat span { font-size: 12.5px; color: var(--soft); }
 
 /* v11: ONE section rhythm. Was home 76px, /work 44px, /hire an ad-hoc ladder. */
@@ -260,7 +248,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .svc li:first-child { border-top: 1px solid var(--hair); }
 .v8 .svc li:hover .svc-row { background: #FBF8F4; padding-left: 16px; }
 .v8 .svc .num { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
-.v8 .svc .name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 2.1vw, 27px); text-transform: uppercase; letter-spacing: -0.028em; }
+.v8 .svc .name { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.028em; }
 .v8 .svc .desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: none; text-align: left; }
 
 /* ---- clients text-flow ---- */
@@ -355,7 +343,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 /* ---- statement ---- */
 .v8 .statement { margin-top: var(--gap-sec); text-align: center; }
-.v8 .statement p { font-family: 'Archivo', sans-serif; font-weight: 900; font-size: clamp(26px, 3.6vw, 46px); text-transform: uppercase; letter-spacing: -0.032em; line-height: 1.08; max-width: 20ch; margin: 0 auto; }
+.v8 .statement p { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; font-size: clamp(24px, 3vw, 38px); letter-spacing: -0.032em; line-height: 1.2; max-width: 24ch; margin: 0 auto; }
 .v8 .statement .script { font-family: 'Fraunces', Georgia, serif; font-style: italic; text-transform: none; letter-spacing: 0; }
 /* the supporting beat under the statement: this is where the "experienced, not AI slop" point
    actually lands, so it is set as readable prose rather than more display type */
@@ -369,7 +357,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .diy li::before { content: counter(diy, decimal-leading-zero); position: absolute; left: 0; top: 22px; font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
 .v8 .diy b { font-size: 16.5px; letter-spacing: -.015em; line-height: 1.35; }
 .v8 .diy span { color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 72ch; }
-.v8 .diy-close { margin: 22px 0 0; font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.024em; line-height: 1.18; font-size: clamp(18px, 2vw, 23px); max-width: 30ch; }
+.v8 .diy-close { margin: 22px 0 0; font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -.024em; line-height: 1.3; font-size: clamp(17px, 1.8vw, 21px); max-width: 34ch; }
 @media (max-width: 640px) { .v8 .diy li { padding-left: 46px; } }
 
 /* ---- why me: deliberately NOT the guarantee's boxed grid, or two identical 2x2 panels
@@ -408,7 +396,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 @media (max-width: 980px) {
   /* v11: shrink the module and the rhythm at the token level; every section follows. */
-  .v8 { --mod: 64px; --gap-sec: 60px; }
+  .v8 { --gap-sec: 56px; }
   .v8 .hero { grid-template-columns: 1fr; gap: 0; padding: 36px 0 20px; }
   /* the field bleeds by the wrap's padding, which is 20px here, not 40px. At -40px it ran
      20px past each viewport edge and scrolled the page sideways. */
@@ -554,11 +542,11 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .process { margin-top: var(--gap-sec); }
 /* internal builds have no public URL and get no staged screenshot; this stands in for the
    shot so the card keeps the grid's rhythm without pretending to show a product tour */
+/* v12: the grid fill here went with the rest of the grid texture. A flat neutral panel does
+   the same job (stand in for a missing screenshot) without reintroducing the pattern. */
 .v8 .wc-internal { aspect-ratio: 16/10; display: grid; place-items: center; border-bottom: 1px solid var(--hair);
-  background-color: #FBFAF8;
-  background-image: repeating-linear-gradient(to right, var(--grid) 0 1px, transparent 1px 44px),
-                    repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px 44px); }
-.v8 .wc-internal span { font-size: 10.5px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  background-color: #FAFAFA; }
+.v8 .wc-internal span { font-size: 10.5px; font-weight: 500; letter-spacing: .08em;
   color: var(--soft); border: 1px solid var(--hair); background: var(--surface); padding: 6px 12px; border-radius: 999px; }
 /* ---- capabilities ---- */
 .v8 .caps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr);
@@ -593,12 +581,12 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .offer-card { grid-column: span 2; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-decoration: none; color: var(--ink);
   transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 3; }
-.v8 .offer-card:hover { transform: translateY(-3px); border-color: var(--hair-strong); box-shadow: 0 2px 4px rgba(22,21,15,.04), 0 26px 44px -28px rgba(22,21,15,.4); }
+.v8 .offer-card:hover { border-color: var(--hair-strong); }
 .v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F2ECE6; border-bottom: 1px solid var(--hair); }
 .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
 .v8 .offer-body { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; flex: 1; }
 .v8 .offer-num { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
-.v8 .offer-name { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.022em; font-size: 18px; line-height: 1.15; }
+.v8 .offer-name { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 17px; line-height: 1.15; }
 .v8 .offer-desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 .v8 .offer-list { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .v8 .offer-list li { font-size: 12px; color: var(--ink-2); border: 1px solid var(--hair); border-radius: 999px; padding: 3px 9px; background: #FCFAF7; }
@@ -616,7 +604,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
 .v8 .steps li { background: var(--surface); padding: 20px 18px; display: flex; flex-direction: column; gap: 7px; }
 .v8 .steps .step-n { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); }
-.v8 .steps b { font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; font-size: 14px; }
+.v8 .steps b { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 14px; }
 .v8 .steps span:last-child { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
 @media (max-width: 900px) { .v8 .steps { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .v8 .steps { grid-template-columns: 1fr; } }
@@ -625,7 +613,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .faq { margin-top: 26px; border-top: 1px solid var(--hair); }
 .v8 .faq details { border-bottom: 1px solid var(--hair); }
 .v8 .faq summary { cursor: pointer; list-style: none; padding: 17px 34px 17px 0; position: relative;
-  font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -.018em; }
+  font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -.018em; }
 .v8 .faq summary::-webkit-details-marker { display: none; }
 .v8 .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 19px; font-weight: 500; color: var(--soft); }
 .v8 .faq details[open] summary::after { content: "\2212"; }
@@ -645,13 +633,13 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 @media (max-width: 980px) { .v8 .stack { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .v8 .stack { grid-template-columns: 1fr; } }
 .v8 .svc-card { display: flex; flex-direction: column; gap: 10px; padding: 26px 24px; text-decoration: none; color: var(--ink); transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
-.v8 .svc-card:hover { transform: translateY(-3px); border-color: var(--hair-strong); box-shadow: 0 2px 4px rgba(22,21,15,.04), 0 26px 44px -28px rgba(22,21,15,.4); }
-.v8 .svc-card b { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.022em; font-size: 17px; line-height: 1.15; }
+.v8 .svc-card:hover { border-color: var(--hair-strong); }
+.v8 .svc-card b { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 16px; line-height: 1.15; }
 .v8 .svc-card span { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 .v8 .svc-card .svc-go { margin-top: auto; padding-top: 8px; color: var(--ink); font-weight: 600; font-size: 14px; }
 @media (max-width: 900px) { .v8 .svc-grid { grid-template-columns: 1fr; } }
 /* the guarantee is the last thing read before the buttons, so it gets weight, not grey 14px */
-.v8 .hire-cta .guarantee { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.026em; line-height: 1.14; font-size: clamp(20px, 2.4vw, 27px); color: var(--ink); max-width: 24ch; margin: 14px 0 20px; }
+.v8 .hire-cta .guarantee { font-family: 'Geist', 'Inter', sans-serif; font-weight: 600; letter-spacing: -.026em; line-height: 1.25; font-size: clamp(19px, 2.1vw, 24px); color: var(--ink); max-width: 24ch; margin: 14px 0 20px; }
 /* audit: /hire's body sat 4px under the price card but carried 96px beneath it. The inline
    padding-top:8px hack on the element is replaced by this scoped, symmetric rule. */
 .v8 .article-page { padding: var(--gap-sec) 0 0; }
