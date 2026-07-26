@@ -79,7 +79,10 @@ function tagFor(p: Post): string {
       </div>
     </div>
     <div class="hero-photo-wrap">
-      <span class="note who">the guy who actually builds it
+      {/* The nbsp glues "AI assistants": unglued, the 190px note broke after "my AI" and
+          stranded "assistants" alone on line 3. Gluing "my AI" instead does nothing, since
+          that was never where it broke. */}
+      <span class="note who">the guy who actually builds it, and my AI&nbsp;assistants
         <!-- v11: the note now sits ABOVE and right of the figure, so the arrow points down-LEFT
              at him. It pointed down-right when the note lived to his left. -->
         <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
