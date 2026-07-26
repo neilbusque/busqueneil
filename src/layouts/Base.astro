@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import ExitIntentAnalyzer from '../components/ExitIntentAnalyzer.tsx';
 import { ORGANIZATION_REF, PERSON_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
 
 interface Props {
@@ -168,6 +167,10 @@ const pageSchema = {
         defer
       ></script>
     )}
-    {!noConcierge && <ExitIntentAnalyzer client:idle />}
+    {/* Exit-intent popup removed 2026-07-26 (Neil), desktop and mobile. It fired three ways:
+        pointer leaving the top of the viewport, a fast scroll-up, and a 25s dwell timer — and
+        that last one meant it interrupted anyone simply reading, on phones too, where there is
+        no exit intent to detect. The analyzer it advertised is reachable from /free and from
+        the landing-page and funnel service pages. */}
   </body>
 </html>
