@@ -30,7 +30,13 @@ export function initPointer(): void {
   ring.className = 'ptr-ring';
   ring.setAttribute('aria-hidden', 'true');
 
-  document.body.append(glow, ring);
+  /* ⚠️ Mount inside .v8, not <body>. v8.css scopes everything under `.v8`, and `.v8` is a
+     div *inside* body — appending to body meant `.v8 .ptr-glow` never matched, so both nodes
+     rendered as unstyled static divs in normal flow. A 380px block at the end of the document
+     with a translate on it pushed the page 719px wide when the cursor neared a corner, which
+     is the "extra space on the right when I hover" symptom. */
+  const host = document.querySelector('.v8.shell') ?? document.querySelector('.v8') ?? document.body;
+  host.append(glow, ring);
 
   let tx = window.innerWidth / 2;
   let ty = window.innerHeight / 2;

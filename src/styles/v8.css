@@ -95,7 +95,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .rail-socials { display: flex; gap: 8px; padding: 0 8px; }
 .v8 .rail-socials a { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--hair); border-radius: 10px; color: var(--muted); transition: background .15s ease, color .15s ease, border-color .15s ease; }
 .v8 .rail-socials a:hover { background: var(--sun); border-color: transparent; color: var(--ink); }
-.v8 .shell-main { margin-left: calc(var(--rail-inset) + var(--rail-w) + var(--rail-gap)); padding: 28px clamp(20px, 4vw, 56px) 64px; max-width: 1120px; transition: margin-left .25s ease; }
+.v8 .shell-main { margin-left: calc(var(--rail-inset) + var(--rail-w) + var(--rail-gap)); padding: 28px clamp(20px, 4vw, 56px) 0; max-width: 1120px; transition: margin-left .25s ease; }
 .v8 .fab-idea { position: fixed; right: 22px; bottom: 22px; z-index: 60; display: inline-flex; align-items: center; gap: 9px; background: var(--sun); color: var(--ink); text-decoration: none; padding: 11px 20px 11px 16px; border-radius: 999px; box-shadow: 0 1px 2px rgba(23,22,20,.14), 0 14px 30px -14px rgba(23,22,20,.45); transition: transform .18s cubic-bezier(.2,.7,.3,1), background .18s ease, box-shadow .18s ease; }
 .v8 .fab-idea:hover { background: var(--sun-deep); transform: translateY(-2px); }
 .v8 .fab-idea .hand { font-size: 19px; font-weight: 600; line-height: 1; }
@@ -395,10 +395,12 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 /* the one place yellow stays a filled button */
 .v8 .darkcta .btn-sun { background: var(--sun); color: var(--ink); box-shadow: none; }
 .v8 .darkcta .btn-sun:hover { background: var(--sun-deep); }
-.v8 .darkcta .btn-ghost { border-color: #333333; color: #EDEDED; }
+/* ⚠️ background MUST be reset here. v12 changed the base .btn-ghost from transparent to
+   background: var(--surface) (white). This override only restyled border and text, so on the
+   dark panel the button became #F5F5F5 text on a white fill — 1.09:1, completely invisible. */
+.v8 .darkcta .btn-ghost { background: transparent; border-color: #3D3D3D; color: #F5F5F5; }
 .v8 .darkcta .btn-ghost:hover { background: #1F1F1F; border-color: #4A4A4A; }
 .v8 .darkcta .hero-ctas { align-items: center; gap: 20px; }
-.v8 .darkcta .btn-ghost { border-color: #3D3D3D; color: #F5F5F5; }
 .v8 .darkcta .sig { position: absolute; right: 48px; bottom: 30px; height: 64px; width: auto; transform: rotate(-6deg); }
 .v8 .darkcta .mark-hl { color: inherit; }
 
@@ -665,7 +667,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
    Both layers are pointer-events:none and fixed, so they never sit between the cursor and
    a link. Only `transform` and `opacity` animate, so this stays on the compositor and never
    triggers layout or repaint of page content. */
-.v8 .ptr-glow, .v8 .ptr-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 60;
+.v8 .ptr-glow, .v8 .ptr-ring { position: fixed; left: 0; top: 0; pointer-events: none; z-index: 60; contain: layout size style;
   opacity: 0; transition: opacity .25s ease; will-change: transform; }
 .v8 .ptr-glow.on, .v8 .ptr-ring.on { opacity: 1; }
 /* the one place the sun yellow gets to be atmospheric rather than a precise accent */
@@ -722,3 +724,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .free-list { gap: 10px; }
 .v8 .free-list .cs-row { flex-direction: column; align-items: flex-start; gap: 5px; }
 .v8 .free-list .cs-row b { font-size: 16px; font-weight: 600; letter-spacing: -.02em; }
+
+/* ---- analyzer: the React tool sits in the normal content column now ---- */
+.v8 .az-wrap { margin-top: calc(var(--gap-sec) * .34); }
+.v8 .az-wrap .az { max-width: 640px; margin: 0; }

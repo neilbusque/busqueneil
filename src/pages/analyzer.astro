@@ -1,22 +1,38 @@
 ---
-import Base from '../layouts/Base.astro';
+import AppShell from '../layouts/AppShell.astro';
 import Analyzer from '../components/Analyzer.tsx';
 
 export const prerender = false;
 
 const initialUrl = new URL(Astro.request.url).searchParams.get('url') ?? '';
+const title = 'Free Landing Page Analyzer | Neil Busque';
+const description = 'Paste a URL and get an instant score on speed, mobile, and the conversion elements that matter. Free, no signup required to see your score.';
+const canonical = 'https://busqueneil.com/analyzer';
 ---
-<Base
-  title="Free Landing Page Analyzer"
-  description="Get an instant score on your landing page speed, mobile setup, and conversion elements. Free, no signup required to see your score."
-  dark
-  noConcierge
->
-  <main style="min-height:100vh;background:#08080C;color:#fff;padding:80px 20px;">
-    <div style="max-width:720px;margin:0 auto;">
-      <h1 style="font-size:40px;font-weight:800;text-align:center;">Free Landing Page Analyzer</h1>
-      <p style="text-align:center;color:#9ca3af;margin:12px 0 28px;">Paste your URL. Get an instant score on speed, mobile, and the conversion elements that matter. The full breakdown lands in your inbox.</p>
-      <Analyzer client:load initialUrl={initialUrl} />
+<!-- v12: was a standalone dark page on Base with inline #08080C styles, which made it the one
+     off-brand surface on the site and an SEO dead end with no nav and no internal links.
+     Now it runs inside AppShell like everything else. -->
+<AppShell title={title} description={description} canonical={canonical} active="free">
+  <span class="eyebrow">Free tool</span>
+  <h1 class="sec">Score your landing page, <span class="mark-hl">free.</span></h1>
+  <p class="res-lede">Paste a URL and get an instant read on speed, mobile setup, and the conversion elements that decide whether the traffic you are paying for does anything. No signup to see your score.</p>
+
+  <div class="az-wrap">
+    <Analyzer client:load initialUrl={initialUrl} />
+  </div>
+
+  <section class="hsec">
+    <span class="eyebrow">After the score</span>
+    <h2 class="sec">Know what to fix <span class="mark-hl">next.</span></h2>
+    <p class="res-lede">The score tells you where a page is leaking. If you would rather not fix it yourself, that is what <a href="/services/landing-pages">landing pages</a> and <a href="/services/funnels">funnels</a> are for.</p>
+  </section>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
+      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
     </div>
-  </main>
-</Base>
+  </div>
+</AppShell>
