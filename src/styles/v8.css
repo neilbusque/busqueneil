@@ -733,3 +733,21 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   border: 1px solid var(--hair); border-radius: 8px; background: #FAFAFA; display: block; }
 .v8 .about-photo figcaption { margin-top: 10px; font-size: 13px; color: var(--soft); }
 @media (max-width: 640px) { .v8 .about-photo { max-width: 100%; } }
+
+/* ---- hero sidekicks -------------------------------------------------------------------
+   Two small companions at Neil's feet. They sit on the same baseline as the cutout and bob
+   very slightly out of phase, so they read as alive without competing with the headline.
+   Sized in vw with a px cap so they shrink with the figure instead of overlapping it. */
+.v8 .hero-pets { position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
+  display: flex; align-items: flex-end; gap: clamp(6px, 1.2vw, 16px); z-index: 2; pointer-events: none; }
+.v8 .hero-pets .pet { display: block; width: auto; height: clamp(58px, 7.4vw, 96px);
+  filter: drop-shadow(0 8px 14px rgba(10,10,10,.13)); }
+.v8 .pet-a { animation: pet-bob 4.2s ease-in-out infinite; }
+.v8 .pet-b { animation: pet-bob 4.2s ease-in-out infinite 1.6s; }
+@keyframes pet-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+/* they flank the figure rather than stack under it once the hero goes single-column */
+@media (max-width: 900px) {
+  .v8 .hero-pets { gap: 10px; }
+  .v8 .hero-pets .pet { height: clamp(48px, 13vw, 72px); }
+}
+@media (prefers-reduced-motion: reduce) { .v8 .pet-a, .v8 .pet-b { animation: none; } }
