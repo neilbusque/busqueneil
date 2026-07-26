@@ -220,17 +220,17 @@
   border-radius: 2px;
 }
 .cs-cta .eyebrow { color: rgba(231,231,242,.55); margin-bottom: 18px; }
-.cs-cta .eyebrow .idx { color: #7B7DFF; }
+.cs-cta .eyebrow .idx { color: var(--sun, #FFE45C); }
 .cs-cta .eyebrow .line { background: rgba(231,231,242,.16); }
 .cs-cta h2 {
   font-weight: 600; font-size: clamp(28px, 4.4vw, 48px);
   letter-spacing: -0.032em; line-height: 1.05; max-width: 18ch; color: #fff;
 }
-.cs-cta h2 .accent { color: #7B7DFF; }
+.cs-cta h2 .accent { color: var(--sun, #FFE45C); }
 .cs-cta p { margin-top: 18px; color: rgba(231,231,242,.72); font-size: 17px; line-height: 1.65; max-width: 54ch; }
 .cs-cta .acts { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .cs-cta .btn.ghost { color: #fff; border-color: rgba(231,231,242,.28); }
-.cs-cta .btn.ghost:hover { color: #fff; border-color: #7B7DFF; background: rgba(123,125,255,.1); }
+.cs-cta .btn.ghost:hover { color: #fff; border-color: var(--sun, #FFE45C); background: rgba(255,228,92,.12); }
 .cs-cta .fine {
   margin-top: 24px; font-family: var(--mono); font-size: 11px;
   letter-spacing: 0.1em; text-transform: uppercase; color: rgba(231,231,242,.42);

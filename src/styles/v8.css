@@ -42,7 +42,7 @@ html { scroll-padding-top: 52px; }
 .v8 .v8-card { background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); }
 /* primary is ink; the yellow primary survives only inside the dark panel (see .darkcta below) */
 .v8 .btn-sun { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: #FFFFFF; background: var(--ink); padding: 12px 22px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: background .14s ease, border-color .14s ease; }
-.v8 .btn-sun:hover { background: #241F1B; transform: translateY(-1px); box-shadow: 0 2px 3px rgba(23,22,20,.18), 0 16px 30px -14px rgba(23,22,20,.55); }
+.v8 .btn-sun:hover { background: #383838; }
 .v8 .btn-ghost { display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 15px; letter-spacing: -.01em; color: var(--ink); background: var(--surface); border: 1px solid var(--hair); padding: 12px 22px; border-radius: 6px; text-decoration: none; transition: background .18s ease, border-color .18s ease; }
 .v8 .btn-ghost:hover { background: var(--surface); border-color: var(--ink); }
 .v8 .chip { font-size: 12.5px; font-weight: 500; letter-spacing: -.005em; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--hair); color: var(--muted); background: var(--surface); }
@@ -248,7 +248,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .svc-art svg { width: 100%; height: 100%; }
 .v8 .svc-art .cell { fill: var(--sun); stroke: var(--ink); }
 .v8 .svc li:first-child { border-top: 1px solid var(--hair); }
-.v8 .svc li:hover .svc-row { background: #FBF8F4; padding-left: 16px; }
+.v8 .svc li:hover .svc-row { background: #FAFAFA; padding-left: 16px; }
 .v8 .svc .num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
 .v8 .svc .name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.028em; }
 .v8 .svc .desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: none; text-align: left; }
@@ -301,11 +301,11 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .workcard { position: relative; display: block; background: var(--surface); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; text-decoration: none; color: var(--ink); box-shadow: 0 1px 2px rgba(23,22,20,.03); transition: transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease, border-color .25s ease; }
 .v8 .workcard:hover { transform: translateY(-3px); border-color: var(--hair-strong); box-shadow: 0 2px 4px rgba(23,22,20,.04), 0 26px 44px -28px rgba(23,22,20,.4); }
 /* v11: window chrome + a Live pill, so a card reads as a running product rather than a picture. */
-.v8 .wc-chrome { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-bottom: 1px solid var(--hair); background: #FCFCFB; }
-.v8 .wc-chrome i { width: 8px; height: 8px; border-radius: 50%; background: #E2DFD9; display: block; }
-.v8 .wc-bar { flex: 1; height: 7px; border-radius: 99px; background: #EFEDE9; margin-left: 8px; }
-.v8 .wc-shot { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #F4F3F1; }
-.v8 .workcard img, .v8 .wc-video { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; background: #F4F3F1; }
+.v8 .wc-chrome { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border-bottom: 1px solid var(--hair); background: #FAFAFA; }
+.v8 .wc-chrome i { width: 8px; height: 8px; border-radius: 50%; background: #E5E5E5; display: block; }
+.v8 .wc-bar { flex: 1; height: 7px; border-radius: 99px; background: #F0F0F0; margin-left: 8px; }
+.v8 .wc-shot { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #F5F5F5; }
+.v8 .workcard img, .v8 .wc-video { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; background: #F5F5F5; }
 .v8 .wc-live { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); background: rgba(255,255,255,.92); border: 1px solid var(--hair); padding: 5px 10px; border-radius: 999px; backdrop-filter: blur(6px); }
 .v8 .wc-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,.22); }
 .v8 .workmeta { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; font-size: 15px; }
@@ -339,7 +339,7 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .price-card p { margin: 8px 0 0; max-width: 62ch; font-size: 15.5px; }
 .v8 .price-card .price-alt { color: var(--muted); font-size: 14.5px; }
 .v8 .guarantee-line { font-size: 14px; color: var(--muted); border-left: 3px solid var(--sun); padding-left: 12px; margin: 0 0 18px; max-width: 52ch; }
-.v8 .darkcta .guarantee-line { color: #B8B0A4; }
+.v8 .darkcta .guarantee-line { color: #A1A1A1; }
 .v8 .nowcta { padding: 26px 28px; }
 .v8 .nowcta p { margin: 0; color: var(--muted); max-width: 46ch; }
 
@@ -381,18 +381,18 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 .v8 .guar { counter-reset: guar; }
 
 /* ---- dark cta panel ---- */
-.v8 .darkcta { margin-top: var(--gap-sec); background: var(--dark); color: #EFEAE3; border-radius: 22px; padding: clamp(38px, 5vw, 64px); position: relative; overflow: hidden; }
+.v8 .darkcta { margin-top: var(--gap-sec); background: var(--dark); color: #EDEDED; border-radius: 22px; padding: clamp(38px, 5vw, 64px); position: relative; overflow: hidden; }
 .v8 .darkcta::before { content: ""; position: absolute; right: -90px; top: -90px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(255,228,92,.16) 0%, rgba(255,228,92,0) 70%); }
 .v8 .darkcta > * { position: relative; }
 .v8 .darkcta h2 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 900; font-size: clamp(28px, 3.8vw, 50px); letter-spacing: -0.032em; line-height: 1; margin: 0 0 16px; max-width: 15ch; }
-.v8 .darkcta p { color: #ADA69B; max-width: 46ch; margin: 0 0 8px; font-size: 16px; }
+.v8 .darkcta p { color: #A1A1A1; max-width: 46ch; margin: 0 0 8px; font-size: 16px; }
 /* the one place yellow stays a filled button */
 .v8 .darkcta .btn-sun { background: var(--sun); color: var(--ink); box-shadow: none; }
 .v8 .darkcta .btn-sun:hover { background: var(--sun-deep); }
-.v8 .darkcta .btn-ghost { border-color: #3A3630; color: #EFEAE3; }
-.v8 .darkcta .btn-ghost:hover { background: #211E1A; border-color: #544E45; }
+.v8 .darkcta .btn-ghost { border-color: #333333; color: #EDEDED; }
+.v8 .darkcta .btn-ghost:hover { background: #1F1F1F; border-color: #4A4A4A; }
 .v8 .darkcta .hero-ctas { align-items: center; gap: 20px; }
-.v8 .darkcta .btn-ghost { border-color: #4A463F; color: #F4EFE8; }
+.v8 .darkcta .btn-ghost { border-color: #3D3D3D; color: #F5F5F5; }
 .v8 .darkcta .sig { position: absolute; right: 48px; bottom: 30px; height: 64px; width: auto; transform: rotate(-6deg); }
 .v8 .darkcta .mark-hl { color: inherit; }
 
@@ -586,14 +586,14 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
   transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 3; }
 .v8 .offer-card:hover { border-color: var(--hair-strong); }
-.v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F2ECE6; border-bottom: 1px solid var(--hair); }
+.v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F0F0F0; border-bottom: 1px solid var(--hair); }
 .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
 .v8 .offer-body { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; flex: 1; }
 .v8 .offer-num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
 .v8 .offer-name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 17px; line-height: 1.15; }
 .v8 .offer-desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 .v8 .offer-list { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.v8 .offer-list li { font-size: 12px; color: var(--ink-2); border: 1px solid var(--hair); border-radius: 999px; padding: 3px 9px; background: #FCFAF7; }
+.v8 .offer-list li { font-size: 12px; color: var(--ink-2); border: 1px solid var(--hair); border-radius: 999px; padding: 3px 9px; background: #FAFAFA; }
 .v8 .offer-go { margin-top: auto; padding-top: 12px; font-weight: 600; font-size: 14px; color: var(--ink); }
 @media (max-width: 980px) {
   .v8 .offer-grid { grid-template-columns: repeat(2, 1fr); }
@@ -668,3 +668,21 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 @media (hover: none), (pointer: coarse) { .v8 .ptr-glow, .v8 .ptr-ring { display: none; } }
 @media (prefers-reduced-motion: reduce) { .v8 .ptr-glow, .v8 .ptr-ring { display: none; } }
+
+
+/* ---- hero wave ---------------------------------------------------------------------
+   Neil: "make the hand wave animated... like a loop.. every few seconds it waves".
+   One 1.4s wave, then a long pause, on a 5s cycle. transform-only so it stays on the
+   compositor. The emoji is decorative (aria-hidden) so animating it announces nothing. */
+.v8 .hero h1 .wave { display: inline-block; transform-origin: 72% 78%; animation: hero-wave 5s ease-in-out infinite; }
+@keyframes hero-wave {
+  0%, 62%, 100% { transform: rotate(0deg); }
+  66%  { transform: rotate(14deg); }
+  70%  { transform: rotate(-8deg); }
+  74%  { transform: rotate(14deg); }
+  78%  { transform: rotate(-4deg); }
+  82%  { transform: rotate(10deg); }
+  86%  { transform: rotate(0deg); }
+}
+/* a hand waving on a loop is exactly the kind of motion this setting exists to stop */
+@media (prefers-reduced-motion: reduce) { .v8 .hero h1 .wave { animation: none; } }
