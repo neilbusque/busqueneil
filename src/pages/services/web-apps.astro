@@ -1,0 +1,128 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Web App Development for Small Teams | Neil Busque';
+const description = 'Custom dashboards, client portals, CRMs, and internal tools built by one person. See real shipped apps, then tell Neil Busque what your team needs.';
+const canonical = 'https://busqueneil.com/services/web-apps';
+
+const FAQ = [
+  {
+    q: 'How long does a custom web app take to build?',
+    a: 'A working first version usually takes two to four weeks. That is a real app with logins, a database, and the core workflow, not a clickable prototype. Bigger systems keep growing after that, but you have something usable in weeks rather than waiting a quarter to see anything.',
+  },
+  {
+    q: 'What do you build web apps with?',
+    a: 'Mostly React and Next.js or Astro on the front, Supabase or Postgres for data and auth, and Vercel for hosting. I pick boring, well-documented tools on purpose, so another developer can pick the project up later without a translation layer.',
+  },
+  {
+    q: 'Do I own the code?',
+    a: 'Yes. The repository and every account are yours. I do not host your app on a platform you have to keep renting from me, and there is no license that expires if you stop working with me.',
+  },
+  {
+    q: 'Can you take over an app someone else started?',
+    a: 'Often, yes. I will read the codebase first and tell you honestly whether it is worth continuing or cheaper to rebuild. I have said "rebuild" and I have said "this is fine, here is what it needs" and both answers have been the right one.',
+  },
+];
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Web App Development',
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['Web app development', 'Dashboard development', 'Client portal development', 'Internal tools', 'CRM development'],
+  description,
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'Web Apps', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">01</span> Services &#183; Web Apps</p>
+    <h1>Web app <span class="accent">development</span>.</h1>
+    <p class="lede">Dashboards, client portals, CRMs, and the internal tools that replace a spreadsheet nobody trusts anymore. Built by one person, shipped in weeks, and yours at the end.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: I build custom web apps for small teams. A working first version is usually live in two to four weeks, you own the code and the accounts, and you talk to the person writing it instead of an account manager.</strong></p>
+
+      <h2>What counts as a web app</h2>
+      <p>The word covers a lot, so here is what people actually come to me for:</p>
+      <ul>
+        <li><strong>Client portals.</strong> A logged-in place where your clients see files, progress, invoices, and approvals instead of emailing you to ask.</li>
+        <li><strong>Internal dashboards.</strong> One screen that pulls the numbers your team currently rebuilds by hand every Monday.</li>
+        <li><strong>A CRM that fits how you sell.</strong> Not a generic platform bent into shape with custom fields, but pipelines and automations shaped around your process.</li>
+        <li><strong>Operational tools.</strong> Scheduling, intake, inventory, QA checklists. The unglamorous software that decides whether a week runs smoothly.</li>
+      </ul>
+
+      <h2>Proof, before the pitch</h2>
+      <p>I shipped more than 40 products in 2026, and the ones below are open right now. You can click into them rather than take my word for it.</p>
+      <ul>
+        <li><strong>Orbit</strong> is a multi-tenant CRM with AI agents, billing, and a full page builder. I built and shipped it solo. <a href="/case-studies/orbit">Read the case study</a>.</li>
+        <li><strong>Portal</strong> is a client-facing surface with files, updates, and approvals, plus a browser extension for pinning feedback straight onto a live page. <a href="/case-studies/lumen-portal">Read the case study</a>.</li>
+        <li><strong>Tandem</strong> is a couples app with realtime sync, video, and games. I built it for my own long-distance marriage, which is a harsher QA process than any client. <a href="/case-studies/tandem">Read the case study</a>.</li>
+      </ul>
+
+      <h2>The stack, and why it is boring</h2>
+      <p>React and Next.js or Astro on the front. Supabase or Postgres for data, auth, and row-level security. Vercel for hosting. Stripe when there is money involved.</p>
+      <p>None of that is exotic, and that is deliberate. Every choice here is something another developer can pick up without me explaining a private framework. The fastest way to trap a client is to build them something only you can maintain, and I would rather you stay because the work is good.</p>
+
+      <h2>How the build runs</h2>
+      <ol>
+        <li><strong>One call to find the real problem.</strong> Usually the app someone asks for is not the app they need. We figure that out before anything gets written.</li>
+        <li><strong>Scope in writing.</strong> You see what is in the first version and what is deliberately not, so "I thought that was included" never happens.</li>
+        <li><strong>Build in the open.</strong> You get a live URL early and watch it fill in. If it is going the wrong way, you say so in week one, not at handoff.</li>
+        <li><strong>Launch and hand over.</strong> Repo, accounts, and documentation are yours. Keep me on to run it or take it in-house.</li>
+      </ol>
+
+      <h2>Why one person instead of an agency</h2>
+      <p>Software needs maintenance. An API changes, a dependency breaks, your process shifts. When that happens you message the person who built it, and they already have the whole thing in their head. There is no relay through an account manager to a developer who has never seen your codebase.</p>
+      <p>The tradeoff is honest: I am one person, so I take on fewer projects and I will tell you on the first call if your timeline needs a team instead.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>If you have an app in mind, <a href="/contact">tell me what it needs to do</a>. If you are still deciding, <a href="/work">open the work</a> or read about <a href="/services/ai-automation-services">the automation side</a>.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/work">Or open the work first</a>
+    </div>
+  </div>
+</AppShell>

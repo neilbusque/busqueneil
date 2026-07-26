@@ -1,0 +1,127 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Custom Website Design and Development | Neil Busque';
+const description = 'Fast, custom websites that look like your business instead of a template, and that search engines and AI assistants can actually read. Built by one person.';
+const canonical = 'https://busqueneil.com/services/websites';
+
+const FAQ = [
+  {
+    q: 'How much does a custom website cost?',
+    a: 'It depends on how many pages carry real work and whether you need copy written. A focused marketing site is the cheapest starting point; a site with a CMS, a blog, and location pages costs more. I quote per project after one call rather than posting a number that would be wrong for most people.',
+  },
+  {
+    q: 'Do you use WordPress?',
+    a: 'I work in WordPress when a client already lives there and the team needs to edit without a developer. For new builds I usually reach for Astro, because it ships far less JavaScript, loads faster, and does not need a monthly security-patch routine. I will recommend whichever one fits how your team actually works.',
+  },
+  {
+    q: 'Will my site rank on Google?',
+    a: 'A fast, well-structured site with real content is the floor, not the ceiling. I build clean technical SEO in from the start: proper headings, schema markup, fast Core Web Vitals, a real sitemap. Ranking beyond that depends on how competitive your market is and whether you keep publishing. I will tell you which one you are in.',
+  },
+  {
+    q: 'Can I edit it myself afterward?',
+    a: 'Yes, if you tell me that upfront so I wire in a CMS your team can use. If nobody on your side wants to touch it, I skip the CMS, which makes the site faster and cheaper, and you send me changes instead.',
+  },
+];
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Website Design and Development',
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['Website design', 'Website development', 'Astro development', 'WordPress development', 'Technical SEO'],
+  description,
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'Websites', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">02</span> Services &#183; Websites</p>
+    <h1>Custom <span class="accent">websites</span>.</h1>
+    <p class="lede">Fast, custom sites that feel like your business instead of a template, and that search engines and AI assistants can actually read. No page builder bloat, no theme you have to fight.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: I design and build custom websites, usually in Astro, that load fast, read well to both people and search engines, and do not depend on a stack of plugins to stay alive.</strong></p>
+
+      <h2>What is wrong with most small-business sites</h2>
+      <p>Almost every site I get asked to fix has the same three problems, and none of them are about taste.</p>
+      <ul>
+        <li><strong>It is slow.</strong> A theme plus a page builder plus fifteen plugins means a homepage that takes six seconds on a phone. Most visitors are gone before the hero image resolves.</li>
+        <li><strong>It says nothing specific.</strong> "Quality service you can trust" is on ten thousand sites. It gives a visitor no reason to pick you, and gives Google nothing to rank.</li>
+        <li><strong>Nobody can find anything.</strong> The thing you actually sell is three clicks deep behind a menu built around your org chart instead of the visitor's question.</li>
+      </ul>
+
+      <h2>What I build instead</h2>
+      <p>A site built around the handful of things a visitor is actually trying to do: understand what you sell, decide whether you are credible, and take one obvious next step.</p>
+      <ul>
+        <li><strong>Custom design.</strong> Real typography and layout decisions, not a purchased theme with your logo dropped in.</li>
+        <li><strong>Fast by construction.</strong> Astro ships almost no JavaScript by default, so the page is fast because of how it is built, not because of a caching plugin patching over the problem.</li>
+        <li><strong>Structured for search and AI.</strong> Clean heading hierarchy, schema markup, a real sitemap, and pages that answer a question directly enough to be quoted by an AI assistant.</li>
+        <li><strong>Editable if you want it.</strong> A CMS when your team will use it, and no CMS when they will not.</li>
+      </ul>
+
+      <h2>Sites I have shipped</h2>
+      <p><strong>Darioo</strong> is a manufacturing company site plus an internal app, running live. <strong>Scott Greenleaf</strong> was a client rebuild. This site, busqueneil.com, is also mine, and you are reading it, so you can judge the work by the thing it is written on.</p>
+      <p>Browse <a href="/work">the full list</a> to see what shipped and what it does.</p>
+
+      <h2>How the build runs</h2>
+      <ol>
+        <li><strong>One call.</strong> What you sell, who buys it, and what the site currently fails to do.</li>
+        <li><strong>Structure and copy first.</strong> Pages and words before pixels, because a beautiful layout wrapped around vague copy still does not convert.</li>
+        <li><strong>Design and build.</strong> You see it live on a real URL early and can redirect it while it is cheap to change.</li>
+        <li><strong>Launch.</strong> Domain, analytics, Search Console, sitemaps. Then it is yours.</li>
+      </ol>
+
+      <h2>What it costs to keep running</h2>
+      <p>Usually very little. A static Astro site hosts free or nearly free on Vercel, there is no license to renew, and there is no plugin subscription stack. That is not a sales point so much as the reason I build this way: the cheapest site to own is the one with the fewest moving parts.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>If you want a site that earns its keep, <a href="/contact">tell me about your business</a>. If a single focused page is closer to what you need, read about <a href="/services/landing-pages">landing pages</a> instead.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/work">Or open the work first</a>
+    </div>
+  </div>
+</AppShell>

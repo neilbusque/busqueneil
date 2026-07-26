@@ -4,6 +4,8 @@ export const orbit: CaseStudy = {
   slug: 'orbit',
   name: 'Orbit',
   tagline: 'A multi-tenant CRM built and shipped solo',
+  seoTitle: 'Orbit: solo-built multi-tenant CRM',
+  seoDescription: 'I built Orbit as a personal contact tool, then shipped it as a live multi-tenant CRM with Stripe subscribers and a built-in AI operator.',
   category: 'SaaS · CRM',
   year: '2026',
   status: 'Live in production, paid subscribers',

@@ -1,0 +1,122 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Sales Funnel Build: Click to Booked Call | Neil Busque';
+const description = 'Page, form, CRM, follow-up, and reporting wired into one funnel that actually connects. Built by one person who has shipped 20+ production workflows.';
+const canonical = 'https://busqueneil.com/services/funnels';
+
+const FAQ = [
+  {
+    q: 'What is included in a funnel build?',
+    a: 'The landing page and its copy, the form or booking step, the CRM wiring so leads land somewhere real, the email and SMS follow-up, and reporting that shows where people drop out. The point is that these are one connected system rather than five tools that each work alone.',
+  },
+  {
+    q: 'Which CRM do you work with?',
+    a: 'GoHighLevel most often, plus HubSpot, Pipedrive, and Airtable. I have also built CRMs from scratch when a client needed something no platform did well. If you already have one, I build into it rather than trying to move you.',
+  },
+  {
+    q: 'How long does a funnel take to build?',
+    a: 'Two to four weeks for a complete first version, depending on how many follow-up sequences and integrations it needs. The page can be live in days; the wiring, sequences, and testing are what take the rest.',
+  },
+  {
+    q: 'How do I know if my funnel is broken?',
+    a: 'The usual signs are leads that never get followed up, a booking rate that does not match your traffic, or no reliable answer to "where do people drop off." If you cannot name your conversion rate at each step, the reporting is the first thing to fix, before anyone rebuilds a page.',
+  },
+];
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Sales Funnel Development',
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['Sales funnel development', 'Lead generation funnels', 'CRM integration', 'Marketing automation', 'GoHighLevel'],
+  description,
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'Funnels', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">04</span> Services &#183; Funnels</p>
+    <h1>Funnels, first click to <span class="accent">booked call</span>.</h1>
+    <p class="lede">Page, form, CRM, follow-up, and reporting, built as one connected system instead of five tools that each work fine alone and lose people in between.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: I build complete funnels, not just the page. Landing page and copy, lead capture, CRM wiring, email and SMS follow-up, and reporting that shows exactly where people drop out.</strong></p>
+
+      <h2>Where funnels actually break</h2>
+      <p>Almost nobody loses money on the page itself. They lose it in the gaps between tools.</p>
+      <ul>
+        <li>A lead fills the form and the notification goes to an inbox nobody watches on weekends.</li>
+        <li>The CRM gets the name and email but not the answers, so whoever calls back starts from zero.</li>
+        <li>Follow-up is a single email sent immediately, then silence.</li>
+        <li>Nobody can say what the booking rate is, so every decision about the funnel is a guess.</li>
+      </ul>
+      <p>Each of those is invisible on its own. Together they are usually the difference between a funnel that pays for itself and one that does not.</p>
+
+      <h2>What I wire together</h2>
+      <ol>
+        <li><strong>The page.</strong> Focused, fast, written to convert. Details on the <a href="/services/landing-pages">landing pages</a> page.</li>
+        <li><strong>Capture.</strong> Form or booking flow with the qualifying questions that make the first call useful, and no field that exists only to pad a database.</li>
+        <li><strong>Routing.</strong> Lead lands in the CRM with full context, assigned, tagged, and with a notification that reaches a human quickly.</li>
+        <li><strong>Follow-up.</strong> Email and SMS sequences triggered by what people do, not by a calendar. Including the no-show and the went-quiet paths, which is where most recoverable revenue sits.</li>
+        <li><strong>Reporting.</strong> A dashboard showing conversion at each step, so you can point at the weak one instead of rebuilding everything.</li>
+      </ol>
+
+      <h2>Where the experience comes from</h2>
+      <p>Before I worked independently I ran operations at a marketing agency and shipped more than 20 production n8n workflows across more than 10 client accounts, including an onboarding system that cut a 30-day process down to 7 days.</p>
+      <p>I also built <strong>Preflight</strong>, a tool that scores a funnel before you spend money driving traffic into it, because I kept running the same diagnostic by hand. <a href="/case-studies/preflight">Read the case study</a>.</p>
+
+      <h2>Diagnose before you rebuild</h2>
+      <p>If you already have a funnel, the first useful step is usually not a rebuild. It is finding out which step is leaking. Run my <a href="/analyzer">free landing page analyzer</a>, or send me what you have and I will tell you whether the page, the follow-up, or the offer is the actual problem.</p>
+      <p>Sometimes the answer is that the funnel is fine and the traffic is wrong, and that is worth knowing before you pay anyone to build anything.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>Tell me where your leads currently go to die and I will map what it takes to fix it. <a href="/contact">Start here</a>, or read about <a href="/services/ai-automation-services">the automation behind the follow-up</a>.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/analyzer">Or score your funnel first</a>
+    </div>
+  </div>
+</AppShell>

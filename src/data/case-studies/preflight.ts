@@ -4,6 +4,7 @@ export const preflight: CaseStudy = {
   slug: 'preflight',
   name: 'Preflight',
   tagline: 'Run your funnel before you run your ads',
+  seoTitle: 'Preflight: a funnel simulator build',
   category: 'SaaS · Marketing Tooling',
   year: '2026',
   status: 'Live in production',

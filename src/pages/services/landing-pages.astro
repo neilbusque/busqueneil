@@ -1,0 +1,121 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Landing Page Design That Converts | Neil Busque';
+const description = 'One focused page built to convert the traffic you already pay for. Copy, design, build, and tracking included. See the work, then send Neil Busque your offer.';
+const canonical = 'https://busqueneil.com/services/landing-pages';
+
+const FAQ = [
+  {
+    q: 'How long does a landing page take?',
+    a: 'Usually a few days from the call to a live page, assuming you can answer questions about your offer and customers quickly. The build is rarely the slow part. Deciding what the page should actually say is.',
+  },
+  {
+    q: 'Do you write the copy or do I?',
+    a: 'I write it. A landing page is mostly an argument, and the design only decides how easily that argument gets read. If you already have copy you are confident in, I will build to it and tell you where I think it is losing people.',
+  },
+  {
+    q: 'What makes a landing page convert?',
+    a: 'One page, one audience, one action. A specific promise rather than a generic one, proof near every claim that needs it, objections handled before the form instead of after, and a fast load on a phone. Most underperforming pages fail on specificity and speed long before they fail on design.',
+  },
+  {
+    q: 'Can you run A/B tests on it?',
+    a: 'Yes, and I build the page so testing is possible from day one: the headline, hero, and offer block are structured to be swapped without a rebuild. Testing only pays off once you have enough traffic for a result to mean something, so I will tell you if you are not there yet.',
+  },
+];
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Landing Page Design and Development',
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  serviceType: ['Landing page design', 'Conversion rate optimization', 'Sales page copywriting', 'A/B testing'],
+  description,
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Services', url: 'https://busqueneil.com/services' },
+      { name: 'Landing Pages', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">03</span> Services &#183; Landing Pages</p>
+    <h1>Landing pages that <span class="accent">convert</span>.</h1>
+    <p class="lede">One page, one audience, one obvious next step. Copy, design, build, and tracking, so the traffic you are already paying for stops leaking.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Short version: I write and build focused landing pages, usually live within a few days. Copy is included, because a page built around the wrong message converts badly no matter how good it looks.</strong></p>
+
+      <h2>When you need a landing page instead of a website</h2>
+      <p>A website answers every question a visitor might have. A landing page answers exactly one, and removes everything else.</p>
+      <p>You want a landing page when you are sending paid traffic somewhere, launching one offer, testing a new market, or collecting leads for a specific campaign. Sending ad traffic to a homepage is the most common way I see a budget quietly wasted: the homepage has to serve everyone, so it convinces no one in particular.</p>
+
+      <h2>What actually moves the number</h2>
+      <p>After building these for clients and for my own products, the same few things decide it, and design is further down the list than people expect.</p>
+      <ul>
+        <li><strong>Specificity.</strong> "Cut your onboarding from 30 days to 7" beats "streamline your workflow." One is a claim you can argue with. The other is wallpaper.</li>
+        <li><strong>Proof next to the claim.</strong> Not a testimonial wall at the bottom that nobody scrolls to. Evidence sitting beside the sentence that needs it.</li>
+        <li><strong>Objections handled before the form.</strong> Every unanswered doubt becomes a closed tab. Price, timeline, "will this work for my situation," lock-in.</li>
+        <li><strong>Speed on a phone.</strong> Most paid traffic is mobile. A page that takes five seconds has already lost a chunk of the people you paid for.</li>
+        <li><strong>One action.</strong> A second competing call to action reliably lowers both.</li>
+      </ul>
+
+      <h2>What you get</h2>
+      <ol>
+        <li><strong>A short research pass.</strong> Your offer, your buyer, and what your competitors are already promising, so the page does not repeat the category's wallpaper.</li>
+        <li><strong>Copy written for the page.</strong> Headline, subhead, body, objections, and calls to action as one argument rather than sections filled in.</li>
+        <li><strong>A custom-built page.</strong> Fast, responsive, and tested at real phone sizes before it goes live.</li>
+        <li><strong>Tracking that works.</strong> Analytics and conversion events wired up, so you can tell what happened instead of guessing.</li>
+      </ol>
+
+      <h2>I built a tool for this</h2>
+      <p><strong>Preflight</strong> scores a funnel before you spend money on it, and I built it because I kept doing the same diagnostic by hand for clients. You can also run my <a href="/analyzer">free landing page analyzer</a> against a page you already have and see what it flags before you talk to me.</p>
+      <p>That is the honest order of operations: find out whether your current page is the problem before paying anyone to replace it.</p>
+
+      <h2>FAQ</h2>
+      {FAQ.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <p>Send me the offer and where the traffic is coming from and I will tell you what the page needs to say. <a href="/contact">Start here</a>, or read about <a href="/services/funnels">the full funnel</a> if the page is only one piece of it.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <span class="eyebrow">The guarantee</span>
+    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="/contact">Tell me what you need</a>
+      <a class="btn-ghost" href="/analyzer">Or score your current page</a>
+    </div>
+  </div>
+</AppShell>

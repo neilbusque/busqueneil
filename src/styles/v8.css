@@ -248,12 +248,17 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 /* ---- services rows ---- */
 .v8 .svc { list-style: none; margin: 26px 0 0; padding: 0; }
-.v8 .svc li { display: grid; grid-template-columns: 34px 34px 1fr 1.15fr; align-items: center; gap: 16px; padding: 18px 0; border-top: 1px solid var(--hair); }
+.v8 .svc li { border-top: 1px solid var(--hair); }
+/* The grid lives on the anchor, not the li, so the whole row is one click target that leads
+   to its service page. Keeping the grid on the li would leave the row hoverable but dead. */
+.v8 .svc-row { display: grid; grid-template-columns: 34px 34px 1fr 1.15fr 22px; align-items: center; gap: 16px; padding: 18px 0; text-decoration: none; color: inherit; transition: padding-left .18s ease, background .18s ease; }
+.v8 .svc-row .svc-cta { justify-self: end; padding-right: 4px; font-size: 18px; color: var(--soft); transition: transform .18s ease, color .18s ease; }
+.v8 .svc-row:hover .svc-cta { color: var(--ink); transform: translateX(3px); }
 .v8 .svc-art { display: block; width: 26px; height: 26px; color: var(--ink); }
 .v8 .svc-art svg { width: 100%; height: 100%; }
 .v8 .svc-art .cell { fill: var(--sun); stroke: var(--ink); }
 .v8 .svc li:first-child { border-top: 1px solid var(--hair); }
-.v8 .svc li:hover { background: #FBF8F4; padding-left: 16px; }
+.v8 .svc li:hover .svc-row { background: #FBF8F4; padding-left: 16px; }
 .v8 .svc .num { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
 .v8 .svc .name { font-family: 'Archivo', sans-serif; font-weight: 700; font-size: clamp(19px, 2.1vw, 27px); text-transform: uppercase; letter-spacing: -0.028em; }
 .v8 .svc .desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: none; text-align: left; }
@@ -578,6 +583,54 @@ html.rail-collapsed .v8 .rail-id { align-items: center; justify-content: center;
 
 .v8 .hire-cta { padding: clamp(26px, 4vw, 40px); margin-top: var(--gap-sec); }
 .v8 .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: calc(var(--gap-sec) * .4); }
+
+/* ---- services hub: five offers, each carrying a real product shot instead of an icon.
+   Six-column track so 1-3 sit as thirds and 4-5 as halves; five cards in a plain 3-up grid
+   leaves a dead cell in the last row. The <a> is flex-column on purpose: a grid-stretched
+   anchor vertically centers its content box, which pushes card text out of alignment with
+   its siblings. ---- */
+.v8 .offer-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; margin-top: calc(var(--gap-sec) * .4); }
+.v8 .offer-card { grid-column: span 2; display: flex; flex-direction: column; padding: 0; overflow: hidden; text-decoration: none; color: var(--ink);
+  transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
+.v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 3; }
+.v8 .offer-card:hover { transform: translateY(-3px); border-color: var(--hair-strong); box-shadow: 0 2px 4px rgba(22,21,15,.04), 0 26px 44px -28px rgba(22,21,15,.4); }
+.v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 0; background: #F2ECE6; border-bottom: 1px solid var(--hair); }
+.v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
+.v8 .offer-body { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; flex: 1; }
+.v8 .offer-num { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
+.v8 .offer-name { font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.022em; font-size: 18px; line-height: 1.15; }
+.v8 .offer-desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+.v8 .offer-list { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.v8 .offer-list li { font-size: 12px; color: var(--ink-2); border: 1px solid var(--hair); border-radius: 999px; padding: 3px 9px; background: #FCFAF7; }
+.v8 .offer-go { margin-top: auto; padding-top: 12px; font-weight: 600; font-size: 14px; color: var(--ink); }
+@media (max-width: 980px) {
+  .v8 .offer-grid { grid-template-columns: repeat(2, 1fr); }
+  .v8 .offer-card, .v8 .offer-card:nth-child(4), .v8 .offer-card:nth-child(5) { grid-column: span 1; }
+}
+@media (max-width: 640px) {
+  .v8 .offer-grid { grid-template-columns: 1fr; }
+  .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 10; }
+}
+
+/* ---- process strip on the services hub ---- */
+.v8 .steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
+.v8 .steps li { background: var(--surface); padding: 20px 18px; display: flex; flex-direction: column; gap: 7px; }
+.v8 .steps .step-n { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); }
+.v8 .steps b { font-family: 'Archivo', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: -.02em; font-size: 14px; }
+.v8 .steps span:last-child { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+@media (max-width: 900px) { .v8 .steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { .v8 .steps { grid-template-columns: 1fr; } }
+
+/* ---- FAQ (services hub + guides) ---- */
+.v8 .faq { margin-top: 26px; border-top: 1px solid var(--hair); }
+.v8 .faq details { border-bottom: 1px solid var(--hair); }
+.v8 .faq summary { cursor: pointer; list-style: none; padding: 17px 34px 17px 0; position: relative;
+  font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -.018em; }
+.v8 .faq summary::-webkit-details-marker { display: none; }
+.v8 .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 19px; font-weight: 500; color: var(--soft); }
+.v8 .faq details[open] summary::after { content: "\2212"; }
+.v8 .faq p { margin: 0 0 18px; color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 68ch; }
+
 /* ---- stack ---- */
 .v8 .stack-note { color: var(--muted); font-size: 15.5px; line-height: 1.6; max-width: 60ch; margin: 6px 0 0; }
 .v8 .stack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 26px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }

@@ -62,6 +62,13 @@ export interface CaseStudy {
   liveUrl?: string;
   /** one sentence for the index card and meta description */
   summary: string;
+  /** Optional <title> front half. The default template is `${name} case study: ${tagline}`,
+   *  which runs 71-88 chars on most entries and gets truncated in results. Set this when the
+   *  generated one exceeds ~46 chars (60 minus " | Neil Busque"). */
+  seoTitle?: string;
+  /** Optional meta description. Several summaries run 175-235 chars because they earn their
+   *  length on the page; this is the 120-160 version for search results only. */
+  seoDescription?: string;
   /** the page's opening paragraph, 2-3 sentences */
   lede: string;
 

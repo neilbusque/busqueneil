@@ -45,8 +45,8 @@ const jsonLd = {
 };
 ---
 <AppShell
-  title={`${cs.name} case study: ${cs.tagline} | Neil Busque`}
-  description={cs.summary}
+  title={`${cs.seoTitle ?? `${cs.name} case study: ${cs.tagline}`} | Neil Busque`}
+  description={cs.seoDescription ?? cs.summary}
   canonical={url}
   ogType="article"
   active="work"

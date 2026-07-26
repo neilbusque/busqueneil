@@ -4,6 +4,8 @@ export const tandem: CaseStudy = {
   slug: 'tandem',
   name: 'Tandem',
   tagline: 'A couples app I built for my own long-distance marriage',
+  seoTitle: 'Tandem: a couples app case study',
+  seoDescription: 'A long-distance couples PWA with WebRTC video, six real-time games, and letters that arrive on a delay. Built for my own marriage across 8,000 miles.',
   category: 'Consumer PWA · Realtime multiplayer',
   year: '2026',
   status: 'Live in production',

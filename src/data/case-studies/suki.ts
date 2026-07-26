@@ -4,6 +4,8 @@ export const suki: CaseStudy = {
   slug: 'suki-neighbors',
   name: "Suki Neighbors",
   tagline: "The condo group chat, replaced",
+  seoTitle: 'Suki Neighbors: condo marketplace app',
+  seoDescription: 'A community-locked food marketplace PWA that replaces the buy-and-sell group chat in one condo tower. Built and shipped solo in under two weeks.',
   category: "Consumer PWA · Two-Sided Marketplace",
   year: "2026",
   status: "Live in production",

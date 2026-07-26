@@ -17,6 +17,14 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/hire/ai-engineer-nj', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-remote', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/web-apps', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/websites', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/landing-pages', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/funnels', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-automation-services', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-agent-development', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/services/ai-automation-consultant', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/google-ai-overviews-guide', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', lastmod: LAST_UPDATED },
@@ -26,7 +34,11 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/work', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/blog', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/shop', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/analyzer' },
+  /* /case-studies is deliberately absent: it 301s to /work (see case-studies/index.astro).
+     A sitemap should only list URLs that return 200, or Search Console reports the entry
+     as a redirect error. The five detail pages below are the real, indexable ones. */
   ...caseStudies.map((cs) => ({
     loc: `https://busqueneil.com/case-studies/${cs.slug}`,
   })),

@@ -4,6 +4,7 @@ export const lumen: CaseStudy = {
   slug: 'lumen-portal',
   name: 'Lumen Portal',
   tagline: 'The client-facing surface with a lock on it',
+  seoTitle: 'Lumen Portal: a client portal build',
   category: 'SaaS · Client Portal',
   year: '2026',
   status: 'Live in production',
