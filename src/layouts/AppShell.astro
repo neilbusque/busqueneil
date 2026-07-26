@@ -47,12 +47,12 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
   </script>
   <div class="v8 shell">
     <slot name="intro" />
-    {/* Availability status pulled 2026-07-25 (Neil): no open-to-work / available-for-
-        projects line anywhere on the site. Location + email only. Braces, not an HTML
-        comment: an HTML comment ships to the page and the phrase shows up in the source. */}
+    {/* Availability status: Neil turned the strip back to an open-to-work line on
+        2026-07-25, replacing the location. Location still lives in the footer and in
+        Schema.astro for local SEO. */}
     <div class="shell-strip">
       <a class="strip-brand" href="/" aria-label="busqueneil home"><RibbonMark size={24} variant="small" /><span>busque<strong>neil</strong></span></a>
-      <span>New Jersey</span>
+      <span>Open to Work</span>
       <a class="strip-mail" href="mailto:busqueneil@gmail.com" aria-label="Email Neil at busqueneil@gmail.com">
         <span class="mail-full" aria-hidden="true">busqueneil@gmail.com</span>
         <span class="mail-short" aria-hidden="true">Email</span>

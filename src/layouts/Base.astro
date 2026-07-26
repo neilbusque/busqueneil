@@ -108,9 +108,14 @@ const pageSchema = {
     <link rel="alternate" type="application/rss+xml" title="Neil Busque" href="/rss.xml" />
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />}
 
-    {/* SearchAtlas OTTO — must render byte-exact to the vendor snippet, no extra attributes.
-        is:inline is a compiler directive and is stripped from the output. */}
-    <script nowprocket nitro-exclude type="text/javascript" id="sa-dynamic-optimization" data-uuid="7b32a386-4d29-4078-be81-88c2fe99a353" src="https://dashboard.searchatlas.com/scripts/dynamic_optimization.js" is:inline></script>
+    {/* SearchAtlas OTTO removed 2026-07-25. The snippet was a render-blocking <script> in
+        <head> (no async/defer), so every cold visit stalled on a searchatlas round trip —
+        that was the "blank until I refresh" bug. Worse, OTTO's body_substitutions rewrote
+        live DOM: it set the hero <h1> textContent to "Neil Busque: AI Engineer and Product
+        Builder for Small Teams", which blew the 96px display heading to an 845px-tall block,
+        and replaced <title> with "AI Automation & Agent Development". Verified in a headless
+        render before removal. Do NOT re-add without `defer` AND with heading/title
+        substitutions rejected in the OTTO dashboard. */}
 
     <slot name="head" />
   </head>
