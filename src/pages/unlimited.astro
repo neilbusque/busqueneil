@@ -336,7 +336,13 @@ const faqSchema = {
   })),
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+{/* UNLISTED (Neil, 2026-07-27): this offer only goes to people he sends the link to. The page
+    stays live and shareable, but nothing on the site links to it, it is out of sitemap.xml and
+    llms.txt, and noindex keeps it out of search results.
+    ⚠️ noindex, NOT a robots.txt Disallow. A Disallow blocks the crawl, so Google never reads
+    the noindex and the bare URL can still surface from an external link. Blocking the crawl is
+    the one change that would make this less hidden, not more. */}
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services" noindex={true}>
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },

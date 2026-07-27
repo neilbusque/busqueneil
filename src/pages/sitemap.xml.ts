@@ -13,7 +13,9 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/hire/ai-engineer-nj', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-remote', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/unlimited', lastmod: LAST_UPDATED },
+  /* /unlimited is deliberately absent: it is an unlisted offer Neil sends directly, is
+     noindex, and is not linked from anywhere on the site. Listing a noindex URL here would
+     ask Google to index a page that refuses indexing, which reports as a coverage error. */
   { loc: 'https://busqueneil.com/services', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/services/web-apps', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/services/websites', lastmod: LAST_UPDATED },
