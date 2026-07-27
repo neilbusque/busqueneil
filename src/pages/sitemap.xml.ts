@@ -13,6 +13,7 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/hire/ai-engineer-nj', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer-remote', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/unlimited', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/services', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/services/web-apps', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/services/websites', lastmod: LAST_UPDATED },

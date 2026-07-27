@@ -1,0 +1,98 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+
+export const prerender = true;
+
+/* The Stripe payment link redirects here after a successful $1,500 charge, so this route
+   existing is not optional. If /unlimited ever moves, the payment link's after_completion
+   URL has to move with it (Stripe dashboard, plink_1TxhMOEx2RyyLJfmTISxDX8T).
+
+   noindex because it is a post-payment page: it should never appear in search results, and
+   it is deliberately absent from sitemap.xml and llms.txt for the same reason. */
+const BOOK_HREF = 'https://book.busqueneil.com/';
+const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20just%20subscribed%20to%20the%20unlimited%20plan';
+
+const STEPS = [
+  {
+    n: '01',
+    t: 'Book your kickoff call',
+    d: 'Pick any slot that works. This is where you tell me what you need first and I tell you honestly how I would approach it.',
+  },
+  {
+    n: '02',
+    t: 'I set up your portal',
+    d: 'Within 24 hours you get a login at portal.busqueneil.com. Your queue, your files, and our whole conversation live there from then on.',
+  },
+  {
+    n: '03',
+    t: 'You post the first request',
+    d: 'A sentence is enough to start. I come back with what I understood and what it will take before I build anything.',
+  },
+];
+---
+<AppShell
+  title="You are in | Unlimited"
+  description="Your unlimited subscription is active. Here is what happens next."
+  noindex={true}
+  active="services"
+>
+  <section class="unl-thanks">
+    <span class="avail unl-chip"><span class="strip-dot" aria-hidden="true"></span>Payment confirmed</span>
+    <h1 class="sec">You are <span class="mark-hl">in.</span></h1>
+    <p class="unl-lede">
+      Your subscription is active and I have your details. There is nothing else to pay and nothing else to
+      fill in. Here is exactly what happens next.
+    </p>
+
+    <div class="hero-ctas unl-ctas">
+      <a class="btn-sun" href={BOOK_HREF} target="_blank" rel="noopener">Book your kickoff call</a>
+      <a class="btn-ghost" href={WA_HREF} target="_blank" rel="noopener">Or message me on WhatsApp</a>
+    </div>
+
+    <ul class="steps unl-steps">
+      {STEPS.map((s) => (
+        <li class="step">
+          <span class="step-n">{s.n}</span>
+          <b>{s.t}</b>
+          <span>{s.d}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="v8-card unl-note-card">
+      <b>Two weeks to change your mind.</b>
+      <p>
+        Your 14 day window started today. If you decide this is not for you, message me and I refund 100% of
+        it, and you keep everything I already built. You can cancel anytime after that with no notice period.
+      </p>
+      {/* Its own row rather than a link inside a sentence: as inline prose the tap target was
+          18px tall, under the 44px minimum the site enforces below 900px. */}
+      <a class="unl-note-mail" href="mailto:busqueneil@gmail.com">
+        <span>Anything at all, email me</span>
+        <span class="unl-note-addr">busqueneil@gmail.com</span>
+      </a>
+    </div>
+  </section>
+</AppShell>
+
+<style>
+  /* Not prefixed with .v8: that class lives in AppShell, and Astro's scoping would rewrite
+     the selector to .v8[data-astro-cid] and match nothing. Tokens still inherit. */
+  .unl-thanks { text-align: center; padding: clamp(28px, 5vw, 64px) 0 0; max-width: 760px; margin: 0 auto; }
+  .unl-chip { margin: 0 auto 22px; }
+  .unl-thanks h1.sec { margin-left: auto; margin-right: auto; }
+  .unl-lede { margin: 14px auto 0; max-width: 56ch; color: var(--muted); font-size: 16px; line-height: 1.68; }
+  .unl-ctas { justify-content: center; margin-top: 28px; }
+  .unl-steps { margin-top: 40px; text-align: left; grid-template-columns: repeat(3, 1fr); }
+  .unl-note-card { margin-top: 26px; padding: 24px 26px; text-align: left; }
+  .unl-note-card b { font-size: 16px; letter-spacing: -.018em; }
+  .unl-note-card p { color: var(--muted); font-size: 15px; line-height: 1.65; margin: 10px 0 0; max-width: 66ch; }
+  .unl-note-mail { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; min-height: 44px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--hair); font-size: 14px; color: var(--muted); text-decoration: none; }
+  .unl-note-addr { color: var(--ink); font-weight: 600; }
+  .unl-note-mail:hover .unl-note-addr { text-decoration: underline; }
+
+  @media (max-width: 900px) { .unl-steps { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .unl-ctas .btn-sun, .unl-ctas .btn-ghost { width: 100%; box-sizing: border-box; }
+  }
+</style>

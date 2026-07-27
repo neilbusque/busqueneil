@@ -1,0 +1,816 @@
+---
+import AppShell from '../layouts/AppShell.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { ORGANIZATION_REF, PERSON_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
+
+export const prerender = true;
+
+/* The subscription offer. Structure follows the productised-subscription pattern that
+   designjoy.co made the default for this category (centred hero, Subscribe/Request/Receive
+   band, benefits grid, one big centred price card carrying the whole close, long FAQ). The
+   SKIN is entirely v12 busqueneil: white ground, ink type, one yellow accent, hairlines,
+   8px radius, Geist. None of designjoy's coral, blob cards, or illustration language.
+
+   Deliberately NOT in the rail (Neil): the nav is already seven items and this is a
+   destination people are sent to, not a section they browse.
+
+   Everything numeric here has to stay true or the page stops working, same rule as the hire
+   essay. The three-client cap is real, the open spots are real, and the turnaround table is
+   what actually happens rather than a best case. When a spot fills, change SPOTS_LEFT and
+   nothing else has to move: the chip, the stats, the price card, the FAQ and the closing
+   headline all read from it. */
+const SPOTS_TOTAL = 3;
+const SPOTS_LEFT = 2;
+const PRICE = 1500;
+
+/* LIVE Stripe payment link on Neil's own account (acct_1MvdUcEx2RyyLJfm, the same account
+   Orbit bills through). Charges $1,500 immediately on a monthly recurring price, no trial:
+   the offer's risk reversal is the 14 day refund, not a free period. Collects phone (Neil
+   works over WhatsApp) and an optional website field, then redirects to /unlimited/thanks.
+   ⚠️ That redirect target must keep existing. Paying $1,500 and landing on a 404 is the
+   worst failure this page has. product prod_UxcbVWNJFpeRfP / price price_1TxhMFEx2RyyLJfm… */
+const SUBSCRIBE_HREF = 'https://buy.stripe.com/fZufZh6FI83pbcy87E1kA02';
+const SUBSCRIBE_IS_CHECKOUT = SUBSCRIBE_HREF.startsWith('http');
+const EXT = SUBSCRIBE_IS_CHECKOUT ? { target: '_blank', rel: 'noopener' } : {};
+const BOOK_HREF = 'https://book.busqueneil.com/';
+const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20ask%20about%20the%20%241%2C500%20a%20month%20plan';
+
+const money = `$${PRICE.toLocaleString()}`;
+const spotsChip = SPOTS_LEFT === 1 ? '1 spot left' : `${SPOTS_LEFT} of ${SPOTS_TOTAL} spots left`;
+const spotsSentence = SPOTS_LEFT === 1 ? 'is 1 spot' : `are ${SPOTS_LEFT} spots`;
+
+const title = 'Unlimited Marketing and Software | $1,500 a Month';
+const description =
+  'One subscription for landing pages, websites, ads, software, funnels, and automation. Unlimited requests, one at a time, most things live in one to two days. Three clients only. 14 day refund, cancel anytime.';
+const canonical = 'https://busqueneil.com/unlimited';
+
+/* Subscribe / Request / Receive. The three-beat band is the one structural borrow that does
+   the most work: it answers "how does this actually operate" before anyone reaches a price. */
+const FLOW = [
+  {
+    n: '01',
+    t: 'Subscribe',
+    d: `We get on a call, you pay ${money} for the first month, and you get your own portal login the same week.`,
+  },
+  {
+    n: '02',
+    t: 'Request',
+    d: 'Add as many requests as you want to your queue. Pages, sites, ads, software, funnels, automation, copy, design.',
+  },
+  {
+    n: '03',
+    t: 'Receive',
+    d: 'I build the top one until it is done. Most land in one to two days. You review, comment, approve, and the next one starts.',
+  },
+];
+
+const BENEFITS = [
+  {
+    t: 'Your own portal',
+    d: 'Your queue, every file, every version, and our whole conversation in one login. Comment on the actual file instead of describing what you mean.',
+  },
+  {
+    t: 'One fixed price',
+    d: `${money} a month, AI usage included. No hourly billing, no scope arguments, no invoice at the end you did not see coming.`,
+  },
+  {
+    t: 'One to two day turnaround',
+    d: 'Most requests are back with you inside two days. The bigger ones have published numbers further down this page.',
+  },
+  {
+    t: 'Design, code, and marketing',
+    d: 'Three careers in one person. Nothing gets handed between a designer, a developer, and a strategist who never spoke.',
+  },
+  {
+    t: 'Reorder whenever you want',
+    d: 'Priorities move. Drag your queue and the thing I build next is whatever matters most to you today, not what you asked for last week.',
+  },
+  {
+    t: 'You own all of it',
+    d: 'Code, accounts, domains, assets. Nothing sits behind a platform you have to keep renting from me, and nothing breaks when you stop paying.',
+  },
+];
+
+const INCLUDED = [
+  'Unlimited requests, one at a time',
+  'Most requests back in 1 to 2 days',
+  'Unlimited revisions until you are happy',
+  'Pages, websites, ads, software, funnels, automation',
+  'Copy and design included, not extra',
+  'AI usage included, no credits to top up',
+  'Your own client portal',
+  'You own everything I build',
+];
+
+const REQUESTS = [
+  {
+    num: '01',
+    name: 'Landing pages',
+    blurb: 'One page built around one action, written and designed to convert traffic you are already paying for.',
+    items: ['Copy included', 'Mobile first', 'Tracking wired', 'A/B variants'],
+  },
+  {
+    num: '02',
+    name: 'Websites',
+    blurb: 'Multi page sites that look like your business instead of a template, and that search engines can actually read.',
+    items: ['Custom design', 'Astro or Next', 'SEO ready', 'CMS if you need it'],
+  },
+  {
+    num: '03',
+    name: 'Ads and creative',
+    blurb: 'Static ads, carousels, hooks, and the copy underneath them. Built to be tested, not admired.',
+    items: ['Meta and Google', 'Hook variants', 'Static and carousel', 'Ad copy'],
+  },
+  {
+    num: '04',
+    name: 'Software and web apps',
+    blurb: 'Portals, dashboards, CRMs, and internal tools with real logins and real data, not a clickable mockup.',
+    items: ['Auth and roles', 'Database', 'Integrations', 'Deployed live'],
+  },
+  {
+    num: '05',
+    name: 'Funnels and CRM',
+    blurb: 'First click to booked call, with every handoff connected: page, form, CRM, follow up, reporting.',
+    items: ['Lead capture', 'GoHighLevel', 'Email and SMS', 'Booking'],
+  },
+  {
+    num: '06',
+    name: 'Automation and AI agents',
+    blurb: 'The repetitive thing eating hours of your week, turned into something that runs without you.',
+    items: ['n8n and Zapier', 'AI agents', 'Data sync', 'Reporting'],
+  },
+  {
+    num: '07',
+    name: 'Copy',
+    blurb: 'Sales pages, emails, SMS, ad copy, and scripts. A page built on the wrong message converts badly no matter how it looks.',
+    items: ['Sales pages', 'Email sequences', 'Cold outreach', 'Scripts'],
+  },
+  {
+    num: '08',
+    name: 'Design and brand',
+    blurb: 'Logos, decks, social sets, one pagers, and the small assets that never seem worth a whole project.',
+    items: ['Logo and marks', 'Decks', 'Social sets', 'One pagers'],
+  },
+];
+
+/* Honest numbers, not a best case. A landing page really is a one to two day job for me and a
+   real web app really is not. Publishing the slow ones next to the fast ones is what makes the
+   fast ones believable. */
+const TURNAROUND = [
+  { what: 'Landing page', time: '1 to 2 days' },
+  { what: 'Ad creative and ad copy', time: '1 to 2 days' },
+  { what: 'Email or SMS sequence', time: '1 to 2 days' },
+  { what: 'Logo, deck, or social set', time: '1 to 2 days' },
+  { what: 'Multi page website', time: '3 to 5 days' },
+  { what: 'Funnel with CRM wiring', time: '3 to 5 days' },
+  { what: 'Automation or AI agent', time: '2 to 5 days' },
+  { what: 'Software or web app', time: '5 to 10 days' },
+];
+
+const PORTAL = [
+  {
+    b: 'Your queue, in order.',
+    s: 'What is being built now, what is next, and where every request sits. Drag it to change my priorities.',
+  },
+  {
+    b: 'Comments on the actual file.',
+    s: 'Point at the thing you want changed instead of describing it. Every file and every version in one place.',
+  },
+  {
+    b: 'Messages that are not email.',
+    s: 'Ask me something at 9pm and it lands against the project it belongs to, not in an inbox with 400 other things.',
+  },
+  {
+    b: 'Review and approve in one screen.',
+    s: 'You sign off, the request closes, the next one starts. Nothing sits half done waiting on a reply nobody chased.',
+  },
+];
+
+const COMPARE = [
+  { label: 'What it costs', a: '$6,000 to $15,000 a month', b: '$500 to $5,000 per project', c: '$20 to $200 a month', d: `${money} a month` },
+  { label: 'Time to a first version', a: 'Weeks to months', b: 'Days to weeks, if they reply', c: 'Minutes', d: '1 to 2 days for most of it' },
+  { label: 'Who you talk to', a: 'An account manager', b: 'A different person each time', c: 'Nobody', d: 'Me' },
+  { label: 'Who writes the copy', a: 'A junior on the team', b: 'Usually you', c: 'You, then you fix it', d: 'Me, included' },
+  { label: 'Who fixes it at 11pm', a: 'A ticket queue', b: 'You re-hire someone', c: 'You', d: 'Me' },
+  { label: 'What you own at the end', a: 'Sometimes their platform', b: 'Whatever you were handed', c: 'Your account on their stack', d: 'All of it. Code and accounts.' },
+  { label: 'How long you are locked in', a: '6 to 12 months', b: 'Per project', c: 'Monthly', d: 'Cancel anytime' },
+];
+
+const SLOP = [
+  {
+    b: 'AI writes code that looks right and is wrong.',
+    s: 'I shipped an app where the public database key could read buyer contact details across 31 tables. Nothing errored. The app worked. It was a live data leak, and only a review pass found it.',
+  },
+  {
+    b: 'AI does not check the thing it just built.',
+    s: 'A floating button on my own site sat directly on top of a form submit. Tapping "Send" opened WhatsApp instead. The screenshots looked perfect, because a screenshot cannot tell you what is on top.',
+  },
+  {
+    b: 'AI has no idea what you did not say.',
+    s: 'My site ran 16 months with zero search impressions because nobody submitted the sitemap. Every page was written well. 27 of 29 were unknown to Google.',
+  },
+  {
+    b: 'AI stops at the demo. Your customers do not.',
+    s: 'The first screen looks finished in an afternoon. Then a real user takes the path the demo never covered, one fix creates two new bugs, and nobody is sure what changed.',
+  },
+];
+
+const FAQ = [
+  {
+    q: 'What counts as one request?',
+    a: 'One deliverable. A landing page, a set of ads, an automation, a sequence, an app screen. If you send me something huge, I break it into pieces on the call and we work through them in order, so you always know what is being built right now.',
+  },
+  {
+    q: 'How many requests can I make?',
+    a: 'As many as you want. Add fifty to the queue on day one if you like. The only rule is that I work on one at a time, so the thing at the top gets my full attention instead of five things each getting a fifth of it.',
+  },
+  {
+    q: 'Why one at a time and not two or three?',
+    a: 'Because that is the only honest way to promise one to two days. Every unlimited service that works on five things at once is really telling you everything takes three weeks. You can reorder the queue whenever you want, so the top of the list is always whatever matters most to you today.',
+  },
+  {
+    q: 'Is the turnaround really one to two days?',
+    a: 'For most of it, yes. Pages, ads, copy, sequences, and design assets land in one to two days. Websites, funnels, and software take longer because they carry data, logins, and integrations, and I publish those numbers on this page rather than hiding them. Whatever the job is, you get the estimate before I start it, not after.',
+  },
+  {
+    q: 'Is video included?',
+    a: `No, and I would rather say that plainly than bury it. Generating video burns real money on every render, far more than everything else on this page put together, so it sits outside the ${money}. If you want video I quote the batch before I make anything and you decide with the number in front of you. It starts around $500 depending on length and how much generation it takes.`,
+  },
+  {
+    q: 'What is the portal?',
+    a: 'Your own login at portal.busqueneil.com, set up during onboarding. Your queue, the work in progress, every file, and our whole conversation live there. You comment directly on the file instead of describing what you mean in an email thread, and you approve from the same screen. Nothing important happens somewhere you cannot see it.',
+  },
+  {
+    q: 'What if I do not like the work?',
+    a: 'Ask for changes and I redo it. That is not the refund, that is just the job, and revisions are unlimited. If after two weeks you decide the whole arrangement is not for you, ask and I send 100% back, and you keep everything I already built.',
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Yes. There is no contract and no notice period. Cancel and the month you paid for finishes out, then nothing renews. I would rather you leave easily than stay because leaving is annoying.',
+  },
+  {
+    q: 'Do I own what you build?',
+    a: 'All of it. Code, accounts, domains, assets. Nothing sits behind a platform you have to keep renting from me, and nothing breaks the day you stop paying. If you take the work in house later, I will hand it over properly.',
+  },
+  {
+    q: 'Do you use AI to do the work?',
+    a: 'Constantly, and I am not going to pretend otherwise. It is why one person can move this fast at this price. The difference is that I am the engineer reviewing what comes out, and the four defects listed above are real ones from my own build logs that got past a first pass. That review layer is the thing you are actually paying for.',
+  },
+  {
+    q: `Why only ${SPOTS_TOTAL} clients?`,
+    a: `Because I am one person, and one at a time is a promise rather than a slogan. With ${SPOTS_TOTAL} clients I can hold all three projects in my head and turn work around in days. At ten I would be an agency with a queue, which is the thing this exists to avoid. There ${spotsSentence} open right now.`,
+  },
+  {
+    q: 'What if I need two things at once?',
+    a: 'Tell me on the call. Sometimes the honest answer is that a subscription is the wrong shape for you and a fixed scope project is better, and I will say so. I would rather lose the sale than take money for a plan that does not fit what you need.',
+  },
+  {
+    q: 'What do you need from me to start?',
+    a: 'Access to whatever the work touches, brand assets if you have them, and a reply within a day or so when I ask a question. That is genuinely it. If a request stalls waiting on you, I move to the next one in your queue rather than sitting idle.',
+  },
+  {
+    q: 'Who else have you built for?',
+    a: 'Small teams and founders across construction, finance, roofing, ecommerce, and marketing, plus more than 40 of my own products this year. The logos and the message screenshots on this page are real, and every product on the work page is live and openable right now.',
+  },
+];
+
+/* Three nodes rather than one: the Offer describes the thing being sold, and the FAQPage stays
+   eligible on its own if Google decides the service is the primary entity. */
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: 'Unlimited marketing and software subscription',
+  description,
+  url: canonical,
+  provider: ORGANIZATION_REF,
+  serviceType: 'Marketing and software development subscription',
+  areaServed: { '@type': 'Country', name: 'United States' },
+  offers: {
+    '@type': 'Offer',
+    '@id': `${canonical}#offer`,
+    price: String(PRICE),
+    priceCurrency: 'USD',
+    availability: SPOTS_LEFT > 0 ? 'https://schema.org/LimitedAvailability' : 'https://schema.org/SoldOut',
+    url: canonical,
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: PRICE,
+      priceCurrency: 'USD',
+      unitCode: 'MON',
+      billingDuration: 1,
+      billingIncrement: 1,
+    },
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'What you can request',
+    itemListElement: REQUESTS.map((r) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: r.name, description: r.blurb },
+    })),
+  },
+};
+const webpage = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${canonical}#webpage`,
+  name: title,
+  description,
+  url: canonical,
+  isPartOf: WEBSITE_REF,
+  about: PERSON_REF,
+  mainEntity: { '@id': `${canonical}#service` },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  isPartOf: { '@id': `${canonical}#webpage` },
+  mainEntity: FAQ.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Unlimited', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(webpage)} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <!-- HERO -->
+  <section class="unl-hero">
+    <span class="avail unl-chip"><span class="strip-dot" aria-hidden="true"></span>{spotsChip}</span>
+    <h1>Everything you need built, for <span class="mark-hl">{money} a month.</span></h1>
+    <p class="unl-hero-sub">Unlimited requests. One at a time. Cancel anytime.</p>
+    <p class="unl-hero-lede">
+      Landing pages, websites, ads, software, funnels, automation, copy, and design. Ask for as much as you
+      want. I build one at a time, and most of it is back with you in one to two days. I take {SPOTS_TOTAL} clients,
+      which is the only reason that promise holds.
+    </p>
+    <div class="hero-ctas unl-ctas">
+      <a class="btn-sun" href={SUBSCRIBE_HREF} {...EXT}>Claim a spot</a>
+      <a class="btn-ghost" href="#pricing">See what is included</a>
+    </div>
+    <p class="unl-micro">Try it for two weeks. If you do not like the work, ask and I refund all of it.</p>
+  </section>
+
+  <!-- SUBSCRIBE / REQUEST / RECEIVE -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">How it works</span>
+    <h2 class="sec">Three steps, then we are <span class="mark-hl">working.</span></h2>
+    <div class="unl-flow">
+      {FLOW.map((f) => (
+        <div class="unl-flow-step">
+          <span class="unl-flow-n">{f.n}</span>
+          <b>{f.t}</b>
+          <span class="unl-flow-d">{f.d}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Worked with</span>
+    <h2 class="sec">Teams that trusted me <span class="mark-hl">first.</span></h2>
+    <ClientLogos />
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Why this instead</span>
+    <h2 class="sec">Better than a freelancer you have to <span class="mark-hl">chase.</span></h2>
+    <p class="unl-lede">And cheaper than an agency where the person you liked on the sales call never touches your account again.</p>
+    <div class="unl-ben">
+      {BENEFITS.map((b) => (
+        <div class="v8-card unl-ben-card">
+          <span class="unl-ben-tick" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5.5 5.5L20 6.5" /></svg>
+          </span>
+          <b>{b.t}</b>
+          <span>{b.d}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- WHAT YOU CAN REQUEST -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">What you can request</span>
+    <h2 class="sec">Eight things, one <span class="mark-hl">subscription.</span></h2>
+    <p class="unl-lede">Whatever your business needs made this month, ask for it. You are not buying a category, you are buying my output.</p>
+    <div class="unl-req">
+      {REQUESTS.map((r) => (
+        <div class="v8-card unl-req-card">
+          <span class="unl-req-num">{r.num}</span>
+          <b class="unl-req-name">{r.name}</b>
+          <span class="unl-req-desc">{r.blurb}</span>
+          <ul class="unl-req-tags">{r.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- THE ONE RULE -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">The one rule</span>
+    <h2 class="sec">Unlimited requests. <span class="mark-hl">One at a time.</span></h2>
+    <div class="v8-card unl-rule">
+      <p>
+        Put as many requests in the queue as you want. I work the top one until it is done, then the next.
+        You reorder the list whenever your priorities move, so the thing I am building is always the thing
+        that matters most to you today.
+      </p>
+      <p>
+        This is the part most unlimited services get wrong. Working on five things at once is how a two day
+        job quietly becomes a three week job. One at a time is not a limit I am apologising for, it is the
+        entire reason the numbers below are real.
+      </p>
+      <p class="unl-close">If it is not being built yet, you can see exactly where it sits in line.</p>
+    </div>
+  </section>
+
+  <!-- TURNAROUND -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">How fast</span>
+    <h2 class="sec">The honest <span class="mark-hl">numbers.</span></h2>
+    <p class="unl-lede">Complexity moves these, and you get the number for your specific request before I start it. Nothing here is a best case.</p>
+    <ul class="unl-turn">
+      {TURNAROUND.map((t) => (
+        <li>
+          <span class="unl-turn-what">{t.what}</span>
+          <span class="unl-turn-time">{t.time}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- PRICING -->
+  <section class="hsec unl-sec-center" id="pricing">
+    <span class="eyebrow unl-eyebrow">Pricing</span>
+    <h2 class="sec">One subscription. <span class="mark-hl">Everything above.</span></h2>
+    <div class="unl-price v8-card">
+      <span class="unl-price-badge">Cancel anytime</span>
+      <div class="unl-price-head">
+        <span class="unl-price-num">{money}</span>
+        <span class="unl-price-per">per month</span>
+      </div>
+      <p class="unl-price-sub">Unlimited requests and revisions, one at a time. AI usage included.</p>
+      <ul class="unl-price-list">
+        {INCLUDED.map((i) => (
+          <li>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5" /></svg>
+            <span>{i}</span>
+          </li>
+        ))}
+      </ul>
+      <a class="btn-sun unl-price-cta" href={SUBSCRIBE_HREF} {...EXT}>Claim a spot</a>
+      <a class="unl-price-alt" href={BOOK_HREF} target="_blank" rel="noopener">Or book a call first</a>
+      <p class="unl-price-spots"><span class="unl-dot strip-dot" aria-hidden="true"></span>{spotsChip}. I take {SPOTS_TOTAL} clients, and that is not a marketing number.</p>
+    </div>
+
+    <div class="unl-callouts">
+      <div class="v8-card unl-callout">
+        <b>Two weeks to change your mind.</b>
+        <span>If you do not like the work or the output, ask inside the first 14 days and I refund 100%. You keep everything I already built.</span>
+      </div>
+      <div class="v8-card unl-callout">
+        <b>Video is quoted separately.</b>
+        <span>Every render costs real money, more than everything else combined, so I will not hide it in the price. Batches start around $500 and you see the number first.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTAL -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Where the work happens</span>
+    <h2 class="sec">You watch it get <span class="mark-hl">built.</span></h2>
+    <p class="unl-lede">No status emails, no "checking with the team", no wondering what happened this week. One login, and everything is in it.</p>
+    <ul class="why unl-why">
+      {PORTAL.map((p) => (
+        <li>
+          <b>{p.b}</b>
+          <span>{p.s}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- WHO YOU ARE HIRING -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Who you are actually hiring</span>
+    <h2 class="sec">One person, three <span class="mark-hl">careers deep.</span></h2>
+    <div class="unl-who">
+      <figure class="unl-who-photo">
+        <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="900" height="1125" loading="lazy" decoding="async" />
+        <figcaption>Neil Busque. Elizabeth, New Jersey. Eastern time.</figcaption>
+      </figure>
+      <div class="unl-who-body">
+        <p>
+          I studied Information Technology in the Philippines and graduated top of my class. Then I spent
+          years in graphic design and won hundreds of contests on 99designs, which is a brutal way to learn
+          taste because you find out immediately when you are wrong.
+        </p>
+        <p>
+          After that I built and ran an engineering company's website, then their marketing and their SEO,
+          and watched design and code turn into revenue for somebody else. Then Facebook ads and funnels,
+          then GoHighLevel, Zapier, and n8n, because the work kept asking for one more thing I did not have
+          yet. Now it is AI, in Claude Code and Codex, every day.
+        </p>
+        <p>
+          Most people in this field have one of those three. I have design, engineering, and marketing, and
+          the combination is the entire point. I can design the thing, build the thing, and tell you why the
+          business needed it. The handoffs where projects usually lose their shape do not exist when one
+          person is carrying all three.
+        </p>
+        <p>
+          More than 40 products shipped in 2026. That is not a brag about volume, it is how I keep the
+          feedback loop short enough to actually learn from.
+        </p>
+        <p class="unl-who-link">
+          <a class="link-arrow" href="/story">The longer version, including why I am here at all
+            <svg width="44" height="16" viewBox="0 0 44 16" fill="none" aria-hidden="true"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOT AI SLOP -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Why me and not a prompt</span>
+    <h2 class="sec">You are paying for the part that <span class="mark-hl">catches this.</span></h2>
+    <p class="unl-lede">Every example below is a real defect from my own build logs, not a hypothetical. This is what AI hands you when nobody experienced is reviewing it.</p>
+    <ul class="diy unl-diy">
+      {SLOP.map((d) => (
+        <li>
+          <b>{d.b}</b>
+          <span>{d.s}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="unl-close unl-close-left">I use the speed. I still own the engineering.</p>
+    <p class="unl-essay">
+      <a class="link-arrow" href="/guides/why-hire-a-person-when-ai-can-build-it">Read the full breakdown, with the numbers
+        <svg width="44" height="16" viewBox="0 0 44 16" fill="none" aria-hidden="true"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </p>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Against the alternatives</span>
+    <h2 class="sec">The same job, four <span class="mark-hl">ways.</span></h2>
+    <div class="unl-cmp-wrap">
+      <table class="unl-cmp">
+        <thead>
+          <tr>
+            <th scope="col"><span class="unl-sr">What you are comparing</span></th>
+            <th scope="col">An agency</th>
+            <th scope="col">A marketplace freelancer</th>
+            <th scope="col">An AI builder</th>
+            <th scope="col" class="unl-cmp-mine">This</th>
+          </tr>
+        </thead>
+        <tbody>
+          {COMPARE.map((r) => (
+            <tr>
+              <th scope="row">{r.label}</th>
+              <td>{r.a}</td>
+              <td>{r.b}</td>
+              <td>{r.c}</td>
+              <td class="unl-cmp-mine">{r.d}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="unl-note">Agency and freelancer figures are typical US market ranges for the same scope of work, not quotes from any specific company.</p>
+  </section>
+
+  <!-- PROOF -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">What they said</span>
+    <h2 class="sec">Not retyped. <span class="mark-hl">Screenshots.</span></h2>
+    <Testimonials />
+  </section>
+
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Before you decide</span>
+    <h2 class="sec">Open the work <span class="mark-hl">first.</span></h2>
+    <p class="unl-lede">Do not take my word for any of it. Every product on the work page is live and you can open it right now, and the case studies walk through what broke, what I built, and what it cost me to learn.</p>
+    <p class="unl-essay"><a class="link-arrow" href="/work">See all the work
+      <svg width="44" height="16" viewBox="0 0 44 16" fill="none" aria-hidden="true"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
+  </section>
+
+  <!-- GUARANTEE -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">The guarantee</span>
+    <h2 class="sec">Two weeks to change your <span class="mark-hl">mind.</span></h2>
+    <p class="unl-lede">The risk of going first should be mine, not yours.</p>
+    <ul class="guar unl-guar">
+      <li>
+        <b>14 days, 100% back.</b>
+        <span>If you do not like the work or the output, ask me inside the first two weeks and I refund the whole month. No form, no exit call, no "let me try to save this".</span>
+      </li>
+      <li>
+        <b>You keep everything I already built.</b>
+        <span>The pages, the code, the assets, the accounts. I am not going to take work back from you on the way out. If it is useful to you, it is yours.</span>
+      </li>
+      <li>
+        <b>Cancel anytime after that.</b>
+        <span>No contract and no notice period. The month you paid for finishes, then nothing renews. Leaving should be as easy as starting.</span>
+      </li>
+      <li>
+        <b>If I am not the right fit, I say so on the call.</b>
+        <span>Before you pay anything. Sometimes the honest answer is that you need a fixed scope project, or that you should not build this at all.</span>
+      </li>
+    </ul>
+    <p class="guarantee-line unl-guar-line">One refund per client, which is the only condition attached to any of this.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="hsec unl-sec-center">
+    <span class="eyebrow unl-eyebrow">Questions</span>
+    <h2 class="sec">What people ask <span class="mark-hl">first.</span></h2>
+    <div class="faq unl-faq">
+      {FAQ.map((f, i) => (
+        <details open={i === 0}>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <div class="darkcta unl-dark">
+    <h2>{SPOTS_LEFT === 1 ? 'One spot left.' : `${SPOTS_LEFT} spots left.`} <span class="mark-hl">Take one.</span></h2>
+    <p>
+      {money} a month, unlimited requests, one at a time, and most things back with you in one to two days.
+      Two weeks to decide whether you like working with me, and a full refund if you do not.
+    </p>
+    <p class="guarantee-line">Not sure it fits? Book the call. If it is wrong for you I will tell you, and it costs you nothing.</p>
+    <div class="hero-ctas" style="margin-top:0">
+      <a class="btn-sun" href={SUBSCRIBE_HREF} {...EXT}>Claim a spot</a>
+      <a class="btn-ghost" href={BOOK_HREF} target="_blank" rel="noopener">Book a call first</a>
+      <a class="btn-ghost" href={WA_HREF} target="_blank" rel="noopener">Or ask me on WhatsApp</a>
+    </div>
+  </div>
+</AppShell>
+
+<style>
+  /* Scoped to this page. Deliberately NOT prefixed with .v8, because .v8 lives in AppShell and
+     Astro's scoping would rewrite it to .v8[data-astro-cid] and match nothing. The custom
+     properties still resolve; they are inherited from the .v8 ancestor.
+
+     The centred rhythm is the one thing borrowed from the productised-subscription pattern.
+     Everything else (tokens, type, hairlines, the yellow underline, the ink pill) is the v12
+     system already on the rest of the site. */
+
+  .unl-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* ---- hero ---- */
+  .unl-hero { text-align: center; padding: clamp(28px, 5vw, 64px) 0 0; }
+  .unl-chip { margin: 0 auto 22px; }
+  /* the hero title is the one place this page outsizes the rest of the site, because a
+     subscription page has to land the price in the first screen */
+  .unl-hero h1 { font-size: clamp(34px, 5.6vw, 68px); letter-spacing: -.038em; line-height: 1.04; margin: 0 auto; max-width: 15ch; }
+  .unl-hero-sub { margin: 20px auto 0; font-size: clamp(16px, 1.7vw, 20px); font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+  .unl-hero-lede { margin: 16px auto 0; max-width: 62ch; color: var(--muted); font-size: 16px; line-height: 1.68; }
+  .unl-ctas { justify-content: center; margin-top: 28px; }
+  .unl-micro { margin: 16px auto 0; font-size: 13.5px; color: var(--soft); max-width: 46ch; }
+
+  /* ---- centred section rhythm ---- */
+  .unl-sec-center { text-align: center; }
+  /* .eyebrow is a flex row with a hairline ::after, so centring it means capping its width and
+     letting the rule sit on one side only. Left as-is it would stretch the full column. */
+  .unl-eyebrow { justify-content: center; width: max-content; margin: 0 auto; }
+  .unl-eyebrow::after { display: none; }
+  .unl-sec-center .sec { margin-left: auto; margin-right: auto; max-width: 20ch; }
+  .unl-lede { margin: 4px auto 0; max-width: 60ch; color: var(--muted); font-size: 15.5px; line-height: 1.65; }
+  .unl-close { margin: 4px 0 0; color: var(--ink); font-weight: 600; letter-spacing: -.018em; font-size: 16px; }
+  .unl-note { margin: 14px auto 0; font-size: 13px; color: var(--soft); max-width: 72ch; }
+  .unl-essay { margin: 24px 0 0; }
+
+  /* ---- subscribe / request / receive ---- */
+  .unl-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 30px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; text-align: left; }
+  .unl-flow-step { background: var(--surface); padding: 26px 24px 28px; display: flex; flex-direction: column; gap: 9px; }
+  .unl-flow-n { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10.5px; font-weight: 600; letter-spacing: .18em; color: var(--soft); font-variant-numeric: tabular-nums; }
+  .unl-flow-step b { font-size: 19px; letter-spacing: -.024em; line-height: 1.2; }
+  .unl-flow-d { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+  @media (max-width: 780px) { .unl-flow { grid-template-columns: 1fr; } }
+
+  /* ---- benefits ---- */
+  .unl-ben { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; text-align: left; }
+  .unl-ben-card { padding: 24px 22px; display: flex; flex-direction: column; gap: 10px; }
+  .unl-ben-tick { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; background: var(--sun); color: var(--ink); }
+  .unl-ben-card b { font-size: 16px; letter-spacing: -.02em; line-height: 1.25; }
+  .unl-ben-card span:last-child { color: var(--muted); font-size: 14px; line-height: 1.6; }
+  @media (max-width: 1000px) { .unl-ben { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .unl-ben { grid-template-columns: 1fr; } }
+
+  /* ---- what you can request ---- */
+  .unl-req { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; text-align: left; }
+  .unl-req-card { display: flex; flex-direction: column; gap: 8px; padding: 22px 20px 20px; }
+  .unl-req-num { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10.5px; font-weight: 600; letter-spacing: .18em; color: var(--soft); font-variant-numeric: tabular-nums; }
+  .unl-req-name { font-size: 16px; letter-spacing: -.018em; line-height: 1.25; }
+  .unl-req-desc { color: var(--muted); font-size: 14px; line-height: 1.6; flex: 1; }
+  .unl-req-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .unl-req-tags li { font-size: 11.5px; font-weight: 500; color: var(--muted); border: 1px solid var(--hair); border-radius: 999px; padding: 4px 9px; }
+  @media (max-width: 1100px) { .unl-req { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .unl-req { grid-template-columns: 1fr; } }
+
+  /* ---- the one rule ---- */
+  .unl-rule { padding: clamp(24px, 4vw, 40px); margin-top: 30px; text-align: left; }
+  .unl-rule p { color: var(--muted); font-size: 15.5px; line-height: 1.68; max-width: 68ch; margin: 0 0 14px; }
+  .unl-rule p:last-child { margin-bottom: 0; }
+
+  /* ---- turnaround ---- */
+  .unl-turn { list-style: none; margin: 30px 0 0; padding: 0; border-top: 1px solid var(--hair); text-align: left; }
+  .unl-turn li { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 15px 2px; border-bottom: 1px solid var(--hair); }
+  .unl-turn-what { font-size: 15px; font-weight: 500; letter-spacing: -.012em; }
+  .unl-turn-time { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---- the price card: the one moment on the page that gets to be a centrepiece ---- */
+  .unl-price { position: relative; max-width: 460px; margin: 34px auto 0; padding: clamp(30px, 4vw, 42px) clamp(24px, 3.4vw, 38px) clamp(26px, 3.4vw, 34px); text-align: left; box-shadow: 0 1px 2px rgba(10,10,10,.04), 0 8px 28px rgba(10,10,10,.06); }
+  .unl-price-badge { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background: var(--sun); color: var(--ink); font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
+  .unl-price-head { display: flex; align-items: baseline; gap: 9px; }
+  .unl-price-num { font-size: clamp(40px, 5.4vw, 56px); font-weight: 600; letter-spacing: -.042em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .unl-price-per { font-size: 15px; color: var(--soft); }
+  .unl-price-sub { margin: 12px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+  .unl-price-list { list-style: none; margin: 22px 0 0; padding: 22px 0 0; border-top: 1px solid var(--hair); display: flex; flex-direction: column; gap: 11px; }
+  .unl-price-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; line-height: 1.5; }
+  .unl-price-list svg { flex: 0 0 auto; margin-top: 3px; color: var(--ink); }
+  .unl-price-cta { width: 100%; box-sizing: border-box; margin-top: 26px; padding: 14px 22px; font-size: 15.5px; }
+  /* min-height 44, not padding alone: this is a secondary CTA and the site enforces a 44px
+     touch target below 900px. At 22px tall it was the smallest tappable thing on the page. */
+  .unl-price-alt { display: flex; align-items: center; justify-content: center; min-height: 44px; text-align: center; margin-top: 6px; font-size: 14px; font-weight: 500; color: var(--muted); text-decoration: none; }
+  .unl-price-alt:hover { color: var(--ink); text-decoration: underline; }
+  /* Block, not flex. As flex siblings the dot and a two-line sentence centre independently,
+     which parks the dot off at the left edge instead of reading as part of the first line.
+     Inline-block keeps it glued to the word it belongs to at every card width. */
+  .unl-price-spots { display: block; margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--hair); font-size: 12.5px; color: var(--soft); text-align: center; line-height: 1.6; }
+  .unl-price-spots .unl-dot { display: inline-block; vertical-align: middle; margin-right: 7px; position: relative; top: -1px; }
+
+  .unl-callouts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 760px; margin: 20px auto 0; text-align: left; }
+  .unl-callout { padding: 20px 22px; display: flex; flex-direction: column; gap: 7px; }
+  .unl-callout b { font-size: 15px; letter-spacing: -.018em; }
+  .unl-callout span { color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+  @media (max-width: 700px) { .unl-callouts { grid-template-columns: 1fr; } }
+
+  /* ---- lists that come from v8.css and need their alignment reset inside a centred section ---- */
+  .unl-why, .unl-guar, .unl-diy, .unl-faq { text-align: left; }
+  .unl-why { margin-top: 30px; }
+  .unl-guar { margin-top: 30px; }
+  .unl-diy { margin-top: 30px; }
+  .unl-guar-line { margin: 20px auto 0; text-align: left; }
+  .unl-close-left { text-align: left; max-width: 34ch; }
+  .unl-essay { text-align: left; }
+
+  /* ---- who you are hiring ---- */
+  .unl-who { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: start; margin-top: 32px; text-align: left; }
+  .unl-who-photo { margin: 0; }
+  .unl-who-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border: 1px solid var(--hair); border-radius: 8px; background: #FAFAFA; display: block; }
+  .unl-who-photo figcaption { margin-top: 10px; font-size: 13px; color: var(--soft); }
+  .unl-who-body p { color: var(--muted); font-size: 15.5px; line-height: 1.68; max-width: 68ch; margin: 0 0 14px; }
+  .unl-who-link { margin: 20px 0 0; }
+  @media (max-width: 900px) { .unl-who { grid-template-columns: 1fr; gap: 26px; } .unl-who-photo { max-width: 260px; } }
+
+  /* ---- comparison ---- */
+  /* The wrapper is what scrolls, not the page. A five column table cannot fit a 320px screen
+     and must never be the reason the document scrolls sideways. */
+  .unl-cmp-wrap { margin-top: 30px; overflow-x: auto; border: 1px solid var(--hair); border-radius: var(--r); -webkit-overflow-scrolling: touch; text-align: left; }
+  .unl-cmp { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 14px; }
+  .unl-cmp th, .unl-cmp td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--hair); vertical-align: top; line-height: 1.5; }
+  .unl-cmp thead th { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--soft); background: #FAFAFA; white-space: nowrap; }
+  .unl-cmp tbody th { font-weight: 600; letter-spacing: -.012em; color: var(--ink); white-space: nowrap; }
+  .unl-cmp td { color: var(--muted); }
+  .unl-cmp tbody tr:last-child th, .unl-cmp tbody tr:last-child td { border-bottom: 0; }
+  /* the column that matters gets the accent, and only that column */
+  .unl-cmp .unl-cmp-mine { color: var(--ink); font-weight: 600; background: #FFFCEB; }
+  .unl-cmp thead .unl-cmp-mine { background: var(--sun); color: var(--ink); }
+  @media (max-width: 900px) { .unl-cmp { font-size: 13.5px; } .unl-cmp th, .unl-cmp td { padding: 12px 13px; } }
+
+  /* ---- close ---- */
+  .unl-dark { text-align: center; }
+  .unl-dark p { margin-left: auto; margin-right: auto; }
+  .unl-dark .guarantee-line { text-align: left; display: inline-block; }
+  .unl-dark .hero-ctas { justify-content: center; }
+
+  @media (max-width: 640px) {
+    .unl-sec-center .sec { max-width: none; }
+    .unl-hero h1 { max-width: none; }
+    .unl-ctas .btn-sun, .unl-ctas .btn-ghost { width: 100%; box-sizing: border-box; }
+    .unl-price { margin-top: 40px; }
+  }
+</style>
