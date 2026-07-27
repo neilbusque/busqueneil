@@ -3,7 +3,7 @@ import AppShell from '../layouts/AppShell.astro';
 import { caseStudies } from '../data/case-studies';
 import ClientLogos from '../components/ClientLogos.astro';
 
-/* The work splits four ways, because "a client site" and "an internal tool I use every day"
+/* The work splits three ways, because "a client site" and "an internal tool I use every day"
    are not the same claim and should not sit in one undifferentiated grid.
    `href` on a card means it is genuinely reachable; cards without one are internal builds
    that have no public URL, and they carry no screenshot rather than a staged one.
@@ -17,19 +17,9 @@ const WEBSITES: Item[] = [
   { name: 'Darioo', tag: 'Manufacturing site + app', img: '/assets/work/darioo.webp', href: 'https://darioo.com' },
   /* ⚠️ Two different things share this name. THIS is the shipped client site at
      scottgreenleaf.com (Neil built it). The Heart Life rebuild at greenleaf.busqueneil.com is a
-     separate concept that was never adopted, and it belongs in CONCEPTS below, not here. */
+     separate concept that was never adopted, and it does not belong on this page at all —
+     the concepts band was removed 2026-07-27, so unadopted redesigns stay off /work entirely. */
   { name: 'Scott Greenleaf', tag: 'Client site', img: '/assets/work/scottgreenleaf.webp', href: 'https://scottgreenleaf.com/' },
-];
-
-/* Redesigns built on real brands' own content and copy, to show a direction rather than to be
-   adopted. None of these are the brand's live site, so the band says that in plain words and
-   every card links to the demo, which carries its own notice in the footer. Keep it that way:
-   a concept presented as shipped work is the one thing that would cost Neil the credibility
-   this whole page is built on. */
-const CONCEPTS: Item[] = [
-  { name: 'Heart Life', tag: 'Full-site concept', img: '/assets/work/greenleaf.webp', href: 'https://greenleaf.busqueneil.com' },
-  { name: 'Quantum Mastermind', tag: 'Funnel concept', img: '/assets/work/quantum-concept.webp', href: 'https://quantum.busqueneil.com' },
-  { name: 'The Growth Process', tag: 'Landing page concept', img: '/assets/work/growthprocess-concept.webp', href: 'https://thegrowthprocess.busqueneil.com' },
 ];
 
 // Everything on neilb.app: free, no account gymnastics, anyone can open them.
@@ -131,24 +121,6 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
           </Tag>
         );
       })}
-    </div>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Concepts</span>
-    <h2 class="sec">Designs that never <span class="mark-hl">shipped.</span></h2>
-    <p class="stack-note">Redesigns I built on real brands' own copy and media to show a direction. None of these became the brand's live site. Every one is still open, and each page says so in its own footer.</p>
-    <div class="workgrid">
-      {CONCEPTS.map((w) => (
-        <a class="workcard" href={w.href} target="_blank" rel="noopener">
-          <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
-          <div class="wc-shot">
-            <img src={w.img} srcset={`${w.img!.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
-              sizes="(max-width: 900px) calc(100vw - 40px), 33vw" alt={`${w.name}, a redesign concept by Neil Busque`} width="1280" height="800" loading="lazy" />
-          </div>
-          <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
-        </a>
-      ))}
     </div>
   </section>
 
