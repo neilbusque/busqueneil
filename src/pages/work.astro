@@ -55,8 +55,10 @@ const CAPABILITIES = [
 
 /* Card name -> case-study slug. Preflight and Portal already had full write-ups that nothing
    on the site linked to; the slugs are 'lumen-portal' and 'suki-neighbors', not the app names,
-   which is why guessing the URL 404s. A case study always wins over the raw live link, because
-   the write-up ends in a CTA and the live app does not. */
+   which is why guessing the URL 404s. The live app wins over the case study: someone clicking a
+   card labelled "Live" expects the running product, and the write-ups are still one click away
+   from the case-studies list at the bottom of this page. The slug map stays as the fallback for
+   cards with no public URL (Portal), which would otherwise be dead tiles. */
 const CASE_STUDY_BY_CARD: Record<string, string> = {
   Orbit: 'orbit',
   Tandem: 'tandem',
@@ -68,7 +70,12 @@ const csFor = (name: string) => {
   const slug = CASE_STUDY_BY_CARD[name];
   return slug && csBySlug.has(slug) ? `/case-studies/${slug}` : null;
 };
-const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
+const linkFor = (i: Item) => i.href ?? csFor(i.name) ?? null;
+// A live product opens in a new tab so /work is still there when they come back; an internal
+// case-study route stays in the same tab.
+const isExternal = (href: string | null) => !!href && /^https?:\/\//.test(href);
+const linkAttrs = (href: string | null) =>
+  isExternal(href) ? { target: '_blank', rel: 'noopener' } : {};
 ---
 <AppShell
   title="Neil Busque's Work | AI Apps, Websites and Automations"
@@ -88,7 +95,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
         const href = linkFor(w);
         const Tag = href ? 'a' : 'div';
         return (
-          <Tag class="workcard" href={href ?? undefined}>
+          <Tag class="workcard" href={href ?? undefined} {...linkAttrs(href)}>
             {w.note && <span class="worknote">{w.note}</span>}
             <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
             <div class="wc-shot">
@@ -111,7 +118,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
         const href = linkFor(w);
         const Tag = href ? 'a' : 'div';
         return (
-          <Tag class="workcard" href={href ?? undefined}>
+          <Tag class="workcard" href={href ?? undefined} {...linkAttrs(href)}>
             <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
             <div class="wc-shot">
               <img src={w.img} srcset={`${w.img!.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
@@ -133,7 +140,7 @@ const linkFor = (i: Item) => csFor(i.name) ?? i.href ?? null;
         const href = linkFor(w);
         const Tag = href ? 'a' : 'div';
         return (
-        <Tag class="workcard" href={href ?? undefined}>
+        <Tag class="workcard" href={href ?? undefined} {...linkAttrs(href)}>
           {w.img ? (
             <>
               <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
