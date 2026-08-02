@@ -16,7 +16,13 @@ html { scroll-padding-top: 52px; }
   /* Vercel-grey rail: a faint tint against the white page, not another white panel */
   --rail-bg: #FAFAFA;
   --gap-sec: 104px;
-  font-family: 'Geist', system-ui, -apple-system, sans-serif;
+  /* Figtree, not Geist. This layer asked for 'Geist' in ~30 rules, but the v8 font href in
+     Base.astro only ever requested DM Serif Display + Figtree + Geist Mono, so every one of
+     those rules silently fell through to system-ui for visitors while looking correct on any
+     machine with Geist installed locally. Measured on production: the hero H1, the three stat
+     numbers, the service numerals and the "why" leads all rendered in the fallback. Same trap
+     the v12 note in Base.astro describes. Only reintroduce a family that href actually loads. */
+  font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
   color: var(--ink);
   background-color: var(--paper);
   -webkit-font-smoothing: antialiased;
@@ -26,16 +32,16 @@ html { scroll-padding-top: 52px; }
    distracting". Nothing decorative sits on the ground now — structure comes from
    hairlines and whitespace. Do not reintroduce a repeating-linear-gradient here. */
 .v8 .shell-main, .v8 .shell-rail, .v8 .shell-strip, .v8 .shell-tabbar { position: relative; z-index: 1; }
-.v8 h1, .v8 h2, .v8 h3 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
+.v8 h1, .v8 h2, .v8 h3 { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance; }
 /* label: fine letter-spaced small caps trailed by a hairline, so structure reads before the words do */
 .v8 .eyebrow { display: flex; align-items: center; gap: 12px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; font-weight: 500; letter-spacing: .08em; color: var(--soft); }
 .v8 .eyebrow::after { content: ""; height: 1px; flex: 1; background: var(--hair); }
-.v8 .sec { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.028em; line-height: 1.15; margin: 18px 0 12px; }
+.v8 .sec { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.028em; line-height: 1.15; margin: 18px 0 12px; }
 /* A page title and a section heading both use .sec, so without this they render identically
    and the page has no hierarchy. h1.sec is the page title and gets its own step up. */
 .v8 h1.sec { font-size: clamp(30px, 3.8vw, 46px); letter-spacing: -0.035em; line-height: 1.06; }
-.v8 .script { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-style: italic; }
-.v8 .hand { font-family: 'Geist', system-ui, -apple-system, sans-serif; color: var(--ink); }
+.v8 .script { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-style: italic; }
+.v8 .hand { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; color: var(--ink); }
 /* the accent is now a precise underline under the baseline, not a block behind the word */
 /* Painted as a background gradient on the span itself, NOT a z-index:-1 pseudo-element.
    The old ::after sat at z-index:-1, so inside any positioned ancestor with its own
@@ -62,14 +68,14 @@ html { scroll-padding-top: 52px; }
 .v8.shell { --rail-w: 232px; --rail-inset: 10px; --rail-gap: 18px; min-height: 100vh; }
 html.rail-collapsed .v8.shell { --rail-w: 84px; }
 .v8 .shell-strip { position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: var(--muted); background: color-mix(in srgb, var(--paper) 85%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--hair); padding: 7px 20px 7px calc(var(--rail-inset) + var(--rail-w) + var(--rail-gap)); transition: padding-left .25s ease; }
-.v8 .strip-brand { display: none; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 14px; letter-spacing: -.03em; }
-.v8 .strip-brand strong, .v8 .rail-wordmark strong { font-weight: 900; }
+.v8 .strip-brand { display: none; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 14px; letter-spacing: -.03em; }
+.v8 .strip-brand strong, .v8 .rail-wordmark strong { font-weight: 800; }
 .v8 .strip-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sun); box-shadow: 0 0 0 3px rgba(255,232,98,.35); }
 .v8 .strip-mail { margin-left: auto; color: inherit; text-decoration: none; }
 .v8 .mail-short { display: none; }
 .v8 .shell-rail { position: fixed; inset: var(--rail-inset) auto var(--rail-inset) var(--rail-inset); width: var(--rail-w); display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; background: var(--rail-bg); border: 1px solid var(--hair); border-radius: 12px; z-index: 50; transition: width .25s ease; }
 .v8 .rail-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); padding: 4px 8px; }
-.v8 .rail-wordmark { position: relative; font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 17px; font-weight: 500; letter-spacing: -.035em; white-space: nowrap; }
+.v8 .rail-wordmark { position: relative; font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 17px; font-weight: 500; letter-spacing: -.035em; white-space: nowrap; }
 .v8 .rail-wordmark::after { content: ""; position: absolute; left: 47%; right: -2px; bottom: 0; height: 5px; background: var(--sun); z-index: -1; border-radius: 1px; }
 .v8 .rail-toggle { position: absolute; top: 50%; right: -14px; width: 28px; height: 28px; display: grid; place-items: center; background: var(--surface); color: var(--muted); border: 1px solid var(--hair); border-radius: 50%; cursor: pointer; box-shadow: 0 1px 4px rgba(23,22,20,.10); transform: translateY(-50%); transition: color .15s ease, transform .25s ease; }
 .v8 .rail-toggle:hover { color: var(--ink); }
@@ -166,7 +172,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 /* ---- cinematic intro ---- */
 .v8 .intro { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background-color: var(--paper); background-image: radial-gradient(120% 80% at 78% 0%, rgba(255,228,92,.10) 0%, rgba(255,228,92,0) 55%); }
 .v8 .intro-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.v8 .intro-word { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -0.015em; font-size: clamp(28px, 5vw, 44px); opacity: 0; }
+.v8 .intro-word { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -0.015em; font-size: clamp(28px, 5vw, 44px); opacity: 0; }
 .v8 .intro-tag { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); opacity: 0; }
 .v8 .intro.play .rm-stem-l { animation: introStem .4s cubic-bezier(.2,.8,.25,1) both; transform-origin: 50% 100%; }
 .v8 .intro.play .rm-stem-r { animation: introStem .4s cubic-bezier(.2,.8,.25,1) .15s both; transform-origin: 50% 100%; }
@@ -218,7 +224,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
     radial-gradient(46% 54% at 68% 34%, rgba(255,213,61,.30) 0%, rgba(255,228,92,.10) 44%, transparent 72%),
     radial-gradient(40% 46% at 86% 68%, rgba(255,246,201,.52) 0%, transparent 70%); }
 .v8 .hero .script-hi { font-size: clamp(24px, 2.4vw, 34px); color: var(--muted); display: block; margin-bottom: 6px; }
-.v8 .hero h1 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(46px, 6.2vw, 80px); line-height: 1.0; letter-spacing: -0.04em; margin: 0; }
+.v8 .hero h1 { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(46px, 6.2vw, 80px); line-height: 1.0; letter-spacing: -0.04em; margin: 0; }
 .v8 .hero .hero-sub { font-size: 17.5px; line-height: 1.72; color: var(--muted); max-width: 52ch; margin: 26px 0 0; }
 /* Global, not scoped to .hero: every CTA block reuses this class, and without it the
    buttons stacked edge to edge with 0px between them on phones. */
@@ -232,7 +238,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 /* size the cutout by HEIGHT: it is 640x1413, so a 330px width resolved to 728px tall
    and pushed his head off the top of the page. */
 .v8 .hero-photo { position: relative; height: clamp(360px, 38vw, 470px); width: auto; display: block; z-index: 2; }
-.v8 .note { position: absolute; font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 19px; line-height: 1.2; color: var(--soft); transform: rotate(-3deg); width: 150px; }
+.v8 .note { position: absolute; font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 19px; line-height: 1.2; color: var(--soft); transform: rotate(-3deg); width: 150px; }
 /* v11: the note sits in the hero's top padding, ABOVE the figure, with the arrow pointing
    down-left at him. At top:6px it overlapped his head at every width (the gutters either side
    of the cutout are ~123px and the note is 190px, so it cannot sit beside him). */
@@ -245,7 +251,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 0; margin-top: clamp(32px, 4vw, 48px); }
 .v8 .stat { padding: 22px 0 22px 26px; border-left: 1px solid var(--hair); }
 .v8 .stat:first-child { border-left: 0; padding-left: 0; }
-.v8 .stat b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 27px; letter-spacing: -0.03em; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
+.v8 .stat b { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 27px; letter-spacing: -0.03em; display: block; line-height: 1; font-variant-numeric: tabular-nums; }
 .v8 .stat span { font-size: 13px; color: var(--soft); line-height: 1.5; }
 
 /* v11: ONE section rhythm. Was home 76px, /work 44px, /hire an ad-hoc ladder. */
@@ -270,8 +276,8 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .svc-row::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px;
   border-radius: 0 2px 2px 0; background: var(--sun); opacity: 0; transition: opacity .16s ease; }
 .v8 .svc li:hover .svc-row::before { opacity: 1; }
-.v8 .svc .num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
-.v8 .svc .name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.028em; }
+.v8 .svc .num { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; color: var(--soft); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
+.v8 .svc .name { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(17px, 1.8vw, 21px); letter-spacing: -0.028em; }
 .v8 .svc .desc { font-size: 14.5px; color: var(--muted); line-height: 1.6; max-width: none; text-align: left; }
 
 /* ---- clients text-flow ---- */
@@ -298,10 +304,12 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
   .v8 .client-track { animation: none; width: 100%; flex-wrap: wrap; justify-content: center; }
   .v8 .client-cell[aria-hidden="true"] { display: none; }
 }
-/* max-width must be relative: a fixed cap overflows the cell once the column is narrower. */
-.v8 .client-logo { height: var(--lh); max-height: 26px; max-width: 100%; width: auto; object-fit: contain; filter: brightness(0) saturate(0); opacity: .58; transition: opacity .18s ease; }
+/* Both caps must be relative to the cell. A hard `max-height: 26px` silently defeated every
+   per-logo --lh above it, so the tall square marks (Catalyze at 48px) collapsed to a 22px
+   speck beside the 133px wordmarks and the row stopped reading as one weight. */
+.v8 .client-logo { height: var(--lh, 26px); max-height: 100%; max-width: 100%; width: auto; object-fit: contain; filter: brightness(0) saturate(0); opacity: .58; transition: opacity .18s ease; }
 .v8 .client-cell:hover .client-logo { opacity: .88; }
-.v8 .client-word { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 15px; letter-spacing: -.01em; color: var(--ink); opacity: .62; }
+.v8 .client-word { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 15px; letter-spacing: -.01em; color: var(--ink); opacity: .62; }
 @media (max-width: 640px) {
   .v8 .client-cell { width: 148px; height: 74px; padding: 14px; }
   .v8 .client-track { animation-duration: 30s; }
@@ -332,11 +340,11 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .workmeta { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; font-size: 15px; }
 .v8 .workmeta b { font-weight: 650; }
 .v8 .workmeta span { color: var(--muted); font-size: 13.5px; }
-.v8 .worknote { position: absolute; top: 12px; right: 14px; font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 19px; color: var(--ink); background: var(--sun); padding: 3px 12px; border-radius: 8px; transform: rotate(2deg); box-shadow: 0 2px 8px rgba(23,22,20,.14); }
+.v8 .worknote { position: absolute; top: 12px; right: 14px; font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 19px; color: var(--ink); background: var(--sun); padding: 3px 12px; border-radius: 8px; transform: rotate(2deg); box-shadow: 0 2px 8px rgba(23,22,20,.14); }
 
 /* ---- what I'm up to: now + latest posts ---- */
 .v8 .nowwrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: 44px; margin-top: 26px; }
-.v8 .nowlabel { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 26px; display: block; margin-bottom: 6px; }
+.v8 .nowlabel { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 26px; display: block; margin-bottom: 6px; }
 .v8 .nowtext { font-size: 16.5px; max-width: 44ch; }
 .v8 .nowdate { font-size: 12.5px; color: var(--soft); letter-spacing: .08em; text-transform: uppercase; margin-top: 10px; display: block; }
 .v8 .postlist { list-style: none; margin: 0; padding: 0; }
@@ -366,11 +374,11 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 
 /* ---- statement ---- */
 .v8 .statement { margin-top: var(--gap-sec); text-align: center; }
-.v8 .statement p { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(24px, 3vw, 38px); letter-spacing: -0.032em; line-height: 1.2; max-width: 24ch; margin: 0 auto; }
-.v8 .statement .script { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-style: italic; text-transform: none; letter-spacing: 0; }
+.v8 .statement p { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: clamp(24px, 3vw, 38px); letter-spacing: -0.032em; line-height: 1.2; max-width: 24ch; margin: 0 auto; }
+.v8 .statement .script { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-style: italic; text-transform: none; letter-spacing: 0; }
 /* the supporting beat under the statement: this is where the "experienced, not AI slop" point
    actually lands, so it is set as readable prose rather than more display type */
-.v8 .statement p.statement-sub { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 400; text-transform: none; letter-spacing: -.005em; max-width: 58ch; margin: 22px auto 0; color: var(--muted); font-size: 16.5px; line-height: 1.68; }
+.v8 .statement p.statement-sub { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 400; text-transform: none; letter-spacing: -.005em; max-width: 58ch; margin: 22px auto 0; color: var(--muted); font-size: 16.5px; line-height: 1.68; }
 
 /* ---- diy: a numbered descent, because these four are a sequence (it looks done, then the
    loop starts, then it fails on real use, then you are stuck) rather than four parallel points ---- */
@@ -380,14 +388,14 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .diy li::before { content: counter(diy, decimal-leading-zero); position: absolute; left: 0; top: 22px; font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
 .v8 .diy b { font-size: 16.5px; letter-spacing: -.015em; line-height: 1.35; }
 .v8 .diy span { color: var(--muted); font-size: 15px; line-height: 1.65; max-width: 72ch; }
-.v8 .diy-close { margin: 22px 0 0; font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.024em; line-height: 1.3; font-size: clamp(17px, 1.8vw, 21px); max-width: 34ch; }
+.v8 .diy-close { margin: 22px 0 0; font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.024em; line-height: 1.3; font-size: clamp(17px, 1.8vw, 21px); max-width: 34ch; }
 @media (max-width: 640px) { .v8 .diy li { padding-left: 46px; } }
 
 /* ---- why me: deliberately NOT the guarantee's boxed grid, or two identical 2x2 panels
    stack back to back. Open column, sun rule per item, more air. ---- */
 .v8 .why { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 30px 44px; }
 .v8 .why li { display: flex; flex-direction: column; gap: 8px; padding-left: 18px; border-left: 3px solid var(--sun); }
-.v8 .why b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -.022em; font-size: 16px; line-height: 1.2; }
+.v8 .why b { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: -.022em; font-size: 16px; line-height: 1.2; }
 .v8 .why span { color: var(--muted); font-size: 15px; line-height: 1.65; }
 @media (max-width: 900px) { .v8 .why { grid-template-columns: 1fr; gap: 22px; } }
 
@@ -405,7 +413,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .darkcta { margin-top: var(--gap-sec); background: var(--dark); color: #EDEDED; border-radius: 22px; padding: clamp(38px, 5vw, 64px); position: relative; overflow: hidden; }
 .v8 .darkcta::before { content: ""; position: absolute; right: -90px; top: -90px; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(255,228,92,.16) 0%, rgba(255,228,92,0) 70%); }
 .v8 .darkcta > * { position: relative; }
-.v8 .darkcta h2 { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 900; font-size: clamp(28px, 3.8vw, 50px); letter-spacing: -0.032em; line-height: 1; margin: 0 0 16px; max-width: 15ch; }
+.v8 .darkcta h2 { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 800; font-size: clamp(28px, 3.8vw, 50px); letter-spacing: -0.032em; line-height: 1; margin: 0 0 16px; max-width: 15ch; }
 .v8 .darkcta p { color: #A1A1A1; max-width: 46ch; margin: 0 0 8px; font-size: 16px; }
 /* the one place yellow stays a filled button */
 .v8 .darkcta .btn-sun { background: var(--sun); color: var(--ink); box-shadow: none; }
@@ -540,7 +548,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .contact-form { padding: clamp(22px, 3vw, 34px); display: flex; flex-direction: column; gap: 18px; }
 .v8 .field { display: flex; flex-direction: column; gap: 7px; }
 .v8 .field label { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
-.v8 .field input, .v8 .field select, .v8 .field textarea { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 16px; color: var(--ink); background: var(--paper); border: 1px solid var(--hair); border-radius: 12px; padding: 12px 14px; width: 100%; box-sizing: border-box; transition: border-color .15s ease; }
+.v8 .field input, .v8 .field select, .v8 .field textarea { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 16px; color: var(--ink); background: var(--paper); border: 1px solid var(--hair); border-radius: 12px; padding: 12px 14px; width: 100%; box-sizing: border-box; transition: border-color .15s ease; }
 .v8 .field textarea { min-height: 130px; resize: vertical; }
 .v8 .field input:focus, .v8 .field select:focus, .v8 .field textarea:focus { outline: none; border-color: var(--ink); }
 /* errors reserve their line so validation never shifts layout (a click mid-shift misses the button) */
@@ -555,7 +563,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .form-done p { color: var(--muted); margin: 0; max-width: 44ch; }
 .v8 .form-fail { display: none; font-size: 14px; color: #B4231F; font-weight: 550; }
 .v8 .contact-aside { display: flex; flex-direction: column; gap: 14px; }
-.v8 .contact-aside .aside-note { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-size: 24px; transform: rotate(-2deg); margin: 2px 0 6px; }
+.v8 .contact-aside .aside-note { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 24px; transform: rotate(-2deg); margin: 2px 0 6px; }
 .v8 .cway { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 18px; text-decoration: none; color: var(--ink); font-size: 15px; font-weight: 600; }
 .v8 .cway span { color: var(--muted); font-weight: 500; font-size: 13.5px; }
 @media (max-width: 980px) {
@@ -617,8 +625,8 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .offer-shot { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: contain; object-position: 50% 50%; background: #FFFFFF; border-bottom: 1px solid var(--hair); }
 .v8 .offer-card:nth-child(4) .offer-shot, .v8 .offer-card:nth-child(5) .offer-shot { aspect-ratio: 16 / 7; }
 .v8 .offer-body { display: flex; flex-direction: column; gap: 11px; padding: 24px 24px 26px; flex: 1; }
-.v8 .offer-num { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
-.v8 .offer-name { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 17px; line-height: 1.15; }
+.v8 .offer-num { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); font-variant-numeric: tabular-nums; }
+.v8 .offer-name { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 17px; line-height: 1.15; }
 .v8 .offer-desc { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 .v8 .offer-list { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .v8 .offer-list li { font-size: 12px; color: var(--ink-2); border: 1px solid var(--hair); border-radius: 999px; padding: 3px 9px; background: #FAFAFA; }
@@ -635,8 +643,8 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 /* ---- process strip on the services hub ---- */
 .v8 .steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: var(--r); overflow: hidden; }
 .v8 .steps li { background: var(--surface); padding: 26px 22px; display: flex; flex-direction: column; gap: 9px; }
-.v8 .steps .step-n { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); }
-.v8 .steps b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 14px; }
+.v8 .steps .step-n { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 11px; letter-spacing: .16em; color: var(--soft); }
+.v8 .steps b { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 14px; }
 .v8 .steps span:last-child { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
 @media (max-width: 900px) { .v8 .steps { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .v8 .steps { grid-template-columns: 1fr; } }
@@ -645,7 +653,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 .v8 .faq { margin-top: 26px; border-top: 1px solid var(--hair); }
 .v8 .faq details { border-bottom: 1px solid var(--hair); }
 .v8 .faq summary { cursor: pointer; list-style: none; padding: 22px 34px 22px 0; position: relative;
-  font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -.018em; }
+  font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -.018em; }
 .v8 .faq summary::-webkit-details-marker { display: none; }
 .v8 .faq summary::after { content: "+"; position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 19px; font-weight: 500; color: var(--soft); }
 .v8 .faq details[open] summary::after { content: "\2212"; }
@@ -666,12 +674,12 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 @media (max-width: 560px) { .v8 .stack { grid-template-columns: 1fr; } }
 .v8 .svc-card { display: flex; flex-direction: column; gap: 10px; padding: 26px 24px; text-decoration: none; color: var(--ink); transition: transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .2s ease, border-color .2s ease; }
 .v8 .svc-card:hover { border-color: var(--hair-strong); }
-.v8 .svc-card b { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 16px; line-height: 1.15; }
+.v8 .svc-card b { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.02em; font-size: 16px; line-height: 1.15; }
 .v8 .svc-card span { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
 .v8 .svc-card .svc-go { margin-top: auto; padding-top: 8px; color: var(--ink); font-weight: 600; font-size: 14px; }
 @media (max-width: 900px) { .v8 .svc-grid { grid-template-columns: 1fr; } }
 /* the guarantee is the last thing read before the buttons, so it gets weight, not grey 14px */
-.v8 .hire-cta .guarantee { font-family: 'Geist', system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.026em; line-height: 1.25; font-size: clamp(19px, 2.1vw, 24px); color: var(--ink); max-width: 24ch; margin: 14px 0 20px; }
+.v8 .hire-cta .guarantee { font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 600; letter-spacing: -.026em; line-height: 1.25; font-size: clamp(19px, 2.1vw, 24px); color: var(--ink); max-width: 24ch; margin: 14px 0 20px; }
 /* audit: /hire's body sat 4px under the price card but carried 96px beneath it. The inline
    padding-top:8px hack on the element is replaced by this scoped, symmetric rule. */
 .v8 .article-page { padding: var(--gap-sec) 0 0; }

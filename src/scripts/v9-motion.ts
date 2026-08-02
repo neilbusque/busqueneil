@@ -64,6 +64,7 @@ const FAILSAFE_MS = 2200;
 let observer: IntersectionObserver | null = null;
 let clipObserver: IntersectionObserver | null = null;
 let failsafe: number | null = null;
+let bottomWatch: (() => void) | null = null;
 let entrance: gsap.core.Timeline | null = null;
 const revealTweens = new Set<gsap.core.Tween>();
 
@@ -102,25 +103,10 @@ function remember(tween: gsap.core.Tween) {
   tween.eventCallback('onComplete', () => revealTweens.delete(tween));
 }
 
-function drawHighlights(within: Element[], delay = 0.12) {
-  const highlights = within.flatMap((element) => [
-    ...(element.matches('.mark-hl') ? [element] : []),
-    ...element.querySelectorAll('.mark-hl'),
-  ]) as HTMLElement[];
-  if (!highlights.length) return;
-
-  const unique = [...new Set(highlights)];
-  const tween = gsap.to(unique, {
-    backgroundSize: '100% .22em',
-    duration: 0.62,
-    delay,
-    ease: 'power2.out',
-    stagger: 0.05,
-    overwrite: 'auto',
-    clearProps: 'backgroundSize',
-  });
-  remember(tween);
-}
+/* No highlighter sweep here on purpose. v13 replaced the yellow marker on `.mark-hl` with a
+   serif-italic accent (`background: none`), so animating background-size drew nothing: it
+   queried the DOM and built a GSAP tween per reveal batch for zero pixels. If the marker ever
+   comes back, animate it from the CSS side with a custom property instead. */
 
 function show(elements: Element[], stagger = true, delay = 0) {
   if (!elements.length) return;
@@ -139,7 +125,6 @@ function show(elements: Element[], stagger = true, delay = 0) {
     clearProps: 'opacity,transform,willChange',
   });
   remember(tween);
-  drawHighlights(ordered, delay + 0.14);
 }
 
 function prepare(element: HTMLElement) {
@@ -158,11 +143,6 @@ function prepare(element: HTMLElement) {
   }
 
   gsap.set(element, { opacity: 0, x, y, scale, willChange: 'transform,opacity' });
-  const highlights = [
-    ...(element.matches('.mark-hl') ? [element] : []),
-    ...element.querySelectorAll<HTMLElement>('.mark-hl'),
-  ];
-  if (highlights.length) gsap.set(highlights, { backgroundSize: '0% .22em' });
 }
 
 function initEntrance() {
@@ -220,24 +200,11 @@ function initEntrance() {
     '.v8 .shell-main > .res-lede, .v8 .shell-main > .story-lede',
   );
   if (heading.length) {
-    const highlights = [...heading].flatMap((element) => [
-      ...(element.matches('.mark-hl') ? [element] : []),
-      ...element.querySelectorAll('.mark-hl'),
-    ]);
-    if (highlights.length) gsap.set(highlights, { backgroundSize: '0% .22em' });
     entrance.fromTo(heading,
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 0.7, stagger: 0.075, clearProps: 'opacity,transform' },
       0.1,
     );
-    if (highlights.length) {
-      entrance.to(highlights, {
-        backgroundSize: '100% .22em',
-        duration: 0.58,
-        stagger: 0.05,
-        clearProps: 'backgroundSize',
-      }, 0.34);
-    }
   }
 }
 
@@ -250,6 +217,8 @@ function teardown() {
   entrance = null;
   revealTweens.forEach((tween) => tween.kill());
   revealTweens.clear();
+  bottomWatch?.();
+  bottomWatch = null;
   if (failsafe !== null) {
     clearTimeout(failsafe);
     failsafe = null;
@@ -289,20 +258,41 @@ function initReveal() {
 
   targets.forEach((element) => observer!.observe(element));
 
-  // Anything already visible after the entrance window should never remain hidden if an
-  // observer delivery was delayed. Below-fold elements stay owned by the observer.
-  failsafe = window.setTimeout(() => {
-    const stuck = [...pending].filter((element) => {
-      const rect = element.getBoundingClientRect();
-      return rect.top < window.innerHeight && rect.bottom > 0;
-    });
-    if (!stuck.length) return;
-    stuck.forEach((element) => {
+  const release = (elements: Element[], stagger: boolean) => {
+    if (!elements.length) return;
+    elements.forEach((element) => {
       pending.delete(element);
       observer?.unobserve(element);
     });
-    show(stuck, false);
-  }, FAILSAFE_MS);
+    show(elements, stagger);
+  };
+
+  const onScreen = () => [...pending].filter((element) => {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  });
+
+  // Anything already visible after the entrance window should never remain hidden if an
+  // observer delivery was delayed. Below-fold elements stay owned by the observer.
+  failsafe = window.setTimeout(() => release(onScreen(), false), FAILSAFE_MS);
+
+  /* Bottom-of-document rescue. The -10% bottom rootMargin above shrinks the observer root, so
+     anything living inside the last 10% of the viewport AT MAXIMUM SCROLL can never intersect
+     and stays at opacity 0 forever. The footer sits exactly there, which is why its brand line
+     and nav links were invisible on every page. Once the page is scrolled as far as it goes,
+     nothing more is coming, so reveal whatever is still on screen. */
+  const atBottom = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max <= 0 || window.scrollY >= max - 2;
+  };
+  const checkBottom = () => { if (atBottom()) release(onScreen(), true); };
+  addEventListener('scroll', checkBottom, { passive: true });
+  addEventListener('resize', checkBottom, { passive: true });
+  bottomWatch = () => {
+    removeEventListener('scroll', checkBottom);
+    removeEventListener('resize', checkBottom);
+  };
+  checkBottom();
 }
 
 document.addEventListener('astro:page-load', initReveal);

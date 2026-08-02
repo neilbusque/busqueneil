@@ -52,7 +52,11 @@ const STACK = [
 const nowPublished = now?.published_at ? new Date(now.published_at) : null;
 const nowIsFresh = nowPublished ? Date.now() - nowPublished.getTime() < 1000 * 60 * 60 * 24 * 75 : false;
 const nowText = nowIsFresh ? (now?.title || 'Building something new.') : 'Building, writing, and getting better at both.';
-const nowDateStr = now?.published_at
+/* Only stamp a date on a note that is actually current. Once the real "now" post ages past the
+   75-day window the copy falls back to the evergreen line, and pinning "Updated May 2026" under
+   it just advertised how long the page had been sitting. No date reads as timeless; a stale one
+   reads as neglected. */
+const nowDateStr = nowIsFresh && now?.published_at
   ? new Date(now.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   : null;
 
