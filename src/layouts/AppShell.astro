@@ -19,7 +19,6 @@ const NAV = [
 
 const activeNav = active === 'blog' ? 'resources' : active;
 const BOOK_HREF = 'https://book.busqueneil.com/';
-const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20';
 ---
 <Base {...baseProps} v8={true}>
   <slot name="head" slot="head" />
@@ -35,10 +34,7 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
 
     <header class="topnav">
       <nav class="topnav-inner" aria-label="Primary">
-        <a class="topnav-brand" href="/" aria-label="Neil Busque, home" aria-current={active === 'home' ? 'page' : undefined}>
-          <span class="topnav-mark" aria-hidden="true">N</span>
-          <span>Neil Busque</span>
-        </a>
+        <a class="topnav-brand" href="/" aria-label="Neil Busque, home" aria-current={active === 'home' ? 'page' : undefined}>Neil Busque</a>
         <div class="topnav-links">
           {NAV.map((n) => (
             <a class:list={['topnav-link', { active: activeNav === n.key }]} href={n.href} aria-current={activeNav === n.key ? 'page' : undefined}>
@@ -56,24 +52,15 @@ const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3
       <footer class="shell-foot">
         <div class="foot-brand">
           <strong>Neil Busque</strong>
-          <span>AI engineer and product builder · New Jersey</span>
+          <span>AI engineer and product builder · © 2026</span>
         </div>
         <nav class="shell-foot-links" aria-label="Footer">
           <a href="/work">Work</a>
           <a href="/services">Services</a>
           <a href="/story">About</a>
-          <a href="/free">Free tools</a>
-          <a href="https://ai.busqueneil.com/">AI offer</a>
           <a href="/contact">Contact</a>
+          <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">LinkedIn</a>
         </nav>
-        <div class="foot-meta">
-          <span>© 2026 Neil Busque</span>
-          <span class="foot-socials">
-            <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">LinkedIn</a>
-            <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
-            <a href="/resume.pdf">Resume</a>
-          </span>
-        </div>
       </footer>
     </main>
   </div>

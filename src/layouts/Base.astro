@@ -13,7 +13,7 @@ interface Props {
   dark?: boolean;
   /** Suppress the floating Talk concierge bubble (focused conversion pages). */
   noConcierge?: boolean;
-  /** v8 app shell: Ribbon N brand system. */
+  /** v8 app shell: current light brand system. */
   v8?: boolean;
 }
 
@@ -109,7 +109,7 @@ const pageSchema = {
     <link rel="alternate" type="application/rss+xml" title="Neil Busque" href="/rss.xml" />
     {!noindex && <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />}
 
-    {/* SearchAtlas OTTO removed 2026-07-25. The snippet was a render-blocking <script> in
+    {/* SearchAtlas OTTO removed 2026-07-25. The snippet was render-blocking in
         <head> (no async/defer), so every cold visit stalled on a searchatlas round trip —
         that was the "blank until I refresh" bug. Worse, OTTO's body_substitutions rewrote
         live DOM: it set the hero <h1> textContent to "Neil Busque: AI Engineer and Product
