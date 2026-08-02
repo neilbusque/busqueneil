@@ -1,7 +1,7 @@
 ---
 import '../styles/v8.css';
+import '../styles/v13.css';
 import Base from './Base.astro';
-import RibbonMark from '../components/RibbonMark.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -10,176 +10,75 @@ interface Props {
 }
 const { active, ...baseProps } = Astro.props;
 
-/* Order follows what a visitor needs, not the order these pages were built: proof first
-   (Work), then the offer (Services), then who I am, then the reading, then the two asks.
-   `story` keeps its /story URL — it holds the page's rankings and inbound links — while the
-   label becomes "About Me", which is what people actually scan a nav for. */
 const NAV = [
-  { key: 'home',      href: '/',          label: 'Home' },
   { key: 'work',      href: '/work',      label: 'Work' },
   { key: 'services',  href: '/services',  label: 'Services' },
-  { key: 'story',     href: '/story',     label: 'About Me' },
+  { key: 'story',     href: '/story',     label: 'About' },
   { key: 'resources', href: '/resources', label: 'Resources' },
-  { key: 'hire',      href: '/hire',      label: 'Hire' },
-  { key: 'free',      href: '/free',      label: 'Free' },
 ] as const;
 
+const activeNav = active === 'blog' ? 'resources' : active;
 const BOOK_HREF = 'https://book.busqueneil.com/';
-
-// The phone bar carries only the four that matter: where you land, the proof, the offer,
-// and the ask. Eight tabs on a 320px screen was noise. The rest stay in the mobile footer.
-// 'contact' left the rail entirely (Neil): the floating WhatsApp button already carries
-// the ask, and /contact is still linked from every service CTA and from the footer.
-const TAB_KEYS = ['home', 'work', 'services', 'free'] as const;
-const TABS = TAB_KEYS.map((k) => NAV.find((n) => n.key === k)!);
-const SECONDARY = NAV.filter((n) => !TAB_KEYS.includes(n.key as (typeof TAB_KEYS)[number]));
-
-const ICONS: Record<string, string> = {
-  home: 'M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1z',
-  story: 'M5 4h9a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3zM5 4v16M17 8h2v13',
-  work: 'M4 8h16v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2',
-  services: 'M12 3l8 4.5-8 4.5-8-4.5zM4 12l8 4.5 8-4.5M4 16.5 12 21l8-4.5',
-  blog: 'M5 5h14M5 10h14M5 15h9',
-  resources: 'M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z',
-  free: 'M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z',
-  hire: 'M21 8l-9 6-9-6M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z',
-  contact: 'M5 4h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1zM8 9h8M8 13h5',
-};
-
 const WA_HREF = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20';
 ---
-{/* The Talk widget is ON site-wide (Neil). It only renders a bubble while he is actually
-    live — it polls /api/availability on the talk origin — so there is no permanent floating
-    element competing with the page. It also now occupies the slot the WhatsApp FAB used to. */}
 <Base {...baseProps} v8={true}>
   <slot name="head" slot="head" />
   <ClientRouter slot="head" />
-  <script is:inline slot="head">
-    if (localStorage.getItem('v9-rail') === '1') document.documentElement.classList.add('rail-collapsed');
-  </script>
   <script>
     import { initPointer } from '../scripts/pointer';
     initPointer();
-    // ClientRouter tears the old body out on navigation, so re-arm after each swap.
     document.addEventListener('astro:page-load', () => initPointer());
   </script>
+
   <div class="v8 shell">
     <slot name="intro" />
-    {/* Availability status: Neil turned the strip back to an open-to-work line on
-        2026-07-25, replacing the location. Location still lives in the footer and in
-        Schema.astro for local SEO. */}
-    <div class="shell-strip">
-      <a class="strip-brand" href="/" aria-label="busqueneil home"><RibbonMark size={24} variant="small" /><span>busque<strong>neil</strong></span></a>
-      <span>Open to Work</span>
-      <a class="strip-mail" href="mailto:busqueneil@gmail.com" aria-label="Email Neil at busqueneil@gmail.com">
-        <span class="mail-full" aria-hidden="true">busqueneil@gmail.com</span>
-        <span class="mail-short" aria-hidden="true">Email</span>
-      </a>
-    </div>
-    <aside class="shell-rail">
-      <a class="rail-brand" href="/" aria-label="Neil Busque home">
-        <RibbonMark size={40} />
-        <span class="rail-wordmark">busque<strong>neil</strong></span>
-      </a>
-      <button class="rail-toggle" type="button" aria-label="Collapse sidebar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 6l-6 6 6 6" /></svg>
-      </button>
-      <nav class="rail-nav" aria-label="Primary">
-        {NAV.map((n) => (
-          <a class:list={['rail-item', { active: active === n.key }]} href={n.href} title={n.label} aria-current={active === n.key ? 'page' : undefined}>
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICONS[n.key]} /></svg>
-            <span>{n.label}</span>
-          </a>
-        ))}
-      </nav>
-      <div class="rail-foot">
-        {/* The primary conversion action, deliberately not a nav item: booking is a
-            destination, not a section of the site. */}
-        <a class="rail-book" href={BOOK_HREF} target="_blank" rel="noopener">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-          <span>Book a call</span>
+
+    <header class="topnav">
+      <nav class="topnav-inner" aria-label="Primary">
+        <a class="topnav-brand" href="/" aria-label="Neil Busque, home" aria-current={active === 'home' ? 'page' : undefined}>
+          <span class="topnav-mark" aria-hidden="true">N</span>
+          <span>Neil Busque</span>
         </a>
-        <div class="rail-id">
-          <img class="rail-avatar" src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="44" height="44" loading="lazy" />
-          <span class="rail-names">
-            <span class="rail-name">Neil Busque</span>
-            <span class="rail-role">AI Engineer</span>
-          </span>
+        <div class="topnav-links">
+          {NAV.map((n) => (
+            <a class:list={['topnav-link', { active: activeNav === n.key }]} href={n.href} aria-current={activeNav === n.key ? 'page' : undefined}>
+              {n.label}
+            </a>
+          ))}
         </div>
-        <div class="rail-socials">
-          <a href="https://www.facebook.com/neilvbusque/" aria-label="Facebook" rel="me" target="_blank">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.4 21v-7.2h2.42l.36-2.8H13.4V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.06v2.8h2.43V21z" /></svg>
-          </a>
-          <a href="https://www.instagram.com/neil_busque/" aria-label="Instagram" rel="me" target="_blank">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" /><circle cx="12" cy="12" r="3.8" /><circle cx="17" cy="7" r="0.5" fill="currentColor" /></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.06V19.5h2.88zM5.5 7.19a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38zM19.94 13.06c0-2.75-1.47-4.03-3.43-4.03-1.58 0-2.29.87-2.68 1.48V8.5h-2.88c.04.81 0 11 0 11h2.88v-6.14c0-.33.02-.66.12-.89.26-.66.86-1.34 1.86-1.34 1.31 0 1.84.99 1.84 2.44v5.93h2.88z" /></svg>
-          </a>
-          <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
-          </a>
-        </div>
-      </div>
-    </aside>
+        <a class="btn-sun topnav-cta" href={BOOK_HREF} target="_blank" rel="noopener">Book a free call</a>
+      </nav>
+    </header>
+
     <main class="shell-main" transition:animate="fade">
       <slot />
+
       <footer class="shell-foot">
-        <span>© 2026 Neil Busque</span>
-        <span class="shell-foot-links foot-secondary">
-          {SECONDARY.map((n) => <a href={n.href}>{n.label}</a>)}
-        </span>
-        <span class="shell-foot-links">
-          <a href="/rss.xml">RSS</a><a href="/resume.pdf">Resume</a>
+        <div class="foot-brand">
+          <strong>Neil Busque</strong>
+          <span>AI engineer and product builder · New Jersey</span>
+        </div>
+        <nav class="shell-foot-links" aria-label="Footer">
+          <a href="/work">Work</a>
+          <a href="/services">Services</a>
+          <a href="/story">About</a>
+          <a href="/free">Free tools</a>
+          <a href="https://ai.busqueneil.com/">AI offer</a>
           <a href="/contact">Contact</a>
-          <a href="https://www.linkedin.com/in/neilbusque/" rel="me">LinkedIn</a>
-        </span>
-        <span class="foot-socials">
-          <a href="https://www.facebook.com/neilvbusque/" aria-label="Facebook" rel="me" target="_blank">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.4 21v-7.2h2.42l.36-2.8H13.4V9.2c0-.81.23-1.36 1.39-1.36h1.49V5.34c-.26-.03-1.14-.11-2.17-.11-2.15 0-3.62 1.31-3.62 3.72V11H8.06v2.8h2.43V21z" /></svg>
-          </a>
-          <a href="https://www.instagram.com/neil_busque/" aria-label="Instagram" rel="me" target="_blank">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.6" /><circle cx="12" cy="12" r="3.8" /><circle cx="17" cy="7" r="0.5" fill="currentColor" /></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H4.06V19.5h2.88zM5.5 7.19a1.69 1.69 0 1 0 0-3.38 1.69 1.69 0 0 0 0 3.38zM19.94 13.06c0-2.75-1.47-4.03-3.43-4.03-1.58 0-2.29.87-2.68 1.48V8.5h-2.88c.04.81 0 11 0 11h2.88v-6.14c0-.33.02-.66.12-.89.26-.66.86-1.34 1.86-1.34 1.31 0 1.84.99 1.84 2.44v5.93h2.88z" /></svg>
-          </a>
-          <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 1 1-4.2 15.3l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.1 4.4c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.8 4.3 3.9 2.1.9 2.6.7 3 .7.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2l-.3-.2-1-.5c-.2-.1-1-.5-1.1-.5-.2-.1-.3-.1-.4.1l-.6.8c-.1.2-.2.2-.4.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.3.1-.4l.4-.5c.1-.2.2-.3.2-.4.1-.1 0-.3 0-.4l-.9-2.1c-.2-.5-.4-.4-.6-.4z" /></svg>
-          </a>
-        </span>
+        </nav>
+        <div class="foot-meta">
+          <span>© 2026 Neil Busque</span>
+          <span class="foot-socials">
+            <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">LinkedIn</a>
+            <a href={WA_HREF} aria-label="WhatsApp" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="/resume.pdf">Resume</a>
+          </span>
+        </div>
       </footer>
     </main>
-    <nav class="shell-tabbar" aria-label="Primary mobile">
-      <div class="tabbar-pill">
-        {TABS.map((n) => (
-          <a class:list={['tab-item', { active: active === n.key }]} href={n.href} aria-current={active === n.key ? 'page' : undefined}>
-            <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={active === n.key ? 2.1 : 1.8} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ICONS[n.key]} /></svg>
-            <span>{n.label}</span>
-          </a>
-        ))}
-      </div>
-    </nav>
   </div>
+
   <script>
     import '../scripts/v9-motion';
-    const KEY = 'v9-rail';
-    function syncClass() {
-      document.documentElement.classList.toggle('rail-collapsed', localStorage.getItem(KEY) === '1');
-    }
-    function bindToggle() {
-      const btn = document.querySelector('.rail-toggle');
-      if (!btn) return;
-      const label = () => btn.setAttribute('aria-label',
-        document.documentElement.classList.contains('rail-collapsed') ? 'Expand sidebar' : 'Collapse sidebar');
-      label();
-      btn.addEventListener('click', () => {
-        const collapsed = document.documentElement.classList.toggle('rail-collapsed');
-        localStorage.setItem(KEY, collapsed ? '1' : '0');
-        label();
-      });
-    }
-    bindToggle();
-    document.addEventListener('astro:after-swap', () => { syncClass(); bindToggle(); });
   </script>
 </Base>

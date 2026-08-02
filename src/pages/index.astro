@@ -1,6 +1,5 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
-import IntroCinematic from '../components/IntroCinematic.astro';
 import Schema from '../components/Schema.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import StackIcon from '../components/StackIcon.astro';
@@ -67,41 +66,34 @@ function tagFor(p: Post): string {
   return map[p.type] ?? 'Post';
 }
 ---
-<AppShell title="Neil Busque | AI Engineer and Product Builder" description="I build AI agents, automations, web apps, and websites for small teams. You work with me directly, and most first versions ship in days." active="home">
-  <IntroCinematic slot="intro" />
+<AppShell title="Neil Busque — AI Engineer and Product Builder" description="I design and build AI agents, automations, web apps, and websites. You work with me directly, and most first versions ship in days." ogImage="https://busqueneil.com/assets/brand/og-v13.png" active="home">
   <Fragment slot="head"><Schema /></Fragment>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-field" aria-hidden="true"></div>
-    <div>
-      <h1>Hey!! I&rsquo;m Neil <span class="wave" aria-hidden="true">&#128075;</span></h1>
-      <p class="hero-sub">I build the useful version of your idea: AI agents, web apps, websites, funnels, and automations. You work with me directly, and most first versions are live in days.</p>
+    <div class="hero-copy">
+      <span class="eyebrow">AI engineer and product builder</span>
+      <h1>From rough idea to <em>working product.</em></h1>
+      <p class="hero-sub">I design and build AI agents, automations, web apps, and websites for teams ready to move. You work directly with me, and most first versions ship in days.</p>
       <div class="hero-ctas">
-        <a class="btn-sun" href="/hire">Start your build</a>
-        <a class="link-arrow" href="/work">See the work
-          <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Tell me what you&rsquo;re building</a>
+        <a class="link-arrow" href="/work">See real work <span aria-hidden="true">↘</span></a>
       </div>
+      <p class="hero-note">Direct with Neil · No account-manager layer · You own the work</p>
     </div>
-    <div class="hero-photo-wrap">
-      {/* The nbsp glues "AI assistants": unglued, the 190px note broke after "my AI" and
-          stranded "assistants" alone on line 3. Gluing "my AI" instead does nothing, since
-          that was never where it broke. */}
-      <span class="note who">the guy who actually builds it, and my AI&nbsp;assistants
-        <!-- v11: the note now sits ABOVE and right of the figure, so the arrow points down-LEFT
-             at him. It pointed down-right when the note lived to his left. -->
-        <svg width="60" height="34" viewBox="0 0 60 34" fill="none"><path d="M52 2 C 40 16, 28 22, 12 28 M20 22 L 10 29 L 22 32" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </span>
-      <img class="hero-photo" src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
-      {/* The Claude Code sticker mascot and the Codex cloud, the actual marks rather than
-          lookalikes, shown the way a tech-stack badge is: a truthful statement that these are
-          the tools Neil works in, which the site already says in prose. No partnership or
-          endorsement is claimed anywhere. Decorative here, so aria-hidden. */}
-      <div class="hero-pets" aria-hidden="true">
-        <img class="pet pet-a" src="/assets/art/pet-claude.webp" width="523" height="420" alt="" loading="lazy" decoding="async" />
-        <img class="pet pet-b" src="/assets/art/pet-codex.webp" width="460" height="460" alt="" loading="lazy" decoding="async" />
-      </div>
+    <div class="hero-visual">
+      <figure class="hero-product">
+        <div class="hero-product-bar" aria-hidden="true">
+          <span></span><span></span><span></span><strong>Designed and built by Neil</strong>
+        </div>
+        <img src="/assets/work/orbit-app.webp" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
+        <figcaption><span>CRM + AI agents</span><strong>Working software, not a concept.</strong></figcaption>
+      </figure>
+      <figure class="hero-person">
+        <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
+        <figcaption><strong>Neil Busque</strong><span>The person who actually builds it.</span></figcaption>
+      </figure>
     </div>
   </section>
 
@@ -111,7 +103,7 @@ function tagFor(p: Post): string {
     <!-- the sublabel has to carry the number, or "Days" alone reads as a missing value
          next to "40+" and "1 person" -->
     <div class="stat"><b>Days</b><span>not months. idea to first version</span></div>
-    <div class="stat"><b>1 person</b><span>start to finish, no handoffs</span></div>
+    <div class="stat"><b>Direct</b><span>with Neil from first call to launch</span></div>
   </div>
 
   <!-- SERVICES -->

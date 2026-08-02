@@ -34,7 +34,9 @@ const {
    ⚠️ The old v8 href never requested Geist at all, yet CSS asked for it first via --sans.
    document.fonts.check() reported it present because it resolves locally-installed faces,
    so this looked fine on our machines while visitors silently got a fallback. Load it. */
-const fontHref = 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap';
+const fontHref = v8
+  ? 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap'
+  : 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap';
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 const pageSchema = {
@@ -61,7 +63,7 @@ const pageSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content={v8 ? '#F7F1ED' : (dark ? '#08080C' : '#FFFFFF')} />
+    <meta name="theme-color" content={v8 ? '#F5F0E8' : (dark ? '#08080C' : '#FFFFFF')} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
