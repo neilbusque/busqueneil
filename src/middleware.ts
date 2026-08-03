@@ -5,12 +5,25 @@ const PROTECTED = [/^\/admin(?!\/login)/, /^\/api\/admin\//];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
-  const host = context.url.hostname.toLowerCase();
+  if (pathname === '/') {
+    // Vercel terminates the public request before Astro sees it, so context.url can carry the
+    // deployment hostname instead of the visitor-facing custom domain. Prefer the forwarded
+    // host, then the raw Host header, and use context.url only as a local-development fallback.
+    // Read headers only for the server-rendered root; prerendered routes do not expose them.
+    const forwardedHost = context.request.headers.get('x-forwarded-host')
+      ?.split(',')[0]
+      ?.trim()
+      .split(':')[0]
+      ?.toLowerCase();
+    const requestHost = context.request.headers.get('host')
+      ?.split(':')[0]
+      ?.toLowerCase();
+    const host = forwardedHost || requestHost || context.url.hostname.toLowerCase();
 
-  // The hiring page is also the root of hire.busqueneil.com. Keep /hire available on the
-  // main site for existing links, while the recruiter-facing canonical URL stays memorable.
-  if (host === 'hire.busqueneil.com' && pathname === '/') {
-    return context.rewrite('/hire');
+    // Keep /hire available on the main site while the recruiter-facing domain stays memorable.
+    if (host === 'hire.busqueneil.com') {
+      return context.rewrite('/hire');
+    }
   }
 
   const needsAuth = PROTECTED.some((re) => re.test(pathname));
