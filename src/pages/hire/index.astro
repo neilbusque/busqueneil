@@ -6,7 +6,9 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { ORGANIZATION_REF, PERSON_REF, WEBSITE_REF } from '../../lib/seo';
 import '../../styles/hire.css';
 
-export const prerender = true;
+// This page is also rendered at the root of hire.busqueneil.com through middleware.
+// It must remain on-demand because Astro cannot rewrite a server route to static HTML.
+export const prerender = false;
 
 const title = 'Hire Neil Busque | AI & Full-Stack Developer';
 const description = 'Neil Busque is an AI and full-stack developer who designs, builds, and ships production software end to end. See the work, experience, testimonials, and résumé.';
