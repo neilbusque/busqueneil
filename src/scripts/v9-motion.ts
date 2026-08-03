@@ -36,6 +36,13 @@ const REVEAL_SELECTOR = [
   '.v8 .art-img',
   '.v8 .about-photo',
   '.v8 .prose > h2',
+  '.v8 .hire-vsl',
+  '.v8 .hire-proofbar > p',
+  '.v8 .hire-workcard',
+  '.v8 .hire-value',
+  '.v8 .hire-role-card',
+  '.v8 .hire-commitment',
+  '.v8 .hire-career-row',
   '.v8 .shell-foot > *',
 ].join(', ');
 
@@ -46,6 +53,7 @@ const ROW_SELECTOR = [
   '.faq > details',
   '.tl-row',
   '.cs-row',
+  '.hire-career-row',
 ].join(', ');
 
 const PANEL_SELECTOR = [
@@ -56,6 +64,10 @@ const PANEL_SELECTOR = [
   '.offer-card',
   '.svc-card',
   '.praise-shot',
+  '.hire-vsl',
+  '.hire-workcard',
+  '.hire-role-card',
+  '.hire-commitment',
 ].join(', ');
 
 const HEADING_SELECTOR = '.eyebrow, .sec, .prose > h2';

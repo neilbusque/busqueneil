@@ -1,170 +1,320 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
+import ClientLogos from '../../components/ClientLogos.astro';
+import Testimonials from '../../components/Testimonials.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import { ORGANIZATION_REF, PERSON_REF, WEBSITE_REF } from '../../lib/seo';
+import '../../styles/hire.css';
 
 export const prerender = true;
 
-const title = 'Hire Neil Busque | AI Engineer and Product Builder';
-const description = 'Hire Neil Busque to build an AI agent, automation, web app, or search-ready website. Based in New Jersey and available for focused projects.';
-const canonical = 'https://busqueneil.com/hire';
+const title = 'Hire Neil Busque | AI & Full-Stack Developer';
+const description = 'Neil Busque is an AI and full-stack developer who designs, builds, and ships production software end to end. See the work, experience, testimonials, and résumé.';
+const canonical = 'https://hire.busqueneil.com/';
+const ogImage = 'https://hire.busqueneil.com/assets/hire/og.png';
 
-const service = {
+const candidate = {
   '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'Neil Busque | AI Engineering and Automation',
+  '@type': 'ProfilePage',
+  '@id': `${canonical}#profile`,
   url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
-  serviceType: [
-    'AI agent development',
-    'AI automation',
-    'Generative Engine Optimization (GEO)',
-    'SEO',
-    'Web app development',
-    'Marketing automation',
-  ],
+  name: title,
   description,
+  isPartOf: WEBSITE_REF,
+  mainEntity: {
+    '@type': 'Person',
+    '@id': PERSON_REF['@id'],
+    name: 'Neil Busque',
+    jobTitle: 'AI & Full-Stack Developer',
+    email: 'mailto:busqueneil@gmail.com',
+    image: 'https://busqueneil.com/assets/art/headshot.png',
+    url: canonical,
+    sameAs: [
+      'https://github.com/neilbusque',
+      'https://www.linkedin.com/in/neilbusque/',
+      'https://busqueneil.com/',
+    ],
+    worksFor: ORGANIZATION_REF,
+    knowsAbout: [
+      'TypeScript',
+      'React',
+      'Next.js',
+      'Supabase',
+      'PostgreSQL',
+      'AI agents',
+      'Workflow automation',
+      'Product design',
+    ],
+  },
 };
+
+const WORK = [
+  {
+    name: 'Orbit',
+    kind: 'Multi-tenant CRM + AI agents',
+    image: '/assets/work/orbit-app.webp',
+    href: 'https://inorbit.one',
+    proof: 'Workspace-scoped RLS, Stripe billing, six-language i18n, roughly 100 edge functions, and an AI assistant with 19 tools.',
+    accent: 'ink',
+  },
+  {
+    name: 'Tandem',
+    kind: 'Realtime consumer PWA',
+    image: '/assets/work/tandem.webp',
+    href: 'https://tandem.my',
+    proof: '876 registered users across 466 households, with realtime sync, WebRTC, web push, subscriptions, and offline support.',
+    accent: 'violet',
+  },
+  {
+    name: 'Vid',
+    kind: 'Screen recorder + sharing',
+    image: '/assets/work/vid.webp',
+    href: 'https://vid.neilb.app',
+    proof: 'A Loom alternative with multipart uploads to Cloudflare R2, non-destructive editing, and measured watch analytics.',
+    accent: 'orange',
+  },
+  {
+    name: 'Darioo',
+    kind: 'Industrial website + interactive product story',
+    image: '/assets/work/darioo.webp',
+    href: 'https://darioo.com',
+    proof: 'A client build combining strategy, interface design, 3D product storytelling, frontend engineering, and launch ownership.',
+    accent: 'yellow',
+  },
+];
+
+const VALUES = [
+  {
+    n: '01',
+    title: 'End-to-end ownership',
+    body: 'I can take a rough business problem through product decisions, UI, data, integrations, testing, deployment, and the fixes that only show up after launch.',
+  },
+  {
+    n: '02',
+    title: 'Product and design judgment',
+    body: 'I do not treat the ticket as the whole problem. I look at the flow, the hierarchy, the edge cases, and whether a real person will understand what to do next.',
+  },
+  {
+    n: '03',
+    title: 'Operations in the room',
+    body: 'Five years across marketing and operations taught me to connect software to revenue, handoffs, reporting, and the unglamorous work a team actually does.',
+  },
+  {
+    n: '04',
+    title: 'AI with a review layer',
+    body: 'I build agents around permissions, auditability, and human approval. The goal is useful leverage, not a demo that becomes dangerous around real data.',
+  },
+];
+
+const COMMITMENTS = [
+  {
+    title: 'You will see progress early.',
+    body: 'I ship a working slice quickly, then improve it against real feedback. Long stretches of invisible work are a warning sign, not a process.',
+  },
+  {
+    title: 'I communicate before you have to ask.',
+    body: 'Clear updates, honest tradeoffs, documented decisions, and an early warning when something changes. No theatre and no hiding behind jargon.',
+  },
+  {
+    title: 'I stay for the last 10%.',
+    body: 'The edge cases, responsive states, permissions, loading failures, documentation, and handoff matter as much as the clean happy-path demo.',
+  },
+  {
+    title: 'I care about the outcome.',
+    body: 'If the right answer is a smaller build, a plain automation, or no AI at all, I will say it. The company winning matters more than protecting my first idea.',
+  },
+];
+
+const HISTORY = [
+  {
+    when: '2026 — now',
+    role: 'Independent AI & Full-Stack Developer',
+    body: 'Designing, building, and operating 10+ production applications across multi-tenant SaaS, AI agents, consumer PWAs, and internal tools.',
+  },
+  {
+    when: '2025 — 2026',
+    role: 'Director of Operations · Catalyze Growth Partners',
+    body: 'Cut onboarding from 30 days to 7, shipped 20+ n8n workflows across 10+ client accounts, and automated more than 60% of recurring operations work.',
+  },
+  {
+    when: '2021 — 2025',
+    role: 'Developer, automation engineer, and marketer',
+    body: 'Built client websites, funnels, CRM systems, and automations while running paid campaigns and learning how product, design, and revenue connect.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
+<AppShell
+  title={title}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  active="hire"
+  ctaHref="mailto:busqueneil@gmail.com?subject=Role%20at%20our%20company"
+  ctaLabel="Email Neil"
+>
   <Fragment slot="head">
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: canonical },
+      { name: 'Hire Neil', url: canonical },
     ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(candidate)} />
   </Fragment>
 
-  <span class="eyebrow">Hire</span>
-  <h1 class="sec">Let's build the <span class="mark-hl">useful version.</span></h1>
-  <p class="hero-sub">I am Neil Busque, an AI engineer and product builder in New Jersey. I build agents, automations, web apps, and websites for small teams. You work with me directly, and you can see the work before you hire me.</p>
+  <section class="hire-hero page-head" aria-labelledby="hire-title">
+    <div class="hire-hero-copy">
+      <span class="eyebrow">For hiring managers and recruiters</span>
+      <h1 id="hire-title">Hire someone who can take the <span class="accent">whole problem</span> to production.</h1>
+      <p class="hire-lede">I&rsquo;m Neil Busque, an AI and full-stack developer with an operations brain and a designer&rsquo;s eye. I turn rough ideas into software people can use&mdash;then stay close enough to make sure it works in the real world.</p>
+      <div class="hire-actions">
+        <a class="btn-sun" href="/neil-busque-resume.pdf">Download my résumé</a>
+        <a class="btn-ghost" href="#work">See the proof first</a>
+      </div>
+      <p class="hire-location">Elizabeth, New Jersey · Remote or NJ/NYC hybrid · Eastern time</p>
+    </div>
 
-  <!-- The five real steps. Each carries an on-brand mark drawn on the same 12-unit grid as
-       the site's hairline module, so the icons read as part of the Blueprint system rather
-       than as stock glyphs dropped in. -->
-  <section class="process">
-    <span class="eyebrow">How it goes</span>
-    <h2 class="sec">Call to <span class="mark-hl">live.</span></h2>
-    <ol class="steps">
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect class="cell" x="6" y="10" width="36" height="24" rx="3" />
-            <path d="M14 20h14M14 26h8" />
-            <path d="M18 34l-4 6 10-6" />
-          </svg>
+    <!-- The recorded VSL replaces this native details block when Neil supplies the final video.
+         Until then, the hero still contains the complete 90-second message and no fake player. -->
+    <details class="hire-vsl">
+      <summary aria-label="Open Neil Busque's 90-second introduction">
+        <span class="hire-vsl-portrait">
+          <img src="/assets/art/headshot.png" alt="Neil Busque" width="1000" height="1000" fetchpriority="high" />
         </span>
-        <span class="step-n">01</span>
-        <b>We talk through the problem</b>
-        <span>You tell me what is happening now and what a good outcome looks like. If I am not the right fit, I say so here.</span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 12h32M8 24h32M8 36h20" />
-            <rect class="cell" x="8" y="18" width="12" height="12" />
-            <path d="M34 32l4 4 6-8" />
-          </svg>
+        <span class="hire-vsl-copy">
+          <span class="hire-vsl-label">90-second introduction</span>
+          <strong>Why I&rsquo;m useful on a small, ambitious team.</strong>
+          <span class="hire-vsl-open"><i aria-hidden="true"></i> Open my introduction</span>
         </span>
-        <span class="step-n">02</span>
-        <b>I scope the project</b>
-        <span>I write down what gets built, what does not, and the decisions we still need to make.</span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect class="cell" x="10" y="8" width="28" height="32" rx="3" />
-            <path d="M17 18h14M17 25h14" />
-            <path d="M17 32h7" />
-            <circle cx="33" cy="33" r="5" />
-          </svg>
+        <span class="hire-vsl-proof" aria-hidden="true">
+          <img src="/assets/work/orbit-app.webp" alt="" width="1280" height="800" />
         </span>
-        <span class="step-n">03</span>
-        <b>We agree on it</b>
-        <span>We settle the scope, timeline, and price before the work starts.</span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect class="cell" x="6" y="12" width="36" height="26" rx="3" />
-            <path d="M6 19h36" />
-            <path d="M18 27l-4 4 4 4M30 27l4 4-4 4" />
-          </svg>
-        </span>
-        <span class="step-n">04</span>
-        <b>I build, you review</b>
-        <span>You see the build as it takes shape and can change direction while changes are still cheap.</span>
-      </li>
-      <li class="step">
-        <span class="step-art" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 34l8-9 7 6 8-12 9 7" />
-            <rect class="cell" x="30" y="14" width="10" height="10" />
-            <path d="M8 40h32" />
-          </svg>
-        </span>
-        <span class="step-n">05</span>
-        <b>Then we watch it work</b>
-        <span>Once it is live, we fix the parts real use exposes. Keep me on for that or take it in-house.</span>
-      </li>
-    </ol>
+      </summary>
+      <div class="hire-vsl-transcript">
+        <span class="eyebrow">The quick version</span>
+        <p>I&rsquo;m a full-stack developer who came up through design, marketing, and operations. That means I do not see a feature as just code. I see the person using it, the handoff around it, the metric it should move, and the failure nobody thought to put in the ticket.</p>
+        <p>I have built and now operate more than ten production apps on my own: multi-tenant SaaS, AI agents with real permissions, realtime consumer products, internal tools, and automation that replaced hours of manual work. Before that, I ran operations and shipped systems across more than ten client accounts.</p>
+        <p>I&rsquo;m looking for a team where I can own meaningful problems, work close to the people using what we build, and keep shipping. If you need somebody who can think through the product, design the experience, build the system, and take responsibility after launch, that is the work I want to do.</p>
+      </div>
+    </details>
+
+    <div class="hire-proofbar" aria-label="Career highlights">
+      <p><strong>10+</strong><span>production apps operated end to end</span></p>
+      <p><strong>20+</strong><span>production n8n workflows shipped</span></p>
+      <p><strong>30 → 7</strong><span>days for agency client onboarding</span></p>
+      <p><strong>5 years</strong><span>across development, marketing, and ops</span></p>
+    </div>
   </section>
 
-  <article class="article-page">
-    <div class="prose">
-      <h2>What I build for you</h2>
-      <ul>
-        <li><strong>AI agents and LLM apps.</strong> Agents that answer leads, update your CRM, draft content, or run research, with approval steps where people still need control.</li>
-        <li><strong>Workflow automation.</strong> The manual, repetitive work in your business turned into pipelines that run themselves, in n8n, Zapier, and GoHighLevel.</li>
-        <li><strong>Search and AI visibility.</strong> Helpful pages, technical SEO, and a site structure that search engines and AI-powered search can understand. See <a href="/guides/geo-generative-engine-optimization-guide">my AI search guide</a>.</li>
-        <li><strong>Custom web apps and PWAs.</strong> Internal tools, portals, dashboards, customer-facing apps. Shipped in days, not quarters. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
-        <li><strong>UI and UX design.</strong> The interface, not just the wiring underneath it. Layout, hierarchy, type, and the flow a person actually takes through the screen, plus an honest read on why a page you already have is not converting.</li>
-      </ul>
-
-      <h2>See the work before we talk</h2>
-      <p>In 2026 I shipped more than 40 web apps, AI agents, and automations, including a CRM, a client portal, a link shortener, a cold-email app, and the CMS behind this site. Browse <a href="/work">the work</a> and read <a href="/resources">the guides</a>. You should not have to take my process on faith.</p>
-
-      <h2>Two ways to work with me</h2>
-      <ul>
-        <li><strong>Join your team.</strong> Full-time work as an AI, automation, or growth engineer. I bring an engineering mindset and years of hands-on marketing experience. <a href="/resume.pdf">Read my resume</a>.</li>
-        <li><strong>Build one focused project.</strong> One agent, automation, app, or search-content overhaul. The scope is clear before I start.</li>
-      </ul>
-
-      <h2>Why me</h2>
-      <p>I came to AI through web development, design, automation, SEO, and paid media. That mix helps me spot when the right answer is an agent, when it is a plain workflow, and when the product problem has nothing to do with AI at all.</p>
-      <p>Design is not an afterthought either. I <a href="/story">started out as a graphic designer</a> before I built software, so I work on the UI and UX myself and I can tell you why a page feels cheap, where a layout is losing people, and what to change: hierarchy, spacing, type, contrast, and the small bits of motion that make an interface feel finished. Plenty of people can build exactly what you asked for. Fewer can look at the result and say what is wrong with it.</p>
-      <p>If the question behind your search is why hire anyone when AI can build it, I wrote the honest answer with receipts: <a href="/guides/why-hire-a-person-when-ai-can-build-it">six defects AI shipped for me that passed every check</a>, what each one cost, and the review layer that caught them.</p>
-
-      <h2>Hire me</h2>
-      <p>Tell me what is not working and what you want to be different. I will tell you honestly whether I am the right person for it.</p>
-      <ul>
-        <li>Email: <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a></li>
-        <li>LinkedIn: <a href="https://www.linkedin.com/in/neilbusque" rel="me">linkedin.com/in/neilbusque</a></li>
-        <li>Resume: <a href="/resume.pdf">busqueneil.com/resume.pdf</a></li>
-      </ul>
-      <h2>Project services</h2>
-      <p>If you already know the shape of the work, start from the service instead:
-        <a href="/services/ai-automation-services">AI automation services</a>,
-        <a href="/services/ai-agent-development">AI agent development</a>, or
-        <a href="/services/ai-automation-consultant">AI automation consulting</a>.</p>
-
-      <h2>By location</h2>
-      <p>Hiring for a specific area? <a href="/hire/ai-engineer-nj">AI engineer in New Jersey</a>, <a href="/hire/ai-engineer-nyc">AI engineer in NYC</a>, or <a href="/hire/ai-engineer-remote">remote AI engineer</a>.</p>
+  <section class="hsec" id="work">
+    <span class="eyebrow">Selected work</span>
+    <h2 class="sec">Do not take the résumé&rsquo;s <span class="mark-hl">word for it.</span></h2>
+    <p class="hire-section-lede">These are shipped products and client builds, not portfolio concepts. Open them, inspect the case studies, and ask me about the decisions behind them.</p>
+    <div class="hire-workgrid">
+      {WORK.map((item) => (
+        <a class:list={['hire-workcard', `hire-workcard--${item.accent}`]} href={item.href} target="_blank" rel="noopener">
+          <div class="hire-work-shot">
+            <div class="hire-browserbar" aria-hidden="true"><i></i><i></i><i></i><span>{item.name}</span></div>
+            <img src={item.image} alt={`${item.name}: ${item.kind}`} width="1280" height="800" loading="lazy" decoding="async" />
+          </div>
+          <div class="hire-work-copy">
+            <p><span>{item.kind}</span><b aria-hidden="true">↗</b></p>
+            <h3>{item.name}</h3>
+            <p>{item.proof}</p>
+          </div>
+        </a>
+      ))}
     </div>
-  </article>
+    <p class="hire-more"><a class="link-arrow" href="https://busqueneil.com/work">See all work <span aria-hidden="true">↗</span></a></p>
+  </section>
 
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call, and it costs you nothing.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
+  <section class="hsec">
+    <span class="eyebrow">What I bring</span>
+    <h2 class="sec">One person. More of the <span class="mark-hl">problem covered.</span></h2>
+    <div class="hire-values">
+      {VALUES.map((item) => (
+        <article class="hire-value">
+          <span>{item.n}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
     </div>
-  </div>
+  </section>
+
+  <section class="hire-statement statement">
+    <p>I do not need a perfect ticket. I need the <span class="script">real problem</span>, access to the people who feel it, and ownership to make it better.</p>
+    <p class="statement-sub">That is where I do my best work: close to users, close to the business, and responsible for more than the first clean demo.</p>
+  </section>
+
+  <section class="hsec hire-role-section">
+    <div class="hire-role-head">
+      <div>
+        <span class="eyebrow">What I&rsquo;m looking for</span>
+        <h2 class="sec">A role with real <span class="mark-hl">ownership.</span></h2>
+      </div>
+      <p>I&rsquo;m looking for a full-time or long-term role where I can build useful AI and software with a small, capable team&mdash;not spend the week passing work between silos.</p>
+    </div>
+    <div class="hire-role-grid">
+      <article class="hire-role-card hire-role-card--dark">
+        <span>Role</span>
+        <h3>AI Engineer<br />Full-Stack Product Engineer<br />Automation Engineer</h3>
+      </article>
+      <article class="hire-role-card hire-role-card--blue">
+        <span>Environment</span>
+        <h3>High trust. Direct feedback. Small team. Real users.</h3>
+      </article>
+      <article class="hire-role-card hire-role-card--sun">
+        <span>Problems</span>
+        <h3>AI features, internal tools, workflow systems, and products that need an owner.</h3>
+      </article>
+      <article class="hire-role-card hire-role-card--paper">
+        <span>Location</span>
+        <h3>Remote or hybrid in the New Jersey / New York City area.</h3>
+      </article>
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Commitment and work ethic</span>
+    <h2 class="sec">The work will never go <span class="mark-hl">quiet.</span></h2>
+    <p class="hire-section-lede">You should not have to chase a developer for context or wait until the deadline to discover the hard part. This is what I hold myself to.</p>
+    <div class="hire-commitments">
+      {COMMITMENTS.map((item) => (
+        <article class="hire-commitment">
+          <span aria-hidden="true">✓</span>
+          <div><h3>{item.title}</h3><p>{item.body}</p></div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="hsec hire-history">
+    <span class="eyebrow">The path here</span>
+    <h2 class="sec">Built from the business <span class="mark-hl">side in.</span></h2>
+    <div class="hire-timeline">
+      {HISTORY.map((item) => (
+        <article class="hire-career-row">
+          <time>{item.when}</time>
+          <div><h3>{item.role}</h3><p>{item.body}</p></div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Worked with</span>
+    <ClientLogos />
+  </section>
+
+  <Testimonials />
+
+  <section class="hire-close darkcta">
+    <span class="eyebrow">For the hiring team</span>
+    <h2>Need someone who can own more than a ticket?</h2>
+    <p>Send me the role, the problem you need this person to own, or the question that is keeping you from moving me forward. I&rsquo;ll answer directly.</p>
+    <div class="hire-actions">
+      <a class="btn-sun" href="mailto:busqueneil@gmail.com?subject=Role%20at%20our%20company">Email Neil</a>
+      <a class="btn-ghost" href="/neil-busque-resume.pdf">Download résumé</a>
+      <a class="hire-link-light" href="https://www.linkedin.com/in/neilbusque/" target="_blank" rel="me noopener">LinkedIn ↗</a>
+    </div>
+  </section>
 </AppShell>

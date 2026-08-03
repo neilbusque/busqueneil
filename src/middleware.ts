@@ -5,6 +5,14 @@ const PROTECTED = [/^\/admin(?!\/login)/, /^\/api\/admin\//];
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
+  const host = context.url.hostname.toLowerCase();
+
+  // The hiring page is also the root of hire.busqueneil.com. Keep /hire available on the
+  // main site for existing links, while the recruiter-facing canonical URL stays memorable.
+  if (host === 'hire.busqueneil.com' && pathname === '/') {
+    return context.rewrite('/hire');
+  }
+
   const needsAuth = PROTECTED.some((re) => re.test(pathname));
   if (!needsAuth) return next();
 

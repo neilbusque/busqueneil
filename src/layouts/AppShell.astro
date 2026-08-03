@@ -7,8 +7,15 @@ import { ClientRouter } from 'astro:transitions';
 interface Props {
   title: string; description: string; canonical?: string; ogImage?: string; ogType?: string; noindex?: boolean;
   active: 'home' | 'story' | 'work' | 'services' | 'blog' | 'resources' | 'free' | 'hire' | 'contact';
+  ctaHref?: string;
+  ctaLabel?: string;
 }
-const { active, ...baseProps } = Astro.props;
+const {
+  active,
+  ctaHref = 'https://book.busqueneil.com/',
+  ctaLabel = 'Book a free call',
+  ...baseProps
+} = Astro.props;
 
 const NAV = [
   { key: 'work',      href: '/work',      label: 'Work' },
@@ -18,7 +25,7 @@ const NAV = [
 ] as const;
 
 const activeNav = active === 'blog' ? 'resources' : active;
-const BOOK_HREF = 'https://book.busqueneil.com/';
+const ctaIsExternal = /^https?:\/\//.test(ctaHref);
 ---
 <Base {...baseProps} v8={true}>
   <slot name="head" slot="head" />
@@ -42,7 +49,7 @@ const BOOK_HREF = 'https://book.busqueneil.com/';
             </a>
           ))}
         </div>
-        <a class="btn-sun topnav-cta" href={BOOK_HREF} target="_blank" rel="noopener">Book a free call</a>
+        <a class="btn-sun topnav-cta" href={ctaHref} target={ctaIsExternal ? '_blank' : undefined} rel={ctaIsExternal ? 'noopener' : undefined}>{ctaLabel}</a>
       </nav>
     </header>
 
