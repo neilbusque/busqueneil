@@ -4,8 +4,8 @@
 
 .v8 .hire-hero.page-head {
   display: grid;
-  padding: clamp(2.5rem, 6vw, 5.5rem) 0 0;
-  gap: clamp(2.2rem, 5vw, 4rem);
+  padding: clamp(1.25rem, 2.5vw, 2.25rem) 0 0;
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
 }
 
 .v8 .hire-hero-copy {
@@ -71,11 +71,11 @@
   position: relative;
   display: grid;
   overflow: hidden;
-  min-height: clamp(410px, 57vw, 610px);
-  padding: clamp(2rem, 5vw, 4.5rem);
+  min-height: clamp(380px, 46vw, 500px);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
   grid-template-columns: minmax(230px, .72fr) minmax(0, 1.28fr);
   align-items: center;
-  gap: clamp(1.5rem, 5vw, 4.5rem);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
   background:
     radial-gradient(circle at 12% 20%, rgba(255, 216, 77, .24), transparent 27%),
     radial-gradient(circle at 92% 8%, rgba(36, 88, 255, .36), transparent 31%),
@@ -135,15 +135,15 @@
 
 .v8 .hire-vsl-copy strong {
   max-width: 9ch;
-  font-size: clamp(2.5rem, 5.3vw, 5.6rem);
+  font-size: clamp(2.25rem, 4.4vw, 4.6rem);
   font-weight: 600;
   letter-spacing: -.065em;
-  line-height: .94;
+  line-height: .96;
 }
 
 .v8 .hire-vsl-open {
   display: inline-flex;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   align-items: center;
   gap: .7rem;
   font-size: .9rem;
@@ -308,7 +308,7 @@
 
 .v8 .hire-commitment {
   display: grid;
-  min-height: 195px;
+  min-height: 172px;
   padding: clamp(1.5rem, 3vw, 2.4rem);
   grid-template-columns: 38px 1fr;
   gap: 1rem;
@@ -353,8 +353,8 @@
   .v8 .hire-actions .btn-sun,
   .v8 .hire-actions .btn-ghost { width: 100%; }
   .v8 .hire-vsl { border-radius: 24px; }
-  .v8 .hire-vsl > summary { min-height: 590px; padding: 1.2rem; grid-template-columns: 1fr; align-content: end; }
-  .v8 .hire-vsl-portrait { position: absolute; inset: 1.2rem 1.2rem auto; width: calc(100% - 2.4rem); height: 62%; aspect-ratio: auto; border-radius: 20px; transform: none; }
+  .v8 .hire-vsl > summary { min-height: 640px; padding: 1.2rem; grid-template-columns: 1fr; align-content: end; }
+  .v8 .hire-vsl-portrait { position: absolute; inset: 1.2rem 1.2rem auto; width: calc(100% - 2.4rem); height: 45%; aspect-ratio: auto; border-radius: 20px; transform: none; }
   .v8 .hire-vsl-portrait img { object-position: 50% 18%; }
   .v8 .hire-vsl-copy { padding: 1.3rem 1rem .8rem; }
   .v8 .hire-vsl-copy strong { max-width: 11ch; font-size: clamp(2.35rem, 11vw, 3.4rem); }
