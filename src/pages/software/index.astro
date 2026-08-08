@@ -1,0 +1,68 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import { softwarePages, softwareCats } from '../../data/software-pages';
+
+export const prerender = true;
+
+const canonical = 'https://busqueneil.com/software';
+const title = 'Custom Software, by Industry and System | Neil Busque';
+const description =
+  'Custom software, AI agents, and automations for real businesses: roofing to law firms, CRMs to phone agents. Published pricing, honest guides.';
+
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#page`,
+  name: title,
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  isPartOf: WEBSITE_REF,
+  about: ORGANIZATION_REF,
+  description,
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Software', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> Custom software</p>
+    <h1>Custom software, <span class="accent">by industry and system</span>.</h1>
+    <p class="lede">What I build, for whom, with published pricing and honest build-or-buy guides. Every page below is specific on purpose: your trade, your tool, your numbers.</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      {softwareCats.map((cat) => (
+        <>
+          <h2>{cat.label}</h2>
+          <p>{cat.blurb}</p>
+          <ul>
+            {softwarePages
+              .filter((p) => p.cat === cat.key)
+              .map((p) => (
+                <li><a href={`/software/${p.slug}`}>{p.title.replace(' | Neil Busque', '')}</a></li>
+              ))}
+          </ul>
+        </>
+      ))}
+      <h2>Not seeing your business?</h2>
+      <p>The pages above are the common asks, not the limits. If your team does it on a screen, it can be built for you. Start from the <a href="/services">services overview</a>, browse <a href="/work">shipped work</a>, or just <a href="https://book.busqueneil.com/" rel="noopener">book a free call</a> and describe what is slow.</p>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <p class="guarantee">First working software in 14 days, or month one is free. Full offer at offer.busqueneil.com.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a free call</a>
+      <a class="btn-ghost" href="https://offer.busqueneil.com" target="_blank" rel="noopener">See the full offer</a>
+    </div>
+  </div>
+</AppShell>

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getAllPublished } from '../lib/posts';
 import { caseStudies } from '../data/case-studies';
+import { softwarePages } from '../data/software-pages';
 
 const LAST_UPDATED = '2026-07-25';
 
@@ -43,6 +44,11 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
      as a redirect error. The five detail pages below are the real, indexable ones. */
   ...caseStudies.map((cs) => ({
     loc: `https://busqueneil.com/case-studies/${cs.slug}`,
+  })),
+  { loc: 'https://busqueneil.com/software', lastmod: '2026-08-08' },
+  ...softwarePages.map((p) => ({
+    loc: `https://busqueneil.com/software/${p.slug}`,
+    lastmod: '2026-08-08',
   })),
   { loc: 'https://busqueneil.com/resume.pdf' },
 ];

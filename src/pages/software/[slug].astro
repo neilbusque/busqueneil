@@ -1,0 +1,123 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import { softwarePages, softwareBySlug } from '../../data/software-pages';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return softwarePages.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const page = softwareBySlug.get(slug!);
+if (!page) return Astro.redirect('/software');
+
+const canonical = `https://busqueneil.com/software/${page.slug}`;
+const [h1Pre, h1Accent, h1Post] = page.h1.split('**');
+
+const relatedPages = page.related
+  .map((r) => softwareBySlug.get(r))
+  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: page.title.replace(' | Neil Busque', ''),
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  serviceType: ['Custom software development', 'AI agent development', 'AI automation'],
+  areaServed: { '@type': 'Country', name: 'United States' },
+  offers: {
+    '@type': 'Offer',
+    price: '4000',
+    priceCurrency: 'USD',
+    description: '$4,000 per month. First working software in 14 days. Month one refundable.',
+  },
+  description: page.metaDescription,
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  mainEntity: page.faq.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+<AppShell title={page.title} description={page.metaDescription} canonical={canonical} active="services">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Software', url: 'https://busqueneil.com/software' },
+      { name: page.title.replace(' | Neil Busque', ''), url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(service)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">∗</span> {page.eyebrow}</p>
+    <h1>{h1Pre}<span class="accent">{h1Accent}</span>{h1Post}</h1>
+    <p class="lede">{page.lede}</p>
+  </header>
+
+  <article class="article-page" style="padding-top: 8px;">
+    <div class="prose">
+      {page.sections.map((s) => (
+        <>
+          <h2>{s.h2}</h2>
+          {s.body.map((p) => <p>{p}</p>)}
+          {s.bullets && (
+            <ul>
+              {s.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          )}
+        </>
+      ))}
+
+      <h2>The offer, in one paragraph</h2>
+      <p>
+        I work as the AI systems builder on your team: $4,000 a month, published price, no contract.
+        Your first working software lands inside 14 days of an approved plain-English plan, and month
+        one is refundable if you are not happy. You own the code, the data, and the accounts from day
+        one. The full offer, guarantees included, is at <a href="https://offer.busqueneil.com" rel="noopener">offer.busqueneil.com</a>,
+        and the pricing logic is unpacked in <a href="/software/custom-software-cost">what custom software costs in 2026</a>.
+      </p>
+
+      <h2>Common questions</h2>
+      {page.faq.map((f) => (
+        <>
+          <h3>{f.q}</h3>
+          <p>{f.a}</p>
+        </>
+      ))}
+
+      <h2>Keep reading</h2>
+      <ul>
+        {relatedPages.map((r) => (
+          <li><a href={`/software/${r.slug}`}>{r.title.replace(' | Neil Busque', '')}</a></li>
+        ))}
+        {page.guide && <li><a href={page.guide.href}>{page.guide.label}</a></li>}
+        <li><a href="/work">See 40+ shipped builds</a></li>
+      </ul>
+    </div>
+  </article>
+
+  <div class="hire-cta v8-card">
+    <p class="guarantee">First working software in 14 days, or month one is free. Not happy with month one? Full refund. You own everything either way.</p>
+    <div class="hero-ctas">
+      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a free call</a>
+      <a class="btn-ghost" href="https://offer.busqueneil.com" target="_blank" rel="noopener">See the full offer</a>
+    </div>
+  </div>
+</AppShell>
