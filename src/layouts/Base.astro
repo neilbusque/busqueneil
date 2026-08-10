@@ -118,6 +118,10 @@ const pageSchema = {
         render before removal. Do NOT re-add without `defer` AND with heading/title
         substitutions rejected in the OTTO dashboard. */}
 
+    {/* Sonar analytics (sonar.neilb.app). Cookieless, no consent banner needed.
+        Opt out of your own visits with localStorage.setItem('sonar_ignore', '1'). */}
+    <script defer src="https://sonar.neilb.app/t.js"></script>
+
     <slot name="head" />
   </head>
   <body class={dark ? 'theme-dark' : undefined}>
