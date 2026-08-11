@@ -2,6 +2,7 @@
 import '../styles/v8.css';
 import '../styles/v13.css';
 import Base from './Base.astro';
+import RevealMotion from '../components/RevealMotion.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -30,6 +31,9 @@ const ctaIsExternal = /^https?:\/\//.test(ctaHref);
 <Base {...baseProps} v8={true}>
   <slot name="head" slot="head" />
   <ClientRouter slot="head" />
+  {/* Must sit in <head> and stay inline: it hides reveal targets BEFORE first paint, which is
+      the whole reason the page no longer paints and then blanks itself. See RevealMotion. */}
+  <RevealMotion slot="head" />
   <script>
     import { initPointer } from '../scripts/pointer';
     initPointer();
@@ -72,7 +76,4 @@ const ctaIsExternal = /^https?:\/\//.test(ctaHref);
     </main>
   </div>
 
-  <script>
-    import '../scripts/v9-motion';
-  </script>
 </Base>

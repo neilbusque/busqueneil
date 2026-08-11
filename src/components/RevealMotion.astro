@@ -1,0 +1,178 @@
+---
+/* Scroll-reveal motion, owned by CSS instead of JS.
+
+   ⚠️ THE BUG THIS EXISTS TO PREVENT — do not undo it.
+   The old system (GSAP in `scripts/v9-motion.ts`) worked the wrong way round: the page
+   painted at full opacity, then a *bundled module* loaded and called gsap.set(opacity: 0)
+   on the hero, the nav and every section, then faded them back in. Measured on production:
+   the finished page was readable at 717ms, snapped to blank at 1913ms, and re-animated over
+   the next second. On a cold phone the gap is several seconds. That flash of
+   painted-then-hidden content is what "the loading feels glitchy" meant.
+
+   The fix has three rules:
+     1. The hidden state lives in a <style> injected by THIS script, which is inline in
+        <head> and therefore applies before the body ever paints. Nothing is ever visible
+        first. Never move this into a bundled module or a deferred script.
+     2. Above-the-fold content (hero, nav) is NOT in the reveal set. It renders at its
+        resting state immediately, which is both the fastest LCP and the calmest first
+        impression. Motion starts at the second section, once the visitor scrolls.
+     3. One source of truth for the selector list: the arrays below feed both the generated
+        CSS and the IntersectionObserver, so the two can never drift.
+
+   Reduced motion and no-JS visitors never get the hidden state at all, so they see the
+   complete resting design. */
+---
+<script is:inline>
+  (() => {
+    /* ---- single source of truth for what animates ---- */
+    const BASE = [
+      '.v8 .hsec > .eyebrow', '.v8 .hsec > .sec', '.v8 .hsec > .stack-note',
+      '.v8 .hsec > .praise-note', '.v8 .stats .stat', '.v8 .svc > li', '.v8 .workcard',
+      '.v8 .client-logos', '.v8 .praise-shot', '.v8 .nowwrap > :first-child',
+      '.v8 .postlist li', '.v8 .statement', '.v8 .stack-group', '.v8 .diy > li',
+      '.v8 .why > li', '.v8 .guar > li', '.v8 .darkcta', '.v8 .offer-card',
+      '.v8 .svc-card', '.v8 .hire-step', '.v8 .steps > li', '.v8 .faq > details',
+      '.v8 .tl-row', '.v8 .cs-row', '.v8 .art-img', '.v8 .about-photo', '.v8 .prose > h2',
+      '.v8 .hire-vsl', '.v8 .hire-proofbar > p', '.v8 .hire-workcard', '.v8 .hire-value',
+      '.v8 .hire-role-card', '.v8 .hire-commitment', '.v8 .hire-career-row',
+      '.v8 .shell-foot > *',
+    ].join(',');
+
+    // Rows slide in from the side, panels lift and settle, headings just rise.
+    const ROW = '.stack-group,.diy > li,.postlist li,.faq > details,.tl-row,.cs-row,.hire-career-row';
+    const PANEL = '.statement,.darkcta,.workcard,.svc > li,.offer-card,.svc-card,.praise-shot,'
+      + '.hire-vsl,.hire-workcard,.hire-role-card,.hire-commitment';
+    const HEADING = '.eyebrow,.sec,.prose > h2';
+
+    const motionOK = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    if (!motionOK) return;
+
+    /* ---- pre-paint hidden state ---- */
+    const style = document.createElement('style');
+    style.textContent =
+      `:is(${BASE}){opacity:0;transform:translateY(18px)}`
+      + `:is(${BASE}):is(${ROW}){transform:translateX(14px)}`
+      + `:is(${BASE}):is(${PANEL}){transform:translateY(26px) scale(.988)}`
+      + `:is(${BASE}):is(${HEADING}){transform:translateY(22px)}`
+      + `.v8 .rv-in{opacity:1!important;transform:none!important;`
+      + `transition:opacity .68s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms),`
+      + `transform .68s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms)}`;
+    // document.head is guaranteed to exist here: this script is inside it.
+    document.head.appendChild(style);
+
+    /* Safety net: if the observer below never runs (script error, ancient browser), drop the
+       hidden state entirely rather than leave a visitor staring at blank sections. */
+    let armed = false;
+    setTimeout(() => { if (!armed) style.remove(); }, 3000);
+
+    let io = null;
+    let clipIO = null;
+    let failsafe = null;
+    let unwatch = null;
+
+    const byPosition = (els) => [...els].sort((a, b) => {
+      const ar = a.getBoundingClientRect();
+      const br = b.getBoundingClientRect();
+      return Math.abs(ar.top - br.top) > 8 ? ar.top - br.top : ar.left - br.left;
+    });
+
+    const reveal = (els, stagger) => {
+      byPosition(els).forEach((el, i) => {
+        el.style.setProperty('--rv-d', stagger ? `${i * 65}ms` : '0ms');
+        el.classList.add('rv-in');
+      });
+    };
+
+    // Work-card clips download and play only while their card is on screen. Posters stay the
+    // fallback for reduced motion and for browsers that refuse autoplay.
+    function initClips() {
+      clipIO?.disconnect();
+      const clips = [...document.querySelectorAll('video[data-wc-clip]')];
+      if (!clips.length) return;
+      clipIO = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          const v = e.target;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      }, { threshold: 0.35 });
+      clips.forEach((v) => clipIO.observe(v));
+    }
+
+    function teardown() {
+      io?.disconnect(); io = null;
+      clipIO?.disconnect(); clipIO = null;
+      unwatch?.(); unwatch = null;
+      if (failsafe !== null) { clearTimeout(failsafe); failsafe = null; }
+    }
+
+    function arm() {
+      armed = true;
+      teardown();
+      initClips();
+      if (!('IntersectionObserver' in window)) { style.remove(); return; }
+
+      // Skip anything hidden for application-state reasons, and leave cards inside a timeline
+      // row alone because the row is already the motion unit.
+      const targets = [...document.querySelectorAll(BASE)]
+        .filter((el) => el.getClientRects().length > 0)
+        .filter((el) => !(el.classList.contains('v8-card') && el.closest('.tl-row')));
+      if (!targets.length) return;
+
+      const pending = new Set(targets);
+
+      io = new IntersectionObserver((entries, obs) => {
+        const hit = entries.filter((e) => e.isIntersecting).map((e) => e.target);
+        if (!hit.length) return;
+        hit.forEach((el) => { pending.delete(el); obs.unobserve(el); });
+        reveal(hit, true);
+      }, { rootMargin: '0px 0px -10% 0px', threshold: 0.04 });
+
+      targets.forEach((el) => io.observe(el));
+
+      const onScreen = () => [...pending].filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < innerHeight && r.bottom > 0;
+      });
+      const release = (els, stagger) => {
+        if (!els.length) return;
+        els.forEach((el) => { pending.delete(el); io?.unobserve(el); });
+        reveal(els, stagger);
+      };
+
+      // Anything already on screen must never stay hidden because an observer delivery was
+      // late. Below-fold elements stay owned by the observer.
+      failsafe = setTimeout(() => release(onScreen(), false), 2200);
+
+      /* Bottom-of-document rescue. The -10% bottom rootMargin shrinks the observer root, so
+         anything sitting in the last 10% of the viewport AT MAXIMUM SCROLL can never
+         intersect and would stay at opacity 0 forever. The footer lives exactly there, which
+         is why its brand line and nav links used to be invisible on every page. Once the page
+         cannot scroll further, nothing more is coming: reveal whatever is still on screen. */
+      const atBottom = () => {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        return max <= 0 || scrollY >= max - 2;
+      };
+      const checkBottom = () => { if (atBottom()) release(onScreen(), true); };
+      addEventListener('scroll', checkBottom, { passive: true });
+      addEventListener('resize', checkBottom, { passive: true });
+      unwatch = () => {
+        removeEventListener('scroll', checkBottom);
+        removeEventListener('resize', checkBottom);
+      };
+      checkBottom();
+    }
+
+    /* Arm as early as the DOM allows. Deliberately NOT waiting on astro:page-load for the
+       first render: that event is fired by the ClientRouter bundle, and waiting for a bundle
+       is exactly what caused the original flash. astro:page-load is still handled so
+       client-side navigations re-arm. */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', arm, { once: true });
+    } else {
+      arm();
+    }
+    document.addEventListener('astro:page-load', arm);
+    document.addEventListener('astro:before-swap', teardown);
+  })();
+</script>

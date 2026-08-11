@@ -216,7 +216,7 @@ html[data-talk-bubble="live"] .v8 .shell-foot { padding-bottom: 116px; }
 /* v12: the hero cell grid is gone with the rest of the grid texture (Neil: "remove the grid
    lines"). The warm bloom stays — it is colour, not a grid, and it is the one place the sun
    yellow gets to be large. .hero-field is kept as the bloom's positioning context; the
-   [data-cellgrid] hook in v9-motion.ts no-ops now that the node is not rendered. */
+   [data-cellgrid] hook was removed with v9-motion.ts; the node is not rendered either. */
 .v8 .hero-field { position: absolute; inset: -40px -40px 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .v8 .hero > *:not(.hero-field) { position: relative; z-index: 1; }
 .v8 .hero-field::after { content: ""; position: absolute; inset: 0;

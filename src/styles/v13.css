@@ -629,16 +629,36 @@ html[data-talk-bubble='live'] .v8 .shell-foot { padding-bottom: 7rem; }
   .v8 .hero h1 { font-size: clamp(3.1rem, 15.5vw, 4.8rem); }
   .v8 .hero .hero-ctas { align-items: flex-start; flex-direction: column; }
   .v8 .hero .btn-sun { width: 100%; }
-  .v8 .hero-visual { padding-bottom: 5.5rem; }
   .v8 .hero-product { padding: .55rem; border-radius: 22px; transform: none; }
   .v8 .hero-product > figcaption { align-items: flex-start; flex-direction: column; }
-  .v8 .hero-person { right: .4rem; bottom: 0; width: min(275px, 88%); }
+  /* The person card is absolutely positioned over the product's bottom-right corner on wide
+     screens, where it clears the "CRM + AI AGENTS" caption on the left. At this width it was
+     88% of the product, so it landed directly on that caption and hid it (measured on a 390px
+     viewport: caption bottom 1003px, card top 987px). Below 680px it stops floating and
+     becomes its own row under the shot, so both stay readable. */
+  .v8 .hero-visual { padding-bottom: 0; }
+  .v8 .hero-person {
+    position: static;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    min-height: 0;
+    margin-top: .75rem;
+    padding: .7rem 1rem .7rem .6rem;
+  }
   .v8 .stats { grid-template-columns: 1fr; }
   .v8 .stat,
   .v8 .stat:first-child { display: grid; grid-template-columns: 110px 1fr; align-items: baseline; gap: 1rem; padding: 1rem 0; border: 0; }
   .v8 .stat + .stat { border-top: 1px solid var(--hair); border-left: 0; }
-  .v8 .stack-group { grid-template-columns: 1fr; gap: .75rem; }
-  .v8 .svc-row { min-height: 240px; padding: 1.5rem; }
+  /* Keep the label in its own column on phones. Dropping to 1fr put every label on its own
+     line above its chips, which turned 12 groups into 24 stacked blocks and made this the
+     second-tallest section on mobile (1402px, vs 651px on desktop). Inline labels keep the
+     scan pattern of the desktop layout and cost nothing to read. */
+  .v8 .stack-group { grid-template-columns: minmax(5.5rem, .38fr) minmax(0, 1fr); gap: .85rem; padding: 1.05rem 0; }
+  .v8 .stack-label { font-size: 9.5px; letter-spacing: .14em; line-height: 1.5; }
+  /* 240px forced a large dead gap between the icon row and the title on a phone, where each
+     card holds a 2-word name and a two-line description. Sized to the content instead. */
+  .v8 .svc-row { min-height: 176px; padding: 1.35rem; }
   .v8 .workgrid { grid-template-columns: 1fr; }
   .v8 .praise-wall { columns: 1; }
   .v8 .statement { padding: 4rem 1.5rem; border-radius: 26px; }
@@ -653,7 +673,7 @@ html[data-talk-bubble='live'] .v8 .shell-foot { padding-bottom: 7rem; }
   .v8 .hero h1 { font-size: clamp(2.75rem, 14.5vw, 3.7rem); }
   .v8 .hero-product-bar strong { display: none; }
   .v8 .hero-product > figcaption strong { display: none; }
-  .v8 .hero-person { grid-template-columns: 66px 1fr; min-height: 108px; }
+  .v8 .hero-person { grid-template-columns: 66px 1fr; }
   .v8 .hero-person img { width: 62px; height: 94px; }
   .v8 .svc .desc { grid-column: 1 / -1; }
   .v8 .svc-row .svc-cta { display: none; }

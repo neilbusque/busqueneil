@@ -1,9 +1,9 @@
 {
   "name": "busqueneil",
-  "version": "11.21.0",
+  "version": "11.22.0",
   "private": true,
   "type": "module",
-  "description": "Neil Busque — personal site. Astro SSR premium landing + Supabase build-in-public feed.",
+  "description": "Neil Busque \u2014 personal site. Astro SSR premium landing + Supabase build-in-public feed.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -23,7 +23,6 @@
     "@supabase/supabase-js": "^2.48.0",
     "@vercel/functions": "^3.7.5",
     "astro": "^5.0.0",
-    "gsap": "^3.15.0",
     "ipaddr.js": "^2.4.0",
     "nodemailer": "^9.0.3",
     "preact": "^10.25.0",

@@ -33,10 +33,19 @@ const {
    and UI; Geist Mono only inside <code>/<pre>, because proportional code is unreadable.
    ⚠️ The old v8 href never requested Geist at all, yet CSS asked for it first via --sans.
    document.fonts.check() reported it present because it resolves locally-installed faces,
-   so this looked fine on our machines while visitors silently got a fallback. Load it. */
+   so this looked fine on our machines while visitors silently got a fallback. Load it.
+
+   ⚠️ Ask for WEIGHT RANGES, not a list of weights. `wght@400;500;600;700;800` makes Google
+   serve five separate static files per family; `wght@400..800` serves one variable file that
+   covers the whole range, including the 550 and 650 the CSS actually uses (a static list
+   rounds those to the nearest requested weight). This stylesheet is render-blocking on a
+   third-party origin, so file count here is paint latency: the v8 pages went from 9 Latin
+   font files to 3. DM Serif Display is requested italic-only because every single usage of it
+   (.mark-hl, .hero h1 em, .statement .script, .accent, .hire-hero-copy h1 .accent) sets
+   font-style: italic — do not add ital@0 back without a roman usage to justify it. */
 const fontHref = v8
-  ? 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap'
-  : 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap';
+  ? 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=Figtree:wght@400..800&family=Geist+Mono:wght@400..600&display=swap'
+  : 'https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&display=swap';
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 const pageSchema = {
