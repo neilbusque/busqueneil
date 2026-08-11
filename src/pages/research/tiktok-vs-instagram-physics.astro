@@ -1,0 +1,97 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the main difference between the TikTok and Instagram algorithms?', a: 'TikTok distributes on an interest graph, so every upload is auditioned to strangers regardless of account size. Instagram leans harder on the distribution you have already built. The consequence is that on TikTok volume and hook quality matter more than followers, and on Instagram building an audience compounds.' },
+  { q: 'What metric should I optimise for on TikTok?', a: 'Shares. Among videos over 1M plays, the winners ran share rates of 2.4% to 5.9%, while anything under about 0.1% had stalled even with large raw view counts. Engineer for "I have to send this to someone" rather than for likes.' },
+  { q: 'How long should a TikTok video be?', a: 'Duration is bimodal. Winners cluster either at 15 seconds or under, or at 2 to 6 minutes. The unremarkable 30 to 60 second tip video is the dead zone — too long to loop, too short to reward watch time.' },
+  { q: 'Should I use trending audio?', a: 'Not for talk content. Every high-share talking winner in this sample used original audio. Trending songs only carried aesthetic and montage content. If you run a series, a single recognisable background track across episodes acts as a marker for returning viewers.' },
+];
+---
+<ContentArticle
+  slug="tiktok-vs-instagram-physics"
+  seoTitle="TikTok and Instagram Are Not the Same Game"
+  description="From 105 pulled TikToks and 19 Instagram reels over 1M plays: the five structural differences that change what you should post, including why shares are the only metric that matters on one platform."
+  heading="TikTok and Instagram are"
+  accent="not the same game"
+  lede="Cross-posting the same video to both and wondering why one flopped is a category error. The distribution mechanics are genuinely different, and they reward different things."
+  idx="10"
+  keywords="TikTok vs Instagram algorithm, share rate, interest graph, short form video strategy, FYP, reels"
+  faq={faq}
+>
+  <p><strong>TikTok distributes on an interest graph, so every upload is auditioned to strangers regardless of account size. Instagram leans harder on distribution you already built. That single difference changes what you optimise for: on TikTok, shares and hook quality decide everything and volume beats polish. On Instagram, audience compounds and gated formats convert.</strong></p>
+
+  <h2>Method</h2>
+  <p>105 TikToks pulled from the US trending feed and keyword searches, of which 32 exceeded 1M plays within 30 days, with transcripts. Alongside that, 19 Instagram reels over 1M plays from the same period, also transcribed. Comparisons below are between those two sets.</p>
+  <p>Same survivorship caveat as always: these are winners, so this describes what winning looks like rather than the odds of winning.</p>
+
+  <h2>1. The feed is an interest graph, not a follower graph</h2>
+  <p>The winners in the TikTok set include no-name accounts sitting at 1.5 to 7 million plays directly alongside a global footballer at 202 million. Account size did not gate distribution.</p>
+  <p>That is the structural difference everything else follows from. On Instagram you build distribution &mdash; followers, then formats that convert those followers. On TikTok every video re-rolls the dice, which means <strong>volume and hook quality matter more than account building.</strong></p>
+  <p>The practical consequence is uncomfortable for people who like planning: a posting cadence on TikTok is closer to buying lottery tickets than to compounding an asset. One breakout builds the account. Ten polished posts that nobody shares build nothing.</p>
+
+  <h2>2. Shares are the fuel, and they are visible</h2>
+  <p>This is the most actionable finding here, because share rate is public in the data and almost nobody optimises for it.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Post</th><th>Plays</th><th>Shares</th><th>Share rate</th></tr></thead>
+      <tbody>
+        <tr><td>Absurd AI skit</td><td>18.9M</td><td>1.1M</td><td><strong>5.87%</strong></td></tr>
+        <tr><td>News clip</td><td>21.2M</td><td>593k</td><td>2.80%</td></tr>
+        <tr><td>Third winner</td><td>&mdash;</td><td>&mdash;</td><td>2.37%</td></tr>
+        <tr><td>Stalled video</td><td>large</td><td>few</td><td><em>under 0.1%</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>A sub-0.1% share rate means the video stalled <em>even with big raw play counts</em>. Views without shares are a dead end, and they look like success right up until the next video gets nothing.</p>
+  <p>The test worth applying before you write anything: <strong>finish the sentence &ldquo;people will send this to a friend because ___&rdquo;.</strong> The valid answers are narrow &mdash; it is them, it is terrifying, it is free money, it is genuinely funny. If you cannot finish the sentence, the video does not have a distribution mechanism, and no amount of editing adds one.</p>
+
+  <h2>3. Duration is bimodal, and the middle is dead</h2>
+  <p>Winners clustered at two extremes and almost nothing in between.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Length</th><th>Verdict</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Under 15 seconds</td><td><strong>Works</strong></td><td>Loops; rewatches inflate watch time</td></tr>
+        <tr><td>30&ndash;60 seconds</td><td><strong>Dead zone</strong></td><td>Too long to loop, too short to reward</td></tr>
+        <tr><td>2&ndash;6 minutes</td><td><strong>Works</strong></td><td>Total watch time, and monetisation-eligible</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The dead zone is exactly where most business content lands, because the unremarkable 45-second tip video feels like the natural length for a piece of advice. It is the worst available choice. Either compress it to a loop or expand it into a full method.</p>
+
+  <h2>4. Original sound wins talk content</h2>
+  <p>Every high-share talking winner used original audio. Trending songs only carried aesthetic and montage content.</p>
+  <p>This contradicts the common advice to chase trending audio, and the reason is simple once stated: a trending song on a talking video competes with the words. It buys a small distribution nudge and costs you the thing people are meant to be listening to.</p>
+
+  <h2>5. Sound as a series marker</h2>
+  <p>One account hit 13.7M, 8.4M and 3.8M plays in a single month with three videos on the same theme, all using the <em>same</em> background track. The audio itself signals to a returning viewer that this is part of a series.</p>
+  <p>That is a cheap, underused trick. Consistency of sound does work that a consistent thumbnail does on other platforms, and it costs nothing to adopt.</p>
+
+  <h2>The hooks differ too</h2>
+  <p>The Instagram rules hold on TikTok &mdash; a number in the first sentence, the claim before credentials, a payoff debt opened within three seconds. But TikTok adds one:</p>
+  <p><strong>You can start mid-scene.</strong> Context-free chaos out-hooks setup. One winner opened at 21.2M plays with &ldquo;It found a vulnerability and broke out of the sandbox&rdquo; and no preamble whatsoever. Another opened at the <em>aftermath</em> of a punchline, forcing a rewind to work out what happened.</p>
+  <p>On Instagram that reads as confusing. On TikTok, where the viewer arrived with no expectation of who you are, it reads as immediate.</p>
+
+  <h2>What this changes</h2>
+  <ol>
+    <li><strong>Do not cross-post identically.</strong> A hit on one platform is a validated <em>script</em> for the other. Reformat the length and the opening; do not re-upload the file.</li>
+    <li><strong>Optimise for shares on TikTok, saves and comments on Instagram.</strong> Different currencies.</li>
+    <li><strong>Gates are an Instagram mechanic.</strong> Comment-to-DM funnels work there. TikTok converts through profile visit, so put the offer where a visitor lands, not in the caption.</li>
+    <li><strong>Post more on TikTok than feels sensible.</strong> Every upload is a fresh audition, so cadence beats polish.</li>
+    <li><strong>Pick a length deliberately.</strong> Loop or long. Never 45 seconds.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>What is the main algorithmic difference?</h3>
+  <p>TikTok auditions every upload to strangers regardless of account size; Instagram leans on distribution you already built. So volume and hooks matter more on one, audience compounding on the other.</p>
+  <h3>What should I optimise for on TikTok?</h3>
+  <p>Shares. Winners ran 2.4&ndash;5.9%; under 0.1% means the video stalled even with large raw views.</p>
+  <h3>How long should a video be?</h3>
+  <p>Under 15 seconds or over two minutes. The 30 to 60 second range is the dead zone.</p>
+  <h3>Should I use trending audio?</h3>
+  <p>Not for talking content &mdash; every high-share talk winner used original audio. For a series, reuse one recognisable track as a marker.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/10-hook-patterns-33m-plays">the 10 hook patterns behind 33.1M plays</a> and <a href="/research/carousels-are-depth-not-reach">carousels are depth, not reach</a>.</p>
+</ContentArticle>

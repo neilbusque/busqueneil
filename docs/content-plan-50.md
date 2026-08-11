@@ -161,9 +161,10 @@ Pieces 44-46 double as proof for content work.
 
 | Lane | Live | Total |
 |---|---:|---:|
-| Research | 8 | 12 |
-| Comparisons | 1 | 22 |
-| AI × marketing | 1 | 16 |
+| Research | 10 | 12 |
+| Comparisons | 5 | 22 |
+| AI × marketing | 5 | 16 |
+| **Total** | **20** | **50** |
 
 `src/layouts/ContentArticle.astro` carries the schema, breadcrumb and header for every piece,
 so an article file is frontmatter plus prose. It throws at build time if the slug is missing
@@ -175,9 +176,8 @@ when one of them next needs an edit, not before.
 history and 136 visitors across 27 sites. That cannot carry a sentence like "a year of
 analytics across 20 sites". Revisit after several months of data.
 
-**Still to write in research:** the two viral-bank pieces (hook patterns, TikTok vs Instagram
-physics) and `40-products-in-a-year`, which needs a real scope-decision inventory before it is
-anything more than an essay.
+**Still to write in research:** only `40-products-in-a-year`, which needs a real scope-decision
+inventory from Neil before it is anything more than an essay.
 
 ## Build order
 

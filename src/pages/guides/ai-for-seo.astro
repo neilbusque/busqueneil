@@ -1,0 +1,83 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Does AI-written content rank?', a: 'Google judges content by whether it is helpful and original, not by how it was produced. AI-assisted content ranks when it carries something only its author could say. It fails when it is a competent summary of what already ranks, which is the default output if you do not supply anything of your own.' },
+  { q: 'What is AI genuinely good at in SEO?', a: 'Structural and repetitive work: expanding a page matrix, keeping schema valid across many pages, drafting consistent sections, and summarising competitor pages at volume. Anything that is the same job repeated with discipline.' },
+  { q: 'What should you never delegate to AI in SEO?', a: 'Deciding which terms to target, and the specific first-hand claim on each page. Both require evidence a model does not have — real SERP structure and your own experience — and both are what decide whether a page is worth having.' },
+  { q: 'Can AI do keyword research?', a: 'Not reliably on its own. A model will produce plausible keyword lists from training data with no volume, no competition, and no view of who currently ranks. Give it real SERP or volume data to analyse and it becomes useful immediately.' },
+];
+---
+<ContentArticle
+  slug="ai-for-seo"
+  seoTitle="How to Use AI for SEO"
+  description="What held up when I built 58 pages with AI assistance, the three places it produced work I threw away, and the split between the tasks it does well and the ones that decide whether you rank."
+  heading="How to use AI"
+  accent="for SEO"
+  lede="I built 58 pages on this site with heavy AI assistance. Some of it saved days. Some of it produced confident, well-formatted work I had to delete."
+  idx="13"
+  keywords="AI for SEO, AI content, programmatic SEO, keyword research, schema markup, helpful content"
+  faq={faq}
+>
+  <p><strong>AI is strong at the parts of SEO that are the same job repeated with discipline: expanding a page matrix, keeping schema valid across many pages, drafting consistent structure, summarising competitors at volume. It is weak at the two things that decide whether you rank &mdash; choosing which terms you can actually win, and supplying the specific claim only you can make.</strong></p>
+
+  <h2>The split</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>AI</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Expanding a page matrix</td><td>Good</td><td>Mechanical combination work</td></tr>
+        <tr><td>Schema across many pages</td><td>Good</td><td>Valid JSON-LD is solved; consistency matters</td></tr>
+        <tr><td>Drafting section scaffolding</td><td>Good</td><td>Keeps 50 pages structurally uniform</td></tr>
+        <tr><td>Summarising competitor pages</td><td>Good</td><td>Reading at volume</td></tr>
+        <tr><td>Meta descriptions at scale</td><td>Fine</td><td>Needs a length and duplicate check after</td></tr>
+        <tr><td>Internal link suggestions</td><td>Fine</td><td>Verify every target exists</td></tr>
+        <tr><td>Choosing target terms</td><td><strong>Bad</strong></td><td>Needs SERP evidence it does not have</td></tr>
+        <tr><td>The specific claim per page</td><td><strong>Bad</strong></td><td>First-hand knowledge; produces filler instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The pattern is consistent: AI is strong at the work that is identical across every page, and weak at the work that makes any individual page worth having. Invert that and you get fifty pages of interchangeable text &mdash; and interchangeable is the one property that guarantees you will not rank.</p>
+
+  <h2>Where it saved real time</h2>
+  <p><strong>Consistency across a large set.</strong> When I built the <a href="/software">/software</a> pages, every one needed the same structure: title, meta, H1, lede, three sections, two or three FAQs, related links, and valid Service, FAQPage and BreadcrumbList markup. Doing that by hand across 57 pages means the last ten drift from the first ten. A model applies the same shape to page 57 as page 1.</p>
+  <p><strong>Reading competitors at volume.</strong> Pulling apart the best-ranking pages in a category to find what they cover and what they miss is exactly the kind of reading that is slow and low-judgement. That is how I found the gap I exploited: the best page in my category ran about 1,100 words with 40+ internal links and <em>no FAQ structured data at all</em>.</p>
+  <p><strong>Draft-then-cut.</strong> A model producing 1,500 words I cut to 900 is faster than me producing 900 from nothing, as long as I am ruthless about the cutting. The moment I start keeping paragraphs because they are already written, the advantage inverts.</p>
+
+  <h2>The three things I threw away</h2>
+  <p><strong>1. Keyword lists with no evidence behind them.</strong> Asked for target terms, a model produces a plausible list drawn from training data &mdash; no volume, no competition, no view of who currently ranks. It looks like research and contains no information. Every one of those terms had to be re-derived from actual SERPs, and the SERP told a completely different story: the head terms I had been handed were owned by product companies and decade-old publications.</p>
+  <p><strong>2. Confident, generic body copy.</strong> The default output for &ldquo;write about X&rdquo; is a competent summary of what already exists. It reads well and has no reason to be preferred over the pages it summarised. Anything that survived on my pages was a specific claim I supplied: a named incumbent product, a real build, an actual number.</p>
+  <p><strong>3. Internal links to pages that did not exist.</strong> A model suggesting related links will invent plausible URLs. I caught this in QA on this very content programme &mdash; two links pointed at pages I had not written yet. Now every internal link on every page gets resolved by a script before deploy, because the author cannot be trusted, including when the author is me.</p>
+
+  <h2>The rule that matters most</h2>
+  <p>Google&rsquo;s guidance on scaled content is not about production method. It is about whether pages exist primarily to manipulate rankings while offering nothing a reader could not get elsewhere.</p>
+  <p>So the test is simple and worth applying honestly: <strong>open two of your pages side by side. If a reader who needed one would be equally served by the other, you have built the thing that gets penalised.</strong></p>
+  <p>AI makes it much easier to fail that test, because generating another near-identical page is nearly free. The constraint has to come from you. On my set I built 32 of a possible 96 combinations; the other 64 had no real search intent or no honest answer from me, and shipping them would have been padding.</p>
+
+  <h2>A workflow that holds up</h2>
+  <ol>
+    <li><strong>Find the terms yourself, from real SERPs.</strong> Look at who ranks. If it is product sites and big publications, you are not winning that term with a page &mdash; go one level more specific.</li>
+    <li><strong>Write the claim first.</strong> Before any drafting, write the one sentence only you can say on this page. If you cannot, the page should not exist.</li>
+    <li><strong>Let AI build the scaffolding around that claim.</strong> Structure, consistency, schema, meta.</li>
+    <li><strong>Cut hard.</strong> Every paragraph that could appear on a competitor&rsquo;s page is a paragraph doing no work.</li>
+    <li><strong>Verify mechanically.</strong> Schema parses, links resolve, no duplicate titles or descriptions, every URL in the sitemap and every sitemap URL returning 200.</li>
+    <li><strong>Read every page.</strong> If the set is too large to read, it is too large to be accountable for.</li>
+  </ol>
+
+  <h2>On AI search specifically</h2>
+  <p>Worth separating from the myths, because a lot is being sold here. Google states plainly that it does not use llms.txt for ranking, that there is no special AI schema you need, and that you do not have to chop pages into small chunks.</p>
+  <p>What does travel well is unglamorous: publish something only you could write, make it crawlable and indexable, state claims clearly, cite evidence, and keep it current. I have written the longer version in <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search: what actually helps</a>.</p>
+
+  <h2>FAQ</h2>
+  <h3>Does AI-written content rank?</h3>
+  <p>Google judges helpfulness and originality, not production method. It ranks when it carries something only its author could say, and fails when it summarises what already ranks.</p>
+  <h3>What is AI genuinely good at?</h3>
+  <p>Structural, repetitive work: matrices, schema, consistent sections, reading competitors at volume.</p>
+  <h3>What should never be delegated?</h3>
+  <p>Choosing target terms, and the specific first-hand claim on each page. Both need evidence a model does not have.</p>
+  <h3>Can AI do keyword research?</h3>
+  <p>Not alone. Give it real SERP or volume data to analyse and it becomes useful immediately.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/programmatic-seo-with-ai">programmatic SEO with AI</a>, <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search</a>, and <a href="/guides/google-ai-overviews-guide">Google AI Overviews</a>.</p>
+</ContentArticle>

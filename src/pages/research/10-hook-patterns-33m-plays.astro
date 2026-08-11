@@ -1,0 +1,101 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What makes a good hook for a short-form video?', a: 'A specific number, a claim before any credentials, and a debt the viewer stays to collect. Across 19 posts totalling 33.1M plays, the openings that worked all created an obligation in the first sentence — a fight to resolve, a number to explain, or an instruction weird enough to need justifying.' },
+  { q: 'How long do you have to hook someone?', a: 'Three seconds, and the payoff has to land inside about five. The shortest winner in this set resolved its entire premise in 11.7 seconds. Anything that spends the opening on setup has already lost the people who were going to leave.' },
+  { q: 'Should I state credentials before the claim?', a: 'No. Every winner here leads with the claim and stacks credentials immediately after. Opening with who you are gives the viewer a reason to decide you are not for them before they have heard anything interesting.' },
+  { q: 'Do these patterns work outside the creator niche?', a: 'The mechanics do — manufactured tension, a precise number, an answer before the explanation. The specific content does not transfer. Copying the surface of a hook without the mechanic underneath is why most imitations fail.' },
+];
+---
+<ContentArticle
+  slug="10-hook-patterns-33m-plays"
+  seoTitle="10 Hook Patterns Behind 33.1M Plays"
+  description="Nineteen Instagram reels over 1M plays each, transcribed and analysed. The ten opening patterns, ranked by the plays behind them, with the mechanic that makes each one work."
+  heading="10 hook patterns behind"
+  accent="33.1M plays"
+  lede="Nineteen posts, every one over a million plays, pulled from a single 30-day window and transcribed. These are the actual spoken openings, not a theory about openings."
+  idx="09"
+  keywords="viral hooks, short form video, Instagram reels, hook patterns, content strategy, video retention"
+  faq={faq}
+>
+  <p><strong>Across 19 Instagram reels totalling 33.1M plays in one 30-day window, the openings that worked all did the same thing: they created a debt in the first sentence that the viewer stayed to collect. A fight to resolve, a number to explain, or an instruction strange enough to require justification. Ten distinct patterns, and the mechanic matters far more than the wording.</strong></p>
+
+  <h2>Method</h2>
+  <p>Every reel exceeding 1,000,000 plays from a set of tracked accounts over a 30-day window, pulled with captions and transcribed. Nineteen qualified. Each hook below is the verbatim spoken opening of a verified post, and the play count is that post&rsquo;s.</p>
+  <p>The obvious caveat: this is a survivorship-biased sample of large accounts. It tells you what winning openings look like, not what share of attempts win, and a small account should not expect the same absolute numbers. The patterns are still the patterns.</p>
+
+  <h2>1. Manufactured conflict</h2>
+  <p>Open mid-confrontation that turns out not to be one.</p>
+  <blockquote><p>&ldquo;Excuse me. I need to speak to the chef about this.&rdquo; &mdash; 6.35M plays, flips into &ldquo;best pasta of my life&rdquo;</p></blockquote>
+  <p><strong>Mechanic:</strong> the brain will not scroll past a fight starting. The flip from complaint to compliment lands within five seconds, before the viewer has decided to leave. This is the cheapest pattern to copy, because <em>any</em> positive message can be opened as a fake complaint.</p>
+
+  <h2>2. Catastrophic stake with a number</h2>
+  <blockquote><p>&ldquo;&hellip;a 70% chance this goes horribly wrong &mdash; like human extinction.&rdquo; &mdash; 3.31M</p></blockquote>
+  <p><strong>Mechanic:</strong> fear, plus a precise probability, plus a deadline. The number is what separates this from clickbait &mdash; &ldquo;this could be dangerous&rdquo; is noise, &ldquo;70%&rdquo; is a claim. Both posts using this pattern stacked credentials <em>immediately after</em> the claim, never before it.</p>
+
+  <h2>3. Absurd money claim in the first seven words</h2>
+  <blockquote><p>&ldquo;I used AI to make $15 billion last year.&rdquo; &mdash; 1.06M</p></blockquote>
+  <blockquote><p>&ldquo;I do a $106 million launch. My mom got to see it. She dies 4 weeks later.&rdquo; &mdash; 1.92M</p></blockquote>
+  <p><strong>Mechanic:</strong> an unbelievable specific number creates an explain-yourself debt. The second example doubles it with emotional whiplash &mdash; triumph and tragedy delivered in one flat breath &mdash; which is why it outperformed the pure money version.</p>
+
+  <h2>4. Prescriptive command</h2>
+  <p>An assignment, not advice.</p>
+  <blockquote><p>&ldquo;Go donate 5 hours to a retirement home.&rdquo; &mdash; 1.05M</p></blockquote>
+  <p><strong>Mechanic:</strong> a complete, doable, slightly weird instruction, which the rest of the video then earns. The weirdness is the retention. One of these even included the literal execution steps, which is the part most creators soften into abstraction and lose.</p>
+
+  <h2>5. Contrarian authority attack</h2>
+  <blockquote><p>&ldquo;The vitamin world is giving the wrong advice.&rdquo; &mdash; 1.77M</p></blockquote>
+  <p><strong>Mechanic:</strong> indict an entire industry in sentence one, then supercut the evidence with a new &ldquo;wait, really?&rdquo; roughly every eight seconds. Everything-you-know-is-wrong, applied to a problem most of the audience already has.</p>
+
+  <h2>6. Borrowed confession</h2>
+  <blockquote><p>&ldquo;I&rsquo;m 20 and I&rsquo;m at my breaking point. I have no family, no counsel and no friends.&rdquo; &mdash; 1.30M</p></blockquote>
+  <p><strong>Mechanic:</strong> reading a real viewer&rsquo;s message aloud borrows vulnerability without performing it, and the demographic that wrote it is exactly the demographic that stops. The payoff is the brutal turn afterwards.</p>
+
+  <h2>7. Hyper-specific past-self flex</h2>
+  <blockquote><p>&ldquo;Do you know how happy I was at 27 making $40,000 a year living in the villas on Springfield Avenue?&rdquo; &mdash; 1.49M</p></blockquote>
+  <p><strong>Mechanic:</strong> exact age, exact salary, exact street. Specificity is the credibility. &ldquo;When I was broke&rdquo; is a genre; a named street is a memory, and it time-travels the viewer with you.</p>
+
+  <h2>8. Big question, answered in four seconds</h2>
+  <blockquote><p>&ldquo;What is the key to a successful life?&rdquo; &mdash; &ldquo;Massive simplicity.&rdquo; &mdash; 1.37M</p></blockquote>
+  <p><strong>Mechanic:</strong> answer first, explanation second. Withholding the answer feels like tension and is actually just delay. One variant mapped a single insight across two domains at once, doubling the audience it applied to.</p>
+
+  <h2>9. Visual bait-and-switch</h2>
+  <blockquote><p>&ldquo;3, 2, 1. Oh no. Why is it red?&rdquo; &mdash; 1.85M, in 11.7 seconds</p></blockquote>
+  <p><strong>Mechanic:</strong> hijack a ritual everyone recognises, swap the payload. The shortest winner in the entire set. Confusion drives rewatches and comments, and those do the algorithm&rsquo;s work for you.</p>
+
+  <h2>10. Catchphrase plus a receipts promise</h2>
+  <p>A recognisable opener that regular viewers know, attached to a promise that this time there is proof. This one only works once you have returning viewers, which makes it the least copyable pattern here and the most valuable to build toward.</p>
+
+  <h2>What all nineteen shared</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>A number in the first sentence</td><td>Turns a vibe into a claim</td></tr>
+        <tr><td>Claim before credentials</td><td>Credentials first give people permission to leave</td></tr>
+        <tr><td>Payoff debt opened in 3 seconds</td><td>The decision to stay happens before that</td></tr>
+        <tr><td>No setup</td><td>Context is what you earn, not what you spend the opening on</td></tr>
+        <tr><td>Concrete over abstract</td><td>&ldquo;Springfield Avenue&rdquo; beats &ldquo;a rough neighbourhood&rdquo;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>How to use this</h2>
+  <p>The failure mode is copying the surface. Someone reads pattern one and posts a fake complaint about nothing, and it does not work, and they conclude hooks do not work.</p>
+  <p>The pattern is not &ldquo;say excuse me.&rdquo; It is <em>open inside a tension the viewer needs resolved.</em> Ask what your video&rsquo;s tension actually is, then find the pattern that fits it. If there is no tension, the hook cannot rescue it &mdash; that is a script problem wearing a hook problem&rsquo;s clothes.</p>
+  <p>The most transferable rule is the smallest one: <strong>put a specific number in the first sentence.</strong> It costs nothing, it works in any niche, and it converts an opinion into something that sounds like it can be checked.</p>
+
+  <h2>FAQ</h2>
+  <h3>What makes a good hook?</h3>
+  <p>A specific number, a claim before credentials, and a debt the viewer stays to collect. Every winner here opened an obligation in sentence one.</p>
+  <h3>How long do you have?</h3>
+  <p>Three seconds to hook, about five to pay off. The shortest winner resolved its whole premise in 11.7 seconds.</p>
+  <h3>Should credentials come first?</h3>
+  <p>No. Lead with the claim and stack credentials immediately after. Opening with who you are invites people to decide you are not for them.</p>
+  <h3>Do these work outside the creator niche?</h3>
+  <p>The mechanics do. The specific content does not. Copy the mechanic, not the wording.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/tiktok-vs-instagram-physics">why TikTok and Instagram are not the same game</a> and <a href="/research/carousels-are-depth-not-reach">carousels are depth, not reach</a>.</p>
+</ContentArticle>

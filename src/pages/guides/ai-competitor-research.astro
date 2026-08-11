@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'How do you research competitors with AI?', a: 'Use AI for the reading, not the finding. Pull a real dataset from a source that only contains people spending money — an ad library is ideal — then use a model to screen, categorise, and summarise it. Asking a model to name your competitors from its own knowledge produces a plausible list rather than a real one.' },
+  { q: 'What is the best free source of competitor intelligence?', a: 'Public ad libraries. Everyone in the results is spending money right now, which is a filter no directory gives you, and start dates let you infer which offers are working.' },
+  { q: 'How much does a competitor sweep like this cost?', a: 'The sweep behind this guide cost 158 API credits and covered 866 ads from 30 companies, screened from 585 advertisers. The expensive part is not data, it is deciding what question you are answering.' },
+  { q: 'Can I just ask ChatGPT who my competitors are?', a: 'You will get a confident list built from training data, weighted toward whoever had the most written about them. It will miss the small advertiser outspending everyone in your city and include companies that have since pivoted or closed. Use a model to read a real dataset, not to be one.' },
+];
+---
+<ContentArticle
+  slug="ai-competitor-research"
+  seoTitle="AI Competitor Research That Produces Real Answers"
+  description="How I pulled and read 866 competitor ads for 158 API credits: where the data comes from, what AI is good and bad at in this workflow, and the traps that produce confident wrong conclusions."
+  heading="AI competitor research"
+  accent="that works"
+  lede="I screened 585 advertisers down to 30 real competitors and read all 866 of their ads. The AI did the reading. It could not have done the finding."
+  idx="11"
+  keywords="AI competitor research, competitive analysis, ad library, market research, competitor intelligence"
+  faq={faq}
+>
+  <p><strong>Use AI for the reading, not the finding. Pull a dataset from a source that only contains people spending real money, then use a model to screen, categorise, and summarise it. Asking a model to name your competitors from its own knowledge returns a plausible list rather than a real one, and plausible is the failure mode that costs you the most time.</strong></p>
+
+  <h2>Why not just ask the model</h2>
+  <p>Because you get a list weighted toward whoever had the most written about them. It will confidently include companies that have pivoted or closed, and it will miss the small advertiser quietly outspending everyone in your category right now. Neither error announces itself.</p>
+  <p>The fix is to change the model&rsquo;s job. It should not be the source of facts. It should be the thing that reads a large pile of real facts faster than you can.</p>
+
+  <h2>Start with a source that filters for money</h2>
+  <p>The best free competitor data is a public ad library, and the reason is the filter rather than the fields. <strong>Everyone in the results is spending money right now.</strong> A directory lists whoever registered. An ad library lists whoever is currently paying to be seen, which is a far more useful definition of &ldquo;competitor.&rdquo;</p>
+  <p>It also gives you the one field that substitutes for performance data. There is no spend or conversion number, but there is a start date and an active flag, and nobody keeps paying to run a losing ad. I have written up <a href="/research/ad-longevity-as-a-conversion-proxy">how to read longevity as a conversion signal</a> separately, because it is the technique that makes the whole exercise worth doing.</p>
+
+  <h2>The pipeline</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stage</th><th>Who does it</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Pull ads by keyword</td><td>Script</td><td>Cache every raw response</td></tr>
+        <tr><td>Screen 585 &rarr; 30 real competitors</td><td><strong>AI</strong></td><td>Most results are adjacent, not competing</td></tr>
+        <tr><td>Categorise offers and price tiers</td><td><strong>AI</strong></td><td>Good at consistent buckets across hundreds of items</td></tr>
+        <tr><td>Compute longevity</td><td>Script</td><td>Arithmetic; never ask a model to do this</td></tr>
+        <tr><td>Visit sites, check claims</td><td>You</td><td>Ads and sites disagree more than you expect</td></tr>
+        <tr><td>Decide what it means</td><td>You</td><td>The only step that produces value</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Cache every raw response.</strong> This is the single most useful engineering decision in the whole workflow. It means you can re-run every filter, re-ask every question, and change your mind about the categories without spending a credit twice. My sweep cost 158 credits, and it would have cost several times that without caching, because the categories were wrong on the first two attempts.</p>
+
+  <h2>What AI is genuinely good at here</h2>
+  <p><strong>Screening at volume.</strong> Going from 585 advertisers to the 30 actually selling what you sell is a judgement call repeated hundreds of times, applied consistently. That is exactly the shape of task where a model beats a tired human.</p>
+  <p><strong>Consistent categorisation.</strong> Sorting 866 ads into offer types and price tiers by hand means the buckets drift by ad 300. A model applies the same definition to the last one as the first.</p>
+  <p><strong>Summarising a long tail.</strong> After the top ten competitors, reading the rest yourself has terrible returns. A model can compress the remainder into &ldquo;nothing new here except X.&rdquo;</p>
+
+  <h2>What it is bad at, and how it fails</h2>
+  <p><strong>Arithmetic on dates.</strong> Compute longevity in code. A model asked to work out days-live across hundreds of records will produce numbers that look right and are not, and there is no visual tell.</p>
+  <p><strong>Knowing what it did not see.</strong> This is the dangerous one. If your data is truncated, the summary will be confident and wrong, and nothing in the output will indicate it was working from a partial set.</p>
+  <p><strong>Judging significance.</strong> A model will faithfully report that four companies offer guarantees. It will not tell you that this is the most important sentence in the study. Deciding what matters is the part you cannot delegate, and it is the part that is worth money.</p>
+
+  <h2>Three traps that produce confident wrong answers</h2>
+  <p>All three cost me real time, and all three share a root cause: a response describes what it contains, never what it omitted.</p>
+  <p><strong>Silent truncation.</strong> Results come back a page at a time. A response holding exactly the page size always has more behind it. Reading page one and stopping made every advertiser look far newer than they were, understating longevity roughly tenfold on my first pass. <em>Any round number equal to your page size is a truncation, not a total.</em></p>
+  <p><strong>False zeros.</strong> A name-based search that resolves the wrong record returns a legitimate, well-formed, completely misleading empty result. Emptiness reads as a finding, so nobody retries it. I wrote this one up separately as <a href="/research/the-false-zero-machine">the false-zero machine</a>.</p>
+  <p><strong>Merging on the wrong key.</strong> Combining paginated results on anything derived from a name splits one advertiser into several fake competitors, inflating how crowded your market looks and deflating every per-competitor count.</p>
+
+  <h2>What to actually extract</h2>
+  <p>Having done this, the fields that repaid the effort:</p>
+  <ul>
+    <li><strong>Days live per creative.</strong> The proof signal. Everything else is context.</li>
+    <li><strong>The published price, and where it appears.</strong> In my market only 3 of 30 published one on their own site, which turned out to be the most commercially useful finding in the study.</li>
+    <li><strong>Guarantee wording, verbatim.</strong> Paraphrasing destroys the thing you are studying.</li>
+    <li><strong>Whether the ad destination still works.</strong> Free to check. I found a company that had paid for 564 days of traffic into a 404.</li>
+    <li><strong>Whether the ad and the site agree.</strong> One company advertised a flat $10,000 while its site said &ldquo;from $5K.&rdquo;</li>
+  </ul>
+
+  <h2>Make it repeatable</h2>
+  <p>The first sweep tells you the shape of the market. The <em>diff between sweeps</em> tells you who entered, who died, and which offers survived &mdash; and that is worth far more than any single snapshot.</p>
+  <p>Because raw responses are cached, a re-run is cheap. Put it on a schedule, keep the scripts, and treat the output as a market radar rather than a one-off report.</p>
+
+  <h2>FAQ</h2>
+  <h3>How do you research competitors with AI?</h3>
+  <p>Use it for reading, not finding. Pull a real dataset from a money-filtered source, then have a model screen, categorise, and summarise it.</p>
+  <h3>What is the best free source?</h3>
+  <p>Public ad libraries. Everyone in the results is spending money right now, and start dates let you infer which offers work.</p>
+  <h3>What does a sweep cost?</h3>
+  <p>Mine was 158 API credits for 866 ads across 30 companies. The expensive part is deciding what question you are answering.</p>
+  <h3>Can I just ask a chatbot who my competitors are?</h3>
+  <p>You will get a plausible list, not a real one &mdash; missing current small spenders and including companies that have closed.</p>
+
+  <p style="margin-top: 2rem;">The study this came from: <a href="/research/866-custom-software-ads">866 ads from 30 custom software companies</a>. Want it run on your category? <a href="/contact">Tell me what you sell</a>.</p>
+</ContentArticle>

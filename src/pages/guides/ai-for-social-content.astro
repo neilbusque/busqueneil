@@ -1,0 +1,91 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Can AI write social content that performs?', a: 'It can write the draft and the variations. It cannot supply the hook mechanic or the reason someone would share it, because both depend on knowing what actually worked rather than what sounds like it should. Give a model real winning examples to pattern-match against and the output changes completely.' },
+  { q: 'What should I feed a model to get better social copy?', a: 'Verbatim openings from posts that actually performed in your niche, with their numbers attached. A model asked to "write a viral hook" produces a parody of one; a model asked to apply a specific documented mechanic to your topic produces something usable.' },
+  { q: 'What is the single most transferable rule?', a: 'Put a specific number in the first sentence. It costs nothing, works in any niche, and converts an opinion into something that sounds checkable. It appeared in essentially every high-performing opening I analysed.' },
+  { q: 'Should I use AI to post at volume?', a: 'On TikTok, volume genuinely helps because every upload is auditioned to strangers regardless of account size. On Instagram it helps less, because distribution compounds through an audience. Match the cadence to the platform rather than to what the tooling makes easy.' },
+];
+---
+<ContentArticle
+  slug="ai-for-social-content"
+  seoTitle="Using AI for Social Content"
+  description="Built from analysing 19 posts totalling 33.1M plays and 105 TikToks rather than general best practice: what to feed a model, what it cannot supply, and the rule that transfers to any niche."
+  heading="Using AI for"
+  accent="social content"
+  lede="Most AI social copy fails the same way: it produces a parody of a viral post. The fix is not a better prompt, it is giving the model real evidence to pattern-match against."
+  idx="14"
+  keywords="AI social media content, AI content creation, viral hooks, short form video, content workflow"
+  faq={faq}
+>
+  <p><strong>AI can write the draft and the variations. It cannot supply the hook mechanic or the reason someone would share the post, because both depend on knowing what actually worked rather than what sounds like it should. Feed a model verbatim openings from posts that genuinely performed, with their numbers attached, and the output changes completely.</strong></p>
+
+  <h2>Why the default output fails</h2>
+  <p>Ask a model to &ldquo;write a viral hook&rdquo; and you get a sentence that resembles viral hooks in the way a stock photo of a meeting resembles a meeting. All the surface features, none of the mechanism.</p>
+  <p>The reason is that &ldquo;viral&rdquo; in training data is mostly people <em>writing about</em> virality, not the posts themselves with their performance attached. So the model has a strong prior on what viral content sounds like and almost none on what worked.</p>
+  <p>That is fixable, and the fix is not prompt engineering. It is evidence.</p>
+
+  <h2>What to feed it</h2>
+  <p>I keep a bank of posts that actually performed: verbatim spoken openings, full captions, transcripts, and the play counts. From one 30-day window that is 19 posts totalling 33.1M plays on one platform, plus 32 videos over 1M plays on another.</p>
+  <p>With that in context, the request changes shape. Instead of &ldquo;write a hook,&rdquo; it becomes: <em>here are ten openings that did over a million plays each and the mechanic behind each one; apply mechanic four to this topic.</em></p>
+  <p>That is a task a model is good at. Pattern-application against a supplied example is close to its best skill. Pattern <em>invention</em> from a vague brief is close to its worst.</p>
+
+  <h2>The mechanics worth applying</h2>
+  <p>From the analysis, the openings that worked all created a debt in the first sentence. A few that transfer cleanly to business content:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mechanic</th><th>What it does</th><th>Business version</th></tr></thead>
+      <tbody>
+        <tr><td>Manufactured conflict</td><td>Opens mid-tension, flips within 5s</td><td>Open as a complaint about your own industry</td></tr>
+        <tr><td>Stake with a number</td><td>Precise probability makes it a claim</td><td>&ldquo;44% of the contacts came back wrong&rdquo;</td></tr>
+        <tr><td>Answer in four seconds</td><td>Answer first, explanation second</td><td>Lead with the conclusion, justify after</td></tr>
+        <tr><td>Hyper-specific past self</td><td>Exact figures are the credibility</td><td>Real numbers, real dates, real names</td></tr>
+        <tr><td>Prescriptive command</td><td>An assignment, not advice</td><td>&ldquo;Go check your own ad destination&rdquo;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The full set, with verbatim examples and play counts, is in <a href="/research/10-hook-patterns-33m-plays">the ten hook patterns behind 33.1M plays</a>.</p>
+  <p>The failure mode when applying these is copying the surface. The pattern is not &ldquo;say excuse me.&rdquo; It is <em>open inside a tension the viewer needs resolved.</em> If your video has no tension, no hook rescues it &mdash; that is a script problem wearing a hook problem&rsquo;s clothes.</p>
+
+  <h2>The one rule that transfers everywhere</h2>
+  <p><strong>Put a specific number in the first sentence.</strong></p>
+  <p>It costs nothing, it works in any niche, and it converts an opinion into something that sounds like it can be checked. It appeared in essentially every high-performing opening I looked at, across both platforms and every subject matter.</p>
+  <p>This is also the easiest instruction to give a model and the easiest to verify in the output.</p>
+
+  <h2>Write the share test before the script</h2>
+  <p>This is the discipline that changed my hit rate more than any prompt.</p>
+  <p>Before writing anything, finish this sentence: <em>&ldquo;people will send this to a friend because ___&rdquo;.</em> The valid answers are narrow &mdash; it is <em>them</em>, it is terrifying, it is free money, it is genuinely funny. If you cannot finish it, the post has no distribution mechanism and editing will not add one.</p>
+  <p>The evidence for weighting this so heavily: among videos over a million plays, the winners ran share rates between 2.4% and 5.9%, while videos under roughly 0.1% had stalled <em>despite large raw view counts</em>. Views without shares look like success and lead nowhere.</p>
+  <p>A model is genuinely useful here as a critic. Give it the share test and your draft and ask which answer the draft earns. It is much better at judging against a stated criterion than at generating one.</p>
+
+  <h2>Match cadence to the platform</h2>
+  <p>AI makes volume cheap, which makes it tempting to post everywhere constantly. That is right on one platform and wasteful on another.</p>
+  <p>TikTok auditions every upload to strangers regardless of account size, so cadence genuinely compounds &mdash; more uploads is more chances. Instagram leans harder on distribution you have already built, so ten mediocre posts do less than one good one that earns saves and comments.</p>
+  <p>Duration matters too, and the middle is dead: winners cluster under 15 seconds or over two minutes, and the unremarkable 45-second tip video is the worst available choice. More on that in <a href="/research/tiktok-vs-instagram-physics">why TikTok and Instagram are not the same game</a>.</p>
+
+  <h2>A workflow</h2>
+  <ol>
+    <li><strong>Keep a bank of real winners in your niche</strong> with numbers attached. This is the asset; everything else is downstream of it.</li>
+    <li><strong>Write the share test first.</strong> No answer, no video.</li>
+    <li><strong>Pick a documented mechanic</strong> that fits your actual tension.</li>
+    <li><strong>Have the model apply it</strong> and produce several variations, not one.</li>
+    <li><strong>Check the first sentence has a number.</strong></li>
+    <li><strong>Cut to the platform&rsquo;s working length.</strong> Loop or long.</li>
+    <li><strong>Use the model as a critic</strong> against the share test before you publish.</li>
+  </ol>
+  <p>Note what AI is doing in that list: steps four and seven. The bank, the tension, the mechanic choice, and the number are yours. That ratio is roughly right for every AI content workflow I have built.</p>
+
+  <h2>FAQ</h2>
+  <h3>Can AI write social content that performs?</h3>
+  <p>It writes the draft and the variations. It cannot supply the mechanic or the share reason. Feed it real winners and the output changes completely.</p>
+  <h3>What should I feed it?</h3>
+  <p>Verbatim openings from posts that performed in your niche, with numbers attached.</p>
+  <h3>What is the most transferable rule?</h3>
+  <p>A specific number in the first sentence. It works in any niche and turns an opinion into a checkable claim.</p>
+  <h3>Should I use AI to post at volume?</h3>
+  <p>On TikTok yes, because every upload is re-auditioned. On Instagram less so, because distribution compounds.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/10-hook-patterns-33m-plays">the 10 hook patterns</a>, <a href="/research/carousels-are-depth-not-reach">carousels are depth not reach</a>, and <a href="/research/tiktok-vs-instagram-physics">TikTok vs Instagram physics</a>.</p>
+</ContentArticle>
