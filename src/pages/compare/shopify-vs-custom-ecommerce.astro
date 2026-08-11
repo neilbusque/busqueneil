@@ -1,0 +1,87 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'When is custom ecommerce worth building?', a: 'When your selling model does not fit a product-and-variant catalogue, when a platform fee scales with revenue you cannot afford to share, or when the store itself is the product. Outside those, the platform is almost always the better commercial decision.' },
+  { q: 'What does Shopify actually handle for you?', a: 'Payments, tax calculation, fraud checks, shipping rates, inventory, checkout conversion optimisation, PCI scope, and a large app ecosystem. Most of that is invisible until you have to build it, which is why custom builds overrun.' },
+  { q: 'Is a custom store better for SEO?', a: 'Not inherently. You get more control over structure and performance, which helps if you use it. A well-run platform store beats a custom one that nobody has optimised.' },
+  { q: 'What breaks first on custom ecommerce?', a: 'Checkout, tax, and fraud — in that order. Checkout is a conversion-optimised surface that platforms have spent years tuning, and rebuilding it usually converts worse before it converts better.' },
+];
+---
+<ContentArticle
+  slug="shopify-vs-custom-ecommerce"
+  seoTitle="Shopify vs Custom Ecommerce"
+  description="What the platform actually handles that you would have to build, the revenue point where custom starts paying for itself, and the three things that break first when people go custom too early."
+  heading="Shopify vs"
+  accent="custom ecommerce"
+  lede="The platform fee is the visible cost, so it gets the attention. The invisible cost of leaving is everything the platform was quietly doing that you now own."
+  idx="20"
+  keywords="Shopify vs custom ecommerce, headless commerce, ecommerce platform, build vs buy, online store"
+  faq={faq}
+>
+  <p><strong>Build custom when your selling model does not fit a product-and-variant catalogue, when platform fees scale with revenue you cannot share, or when the store itself is the product. Otherwise the platform wins, because most of what it does — tax, fraud, shipping rates, checkout conversion, PCI scope — is invisible until you have to build it yourself.</strong></p>
+
+  <h2>What you are actually buying</h2>
+  <p>People compare a subscription against development cost, which understates the platform badly. The subscription is not buying you a product catalogue and a template. It is buying:</p>
+  <ul>
+    <li><strong>Checkout that converts.</strong> Years of tuning on the single highest-stakes page. A rebuilt checkout usually converts worse before it converts better, and that gap is real revenue.</li>
+    <li><strong>Tax calculation.</strong> Rates that vary by jurisdiction and change without telling you.</li>
+    <li><strong>Fraud screening.</strong> Which you will not build well, and chargebacks are expensive to learn from.</li>
+    <li><strong>Shipping rates and labels.</strong> Live carrier rates are an integration project by themselves.</li>
+    <li><strong>PCI scope.</strong> Not touching card data is a meaningful reduction in obligation.</li>
+    <li><strong>An app ecosystem.</strong> Reviews, subscriptions, loyalty, email &mdash; each an install rather than a project.</li>
+  </ul>
+  <p>None of it is glamorous. All of it is load-bearing, and it is the part custom builds systematically underestimate.</p>
+
+  <h2>The three conditions for building</h2>
+  <p><strong>1. Your selling model is not a catalogue.</strong> This is the real one. If you sell configured products, quoted work, rentals with availability windows, or anything where price is computed rather than looked up, you will fight the platform&rsquo;s object model forever. The tell is a spreadsheet alongside the store holding the actual truth.</p>
+  <p><strong>2. Fees scale with revenue you cannot share.</strong> At low volume the fee is noise. At high volume, percentage-based costs become the dominant line item, and at some revenue the arithmetic decides for you. Do that arithmetic rather than feeling it.</p>
+  <p><strong>3. The store is the product.</strong> If the shopping experience is your differentiation rather than a way to take orders, you cannot build it on someone else&rsquo;s roadmap.</p>
+  <p>If none apply, spend the money on demand instead. That is a better return than a rebuild.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Platform</th><th>Custom</th></tr></thead>
+      <tbody>
+        <tr><td>Time to selling</td><td><strong>Days</strong></td><td>Months</td></tr>
+        <tr><td>Checkout conversion</td><td><strong>Tuned for you</strong></td><td>Your problem</td></tr>
+        <tr><td>Tax and fraud</td><td>Handled</td><td><strong>Yours</strong></td></tr>
+        <tr><td>Unusual selling model</td><td>Fight it</td><td><strong>Fits exactly</strong></td></tr>
+        <tr><td>Cost at high revenue</td><td>Percentage</td><td>Fixed-ish</td></tr>
+        <tr><td>Performance control</td><td>Limited by apps</td><td><strong>Total</strong></td></tr>
+        <tr><td>Ongoing burden</td><td>Subscription</td><td><strong>Maintenance forever</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The middle option people skip</h2>
+  <p>You do not have to choose between the platform&rsquo;s front end and rebuilding everything.</p>
+  <p>Keeping the platform for checkout, payments, tax and fulfilment while building your own storefront gets you presentation control and performance without owning the parts that are genuinely hard and genuinely regulated.</p>
+  <p>That is the right answer far more often than a full custom build, and it is frequently what people actually wanted when they said they had outgrown the platform. The cost is another integration boundary and a slightly more complicated deploy.</p>
+
+  <h2>What breaks first when people go custom too early</h2>
+  <ol>
+    <li><strong>Checkout conversion drops</strong> and nobody attributes it to the rebuild, because the store still works.</li>
+    <li><strong>Tax gets it wrong</strong> in a jurisdiction nobody thought about, and it is discovered later.</li>
+    <li><strong>Fraud arrives</strong> and the first few chargebacks are an expensive education.</li>
+    <li><strong>Small features become projects.</strong> A gift card, a discount rule, a subscription option &mdash; all previously an install.</li>
+  </ol>
+  <p>The pattern is the same as any build-versus-buy decision: the build is the estimated part, and the operating burden is the part that lands later. <a href="/software/build-vs-buy-software-checklist">The checklist I use is here</a>.</p>
+
+  <h2>On SEO</h2>
+  <p>Custom is not inherently better. You get more control over structure and performance, which helps only if you use it. A well-run platform store with clean structure and fast pages beats a custom store nobody has optimised, and app bloat is the usual reason platform stores are slow &mdash; which is a discipline problem, not a platform limitation.</p>
+
+  <h2>FAQ</h2>
+  <h3>When is custom worth it?</h3>
+  <p>An unusual selling model, fees scaling with revenue you cannot share, or the store being the product itself.</p>
+  <h3>What does the platform actually handle?</h3>
+  <p>Payments, tax, fraud, shipping rates, inventory, checkout conversion, PCI scope, and an app ecosystem. Invisible until you build it.</p>
+  <h3>Is custom better for SEO?</h3>
+  <p>Not inherently. More control, which only helps if used.</p>
+  <h3>What breaks first?</h3>
+  <p>Checkout conversion, then tax, then fraud.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/stripe-checkout-vs-payment-links">Stripe Checkout vs Payment Links</a>, <a href="/software/custom-software-vs-off-the-shelf">custom software vs off-the-shelf</a>, and <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>.</p>
+</ContentArticle>

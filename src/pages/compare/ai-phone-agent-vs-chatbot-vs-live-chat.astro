@@ -1,0 +1,89 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Which channel books the most jobs?', a: 'It depends on urgency. Urgent, high-value work arrives by phone and is won on response speed. Considered purchases arrive by chat and are won on answering questions well. Matching the channel to how the customer actually buys matters more than the technology behind it.' },
+  { q: 'Should I replace my phone line with a chatbot?', a: 'Not for urgent trades work. Someone with water coming through a ceiling is calling, not typing, and a chat widget is an obstacle rather than a channel.' },
+  { q: 'Is live chat worth staffing?', a: 'Only if you can answer within about a minute during the hours you advertise it. Slow live chat is worse than no live chat, because it sets an expectation of immediacy and then breaks it.' },
+  { q: 'Can one AI agent handle all three channels?', a: 'The underlying logic can be shared, and it should be. The conversation design cannot: phone punishes latency and silence, chat tolerates both and rewards structure and links.' },
+];
+---
+<ContentArticle
+  slug="ai-phone-agent-vs-chatbot-vs-live-chat"
+  seoTitle="AI Phone Agent vs Chatbot vs Live Chat"
+  description="Which channel actually books the job, by lead type — and why matching the channel to how your customer buys matters far more than which AI sits behind it."
+  heading="AI phone agent vs chatbot"
+  accent="vs live chat"
+  lede="These get compared as three flavours of the same thing. They serve genuinely different buyers, and picking by technology rather than by customer is the common mistake."
+  idx="17"
+  keywords="AI phone agent vs chatbot, live chat, lead capture, inbound leads, conversational AI"
+  faq={faq}
+>
+  <p><strong>Urgent, high-value work arrives by phone and is won on response speed. Considered purchases arrive by chat and are won on answering questions well. The right choice follows how your customer actually buys, not which technology is newest — and for urgent trades work, replacing the phone with a chat widget removes the channel your best leads use.</strong></p>
+
+  <h2>Match the channel to the buyer</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Situation</th><th>Channel</th><th>Won by</th></tr></thead>
+      <tbody>
+        <tr><td>Emergency, high value</td><td><strong>Phone</strong></td><td>Answering at all</td></tr>
+        <tr><td>Comparing three suppliers</td><td>Chat</td><td>Answering questions well</td></tr>
+        <tr><td>Simple factual question</td><td>Chatbot</td><td>Speed and accuracy</td></tr>
+        <tr><td>Complex or high-value sale</td><td>Live chat to human</td><td>Judgement</td></tr>
+        <tr><td>Out of hours, any type</td><td><strong>AI, either channel</strong></td><td>Existing at all</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The bottom row is the one that pays for itself regardless of channel. Out of hours, the comparison is not AI versus human &mdash; it is AI versus nothing.</p>
+
+  <h2>Why phone still wins urgent work</h2>
+  <p>Someone with a genuine emergency calls. They do not open a website and look for a chat bubble. If your business serves urgent needs and you route people to chat, you have added friction at exactly the moment friction costs most.</p>
+  <p>Phone also carries information a form does not: urgency, tone, whether this person has already had a bad experience with someone else. Even an AI agent transcribing the call captures far more than a three-field form.</p>
+  <p>And the leads are usually worth more. Emergency work is priced differently from planned work, so the channel where emergencies arrive deserves the best coverage you can give it.</p>
+
+  <h2>Why chat wins considered purchases</h2>
+  <p>Someone comparing suppliers has questions and does not want a conversation. Chat lets them ask, get an answer, and leave without the social cost of ending a call. It also lets them do it at work, quietly, which is when a lot of B2B research happens.</p>
+  <p>Chat is better at anything requiring a link, a price list, or something to read later. A phone agent reciting a URL is a poor experience; a chat message containing one is normal.</p>
+
+  <h2>What AI changes, and what it does not</h2>
+  <p><strong>It changes availability.</strong> This is the whole advantage, and it is enough. An agent answers in one ring at 9pm on a Sunday and asks the same qualifying questions every time. Most inbound leads are lost to response time rather than to a bad conversation.</p>
+  <p><strong>It does not change what each channel is for.</strong> An AI chatbot is still a chatbot: wrong for an emergency, right for a comparison shopper. Adding AI to the wrong channel produces a more sophisticated version of the wrong thing.</p>
+  <p>The failure modes are also channel-specific, and this is where most implementations go wrong. <strong>Phone punishes latency and silence.</strong> Two seconds of dead air on a call is alarming; two seconds in chat is invisible. Anything slow has to happen after a call, not during it. Chat tolerates delay and rewards structure &mdash; lists, links, something to scan.</p>
+
+  <h2>Live chat, honestly</h2>
+  <p>Only worth staffing if you can answer within about a minute during the hours you advertise it.</p>
+  <p>Slow live chat is worse than none, because the widget promises immediacy and then breaks the promise, which is a worse impression than never having offered. If you cannot cover it, an AI agent that answers instantly and hands off is better than a human who answers in twenty minutes.</p>
+  <p>The strongest configuration I have seen is AI first with fast human escalation: the agent handles routine questions and qualification, and anything real reaches a person quickly. That is different from AI as a wall in front of your team, which customers detect immediately and resent.</p>
+
+  <h2>Handoff is the design</h2>
+  <p>Whatever channel, the handoff should be a normal path rather than a failure state:</p>
+  <ul>
+    <li><strong>If they ask for a person, transfer immediately.</strong> No attempt to resolve it first. Every extra turn is a customer being annoyed.</li>
+    <li><strong>Two failed attempts at the same question is the ceiling.</strong> A third try does not fix a misunderstanding.</li>
+    <li><strong>Urgency routes to a human</strong>, and detection should be generous. A false positive costs a phone call; a false negative costs the customer.</li>
+    <li><strong>Anything about price</strong> where you have not published one.</li>
+    <li><strong>When nobody is available</strong>, say so plainly and commit to a specific callback time you can keep.</li>
+  </ul>
+
+  <h2>How to choose</h2>
+  <ol>
+    <li><strong>Look at where your best leads currently arrive.</strong> Not where you wish they did.</li>
+    <li><strong>Cover out of hours first.</strong> Cheapest win available, whichever channel.</li>
+    <li><strong>Urgent trades or medical?</strong> Phone, with AI covering the gaps.</li>
+    <li><strong>Considered B2B?</strong> Chat, with fast human escalation.</li>
+    <li><strong>Share the logic, not the script.</strong> Same qualification rules and same CRM writes; different conversation design per channel.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Which books the most jobs?</h3>
+  <p>Depends on urgency. Urgent high-value work comes by phone and is won on speed; considered purchases come by chat and are won on answers.</p>
+  <h3>Should I replace my phone line with a chatbot?</h3>
+  <p>Not for urgent work. People with emergencies call; a widget is an obstacle.</p>
+  <h3>Is live chat worth staffing?</h3>
+  <p>Only if you answer within about a minute during advertised hours. Slow live chat is worse than none.</p>
+  <h3>Can one agent handle all three?</h3>
+  <p>Share the logic, not the conversation design. Phone punishes latency; chat rewards structure.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-voice-agents-for-follow-up">AI voice agents for follow-up</a>, <a href="/software/ai-phone-agent-vs-answering-service">AI phone agent vs answering service</a>, and <a href="/software/ai-phone-agent-for-business">AI phone agents for business</a>.</p>
+</ContentArticle>

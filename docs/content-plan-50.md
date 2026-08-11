@@ -162,9 +162,21 @@ Pieces 44-46 double as proof for content work.
 | Lane | Live | Total |
 |---|---:|---:|
 | Research | 10 | 12 |
-| Comparisons | 13 | 22 |
-| AI × marketing | 14 | 16 |
-| **Total** | **37** | **50** |
+| Comparisons | 21 | 22 |
+| AI × marketing | **16** | 16 |
+| **Total** | **47** | **50** |
+
+**The three that are not live, and why.** None is a scheduling problem; each is a refusal:
+
+1. `claude-code-vs-cursor` — the highest-volume term in the programme. Neil ships with Claude
+   Code and Codex, not Cursor. The entire value of the compare cluster is first-hand
+   experience, so this stays unwritten until he puts real hours into Cursor, or it gets
+   rewritten as a documented-behaviour comparison that says so on the page.
+2. `40-products-in-a-year` — needs a real inventory of scope decisions (what got cut, what
+   shipped anyway, what broke) from Neil. Without it, it is an essay wearing a research
+   piece's clothes, and this lane's whole value is that it is not that.
+3. `what-20-sites-taught-me-about-traffic` — **cut.** Sonar holds ~2 days of usable history
+   and 136 visitors across 27 sites. Cannot support "a year of analytics across 20 sites".
 
 `src/layouts/ContentArticle.astro` carries the schema, breadcrumb and header for every piece,
 so an article file is frontmatter plus prose. It throws at build time if the slug is missing

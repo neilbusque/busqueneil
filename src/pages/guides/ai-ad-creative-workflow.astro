@@ -1,0 +1,89 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Can AI make ad creative that performs?', a: 'It can produce variations and assemble them quickly. It cannot supply the angle, and the angle is what decides performance. Feed it proven angles from ads that have actually run a long time and the output improves immediately.' },
+  { q: 'How do you know which ad angles work?', a: 'Public ad libraries show start dates. Nobody keeps paying to run a losing ad, so an ad still live after 60 days is the closest thing to a public conversion signal you can get for free.' },
+  { q: 'How many variations should I make?', a: 'Enough to test the angle, not the aesthetics. Twenty versions of one angle teaches you very little; four angles with three executions each teaches you which promise people respond to.' },
+  { q: 'What should stay human in ad production?', a: 'The angle, the claim, and anything factual. A model will invent a statistic or a customer outcome with complete confidence, and in an ad that is a claim you are publishing.' },
+];
+---
+<ContentArticle
+  slug="ai-ad-creative-workflow"
+  seoTitle="An AI Ad Creative Workflow That Ships"
+  description="Concept to rendered video without the volume trap: how to source proven angles from ad libraries, where AI genuinely accelerates production, and the human decisions that cannot be automated."
+  heading="An AI ad creative"
+  accent="workflow that ships"
+  lede="The temptation is to use AI to make more ads. The useful version is to use it to test more angles, which is a different thing and the one that actually moves performance."
+  idx="24"
+  keywords="AI ad creative, Meta ads, ad production workflow, creative testing, ad angles, video ads"
+  faq={faq}
+>
+  <p><strong>AI accelerates production, not judgement. It can produce variations and assemble them quickly; it cannot supply the angle, and the angle decides performance. The high-leverage move is using it to test more angles rather than to make more ads — twenty executions of one promise teaches you almost nothing.</strong></p>
+
+  <h2>Start with proven angles, not a blank page</h2>
+  <p>Before writing anything, find out what is already working in your category. Public ad libraries make this nearly free, and the field that matters is the start date.</p>
+  <p>Nobody keeps paying to run an ad that loses money. An ad still live after 60 days is paying for itself; 80 variants all under two weeks old is a company still searching. That makes longevity the closest thing to a public conversion signal available. <a href="/research/ad-longevity-as-a-conversion-proxy">The method is here</a>.</p>
+  <p>In a sweep of 866 ads across 30 competitors, the longest-running creative had been live <strong>564 days on a single execution</strong>. Its angle was a concrete team composition attached to a concrete monthly number. Nothing clever, and it outlasted everything clever.</p>
+  <p>That is the input you want: not &ldquo;write me an ad,&rdquo; but &ldquo;here are six angles that have survived months in this market, apply the third to my offer.&rdquo;</p>
+
+  <h2>The workflow</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stage</th><th>Who</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Find surviving angles</td><td>You, with tooling</td><td>Sort by start date, not relevance</td></tr>
+        <tr><td>Choose the angle</td><td><strong>You</strong></td><td>The decision that matters</td></tr>
+        <tr><td>Write the claim</td><td><strong>You</strong></td><td>Must be true and checkable</td></tr>
+        <tr><td>Script variations</td><td>AI</td><td>Same angle, different executions</td></tr>
+        <tr><td>Voiceover</td><td>AI</td><td>Fast, and good enough for testing</td></tr>
+        <tr><td>Assemble video</td><td>AI / code</td><td>Programmatic rendering scales</td></tr>
+        <tr><td>Captions</td><td>AI</td><td>Transcribe and time automatically</td></tr>
+        <tr><td>Final approval</td><td><strong>You</strong></td><td>Every factual claim</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The pattern is the same as everywhere else in this stack: AI does the work that is the same job repeated, and the human does the work that decides whether it is worth doing.</p>
+
+  <h2>Test angles, not aesthetics</h2>
+  <p>The most common waste is producing many variations of one promise. Different colours, different music, different opening shot &mdash; all testing execution while the thing that actually drives response stays fixed.</p>
+  <p><strong>Four angles with three executions each beats twenty executions of one angle.</strong> The first design tells you which promise people respond to; the second tells you which font.</p>
+  <p>This matters more now precisely because AI made execution cheap. When each variation cost a day, you were forced to think about the angle first. When each costs minutes, it is easy to generate a hundred ads that all say the same thing.</p>
+
+  <h2>Where AI genuinely earns its place</h2>
+  <p><strong>Voiceover.</strong> Good enough for testing, immediately, at no cost. You find out whether an angle works before paying for a real read.</p>
+  <p><strong>Programmatic assembly.</strong> Rendering video from code means a script change produces a new cut without reopening an editor. That is what makes many-angle testing practical rather than theoretical.</p>
+  <p><strong>Captions.</strong> Transcription and timing is exactly the kind of tedious, deterministic work to hand over. Most people watch without sound, so this is not optional.</p>
+  <p><strong>Variation within a fixed angle.</strong> Once you know the promise, generating five ways to say it is cheap and useful.</p>
+
+  <h2>What must stay human</h2>
+  <ul>
+    <li><strong>The angle.</strong> This is the entire game.</li>
+    <li><strong>Any factual claim.</strong> A model will invent a statistic, a customer outcome, or a testimonial with complete confidence. In an ad, that is a claim you are publishing and standing behind.</li>
+    <li><strong>Anything about a named client.</strong> Names, results and quotes require permission and accuracy.</li>
+    <li><strong>The final watch.</strong> Watch the whole thing before it runs. Assembly errors are obvious to a human and invisible to a pipeline.</li>
+  </ul>
+  <p>The claim rule is the one I hold hardest: <em>every number in a published ad must trace to something real.</em> If I cannot say where a figure came from, it does not ship.</p>
+
+  <h2>What the surviving ads have in common</h2>
+  <p>From the same sweep, the ads that lasted answered buyer fears with numbers rather than adjectives:</p>
+  <ul>
+    <li><strong>A specific deadline</strong> &mdash; 10 days, 14 days, 30 days.</li>
+    <li><strong>A guarantee attached to it.</strong> Only 4 of 30 companies offered real risk reversal, and 3 of those 4 ran the longest-lived ads in the market.</li>
+    <li><strong>A named mechanism.</strong> Exactly one company explained <em>how</em> it hit its timeline, and that is why its speed claim reads as credible rather than boastful.</li>
+  </ul>
+  <p>None of that is a production problem. All of it is decided before anyone opens a tool, which is the point of this whole page.</p>
+
+  <h2>FAQ</h2>
+  <h3>Can AI make ad creative that performs?</h3>
+  <p>It produces variations and assembles fast. It cannot supply the angle, which is what decides performance.</p>
+  <h3>How do you find working angles?</h3>
+  <p>Ad libraries show start dates. An ad live past 60 days is paying for itself &mdash; the closest free thing to a conversion signal.</p>
+  <h3>How many variations?</h3>
+  <p>Enough to test the angle, not the aesthetics. Four angles with three executions beats twenty executions of one.</p>
+  <h3>What stays human?</h3>
+  <p>The angle, the claim, anything factual, and the final watch.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/866-custom-software-ads">what 866 competitor ads revealed</a>, <a href="/research/guarantees-in-the-ad-library">only 4 of 30 offer a guarantee</a>, and <a href="/guides/ai-competitor-research">AI competitor research</a>.</p>
+</ContentArticle>

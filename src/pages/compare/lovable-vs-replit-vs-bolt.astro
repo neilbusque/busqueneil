@@ -1,0 +1,84 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Which AI app builder is best?', a: 'They are close enough that the choice matters less than what you do after the prototype. All three get you a working first screen quickly and all three hit the same wall at roughly the same place: integrations, edge cases, permissions, and deployment.' },
+  { q: 'Can you build a real product with an AI app builder?', a: 'You can build a real prototype, and a prototype is genuinely valuable — it is the cheapest way to find out whether an idea is worth building properly. Reaching production usually means taking the output somewhere else and finishing it as software.' },
+  { q: 'What is the wall people hit?', a: 'The point where the demo works and the software still cannot ship: connecting to systems that already exist, handling paths the demo never covered, getting permissions right, and staying debuggable once the codebase outgrows the context window.' },
+  { q: 'Is starting with one of these a mistake?', a: 'No. Starting is usually right. The mistake is treating the prototype as most of the work rather than the start of it, and then budgeting the remainder as a small finishing task.' },
+];
+---
+<ContentArticle
+  slug="lovable-vs-replit-vs-bolt"
+  seoTitle="Lovable vs Replit vs Bolt"
+  description="Where all three get you in an afternoon, the exact point each one stops, and why the choice between them matters far less than what you do with the output."
+  heading="Lovable vs Replit vs"
+  accent="Bolt"
+  lede="They are more alike than the comparison posts suggest. All three are genuinely good at the first screen, and all three stop in the same place for the same reasons."
+  idx="16"
+  keywords="Lovable vs Replit vs Bolt, AI app builder, vibe coding, prototype to production, no-code AI"
+  faq={faq}
+>
+  <p><strong>All three get you a working first screen fast, and all three stop at roughly the same point: integrations with systems that already exist, the paths the demo never covered, permissions, and deployment. The choice between them matters far less than whether you plan for what happens after the prototype.</strong></p>
+
+  <h2>Where they are the same</h2>
+  <p>More than the comparison content admits. Each takes a description and produces a running application with screens, some data, and a deploy. Each is impressively good at that, and each is genuinely useful.</p>
+  <p>They also share a shape of output: a self-contained application built on whatever stack the tool prefers, optimised for demonstrating an idea rather than for being extended by a team.</p>
+  <p>That is not a criticism. It is what a prototype is for. The problem starts when the prototype is mistaken for a foundation.</p>
+
+  <h2>How they differ</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Leans toward</th></tr></thead>
+      <tbody>
+        <tr><td>Lovable</td><td>Polished UI and product-shaped output from a description</td></tr>
+        <tr><td>Replit</td><td>A real development environment; closer to code you can keep working in</td></tr>
+        <tr><td>Bolt</td><td>Fast in-browser iteration on a working app</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>These are tendencies rather than hard boundaries, and they move with each release, so I would not choose on a feature table that ages in weeks. If you plan to keep working in the code yourself, the one that most resembles a normal development environment is the safer bet. If you want to show something to a stakeholder on Friday, take whichever produces the better-looking result.</p>
+
+  <h2>The wall</h2>
+  <p>This is the part worth planning for, and it is the same for all three.</p>
+  <ul>
+    <li><strong>Integration.</strong> The prototype stands alone. Real software has to talk to a CRM, a payment processor, an email provider, and whatever the business already runs. That is where most of the remaining work lives, and it is the part a prompt cannot infer because it depends on systems the model has never seen.</li>
+    <li><strong>The paths the demo never covered.</strong> A real user does something unanticipated on roughly day one.</li>
+    <li><strong>The debugging loop.</strong> One fix creates two bugs, context gets messier, and you stop being able to tell which change caused what. This is what people describe as burning credits without progress.</li>
+    <li><strong>Code that looks right and is wrong.</strong> A package that does not exist. A layout that breaks on a phone. A permission rule that exposes the wrong customer&rsquo;s data. All of it reads as confident and correct.</li>
+    <li><strong>Inherited decisions.</strong> Stack, host, and database shape were chosen for you. Changing them later is the expensive part.</li>
+  </ul>
+  <p>I use these tools and I still hit this. It is not a skill gap; it is the difference between generating code and operating software.</p>
+
+  <h2>How big is the market for this wall</h2>
+  <p>Large enough that it is being advertised against. In a study of 866 ads from companies selling custom software, <a href="/research/the-vibe-coding-wall">one company launched roughly 80 ad variants in two weeks</a> around a single idea: <em>you already tried building it with AI and hit a wall.</em></p>
+  <p>Their argument, in their words, is that these tools produce something closer to a wireframe with code behind it than production software, and that non-technical founders typically hit a wall after the prototype and hire developers anyway.</p>
+  <p>That is a competitor talking, so read it with that in mind. But the number of buyers in that exact position is now big enough to sustain an ad campaign, which is its own data point.</p>
+
+  <h2>How to use them well</h2>
+  <ol>
+    <li><strong>Use it to answer a question, not to build a product.</strong> &ldquo;Does this flow make sense to a user?&rdquo; is a question a prototype answers cheaply and well.</li>
+    <li><strong>Budget the remainder honestly.</strong> The first screen in an afternoon does not imply the rest in a week. The last stretch is a different kind of work.</li>
+    <li><strong>Get the code out early</strong> if you intend to keep going. The longer you stay inside the tool, the more decisions get made for you.</li>
+    <li><strong>Review permissions by hand.</strong> Always. This is the category where a mistake is a breach rather than a bug, and it is the one these tools handle least reliably.</li>
+    <li><strong>Do not demo it to a customer as finished.</strong> It will look finished. That is precisely the risk.</li>
+  </ol>
+
+  <h2>The honest summary</h2>
+  <p>Starting here is usually right. A prototype is the cheapest way to learn whether an idea deserves real investment, and it communicates intent better than any specification.</p>
+  <p>The mistake is treating it as most of the work. The first 80% got dramatically cheaper; the last 20% did not, and it is where integration, correctness, and the things that make software trustworthy live.</p>
+  <p>I wrote up six real defects that AI shipped for me and passed every check in <a href="/guides/why-hire-a-person-when-ai-can-build-it">why you still need a person when AI does the building</a>.</p>
+
+  <h2>FAQ</h2>
+  <h3>Which is best?</h3>
+  <p>Close enough that it matters less than what you do after. All three hit the same wall in the same place.</p>
+  <h3>Can you build a real product with one?</h3>
+  <p>A real prototype, yes, and that is valuable. Production usually means finishing it as software somewhere else.</p>
+  <h3>What is the wall?</h3>
+  <p>Integrations, uncovered paths, permissions, deployment, and a debugging loop that stops converging.</p>
+  <h3>Is starting with one a mistake?</h3>
+  <p>No. Treating the prototype as most of the work is.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/software/lovable-replit-vs-hiring-a-builder">AI builders vs hiring a builder</a>, <a href="/research/the-vibe-coding-wall">the vibe-coding wall</a>, and <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>.</p>
+</ContentArticle>

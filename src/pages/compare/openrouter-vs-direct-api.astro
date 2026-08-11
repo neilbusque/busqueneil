@@ -1,0 +1,95 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Should I use OpenRouter or call the provider API directly?', a: 'A router when you genuinely run several models, want to switch without a deploy, or need a fallback when one provider is unavailable. Direct when you run one model in production and want the provider\'s newest features the day they ship.' },
+  { q: 'Does a router cost more?', a: 'There is a margin, and against it you get one integration, one bill, and the ability to change models without shipping code. Whether that is worth it depends on volume — at high volume the margin becomes the dominant consideration.' },
+  { q: 'What is the biggest risk of routing?', a: 'Silent behaviour change. Models differ in how they handle tools, structured output, and long context, so a swap that looks like a config change can alter what your product does. Test the swap, never assume it.' },
+  { q: 'Can you run out of credit mid-production?', a: 'Yes, and it is a real operational risk with prepaid balances. A drained account looks like an application outage, so alert on balance the way you would alert on disk space.' },
+];
+---
+<ContentArticle
+  slug="openrouter-vs-direct-api"
+  seoTitle="OpenRouter vs Calling the API Direct"
+  description="Running five models across live products: what a router actually buys you, what it costs, and the failure modes that only appear once a real product depends on it."
+  heading="OpenRouter vs"
+  accent="the API direct"
+  lede="I run several models across live products, some through a router and some direct. The trade is not really about price, and the failures are not the ones people warn about."
+  idx="15"
+  keywords="OpenRouter vs OpenAI API, LLM routing, model fallback, AI infrastructure, multi-model"
+  faq={faq}
+>
+  <p><strong>A router buys you one integration, one bill, and the ability to change models without shipping code. Calling direct buys you the provider&rsquo;s newest features on the day they ship and one less party between you and the model. The decision is about how many models you actually run, and the real risk is not price — it is silent behaviour change on a swap.</strong></p>
+
+  <h2>What the router actually buys</h2>
+  <p><strong>One integration instead of several.</strong> The obvious one, and it matters more than it sounds when a product uses different models for different jobs &mdash; a cheap one for classification, a strong one for the hard step.</p>
+  <p><strong>Model choice as configuration.</strong> This is the one I value most. Changing which model backs a feature becomes a value in the database rather than a deploy. That turns a model swap from an engineering task into an operational one.</p>
+  <p><strong>A fallback path.</strong> When a provider has a bad hour, you can route around it. For anything user-facing that is worth real money.</p>
+  <p><strong>One bill.</strong> Administrative rather than technical, and still genuinely useful.</p>
+
+  <h2>What direct buys</h2>
+  <p><strong>New features immediately.</strong> Providers ship capabilities that take time to appear through an intermediary. If you need the newest tool-calling or structured-output behaviour, direct is where it lands first.</p>
+  <p><strong>One less party.</strong> Fewer moving parts, fewer places for a failure to originate, and no margin.</p>
+  <p><strong>Provider-specific behaviour you can rely on.</strong> If you have tuned prompts against one model&rsquo;s quirks, the abstraction is not buying you portability anyway.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Router</th><th>Direct</th></tr></thead>
+      <tbody>
+        <tr><td>Integrations to maintain</td><td>One</td><td>One per provider</td></tr>
+        <tr><td>Switching models</td><td><strong>Config change</strong></td><td>Code change</td></tr>
+        <tr><td>Fallback on outage</td><td><strong>Available</strong></td><td>Build it yourself</td></tr>
+        <tr><td>Newest provider features</td><td>Lags</td><td><strong>Immediate</strong></td></tr>
+        <tr><td>Cost</td><td>Margin on top</td><td>Provider price</td></tr>
+        <tr><td>Failure surface</td><td>Two parties</td><td>One</td></tr>
+        <tr><td>Best when</td><td>Several models, want flexibility</td><td>One model, want depth</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The failure nobody warns you about</h2>
+  <p><strong>A model swap is not a configuration change, even when it looks like one.</strong></p>
+  <p>Models differ in how they handle tool calling, how strictly they honour structured output, how they behave with long context, and how they respond to the same prompt. Switching the string in a config field can quietly change what your product does.</p>
+  <p>Two specific things I have hit:</p>
+  <p><strong>Optional string fields arriving as empty strings.</strong> Some models send an empty string where you expected the field to be absent, and if your validation treats empty as invalid, the call fails in a way that looks like a model problem rather than a serialisation one. Strip empty strings before validation.</p>
+  <p><strong>Reasoning behaviour on by default.</strong> A model that reasons before answering can consume its entire output budget thinking and return an empty result with a successful status code. A 200 with no content is the most confusing possible failure, because nothing errored. If a model exposes a reasoning setting, set it explicitly rather than accepting the default.</p>
+  <p>Both of these were invisible until a real product depended on them, and neither is the router&rsquo;s fault. They are what &ldquo;portability&rdquo; actually means in practice: the plumbing is portable, the behaviour is not.</p>
+
+  <h2>The operational risk</h2>
+  <p><strong>A drained prepaid balance looks exactly like an outage.</strong></p>
+  <p>With a router, credit is usually prepaid. When it runs out, calls fail, the product stops working, and nothing in your logs says &ldquo;you ran out of money.&rdquo; I have had this happen on more than one account.</p>
+  <p>Alert on balance the way you would alert on disk space. It is the same class of problem: a resource that depletes silently and takes the service down when it hits zero.</p>
+  <p>The related trap: do not track spend by summing what each call reports. Trust the balance endpoint. Reported per-call charges and the actual balance movement do not always agree, especially if the key is shared across several of your own tools.</p>
+
+  <h2>How I split it</h2>
+  <ol>
+    <li><strong>One model in production, no plans to change?</strong> Direct.</li>
+    <li><strong>Several models for different jobs?</strong> Router, for the single integration alone.</li>
+    <li><strong>Need to switch without shipping?</strong> Router.</li>
+    <li><strong>High volume, cost-sensitive?</strong> Direct, and build your own fallback.</li>
+    <li><strong>Either way:</strong> keep the model choice in configuration, not scattered through the code. That is what makes the decision reversible.</li>
+  </ol>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Test every model swap against real prompts</strong>, especially anything using tools or structured output.</li>
+    <li><strong>Strip empty strings before validating</strong> model output.</li>
+    <li><strong>Set reasoning behaviour explicitly</strong> where the option exists.</li>
+    <li><strong>Alert on credit balance.</strong></li>
+    <li><strong>Log which model actually served each request.</strong> When quality changes, the first question is what answered, and you cannot reconstruct that later.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <h3>Router or direct?</h3>
+  <p>Router for several models, config-level switching, and fallback. Direct for one model and the newest provider features.</p>
+  <h3>Does a router cost more?</h3>
+  <p>There is a margin, against one integration and one bill. At high volume the margin dominates.</p>
+  <h3>Biggest risk?</h3>
+  <p>Silent behaviour change on a swap. Models differ on tools, structured output and long context. Test, never assume.</p>
+  <h3>Can you run out of credit mid-production?</h3>
+  <p>Yes, and it looks like an outage. Alert on balance like disk space.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/claude-vs-gpt-for-coding">Claude vs GPT for coding</a>, <a href="/compare/mcp-vs-function-calling">MCP vs function calling</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+</ContentArticle>

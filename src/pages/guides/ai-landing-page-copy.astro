@@ -1,0 +1,89 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Can AI write landing page copy that converts?', a: 'It can draft structure and variations well. It cannot supply the objections, and the objections are what a landing page is actually answering. Feed it real language from real sales conversations and the output changes completely.' },
+  { q: 'Why does AI landing page copy sound the same?', a: 'Because the default output is the average of every landing page written on the topic, and the average is exactly what does not persuade. Specificity has to come from you — real numbers, real objections, real constraints.' },
+  { q: 'What is the highest-leverage thing on a landing page?', a: 'Publishing a price. In a study of 30 companies advertising in one market, only 3 published one on their own site. A number lets a buyer self-qualify and separates you from nearly everyone.' },
+  { q: 'Should AI write my headline?', a: 'It should write twenty and you should choose one. Models are much better at producing candidates you can compare than at producing a single best answer, and comparison is a better decision than accept-or-reject.' },
+];
+---
+<ContentArticle
+  slug="ai-landing-page-copy"
+  seoTitle="Writing Landing Page Copy with AI"
+  description="Where AI drafts well, where it flattens your voice, the edit pass that fixes it, and the one element most pages omit that separates you from 90% of your market."
+  heading="Writing landing page"
+  accent="copy with AI"
+  lede="A landing page answers objections. A model does not know your objections, so it writes around them fluently — and fluent avoidance is the most common failure in AI-drafted pages."
+  idx="25"
+  keywords="AI landing page copy, conversion copywriting, AI copywriting, landing page optimisation, sales copy"
+  faq={faq}
+>
+  <p><strong>A landing page exists to answer objections. A model does not know yours, so it writes fluently around them, which reads as competent and converts poorly. The fix is supplying real objection language from real conversations — and publishing a price, which in one market only 3 of 30 companies did.</strong></p>
+
+  <h2>What a landing page actually does</h2>
+  <p>It is not a description of your service. It is a sequence of answers to the questions someone is silently asking while deciding whether to contact you.</p>
+  <p>Will this work for my situation. How much. How long. What if it goes wrong. Why you rather than the other three tabs open right now.</p>
+  <p>A page that describes features without answering those is a brochure. It will read well and do nothing, and a model given no objection material will produce exactly that, because a description is the safest thing to generate from a product name.</p>
+
+  <h2>Supply the objections</h2>
+  <p>This is the single highest-leverage input, and it costs nothing but attention.</p>
+  <p>Write down what people actually say on calls. Not paraphrased into marketing language &mdash; the real words, including the awkward ones. &ldquo;How do I know you won&rsquo;t disappear halfway through&rdquo; is a real objection. &ldquo;Customers value reliability&rdquo; is what it becomes after somebody sanitises it, and the sanitised version cannot be answered.</p>
+  <p>Give a model the raw list and ask it to draft a section answering each directly. That produces a page shaped like a conversation. Give it nothing and it produces a page shaped like a template.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Supply this</th><th>Or get this</th></tr></thead>
+      <tbody>
+        <tr><td>Verbatim objections from calls</td><td>Generic benefit claims</td></tr>
+        <tr><td>Your actual price</td><td>&ldquo;Flexible pricing options&rdquo;</td></tr>
+        <tr><td>What you refuse to do</td><td>&ldquo;Tailored to your needs&rdquo;</td></tr>
+        <tr><td>A real project and its numbers</td><td>&ldquo;Proven track record&rdquo;</td></tr>
+        <tr><td>Who this is not for</td><td>Copy that appeals to nobody</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Publish a price</h2>
+  <p>The most underused element on the page, and I have measured how underused.</p>
+  <p>In a study of 30 companies actively buying ads in one market, <a href="/research/only-3-of-30-publish-a-price">only 3 published a price on their own website</a>. Everyone else gated it behind a call.</p>
+  <p>That leaves an enormous opening. A number lets a buyer self-qualify in ten seconds, and it disqualifies people who were never going to buy &mdash; which is the price doing its job. If your work genuinely varies, publish a floor, a range, or one worked example. Silence is not the only alternative to a fixed number.</p>
+  <p>The companies that do publish attach the number to a unit: a deadline, an hour count, a certification. None publish a bare figure, because a bare figure invites comparison while a figure plus a unit invites evaluation.</p>
+
+  <h2>Where AI is genuinely good</h2>
+  <ul>
+    <li><strong>Twenty headlines to choose from.</strong> Comparison is a better decision than accept-or-reject, and differences that are invisible in isolation are obvious side by side.</li>
+    <li><strong>Restructuring.</strong> &ldquo;Reorder these sections so the price objection is answered before the process section&rdquo; is a task it does well.</li>
+    <li><strong>Tightening.</strong> Give it a word ceiling and it will cut, usually correctly.</li>
+    <li><strong>Critiquing against a rule.</strong> Hand it your draft and a list of failure patterns and ask which you committed. Models judge against supplied criteria far better than they generate them.</li>
+    <li><strong>Drafting the boring necessary sections.</strong> FAQ, process, what happens next.</li>
+  </ul>
+
+  <h2>Where it flattens you</h2>
+  <p><strong>Voice.</strong> The default register is confident, warm, and slightly corporate, and it will sand down anything distinctive in your writing. If your voice is dry, or blunt, or funny, the model will smooth it into pleasant neutrality unless you give it examples of your actual writing to match.</p>
+  <p><strong>Commitment.</strong> Models hedge. &ldquo;Can help you achieve&rdquo; instead of &ldquo;does.&rdquo; &ldquo;Often results in&rdquo; instead of a number. Hedged copy is unpersuasive copy, and the hedging arrives so smoothly that it is easy to miss.</p>
+  <p><strong>Specifics.</strong> Asked for a concrete example it will invent one, and an invented client outcome on a live page is a claim you are making. Every number and named claim must trace to something real.</p>
+
+  <h2>The edit pass</h2>
+  <p>Run these in order on any AI draft:</p>
+  <ol>
+    <li><strong>Delete every sentence that could appear on a competitor&rsquo;s page.</strong> This usually removes a third of it.</li>
+    <li><strong>Replace every adjective with a number</strong> or delete it. &ldquo;Fast&rdquo; becomes a timeframe or goes.</li>
+    <li><strong>Unhedge.</strong> &ldquo;Can help&rdquo; becomes &ldquo;does&rdquo; or the claim gets dropped.</li>
+    <li><strong>Check every fact.</strong> If you cannot source it, cut it.</li>
+    <li><strong>Add what you refuse to do.</strong> Saying who you are not for is the most credible thing on most pages.</li>
+    <li><strong>Read it aloud.</strong> Anything you would not say to a person, rewrite.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Can AI write copy that converts?</h3>
+  <p>It drafts structure and variations well. It cannot supply the objections, which is what the page is answering.</p>
+  <h3>Why does it all sound the same?</h3>
+  <p>The default output is the average of everything written on the topic, and average does not persuade.</p>
+  <h3>What is the highest-leverage element?</h3>
+  <p>A published price. Only 3 of 30 companies in one studied market published one at all.</p>
+  <h3>Should AI write my headline?</h3>
+  <p>It should write twenty and you should pick. Comparison beats accept-or-reject.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/prompt-engineering-for-marketers">prompt engineering for marketers</a>, <a href="/research/only-3-of-30-publish-a-price">the pricing study</a>, and <a href="/services/landing-pages">how I build landing pages</a>.</p>
+</ContentArticle>

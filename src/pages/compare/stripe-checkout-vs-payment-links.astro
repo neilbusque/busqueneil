@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the difference between Stripe Checkout and Payment Links?', a: 'A Payment Link is a URL you create once and share; it needs no code at all. Checkout is a session your application creates, which lets you set the price, the customer, and the metadata per transaction. Payment Links are the fastest path to a first payment; Checkout is what you need once the purchase depends on application state.' },
+  { q: 'Which should I start with?', a: 'Payment Links, almost always. If you are validating whether anyone will pay, a link you can put in an email today beats an integration you ship next week.' },
+  { q: 'When do you have to move to Checkout?', a: 'When the price or the product depends on something your application knows — a quantity, a plan, a specific customer — or when you need reliable metadata tying the payment back to a record in your system.' },
+  { q: 'Do I still need webhooks?', a: 'Yes, for anything beyond taking money. The redirect after payment is not a reliable signal — customers close tabs and networks fail. Fulfilment should hang off the webhook, not the return URL.' },
+];
+---
+<ContentArticle
+  slug="stripe-checkout-vs-payment-links"
+  seoTitle="Stripe Checkout vs Payment Links"
+  description="The fastest path to a first paid customer, when you actually need to upgrade, and the webhook rule that decides whether your fulfilment is reliable."
+  heading="Stripe Checkout vs"
+  accent="Payment Links"
+  lede="Both take money. One takes an afternoon of integration and one takes four minutes, and the four-minute option is right more often than developers like to admit."
+  idx="19"
+  keywords="Stripe Checkout vs Payment Links, Stripe integration, payments, webhooks, subscription billing"
+  faq={faq}
+>
+  <p><strong>A Payment Link is a URL you create once and share, with no code. Checkout is a session your application creates, so the price, customer and metadata can depend on application state. Start with links — if you are validating whether anyone will pay, a URL you can send today beats an integration you ship next week.</strong></p>
+
+  <h2>The upgrade trigger</h2>
+  <p>Move from links to Checkout when <strong>the purchase depends on something only your application knows.</strong></p>
+  <p>A fixed-price product, a deposit, a one-off service: a link is sufficient and always will be. A price that varies by quantity, a plan chosen in your interface, a purchase that must be tied to a specific account record: that is a session, because a static URL cannot carry per-transaction context.</p>
+  <p>Until that is true, the integration is work with no return.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Payment Links</th><th>Checkout</th></tr></thead>
+      <tbody>
+        <tr><td>Time to first payment</td><td><strong>Minutes</strong></td><td>An afternoon</td></tr>
+        <tr><td>Code required</td><td><strong>None</strong></td><td>Server-side session creation</td></tr>
+        <tr><td>Dynamic pricing</td><td>No</td><td><strong>Yes</strong></td></tr>
+        <tr><td>Per-customer metadata</td><td>Limited</td><td><strong>Reliable</strong></td></tr>
+        <tr><td>Ties payment to a record</td><td>Awkward</td><td><strong>Designed for it</strong></td></tr>
+        <tr><td>Subscriptions</td><td>Supported</td><td>Supported, more control</td></tr>
+        <tr><td>Best for</td><td>Validating demand, fixed prices</td><td>A product with accounts</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The webhook rule</h2>
+  <p>The most important thing on this page, and it applies to both options.</p>
+  <p><strong>Do not fulfil on the redirect. Fulfil on the webhook.</strong></p>
+  <p>The success URL a customer lands on after paying is not a reliable signal that payment completed. Customers close the tab, networks drop, phones lock, and browsers do whatever they like. If your fulfilment logic lives on that page, some paying customers get nothing and you will not know until they email you.</p>
+  <p>The webhook is the authoritative event. Everything that grants access, sends a receipt, provisions an account, or notifies you should hang off it. The redirect page exists to say thank you and nothing more.</p>
+  <p>Two things that follow:</p>
+  <ul>
+    <li><strong>Webhook handlers must be idempotent.</strong> Events can arrive more than once, and provisioning twice is a support ticket at best and a duplicate charge at worst.</li>
+    <li><strong>Verify the signature.</strong> An unauthenticated webhook endpoint that grants access is an endpoint that grants access to anyone who finds it.</li>
+  </ul>
+
+  <h2>Where the webhook belongs</h2>
+  <p>Next to your database, not in your frontend deployment.</p>
+  <p>A webhook is an unauthenticated request from a third party that needs privileged write access. There is no user session; the payload is all you have. Putting that handler where the privileged credential already lives, rather than shipping that credential into your web application&rsquo;s environment, is the safer arrangement. <a href="/compare/supabase-functions-vs-vercel-functions">The general version of this argument is here</a>.</p>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Test with a real card in live mode once.</strong> Test mode does not exercise every path, and the first real payment is a bad time to discover that.</li>
+    <li><strong>Handle the failure states.</strong> Card declined, authentication required, subscription payment failed later. The last one is the most commonly skipped and the most costly, because it is silent churn.</li>
+    <li><strong>Put the customer identifier in metadata</strong> from the very first transaction, even on a link where it is awkward. Reconciling payments to accounts retroactively is miserable.</li>
+    <li><strong>One account, and know where the keys live.</strong> If several products share an account, be deliberate about which environment holds the live key.</li>
+    <li><strong>Do not build a billing portal.</strong> The hosted one handles cancellation, card updates and invoices, and none of that is where your differentiation lies.</li>
+  </ul>
+
+  <h2>The order I would do it in</h2>
+  <ol>
+    <li><strong>Payment Link.</strong> Get a real payment from a real person. This answers the only question that matters early.</li>
+    <li><strong>Add the webhook</strong> as soon as anything needs to happen after payment.</li>
+    <li><strong>Move to Checkout</strong> when price or product depends on application state.</li>
+    <li><strong>Add the hosted billing portal</strong> rather than building account management.</li>
+    <li><strong>Handle failed renewals</strong> before you need to, because you will need to.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>What is the difference?</h3>
+  <p>A link is a static URL needing no code. Checkout is a session your app creates, so price, customer and metadata can vary per transaction.</p>
+  <h3>Which should I start with?</h3>
+  <p>Links. Validating that someone will pay beats shipping an integration first.</p>
+  <h3>When do you upgrade?</h3>
+  <p>When the purchase depends on something only your application knows, or you need reliable metadata tying it to a record.</p>
+  <h3>Do I still need webhooks?</h3>
+  <p>Yes. The redirect is not a reliable signal. Fulfil on the webhook, make it idempotent, verify the signature.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/shopify-vs-custom-ecommerce">Shopify vs custom ecommerce</a> and <a href="/services/web-apps">how I build web apps</a>.</p>
+</ContentArticle>

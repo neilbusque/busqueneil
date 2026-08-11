@@ -1,0 +1,83 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Should I use SMS or WhatsApp for business messaging?', a: 'Follow your customers. SMS is near-universal in the US and needs no app agreement; WhatsApp dominates in much of Europe, Latin America and Asia and offers richer messages. Choosing on features rather than on where your customers already are is the common mistake.' },
+  { q: 'What is the WhatsApp template approval process?', a: 'Any message you send outside an open conversation window must use a pre-approved template. Approval takes time and templates can be rejected, so it is a planning constraint rather than a technical one — you cannot improvise an outbound message.' },
+  { q: 'Why do my business SMS messages not arrive?', a: 'In the US, almost always registration. Application-to-person traffic must be registered against a brand and campaign, and unregistered traffic gets filtered by carriers rather than rejected, so the send reports success and nothing arrives.' },
+  { q: 'Can I use one system for both?', a: 'Yes, and it is the sensible design: one messaging layer with channel-specific adapters. Just keep the constraints separate — the template rules and the registration rules are not interchangeable.' },
+];
+---
+<ContentArticle
+  slug="twilio-vs-whatsapp-business-api"
+  seoTitle="Twilio vs WhatsApp Business API"
+  description="Both wired into live products: the deliverability rules that decide whether messages arrive, the template constraint that shapes your whole outbound design, and why the channel choice is really a geography choice."
+  heading="Twilio vs"
+  accent="WhatsApp Business API"
+  lede="Both are in products I maintain. The interesting differences are not features — they are the approval regimes, and each one quietly shapes what you are allowed to build."
+  idx="18"
+  keywords="Twilio vs WhatsApp Business API, SMS vs WhatsApp, A2P registration, message templates, business messaging"
+  faq={faq}
+>
+  <p><strong>The choice is mostly geography: SMS is near-universal in the US and needs no agreement from the recipient&rsquo;s app; WhatsApp dominates much of Europe, Latin America and Asia and carries richer messages. The real differences are the approval regimes — carrier registration on one side, template approval on the other — and each shapes what you can build.</strong></p>
+
+  <h2>Follow the customer, not the feature list</h2>
+  <p>Whichever your customers already use daily wins, and it is not close. A rich, well-designed WhatsApp experience is worthless to someone who does not have WhatsApp, and an SMS is ignorable in a market where nobody uses SMS for anything but verification codes.</p>
+  <p>If you serve multiple regions the answer is both, with one messaging layer behind them. If you serve one, this section is the entire decision.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>SMS</th><th>WhatsApp</th></tr></thead>
+      <tbody>
+        <tr><td>Reach</td><td>Universal, no app needed</td><td>Only where adopted</td></tr>
+        <tr><td>Message richness</td><td>Text, plus MMS</td><td><strong>Media, buttons, lists</strong></td></tr>
+        <tr><td>Outbound constraint</td><td>Carrier registration</td><td><strong>Template approval</strong></td></tr>
+        <tr><td>Improvised outbound</td><td>Allowed once registered</td><td><strong>Not allowed</strong></td></tr>
+        <tr><td>Conversation window</td><td>Not a concept</td><td>Session rules apply</td></tr>
+        <tr><td>Cost per message</td><td>Per segment</td><td>Per conversation</td></tr>
+        <tr><td>Failure mode</td><td><strong>Silent filtering</strong></td><td>Explicit rejection</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>That last row is the most important operational difference. WhatsApp usually tells you no. Carriers often just do not deliver.</p>
+
+  <h2>The SMS failure that wastes days</h2>
+  <p><strong>Unregistered application traffic gets filtered, not rejected.</strong></p>
+  <p>In the US, messages sent from an application to a person must be registered against a brand and a campaign. If you skip that or your registration is incomplete, carriers filter the traffic. Your provider reports a successful send. The message does not arrive. Nothing anywhere says why.</p>
+  <p>This produces days of debugging in the wrong place &mdash; people check their code, their numbers, their formatting, and the answer is a registration form. If business SMS is not arriving and your logs look clean, check registration status before anything else.</p>
+  <p>It is the same shape as email deliverability: the send succeeded, the delivery did not, and the two are different systems reporting separately.</p>
+
+  <h2>The template constraint shapes your product</h2>
+  <p>On WhatsApp, anything you send outside an open conversation window must use a pre-approved template. Approval takes time and templates can be rejected.</p>
+  <p>The consequence is architectural, not administrative: <strong>you cannot improvise outbound.</strong> Every proactive message your product might ever send has to be conceived, written, submitted, and approved in advance. An AI agent that composes a novel message and sends it cold does not fit the model at all.</p>
+  <p>Design around it by treating templates as a schema. Enumerate the proactive messages your product sends, submit them, and use variables for the parts that change. Anything genuinely conversational happens inside an open window, where you can write freely.</p>
+  <p>Get this wrong and you discover it late, when a feature is built and cannot ship.</p>
+
+  <h2>Cost shapes differ</h2>
+  <p>SMS charges per message segment, and a long message is several segments &mdash; including when a single emoji flips the whole message to a different encoding and halves the segment length. Watch that if you send anything near a boundary.</p>
+  <p>WhatsApp charges per conversation window rather than per message, so a back-and-forth exchange costs differently from a single notification. That usually favours genuinely conversational use and penalises one-way blasting, which is deliberate.</p>
+
+  <h2>What I would build</h2>
+  <ol>
+    <li><strong>One messaging layer, channel adapters underneath.</strong> Your product should ask to send a message; the adapter decides how.</li>
+    <li><strong>Register early.</strong> Registration takes longer than you expect and blocks nothing else in the meantime.</li>
+    <li><strong>Enumerate your templates up front</strong> if WhatsApp is in scope. This is a design exercise, not paperwork.</li>
+    <li><strong>Treat delivery as separate from sending.</strong> Log both. A successful send is not a delivered message on either channel.</li>
+    <li><strong>Handle opt-outs properly and centrally.</strong> One suppression list across channels, honoured everywhere.</li>
+    <li><strong>Check the rules where you operate.</strong> Consent, quiet hours, and identification requirements vary by country and state, and they are not optional.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>SMS or WhatsApp?</h3>
+  <p>Follow your customers. SMS is universal in the US; WhatsApp dominates much of Europe, Latin America and Asia and carries richer messages.</p>
+  <h3>What is template approval?</h3>
+  <p>Anything sent outside an open conversation window must use a pre-approved template. It means you cannot improvise outbound.</p>
+  <h3>Why do my business SMS not arrive?</h3>
+  <p>Usually unregistered A2P traffic, which carriers filter rather than reject &mdash; so the send reports success and nothing arrives.</p>
+  <h3>Can I use one system for both?</h3>
+  <p>Yes: one messaging layer, channel adapters. Keep the constraint sets separate.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/resend-vs-mailgun">Resend vs Mailgun</a>, <a href="/guides/ai-voice-agents-for-follow-up">AI voice agents for follow-up</a>, and <a href="/services/ai-automation-services">automation services</a>.</p>
+</ContentArticle>

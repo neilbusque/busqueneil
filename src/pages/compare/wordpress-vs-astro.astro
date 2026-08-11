@@ -1,0 +1,98 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is Astro better than WordPress?', a: 'For a marketing site that mostly gets read, yes — it is faster, has a far smaller attack surface, and nothing to patch. For a site whose owner needs to add and rearrange pages themselves without a developer, WordPress is usually still the right answer.' },
+  { q: 'Who should not move off WordPress?', a: 'Anyone whose team edits the site weekly and has nobody technical. Trading a familiar editor for a git workflow makes the site faster and makes updating it someone else\'s job, which is often a worse outcome overall.' },
+  { q: 'Does moving to Astro improve SEO?', a: 'It usually improves Core Web Vitals, because a page that ships almost no JavaScript is interactive when it paints. That is one input among many. A well-built WordPress site beats a badly-built Astro one comfortably.' },
+  { q: 'What do you lose leaving WordPress?', a: 'The plugin ecosystem and the admin. Forms, memberships, ecommerce and search all become decisions you make and wire up rather than things you install.' },
+];
+---
+<ContentArticle
+  slug="wordpress-vs-astro"
+  seoTitle="WordPress vs Astro"
+  description="I have migrated sites off WordPress. What you gain, what you actually give up, and the specific type of business that should not move regardless of the performance argument."
+  heading="WordPress vs"
+  accent="Astro"
+  lede="The performance argument is real and it is not the important one. The important question is who edits the site, and most migration advice skips it entirely."
+  idx="14"
+  keywords="WordPress vs Astro, static site, headless CMS, site migration, Core Web Vitals, website performance"
+  faq={faq}
+>
+  <p><strong>Astro produces a faster site with almost no attack surface and nothing to patch. WordPress produces a site whose owner can change it without a developer. That second point decides more migrations than performance does, and it is the one people discover afterwards.</strong></p>
+
+  <h2>The question that decides it</h2>
+  <p><strong>Who edits this site, and how often?</strong></p>
+  <p>If the answer is a developer, or someone comfortable with a git workflow, Astro is better on nearly every axis. If the answer is the business owner adding a service page on a Tuesday, moving to a static build makes the site faster and makes updating it <em>someone else&rsquo;s job</em>. That is often a worse outcome even though every technical metric improved.</p>
+  <p>Plenty of migrations are technically successful and operationally a downgrade for exactly this reason.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>WordPress</th><th>Astro</th></tr></thead>
+      <tbody>
+        <tr><td>Non-technical editing</td><td><strong>Yes</strong></td><td>Needs a CMS bolted on</td></tr>
+        <tr><td>Speed by default</td><td>Depends on plugins</td><td><strong>Very fast</strong></td></tr>
+        <tr><td>Security maintenance</td><td>Ongoing, forever</td><td>Almost none</td></tr>
+        <tr><td>Plugin ecosystem</td><td><strong>Enormous</strong></td><td>You wire it up</td></tr>
+        <tr><td>Hosting cost</td><td>Managed hosting</td><td>Often near zero</td></tr>
+        <tr><td>Version control</td><td>Awkward</td><td><strong>Native</strong></td></tr>
+        <tr><td>Content at scale from data</td><td>Possible, clumsy</td><td><strong>Natural</strong></td></tr>
+        <tr><td>Ecommerce, memberships</td><td>Install a plugin</td><td>Integrate a service</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What you actually gain</h2>
+  <p><strong>Nothing to patch.</strong> This is underrated. A WordPress site is a running application with plugins that need updating, and an un-updated site is a liability that eventually becomes someone&rsquo;s bad afternoon. A static build has essentially no equivalent exposure.</p>
+  <p><strong>Speed you do not have to defend.</strong> On a content page there is no framework runtime to hydrate, so the page is interactive when it paints. You stop managing caching plugins to undo the cost of other plugins.</p>
+  <p><strong>Pages generated from data.</strong> This is the capability that changed most for me. One route plus one data file can produce a large set of genuinely distinct pages, versioned in git, each with its own metadata and structured data. Doing that in WordPress is possible and unpleasant. <a href="/guides/programmatic-seo-with-ai">I built 58 pages this way</a>.</p>
+  <p><strong>Real review.</strong> Content changes become diffs someone can look at before they are live, which is a different standard of care than editing production in an admin panel.</p>
+
+  <h2>What you give up</h2>
+  <p>Being straight about it, because migration content usually is not.</p>
+  <p><strong>The admin.</strong> Someone non-technical could add a page, upload an image, and reorder a menu. Replacing that means adding a headless CMS, which is another service, another cost, and another thing to keep in sync.</p>
+  <p><strong>The plugin ecosystem.</strong> Forms, memberships, ecommerce, search, multilingual &mdash; each becomes a decision and an integration instead of an install. For a simple marketing site that is fine. For anything with real functionality it is the whole project.</p>
+  <p><strong>Familiarity.</strong> Any agency can pick up a WordPress site. Fewer can pick up your Astro repository. That matters more for a client site than for your own.</p>
+
+  <h2>Who should not move</h2>
+  <ul>
+    <li><strong>A team that edits weekly with nobody technical.</strong> You will hand them a faster site they cannot change.</li>
+    <li><strong>Anyone depending on a handful of plugins for real functionality.</strong> Price the replacements before deciding, not after.</li>
+    <li><strong>A site that works and is not slow.</strong> Migration is a cost with no revenue attached. &ldquo;WordPress is old&rdquo; is not a business reason.</li>
+    <li><strong>A client who will need another agency later.</strong> Optimising for your preferences over their continuity is a bad trade.</li>
+  </ul>
+
+  <h2>Who should</h2>
+  <ul>
+    <li><strong>Sites that are mostly read.</strong> Marketing, documentation, portfolios, publications.</li>
+    <li><strong>Anyone generating pages from structured data.</strong> This is where the gap is largest.</li>
+    <li><strong>Sites where speed is commercially material</strong> and the current build is fighting plugin weight.</li>
+    <li><strong>Developer-maintained sites</strong> where the admin was never used anyway.</li>
+    <li><strong>Sites that have been compromised</strong> or keep needing security attention.</li>
+  </ul>
+
+  <h2>Migrating without losing rankings</h2>
+  <p>If you do move, the SEO risk is almost entirely in the URLs.</p>
+  <ol>
+    <li><strong>Inventory every indexed URL first.</strong> Not just the ones in your menu &mdash; old posts, attachment pages, category archives, anything with links.</li>
+    <li><strong>Map each to its new location</strong> and 301 it. A redirect map built after launch is a redirect map built from traffic you already lost.</li>
+    <li><strong>Keep slugs identical</strong> where you can. Every changed URL is a small unforced risk.</li>
+    <li><strong>Match or improve the content.</strong> A migration that quietly halves your word count is a content change wearing a technical change&rsquo;s clothes.</li>
+    <li><strong>Ship the sitemap on day one</strong> and confirm every URL in it returns 200.</li>
+    <li><strong>Watch coverage for a month.</strong> Problems surface as crawl errors before they surface as traffic loss.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Is Astro better than WordPress?</h3>
+  <p>For a site that mostly gets read, yes. For a site its owner needs to edit without a developer, usually not.</p>
+  <h3>Who should not move?</h3>
+  <p>Teams that edit weekly with nobody technical, and anyone relying on plugins for real functionality.</p>
+  <h3>Does moving improve SEO?</h3>
+  <p>It usually improves Core Web Vitals. That is one input. A well-built WordPress site beats a badly-built Astro one.</p>
+  <h3>What do you lose?</h3>
+  <p>The admin and the plugin ecosystem. Forms, memberships, ecommerce and search become integrations.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/astro-vs-nextjs">Astro vs Next.js</a>, <a href="/guides/programmatic-seo-with-ai">programmatic SEO with AI</a>, and <a href="/services/websites">how I build websites</a>.</p>
+</ContentArticle>
