@@ -1,0 +1,176 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Resend vs Mailgun';
+const description = 'A first-hand comparison from moving a production CRM to Mailgun, including the SPF and DKIM alignment trap that sends your mail to spam regardless of which provider you pick.';
+const canonical = 'https://busqueneil.com/compare/resend-vs-mailgun';
+const image = `${SITE_URL}/assets/brand/og-v13.png`;
+const published = '2026-08-11';
+const modified = '2026-08-11';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Resend vs Mailgun: What I Learned Moving a Production CRM',
+  description,
+  '@id': `${canonical}#article`,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image,
+  inLanguage: 'en-US',
+  keywords: 'Resend vs Mailgun, transactional email, SPF alignment, DKIM, email deliverability, SaaS email provider',
+};
+
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is Resend or Mailgun better?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Resend is the faster and more pleasant developer experience, especially for React-based templates and a first send inside ten minutes. Mailgun gives you more control over sending domains, routing, and per-domain reputation, which matters once one application sends on behalf of many customers. Neither is better in the abstract.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why does my email go to spam after switching providers?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Almost always SPF and DKIM alignment, not the provider. If you switch the sending provider but the domain still publishes the old provider SPF include and DKIM key, your mail leaves unaligned and gets filtered. Verify the exact sending domain, including the subdomain, before assuming the provider is at fault.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Should I send email from my root domain or a subdomain?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A subdomain such as mail.example.com is the safer default. It isolates the reputation of your application email from your root domain, and it lets you add a provider without editing an SPF record that other services already depend on.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I use two email providers at once?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Yes, and it is common. Split by lane rather than by provider preference: one provider for authentication mail, another for product and lifecycle mail. Each needs correct SPF and DKIM for the exact domain it sends from.',
+      },
+    },
+  ],
+};
+---
+<AppShell title={`${title} | Neil Busque`} description={description} canonical={canonical} ogImage={image} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Compare', url: 'https://busqueneil.com/compare' },
+      { name: 'Resend vs Mailgun', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">01</span> Compare</p>
+    <h1>Resend vs <span class="accent">Mailgun</span></h1>
+    <p class="lede">I moved the outbound email of a production multi-tenant CRM to Mailgun. The useful part of that experience turned out to have almost nothing to do with either product.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Resend is the better developer experience and the faster path to a first send. Mailgun gives you more control over sending domains, routing, and per-domain reputation, which starts to matter when one application sends on behalf of many customers. The choice that actually decides your deliverability is neither: it is which domain you send from.</strong></p>
+
+      <h2>The short version</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Resend</th><th>Mailgun</th></tr></thead>
+          <tbody>
+            <tr><td>Time to first send</td><td>Minutes</td><td>Longer; more configuration up front</td></tr>
+            <tr><td>Developer experience</td><td>Excellent, modern SDKs, React email templates</td><td>Functional, older surface area</td></tr>
+            <tr><td>Multiple sending domains</td><td>Supported, simpler model</td><td>Strong; built around per-domain control</td></tr>
+            <tr><td>Routing and inbound</td><td>Limited</td><td>Mature routing, inbound parsing</td></tr>
+            <tr><td>Logs and debugging</td><td>Clean, readable</td><td>Deeper, more raw detail</td></tr>
+            <tr><td>Best fit</td><td>Product and auth mail for one company</td><td>Many domains, many tenants, per-domain reputation</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If you are one company sending your own transactional mail, Resend will get you further faster and you should probably use it. If you are building something that sends on behalf of other businesses, the per-domain control is worth the extra setup.</p>
+
+      <h2>The thing that actually broke</h2>
+      <p>Here is the part I would want someone to tell me before a migration, because it cost me more thought than the provider comparison did.</p>
+      <p>Swapping providers is a small code change. Swapping providers <em>safely</em> is a DNS change, and DNS is where the failure lives. When the CRM moved to Mailgun, the sending domain was a subdomain, <code>mail.</code> the root. That was deliberate, and it is the reason the migration worked at all. The DNS looked like this:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Root domain</th><th>Mail subdomain</th></tr></thead>
+          <tbody>
+            <tr><td>SPF</td><td>Registrar include only, <strong>no Mailgun</strong></td><td>Mailgun include ✅</td></tr>
+            <tr><td>DKIM</td><td>The old provider&rsquo;s key</td><td>Mailgun&rsquo;s key ✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Send as the root domain through Mailgun and the mail leaves SPF- and DKIM-unaligned, and it lands in spam.</strong> Nothing in the application logs tells you this. The provider reports a successful send. The message simply does not arrive, or it arrives in a folder nobody reads.</p>
+      <p>The failure is silent, which is what makes it dangerous. A queue that reports 100% delivered and a customer who says they never got the email are describing the same event.</p>
+
+      <h2>Why a subdomain is the right default</h2>
+      <p>Two reasons, and the second one is the one people learn the hard way.</p>
+      <p>First, <strong>reputation isolation.</strong> If your product sends a badly-timed campaign and the domain takes a reputation hit, you want that contained. A subdomain means your invoices and password resets are not sharing a reputation with your marketing.</p>
+      <p>Second, <strong>you can add a provider without touching a record other services depend on.</strong> A root SPF record usually already carries an include for your registrar&rsquo;s mail forwarding, your calendar, your helpdesk. Adding a provider there means editing a live record that other things rely on, and SPF has a hard limit of ten DNS lookups. Replacing rather than merging that record is the classic way to break email you did not know you had.</p>
+      <p>If you do need to send from the root later, the order matters: add the root as a sending domain with the provider, publish its DKIM, <strong>merge</strong> the new include into the existing SPF rather than replacing it, and only then point the application at the new sender.</p>
+
+      <h2>Split by lane, not by provider</h2>
+      <p>The CRM ended up running two separate email paths, and I would do it this way again:</p>
+      <ul>
+        <li><strong>The customer lane</strong> &mdash; mail the product sends on behalf of a tenant. Per-workspace sender resolution, plan quotas, a warm-up ramp for new senders, every send logged.</li>
+        <li><strong>The platform lane</strong> &mdash; the product emailing its own users: onboarding, lifecycle, billing. Deliberately <em>not</em> subject to tenant quotas.</li>
+      </ul>
+      <p>That second point is the one worth stealing. If platform mail runs through the same quota system as customer mail, then a tenant who exhausts their sending cap also stops receiving &ldquo;your trial is ending&rdquo; and &ldquo;your payment failed.&rdquo; You have coupled your own revenue notifications to a customer&rsquo;s usage limit. Keep the lanes separate in code, not just in intent.</p>
+      <p>It is also completely reasonable to leave authentication mail on one provider while product mail moves to another. Users care that the reset link arrives, not whose logo is in the SMTP headers.</p>
+
+      <h2>How I would choose now</h2>
+      <ol>
+        <li><strong>One company, your own mail?</strong> Resend. The developer experience is genuinely better and you will ship sooner.</li>
+        <li><strong>Sending for other businesses, on their domains?</strong> Mailgun. Per-domain control and routing are the whole job.</li>
+        <li><strong>Either way, send from a subdomain</strong> and verify SPF and DKIM for that exact hostname before you move production traffic.</li>
+        <li><strong>Make the sender one environment variable.</strong> On the CRM it is a single value. That is what made the change reversible, and reversibility is worth more than picking right the first time.</li>
+      </ol>
+
+      <h2>What to check before you switch</h2>
+      <ul>
+        <li>Send a test to a Gmail address and open <em>Show original</em>. You want <code>SPF: PASS</code> and <code>DKIM: PASS</code> with the signing domain matching your From address.</li>
+        <li>Confirm your SPF record still resolves under ten DNS lookups after the change.</li>
+        <li>Check whether anything else already sends as that domain. Registrar forwarding is the usual surprise.</li>
+        <li>Warm up gradually if the domain has no sending history. Volume from a cold domain looks exactly like a compromised account.</li>
+        <li>Keep a rollback: one environment variable, not a redeploy.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+
+      <h3>Is Resend or Mailgun better?</h3>
+      <p>Neither in the abstract. Resend is the better developer experience and the faster first send. Mailgun gives more control over sending domains and routing, which matters once you send on behalf of many customers.</p>
+
+      <h3>Why did my email start going to spam after switching providers?</h3>
+      <p>Almost always SPF and DKIM alignment rather than the provider. If the domain still publishes the old provider&rsquo;s include and key, mail sent through the new one leaves unaligned. Check the exact sending hostname, including the subdomain.</p>
+
+      <h3>Should I send from my root domain or a subdomain?</h3>
+      <p>A subdomain, by default. It isolates your application&rsquo;s sending reputation and lets you add a provider without editing an SPF record other services already depend on.</p>
+
+      <h3>Can I run two email providers at once?</h3>
+      <p>Yes, and it is common. Split by lane: authentication on one, product and lifecycle on the other. Each needs correct SPF and DKIM for the domain it actually sends from.</p>
+
+      <h3>Does the provider affect deliverability much?</h3>
+      <p>Less than people expect. Both are reputable senders. Your domain authentication, your sending history, and whether recipients want your mail matter considerably more than the logo on the dashboard.</p>
+
+      <p style="margin-top: 2rem;">If you are wiring email into a product and want it to work the first time, <a href="/contact">tell me what you are building</a>. Related: <a href="/compare">other tool comparisons</a>, <a href="/guides/postgres-row-level-security">Postgres row-level security</a>, and <a href="/services/web-apps">how I build web apps</a>.</p>
+    </div>
+  </article>
+</AppShell>

@@ -363,6 +363,58 @@ a { color: var(--accent-ink); }
 .prose pre code { background: none; padding: 0; font-size: inherit; }
 .prose :not(pre) > code { overflow-wrap: anywhere; }
 
+/* ---- comparison tables ----
+   Added for the /compare and /research clusters. Tables are the highest-value element in
+   this content programme: comparison content is roughly a third of all AI citations, and a
+   table extracts far more cleanly than the same facts written as prose.
+
+   ⚠️ .prose is capped at 68ch for readability, which is narrower than most 4-column tables
+   need. .table-wrap breaks out of that cap and scrolls horizontally on its own rather than
+   letting the page body scroll sideways — a page that scrolls horizontally on a phone reads
+   as broken even when only one element overflows. */
+.prose .table-wrap {
+  max-width: min(100%, 82ch);
+  margin: 0 0 30px;
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.prose table {
+  width: 100%;
+  min-width: 32rem;
+  border-collapse: collapse;
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+.prose thead th {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-3);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+.prose tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.prose tbody tr:last-child td { border-bottom: 0; }
+.prose tbody td strong { color: var(--ink); }
+/* First column is the row label; keep it on one line so the table reads as a grid. */
+.prose tbody td:first-child { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .prose table { font-size: 14.5px; min-width: 28rem; }
+  .prose thead th, .prose tbody td { padding: 10px 12px; }
+}
+
 @media (max-width: 640px) {
   .article-page { padding: 40px 0 68px; }
   .article-page h1 { font-size: clamp(30px, 10vw, 42px); overflow-wrap: anywhere; }

@@ -1,0 +1,174 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'Programmatic SEO with AI';
+const description = 'How I shipped 58 pages from one route and one data file: picking terms that can actually be won, the guardrails that keep pages from reading as templates, and where AI genuinely helps.';
+const canonical = 'https://busqueneil.com/guides/programmatic-seo-with-ai';
+const image = `${SITE_URL}/assets/brand/og-v13.png`;
+const published = '2026-08-11';
+const modified = '2026-08-11';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Programmatic SEO with AI: How I Shipped 58 Pages',
+  description,
+  '@id': `${canonical}#article`,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image,
+  inLanguage: 'en-US',
+  keywords: 'programmatic SEO, pSEO, AI content, Astro dynamic routes, long-tail keywords, scaled content, structured data',
+};
+
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Is programmatic SEO against Google guidelines?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Generating pages at scale is not itself a violation. What Google acts on is scaled content abuse: pages made primarily to manipulate rankings that provide no real value. The test is whether each page answers a distinct question with information a reader could not get from the page next to it.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How many programmatic pages should I start with?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Start small enough that you could hand-check every page. I shipped 57 plus a hub. That was small enough to read all of them and large enough to tell within a couple of months which combinations attract impressions and which are dead weight.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Should AI write the pages?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'AI is good at the structural work: expanding a matrix, drafting consistent sections, keeping schema valid across many pages. It is bad at the part that decides whether the page ranks, which is the specific first-hand claim only you can make. Write those yourself and let AI carry the scaffolding.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What makes a programmatic page fail?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Targeting head terms. Head terms in most categories are owned by product sites and listicles with far more authority. Programmatic content wins on specific long-tail intent where no single page exists yet, and loses badly anywhere a well-resourced competitor already sits.',
+      },
+    },
+  ],
+};
+---
+<AppShell title={`${title} | Neil Busque`} description={description} canonical={canonical} ogImage={image} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Resources', url: 'https://busqueneil.com/resources' },
+      { name: 'Programmatic SEO with AI', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">10</span> Guide</p>
+    <h1>Programmatic SEO <span class="accent">with AI</span></h1>
+    <p class="lede">I shipped 58 pages from one route and one data file. Here is the method, including the decision that mattered more than any of the tooling.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Programmatic SEO generates many pages from one template and one dataset. It works when each page answers a distinct long-tail question that no single page currently answers well. It fails when it targets head terms, because those are already owned by product sites and listicles with far more authority. AI helps with the scaffolding, not with the part that decides whether you rank.</strong></p>
+
+      <h2>What I built</h2>
+      <p>One dynamic route, one hub page, and a data file. 57 pages plus the hub, live on this site at <a href="/software">/software</a>. The shape:</p>
+      <ul>
+        <li><strong>12 industries</strong> &mdash; roofing, construction, HVAC, plumbing, landscaping, dental, law, real estate, property management, accounting, med spa, gyms.</li>
+        <li><strong>8 systems</strong> &mdash; CRM, AI phone agent, client portal, quoting, workflow automation, AI email, booking, dashboards.</li>
+        <li><strong>32 curated combinations</strong> from that matrix, not all 96. More on why below.</li>
+        <li><strong>5 decision pages</strong> &mdash; custom vs off-the-shelf, cost, AI phone agent vs answering service, AI builders vs hiring, a build-vs-buy checklist.</li>
+      </ul>
+      <p>Roughly 700 to 950 words each, every one with its own title, meta description, H1, lede, three body sections, two or three FAQs, and related links. Service, FAQPage and BreadcrumbList structured data on all of them. Every URL in the sitemap.</p>
+
+      <h2>The decision that mattered</h2>
+      <p>Before writing a single page I ran SERP checks on the obvious terms. &ldquo;Roofing CRM&rdquo; is owned by the product companies that sell roofing CRMs, plus listicles from publications with a decade of authority. I was not going to take that, and neither are you.</p>
+      <p>So the matrix targets the layer underneath: <em>&ldquo;custom CRM for roofing companies&rdquo;</em> rather than <em>&ldquo;roofing CRM.&rdquo;</em> Lower volume, much more specific intent, and crucially, a question that no existing page answers directly because the product sites cannot answer it. A company selling a roofing CRM cannot write an honest page about when you should build your own instead.</p>
+      <p><strong>That is the whole game.</strong> Programmatic SEO is not a way to compete for terms you would otherwise lose. It is a way to be the first good answer to a specific question. If you cannot name a question where you would be the best answer, more pages will not fix it.</p>
+
+      <h2>Finding the gap in what already ranks</h2>
+      <p>I pulled apart the best-performing competitor page in the category. It ran about 1,100 words, carried more than 40 internal links, and covered the ground fairly well. It also had <strong>no FAQ structured data at all</strong>, and it never named a competing product.</p>
+      <p>Both of those are openings. Adding FAQ markup is mechanical. Naming the incumbent honestly is not, and it is the more valuable of the two: every one of my combination pages names the real software people already use in that industry &mdash; AccuLynx, ServiceTitan, Clio, AppFolio, Mindbody &mdash; and says plainly when that product is the better choice.</p>
+      <p>That feels counterintuitive on a page meant to sell custom software. It is the reason the pages are worth reading. A page that says &ldquo;ServiceTitan is genuinely good, and here are the three situations where it stops fitting&rdquo; is more persuasive than one that pretends the incumbent does not exist, and it is far more likely to be cited by an AI answer, which has no incentive to repeat marketing copy.</p>
+
+      <h2>Where AI actually helps</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Task</th><th>AI</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Expanding the matrix</td><td>Good</td><td>Mechanical combination work with consistent shape</td></tr>
+            <tr><td>Drafting section scaffolding</td><td>Good</td><td>Keeps structure uniform across 57 pages</td></tr>
+            <tr><td>Schema across many pages</td><td>Good</td><td>Valid JSON-LD is a solved problem, and consistency matters</td></tr>
+            <tr><td>Meta descriptions at scale</td><td>Fine</td><td>Needs a length check and a duplicate check afterwards</td></tr>
+            <tr><td>Choosing which combinations to build</td><td><strong>Bad</strong></td><td>Requires SERP evidence and a judgement about what you can win</td></tr>
+            <tr><td>The specific claim on each page</td><td><strong>Bad</strong></td><td>This is first-hand knowledge; a model will produce plausible filler</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The split is consistent: AI is strong at the work that is the same across every page and weak at the work that makes any individual page worth having. If you invert that, you get 57 pages of confident, well-formatted, interchangeable text, and interchangeable is the one thing that guarantees you will not rank.</p>
+
+      <h2>Guardrails</h2>
+      <p>Four rules I would keep on any build like this:</p>
+      <ol>
+        <li><strong>Curate the matrix, do not multiply it.</strong> 12 industries times 8 systems is 96 pages. I built 32. The other 64 combinations either had no real search intent or no honest answer from me. Shipping them would have been padding.</li>
+        <li><strong>Every page needs one thing only it can say.</strong> If the industry-specific paragraph could be swapped with another page&rsquo;s and nobody would notice, the page should not exist.</li>
+        <li><strong>Limit claims to what is true.</strong> Mine reference actual builds: a roofing voice agent, a contractor billing app, client portals, CRMs. No invented case studies, no fabricated metrics, no testimonials that did not happen. This is the rule I would break last.</li>
+        <li><strong>Keep it small enough to read.</strong> I hand-checked all 57. If a set is too big to read, it is too big to be accountable for.</li>
+      </ol>
+
+      <h2>The architecture</h2>
+      <p>Deliberately boring, which is the point. One dynamic route resolves a slug against a data file and renders. The data is split into a few modules for readability, merged into a single exported array. The sitemap route imports the same array, so a page cannot exist without being in the sitemap, and cannot be in the sitemap without existing.</p>
+      <p>That single-source-of-truth detail is worth more than it sounds. The common failure in scaled content is drift: a page that is orphaned from the sitemap, or a sitemap entry that 404s and reports as a coverage error. If both read the same array, neither can happen.</p>
+      <p>The crawl path matters too. These pages are linked from the services section, not floating. A page nothing links to is a page that gets crawled late and treated as unimportant, no matter what your sitemap says.</p>
+
+      <h2>Is this against Google&rsquo;s guidelines?</h2>
+      <p>Generating pages at scale is not itself a violation. What Google acts on is scaled content abuse: pages produced primarily to manipulate rankings, offering nothing a reader could not get elsewhere. The distinction is not the method, it is whether the output is worth reading.</p>
+      <p>A practical test: open two of your pages side by side. If a reader who needed one would be equally served by the other, you have built the thing Google penalises. If each answers a genuinely different question, you have built a content library that happens to share a template &mdash; which is what every documentation site on the internet is.</p>
+
+      <h2>What I would do differently</h2>
+      <ul>
+        <li><strong>Per-page social images.</strong> Mine share one. A generated image per page is a small job I skipped.</li>
+        <li><strong>Decide the review cadence up front.</strong> Programmatic pages age. Named competitor products change their pricing and features, and a stale claim about a competitor is worse than no claim.</li>
+        <li><strong>Instrument before publishing, not after.</strong> Knowing which combinations draw impressions is what tells you where to expand. That data only starts accumulating once the pages are live, so wire it up first.</li>
+      </ul>
+
+      <h2>FAQ</h2>
+
+      <h3>Is programmatic SEO against Google guidelines?</h3>
+      <p>No. Scale is not the violation. Scaled content abuse is: pages built mainly to manipulate rankings with no real value. Each page needs to answer a distinct question with information the page next to it does not carry.</p>
+
+      <h3>How many pages should I start with?</h3>
+      <p>Few enough to hand-check every one. I shipped 57 plus a hub, which was small enough to read in full and large enough to learn from.</p>
+
+      <h3>Should AI write the pages?</h3>
+      <p>AI should write the scaffolding: structure, consistent sections, valid schema across many pages. You write the specific first-hand claim on each one, because that is the part that decides whether the page deserves to rank.</p>
+
+      <h3>What makes a programmatic page fail?</h3>
+      <p>Targeting head terms. Those are held by product sites and listicles with far more authority. Programmatic content wins on specific long-tail intent where no good single answer exists yet.</p>
+
+      <h3>How long before it works?</h3>
+      <p>Slower than you want. New URLs need to be discovered, crawled, and indexed before any of them can rank, and long-tail pages accumulate impressions gradually rather than arriving all at once. Judge the experiment in months, not weeks.</p>
+
+      <p style="margin-top: 2rem;">If you want this built properly rather than bulk-generated, <a href="/contact">tell me what you are working with</a>. Related: <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search</a>, <a href="/guides/google-ai-overviews-guide">Google AI Overviews</a>, and <a href="/software">the 58 pages themselves</a>.</p>
+    </div>
+  </article>
+</AppShell>

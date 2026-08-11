@@ -1,0 +1,76 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { liveByCluster, urlFor } from '../../data/content-index';
+
+export const prerender = true;
+
+const title = 'Original Research | Neil Busque';
+const description = 'Studies built from data I collected myself: competitor ad libraries, viral content transcripts, contact-enrichment error rates, and analytics across 20 live sites.';
+const canonical = 'https://busqueneil.com/research';
+
+/* Only `live` entries render. An orphan link to a page that does not exist yet is worse
+   than no link, and a hub that lists 404s reads as abandoned. See data/content-index.ts. */
+const items = liveByCluster('research');
+
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#webpage`,
+  name: title,
+  description,
+  url: canonical,
+  mainEntity: {
+    '@type': 'ItemList',
+    '@id': `${canonical}#list`,
+    name: 'Original research by Neil Busque',
+    itemListElement: items.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.title,
+      url: `https://busqueneil.com${urlFor(c)}`,
+    })),
+  },
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Research', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
+  </Fragment>
+
+  <span class="eyebrow">Research</span>
+  <h1 class="sec">Data I collected <span class="mark-hl">myself.</span></h1>
+  <p class="res-lede">Not a roundup of other people&rsquo;s studies. Each of these comes from a dataset I pulled, cleaned, and had to make a decision with. Method is stated on every one so you can reproduce it or argue with it.</p>
+
+  <section class="hsec">
+    <span class="eyebrow">Studies</span>
+    <h2 class="sec">What the <span class="mark-hl">numbers said.</span></h2>
+    {items.length > 0 ? (
+      <ul class="postlist res">
+        {items.map((c) => (
+          <li>
+            <a href={urlFor(c)}>
+              <span class="pl-main">
+                <span class="pl-title">{c.title}</span>
+                <span class="pl-blurb">{c.blurb}</span>
+              </span>
+              <span class="tag">{c.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="v8-card nowcta"><p>First study lands shortly.</p></div>
+    )}
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Related</span>
+    <h2 class="sec">How I <span class="mark-hl">work.</span></h2>
+    <p class="stack-note">The research feeds the guides. If you want the how-to rather than the findings, start at <a href="/resources">resources</a>, or see <a href="/compare">the comparisons</a> for head-to-head calls on specific tools.</p>
+  </section>
+</AppShell>

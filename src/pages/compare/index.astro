@@ -1,0 +1,92 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { liveByCluster, urlFor } from '../../data/content-index';
+
+export const prerender = true;
+
+const title = 'Tool Comparisons | Neil Busque';
+const description = 'Head-to-head comparisons of the tools I actually ship with: AI coding agents, backends, hosting, automation platforms, and CRMs. First-hand, with the trade-offs stated.';
+const canonical = 'https://busqueneil.com/compare';
+
+const items = liveByCluster('compare');
+
+/* The three comparisons that predate this cluster stay at their original URLs so their
+   rankings are untouched. They are surfaced here so the hub is honest about what exists. */
+const ELSEWHERE = [
+  { href: '/guides/n8n-vs-zapier-vs-make', title: 'n8n vs Zapier vs Make', blurb: '20+ shipped workflows across all three. How they differ and how to pick.', tag: 'AUTOMATION' },
+  { href: '/software/ai-phone-agent-vs-answering-service', title: 'AI Phone Agent vs Answering Service', blurb: 'What each actually does with an after-hours call, and what it costs.', tag: 'VOICE' },
+  { href: '/software/lovable-replit-vs-hiring-a-builder', title: 'Lovable and Replit vs Hiring a Builder', blurb: 'Where the AI builders get you, and the point they stop.', tag: 'AI BUILDERS' },
+];
+
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#webpage`,
+  name: title,
+  description,
+  url: canonical,
+  mainEntity: {
+    '@type': 'ItemList',
+    '@id': `${canonical}#list`,
+    name: 'Tool comparisons by Neil Busque',
+    itemListElement: [
+      ...items.map((c) => ({ name: c.title, url: `https://busqueneil.com${urlFor(c)}` })),
+      ...ELSEWHERE.map((c) => ({ name: c.title, url: `https://busqueneil.com${c.href}` })),
+    ].map((it, i) => ({ '@type': 'ListItem', position: i + 1, ...it })),
+  },
+};
+---
+<AppShell title={title} description={description} canonical={canonical} active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Compare', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
+  </Fragment>
+
+  <span class="eyebrow">Compare</span>
+  <h1 class="sec">Tools I have <span class="mark-hl">actually shipped with.</span></h1>
+  <p class="res-lede">Every comparison here is between two things I have run in production, usually at the same time. That means I can tell you where each one breaks, which is the part a feature table never covers.</p>
+
+  <section class="hsec">
+    <span class="eyebrow">Head to head</span>
+    <h2 class="sec">Pick <span class="mark-hl">one.</span></h2>
+    {items.length > 0 ? (
+      <ul class="postlist res">
+        {items.map((c) => (
+          <li>
+            <a href={urlFor(c)}>
+              <span class="pl-main">
+                <span class="pl-title">{c.title}</span>
+                <span class="pl-blurb">{c.blurb}</span>
+              </span>
+              <span class="tag">{c.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="v8-card nowcta"><p>First comparison lands shortly.</p></div>
+    )}
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Also on the site</span>
+    <h2 class="sec">Earlier <span class="mark-hl">comparisons.</span></h2>
+    <ul class="postlist res">
+      {ELSEWHERE.map((c) => (
+        <li>
+          <a href={c.href}>
+            <span class="pl-main">
+              <span class="pl-title">{c.title}</span>
+              <span class="pl-blurb">{c.blurb}</span>
+            </span>
+            <span class="tag">{c.tag}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</AppShell>

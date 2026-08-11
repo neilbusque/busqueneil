@@ -1,6 +1,17 @@
 import type { APIRoute } from 'astro';
 import { getAllPublished } from '../lib/posts';
 import { deriveExcerpt } from '../lib/markdown';
+import { liveByCluster, urlFor } from '../data/content-index';
+
+/* Built from content-index so llms.txt can never advertise a URL that does not exist:
+   liveByCluster only returns entries whose page is shipped. */
+const line = (c: { title: string; blurb: string }, url: string) => `- ${c.title}: ${url}`;
+const COMPARE_LIST = liveByCluster('compare')
+  .map((c) => line(c, `https://busqueneil.com${urlFor(c)}`))
+  .join('\n');
+const RESEARCH_LIST = liveByCluster('research')
+  .map((c) => line(c, `https://busqueneil.com${urlFor(c)}`))
+  .join('\n');
 
 const STATIC_BIO = `# Neil Busque
 
@@ -59,7 +70,17 @@ I take on focused problems where software can remove repeated work, help a team 
 - n8n vs Zapier vs Make: which to pick in 2026: https://busqueneil.com/guides/n8n-vs-zapier-vs-make
 - Postgres row-level security: a practical guide: https://busqueneil.com/guides/postgres-row-level-security
 - Why you still need a person when AI does the building (six real defects AI shipped): https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it
-- All guides: https://busqueneil.com/guides
+- All guides: https://busqueneil.com/resources
+
+## Comparisons (tools I ship with, run side by side)
+
+${COMPARE_LIST}
+- All comparisons: https://busqueneil.com/compare
+
+## Original research (my own datasets)
+
+${RESEARCH_LIST}
+- All research: https://busqueneil.com/research
 
 ## Canonical URLs
 

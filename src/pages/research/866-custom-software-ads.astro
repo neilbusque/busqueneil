@@ -1,0 +1,197 @@
+---
+import AppShell from '../../layouts/AppShell.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+
+export const prerender = true;
+
+const title = 'I Analyzed 866 Ads From 30 Custom Software Companies';
+const description = 'A study of every company buying US Meta ads for custom software and AI automation: three market tiers, real published prices, and the offers that have run longest.';
+const canonical = 'https://busqueneil.com/research/866-custom-software-ads';
+const image = `${SITE_URL}/assets/brand/og-v13.png`;
+const published = '2026-08-11';
+const modified = '2026-08-11';
+
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: title,
+  description,
+  '@id': `${canonical}#article`,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  datePublished: published,
+  dateModified: modified,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  isPartOf: WEBSITE_REF,
+  image,
+  inLanguage: 'en-US',
+  keywords: 'custom software pricing, AI automation agency, Meta Ad Library, competitive analysis, MVP development cost, software development guarantee',
+};
+
+/* FAQPage is included because these are questions the page genuinely answers in visible
+   copy. Note that FAQ rich results are now largely restricted to authoritative government
+   and health sites, so this is for machine comprehension, not a rich-result play. */
+const faq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${canonical}#faq`,
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'How much does custom software actually cost in 2026?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Published prices in this dataset run from $1,500 to $250,000. The market splits into three tiers: AI-native builders at free to about $1,000, fast fixed-price shops at $1,500 to $15,000 delivered in 10 to 30 days, and traditional agencies starting around $10,000 and reaching $250,000 or more over 3 to 9 months.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Why do most software companies hide their pricing?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Only 3 of the 30 companies studied publish a real price on their own website. The rest gate it behind a sales call. That is a deliberate high-ticket sales pattern, and it means publishing a number is one of the cheapest available ways to stand out.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the best signal that a software company is any good?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'From public data, ad longevity is the strongest available proxy. Meta never exposes spend or conversions, but nobody keeps paying to run a losing ad. An ad still live after 60 days is paying for itself. The longest-running ad in this set has run for 564 days on a single creative.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do software development guarantees mean anything?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Only 4 of 30 companies offer real risk reversal, and 3 of those 4 also run the longest-lived ads in the market. That correlation between a hard guarantee and a durable ad is the strongest single pattern in the dataset.',
+      },
+    },
+  ],
+};
+---
+<AppShell title={`${title} | Neil Busque`} description={description} canonical={canonical} ogImage={image} ogType="article" active="resources">
+  <Fragment slot="head">
+    <Breadcrumb items={[
+      { name: 'Home', url: 'https://busqueneil.com/' },
+      { name: 'Research', url: 'https://busqueneil.com/research' },
+      { name: '866 custom software ads', url: canonical },
+    ]} />
+    <script type="application/ld+json" set:html={JSON.stringify(article)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faq)} />
+  </Fragment>
+
+  <header class="page-head">
+    <p class="eyebrow"><span class="idx">01</span> Research</p>
+    <h1>I analyzed 866 ads from 30 <span class="accent">custom software companies</span></h1>
+    <p class="lede">Every company in this study is spending real money on US Meta ads right now. That is the filter. It is not a directory listing, it is the set of people actively buying attention in the same market I work in.</p>
+  </header>
+
+  <article class="article-page">
+    <div class="prose">
+      <p><strong>Custom software and AI automation companies advertising to US businesses split into three tiers: AI-native builders at free to about $1,000, fast fixed-price shops at $1,500 to $15,000 in 10 to 30 days, and traditional agencies from $10,000 to $250,000 over 3 to 9 months. Only 3 of 30 publish a price. Only 4 offer a guarantee.</strong></p>
+
+      <h2>Method</h2>
+      <p>I pulled the Meta Ad Library through the Scrape Creators API on 7 and 8 August 2026, screened 585 advertisers down to the 30 genuinely selling custom software or AI automation to US businesses, and read all 866 of their active ads. Raw responses were cached so the filters could be re-run without re-spending credits. The whole sweep cost 158 API credits.</p>
+      <p>Two things to know about the method before you trust any number below.</p>
+      <p>First, <strong>the Meta Ad Library never exposes spend or conversions.</strong> There is no public performance data. What it does expose is when an ad started and whether it is still running, and that turns out to be enough. Nobody keeps paying to run an ad that loses money. I use days-live throughout as the proof signal: past 60 days an ad is almost certainly paying for itself, while 80 variants that are all 10 days old describe a company in aggressive test mode.</p>
+      <p>Second, <strong>the library paginates at 30 results and will happily let you undercount.</strong> A response holding exactly 30 ads has more behind the cursor. On my first pass this silently understated ad longevity by roughly 10x, because I was reading the most recent page and calling it the full history. Every longevity figure here comes from a fully paginated pull.</p>
+
+      <h2>The market splits into three tiers</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tier</th><th>Price</th><th>Timeline</th><th>The pitch</th></tr></thead>
+          <tbody>
+            <tr><td><strong>AI-native builders</strong></td><td>Free to $1k, or $750&ndash;$2,500/mo</td><td>Minutes to weeks</td><td>&ldquo;Skip the dev shop entirely&rdquo;</td></tr>
+            <tr><td><strong>Fast fixed-price shops</strong></td><td>$1,500&ndash;$15,000</td><td>10&ndash;30 days</td><td>&ldquo;Your MVP, fixed price, next month&rdquo;</td></tr>
+            <tr><td><strong>Traditional agencies</strong></td><td>$10,000&ndash;$250,000+</td><td>3&ndash;9 months</td><td>&ldquo;Senior team, enterprise trust&rdquo;</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The middle tier is the crowded one. The interesting part is what it is doing under pressure: it is being squeezed from below by AI builders, and it is <em>not</em> responding by cutting prices. It is responding with speed and guarantees.</p>
+
+      <h2>The offers that have survived longest</h2>
+      <p>These are the ads still running after everything else in their account was turned off.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Company</th><th>Longest active ad</th><th>The offer that keeps paying</th></tr></thead>
+          <tbody>
+            <tr><td>Neelgai</td><td><strong>564 days</strong></td><td>&ldquo;4 Devs. 4 Months. $4K/Month&rdquo; under FAANG-engineer supervision</td></tr>
+            <tr><td>Ksense Technology</td><td>517 days</td><td>Custom business tools that run in the browser, free consultation</td></tr>
+            <tr><td>DECODE</td><td>477 days</td><td>Dedicated engineering teams, enterprise logos</td></tr>
+            <tr><td>Inters3ct</td><td>107 days</td><td>&ldquo;Market-Ready MVP in 14 Days, or We Work Free&rdquo; &mdash; $15,000</td></tr>
+            <tr><td>JRW Technology</td><td>70 days</td><td>&ldquo;Launch in 10 Days, Or You Don&rsquo;t Pay&rdquo;</td></tr>
+            <tr><td>MVPMule</td><td>65 days</td><td>Published $10,500 fixed price</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>The single most instructive line in the entire dataset is Neelgai&rsquo;s, because it has run for <strong>564 days on one creative</strong>: <em>4 devs, 4 months, $4K/month.</em> A concrete team composition attached to a concrete monthly number outlasted every clever piece of copy in the market.</p>
+      <p>There is a detail here that I think is the most useful thing in this whole study. <strong>Their ad destination has been returning a hard 404 that entire time.</strong> The link goes to a broken route on their own site. They have paid for 564 days of traffic into a dead page, and that offer still beat everyone else&rsquo;s working funnel. That is how much the offer statement matters relative to the page it points at.</p>
+
+      <h2>Almost nobody publishes a price</h2>
+      <p>Three of thirty. That is the entire list of companies in this market willing to put a number on their own website: MVPMule at $10,500, Brand Locus at $499/$799/$1,499 a month, and Blaze at $750/$2,500 a month. Everyone else gates it behind a call.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Company</th><th>Published price</th><th>Timeline</th><th>Where it appears</th></tr></thead>
+          <tbody>
+            <tr><td>Progressive UX</td><td>$1,500</td><td>not stated</td><td>ad only</td></tr>
+            <tr><td>DevGinix</td><td>$4,999</td><td>not stated</td><td>ad only</td></tr>
+            <tr><td>JunziDev</td><td>$10,000 in ad / $5,000 on site</td><td>30 days</td><td>inconsistent</td></tr>
+            <tr><td>MVPMule</td><td><strong>$10,500</strong></td><td>2&ndash;4 weeks</td><td>published on site</td></tr>
+            <tr><td>Inters3ct</td><td>$15,000</td><td>14 days</td><td>ad only</td></tr>
+            <tr><td>iQlance</td><td>$30,000&ndash;$250,000+</td><td>3&ndash;9 months</td><td>industry range</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Gating price is a deliberate high-ticket sales pattern and it is not irrational. But it does mean that publishing a number is one of the cheapest differentiators available in this market. It lets a buyer self-qualify in ten seconds and separates you from roughly 90% of the field before anyone gets on a call.</p>
+      <p>Note JunziDev quoting $10,000 in the ad and $5,000 on the site. If a buyer checks, that gap is the whole conversation.</p>
+
+      <h2>Guarantees are the rare weapon</h2>
+      <p>Only four companies of thirty offer real risk reversal. Three of those four also appear in the longest-running-ads table above. That correlation is the strongest single pattern in the dataset.</p>
+      <ul>
+        <li><strong>JRW Technology</strong> &mdash; <em>&ldquo;Guarantee Your App Is Built and Launched in 10 Days, Or You Don&rsquo;t Pay!&rdquo;</em> The cleanest and most unhedged one in the market.</li>
+        <li><strong>Inters3ct</strong> &mdash; <em>&ldquo;14-day delivery guarantee, or we work for free until it ships&rdquo;</em> plus <em>&ldquo;100% IP ownership guaranteed&rdquo;</em>.</li>
+        <li><strong>Kekoa MacAuley</strong> &mdash; <em>&ldquo;If It Doesn&rsquo;t Run Without Taking Over Your Time, You Don&rsquo;t Pay&rdquo;</em>.</li>
+        <li><strong>ESketchers</strong> &mdash; <em>&ldquo;If we miss the agreed scope, we&rsquo;ll fix it at no extra cost&rdquo;</em>. Softer: a fix-it, not a refund.</li>
+      </ul>
+      <p>Everyone else relies on &ldquo;free consultation, no commitment,&rdquo; which is not risk reversal. It is a calendar link.</p>
+
+      <h2>What every durable offer has in common</h2>
+      <p>The offers that survive all answer the same three buyer fears, and they answer with a number rather than an adjective.</p>
+      <ol>
+        <li><strong>Will you actually deliver?</strong> A specific deadline &mdash; 10 days, 14 days, 30 days &mdash; with a guarantee attached to it.</li>
+        <li><strong>Will the code be any good?</strong> Credentials used as proof: FAANG supervision, ISO 27001, SOC 2, HIPAA, named team pedigree.</li>
+        <li><strong>Will I own it?</strong> Explicit IP language. Phrases like &ldquo;100% IP ownership guaranteed&rdquo; exist because buyers have been burned before.</li>
+      </ol>
+      <p>The mechanism question is where almost everyone is weak. Exactly one company, <strong>ESketchers</strong>, explains <em>how</em> it hits a 10-day timeline, and it does so by naming its actual stack: AI builders for the initial pass, Claude Code for refinement, plus reusable components. Naming the mechanism turns a speed claim from a boast into a process a buyer can evaluate. Virtually nobody else does it, and it is free to do.</p>
+
+      <h2>The gap I think is open</h2>
+      <p>One company, Benmore, launched roughly 80 ad variants in two weeks around a single idea: <em>you already tried to build it with AI, and you hit a wall.</em> That targets someone who has used Lovable or Replit, believes the outcome is possible, and has personally discovered that generating code was never the hard part.</p>
+      <p>That is a pre-qualified buyer who no longer needs to be convinced software is worth having. They need someone to take it the last mile. I wrote separately about <a href="/guides/why-hire-a-person-when-ai-can-build-it">the six defects AI shipped for me that passed every check</a>, which is the same problem from the builder&rsquo;s side.</p>
+
+      <h2>Where I sit in this</h2>
+      <p>For transparency, since I am inside the market I just described: I publish my price, which puts me in the group of three. My build is $4,000 and ongoing work is $4,000 a month, which lands in the middle tier. I am one person rather than a team of four, which is a real trade-off and cuts both ways depending on what you need. You can read the actual terms on <a href="https://offer.busqueneil.com">the offer page</a> or see <a href="/work">the products themselves</a>.</p>
+
+      <h2>FAQ</h2>
+
+      <h3>How much does custom software actually cost in 2026?</h3>
+      <p>Published prices in this dataset run from $1,500 to $250,000. AI-native builders sit at free to about $1,000, fast fixed-price shops at $1,500 to $15,000 delivered in 10 to 30 days, and traditional agencies from $10,000 up to $250,000 or more over 3 to 9 months.</p>
+
+      <h3>Why do most software companies hide their pricing?</h3>
+      <p>Only 3 of 30 publish a real price on their own site. The rest gate it behind a sales call, which is a deliberate high-ticket pattern. It also leaves publishing a number as one of the cheapest ways to stand out.</p>
+
+      <h3>What is the best public signal that a software company is any good?</h3>
+      <p>Ad longevity. Meta never exposes spend or conversions, but nobody keeps paying for a losing ad. Past 60 days an ad is almost certainly working. Check the Meta Ad Library for any company pitching you.</p>
+
+      <h3>Do software development guarantees mean anything?</h3>
+      <p>In this data, yes. Only 4 of 30 offer real risk reversal and 3 of those 4 run the longest-lived ads in the market. Read the wording closely though: &ldquo;we&rsquo;ll fix it at no extra cost&rdquo; is a fix-it, not a refund.</p>
+
+      <h3>Can I reproduce this study?</h3>
+      <p>Yes. It is the Meta Ad Library, which is public. Search your category, filter to your country, and read the start dates. Paginate properly &mdash; a page of exactly 30 results always has more behind it, and missing that will make every company look far newer than it is.</p>
+
+      <p style="margin-top: 2rem;">If you are trying to work out what to build and what it should cost, <a href="/contact">tell me what you are working with</a>. Related: <a href="/software/custom-software-cost">what custom software costs</a> and <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>.</p>
+    </div>
+  </article>
+</AppShell>

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getAllPublished } from '../lib/posts';
 import { caseStudies } from '../data/case-studies';
 import { softwarePages } from '../data/software-pages';
+import { liveContent, urlFor } from '../data/content-index';
 
 const LAST_UPDATED = '2026-07-25';
 
@@ -49,6 +50,15 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   ...softwarePages.map((p) => ({
     loc: `https://busqueneil.com/software/${p.slug}`,
     lastmod: '2026-08-08',
+  })),
+  /* The 50-piece programme (docs/content-plan-50.md). Driven off content-index so a URL
+     cannot appear here without a page behind it: only `live` entries are exported. The two
+     hubs are listed unconditionally because they render a real page either way. */
+  { loc: 'https://busqueneil.com/compare', lastmod: '2026-08-11' },
+  { loc: 'https://busqueneil.com/research', lastmod: '2026-08-11' },
+  ...liveContent.map((c) => ({
+    loc: `https://busqueneil.com${urlFor(c)}`,
+    lastmod: c.modified ?? c.published,
   })),
   { loc: 'https://busqueneil.com/resume.pdf' },
 ];
