@@ -157,6 +157,28 @@ Pieces 44-46 double as proof for content work.
 
 ---
 
+## Progress
+
+| Lane | Live | Total |
+|---|---:|---:|
+| Research | 8 | 12 |
+| Comparisons | 1 | 22 |
+| AI × marketing | 1 | 16 |
+
+`src/layouts/ContentArticle.astro` carries the schema, breadcrumb and header for every piece,
+so an article file is frontmatter plus prose. It throws at build time if the slug is missing
+from `content-index.ts` or is not `live: true`, which is what stops a page shipping without a
+sitemap entry. The three pilots predate it and still inline their own schema — worth migrating
+when one of them next needs an edit, not before.
+
+**Cut, not deferred:** `what-20-sites-taught-me-about-traffic`. Sonar holds ~2 days of usable
+history and 136 visitors across 27 sites. That cannot carry a sentence like "a year of
+analytics across 20 sites". Revisit after several months of data.
+
+**Still to write in research:** the two viral-bank pieces (hook patterns, TikTok vs Instagram
+physics) and `40-products-in-a-year`, which needs a real scope-decision inventory before it is
+anything more than an essay.
+
 ## Build order
 
 1. **IA first** — `/compare` and `/research` hubs, wired into `/resources`, `sitemap.xml`,

@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the vibe-coding wall?', a: 'The point where an AI-generated prototype stops progressing. The screens exist and the demo works, but the software cannot reach production because of integrations, edge cases, permissions, deployment, and the debugging loop. It is the moment a non-technical builder discovers that generating code was never the hard part.' },
+  { q: 'Why do AI app builders stall before production?', a: 'They are excellent at the first pass and weak at the last 20%: connecting to systems that already exist, handling the paths the demo never covered, getting permissions right, and staying debuggable once the codebase is larger than the context window.' },
+  { q: 'Is it worth starting with an AI builder at all?', a: 'Often yes. A working prototype is the cheapest way to find out whether the idea is worth building properly, and it communicates intent better than any spec. The mistake is treating the prototype as most of the work rather than the start of it.' },
+  { q: 'Why is someone who hit the wall a good customer?', a: 'They have pre-qualified themselves. They believe the outcome is achievable because they have seen a version of it, they have already invested effort, and they now understand from experience that the difficulty is in production engineering rather than code generation. No convincing is required.' },
+];
+---
+<ContentArticle
+  slug="the-vibe-coding-wall"
+  seoTitle="The Vibe-Coding Wall"
+  description="One company launched roughly 80 ad variants in two weeks around a single idea: you already tried building it with AI, and you hit a wall. Why that moment is now the most qualified buyer in software."
+  heading="The vibe-coding"
+  accent="wall"
+  lede="A whole population of people has now tried Lovable, Replit, or ChatGPT, produced something that half works, and cannot get it to production. One company is spending heavily to own that exact moment."
+  idx="05"
+  keywords="vibe coding, AI app builder limitations, Lovable, Replit, prototype to production, non-technical founder"
+  faq={faq}
+>
+  <p><strong>The vibe-coding wall is the point where an AI-generated prototype stops progressing: the screens exist, the demo works, and the software still cannot reach production. In a study of 866 competitor ads, one company launched roughly 80 variants in two weeks targeting that exact moment. It is the most qualified buyer in the market, because they have already proved the difficulty to themselves.</strong></p>
+
+  <h2>What the ads say</h2>
+  <p>While reading 30 companies&rsquo; ad accounts, one pattern stood out because of how fast it was being tested. Benmore, a traditional agency, launched around 80 ad variants in a fortnight around one idea: <em>&ldquo;If you have a software idea but you&rsquo;ve hit a wall trying to build it with AI, you need an experienced development team.&rdquo;</em></p>
+  <p>Eighty variants in two weeks is not a company that has found its message. It is a company that thinks it has found a <em>seam</em> and is spending hard to map it before anyone else does. Their supporting material makes the argument plainly:</p>
+  <blockquote><p>&ldquo;Think of these tools like a wireframe with code behind it &mdash; not production-ready software.&rdquo;</p></blockquote>
+  <blockquote><p>&ldquo;Most non-technical founders hit a wall after the initial prototype &mdash; and end up hiring developers anyway.&rdquo;</p></blockquote>
+  <blockquote><p>&ldquo;Even with great AI output, someone has to: review the code, host the backend, set up deployment, fix bugs and edge cases.&rdquo;</p></blockquote>
+  <p>I think this is the most strategically important thing in the entire dataset, and it has nothing to do with software pricing.</p>
+
+  <h2>Why the wall exists</h2>
+  <p>To be clear about my own position: I use these tools. They are genuinely good, and I would not pretend otherwise to sell against them. The first screen really can look finished in an afternoon.</p>
+  <p>The wall is not about code quality in the abstract. It is about a specific set of problems that only appear after the demo:</p>
+  <ul>
+    <li><strong>Integration.</strong> The prototype stands alone. Real software has to talk to a CRM, a payment processor, an email provider, and whatever the business already runs. That is where most of the work lives, and it is the part a prompt cannot infer.</li>
+    <li><strong>The paths the demo never covered.</strong> A real user does something the happy path did not anticipate on roughly day one.</li>
+    <li><strong>The debugging loop.</strong> One fix creates two bugs, context gets messier, and you stop being able to tell which change caused what. This is the part people describe as burning credits without progress.</li>
+    <li><strong>Code that looks right and is wrong.</strong> A package that does not exist. A layout that breaks on a phone. A permissions rule that exposes the wrong customer&rsquo;s data. All of it reads as confident and correct.</li>
+    <li><strong>Inherited decisions.</strong> The stack, the host, and the database shape were chosen for you. Changing them later is the expensive part.</li>
+  </ul>
+  <p>None of these are reasons not to start with AI. They are reasons the finish is a different job from the start.</p>
+
+  <h2>Why this buyer is different</h2>
+  <p>Traditional software marketing spends most of its budget on persuasion: convincing someone that custom software is worth having at all, that it will work, that it is worth the money. That is expensive, slow, and mostly wasted.</p>
+  <p>Someone who hit the wall needs none of it.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Cold prospect</th><th>Hit the wall</th></tr></thead>
+      <tbody>
+        <tr><td>Not sure software would help</td><td>Has seen it half-working</td></tr>
+        <tr><td>Cannot picture the outcome</td><td>Has a prototype on screen</td></tr>
+        <tr><td>Thinks &ldquo;can&rsquo;t you just use AI?&rdquo;</td><td>Tried, and found out</td></tr>
+        <tr><td>Has invested nothing</td><td>Has invested weeks</td></tr>
+        <tr><td>Price is abstract</td><td>Price is compared to being stuck</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>They have done the qualification themselves, at their own expense, and arrived at the correct conclusion about where the difficulty is. That is a buyer you do not have to educate.</p>
+
+  <h2>Both sides of the squeeze</h2>
+  <p>What makes this interesting is that the same market pressure is producing two opposite responses, and the wall sits between them.</p>
+  <p>From below, an AI builder in this dataset runs pure price-anchor demolition, with testimonials naming the dollars avoided: agencies quoting &euro;250,000, developers quoting $80,000 for basic accounting software, $50,000 and six months for something the customer says they built themselves in five weeks. Critically, that pitch attacks the <em>sales process</em>, not just the price. &ldquo;Skip the quote entirely&rdquo; is a sharper weapon than &ldquo;we are cheaper.&rdquo;</p>
+  <p>From above, another company keeps the humans but reprices the engagement: a $300,000 capital project becomes a subscription, wrapped in certifications the AI builder cannot match.</p>
+  <p>The wall is the ground between them, and it is where the honest argument lives. Not &ldquo;AI cannot build software,&rdquo; which is no longer true and sounds defensive. Not &ldquo;you need us for everything,&rdquo; which is false. Just: <em>the first 80% got radically cheaper, and the last 20% did not.</em></p>
+
+  <h2>One thing worth knowing about this market</h2>
+  <p>While screening advertisers I found a company with 80+ ads, each pointing at a different subdomain named after a different small business. It is not an agency. It is a SaaS platform in the $29 to $59 a month range describing itself as an autonomous AI system that builds and runs companies &mdash; agents that write code, deploy, send email, and post on social media.</p>
+  <p>The subdomains share one template, each carries its own tracking pixel, one returns a server error and another is misrouted, and the ad copy does not match the landing pages.</p>
+  <p>So a measurable slice of &ldquo;AI automation agency&rdquo; ad inventory is now autonomous agents advertising agencies that do not exist. Worth knowing when you size this market: <strong>some of the competition is not real.</strong> It is also, in a roundabout way, the wall demonstrating itself.</p>
+
+  <h2>What I take from it</h2>
+  <p>The useful hook is not &ldquo;do you need custom software.&rdquo; It is the intersection of the highest-performing pain in this market with the most qualified buyer:</p>
+  <blockquote><p>You already tried building it yourself with AI. It works until it has to talk to your other systems.</p></blockquote>
+  <p>That sentence disqualifies everyone who has not tried, which is the point. And the ground is not settled &mdash; the company spending hardest on it was two weeks in when I pulled the data.</p>
+  <p>I have written the same problem from the builder&rsquo;s side, with specifics: <a href="/guides/why-hire-a-person-when-ai-can-build-it">six defects AI shipped for me that passed every check</a>, what each cost, and the review layer that catches them.</p>
+
+  <h2>FAQ</h2>
+  <h3>What is the vibe-coding wall?</h3>
+  <p>The point where an AI-generated prototype stops progressing. The demo works; the software cannot reach production because of integrations, edge cases, permissions, and deployment.</p>
+  <h3>Why do AI app builders stall before production?</h3>
+  <p>They are strong on the first pass and weak on the last 20%: connecting to existing systems, covering paths the demo never anticipated, getting permissions right, and staying debuggable as the codebase grows.</p>
+  <h3>Is it worth starting with an AI builder?</h3>
+  <p>Often yes. A prototype is the cheapest way to learn whether an idea is worth building properly. The mistake is treating it as most of the work rather than the start.</p>
+  <h3>Why is someone who hit the wall a good customer?</h3>
+  <p>They believe the outcome is possible, have already invested effort, and understand from experience that generating code was never the hard part. No persuasion required.</p>
+
+  <p style="margin-top: 2rem;">Full method and findings: <a href="/research/866-custom-software-ads">I analyzed 866 ads from 30 custom software companies</a>. If you are stuck at the wall, <a href="/contact">tell me what you have</a> &mdash; finishing half-built projects is most of what I do.</p>
+</ContentArticle>

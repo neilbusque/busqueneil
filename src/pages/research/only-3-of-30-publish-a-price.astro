@@ -1,0 +1,96 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Why do software agencies hide their pricing?', a: 'Because they price per project and want to anchor the number against your budget rather than against a competitor. Gating the price also filters out casual enquiries and gives a salesperson the chance to build value first. It is a rational strategy, but 27 of 30 companies using it means it no longer differentiates anyone.' },
+  { q: 'Does publishing a price lose you deals?', a: 'It loses you conversations, which is not the same thing. A published number ends discussions with people who were never going to buy at that level, and starts them earlier with people who can. What it costs you is the chance to charge different buyers different amounts for the same work.' },
+  { q: 'What should I publish if my projects genuinely vary?', a: 'A floor, a typical range, or a worked example. "Most builds land between $8,000 and $15,000, here is one at $10,500 and what it included" is far more useful than silence and commits you to nothing.' },
+  { q: 'How do I find a competitor’s real price?', a: 'Check their ads and their site separately. In this dataset they disagreed more than once, including one company advertising a flat $10,000 while its own site said "from $5K".' },
+];
+---
+<ContentArticle
+  slug="only-3-of-30-publish-a-price"
+  seoTitle="Only 3 of 30 Software Companies Publish a Price"
+  description="A study of 30 companies buying US Meta ads for custom software: what each one charges, which three publish it openly, and why the silence of the other 27 is the biggest open lane in the market."
+  heading="Only 3 of 30 software companies"
+  accent="publish a price"
+  lede="I read 866 ads and then visited all 30 websites behind them. Three had a number on the page. The other 27 want a call first."
+  idx="02"
+  keywords="custom software pricing, software agency cost, MVP development price, pricing transparency, published pricing"
+  faq={faq}
+>
+  <p><strong>Of 30 companies actively buying US Meta ads for custom software and AI automation, only 3 publish a real price on their own website: MVPMule at $10,500, Brand Locus at $499 to $1,499 a month, and Blaze at $750 to $2,500 a month. The other 27 gate pricing behind a sales call. That makes publishing a number the cheapest differentiator available in this market.</strong></p>
+
+  <h2>What everyone actually charges</h2>
+  <p>This is every price I could verify, either from the ad creative itself or from the company&rsquo;s own site. Note the third column: most of these numbers exist only inside an ad, which means they are a hook rather than a commitment.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Price</th><th>Where it appears</th><th>Timeline</th></tr></thead>
+      <tbody>
+        <tr><td>Progressive UX</td><td>$1,500</td><td>ad only</td><td>not stated</td></tr>
+        <tr><td>DevGinix</td><td>$4,999</td><td>ad only</td><td>not stated</td></tr>
+        <tr><td>JunziDev</td><td>$10,000 in ad, $5,000 on site</td><td><strong>both, and they disagree</strong></td><td>30 days</td></tr>
+        <tr><td>MVPMule</td><td><strong>$10,500</strong></td><td>published on site</td><td>2&ndash;4 weeks</td></tr>
+        <tr><td>Benmore</td><td>$10,000 minimum</td><td>stated on site</td><td>&ldquo;5x faster&rdquo;</td></tr>
+        <tr><td>Inters3ct</td><td>$15,000</td><td>ad only</td><td>14 days</td></tr>
+        <tr><td>iQlance</td><td>$30,000&ndash;$250,000+</td><td>industry range, not a quote</td><td>3&ndash;9 months</td></tr>
+        <tr><td>Hercules</td><td>~$1,000 reported</td><td>customer testimonial</td><td>days</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>And the monthly retainers, which are where this market is quietly moving:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>Monthly</th><th>What it buys</th></tr></thead>
+      <tbody>
+        <tr><td>Brand Locus</td><td><strong>$499 / $799 / $1,499</strong></td><td>40 / 80 / 160 hours of dev plus PM, white-label for agencies</td></tr>
+        <tr><td>Blaze</td><td>$750 / $2,500</td><td>HIPAA-compliant platform, guided implementation at the higher tier</td></tr>
+        <tr><td>Neelgai</td><td>$4,000</td><td>4 developers, supervised</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why 27 companies stay quiet</h2>
+  <p>The reasoning is not stupid, and it is worth stating fairly before arguing with it.</p>
+  <p>Custom software genuinely varies. The same brief can be a three-week job or a six-month one depending on how many systems it has to talk to. A published number invites a buyer to compare on price alone, against a competitor whose number covers less work. Gating it lets a salesperson establish value first, and it lets the seller charge according to what a given buyer can pay.</p>
+  <p>All of that is true. The problem is that <strong>27 of 30 are doing it</strong>, so none of them gets any advantage from it. When every option in a category behaves identically, that behaviour stops being strategy and becomes background noise.</p>
+
+  <h2>What silence costs</h2>
+  <p>Three things, and the third is the one people underestimate.</p>
+  <p><strong>You pay for clicks from people who cannot afford you.</strong> Every one of these companies is buying ads. If a buyer with a $3,000 budget cannot find out you start at $15,000 until the call, you have paid for that click, that landing page visit, and thirty minutes of a salesperson&rsquo;s time to discover it.</p>
+  <p><strong>You lose the buyer who will not book a call to find out.</strong> Plenty of qualified people will simply not enter a sales process to get a number. They are not tyre-kickers. They are busy, and they are comparing four options in an afternoon.</p>
+  <p><strong>You leave the anchor to someone else.</strong> This is the real cost. If the only number a buyer finds is a competitor&rsquo;s, that number becomes the reference point for every conversation afterwards, including yours. In this market the loudest published number is Hercules telling people an agency quoted them &euro;250,000 and they built it themselves for about $1,000. If you say nothing, that comparison is the one your prospect walks in holding.</p>
+
+  <h2>The three who publish</h2>
+  <p>What is instructive is <em>how</em> they publish, because none of them just posts a number and hopes.</p>
+  <p><strong>MVPMule</strong> publishes $10,500 with a 2 to 4 week timeline and frames the whole offer as &ldquo;a founding engineer without the equity.&rdquo; The price is doing comparison work: not against other agencies, but against a hire.</p>
+  <p><strong>Brand Locus</strong> publishes three tiers tied to hours: $499 for 40, $799 for 80, $1,499 for 160. That is not really a price, it is a unit rate, and it lets a buyer do the arithmetic themselves. It is also white-label, so the buyer is often an agency reselling it.</p>
+  <p><strong>Blaze</strong> publishes $750 and $2,500 a month and attaches compliance to the higher tier. The number is inseparable from SOC 2 and HITRUST, which is how you publish a price without competing on price.</p>
+  <p>The pattern: <strong>every one of them publishes a number attached to a unit.</strong> Per project with a deadline, per hour, per month with a certification. None of them publishes a bare figure.</p>
+
+  <h2>The inconsistency problem</h2>
+  <p>One company in this set advertises a flat $10,000 in its ad creative while its own website says &ldquo;from $5K.&rdquo; Another advertises a 30-day MVP, then describes its ideal client as one where &ldquo;complexity is expected, not avoided&rdquo; and gives no timeline anywhere on the site.</p>
+  <p>If you are going to gate your price, at least be consistent about it. A buyer who notices the ad and the site disagree has learned something about you that no amount of sales conversation will unlearn. That is worse than either publishing or not publishing.</p>
+
+  <h2>What I would do</h2>
+  <ol>
+    <li><strong>Publish something, even if it is not everything.</strong> A floor, a typical range, or one fully worked example. &ldquo;Most builds land between X and Y, here is a real one at $10,500 and exactly what it included&rdquo; commits you to nothing and answers the only question the visitor came with.</li>
+    <li><strong>Attach it to a unit.</strong> A number alone invites comparison. A number plus a deadline, a team size, or a certification invites evaluation.</li>
+    <li><strong>Make the ad and the site agree.</strong> This is free.</li>
+    <li><strong>Say who it is not for.</strong> A price that disqualifies people is doing its job. That is the point.</li>
+  </ol>
+  <p>For transparency, since I sell in this market: I publish mine. $4,000 to build, $4,000 a month to keep going, on <a href="https://offer.busqueneil.com">the offer page</a>. That puts me in the group of three, which says less about me than it does about how little competition there is for that position.</p>
+
+  <h2>FAQ</h2>
+  <h3>Why do software agencies hide their pricing?</h3>
+  <p>They price per project and want to anchor against your budget rather than a competitor&rsquo;s number. Gating also filters casual enquiries and lets a salesperson build value first. Rational &mdash; but with 27 of 30 doing it, it differentiates nobody.</p>
+  <h3>Does publishing a price lose you deals?</h3>
+  <p>It loses you conversations, which is different. It ends discussions with people who were never going to buy at that level and starts them earlier with people who can. What it genuinely costs is the ability to charge different buyers differently for the same work.</p>
+  <h3>What should I publish if my projects genuinely vary?</h3>
+  <p>A floor, a range, or a worked example. Silence is not the only alternative to a fixed price.</p>
+  <h3>How do I find a competitor&rsquo;s real price?</h3>
+  <p>Check the ads and the website separately, because they disagree more often than you would expect. One company here advertises flat $10,000 while its site says &ldquo;from $5K&rdquo;.</p>
+
+  <p style="margin-top: 2rem;">Full method and the rest of the findings: <a href="/research/866-custom-software-ads">I analyzed 866 ads from 30 custom software companies</a>. Related: <a href="/research/guarantees-in-the-ad-library">only 4 of 30 offer a guarantee</a> and <a href="/software/custom-software-cost">what custom software costs</a>.</p>
+</ContentArticle>

@@ -1,0 +1,83 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Do software development guarantees actually mean anything?', a: 'In this data they correlate with survival. Only 4 of 30 companies offer real risk reversal, and 3 of those 4 also run the longest-lived ads in the market. An ad that keeps running is an ad that keeps paying, so the guarantee is doing commercial work rather than just sounding good.' },
+  { q: 'What is the strongest guarantee wording?', a: 'A deadline with a consequence attached. "Guarantee your app is built and launched in 10 days, or you don\'t pay" is the least hedged version in this market: it names a date, and it names what happens if the date is missed.' },
+  { q: 'Is "we\'ll fix it at no extra cost" a guarantee?', a: 'It is a warranty, not risk reversal. The buyer still pays and still waits. It is worth offering, but it does not answer the fear that a real guarantee answers, which is "what if this whole thing goes nowhere".' },
+  { q: 'Is offering a guarantee risky for the seller?', a: 'Only if your scoping is weak. Every hard guarantee in this market is attached to a tightly defined deliverable and a short timeline. The guarantee is not a bet on your ability, it is a bet on your ability to say no to scope creep.' },
+];
+---
+<ContentArticle
+  slug="guarantees-in-the-ad-library"
+  seoTitle="Only 4 of 30 Software Companies Offer a Guarantee"
+  description="Across 866 ads from 30 custom software companies, only four offer real risk reversal — and three of those four run the longest-lived ads in the market. The exact wording of each, and what separates a guarantee from a warranty."
+  heading="Only 4 of 30 offer"
+  accent="a guarantee"
+  lede="And three of those four own the longest-running ads in the dataset. That is the strongest single correlation I found."
+  idx="03"
+  keywords="software development guarantee, risk reversal, money back guarantee agency, MVP delivery guarantee, offer strategy"
+  faq={faq}
+>
+  <p><strong>Of 30 companies buying US Meta ads for custom software, only 4 offer real risk reversal. Three of those four also run the longest-lived ads in the entire dataset. Guarantee and ad longevity is the strongest correlation I found in 866 ads, and since an ad only keeps running while it keeps paying, the guarantee is doing commercial work rather than decorative work.</strong></p>
+
+  <h2>The four, word for word</h2>
+  <p>Wording matters enormously here, so these are verbatim rather than paraphrased.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Company</th><th>The exact promise</th><th>Type</th><th>Longest ad</th></tr></thead>
+      <tbody>
+        <tr><td>JRW Technology</td><td>&ldquo;Guarantee Your App Is Built and Launched in 10 Days, <strong>Or You Don&rsquo;t Pay!</strong>&rdquo;</td><td>Refund</td><td>70 days</td></tr>
+        <tr><td>Inters3ct</td><td>&ldquo;14-day delivery guarantee &mdash; <strong>or we work for free until it ships</strong>&rdquo; plus &ldquo;100% IP ownership guaranteed&rdquo;</td><td>Free labour</td><td>107 days</td></tr>
+        <tr><td>Kekoa MacAuley</td><td>&ldquo;If It Doesn&rsquo;t Run Without Taking Over Your Time, <strong>You Don&rsquo;t Pay</strong>&rdquo;</td><td>Outcome-based refund</td><td>&mdash;</td></tr>
+        <tr><td>ESketchers</td><td>&ldquo;If we miss the agreed scope, we&rsquo;ll fix it at no extra cost&rdquo;</td><td><em>Warranty, not reversal</em></td><td>&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Everyone else in the market offers &ldquo;free consultation, no commitment.&rdquo; That is not risk reversal. That is a calendar link.</p>
+
+  <h2>The three shapes of a guarantee</h2>
+  <p>These four are not all doing the same thing, and the differences are the useful part.</p>
+  <p><strong>1. Deadline plus refund.</strong> JRW&rsquo;s is the cleanest in the market: a specific number of days, and if it is missed you pay nothing. There is no qualifying language, no &ldquo;subject to,&rdquo; no escape hatch in the copy. That is unusual and it is why it reads as confident rather than promotional.</p>
+  <p><strong>2. Deadline plus free labour.</strong> Inters3ct promises 14 days or they keep working unpaid until it ships. This is materially different from a refund. The buyer still gets the software, which is what they actually wanted, and the seller never has to hand money back. It is a softer commitment that <em>feels</em> equally strong, and from a seller&rsquo;s point of view it is far easier to honour.</p>
+  <p><strong>3. Outcome plus refund.</strong> Kekoa&rsquo;s is the most interesting and the hardest to operate: not a deadline, but a result. &ldquo;If it doesn&rsquo;t run without taking over your time.&rdquo; That guarantees the thing the buyer actually cares about rather than the thing that is easy to measure. It also relies on the buyer being reasonable about what counts, which is a real exposure.</p>
+  <p>And then there is the fourth, which is a different category entirely.</p>
+
+  <h2>A warranty is not a guarantee</h2>
+  <p>ESketchers promises to fix out-of-scope misses at no extra cost. That is worth having, and most buyers would want it. But look at what it does not do: the buyer has still paid, still waited, and still does not have working software. They just get more of the same effort applied to it.</p>
+  <p>A guarantee answers the fear <em>&ldquo;what if this whole thing goes nowhere?&rdquo;</em> A warranty answers <em>&ldquo;what if it is slightly wrong?&rdquo;</em> Those are not the same fear, and only one of them is stopping the sale.</p>
+  <p>If you are writing offer copy, this distinction is the difference between a line that converts and a line that reassures someone who was already going to buy.</p>
+
+  <h2>Why the correlation exists</h2>
+  <p>Three of the four guarantee-carriers appear in the longest-running-ads list. It is worth being careful about what that does and does not prove.</p>
+  <p>It is a small sample, and the direction of causation is not certain. It could be that guarantees convert better. It could equally be that companies confident enough to guarantee are also companies that deliver well, and delivery is what actually sustains the ad spend. Both readings point the same way in practice.</p>
+  <p>What I do think is defensible: a guarantee is the only element in this market that <strong>directly answers the buyer&rsquo;s real objection.</strong> Every buyer of custom software has either been burned or heard about someone who was. Late, over budget, half-finished, and then a fight about who owns the code. Credentials do not answer that. A logo wall does not answer that. A guarantee does, because it moves the risk from the person who cannot control the outcome to the person who can.</p>
+  <p>That is also why <strong>&ldquo;100% IP ownership guaranteed&rdquo;</strong> exists in this market at all. Nobody writes that line unless enough buyers have been burned that it is worth ad space to pre-empt.</p>
+
+  <h2>Why so few offer one</h2>
+  <p>The honest answer is that most agencies cannot afford to, and the reason is scoping rather than skill.</p>
+  <p>Every hard guarantee in this dataset is attached to a tightly bounded deliverable and a short timeline. Ten days. Fourteen days. That is not a coincidence and it is not bravado. <strong>A short, fixed scope is what makes a guarantee survivable.</strong> If your projects are open-ended, run for months, and expand as the client thinks of things, you genuinely cannot promise a date, because the date is not yours to control.</p>
+  <p>So the guarantee is downstream of an operational decision. You do not add one to your copy. You earn the ability to offer one by getting strict about what a project includes, and that is the part nobody wants to do.</p>
+
+  <h2>How to write one</h2>
+  <ol>
+    <li><strong>Name the thing.</strong> &ldquo;Working software&rdquo; beats &ldquo;delivery.&rdquo; A buyer should be able to tell, without you, whether it happened.</li>
+    <li><strong>Name the date.</strong> Every guarantee in this market is time-bound. Open-ended promises are unfalsifiable, and buyers read unfalsifiable as meaningless.</li>
+    <li><strong>Name the consequence.</strong> Refund, free labour, or continued work. Vagueness here undoes the other two.</li>
+    <li><strong>Do not hedge in the sentence itself.</strong> The strongest one in this market has no qualifying clause at all. Put your conditions in the contract, where they belong, not in the promise.</li>
+    <li><strong>Only promise what your scope discipline can cover.</strong> A guarantee you quietly weasel out of once is worse than never offering one.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Do software development guarantees actually mean anything?</h3>
+  <p>In this data they correlate with survival: 3 of the 4 companies offering one also run the longest-lived ads. An ad only keeps running while it keeps paying.</p>
+  <h3>What is the strongest guarantee wording?</h3>
+  <p>A deadline with a consequence and no hedging. &ldquo;Built and launched in 10 days, or you don&rsquo;t pay&rdquo; is the least qualified version in this market.</p>
+  <h3>Is &ldquo;we&rsquo;ll fix it at no extra cost&rdquo; a guarantee?</h3>
+  <p>No, that is a warranty. The buyer has still paid and still waited. It addresses a different, smaller fear.</p>
+  <h3>Is offering a guarantee risky?</h3>
+  <p>Only if your scoping is weak. Every hard guarantee here is attached to a short, tightly bounded deliverable. The guarantee is really a bet on your ability to refuse scope creep.</p>
+
+  <p style="margin-top: 2rem;">Full method and the rest of the findings: <a href="/research/866-custom-software-ads">I analyzed 866 ads from 30 custom software companies</a>. Related: <a href="/research/only-3-of-30-publish-a-price">only 3 of 30 publish a price</a> and <a href="/research/ad-longevity-as-a-conversion-proxy">why ad longevity is the signal to read</a>.</p>
+</ContentArticle>

@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Do carousels or reels get more engagement on Instagram?', a: 'They get different kinds. In a sample of top-performing posts, carousels drew 10,000 to 40,000 likes while the same accounts\' reels drew 1 to 13 million views. But on comments the carousels matched or beat the reels — one pulled 1,407 comments on 7,699 likes, an 18% comment-to-like ratio against roughly 2 to 4% for reels.' },
+  { q: 'What are carousels actually good for?', a: 'Depth rather than reach. Saves, comments, DM-gated list building, and launches. Reels acquire strangers; carousels convert the people who already follow you.' },
+  { q: 'Why do comment-gates work better on carousels?', a: 'Because a carousel viewer has already invested effort. Swiping through several slides is an active choice, so by the time they reach a call to action they are far more committed than someone who watched a video passively.' },
+  { q: 'How many slides should a carousel have?', a: 'In this sample the best performers ran 3 to 9 slides, and slide count mattered far less than whether each slide changed medium or idea. The swipe itself is the pattern interrupt.' },
+];
+---
+<ContentArticle
+  slug="carousels-are-depth-not-reach"
+  seoTitle="Carousels Are Depth, Not Reach"
+  description="Top carousels drew 10-40k likes while the same accounts' reels drew 1-13M views. But comments matched. What that gap means for what you post, from an analysis of posts over 1M plays."
+  heading="Carousels are depth,"
+  accent="not reach"
+  lede="A tenth of the likes of a reel, and the same number of comments. That ratio is the whole argument for why both formats exist."
+  idx="08"
+  keywords="instagram carousel vs reel, carousel engagement, instagram algorithm, comment rate, social media strategy"
+  faq={faq}
+>
+  <p><strong>In a sample of top-performing Instagram posts, carousels drew 10,000 to 40,000 likes while the same accounts&rsquo; reels drew 1 to 13 million views. On comments, though, carousels matched or beat reels: one pulled 1,407 comments on 7,699 likes &mdash; an 18% comment-to-like ratio, against roughly 2 to 4% for reels. Reels acquire strangers. Carousels convert followers.</strong></p>
+
+  <h2>The numbers</h2>
+  <p>These are the top static and carousel posts from a 30-day window across accounts that also produce reels with millions of views. The right-hand column is the one that matters.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Likes</th><th>Comments</th><th>Format</th><th>Comment / like</th></tr></thead>
+      <tbody>
+        <tr><td>39,311</td><td>279</td><td>Mixed-media scrapbook, 4 slides</td><td>0.7%</td></tr>
+        <tr><td>24,829</td><td>260</td><td>Video-in-carousel + quiz CTA</td><td>1.0%</td></tr>
+        <tr><td>21,586</td><td>255</td><td>Napkin-sketch system, 5 slides</td><td>1.2%</td></tr>
+        <tr><td>17,606</td><td>61</td><td>Book-page essay, 3 slides</td><td>0.3%</td></tr>
+        <tr><td>9,543</td><td>514</td><td>Book sneak-peek + gate</td><td>5.4%</td></tr>
+        <tr><td><strong>7,699</strong></td><td><strong>1,407</strong></td><td>Announcement sign sequence + gate</td><td><strong>18.3%</strong></td></tr>
+        <tr><td>6,627</td><td>47</td><td>9 slides, <em>empty caption</em></td><td>0.7%</td></tr>
+        <tr><td>2,373</td><td>220</td><td>Letter-photo + memoir caption</td><td>9.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Look at the bottom half. The posts with the <em>fewest</em> likes have the highest comment ratios by an order of magnitude. The 7,699-like post generated five times more comments than the 39,311-like post.</p>
+  <p>If you rank these by likes you conclude the scrapbook won. If you rank by comments you conclude the sign sequence won. They were built for different jobs, and only one of those rankings connects to anything commercial.</p>
+
+  <h2>Why the gap exists</h2>
+  <p>A reel is served to strangers. It arrives in a feed, plays automatically, and asks nothing. A view costs the viewer nothing, which is exactly why views are cheap and plentiful.</p>
+  <p>A carousel requires a swipe. That is a small deliberate action, and it repeats on every slide. By slide four, someone has made four consecutive choices to keep going. They are a different person from a viewer &mdash; not because of who they are, but because of what they have just done.</p>
+  <p>So the two formats are not competing. One converts attention into reach, the other converts attention into <strong>action</strong>. Comparing them on the same metric is the error.</p>
+
+  <h2>What the comment ratio is really measuring</h2>
+  <p>The two highest comment ratios in the table both belong to posts with a <strong>gate</strong> &mdash; a call to action asking people to comment a word to receive something.</p>
+  <p>That is not a distortion of the finding, it is the finding. Comment-gates work harder on carousels than on reels for the reason above: the viewer has already invested. Asking a passive video watcher to type a word interrupts them. Asking someone who just swiped through nine slides is the natural next step in something they were already doing.</p>
+  <p>So the mechanism is: <em>carousel builds investment &rarr; gate converts investment into a comment &rarr; comment becomes a DM &rarr; DM becomes a list.</em> Reach never enters it. The 7,699-like post produced a fraction of the impressions of the 39,311-like post and vastly more contactable humans.</p>
+
+  <h2>The second-preview effect</h2>
+  <p>One structural advantage worth knowing: if someone does not swipe on first encounter, the platform will show the same carousel again later using a <em>different slide</em> as the preview image.</p>
+  <p>A carousel effectively gets more than one chance at the same person. That is unusual, and it changes how you should build slide one. It does not have to carry the entire hook alone, because slide two may become the hook for that viewer on the second pass. Designing every slide to work as a cold open is the practical implication.</p>
+
+  <h2>What the top carousels actually did</h2>
+  <p>Reading the slides rather than the metrics, the winners shared a structure: <strong>each slide changes medium or changes idea.</strong></p>
+  <p>The highest-liked post in the set ran a hand-written contrast card, then an archival video clip, then an emotional photograph, then a visual metaphor. Four different media in four slides. The swipe is the pattern interrupt, so a carousel of four near-identical text cards wastes the format&rsquo;s only structural advantage.</p>
+  <p>Slide count did not predict anything. Three-slide and nine-slide posts both performed. What predicted performance was whether there was a reason to keep swiping.</p>
+  <p>One post in the set ran nine slides with an <em>entirely empty caption</em> and still did 6,627 likes. Worth noting for anyone who believes the caption carries the post: on a strong carousel, it sometimes carries nothing at all.</p>
+
+  <h2>How to use both</h2>
+  <ol>
+    <li><strong>Reels for acquisition.</strong> Judge them on views and shares. Their job is delivering you strangers.</li>
+    <li><strong>Carousels for conversion.</strong> Judge them on comments, saves, and DMs. Their job is turning followers into contacts.</li>
+    <li><strong>Put your gates on carousels.</strong> That is where invested attention already exists.</li>
+    <li><strong>Change medium every slide.</strong> Text, then image, then chart, then metaphor. Give the swipe a reason.</li>
+    <li><strong>Make slide two work as a cold open</strong>, because for some viewers it will be.</li>
+    <li><strong>Stop comparing them on one number.</strong> A carousel that gets a tenth of a reel&rsquo;s likes and five times its comments did not lose.</li>
+  </ol>
+
+  <h2>Method and limits</h2>
+  <p>This comes from a bank of Instagram posts exceeding 1 million plays in a 30-day window, with captions and AI transcripts pulled for each, plus the top static and carousel posts from the same accounts in the same window. Slide-level analysis was done by reading the actual slides rather than inferring from the caption.</p>
+  <p>Being clear about the limits: this is a sample of <em>top performers from large accounts</em>, which is a survivorship-biased set by construction. It tells you what winning posts look like, not what fraction of attempts win. The comment-ratio gap is large enough that I am confident in the direction, but a small account should expect different absolute numbers.</p>
+
+  <h2>FAQ</h2>
+  <h3>Do carousels or reels get more engagement?</h3>
+  <p>Different kinds. Carousels here drew 10&ndash;40k likes against reels at 1&ndash;13M views, but matched or beat them on comments &mdash; one hit 18% comment-to-like against roughly 2&ndash;4% for reels.</p>
+  <h3>What are carousels good for?</h3>
+  <p>Depth: saves, comments, DM-gated list building, launches. Reels acquire strangers; carousels convert followers.</p>
+  <h3>Why do comment-gates work better on carousels?</h3>
+  <p>The viewer has already invested by swiping. A gate is the next step in something they were doing, rather than an interruption.</p>
+  <h3>How many slides?</h3>
+  <p>Three to nine all performed. Slide count mattered far less than whether each slide changed medium or idea.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/866-custom-software-ads">what 866 competitor ads reveal about offers</a>. If you want this kind of analysis run on your own category, <a href="/contact">tell me what you are working on</a>.</p>
+</ContentArticle>

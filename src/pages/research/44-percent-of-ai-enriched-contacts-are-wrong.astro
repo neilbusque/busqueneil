@@ -1,0 +1,94 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'How accurate is AI-powered B2B contact enrichment?', a: 'In a run across 254 contacts at 100 companies, roughly 44% came back attached to the wrong employer and had to be discarded. The tooling is not broken — it resolves whatever identifier you hand it, and the failures come from handing it an identifier that does not uniquely identify your target.' },
+  { q: 'What is platform collision in lead enrichment?', a: 'When a company\'s listed website is a link-in-bio or social URL, the enrichment tool resolves that platform rather than the business, and returns the platform\'s own staff. A lead whose site is a Linktree comes back with Linktree employees.' },
+  { q: 'How do I validate enriched contacts?', a: 'Keep a contact only if its own domain matches the company domain, or its most recent employer matches the company name. Do that check in code before the records ever reach a CRM.' },
+  { q: 'Why should I never blocklist domains by substring?', a: 'Because a substring match hits inside real domains. Checking whether "x.com" appears in "alwaysthereairtx.com" returns true, and you silently delete a legitimate company. Match on the exact domain or a proper suffix boundary.' },
+];
+---
+<ContentArticle
+  slug="44-percent-of-ai-enriched-contacts-are-wrong"
+  seoTitle="44% of AI-Enriched B2B Contacts Were the Wrong Employer"
+  description="Measured across 254 contacts at 100 companies: roughly 44% came back attached to a different employer. The two failure modes that cause it, and the validation that catches both."
+  heading="44% of enriched contacts"
+  accent="were wrong"
+  lede="Not slightly stale. Attached to an entirely different employer. Measured across 254 contacts at 100 companies, and the causes are more interesting than the number."
+  idx="06"
+  keywords="B2B data enrichment accuracy, lead enrichment, contact data quality, prospecting data, sales data hygiene"
+  faq={faq}
+>
+  <p><strong>Across a run of 254 enriched contacts at 100 companies, roughly 44% came back attached to the wrong employer and had to be discarded. The enrichment tooling was not malfunctioning. It resolved exactly what it was given, and the failures came from handing it identifiers that did not uniquely identify the target company.</strong></p>
+
+  <h2>The setup</h2>
+  <p>I was turning a list of companies that advertise on Meta into named humans with contact details. The pipeline: take the advertiser, resolve a company domain, then ask an enrichment service for the decision-makers at that domain.</p>
+  <p>The first problem is upstream and worth naming, because it shapes everything after. <strong>Most ad-library leads have no website in the ad.</strong> And essentially no people-enrichment tool will accept a company without a domain. So before you can enrich anything, you have to find a domain.</p>
+  <p>Resolving the advertiser&rsquo;s public page profile got a usable domain for 196 of 210 leads. That step also returns things the ad itself does not: an email, a phone number, a category, and the social links. Good enough to proceed.</p>
+  <p>Then the enrichment ran, returned around 450 contacts, and about 200 of them were wrong.</p>
+
+  <h2>Failure mode one: platform collision</h2>
+  <p>This is the big one, and it is entirely predictable in hindsight.</p>
+  <p>Small businesses very often do not have a conventional website. Their &ldquo;website&rdquo; field points at a link-in-bio service, a social profile, a form builder, a community platform, or a video channel. When you hand that URL to an enrichment tool, it does its job perfectly: it resolves the domain you gave it.</p>
+  <p>The domain you gave it belongs to a technology company. So you get that company&rsquo;s employees.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>What the lead listed</th><th>What came back</th></tr></thead>
+      <tbody>
+        <tr><td>A TikTok profile</td><td>20 TikTok recruiters</td></tr>
+        <tr><td>A Typeform link</td><td>20 Typeform employees</td></tr>
+        <tr><td>A Linktree page</td><td>20 Linktree staff</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Sixty contacts, all perfectly accurate, all completely useless. Worse than useless: they look like real enriched data, they have real names and real titles, and if they reach a CRM unchecked somebody will eventually email them.</p>
+  <p>The fix is to <strong>strip platform domains before enriching</strong>, not to clean up afterwards. If the only URL you have for a lead is a link-in-bio, you do not have a domain, and you should treat that lead as unresolved rather than pretending otherwise.</p>
+
+  <h2>Failure mode two: brand collision</h2>
+  <p>Rarer, harder to catch, and more embarrassing.</p>
+  <p>A small local insurance agency happened to sit on a domain that a very large national organisation of the same name also uses. The enrichment returned the national body&rsquo;s senior executives. Real people, real titles, entirely the wrong company, and no automated signal that anything had gone wrong.</p>
+  <p>There is no clean programmatic fix. The practical mitigation is a sanity check on scale: if you asked for decision-makers at a five-person agency and got back a Fortune 500 C-suite, something is wrong. Company size is the cheapest tripwire available.</p>
+
+  <h2>The check that catches most of it</h2>
+  <p>One rule, applied in code before anything reaches a CRM:</p>
+  <blockquote><p>Keep a contact only if its own domain equals the company domain, <em>or</em> its most recent employer matches the company name.</p></blockquote>
+  <p>That is it. It is not sophisticated and it removed almost all of the bad records. The reason it works is that the failure is always the same shape: the contact is real, but the link between the contact and <em>your</em> company is fabricated by inference.</p>
+  <p>Do this in the pipeline, not in a spreadsheet afterwards. Manual review does not survive contact with 450 rows, and the records that slip through are indistinguishable from good ones.</p>
+
+  <h2>The blocklist bug</h2>
+  <p>Worth its own section because it is the kind of mistake that deletes real customers silently.</p>
+  <p>Building a platform blocklist, the obvious implementation is to check whether a banned domain appears anywhere in the lead&rsquo;s URL. That is wrong, and the failure is invisible.</p>
+  <p>Checking whether <code>x.com</code> appears inside <code>alwaysthereairtx.com</code> returns true. It appears at the end of &ldquo;air<strong>tx.com</strong>&rdquo;. So a legitimate company is silently dropped from the pipeline and nobody notices, because the whole point of a blocklist is that things disappear.</p>
+  <p><strong>Match on the exact domain, or on a proper suffix boundary with the dot included.</strong> Never on substring. This class of bug applies to every blocklist you will ever write, not just this one.</p>
+
+  <h2>Other things that cost me time</h2>
+  <ul>
+    <li><strong>Filters can return nothing rather than something.</strong> Asking for senior titles at small companies frequently returns an empty set, because a five-person business has no VP of anything. The recovery is to retry the same domain with no title filters at all, rather than concluding there are no contacts.</li>
+    <li><strong>Verify social handles against a stable identifier.</strong> A company search will return a plausible social account that belongs to a different business with a similar name. Match on the underlying page identifier you already hold, not on the name. That check rejected a genuine mismatch in this run.</li>
+    <li><strong>Do not request extra data points you do not need.</strong> Email lookups in particular cost credits per record, and requesting them by default on a 450-row run is expensive for data you may discard.</li>
+    <li><strong>Enrichment calls are slow.</strong> Around ten seconds each. Two hundred sequential calls is impractical; parallelise or plan for it.</li>
+  </ul>
+
+  <h2>What I would tell anyone buying enriched data</h2>
+  <ol>
+    <li><strong>Assume a double-digit error rate</strong> and design for it. The number here was 44%.</li>
+    <li><strong>The errors are confident.</strong> Bad records look exactly like good ones: real names, real titles, real companies. There is no low-confidence flag to filter on.</li>
+    <li><strong>Validate the link, not the person.</strong> The person is usually real. It is the connection to your target company that is invented.</li>
+    <li><strong>Fix it upstream.</strong> Every hour spent improving the domain you feed in is worth several spent cleaning up what comes out.</li>
+    <li><strong>Never let unvalidated enrichment reach a sending tool.</strong> The cost of emailing 200 wrong people is not zero &mdash; it is your sending reputation.</li>
+  </ol>
+  <p>None of this means enrichment is not worth doing. Fifty-six percent of 450 contacts is still a good day&rsquo;s work for an afternoon of pipeline. It means the output is a draft, not an answer.</p>
+
+  <h2>FAQ</h2>
+  <h3>How accurate is AI-powered B2B contact enrichment?</h3>
+  <p>In this run, roughly 44% of returned contacts were the wrong employer. The tooling resolves whatever identifier you give it; the errors come from ambiguous identifiers.</p>
+  <h3>What is platform collision?</h3>
+  <p>When a company&rsquo;s listed website is a link-in-bio or social URL, the tool resolves that platform and returns the platform&rsquo;s own staff. A lead whose site is a Linktree comes back with Linktree employees.</p>
+  <h3>How do I validate enriched contacts?</h3>
+  <p>Keep a contact only if its domain matches the company domain or its latest employer matches the company name. Do it in code, before a CRM.</p>
+  <h3>Why not blocklist by substring?</h3>
+  <p>Because &ldquo;x.com&rdquo; matches inside &ldquo;alwaysthereairtx.com&rdquo; and you silently delete a real company. Match exact domains or proper suffix boundaries.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/research/the-false-zero-machine">the false-zero machine</a>, another way this pipeline hands you a confident wrong answer, and <a href="/research/866-custom-software-ads">the ad study these companies came from</a>.</p>
+</ContentArticle>
