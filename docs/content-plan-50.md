@@ -162,9 +162,9 @@ Pieces 44-46 double as proof for content work.
 | Lane | Live | Total |
 |---|---:|---:|
 | Research | 10 | 12 |
-| Comparisons | 5 | 22 |
-| AI × marketing | 5 | 16 |
-| **Total** | **20** | **50** |
+| Comparisons | 13 | 22 |
+| AI × marketing | 14 | 16 |
+| **Total** | **37** | **50** |
 
 `src/layouts/ContentArticle.astro` carries the schema, breadcrumb and header for every piece,
 so an article file is frontmatter plus prose. It throws at build time if the slug is missing

@@ -1,0 +1,99 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What tools does an AI SDR actually need?', a: 'Fewer than you think. Search the CRM, read a company page, draft a message, log an interaction, schedule a follow-up. Five well-described tools beat twenty vague ones, because most bad agent behaviour is a tool-description problem rather than a model problem.' },
+  { q: 'Should an AI SDR send email without approval?', a: 'Not until the pattern is proven, and never on high-value accounts. Keep a human approval step on the first touch; automate follow-ups within a sequence the human already approved.' },
+  { q: 'How do you stop an agent from doing something stupid?', a: 'Explicit stopping rules and a small tool surface. An agent with no stopping condition keeps going in whatever direction it started, and an agent with broad permissions eventually uses them.' },
+  { q: 'What is the first thing to build?', a: 'The validation step on the input list, before any agent code. An agent multiplies whatever you feed it, including the errors, and a bad list worked at machine speed costs your sending reputation.' },
+];
+---
+<ContentArticle
+  slug="build-an-ai-sdr"
+  seoTitle="How to Build an AI SDR"
+  description="The architecture of a working sales agent: which tools it gets, where a human stays in the loop, the stopping rules, and why the first thing you build is not the agent."
+  heading="How to build"
+  accent="an AI SDR"
+  lede="I built one that runs every day. The interesting decisions were not about the model — they were about what it is allowed to do, and what happens when it is wrong."
+  idx="16"
+  keywords="build AI SDR, sales agent, AI agent architecture, outbound automation, agent tools, MCP"
+  faq={faq}
+>
+  <p><strong>A working sales agent is a small number of well-described tools, an explicit approval boundary, and stopping rules — not a clever prompt. The first thing to build is not the agent at all: it is the validation step on the input list, because an agent multiplies whatever you feed it, including the errors.</strong></p>
+
+  <h2>Build the validation first</h2>
+  <p>This ordering is deliberate and it is the advice I would most want back if I were starting again.</p>
+  <p>An agent working a good list is leverage. An agent working a bad list is damage at machine speed, and the cost lands on your sending domain rather than on an afternoon. In an enrichment run I measured, <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">44% of contacts came back attached to the wrong employer</a> &mdash; real people, real titles, wrong company, and visually identical to the good records.</p>
+  <p>The check is one rule: keep a contact only if its own domain matches the company domain, or its most recent employer matches the company name. Put it in code, before the agent ever sees the row.</p>
+
+  <h2>The tool surface</h2>
+  <p>Fewer, better-described tools beat more tools. Past a few dozen, model selection accuracy degrades noticeably and debugging gets much harder.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>Job</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Search contacts</td><td>Find who exists</td><td>Return few, well-shaped results</td></tr>
+        <tr><td>Read a company page</td><td>Produce one specific observation</td><td>The whole personalisation layer</td></tr>
+        <tr><td>Draft a message</td><td>Write, do not send</td><td>Separate drafting from sending, always</td></tr>
+        <tr><td>Log an interaction</td><td>Record what happened</td><td>Makes behaviour auditable</td></tr>
+        <tr><td>Schedule follow-up</td><td>Queue the next touch</td><td>Where most of the value is</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Separating draft from send is the single most useful boundary.</strong> It lets you run the agent at full speed while a human approves output, and it means a misbehaving agent produces a bad draft rather than a bad reputation.</p>
+
+  <h2>Writing tool descriptions</h2>
+  <p>Most bad agent behaviour is a description problem. The model picks a tool based on the description alone, so write for a reader who cannot see your code.</p>
+  <ul>
+    <li><strong>Say what it is for and when not to use it.</strong> The negative case prevents more errors than the positive one.</li>
+    <li><strong>Return errors as data, not exceptions.</strong> &ldquo;No results, try a broader query&rdquo; is recoverable. A stack trace makes the agent improvise.</li>
+    <li><strong>Make empty results explicit.</strong> An empty response reads to a model as a definitive answer. If empty can mean &ldquo;something went wrong,&rdquo; say so in the payload.</li>
+    <li><strong>Never make a tool await a long job.</strong> It will exceed the platform timeout and often surface as a generic error, which reads as a bug in your logic. Start and poll instead.</li>
+  </ul>
+
+  <h2>The approval boundary</h2>
+  <p>Where the human sits changes as trust builds, and it should never disappear entirely.</p>
+  <ol>
+    <li><strong>Start:</strong> human approves every outbound message.</li>
+    <li><strong>Then:</strong> human approves the first touch; the agent runs approved follow-ups automatically.</li>
+    <li><strong>Steady state:</strong> agent runs sequences; human handles every reply and every high-value account.</li>
+  </ol>
+  <p>Keep the approval on high-value accounts permanently. The accounts where being slightly wrong is expensive are exactly the ones worth a human minute.</p>
+
+  <h2>Stopping rules</h2>
+  <p>An agent has no sense of when it is becoming annoying. Nothing emerges naturally, so write them down:</p>
+  <ul>
+    <li><strong>Maximum touches</strong> before a contact goes dormant.</li>
+    <li><strong>Stop on any reply.</strong> Hand to a human immediately, including for &ldquo;not interested&rdquo; &mdash; that is a person, and an agent responding to it is the worst possible impression.</li>
+    <li><strong>Stop on a bounce</strong>, and remove the address rather than retrying.</li>
+    <li><strong>Global rate limit</strong> independent of the agent&rsquo;s own logic, so a bug cannot become a spike.</li>
+    <li><strong>A kill switch</strong> you can hit without a deploy.</li>
+  </ul>
+  <p>That last one has earned its place more than once. If stopping the agent requires shipping code, you will not stop it fast enough.</p>
+
+  <h2>What it should not do</h2>
+  <p>Be explicit about this in the design rather than hoping:</p>
+  <ul>
+    <li><strong>Decide which accounts matter.</strong> That judgement is most of the value in outbound and it stays human.</li>
+    <li><strong>Handle anything off-script.</strong> A model will produce a fluent, confident, contextually wrong reply to an unexpected objection.</li>
+    <li><strong>Negotiate.</strong> Ever.</li>
+    <li><strong>Write directly to a system of record.</strong> Model proposes, code validates, system records.</li>
+  </ul>
+
+  <h2>Observability</h2>
+  <p>Log what the agent actually did, as itself. Not what it was configured to do &mdash; what it sent, which tool it called, what came back.</p>
+  <p>When something goes wrong, the gap between intent and behaviour is the entire investigation, and without a log of the real calls you are guessing. Start debugging at the tool return value, not at the model: the most common cause of odd agent behaviour is a tool returning something other than what you assumed.</p>
+
+  <h2>FAQ</h2>
+  <h3>What tools does it need?</h3>
+  <p>Search, read a page, draft, log, schedule follow-up. Five well-described tools beat twenty vague ones.</p>
+  <h3>Should it send without approval?</h3>
+  <p>Not until proven, and never on high-value accounts. Automate follow-ups inside a sequence a human approved.</p>
+  <h3>How do you stop it doing something stupid?</h3>
+  <p>Explicit stopping rules, a small tool surface, a global rate limit, and a kill switch that does not require a deploy.</p>
+  <h3>What is the first thing to build?</h3>
+  <p>List validation, before any agent code. An agent multiplies your errors.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/ai-sdr-vs-hiring-an-sdr">AI SDR vs hiring an SDR</a>, <a href="/compare/mcp-vs-function-calling">MCP vs function calling</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+</ContentArticle>

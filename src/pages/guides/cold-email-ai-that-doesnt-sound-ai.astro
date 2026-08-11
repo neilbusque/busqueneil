@@ -1,0 +1,99 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Why does AI cold email sound like AI?', a: 'Because the default output is fluent, symmetrical, and enthusiastic — three qualities real business email does not have. Real messages are short, slightly uneven, and assume shared context. Fluency is the tell.' },
+  { q: 'What actually personalises a cold email?', a: 'A specific observation the recipient knows is true and knows took effort to find. "I saw you are hiring three support reps" works. "I loved your website" does not, because it could have been written before looking.' },
+  { q: 'How long should a cold email be?', a: 'Short enough to read on a phone without scrolling — roughly 70 to 110 words. Length signals how much of the reader\'s time you assumed you were entitled to.' },
+  { q: 'Is AI-written cold email a deliverability risk?', a: 'The writing is not. The volume it enables is. Sending faster than your domain reputation can support, or to a list you have not validated, is what gets you filtered — not the fact that a model helped draft it.' },
+];
+---
+<ContentArticle
+  slug="cold-email-ai-that-doesnt-sound-ai"
+  seoTitle="Cold Email with AI That Doesn't Read Like AI"
+  description="The specific tells that get AI-drafted outreach deleted, what genuine personalisation requires, and why the real deliverability risk is the volume AI unlocks rather than the writing itself."
+  heading="Cold email with AI that"
+  accent="doesn't read like AI"
+  lede="The problem is not that a model wrote it. The problem is that the default output is fluent, symmetrical, and enthusiastic, and no real business email is any of those things."
+  idx="15"
+  keywords="AI cold email, cold outreach, email personalisation, deliverability, outbound sales, email copywriting"
+  faq={faq}
+>
+  <p><strong>AI cold email reads as AI because the default output is fluent, symmetrical and enthusiastic, and real business email is none of those. Real messages are short, slightly uneven, and assume shared context. Fixing this is not a prompt trick — it is supplying the model with a specific observation it could not have invented, and then cutting most of what it gives you back.</strong></p>
+
+  <h2>The tells</h2>
+  <p>These are what a recipient registers in under a second, usually without articulating it.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tell</th><th>Why it reads wrong</th></tr></thead>
+      <tbody>
+        <tr><td>&ldquo;I hope this email finds you well&rdquo;</td><td>Nobody who knows you writes this</td></tr>
+        <tr><td>Three balanced sentences per paragraph</td><td>Real email is uneven</td></tr>
+        <tr><td>Compliments with no object</td><td>&ldquo;Love what you&rsquo;re building&rdquo; could precede any research</td></tr>
+        <tr><td>&ldquo;I noticed you&rsquo;re in the X space&rdquo;</td><td>A category is not an observation</td></tr>
+        <tr><td>Enthusiasm throughout</td><td>Strangers are not excited to meet you</td></tr>
+        <tr><td>A tidy summary paragraph</td><td>Emails end, they do not conclude</td></tr>
+        <tr><td>Perfect grammar plus perfect rhythm</td><td>Fluency is the giveaway</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Note that none of these are errors. They are the model being good at writing, applied to a genre where being good at writing is suspicious.</p>
+
+  <h2>The personalisation test</h2>
+  <p>One question decides whether a line is real personalisation:</p>
+  <blockquote><p>Could this sentence have been written <em>before</em> looking at their company?</p></blockquote>
+  <p>&ldquo;I loved your website&rdquo; &mdash; yes, so it is worthless. &ldquo;I saw you are hiring three support reps&rdquo; &mdash; no, it required looking. &ldquo;Your booking form asks for a phone number before it asks what the job is&rdquo; &mdash; definitely not, and it demonstrates you actually used the thing.</p>
+  <p>This is where AI genuinely helps, and it is not the drafting. It is the <em>reading</em>: give a model the prospect&rsquo;s site and ask what is specifically notable, then use that. A model summarising a real page produces real observations. A model asked to &ldquo;write a personalised email&rdquo; with no source material produces personalisation-shaped filler.</p>
+
+  <h2>The structure that survives</h2>
+  <p>Short, and in this order:</p>
+  <ol>
+    <li><strong>The observation.</strong> One sentence, specific, verifiable. This is the whole email&rsquo;s credibility.</li>
+    <li><strong>The consequence.</strong> Why that thing costs them something. One sentence.</li>
+    <li><strong>What you did about it for someone else.</strong> One sentence, concrete, no adjectives.</li>
+    <li><strong>A small ask.</strong> Not a meeting. A question they can answer in one line.</li>
+  </ol>
+  <p>Roughly 70 to 110 words total. Length is itself a signal &mdash; it tells the reader how much of their time you assumed you were entitled to before they had agreed to anything.</p>
+  <p>The most common failure is step four. &ldquo;Do you have 15 minutes Thursday?&rdquo; asks a stranger to schedule around you. &ldquo;Are you handling this in-house right now?&rdquo; asks them to type four words. The second gets replies, and a reply is the only thing the first email needs to achieve.</p>
+
+  <h2>How to actually use the model</h2>
+  <p>Give it a job it can do well:</p>
+  <ul>
+    <li><strong>Read the site and list what is notable.</strong> Excellent at this.</li>
+    <li><strong>Draft from your observation.</strong> Good, if you supply the observation.</li>
+    <li><strong>Produce five variations of one line.</strong> Good, and genuinely useful for subject lines.</li>
+    <li><strong>Critique the draft against a stated rule.</strong> Very good. Give it the tells above and ask which it committed.</li>
+    <li><strong>Invent the personalisation.</strong> <strong>Never.</strong> This is where fabricated details come from, and a made-up fact about their business ends the relationship.</li>
+  </ul>
+  <p>That last point is not a style concern. A model asked to personalise without source material will confidently assert things about a company that are not true, and the recipient is the world expert on their own company.</p>
+
+  <h2>The real deliverability risk</h2>
+  <p>It is not the writing. It is the volume the writing unlocks.</p>
+  <p>Two failures do the damage. <strong>Sending faster than your domain reputation supports</strong> &mdash; volume from a cold domain looks exactly like a compromised account. And <strong>sending to a list you have not validated.</strong></p>
+  <p>I measured the second one: building an enrichment pipeline, <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">roughly 44% of contacts came back attached to the wrong employer</a>. Real people, real titles, wrong company. Emailing that list at machine speed means hundreds of messages referencing a company the recipient does not work for, and the cost is spam complaints against your domain, which is slow and expensive to repair.</p>
+  <p>Validate before you send. <a href="/guides/ai-lead-enrichment">The rule that catches it</a> takes ten minutes to implement.</p>
+
+  <h2>A workflow</h2>
+  <ol>
+    <li><strong>Validate the list.</strong> Before anything else.</li>
+    <li><strong>Have the model read each prospect&rsquo;s site</strong> and return one specific, checkable observation.</li>
+    <li><strong>Reject weak observations.</strong> Apply the could-this-have-been-written-first test. Many prospects will have nothing notable, and skipping them is correct.</li>
+    <li><strong>Draft from the observation</strong>, four sentences, under 110 words.</li>
+    <li><strong>Run the tell list as a critic pass.</strong> Cut what it flags.</li>
+    <li><strong>Read it aloud.</strong> If it sounds like a person who is slightly busy, send it. If it sounds like marketing, delete a sentence and try again.</li>
+    <li><strong>Ramp volume slowly</strong> and watch reply rate, not open rate.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Why does AI cold email sound like AI?</h3>
+  <p>The default output is fluent, symmetrical and enthusiastic. Real business email is short, uneven, and assumes context. Fluency is the tell.</p>
+  <h3>What actually personalises an email?</h3>
+  <p>An observation the recipient knows is true and knows took effort. If the line could have been written before looking, it does nothing.</p>
+  <h3>How long should it be?</h3>
+  <p>70 to 110 words. Length signals how much of their time you assumed you were owed.</p>
+  <h3>Is AI-written email a deliverability risk?</h3>
+  <p>The writing is not; the volume is. Sending faster than your reputation supports, or to an unvalidated list, is what gets you filtered.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-lead-enrichment">AI lead enrichment</a>, <a href="/compare/ai-sdr-vs-hiring-an-sdr">AI SDR vs hiring an SDR</a>, and <a href="/compare/resend-vs-mailgun">the deliverability trap in switching providers</a>.</p>
+</ContentArticle>

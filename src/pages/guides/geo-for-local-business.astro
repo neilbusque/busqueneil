@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'How do AI answers handle local queries?', a: 'They lean heavily on structured, corroborated facts about a business — name, address, phone, hours, services — and on what third parties say about it. Consistency across sources matters more than volume of content, because a contradiction gives an answer engine a reason to pick someone else.' },
+  { q: 'Does llms.txt help a local business rank?', a: 'No. Google states plainly that Search does not use llms.txt, including for its AI features. Keeping one for other tools is harmless, but it is not a ranking or citation lever.' },
+  { q: 'What matters most for local AI visibility?', a: 'Being consistently described in the same way everywhere, having pages that answer whole decisions rather than keyword variants, and being mentioned by sources other than your own site. Third-party corroboration does disproportionate work.' },
+  { q: 'Do I need special schema for AI answers?', a: 'No special AI schema exists or is required. Use accurate structured data that describes what is visibly on the page — LocalBusiness, Service, FAQ where genuinely answered — and make sure it matches reality.' },
+];
+---
+<ContentArticle
+  slug="geo-for-local-business"
+  seoTitle="GEO for Local Business"
+  description="How AI answers handle local intent, why consistency across sources beats content volume, and which of the widely-sold GEO tactics do nothing — including the ones Google has explicitly ruled out."
+  heading="GEO for"
+  accent="local business"
+  lede="Local is where AI answers are most decisive, because there is usually one right answer and the engine has to pick it. Being pickable is mostly about consistency, not content."
+  idx="23"
+  keywords="GEO local business, local AI search, AI Overviews local, local SEO, answer engine optimization"
+  faq={faq}
+>
+  <p><strong>For local queries an answer engine has to choose, usually from a small set. It leans on structured facts about your business and on what sources other than you say about it. Consistency across those sources does more work than volume of content, because a contradiction is a reason to pick someone else. Most of what is sold as GEO does not apply here.</strong></p>
+
+  <h2>Why local is different</h2>
+  <p>Most queries have many acceptable answers. &ldquo;How do I fix a leaking tap&rdquo; can be answered by a hundred pages and any of them satisfies the asker.</p>
+  <p>Local queries do not work that way. &ldquo;Emergency plumber near me&rdquo; wants one or three names, and the engine must commit. That makes selection sharper and the inputs narrower: it needs to be confident about who you are, where you are, what you do, and whether anyone else agrees.</p>
+  <p>That is why the levers here are different from general content SEO. You are not competing on depth. You are competing on being unambiguous.</p>
+
+  <h2>What actually matters</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Lever</th><th>Why it works</th></tr></thead>
+      <tbody>
+        <tr><td>Identical name, address, phone everywhere</td><td>A contradiction is a reason to skip you</td></tr>
+        <tr><td>Explicit service area, in words</td><td>&ldquo;Near me&rdquo; needs a place to match</td></tr>
+        <tr><td>Services named plainly</td><td>&ldquo;Full-service solutions&rdquo; matches nothing</td></tr>
+        <tr><td>Hours, stated and current</td><td>Directly answers a common query</td></tr>
+        <tr><td>Third-party mentions</td><td>Corroboration you did not write</td></tr>
+        <tr><td>Prices, if you can</td><td>Answers the second question everyone has</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The one people skip is the second: <strong>write your service area in prose, not just in a map embed.</strong> A map is not a sentence, and a sentence is what gets quoted.</p>
+  <p>The one that does the most disproportionate work is third-party corroboration. Anything about your business that you did not publish counts for more than anything you did, for the obvious reason that you are an interested party.</p>
+
+  <h2>What does not work</h2>
+  <p>Worth being blunt, because a lot is being sold to local businesses right now.</p>
+  <ul>
+    <li><strong>llms.txt.</strong> Google says plainly that Search does not use it, including for its AI features. Keep one if another tool reads it. It is not a lever.</li>
+    <li><strong>Special &ldquo;AI schema.&rdquo;</strong> There is no such thing and none is required. Use accurate structured data describing what is visibly on the page.</li>
+    <li><strong>Chopping pages into tiny chunks.</strong> Google says there is no required chunk size and no ideal page length. Write sections for humans.</li>
+    <li><strong>A page per keyword variant.</strong> Search systems understand synonyms. Near-duplicate pages made to catch wording variations can do more harm than good.</li>
+    <li><strong>Guaranteed citations.</strong> Nobody can promise an answer engine will cite you. Anyone selling that is selling something else.</li>
+  </ul>
+  <p>I have written the general version of this argument in <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search: what actually helps</a>. The local-specific point is that the myths are more expensive here, because a local business has less content budget to waste on them.</p>
+
+  <h2>Answer the whole decision</h2>
+  <p>The highest-value local pages answer the entire question someone has before calling, not the search phrase.</p>
+  <p>Somebody looking for a contractor wants to know: do you do this specific job, do you cover my area, roughly what does it cost, how soon, and what happens if it goes wrong. A page that answers all five is far more likely to be the source of an answer than five pages each targeting a phrasing variation.</p>
+  <p>Price is the one most businesses omit, and it is the most valuable. In a study of 30 companies advertising in one category, <a href="/research/only-3-of-30-publish-a-price">only 3 published a price on their own site</a>. That was a different market, but the dynamic transfers: publishing a number lets a buyer self-qualify and separates you from nearly everyone.</p>
+
+  <h2>Consistency as the main job</h2>
+  <p>The practical work is unglamorous auditing:</p>
+  <ol>
+    <li><strong>Write down your canonical business details.</strong> One name, one address format, one phone number.</li>
+    <li><strong>Fix every place they appear.</strong> Site, directories, social profiles, invoices, the footer nobody has looked at since 2019.</li>
+    <li><strong>Check for stale duplicates.</strong> An old listing with a disconnected number is a contradiction that costs you.</li>
+    <li><strong>Make hours accurate and keep them accurate.</strong> Wrong hours are worse than absent hours.</li>
+    <li><strong>Make sure your structured data matches the visible page.</strong> Markup that disagrees with the page is a quality problem, not a shortcut.</li>
+  </ol>
+  <p>None of this is exciting. All of it is the thing that determines whether an engine can confidently name you.</p>
+
+  <h2>How to check where you stand</h2>
+  <p>Manual, and worth an hour a month.</p>
+  <p>Take your ten most valuable queries &mdash; the ones that mean someone is ready to call. Run each through the AI surfaces your customers plausibly use. Record whether you appear, who does, and which page of theirs was used. Repeat monthly and watch the direction rather than the absolute.</p>
+  <p>Do not chase a single result. Answers vary between sessions, so a snapshot is a snapshot. The trend across a month is the signal.</p>
+
+  <h2>FAQ</h2>
+  <h3>How do AI answers handle local queries?</h3>
+  <p>They lean on structured, corroborated facts and on third-party sources. Consistency matters more than content volume, because contradictions are disqualifying.</p>
+  <h3>Does llms.txt help?</h3>
+  <p>No. Google states Search does not use it, including for AI features.</p>
+  <h3>What matters most?</h3>
+  <p>Being described identically everywhere, answering whole decisions, and being mentioned by sources other than yourself.</p>
+  <h3>Do I need special schema?</h3>
+  <p>No AI-specific schema exists or is needed. Use accurate structured data that matches the visible page.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search</a>, <a href="/guides/google-ai-overviews-guide">Google AI Overviews</a>, and <a href="/guides/ai-for-seo">how to use AI for SEO</a>.</p>
+</ContentArticle>

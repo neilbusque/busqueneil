@@ -1,0 +1,99 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Does Google penalise AI-generated content?', a: 'Not for being AI-generated. Google acts on scaled content abuse — pages produced mainly to manipulate rankings that offer nothing a reader could not get elsewhere. The production method is not the test; whether the page is worth reading is.' },
+  { q: 'What separates AI content that ranks from AI content that gets ignored?', a: 'Whether it contains something only its author could say. A competent summary of what already ranks has no reason to be preferred over the pages it summarised, and that is the default output unless you supply first-hand material.' },
+  { q: 'How do I know if my page is at risk?', a: 'Open two of your own pages side by side. If a reader who needed one would be equally served by the other, you have built the thing that gets discounted.' },
+  { q: 'Does AI content get cited by AI search?', a: 'Original data and first-hand experience get cited; summaries do not, because an answer engine has no reason to cite a summary when it can reach the source. This is a stronger filter than traditional ranking, not a weaker one.' },
+];
+---
+<ContentArticle
+  slug="ai-content-that-ranks"
+  seoTitle="AI Content That Ranks vs AI Content That Gets Ignored"
+  description="The difference is not the model or the prompt. It is whether the page carries something only its author could say — and a simple side-by-side test that tells you which kind you have built."
+  heading="AI content that ranks vs"
+  accent="content that gets ignored"
+  lede="The difference is not the model, the prompt, or the word count. It is whether the page contains something that could only have come from you."
+  idx="19"
+  keywords="AI content SEO, does AI content rank, helpful content, scaled content abuse, AI search citations"
+  faq={faq}
+>
+  <p><strong>Google does not penalise content for being AI-generated. It acts on scaled content abuse: pages made primarily to manipulate rankings that offer nothing a reader could not get elsewhere. That is also the default output of an AI writing tool given no first-hand material, which is why so much AI content fails — not because of how it was written, but because of what it does not contain.</strong></p>
+
+  <h2>The test</h2>
+  <p>Open two of your own pages side by side. <strong>If a reader who needed one would be equally served by the other, you have built the thing that gets discounted.</strong></p>
+  <p>It is a blunt test and it is the one that matters. It cuts through the entire debate about disclosure, detection, and word counts, because it asks the only question a search system is trying to answer: is there a reason to show this rather than something else?</p>
+
+  <h2>What the two kinds look like</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Gets ignored</th><th>Ranks and gets cited</th></tr></thead>
+      <tbody>
+        <tr><td>&ldquo;There are several factors to consider&rdquo;</td><td>&ldquo;3 of 30 companies published a price&rdquo;</td></tr>
+        <tr><td>Summarises the top five results</td><td>Contains something not in any of them</td></tr>
+        <tr><td>Balanced, comprehensive, safe</td><td>Takes a position and says why</td></tr>
+        <tr><td>Explains what a tool does</td><td>Explains what broke when you used it</td></tr>
+        <tr><td>No method, no date</td><td>States method and limits</td></tr>
+        <tr><td>Could be about any company</td><td>Could only be about yours</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Notice that none of the right-hand column is about writing quality. The left column is often better written. Fluency is not the variable.</p>
+
+  <h2>Why AI defaults to the left column</h2>
+  <p>Given a topic and nothing else, a model produces roughly the average of everything written about that topic. That is genuinely useful for many purposes and it is exactly wrong here, because the average of what already ranks has no claim to outrank it.</p>
+  <p>This is not a prompting problem. There is no instruction that conjures a fact the model does not have. The fix is upstream: <strong>decide what you know that nobody else does, before you open the tool.</strong></p>
+  <p>The practical version of this rule: write the one sentence only you could write, first. If you cannot, the page should not exist. That single constraint has killed more of my drafts than any editing pass.</p>
+
+  <h2>What counts as first-hand</h2>
+  <p>People read &ldquo;original&rdquo; and assume it means research budgets. It does not. Things that qualify:</p>
+  <ul>
+    <li><strong>A number you measured.</strong> Even a small one. &ldquo;44% of the contacts came back wrong&rdquo; is more citable than any amount of analysis of someone else&rsquo;s study.</li>
+    <li><strong>A failure you had.</strong> What broke, what it cost, what you changed. Nobody else can report your incident.</li>
+    <li><strong>A decision and its reasoning.</strong> Why you chose one tool over another for a real project, including what you gave up.</li>
+    <li><strong>A method someone could reproduce.</strong> The steps, the traps, the cost.</li>
+    <li><strong>An honest negative.</strong> What you tried that did not work is scarce, because most publishing is promotional.</li>
+  </ul>
+  <p>All of these are free. They just require having done something.</p>
+
+  <h2>AI search raises the bar, it does not lower it</h2>
+  <p>There is a hope that answer engines are easier to reach than rankings. The opposite seems truer.</p>
+  <p>An answer engine has no reason to cite a summary, because it can reach whatever that summary was drawn from. What gets cited is a source: original data, a primary account, a specific measurement. The formats that dominate citations are comparisons and original research, and both are hard to fake.</p>
+  <p>So the same discipline serves both goals. That is convenient, and it means you do not need a separate AI-search strategy. What you need is to be the source rather than the summary. I have written the longer version in <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search: what actually helps</a>.</p>
+
+  <h2>Where AI genuinely helps</h2>
+  <p>None of this is an argument against using it. It is an argument about the division of labour.</p>
+  <ul>
+    <li><strong>Structure and consistency</strong> across many pages.</li>
+    <li><strong>Valid schema</strong> everywhere, which is tedious and error-prone by hand.</li>
+    <li><strong>Reading competitors at volume</strong> to find the gap.</li>
+    <li><strong>Drafting around your claim</strong>, so you edit rather than face a blank page.</li>
+    <li><strong>Critiquing your draft</strong> against a stated rule.</li>
+  </ul>
+  <p>That is a lot of real leverage. It is just not the part that decides whether the page deserves to exist.</p>
+
+  <h2>A checklist</h2>
+  <ol>
+    <li><strong>Name the claim only you can make.</strong> One sentence, before anything else.</li>
+    <li><strong>Put a real number in it</strong> if you have one, and state where it came from.</li>
+    <li><strong>State the method and the limits.</strong> Survivorship bias, sample size, what you did not check.</li>
+    <li><strong>Cut anything that could appear on a competitor&rsquo;s page.</strong></li>
+    <li><strong>Run the side-by-side test</strong> against your own other pages.</li>
+    <li><strong>Verify mechanically:</strong> schema parses, links resolve, no duplicate titles or descriptions.</li>
+    <li><strong>Read it.</strong> If the set is too big to read, it is too big to be accountable for.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Does Google penalise AI content?</h3>
+  <p>Not for being AI-written. It acts on scaled content abuse &mdash; pages made to manipulate rankings that offer nothing a reader could not get elsewhere.</p>
+  <h3>What separates the two kinds?</h3>
+  <p>Whether the page contains something only its author could say. A summary has no claim to outrank what it summarised.</p>
+  <h3>How do I know if my page is at risk?</h3>
+  <p>Open two of your pages side by side. If one serves a reader as well as the other, that is the problem.</p>
+  <h3>Does AI content get cited by AI search?</h3>
+  <p>Original data and first-hand accounts do; summaries do not, because an answer engine can reach the source directly.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-for-seo">how to use AI for SEO</a>, <a href="/guides/programmatic-seo-with-ai">programmatic SEO with AI</a>, and <a href="/research">the original research on this site</a>.</p>
+</ContentArticle>

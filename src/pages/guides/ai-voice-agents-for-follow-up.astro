@@ -1,0 +1,89 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is an AI voice agent good at?', a: 'Answering immediately, at any hour, and asking the same three qualifying questions every time without getting tired or improvising. Speed of response is where most inbound leads are actually lost, and that is a problem a machine solves completely.' },
+  { q: 'Will callers know they are talking to AI?', a: 'Usually within a sentence or two, and pretending otherwise is a bad trade. Say it up front. People are far more tolerant of a machine that is clearly a machine and useful than of one that was trying to pass.' },
+  { q: 'What breaks an AI voice agent?', a: 'Anything off-script, background noise, accents the recogniser handles poorly, and the caller who wants to explain something complicated. Design the handoff to a human as a first-class path, not an error state.' },
+  { q: 'Should a voice agent book appointments directly?', a: 'Only against a real calendar with real availability rules, and only for simple bookings. The failure mode — a confidently booked slot that does not exist — is worse than taking a message.' },
+];
+---
+<ContentArticle
+  slug="ai-voice-agents-for-follow-up"
+  seoTitle="AI Voice Agents for Lead Follow-Up"
+  description="What a voice agent does well on inbound, the failure modes to design around, and why the handoff to a human has to be a first-class path rather than an error state."
+  heading="AI voice agents"
+  accent="for follow-up"
+  lede="I shipped a voice agent for a roofing company. It does one thing extremely well and several things badly, and knowing which is which is the entire design."
+  idx="20"
+  keywords="AI voice agent, phone agent, lead follow up, inbound calls, voice AI, appointment booking"
+  faq={faq}
+>
+  <p><strong>A voice agent&rsquo;s real advantage is not intelligence, it is availability. It answers in one ring at 9pm on a Sunday and asks the same three qualifying questions every time. Most inbound leads are lost to response time rather than to a bad conversation, and that is a problem a machine solves completely. Everything else about the design is about limiting what it tries to do.</strong></p>
+
+  <h2>The actual value</h2>
+  <p>Speed. That is it, and it is enough.</p>
+  <p>A lead who calls a contractor and reaches voicemail calls the next contractor. The conversation quality that would have happened at 9am on Monday is irrelevant, because by then they have booked someone else. An agent that answers immediately and takes the job details has already captured most of the available value before it says anything clever.</p>
+  <p>The second-order benefit is consistency. A human answering the phone while on a roof asks two of the five questions. An agent asks all five, every time, and writes them down. That is not glamorous and it is where the compounding is.</p>
+
+  <h2>What it does well</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Job</th><th>Why it works</th></tr></thead>
+      <tbody>
+        <tr><td>Answer instantly, any hour</td><td>The whole ballgame for inbound</td></tr>
+        <tr><td>Ask a fixed qualifying set</td><td>Never skipped, never reordered</td></tr>
+        <tr><td>Capture details accurately</td><td>Written down while being said</td></tr>
+        <tr><td>Answer routine questions</td><td>Hours, service area, whether you do X</td></tr>
+        <tr><td>Take a callback request</td><td>Better than voicemail by a wide margin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What breaks it</h2>
+  <p><strong>Anything off-script.</strong> A caller who wants to explain a complicated situation, or who asks something the agent has no tool for, will get a fluent and confidently wrong answer. This is the failure that damages trust, because it sounds authoritative.</p>
+  <p><strong>Real-world audio.</strong> Wind, a job site, a car, a speakerphone, an accent the recogniser handles poorly. Recognition degrades and the agent starts responding to what it thought it heard. Design for mishearing as a normal condition, not an exception.</p>
+  <p><strong>Emotional calls.</strong> Somebody with water coming through their ceiling does not want a qualifying sequence. Route urgency to a human immediately, and make the urgency detection generous &mdash; a false positive costs you a phone call, a false negative costs you the customer.</p>
+  <p><strong>Anything with money attached.</strong> Quoting, discounting, negotiating. An agent that guesses a price has made a commitment on your behalf.</p>
+
+  <h2>Design the handoff first</h2>
+  <p>The most common mistake is treating human handoff as the failure case. It should be a normal, well-lit path that the agent takes readily.</p>
+  <ul>
+    <li><strong>Explicit request.</strong> If the caller asks for a person, transfer immediately, with no attempt to resolve it first. Every extra turn here is a customer being annoyed.</li>
+    <li><strong>Repeated misunderstanding.</strong> Two failed attempts at the same question is the ceiling. A third try does not fix an audio problem.</li>
+    <li><strong>Anything outside the tool set.</strong> If the agent cannot actually do the thing, it should say so and hand over rather than discuss it.</li>
+    <li><strong>Detected urgency or distress.</strong> Bias heavily toward transferring.</li>
+  </ul>
+  <p>And when nobody is available to take the handoff, the agent should say that plainly and take a message with a real commitment about when someone will call. &ldquo;I&rsquo;ll have someone call you before 10am tomorrow&rdquo; is a promise you can keep. Vagueness here is what makes people call your competitor anyway.</p>
+
+  <h2>Disclosure</h2>
+  <p>Say it is an AI, in the first sentence.</p>
+  <p>Callers work it out quickly regardless, and the moment of realisation is much worse if they feel it was concealed. Stated up front, most people simply adjust &mdash; they speak more clearly, they keep answers short, and they are notably tolerant of a machine that is obviously a machine and actually useful.</p>
+  <p>There are also disclosure rules in some jurisdictions, and call recording has its own requirements that vary by state and country. Check what applies where you operate before launching, not after.</p>
+
+  <h2>Booking directly</h2>
+  <p>Only against a real calendar with real availability rules, and only for simple appointments.</p>
+  <p>The failure mode is specific: a confidently booked slot that does not exist, or a double booking. That is worse than taking a message, because now you have a customer expecting you at a time you cannot make. If your scheduling has any real complexity &mdash; travel time, crew skills, equipment &mdash; have the agent capture the request and let a human place it.</p>
+
+  <h2>Build notes</h2>
+  <ul>
+    <li><strong>Keep the tool surface tiny.</strong> Check availability, capture a lead, transfer, take a message. Four things done reliably beat twelve done sometimes.</li>
+    <li><strong>Never let a tool call await a long job.</strong> Silence on a phone call is much worse than silence in a chat. Anything slow needs to happen after the call, not during it.</li>
+    <li><strong>Log the transcript and what the agent did.</strong> Most improvements come from reading calls that went badly, and you cannot do that without recordings you are entitled to keep.</li>
+    <li><strong>Write the failure line.</strong> Give the agent an explicit sentence for &ldquo;I do not know,&rdquo; or it will invent something.</li>
+    <li><strong>Test with bad audio deliberately.</strong> Call it from a car. That is the real condition.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <h3>What is it good at?</h3>
+  <p>Answering instantly at any hour and asking the same qualifying questions every time. Response speed is where most inbound leads are lost.</p>
+  <h3>Will callers know?</h3>
+  <p>Usually within a sentence. Say it up front &mdash; concealment is a bad trade, and disclosure rules may apply where you operate.</p>
+  <h3>What breaks it?</h3>
+  <p>Off-script questions, real-world audio, emotional calls, and anything involving price. Make handoff a first-class path.</p>
+  <h3>Should it book directly?</h3>
+  <p>Only against real availability and only for simple bookings. A confidently booked slot that does not exist is worse than a message.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/software/ai-phone-agent-vs-answering-service">AI phone agent vs answering service</a>, <a href="/software/ai-phone-agent-for-roofing-companies">AI phone agents for roofing</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+</ContentArticle>

@@ -1,0 +1,90 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Do marketers need to learn prompt engineering?', a: 'You need about five patterns, not a discipline. The gap between a bad result and a good one is almost always missing source material rather than missing prompt technique — the model cannot know your customers, your numbers, or your voice unless you supply them.' },
+  { q: 'What is the single biggest improvement to a prompt?', a: 'Giving it real examples of the thing you want, with evidence attached. A model asked to write like your brand produces a generic approximation; a model given three of your best-performing pieces produces something usable.' },
+  { q: 'Why does AI copy sound generic?', a: 'Because the default output is the average of everything written on the topic, and average is exactly what does not persuade. Specificity has to come from you: real numbers, real customer language, real constraints.' },
+  { q: 'Should I use a prompt library?', a: 'They are useful for discovering formats, not for production work. A prompt that works is usually specific to your inputs and your voice, so a library entry is a starting point rather than an asset.' },
+];
+---
+<ContentArticle
+  slug="prompt-engineering-for-marketers"
+  seoTitle="Prompt Engineering for Marketers"
+  description="The handful of patterns that carry production work, why the model being 'bad at your brand voice' is usually a missing-input problem, and the critic pattern that improves output more than any prompt rewrite."
+  heading="Prompt engineering"
+  accent="for marketers"
+  lede="You need about five patterns, not a discipline. Most bad output is not a prompting failure — it is a missing-input failure wearing a prompting failure's clothes."
+  idx="18"
+  keywords="prompt engineering marketing, AI copywriting, marketing prompts, brand voice AI, content workflow"
+  faq={faq}
+>
+  <p><strong>You need about five patterns, not a discipline. The gap between a bad result and a good one is almost always missing source material rather than missing technique: a model cannot know your customers, your numbers, or your voice unless you supply them. Fix the inputs and most prompting problems disappear.</strong></p>
+
+  <h2>Why the output is generic</h2>
+  <p>The default output is roughly the average of everything written on a topic, and average is precisely what fails to persuade.</p>
+  <p>That is not a flaw to be prompted around. It is what the model has, absent anything from you. &ldquo;Write a landing page for a bookkeeping service&rdquo; has exactly one reasonable answer in the absence of information, and it is the answer everyone else gets too.</p>
+  <p>So the useful move is not a better instruction. It is more evidence.</p>
+
+  <h2>The five patterns</h2>
+
+  <h3>1. Give examples, with evidence attached</h3>
+  <p>The highest-leverage thing you can do. Not &ldquo;write in our brand voice&rdquo; but three real pieces that performed, with their numbers, and an instruction to match the register.</p>
+  <p>This changed my social output more than anything else. Asking for &ldquo;a viral hook&rdquo; produces a parody of one; supplying openings that actually did over a million plays, with the mechanic behind each, produces something usable. Pattern <em>application</em> against supplied examples is near the model&rsquo;s best skill; pattern <em>invention</em> from a vague brief is near its worst.</p>
+
+  <h3>2. Constrain the shape</h3>
+  <p>Word count, sentence count, forbidden phrases, required elements. Models drift toward comfortable lengths and comfortable structures, and a constraint is a cheap way to stop that.</p>
+  <p>&ldquo;Four sentences, under 110 words, no adjectives before nouns in the first line&rdquo; produces something quite different from &ldquo;write a short email.&rdquo;</p>
+
+  <h3>3. Make it a critic, not just a writer</h3>
+  <p>Underused and unusually effective. Give it your draft and a stated criterion, and ask which parts fail.</p>
+  <p>Models are markedly better at judging against a criterion you supply than at generating one. &ldquo;Here is my draft and here are seven tells of AI-sounding copy &mdash; which did I commit?&rdquo; gets you a genuinely useful edit list. &ldquo;Make this better&rdquo; gets you a rewrite that is different rather than improved.</p>
+
+  <h3>4. Ask for the plan before the artefact</h3>
+  <p>On anything substantial, get the outline or the angle first. Correcting an approach costs one line; correcting 1,200 finished words costs a rewrite, and you will be tempted to keep paragraphs because they already exist.</p>
+
+  <h3>5. Ask for variations, then choose</h3>
+  <p>One output invites you to accept or reject. Five outputs invite you to compare, which is a much better decision. This is especially true for subject lines, headlines, and hooks, where the difference between candidates is obvious side by side and invisible alone.</p>
+
+  <h2>What to supply, by task</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>Supply</th><th>Or you get</th></tr></thead>
+      <tbody>
+        <tr><td>Landing page copy</td><td>Real objections from real calls</td><td>Generic benefit claims</td></tr>
+        <tr><td>Cold email</td><td>A specific observation about them</td><td>&ldquo;Love what you&rsquo;re building&rdquo;</td></tr>
+        <tr><td>Social hook</td><td>Openings that performed, with numbers</td><td>A parody of a viral post</td></tr>
+        <tr><td>Ad copy</td><td>Competitor ads that ran a long time</td><td>The category average</td></tr>
+        <tr><td>Brand voice</td><td>Three pieces you are proud of</td><td>Corporate neutral</td></tr>
+        <tr><td>Positioning</td><td>Who you lose to and why</td><td>&ldquo;Innovative solutions&rdquo;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The pattern: in every row, the input is something only you have. That is the actual work, and no prompt substitutes for it.</p>
+
+  <h2>Things that do not help</h2>
+  <ul>
+    <li><strong>Elaborate role-play preambles.</strong> &ldquo;You are a world-class copywriter with 30 years of experience&rdquo; does very little on a modern model. Say what you want instead.</li>
+    <li><strong>Politeness and threats.</strong> Neither improves output.</li>
+    <li><strong>Enormous prompt-library templates.</strong> Good for discovering a format, poor as production assets, because anything that works is specific to your inputs.</li>
+    <li><strong>Asking for &ldquo;viral&rdquo; or &ldquo;high-converting.&rdquo;</strong> The model has no feedback loop on either. Describe the mechanic you want instead.</li>
+  </ul>
+
+  <h2>The verification habit</h2>
+  <p>The one that matters most in marketing specifically: <strong>a model will invent facts about your business and your customers with complete confidence.</strong></p>
+  <p>Statistics, case study details, customer quotes, competitor pricing &mdash; all of it can arrive fluent and false. In marketing copy that is not an inconvenience, it is a claim you are publishing.</p>
+  <p>The rule I hold to: <em>every number and every named claim in published copy has to trace to something real.</em> If I cannot point at where a figure came from, it does not ship. That is also why the pieces on this site that carry numbers name their method &mdash; so you can check them.</p>
+
+  <h2>FAQ</h2>
+  <h3>Do marketers need prompt engineering?</h3>
+  <p>About five patterns, not a discipline. Most bad output is a missing-input problem.</p>
+  <h3>What is the biggest single improvement?</h3>
+  <p>Real examples of what you want, with evidence attached. Application beats invention.</p>
+  <h3>Why does AI copy sound generic?</h3>
+  <p>The default is the average of everything on the topic, and average does not persuade. Specificity comes from you.</p>
+  <h3>Should I use a prompt library?</h3>
+  <p>For discovering formats, yes. For production, no &mdash; anything that works is specific to your inputs and voice.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-for-social-content">using AI for social content</a>, <a href="/guides/cold-email-ai-that-doesnt-sound-ai">cold email that doesn&rsquo;t read like AI</a>, and <a href="/guides/ai-content-that-ranks">AI content that ranks</a>.</p>
+</ContentArticle>

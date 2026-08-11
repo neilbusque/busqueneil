@@ -1,0 +1,97 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What should AI actually do inside a CRM?', a: 'Work that is repetitive, judgement-light, and currently skipped because nobody has time: summarising a long thread, drafting a follow-up, classifying an inbound enquiry, flagging deals that have gone quiet. The test is whether a human would do it if they had unlimited time.' },
+  { q: 'What should AI never do in a CRM?', a: 'Write to a system of record without a deterministic check in between. Model proposes, code validates, system records. A probabilistic step writing straight into pipeline data produces confident corruption that nothing downstream questions.' },
+  { q: 'Why do AI CRM features get turned off?', a: 'Usually because they add a step without removing one. A summary nobody reads or a suggestion nobody accepts is friction with extra latency. If the feature does not remove work, it will be ignored regardless of how well it performs.' },
+  { q: 'Does AI in a CRM need its own permissions model?', a: 'Yes. An AI feature acting on a record must respect exactly the same row-level rules as the user who triggered it. The dangerous shortcut is running it with elevated privileges because that was easier to build.' },
+];
+---
+<ContentArticle
+  slug="automate-your-crm-with-ai"
+  seoTitle="Automating a CRM with AI"
+  description="Eight AI-backed functions in a production CRM, the two I turned back off, and the rule that keeps a probabilistic step from quietly corrupting your pipeline data."
+  heading="Automating a CRM"
+  accent="with AI"
+  lede="I run eight AI-backed functions in a CRM that real people use daily. Two more got built and switched off. The ones that survived have something in common."
+  idx="17"
+  keywords="AI CRM automation, CRM AI features, sales automation, lead scoring, AI agents, pipeline management"
+  faq={faq}
+>
+  <p><strong>AI belongs on CRM work that is repetitive, judgement-light, and currently skipped because nobody has time. It does not belong writing to a system of record without a deterministic check between the model and the database. The features that survive remove a step; the ones that get turned off add one.</strong></p>
+
+  <h2>The test that predicts survival</h2>
+  <p><strong>Does this remove work, or add a step?</strong></p>
+  <p>Every AI feature that stuck removes something a person was doing or skipping. Every one that got switched off added a screen, a suggestion, or a summary that had to be read and evaluated &mdash; which is work, dressed as help.</p>
+  <p>A summary nobody reads is worse than no summary, because it cost latency and now sits there implying it should be read. If the feature does not remove work, adoption will not save it.</p>
+
+  <h2>What works</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Feature</th><th>Removes</th><th>Why it survives</th></tr></thead>
+      <tbody>
+        <tr><td>Summarise a long thread</td><td>Reading 40 messages</td><td>Genuine compression of real work</td></tr>
+        <tr><td>Draft a follow-up</td><td>The blank page</td><td>Editing beats writing</td></tr>
+        <tr><td>Classify an inbound enquiry</td><td>Manual triage</td><td>Consistent, and checkable against a fixed list</td></tr>
+        <tr><td>Flag quiet deals</td><td>Noticing nothing happened</td><td>Absence is what humans miss</td></tr>
+        <tr><td>Extract next steps from a call</td><td>Writing up notes</td><td>The task everyone skips</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The strongest of these is flagging what has gone quiet. Humans are good at reacting to things that happen and terrible at noticing things that stopped happening. That asymmetry is where automation has the biggest edge, and it needs no cleverness at all.</p>
+
+  <h2>The two I turned off</h2>
+  <p><strong>An AI-written summary on every record.</strong> Generated on view, rendered above the record. It worked, and nobody read it &mdash; the actual record was right there and more trustworthy. It cost latency on the most-used screen in the product to display something people scrolled past. The lesson: <em>a summary is only valuable when the underlying thing is too long to read.</em> On a short record it is noise with a delay attached.</p>
+  <p><strong>Automatic lead scoring, in its first form.</strong> The scores were plausible and completely unactionable, because nobody could tell why a lead was a 72. A number with no explanation is not information, it is an assertion. It came back later as a short reason string instead of a score, and that version gets used.</p>
+  <p>Both failures were the same shape: the feature performed fine and produced nothing anyone could act on.</p>
+
+  <h2>The rule that protects the data</h2>
+  <p><strong>Model proposes, code validates, system records.</strong></p>
+  <p>Never let a probabilistic step write directly into pipeline data. Put a deterministic check in between:</p>
+  <ul>
+    <li>Model classifies an enquiry &rarr; <strong>code checks</strong> the category is one of the allowed values.</li>
+    <li>Model extracts a date &rarr; <strong>code checks</strong> it parses and is in a sensible range.</li>
+    <li>Model picks a record to update &rarr; <strong>code confirms</strong> the record exists and belongs to the right account.</li>
+    <li>Model drafts a message &rarr; <strong>a human approves</strong> it, at least until the pattern is proven.</li>
+  </ul>
+  <p>These checks are trivial to write. They get skipped because the AI step usually works, which is exactly what makes the eventual failure expensive: bad data enters the system with no error, and every report built on it is quietly wrong.</p>
+
+  <h2>Permissions are the part to get right</h2>
+  <p>An AI feature acting on a record must respect exactly the same access rules as the user who triggered it.</p>
+  <p>The tempting shortcut is running AI functions with elevated privileges because it was easier to build that way. In a multi-tenant CRM that is how one customer&rsquo;s data ends up summarised into another customer&rsquo;s screen, and it will not announce itself.</p>
+  <p>Put authorisation in the database rather than the application, so a new AI endpoint is protected whether or not somebody remembered. <a href="/compare/rls-vs-app-layer-auth">The full argument is here</a>, along with the specific mistakes I have made doing it.</p>
+  <p>And log which identity each function ran as. When something goes wrong, &ldquo;it ran as the wrong thing&rdquo; is a common cause and invisible unless you recorded it.</p>
+
+  <h2>Architecture notes</h2>
+  <p>Things that cost me time on a production build:</p>
+  <ul>
+    <li><strong>Put AI functions next to the database, not the frontend.</strong> They need privileged access and they are triggered by data events rather than page loads.</li>
+    <li><strong>Never await a model call inside a request.</strong> It will exceed the timeout and frequently surface as a generic error, so it reads as a bug in your own logic. Queue it and poll.</li>
+    <li><strong>Separate platform email from customer email.</strong> If they share a quota system, a tenant who exhausts their sending cap also stops receiving &ldquo;your payment failed.&rdquo;</li>
+    <li><strong>Deploy functions one at a time</strong> once you have many. Batch deploys fail in ways that leave you unsure what actually updated.</li>
+    <li><strong>Keep shared concerns in shared modules.</strong> When the email provider changed, that was one module rather than a search across every function.</li>
+  </ul>
+
+  <h2>Where to start</h2>
+  <ol>
+    <li><strong>Find the task everyone skips.</strong> Not the annoying one &mdash; the skipped one. That is where the value is.</li>
+    <li><strong>Build it as a suggestion first</strong>, with a human accepting or rejecting. The acceptance rate tells you whether to automate it.</li>
+    <li><strong>Add the validation before the write.</strong></li>
+    <li><strong>Check permissions as an anonymous user</strong> and as a user from another tenant.</li>
+    <li><strong>Measure whether it removed work.</strong> If usage decays, it added a step. Turn it off rather than defending it.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>What should AI do in a CRM?</h3>
+  <p>Repetitive, judgement-light work that is currently skipped: summarising long threads, drafting follow-ups, classifying enquiries, flagging quiet deals.</p>
+  <h3>What should it never do?</h3>
+  <p>Write to a system of record without a deterministic check. Model proposes, code validates, system records.</p>
+  <h3>Why do AI CRM features get turned off?</h3>
+  <p>Because they add a step instead of removing one. A summary nobody reads is friction with latency attached.</p>
+  <h3>Does AI need its own permissions model?</h3>
+  <p>It must respect the same row-level rules as the triggering user. Running with elevated privileges because it was easier is how tenants see each other&rsquo;s data.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/custom-crm-vs-gohighlevel">custom CRM vs GoHighLevel</a>, <a href="/compare/rls-vs-app-layer-auth">row-level security vs app-layer auth</a>, and <a href="/software/custom-crm-development">custom CRM development</a>.</p>
+</ContentArticle>

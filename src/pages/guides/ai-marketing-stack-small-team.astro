@@ -1,0 +1,85 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What does a small team actually need in an AI marketing stack?', a: 'Fewer tools than the category suggests. A model you trust, somewhere to put the work, something to send with, and something to measure with. Most stacks fail from too many tools rather than too few, because every tool is an integration you now maintain.' },
+  { q: 'Should I buy AI features or build them?', a: 'Buy until a tool blocks something specific you can name. Building is right when the AI step is your differentiator or when a per-use price scales with something you cannot control. Otherwise the build is a distraction from demand.' },
+  { q: 'What is the most overrated part of an AI marketing stack?', a: 'Anything that generates volume without a validation step. Volume is not the constraint for most small teams — distribution and specificity are, and more output does not create either.' },
+  { q: 'How do I stop the stack sprawling?', a: 'One rule: a new tool has to replace an existing one or remove a manual step you can name. "It looks useful" is how you end up with eleven subscriptions and four sources of truth.' },
+];
+---
+<ContentArticle
+  slug="ai-marketing-stack-small-team"
+  seoTitle="An AI Marketing Stack for a Small Team"
+  description="The actual tools I run, what each replaced, and the rule that stops a stack sprawling into eleven subscriptions and four competing sources of truth."
+  heading="An AI marketing stack"
+  accent="for a small team"
+  lede="Most stack advice is a list of everything available. This is what I actually run, which is much shorter, and the rule I use to keep it that way."
+  idx="21"
+  keywords="AI marketing stack, marketing tools, small team, martech, AI tools, automation stack"
+  faq={faq}
+>
+  <p><strong>A small team needs a model it trusts, somewhere to put the work, something to send with, and something to measure with. Most stacks fail from too many tools rather than too few, because every tool is an integration you now maintain and a potential second source of truth. The constraint is rarely output volume — it is distribution and specificity, and no tool supplies either.</strong></p>
+
+  <h2>The rule that keeps it small</h2>
+  <p><strong>A new tool has to replace an existing one, or remove a manual step you can name out loud.</strong></p>
+  <p>&ldquo;It looks useful&rdquo; is how you arrive at eleven subscriptions, four places a contact record might live, and a weekly hour spent reconciling them. Every tool has a carrying cost that is invisible on the pricing page: an integration, an auth token that expires, a place for data to diverge.</p>
+  <p>Applied honestly this rule rejects most things, which is the point.</p>
+
+  <h2>The categories that actually matter</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Job</th><th>What it replaces</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>A model you trust</td><td>Blank pages, slow reading</td><td>One good one beats three</td></tr>
+        <tr><td>System of record</td><td>Spreadsheets and memory</td><td>The one place truth lives</td></tr>
+        <tr><td>Sending</td><td>Manual follow-up</td><td>Deliverability is the real feature</td></tr>
+        <tr><td>Measurement</td><td>Guessing</td><td>Must survive cookie loss</td></tr>
+        <tr><td>Automation glue</td><td>Copy-paste between the above</td><td>Only after the above exist</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Note what is missing: content calendars, scheduling suites, brand voice tools, dashboards that aggregate other dashboards. Not because they are bad, but because for a small team they usually add a step rather than remove one.</p>
+
+  <h2>What I actually run</h2>
+  <p>Rather than list vendors, here is what each slot does and why I chose that shape.</p>
+  <p><strong>A model, used with real inputs.</strong> The model matters less than what I feed it. Most bad output is a missing-input problem, not a prompting problem &mdash; a model asked to write in my voice produces an approximation, and a model given three pieces I am proud of produces something usable. <a href="/guides/prompt-engineering-for-marketers">The patterns that carry production work</a> are few.</p>
+  <p><strong>A CRM I own.</strong> I built mine, which is not a recommendation for most people. <a href="/compare/custom-crm-vs-gohighlevel">The three conditions that justify building</a> are narrow, and outside them buying is the better commercial decision.</p>
+  <p><strong>Sending, with deliverability treated as the real feature.</strong> The provider matters less than the domain setup. A migration taught me that sending as the wrong hostname puts perfectly good mail in spam regardless of vendor &mdash; <a href="/compare/resend-vs-mailgun">the specific trap is here</a>.</p>
+  <p><strong>First-party analytics.</strong> Cookieless, self-hosted. Third-party pixels are increasingly blocked, so a measurement layer that depends on them is measuring a shrinking sample and not telling you.</p>
+  <p><strong>Automation glue, last.</strong> Deliberately last. Automating a process you have not run manually produces a fast wrong process.</p>
+
+  <h2>What is overrated</h2>
+  <p><strong>Anything that generates volume without validation.</strong> Volume is not the constraint for a small team. I measured what unvalidated volume costs: in an enrichment run, <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">44% of contacts came back attached to the wrong employer</a>, and sending to that list at machine speed damages your sending domain rather than wasting an hour.</p>
+  <p><strong>Dashboards that aggregate dashboards.</strong> A dashboard nobody acts on is a subscription for a feeling. If you cannot name the decision a number changes, do not display it.</p>
+  <p><strong>Brand voice tools.</strong> Three of your own pieces in context does the same job for free.</p>
+  <p><strong>Scheduling everything.</strong> Scheduling helps consistency, but on platforms where every post is re-auditioned to strangers, cadence matters more than calendar hygiene. <a href="/research/tiktok-vs-instagram-physics">The platforms differ on this more than people assume</a>.</p>
+
+  <h2>Buy or build</h2>
+  <p>Buy until a tool blocks something specific you can name.</p>
+  <p>Building is right in two cases: the AI step is your differentiator, or a per-use price scales with something you cannot control. Per-seat pricing that grows with headcount is fine. Per-contact or per-message pricing when volume is your model is a tax on success, and at some point the arithmetic decides for you.</p>
+  <p>Outside those cases, the build is a distraction from demand. The constraint on a small team is almost never tooling.</p>
+
+  <h2>The order to assemble it</h2>
+  <ol>
+    <li><strong>System of record first.</strong> Everything else references it. Get this wrong and you will migrate later, which is painful.</li>
+    <li><strong>Then measurement.</strong> Before you optimise anything, be able to see it. Instrument before publishing, not after &mdash; data only accumulates once things are live.</li>
+    <li><strong>Then sending</strong>, with the domain and authentication set up properly on day one.</li>
+    <li><strong>Then a model</strong>, used with real inputs on real tasks.</li>
+    <li><strong>Then automation</strong>, only for processes you have run by hand and understand.</li>
+  </ol>
+  <p>Most teams do this in reverse, starting with the exciting AI layer on top of no record and no measurement. That produces output nobody can attribute and a stack nobody can debug.</p>
+
+  <h2>FAQ</h2>
+  <h3>What does a small team actually need?</h3>
+  <p>A model, a system of record, sending, and measurement. Automation after those exist.</p>
+  <h3>Buy or build?</h3>
+  <p>Buy until something specific blocks you. Build when the AI step is your differentiator or per-use pricing scales with something uncontrolled.</p>
+  <h3>What is most overrated?</h3>
+  <p>Volume generation without validation. Volume is rarely the constraint; distribution and specificity are.</p>
+  <h3>How do I stop sprawl?</h3>
+  <p>A new tool must replace one or remove a nameable manual step. Nothing else qualifies.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/automate-your-crm-with-ai">automating a CRM with AI</a>, <a href="/guides/measure-ai-impact-on-marketing">measuring AI&rsquo;s impact</a>, and <a href="/services/ai-automation-services">how I build automations</a>.</p>
+</ContentArticle>
