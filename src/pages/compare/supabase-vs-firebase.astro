@@ -1,0 +1,98 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is Supabase better than Firebase?', a: 'For most application data, yes, because it is Postgres — relational queries, joins, constraints, and real migrations. Firebase is stronger when you want mobile SDK maturity, offline sync that works without thinking about it, and a document model that matches your data.' },
+  { q: 'Is Supabase really open source?', a: 'The core is, and it is Postgres underneath, so your data is portable in a way a proprietary document store is not. That matters less on day one than it does the day you want to leave.' },
+  { q: 'What is the biggest gotcha with Supabase?', a: 'Row-level security. It is the right model, but a new table is not protected until you write policies for it, and default grants can expose a table you assumed was private. Verify access as an anonymous user rather than assuming your policies did what you meant.' },
+  { q: 'Should I migrate from Firebase to Supabase?', a: 'Only for a concrete reason — usually queries you cannot express, or costs that scale badly with reads. A working Firebase app is not a problem to solve. Migrating a data model between a document store and a relational one is real work.' },
+];
+---
+<ContentArticle
+  slug="supabase-vs-firebase"
+  seoTitle="Supabase vs Firebase"
+  description="Supabase backs around ten shipped products here. The Postgres argument, the row-level-security trap that has bitten me more than once, and the cases where Firebase is still the faster call."
+  heading="Supabase vs"
+  accent="Firebase"
+  lede="Supabase is behind roughly ten of the products I have shipped. That is a biased sample, so this covers the places I would still reach for Firebase."
+  idx="04"
+  keywords="Supabase vs Firebase, Postgres, BaaS, row level security, realtime database, backend as a service"
+  faq={faq}
+>
+  <p><strong>Supabase is Postgres with auth, storage, realtime, and edge functions wrapped around it. Firebase is a document store with an unusually good mobile SDK. The choice mostly comes down to whether your data is relational and whether you will ever need to leave. For most application data Postgres wins; for mobile-first apps needing offline sync, Firebase still does something Supabase does not match.</strong></p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Supabase</th><th>Firebase</th></tr></thead>
+      <tbody>
+        <tr><td>Data model</td><td>Relational (Postgres)</td><td>Documents</td></tr>
+        <tr><td>Queries</td><td>Full SQL, joins, aggregates</td><td>Limited; denormalise instead</td></tr>
+        <tr><td>Authorisation</td><td>Row-level security in the database</td><td>Security rules in a separate language</td></tr>
+        <tr><td>Migrations</td><td>Real, versioned, reviewable</td><td>Ad hoc</td></tr>
+        <tr><td>Offline sync</td><td>Not really</td><td><strong>Excellent</strong></td></tr>
+        <tr><td>Mobile SDKs</td><td>Good</td><td><strong>Very mature</strong></td></tr>
+        <tr><td>Portability</td><td>It is Postgres; you can leave</td><td>Proprietary</td></tr>
+        <tr><td>Cost shape</td><td>Compute and storage</td><td>Per read/write &mdash; can surprise you</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The real argument is relational</h2>
+  <p>Almost every business application is relational whether or not you admit it up front. A workspace has members, members have roles, roles grant permissions, records belong to a workspace and are assigned to a member. That is a graph of foreign keys.</p>
+  <p>In Postgres you express it directly and the database enforces it. A row cannot reference a workspace that does not exist, because a constraint forbids it. In a document store you denormalise, and then you own the consistency problem forever: the same fact is stored in four places and it is your job to keep them agreeing.</p>
+  <p>The second-order effect is the one that gets you. Denormalised data makes <em>new</em> questions expensive. Someone asks for a number nobody planned for &mdash; usage by role, by month, excluding trials &mdash; and in SQL that is a query, while in a document store it is a migration and a backfill.</p>
+  <p>Constraints, joins, and transactions are not academic preferences. They are the difference between the database refusing bad data and you discovering it in a support ticket.</p>
+
+  <h2>Row-level security: the best and worst part</h2>
+  <p>Supabase&rsquo;s authorisation model puts access rules in the database. A policy decides which rows a given user can see, and it applies no matter which client asks. That is the correct place for it: authorisation enforced in one layer that nothing can route around.</p>
+  <p>It is also where I have made the most mistakes, so here is what actually bites.</p>
+  <p><strong>A new table is not protected until you protect it.</strong> Creating a table and enabling RLS with no policies is not a safe default in the way you might hope, and default grants can expose a table you assumed was private. Do not reason about this from memory. <strong>Query the table as an anonymous user and see what comes back.</strong> That test takes a minute and is the only thing I now trust.</p>
+  <p><strong>Views can bypass your policies.</strong> A view does not automatically inherit the row-level security of the tables underneath it, which means a carefully secured table can leak through a convenience view built on top. Check every view separately.</p>
+  <p><strong>Some operations need more grants than you expect.</strong> An upsert, for example, needs insert permission even when it usually updates. The failure appears at the worst time, in production, on the path you tested least.</p>
+  <p>None of this is an argument against RLS. It is an argument for verifying it empirically rather than by reading your own policies and nodding.</p>
+
+  <h2>Where Firebase still wins</h2>
+  <p>Being fair, because I would still pick it for some things.</p>
+  <p><strong>Offline-first mobile.</strong> Firebase&rsquo;s local persistence and sync are genuinely excellent and largely invisible to you as a developer. If your users are on trains, in basements, or in the field, this is not a small convenience &mdash; it is most of the product. Supabase does not match it.</p>
+  <p><strong>Mobile SDK maturity.</strong> Years of edge cases handled, and a great deal of documentation and community answers for the specific problem you are hitting at 11pm.</p>
+  <p><strong>Genuinely document-shaped data.</strong> If your records really are self-contained blobs with no meaningful relationships, the relational argument evaporates and you are just choosing a store.</p>
+  <p><strong>Push, analytics, crash reporting in one place.</strong> The wider platform is a real advantage for a mobile team that wants one vendor.</p>
+
+  <h2>The cost shape</h2>
+  <p>Different enough to matter architecturally, not just financially.</p>
+  <p>Firebase charges per read. That is fine until a screen displaying a list of items does a read per item, and a busy page becomes a per-visit cost. It also quietly pushes you toward denormalising further, which is a data model decision being made by a pricing page.</p>
+  <p>Supabase charges roughly for compute and storage. A query returning a thousand rows costs about what a query returning ten does. That means you optimise for correctness and only then for performance, which is the right order.</p>
+  <p>Neither is universally cheaper. The point is that one of them lets your billing model influence your schema.</p>
+
+  <h2>How I choose</h2>
+  <ol>
+    <li><strong>Relational data, web or web-plus-mobile?</strong> Supabase.</li>
+    <li><strong>Offline-first mobile app?</strong> Firebase, and it is not close.</li>
+    <li><strong>Might you need to leave?</strong> Supabase. It is Postgres, so exit is a dump and restore rather than a rewrite.</li>
+    <li><strong>Do you need reporting?</strong> Supabase. SQL against your live schema beats exporting to a warehouse to answer a simple question.</li>
+    <li><strong>Already shipped on Firebase and it works?</strong> Stay. Migrating between a document model and a relational one is real work and needs a real reason.</li>
+  </ol>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Verify RLS as an anonymous user.</strong> Every table, every view, after every migration. This is the single highest-value habit here.</li>
+    <li><strong>Keep migrations in version control</strong> and treat them as code that gets reviewed. The dashboard is convenient and undoes that discipline.</li>
+    <li><strong>Free-tier projects pause.</strong> Fine for a prototype, not for anything a client will open.</li>
+    <li><strong>Deploy edge functions one at a time</strong> when you have a lot of them. Batch deploys fail in ways that are unpleasant to untangle.</li>
+    <li><strong>Do not put business logic only in the client.</strong> With RLS the database is your last line of defence; keep it authoritative.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <h3>Is Supabase better than Firebase?</h3>
+  <p>For relational application data, usually &mdash; real queries, joins, constraints, and migrations. Firebase wins on mobile SDK maturity and offline sync.</p>
+  <h3>Is Supabase really open source?</h3>
+  <p>The core is, and it is Postgres underneath, so your data stays portable. That matters most on the day you want to leave.</p>
+  <h3>What is the biggest gotcha?</h3>
+  <p>Row-level security. A new table is not protected until you write policies, views can bypass them, and default grants can expose more than you expect. Verify as an anonymous user.</p>
+  <h3>Should I migrate from Firebase?</h3>
+  <p>Only for a concrete reason, usually queries you cannot express or read costs that scale badly. A working app is not a problem to solve.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/postgres-row-level-security">Postgres row-level security, practically</a>, <a href="/compare/supabase-functions-vs-vercel-functions">Supabase edge functions vs Vercel functions</a>, and <a href="/services/web-apps">how I build web apps</a>.</p>
+</ContentArticle>

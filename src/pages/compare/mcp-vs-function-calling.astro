@@ -1,0 +1,94 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the difference between MCP and function calling?', a: 'Function calling is the model deciding to invoke a tool and returning structured arguments. MCP is a protocol for where those tools live and how a client discovers them at runtime. They operate at different layers, so an MCP-based system still uses function calling underneath — MCP does not replace it.' },
+  { q: 'Do I need MCP for a simple agent?', a: 'No. If one application owns its tools and nothing else needs them, function calling in-process is simpler, faster, and easier to debug. MCP earns its cost when the same tools must be reachable from several clients, or when tools change independently of the app.' },
+  { q: 'Does MCP make an agent slower?', a: 'It adds a network hop and a process boundary per tool call. For most business workloads that is irrelevant next to model latency. For anything latency-sensitive it is a real cost you should measure rather than assume.' },
+  { q: 'Can I use both?', a: 'You almost certainly will. A practical setup keeps a handful of app-specific tools in-process and exposes the shared, reusable ones over MCP. The split is about ownership, not about picking a winner.' },
+];
+---
+<ContentArticle
+  slug="mcp-vs-function-calling"
+  seoTitle="MCP vs Function Calling"
+  description="They solve different problems at different layers, and MCP does not replace function calling. What the protocol actually buys you, what it costs, and the decision rule from building 59-tool servers in production."
+  heading="MCP vs"
+  accent="function calling"
+  lede="These get compared as alternatives constantly. They are not alternatives — an MCP system still uses function calling underneath. The real question is where your tools should live."
+  idx="02"
+  keywords="MCP, Model Context Protocol, function calling, tool calling, AI agents, LLM tools, agent architecture"
+  faq={faq}
+>
+  <p><strong>Function calling is the model deciding to invoke a tool and returning structured arguments. MCP is a protocol for where those tools live and how a client discovers them at runtime. They sit at different layers and an MCP-based system still uses function calling underneath. The decision is not which one, it is whether your tools should live inside your application or outside it.</strong></p>
+
+  <h2>The distinction that gets lost</h2>
+  <p>Most comparisons frame these as competing approaches. They are not, and holding the wrong mental model here leads to genuinely bad architecture decisions.</p>
+  <p>Function calling answers: <em>how does the model tell me it wants to do something?</em> The model receives tool schemas, decides one applies, and returns a structured request naming the tool and its arguments. Your code executes it and returns the result.</p>
+  <p>MCP answers: <em>where do those tools live and who owns them?</em> It defines a client-server protocol so that tools can sit in a separate process, be discovered at runtime, and be consumed by any compliant client.</p>
+  <p>If you build an MCP server, the model still uses function calling to invoke its tools. MCP standardised the plumbing, not the mechanism.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Function calling in-process</th><th>MCP</th></tr></thead>
+      <tbody>
+        <tr><td>Where tools live</td><td>Inside your application</td><td>A separate server</td></tr>
+        <tr><td>Adding a tool</td><td>Ship the app</td><td>Ship the server; clients pick it up</td></tr>
+        <tr><td>Reuse across apps</td><td>Copy the code</td><td>Point another client at it</td></tr>
+        <tr><td>Discovery</td><td>Compile time</td><td>Runtime</td></tr>
+        <tr><td>Latency per call</td><td>In-process</td><td>Adds a hop and a process boundary</td></tr>
+        <tr><td>Debugging</td><td>One stack trace</td><td>Two processes, two logs</td></tr>
+        <tr><td>Auth</td><td>Your app's session</td><td>Its own problem to solve</td></tr>
+        <tr><td>Best when</td><td>One app owns its tools</td><td>Many clients, or tools evolve separately</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What MCP actually buys you</h2>
+  <p>I run MCP servers in production, including one exposing 59 tools across an outreach system and others for a CRM and an analytics product. Three benefits are real and one is oversold.</p>
+  <p><strong>Real: the tools outlive the client.</strong> The same server answers my terminal, a scheduled job, and anything else that speaks the protocol. Without it, each of those would carry its own copy of the tool code and they would drift.</p>
+  <p><strong>Real: you can ship tools without shipping the app.</strong> Adding a capability means deploying the server. Clients discover it on next connect. When tools change more often than the application does, this is the whole argument.</p>
+  <p><strong>Real: the boundary forces a clean interface.</strong> A tool that has to be described well enough for a model to pick it correctly, over a wire, ends up better specified than an internal function. That discipline is worth something on its own.</p>
+  <p><strong>Oversold: portability across models.</strong> It is true that a compliant client can use your server. In practice, the tool descriptions that make a model choose correctly are tuned to how a particular model behaves, and that tuning does not transfer perfectly. The plumbing is portable. The prompt engineering inside your tool descriptions is less so than the pitch suggests.</p>
+
+  <h2>What it costs</h2>
+  <p>Being straight about this, because most write-ups skip it.</p>
+  <p><strong>You now have two things to run.</strong> A server that can be down, needs deploying, needs its own error handling. If the agent stops working you are debugging across a process boundary, and the client frequently reports only that a tool failed.</p>
+  <p><strong>Auth becomes a design problem.</strong> In-process tools inherit the caller&rsquo;s session. Over MCP you have to decide what the server trusts, how credentials get there, and what happens when a tool needs to act on behalf of a specific user. This is the part people underestimate.</p>
+  <p><strong>Long-running work does not fit naturally.</strong> A tool call that awaits a long job will time out. Anything slow needs to become start-plus-poll: one tool kicks the work off and returns an identifier, another reports status. I learned this the direct way, and it is a design constraint rather than a bug.</p>
+  <p><strong>Tool sprawl is real.</strong> Past a few dozen tools on one server, model selection accuracy degrades and debugging gets meaningfully harder. When something misbehaves, the first thing to check is not the model &mdash; it is whether the tool returned what you think it returned.</p>
+
+  <h2>The decision rule</h2>
+  <p>One question: <strong>does anything other than this application need these tools?</strong></p>
+  <p>If no, use function calling in-process. It is simpler, faster, has one stack trace, and inherits your auth. Reaching for MCP because it is the modern option is how you acquire a distributed system you did not need.</p>
+  <p>If yes &mdash; a second client, a scheduled job, a terminal, a colleague&rsquo;s tooling &mdash; MCP pays for itself immediately, because the alternative is duplicated tool code that will drift.</p>
+  <p>There is a second trigger worth watching for: <strong>when your tools change faster than your application.</strong> If you are shipping the whole app to add a capability, the boundary is in the wrong place regardless of how many clients you have.</p>
+
+  <h2>How I actually split it</h2>
+  <p>Both, and the split is about ownership rather than technology.</p>
+  <p>Tools that are meaningless outside one product stay in-process. A function that manipulates that app&rsquo;s own view state has no business being a protocol endpoint.</p>
+  <p>Tools that represent a capability &mdash; search these records, send this message, run this report &mdash; go on an MCP server, because those are the ones something else will eventually want.</p>
+  <p>The test I use: <em>would I want this from a different client in six months?</em> If yes, it goes on the server now, while it is cheap to move.</p>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Write tool descriptions for a reader who cannot see your code.</strong> The model picks from the description alone. Most tool-selection failures are description failures.</li>
+    <li><strong>Return errors as data, not exceptions.</strong> A model can recover from &ldquo;no results, try a broader query.&rdquo; It cannot recover from a stack trace.</li>
+    <li><strong>Never make a tool await a long worker.</strong> Start and poll.</li>
+    <li><strong>Beware empty results.</strong> An empty response reads to a model as a definitive answer. If empty can mean &ldquo;something went wrong,&rdquo; say so in the payload.</li>
+    <li><strong>Version your server.</strong> Clients cache tool lists; a silently changed schema fails in confusing ways.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <h3>What is the difference between MCP and function calling?</h3>
+  <p>Function calling is the model requesting a tool with structured arguments. MCP is a protocol for where tools live and how clients discover them. Different layers &mdash; MCP still uses function calling underneath.</p>
+  <h3>Do I need MCP for a simple agent?</h3>
+  <p>No. If one app owns its tools, in-process is simpler and faster. MCP earns its cost with multiple clients or independently evolving tools.</p>
+  <h3>Does MCP make an agent slower?</h3>
+  <p>It adds a hop and a process boundary per call. Usually negligible against model latency, but measure it if latency matters to you.</p>
+  <h3>Can I use both?</h3>
+  <p>Yes, and you probably should. App-specific tools in-process, shared capabilities over MCP. The split is about ownership.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/what-is-mcp-model-context-protocol">what MCP is, in plain terms</a>, <a href="/guides/how-to-build-an-mcp-server">how to build an MCP server</a>, and <a href="/guides/build-ai-agent-claude-code">building an agent with Claude Code and MCP</a>.</p>
+</ContentArticle>

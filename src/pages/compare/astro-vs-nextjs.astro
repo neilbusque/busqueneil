@@ -1,0 +1,95 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is Astro better than Next.js?', a: 'For content-led sites, usually. Astro ships zero JavaScript by default, so a marketing site, blog, or documentation site is faster with less effort. For an application with authenticated state, real-time updates, and heavy interactivity, Next.js is the better fit and the gap widens as the app grows.' },
+  { q: 'Can Astro handle a dynamic, server-rendered site?', a: 'Yes. Astro supports server output with adapters, API routes, middleware, and per-page control over static versus server rendering. Treating it as a static-site generator undersells what it does.' },
+  { q: 'Can you use React inside Astro?', a: 'Yes, through framework integrations, and per component. That is the interesting part: you opt into JavaScript for the specific components that need it rather than shipping a framework runtime for the whole page.' },
+  { q: 'Which is better for SEO?', a: 'Both render HTML on the server, so both are fine for crawling. Astro tends to win on Core Web Vitals for content pages because it ships far less JavaScript by default, and interactivity delay is a ranking-relevant metric.' },
+];
+---
+<ContentArticle
+  slug="astro-vs-nextjs"
+  seoTitle="Astro vs Next.js"
+  description="I run both in production: this site is Astro, a client platform is Next. The honest split by project type, and the one question that settles it without relitigating the decision every time."
+  heading="Astro vs"
+  accent="Next.js"
+  lede="This site is Astro. A client platform I work on daily is Next. They are not competing for the same job, and the choice gets easy once you ask the right question."
+  idx="03"
+  keywords="Astro vs Next.js, static site generator, islands architecture, React framework, Core Web Vitals, SSR"
+  faq={faq}
+>
+  <p><strong>Astro ships zero JavaScript by default and lets you opt into interactivity per component. Next.js assumes a React application and gives you the ecosystem to build one. For content-led sites Astro is faster with less effort; for authenticated, stateful applications Next.js is the better fit and the gap widens as the app grows.</strong></p>
+
+  <h2>The one question</h2>
+  <p><strong>Is this a document that has some interactive parts, or an application that has some content pages?</strong></p>
+  <p>Almost every project answers that immediately, and the answer settles the framework choice. A marketing site with a pricing calculator is a document with an interactive part. A dashboard with a blog attached is an application with content pages.</p>
+  <p>Get this backwards and you spend the project fighting the tool: either bolting a state layer onto something that resists it, or shipping a large runtime to render text.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Astro</th><th>Next.js</th></tr></thead>
+      <tbody>
+        <tr><td>Default JS to browser</td><td><strong>None</strong></td><td>React runtime</td></tr>
+        <tr><td>Interactivity model</td><td>Islands, opt in per component</td><td>Whole app is React</td></tr>
+        <tr><td>Content sites</td><td>Excellent</td><td>Fine, heavier</td></tr>
+        <tr><td>Authenticated apps</td><td>Workable, less natural</td><td>Excellent</td></tr>
+        <tr><td>Client-side routing</td><td>Optional</td><td>Built in</td></tr>
+        <tr><td>Shared client state</td><td>You wire it up</td><td>Native to the model</td></tr>
+        <tr><td>Ecosystem</td><td>Smaller</td><td>Very large</td></tr>
+        <tr><td>Mixed frameworks</td><td>React, Vue, Svelte, Preact together</td><td>React</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What islands actually change</h2>
+  <p>The headline is &ldquo;zero JavaScript by default,&rdquo; which sounds like a benchmark talking point. The practical effect is different and more useful: <strong>interactivity becomes a decision you make deliberately, per component.</strong></p>
+  <p>On this site the pages are HTML and CSS. A handful of components are interactive, and those are the only things that ship JavaScript. When I added a scroll-reveal system I had to consciously decide it was worth the bytes &mdash; the framework did not quietly absorb it into a runtime that was loading anyway.</p>
+  <p>That constraint is the value. It is not that Next cannot be fast; it obviously can. It is that Astro makes the expensive choice visible at the moment you make it, and visible costs get questioned.</p>
+  <p>The corollary: if nearly every component on your page needs to be interactive, islands stop helping. You have an application, and you are now hand-wiring what a React app gives you for free.</p>
+
+  <h2>Where Astro surprised me</h2>
+  <p>Two things I did not expect when I moved this site over.</p>
+  <p><strong>It is not a static-site generator.</strong> With a server adapter you get real server rendering, API routes, and middleware, and you choose per page whether it prerenders. This site mixes both: the programmatic content pages prerender, while pages that read live data render per request. Treating Astro as a static tool undersells it badly.</p>
+  <p><strong>Component-level framework choice is genuinely useful.</strong> Being able to drop a React component into an otherwise plain page, and only that component, meant reusing existing work without adopting React sitewide.</p>
+
+  <h2>Where Next is clearly right</h2>
+  <p>I would not build an authenticated product in Astro, and the reasons are specific rather than ideological.</p>
+  <p>Shared client state across routes is the big one. As soon as you have a signed-in user, a persistent nav that knows who they are, optimistic updates, and views reacting to the same store, you want the whole page to be one application. That is what Next is.</p>
+  <p>The ecosystem matters too. Auth libraries, data-fetching patterns, component kits, and the deployment story are all built assuming a React app. In Astro you can get there, but you are doing integration work that Next users are not.</p>
+  <p>And frankly the hiring and documentation surface is larger. That is a real engineering consideration even when it is not a technical one.</p>
+
+  <h2>The honest middle</h2>
+  <p>Plenty of projects sit between the two, and the usual answer is to <strong>split them.</strong></p>
+  <p>Marketing site in Astro on the root domain, application in Next on a subdomain. Two deployments, two repositories, each using the tool that suits it. This is a common and sensible architecture, and the main cost is keeping the design system consistent across both.</p>
+  <p>What I would avoid is picking one to avoid running two things and then living with the mismatch for years. The overhead of a second deployment is a few hours. The overhead of the wrong framework is every sprint.</p>
+
+  <h2>SEO and Core Web Vitals</h2>
+  <p>Both render HTML on the server, so crawlability is not a differentiator &mdash; that argument is a few years out of date.</p>
+  <p>The real difference is interaction readiness. A page that ships no JavaScript is interactive when it paints. A page that hydrates a framework has a window where it looks ready and is not. That window is measurable and it is ranking-relevant.</p>
+  <p>Next can absolutely be fast, with server components and disciplined client boundaries. The difference is the default. On Astro you have to work to make a content page slow; on Next you have to work to keep one fast.</p>
+  <p>Worth stating plainly: framework choice is far from the biggest factor in either rankings or speed. A well-built Next site beats a badly-built Astro one comfortably.</p>
+
+  <h2>How I choose now</h2>
+  <ol>
+    <li><strong>Content-led, mostly reading?</strong> Astro.</li>
+    <li><strong>Signed-in users with shared state?</strong> Next.</li>
+    <li><strong>Both, seriously?</strong> Two apps. Do not compromise on one.</li>
+    <li><strong>Small team, one thing to learn?</strong> Next, for the ecosystem, unless the project is genuinely a content site.</li>
+    <li><strong>Every component interactive?</strong> Islands are not buying you anything. Next.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Is Astro better than Next.js?</h3>
+  <p>For content-led sites, usually. For authenticated stateful applications, no &mdash; Next is the better fit and the gap grows with the app.</p>
+  <h3>Can Astro handle server rendering?</h3>
+  <p>Yes: server adapters, API routes, middleware, and per-page control over static versus server rendering.</p>
+  <h3>Can you use React inside Astro?</h3>
+  <p>Yes, per component. You opt into JavaScript only where it is needed rather than shipping a runtime for the whole page.</p>
+  <h3>Which is better for SEO?</h3>
+  <p>Both server-render, so crawling is fine either way. Astro tends to win Core Web Vitals on content pages because it ships far less JavaScript by default.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare">other tool comparisons</a>, <a href="/guides/programmatic-seo-with-ai">how I built 58 pages on one Astro route</a>, and <a href="/services/web-apps">how I build web apps</a>.</p>
+</ContentArticle>

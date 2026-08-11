@@ -1,0 +1,101 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the difference between Supabase Edge Functions and Vercel Functions?', a: 'Supabase Edge Functions run next to your database and can hold a service-role key safely, which makes them the right place for privileged data work and webhooks. Vercel Functions run alongside your frontend deployment and are the natural home for anything the app calls as part of rendering or a user action.' },
+  { q: 'Which one should handle a webhook?', a: 'Whichever one owns the data the webhook writes — usually the database side. A webhook is an unauthenticated request from a third party that needs privileged write access, and that is exactly what a service-role context is for.' },
+  { q: 'Why do long-running functions fail silently?', a: 'Because the platform timeout cuts the request while your code is still waiting on something slow, typically a model call. The caller often sees a generic failure rather than a timeout, so it reads as a bug in your logic. Anything that can exceed the ceiling needs to become a queued job.' },
+  { q: 'Can I use both?', a: 'Yes, and most real projects do. The split follows privilege: privileged database work on the Supabase side, request-shaped app work on the Vercel side.' },
+];
+---
+<ContentArticle
+  slug="supabase-functions-vs-vercel-functions"
+  seoTitle="Supabase Edge Functions vs Vercel Functions"
+  description="One product here runs 98 Supabase edge functions alongside a Vercel frontend. Where each runtime belongs, how they fail differently, and the timeout that kills long model calls without telling you."
+  heading="Supabase functions vs"
+  accent="Vercel functions"
+  lede="One product I maintain runs 98 edge functions on Supabase with a Vercel frontend in front of it. The split is not arbitrary, and it is not about performance."
+  idx="05"
+  keywords="Supabase Edge Functions, Vercel Functions, serverless, Deno, webhooks, service role, function timeout"
+  faq={faq}
+>
+  <p><strong>Supabase Edge Functions run next to your database and can safely hold a service-role key, which makes them the right home for privileged data work, webhooks, and scheduled jobs. Vercel Functions run alongside your frontend and are the natural place for anything the app calls while rendering or handling a user action. The split follows privilege, not performance.</strong></p>
+
+  <h2>The rule</h2>
+  <p><strong>Does this code need to act with more authority than the user calling it?</strong></p>
+  <p>If yes, it belongs next to the database. Privileged work wants to live where the privileged credential already lives, and where it never has to travel through your frontend deployment.</p>
+  <p>If no &mdash; it acts as the user, as part of something the app is doing &mdash; it belongs with the frontend, where it shares the session, the environment, and the deployment.</p>
+  <p>Almost everything else people argue about here follows from that.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Supabase Edge Functions</th><th>Vercel Functions</th></tr></thead>
+      <tbody>
+        <tr><td>Runs next to</td><td>The database</td><td>The frontend</td></tr>
+        <tr><td>Natural credential</td><td>Service role</td><td>The user&rsquo;s session</td></tr>
+        <tr><td>Deploys with</td><td>Its own command, per function</td><td>The app, automatically</td></tr>
+        <tr><td>Best for</td><td>Webhooks, cron, privileged writes</td><td>App API routes, rendering data</td></tr>
+        <tr><td>Database latency</td><td>Very low</td><td>A network hop away</td></tr>
+        <tr><td>Frontend integration</td><td>Separate</td><td>Same repo, same env</td></tr>
+        <tr><td>Timeout ceiling</td><td>Generous but finite</td><td>Plan-dependent, often short</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Why webhooks belong on the database side</h2>
+  <p>A webhook is an unauthenticated request from a third party that needs to write privileged data. There is no user session, and the payload is the only thing you have.</p>
+  <p>Putting that on the frontend deployment means shipping a service-role credential into the same environment as your web app and writing your own verification. Putting it next to the database means the privileged credential never leaves the place it belongs.</p>
+  <p>Same logic for scheduled work. A nightly job has no user, needs full access, and should not depend on your web deployment being healthy.</p>
+
+  <h2>How they fail differently</h2>
+  <p>This is the useful part, because it is what you actually spend time on.</p>
+  <p><strong>The timeout kills long model calls silently.</strong> The worst failure I have hit in this area: a function makes a call to a language model, the model takes longer than the platform ceiling, and the request is cut. The caller frequently sees a generic error rather than a timeout, so it reads as a bug in your own logic and you go looking in the wrong place.</p>
+  <p>The fix is architectural, not a config change. Anything that <em>can</em> exceed the ceiling has to stop being a request and become a job: one endpoint accepts the work and returns an identifier, a worker does it, and the client polls. Raising the timeout postpones the problem rather than solving it, because model latency is not something you control.</p>
+  <p><strong>Deploying many functions at once fails badly.</strong> On the product with 98 of them, batch deploys produce failures that are unpleasant to untangle &mdash; you end up unsure which functions actually updated. Deploy one at a time. It is slower and it is the only approach I trust now.</p>
+  <p><strong>Deployment order matters across the boundary.</strong> If a frontend release expects a new function signature, deploy the function first. Doing it the other way leaves a window where the app calls something that does not exist yet, and on a busy product that window is real traffic.</p>
+  <p><strong>Environment variables inline at build time.</strong> On the frontend side, anything exposed to the browser is baked in when you build, not read at runtime. Changing it in a dashboard does nothing until you rebuild. Every team learns this once, usually during an incident.</p>
+
+  <h2>What surprised me at 98 functions</h2>
+  <p>Two things, neither of which is about performance.</p>
+  <p><strong>Discoverability becomes the real problem.</strong> At that count, knowing which function does what, and which are still used, matters more than any runtime characteristic. Naming conventions and a shared module for common concerns stop being tidiness and start being how you keep the thing maintainable.</p>
+  <p><strong>Shared code is what keeps it sane.</strong> On that product, cross-cutting concerns like sending email live in shared modules that the functions import, rather than being reimplemented per function. When the email provider changed, that was one module rather than a search across ninety-eight files.</p>
+
+  <h2>How I split it</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Work</th><th>Where</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Third-party webhooks</td><td>Supabase</td><td>No session, needs privilege</td></tr>
+        <tr><td>Scheduled jobs</td><td>Supabase</td><td>No user, must not depend on the web deploy</td></tr>
+        <tr><td>Privileged writes across tenants</td><td>Supabase</td><td>Service role stays put</td></tr>
+        <tr><td>Sending email</td><td>Supabase</td><td>Triggered by data events, not page loads</td></tr>
+        <tr><td>App API routes</td><td>Vercel</td><td>Shares the session and the deploy</td></tr>
+        <tr><td>Server-rendered data fetching</td><td>Vercel</td><td>Part of the render</td></tr>
+        <tr><td>Anything on the critical render path</td><td>Vercel</td><td>Fewer hops</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Never let a function await something unbounded.</strong> Queue it and poll.</li>
+    <li><strong>Deploy edge functions one at a time</strong>, and the function before the frontend that calls it.</li>
+    <li><strong>Put shared concerns in shared modules</strong> from function three, not function thirty.</li>
+    <li><strong>Log the identity a function is acting as.</strong> Half of privileged-function bugs are "it ran as the wrong thing", and that is invisible unless you record it.</li>
+    <li><strong>Verify after deploying, do not trust the CLI.</strong> Fetch a version endpoint or a content-hashed asset and confirm the new code is actually serving.</li>
+  </ul>
+
+  <h2>FAQ</h2>
+  <h3>What is the difference?</h3>
+  <p>Supabase functions run next to the database and can safely hold a service-role key. Vercel functions run with your frontend and share its session and deployment.</p>
+  <h3>Which should handle a webhook?</h3>
+  <p>Whichever owns the data it writes, which is usually the database side. A webhook has no session and needs privileged write access.</p>
+  <h3>Why do long-running functions fail silently?</h3>
+  <p>The platform timeout cuts the request mid-call, often surfacing as a generic error rather than a timeout. Anything that can exceed the ceiling must become a queued job.</p>
+  <h3>Can I use both?</h3>
+  <p>Yes, and most real projects do. Split on privilege.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/supabase-vs-firebase">Supabase vs Firebase</a>, <a href="/compare">other tool comparisons</a>, and <a href="/guides/postgres-row-level-security">Postgres row-level security</a>.</p>
+</ContentArticle>
