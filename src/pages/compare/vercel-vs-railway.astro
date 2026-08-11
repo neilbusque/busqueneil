@@ -1,0 +1,85 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Should I use Vercel or Railway?', a: 'Vercel for frontend and anything request-shaped, where the serverless model and the deploy pipeline are the product. Railway when you need a long-running process, a worker, a queue, or a database sitting next to your app — things that want to stay alive rather than wake up per request.' },
+  { q: 'What is the biggest limitation of serverless hosting?', a: 'The execution time ceiling. Anything that can run longer than the limit — most commonly a language model call — gets cut mid-request, and it frequently surfaces as a generic error rather than a timeout, so it reads as a bug in your own code.' },
+  { q: 'Can I run background jobs on Vercel?', a: 'Scheduled functions cover periodic work, but a genuinely long-running or stateful worker is not what the platform is for. If you find yourself fighting the request model, that is the signal to put that piece somewhere designed for it.' },
+  { q: 'Do I have to choose one?', a: 'No, and splitting is common: frontend on Vercel, workers and databases on Railway. The cost is one more thing to deploy; the benefit is that neither piece is fighting its platform.' },
+];
+---
+<ContentArticle
+  slug="vercel-vs-railway"
+  seoTitle="Vercel vs Railway"
+  description="Both run production apps here. Where the serverless model helps, the execution ceiling that quietly breaks AI features, and why splitting between the two is usually the right answer."
+  heading="Vercel vs"
+  accent="Railway"
+  lede="Both host things I maintain. They are not really competing — one is built around requests and the other around processes, and most projects eventually want both."
+  idx="12"
+  keywords="Vercel vs Railway, serverless hosting, background jobs, deployment, function timeout, PaaS"
+  faq={faq}
+>
+  <p><strong>Vercel is built around requests: a deploy pipeline, edge distribution, and functions that wake up, answer, and stop. Railway is built around processes that stay alive — workers, queues, databases. Most projects want both, and the friction people report with either is almost always a piece of work sitting on the wrong side of that line.</strong></p>
+
+  <h2>The line between them</h2>
+  <p><strong>Does this thing wake up to answer something, or does it need to stay running?</strong></p>
+  <p>Rendering a page, handling an API call, processing a webhook &mdash; request-shaped. Serverless is excellent at these, and the deployment story around them is genuinely best-in-class.</p>
+  <p>A queue consumer, a long transcoding job, a websocket server, a scheduled process that holds state between runs &mdash; process-shaped. Trying to express these as functions is where people start describing serverless as painful, and they are right, but the pain is a category error rather than a platform flaw.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Vercel</th><th>Railway</th></tr></thead>
+      <tbody>
+        <tr><td>Model</td><td>Request / serverless</td><td>Long-running processes</td></tr>
+        <tr><td>Frontend deploys</td><td><strong>Excellent</strong></td><td>Workable</td></tr>
+        <tr><td>Preview per branch</td><td><strong>Built in</strong></td><td>Available</td></tr>
+        <tr><td>Background workers</td><td>Awkward</td><td><strong>Natural</strong></td></tr>
+        <tr><td>Databases alongside</td><td>External</td><td><strong>Same project</strong></td></tr>
+        <tr><td>Execution ceiling</td><td>Plan-dependent, often short</td><td>Runs until you stop it</td></tr>
+        <tr><td>Cost shape</td><td>Usage and bandwidth</td><td>Resources while running</td></tr>
+        <tr><td>Cold starts</td><td>A consideration</td><td>Not really</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The ceiling that breaks AI features</h2>
+  <p>This is the specific thing worth knowing before you build, because it produces a bug that looks like your fault.</p>
+  <p>A function calls a language model. The model takes longer than the platform&rsquo;s execution limit. The request gets cut. <strong>The caller frequently sees a generic failure rather than a timeout</strong>, so it reads as a bug in your own logic and you go looking in entirely the wrong place. On a busy product this is silent and intermittent, which is the worst combination.</p>
+  <p>The fix is architectural, not a configuration change. Anything that <em>can</em> exceed the ceiling has to stop being a request: one endpoint accepts the work and returns an identifier, a worker does the work, the client polls for the result. Raising the timeout just postpones it, because model latency is not something you control.</p>
+  <p>That worker is exactly the shape of thing Railway is for. This is the most common reason a project ends up wanting both.</p>
+
+  <h2>What Vercel is genuinely excellent at</h2>
+  <p>Deployments. A push produces a build, a preview URL, and a production release with a rollback, and that whole loop is fast enough that you stop thinking about it. For a frontend, that is most of the value of a platform.</p>
+  <p>Per-branch previews in particular change how review works. Sending someone a URL rather than asking them to run your branch is a small thing that compounds.</p>
+
+  <h2>Things that have bitten me</h2>
+  <p>Not arguments against the platform, just the sharp edges worth knowing.</p>
+  <p><strong>Client-side environment variables inline at build time.</strong> Anything exposed to the browser is baked in when you build, not read at runtime. Changing it in a dashboard does nothing until you rebuild. Every team learns this once, usually mid-incident.</p>
+  <p><strong>The CLI can report success on a failed deploy, and failure on one that shipped.</strong> Do not trust the command output as your verification. Fetch a version endpoint or a content-hashed asset from the live URL and confirm the new code is actually serving. This has cost me real time in both directions.</p>
+  <p><strong>Deploy order matters across a boundary.</strong> If a frontend release expects a new backend signature, ship the backend first, or you leave a window where the app calls something that does not exist.</p>
+  <p><strong>Commit author can block a deploy.</strong> On some team configurations, a push from an unrecognised git author is silently rejected for auto-deploy. If pushes stop deploying and nothing errors, check this before anything else.</p>
+
+  <h2>How to split</h2>
+  <ol>
+    <li><strong>Frontend and request-shaped APIs</strong> on the serverless side.</li>
+    <li><strong>Anything with an unbounded runtime</strong> &mdash; model calls, transcoding, batch jobs &mdash; on a process host.</li>
+    <li><strong>Queues and workers</strong> where processes live.</li>
+    <li><strong>Databases</strong> wherever they are managed properly; co-locating with workers reduces hops.</li>
+    <li><strong>Verify every deploy against the live URL</strong>, whichever platform, because both CLIs will lie to you eventually.</li>
+  </ol>
+  <p>The overhead of running two platforms is a second deploy and a second dashboard. The overhead of forcing process-shaped work into a request model is every sprint, forever.</p>
+
+  <h2>FAQ</h2>
+  <h3>Vercel or Railway?</h3>
+  <p>Vercel for frontend and request-shaped work; Railway for long-running processes, workers, queues, and co-located databases.</p>
+  <h3>Biggest serverless limitation?</h3>
+  <p>The execution ceiling. Long model calls get cut and often surface as generic errors, so they read as your bug.</p>
+  <h3>Can I run background jobs on Vercel?</h3>
+  <p>Scheduled functions handle periodic work, but a genuinely long-running stateful worker belongs elsewhere.</p>
+  <h3>Do I have to choose?</h3>
+  <p>No. Splitting is common and usually correct: frontend one side, workers and databases the other.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/supabase-functions-vs-vercel-functions">Supabase edge functions vs Vercel functions</a> and <a href="/compare/astro-vs-nextjs">Astro vs Next.js</a>.</p>
+</ContentArticle>

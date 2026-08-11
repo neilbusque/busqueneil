@@ -1,0 +1,82 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Should authorisation live in the database or the application?', a: 'The database, for anything multi-tenant. Application-layer checks are enforced only on the paths that remember to call them, and every new endpoint, script, or admin tool is a fresh chance to forget. A row-level security policy applies no matter who asks.' },
+  { q: 'Is row-level security slow?', a: 'It adds a predicate to every query, so it costs something. In practice the cost is dominated by whether the columns your policy filters on are indexed. An unindexed policy column will hurt far more than the concept of RLS does.' },
+  { q: 'What is the most common RLS mistake?', a: 'Assuming a new table is protected. Enabling RLS without policies, or relying on defaults, can leave a table more accessible than you think. The only reliable check is to query it as an anonymous user and see what comes back.' },
+  { q: 'Can I use both?', a: 'Yes, and you should. The database is the boundary that cannot be bypassed; application checks give better error messages and stop bad requests earlier. Just never let the application layer be the only thing standing between a user and someone else\'s data.' },
+];
+---
+<ContentArticle
+  slug="rls-vs-app-layer-auth"
+  seoTitle="Row-Level Security vs App-Layer Auth"
+  description="Why authorisation belongs in the database for anything multi-tenant, the three RLS mistakes that have bitten me in production, and how to verify policies actually work."
+  heading="Row-level security vs"
+  accent="app-layer auth"
+  lede="I have shipped row-level security on several products, including the times I got it wrong. The argument for the database is simple, and the mistakes are specific."
+  idx="07"
+  keywords="row level security, RLS, Postgres, multi-tenant, authorization, application security"
+  faq={faq}
+>
+  <p><strong>Application-layer authorisation is enforced only on the paths that remember to call it. Every new endpoint, background job, admin tool, or one-off script is another chance to forget, and forgetting is silent. A row-level security policy lives in the database and applies no matter who asks. For anything multi-tenant, that difference is the whole argument.</strong></p>
+
+  <h2>The failure mode that decides it</h2>
+  <p>App-layer auth fails by omission. Somebody adds an endpoint at 6pm, does not call the permission helper, and nothing complains. There is no error, no failing test, and no visible symptom &mdash; just an endpoint that returns everybody&rsquo;s data to anyone who finds it.</p>
+  <p>Database-layer auth fails by commission. If a policy is wrong, queries return nothing or return an error, and you notice immediately because the feature is broken. <strong>A noisy failure is enormously better than a silent one when the failure mode is a data breach.</strong></p>
+  <p>That asymmetry is why I default to the database and treat application checks as an optimisation on top.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Row-level security</th><th>App-layer checks</th></tr></thead>
+      <tbody>
+        <tr><td>Enforced on</td><td>Every query, always</td><td>Paths that call the check</td></tr>
+        <tr><td>New endpoint forgets it</td><td>Still protected</td><td><strong>Exposed, silently</strong></td></tr>
+        <tr><td>Failure mode</td><td>Loud (broken feature)</td><td>Silent (leaked data)</td></tr>
+        <tr><td>Error messages</td><td>Poor &mdash; rows just vanish</td><td>Good &mdash; you control them</td></tr>
+        <tr><td>Debugging</td><td>Harder; empty results look like no data</td><td>Easier</td></tr>
+        <tr><td>Where the rule lives</td><td>One place</td><td>Wherever it was remembered</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The honest cost of RLS is that column three: when a policy is wrong, rows silently do not appear, and &ldquo;no results&rdquo; looks identical to &ldquo;no data.&rdquo; That is a real debugging tax and it is worth paying.</p>
+
+  <h2>The three mistakes I have actually made</h2>
+  <p><strong>1. Assuming a new table is protected.</strong> Creating a table and turning RLS on is not the same as securing it. Default grants can leave a table more reachable than you expect, and a table with RLS enabled but no policies behaves differently from what most people assume. The only check I trust now is empirical: <em>query the table as an anonymous user and look at what comes back.</em> Do it after every migration.</p>
+  <p><strong>2. Forgetting that views can bypass policies.</strong> A view built on a secured table does not automatically inherit that table&rsquo;s row-level security. So a carefully protected table can leak through a convenience view somebody added for a dashboard. Every view needs checking separately, and this one is easy to miss because the underlying table looks fine.</p>
+  <p><strong>3. Granting too narrowly for the operation.</strong> An upsert needs insert permission even when it will almost always update. The policy looks right, the common path works, and the failure appears in production on the branch you tested least. Test the operation you actually call, not the one you think you call.</p>
+
+  <h2>How to verify</h2>
+  <p>Reading your own policies and nodding is not verification. It is the same cognitive move that produced the bug.</p>
+  <ol>
+    <li><strong>Query every table as an anonymous user.</strong> Expect nothing. Investigate anything.</li>
+    <li><strong>Query as a user from tenant A</strong> and confirm you cannot see tenant B&rsquo;s rows. Create a second tenant specifically for this.</li>
+    <li><strong>Check every view</strong> separately from its underlying tables.</li>
+    <li><strong>Exercise every operation</strong> &mdash; select, insert, update, upsert, delete &mdash; not just the read path.</li>
+    <li><strong>Automate it.</strong> A script that runs these checks after each migration is worth more than any amount of policy review.</li>
+  </ol>
+  <p>One warning on that last point: a verification script that <em>writes</em> data to test a policy is not a dry run, and running it against production will do exactly what you told it to. Keep the destructive checks on a disposable database.</p>
+
+  <h2>Where app-layer checks still earn their place</h2>
+  <p>Not as the boundary, but as the interface.</p>
+  <p>RLS gives a user an empty list when they lack access, which is a terrible experience if the correct response was &ldquo;you need to be an admin to see this.&rdquo; Application checks let you return a real message and stop the request early.</p>
+  <p>They also catch bad requests before they reach the database, which is cheaper. The rule I use: <strong>the database decides what is allowed; the application explains why it was not.</strong> If the two ever disagree, the database is right and the application has a bug.</p>
+
+  <h2>Performance</h2>
+  <p>RLS adds a predicate to every query. The cost is real but almost always dominated by whether the columns your policies filter on are indexed.</p>
+  <p>If a policy filters on a workspace identifier, that column needs an index, and it needs to be an index the planner will actually use. This is the single highest-leverage thing to check if RLS &ldquo;feels slow&rdquo; &mdash; in my experience it is nearly always an index problem being blamed on the concept.</p>
+
+  <h2>FAQ</h2>
+  <h3>Database or application?</h3>
+  <p>Database, for anything multi-tenant. App checks are enforced only where someone remembered to call them, and forgetting is silent.</p>
+  <h3>Is RLS slow?</h3>
+  <p>It adds a predicate per query, but cost is dominated by whether policy columns are indexed. Check the index before blaming the concept.</p>
+  <h3>What is the most common mistake?</h3>
+  <p>Assuming a new table is protected. Verify by querying as an anonymous user rather than reading your policies.</p>
+  <h3>Can I use both?</h3>
+  <p>Yes. Database decides what is allowed; the application explains why not. Never let the app layer be the only barrier.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/postgres-row-level-security">Postgres row-level security, practically</a> and <a href="/compare/supabase-vs-firebase">Supabase vs Firebase</a>.</p>
+</ContentArticle>

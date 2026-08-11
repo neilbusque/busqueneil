@@ -1,0 +1,93 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'What is the difference between Zapier AI and an n8n AI agent?', a: 'Zapier gives you AI steps inside a managed workflow, where the platform owns the model calls, the credentials, and the guardrails. n8n gives you the pieces to assemble an agent yourself, including which model, what tools it gets, and what happens when it fails. One trades control for speed, the other the reverse.' },
+  { q: 'Which is better for a non-developer?', a: 'Zapier, clearly. The managed version means fewer decisions and fewer ways to build something that quietly misbehaves. The cost is a ceiling you will eventually hit if the agent needs to do anything unusual.' },
+  { q: 'What goes wrong with AI steps in automation platforms?', a: 'Cost and silence. A model call inside a loop over a hundred records is a hundred model calls, and a step that returns a plausible wrong answer does not fail — it passes bad data downstream where nothing checks it.' },
+  { q: 'Should an AI step ever write directly to a system of record?', a: 'Not without a deterministic check between them. The safe pattern is model proposes, code validates, system records. Letting a probabilistic step write straight into a CRM or a billing system is how you get confident corruption.' },
+];
+---
+<ContentArticle
+  slug="zapier-ai-vs-n8n-ai-agents"
+  seoTitle="Zapier AI vs n8n AI Agents"
+  description="Where the managed version saves you and where it traps you, what AI steps actually cost inside a loop, and the validation pattern that keeps a probabilistic step from corrupting your data."
+  heading="Zapier AI vs"
+  accent="n8n AI agents"
+  lede="Both put a model inside an automation. They make opposite trades, and the one that bites either way is the same: an AI step that is wrong does not fail, it passes."
+  idx="13"
+  keywords="Zapier AI, n8n AI agent, workflow automation, AI automation, agent tools, no-code AI"
+  faq={faq}
+>
+  <p><strong>Zapier gives you AI steps inside a managed workflow — the platform owns the model, the credentials, and the guardrails. n8n gives you the pieces to assemble an agent yourself, including which model, what tools it gets, and what happens when it fails. Speed versus control. What bites on either is the same: a wrong AI step does not error, it passes bad data downstream.</strong></p>
+
+  <h2>The trade</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Zapier AI</th><th>n8n agent</th></tr></thead>
+      <tbody>
+        <tr><td>Time to working</td><td><strong>Minutes</strong></td><td>Hours</td></tr>
+        <tr><td>Model choice</td><td>What is offered</td><td><strong>Yours</strong></td></tr>
+        <tr><td>Tool definitions</td><td>Managed</td><td><strong>Yours to write</strong></td></tr>
+        <tr><td>Cost visibility</td><td>Bundled into the plan</td><td>Direct, per token</td></tr>
+        <tr><td>Failure handling</td><td>Platform defaults</td><td>You design it</td></tr>
+        <tr><td>Self-hosting</td><td>No</td><td>Yes</td></tr>
+        <tr><td>Ceiling</td><td>Real, and you will meet it</td><td>Whatever you build</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The choice is the same one as the underlying platforms: who maintains this, and do they write code. A managed AI step that an operations person can safely edit beats a more capable agent nobody dares touch.</p>
+
+  <h2>What actually goes wrong</h2>
+  <p>Three failures, and they show up on both platforms.</p>
+  <p><strong>1. Cost inside a loop.</strong> A model call in a step that runs once is cheap. The same step inside a loop over a hundred records is a hundred calls, and on a per-operation pricing model you are paying twice &mdash; once to the platform, once to the model. People discover this on a bill rather than in a design review. Estimate the loop before you build it.</p>
+  <p><strong>2. Silent wrongness.</strong> This is the important one. A broken API step throws an error and the workflow stops. A model step that misreads an input returns a confident, well-formed, wrong answer and the workflow <em>continues</em>. Every step after it is now operating on bad data, and nothing in the run history looks unusual.</p>
+  <p>Traditional automation fails loudly. AI-in-automation fails quietly. That difference should change how you build, and mostly it does not.</p>
+  <p><strong>3. Empty reads as an answer.</strong> If a lookup returns nothing and you hand that to a model, it will happily reason about nothing and produce something. An empty result needs to be an explicit branch, not an input.</p>
+
+  <h2>The pattern that fixes it</h2>
+  <p><strong>Model proposes, code validates, system records.</strong></p>
+  <p>Never let a probabilistic step write directly into a system of record. Put a deterministic check between them:</p>
+  <ul>
+    <li>The model classifies a lead. <strong>Code checks</strong> the category is one of the allowed values before it is written.</li>
+    <li>The model extracts a date. <strong>Code checks</strong> it parses and is within a sensible range.</li>
+    <li>The model drafts a reply. <strong>A human approves</strong> it, at least until the pattern is proven.</li>
+    <li>The model picks a record to update. <strong>Code confirms</strong> that record exists and belongs to the right account.</li>
+  </ul>
+  <p>The checks are trivial. The reason they get skipped is that the AI step usually works, which is exactly what makes the failure expensive when it comes.</p>
+  <p>I have measured a version of this: in an enrichment pipeline, <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">44% of records came back attached to the wrong company</a>, and every one of them looked like a good record. A validation rule that took ten minutes to write caught nearly all of them.</p>
+
+  <h2>Where the managed version traps you</h2>
+  <p>Not at the start &mdash; at the point where the agent needs to do something specific.</p>
+  <p>You will want a particular model for a particular step. You will want to change how a tool is described, because <strong>most bad agent behaviour is a tool-description problem</strong> rather than a model problem. You will want an error to be handled as data the agent can recover from, rather than a failed run.</p>
+  <p>Those are exactly the knobs a managed product does not expose, and there is no partial escape: you rebuild the agent somewhere else.</p>
+  <p>The practical hedge is to <strong>keep the model step small and the surrounding logic in the platform</strong>. If the AI is doing one narrow job with a clear input and output, moving it later is a small change. If the agent orchestrates the whole workflow, moving it is a rewrite.</p>
+
+  <h2>Where building it yourself traps you</h2>
+  <p>Fair is fair.</p>
+  <p><strong>Long-running steps time out.</strong> Anything awaiting a model can exceed the platform&rsquo;s patience. Split into start-and-poll rather than waiting inside a step.</p>
+  <p><strong>Tool sprawl degrades selection.</strong> Past a few dozen tools, the model picks the wrong one more often and debugging gets harder. Fewer, better-described tools beat more tools.</p>
+  <p><strong>You own the failure design.</strong> That is the point, and it is work. An agent with no explicit stopping condition will keep going in whatever direction it started.</p>
+
+  <h2>How I choose</h2>
+  <ol>
+    <li><strong>Ops person maintaining it, narrow job?</strong> Managed AI step.</li>
+    <li><strong>Needs specific tools, specific model, or recovery behaviour?</strong> Build it.</li>
+    <li><strong>Either way: keep the AI step narrow.</strong> One job, clear input, checkable output.</li>
+    <li><strong>Either way: validate before writing anywhere that matters.</strong></li>
+    <li><strong>Estimate loop cost before building</strong>, not after the invoice.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>What is the difference?</h3>
+  <p>Zapier manages the model, credentials and guardrails inside a workflow. n8n hands you the pieces to assemble an agent, including failure behaviour.</p>
+  <h3>Which for a non-developer?</h3>
+  <p>Zapier, clearly. Fewer decisions and fewer ways to build something that quietly misbehaves, at the cost of a ceiling.</p>
+  <h3>What goes wrong with AI steps?</h3>
+  <p>Cost inside loops, and silent wrongness &mdash; a wrong step passes rather than fails, so downstream steps use bad data.</p>
+  <h3>Should an AI step write to a system of record?</h3>
+  <p>Not without a deterministic check between them. Model proposes, code validates, system records.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/compare/n8n-vs-make-deep-dive">n8n vs Make, the deep cut</a>, <a href="/compare/mcp-vs-function-calling">MCP vs function calling</a>, and <a href="/guides/build-ai-agent-claude-code">building an AI agent</a>.</p>
+</ContentArticle>

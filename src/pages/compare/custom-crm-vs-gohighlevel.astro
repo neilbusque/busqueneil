@@ -1,0 +1,81 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'When is it worth building a custom CRM?', a: 'When your process is genuinely unusual, when the CRM is the product rather than a tool supporting it, or when a platform fee scales with something you cannot control. Outside those three cases, an off-the-shelf CRM is almost always the better commercial decision.' },
+  { q: 'What does GoHighLevel do well?', a: 'It bundles CRM, pipelines, calendars, forms, SMS, email, and automation into one subscription with agency sub-accounts. For a marketing agency running the same playbook across many clients, that bundle is genuinely hard to beat by assembling parts.' },
+  { q: 'What does a custom CRM actually cost?', a: 'The build is the small part. The real cost is that you now own integrations, deliverability, uptime, backups, and every future feature request forever. Budget for the second year, not the first month.' },
+  { q: 'Can you migrate off GoHighLevel later?', a: 'Contacts and basic records export fine. Automations, funnels, calendars, and message history do not travel, so plan on rebuilding process rather than moving it. That rebuild is the real switching cost.' },
+];
+---
+<ContentArticle
+  slug="custom-crm-vs-gohighlevel"
+  seoTitle="Custom CRM vs GoHighLevel"
+  description="I used GoHighLevel for years, then built my own CRM. The three conditions that actually justify building, and an honest account of what you take on when you do."
+  heading="Custom CRM vs"
+  accent="GoHighLevel"
+  lede="I ran client work on GoHighLevel for years and then built my own CRM. Both decisions were right at the time, for reasons that had nothing to do with features."
+  idx="08"
+  keywords="custom CRM vs GoHighLevel, GHL alternative, build vs buy CRM, agency CRM, custom software"
+  faq={faq}
+>
+  <p><strong>Build a CRM only when your process is genuinely unusual, when the CRM is the product rather than a tool supporting it, or when platform fees scale with something you cannot control. Outside those three cases, buy. The build is the cheap part; owning integrations, deliverability, uptime, and every future request is the expensive part.</strong></p>
+
+  <h2>The three conditions</h2>
+  <p><strong>1. Your process is genuinely unusual.</strong> Not &ldquo;we do it slightly differently&rdquo; &mdash; every business believes that. Genuinely unusual means the platform&rsquo;s core object model does not fit: you need a record type it does not have, or a relationship it cannot express, and you are already maintaining a spreadsheet alongside the CRM to hold the truth. That spreadsheet is the signal.</p>
+  <p><strong>2. The CRM is the product.</strong> If you are selling access to it, or it is the thing clients log into, you cannot build your business on someone else&rsquo;s roadmap and pricing. This was my reason.</p>
+  <p><strong>3. Fees scale with something you do not control.</strong> Per-seat pricing when your seats grow with headcount is fine. Per-contact or per-message pricing when volume is your business model is a tax on success, and at some volume the build pays for itself on arithmetic alone.</p>
+  <p>If none of those apply, buying is the better decision and the money is better spent on demand.</p>
+
+  <h2>Side by side</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>GoHighLevel</th><th>Custom</th></tr></thead>
+      <tbody>
+        <tr><td>Time to working</td><td>Days</td><td>Weeks to months</td></tr>
+        <tr><td>Fits your process</td><td>Bend the process</td><td>Exactly</td></tr>
+        <tr><td>SMS, email, calendars</td><td>Included</td><td>You integrate each one</td></tr>
+        <tr><td>Deliverability</td><td>Their problem</td><td><strong>Yours</strong></td></tr>
+        <tr><td>Uptime and backups</td><td>Their problem</td><td><strong>Yours</strong></td></tr>
+        <tr><td>New feature</td><td>Wait, or work around</td><td>Build it</td></tr>
+        <tr><td>Cost shape</td><td>Monthly, scales with use</td><td>Build once, then hosting</td></tr>
+        <tr><td>Client-facing</td><td>Their branding rules</td><td>Yours</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What GoHighLevel genuinely does well</h2>
+  <p>Worth saying clearly, because &ldquo;build your own&rdquo; content usually skips it.</p>
+  <p>The bundle is the product. CRM, pipelines, calendars, forms, SMS, email, and automation in one subscription, with sub-accounts so an agency can run the same playbook across many clients. Assembling those parts yourself means separate vendors for messaging, email, scheduling, and forms, plus the integration work between them, plus the bill for each.</p>
+  <p>For an agency running a repeatable process across clients, that is very hard to beat by building. I would not have argued otherwise while I was using it, and I would still recommend it for exactly that shape of business.</p>
+
+  <h2>What you actually take on when you build</h2>
+  <p>The build is the part people estimate. These are the parts they do not.</p>
+  <p><strong>Deliverability becomes your job.</strong> This is the one that surprises people most. Sending email is easy; sending email that arrives is a discipline involving sending domains, authentication alignment, warm-up, and reputation. I have written up <a href="/compare/resend-vs-mailgun">the specific trap that sends your mail to spam regardless of provider</a>, because it cost me real time.</p>
+  <p><strong>Two email lanes, not one.</strong> A multi-tenant CRM sends on behalf of customers <em>and</em> sends to its own customers. Those must not share a quota system, or a tenant who exhausts their sending cap also stops receiving &ldquo;your payment failed.&rdquo; You have coupled your revenue notifications to a customer&rsquo;s usage limit.</p>
+  <p><strong>Every integration is permanent.</strong> Calendar, payments, messaging, and each provider&rsquo;s auth model and rate limits and breaking changes. The bundle you were paying for was mostly this.</p>
+  <p><strong>Multi-tenant authorisation is the highest-stakes code you will write.</strong> One wrong policy and a customer sees another customer&rsquo;s pipeline. Put it in the database, not the application, and verify it empirically &mdash; <a href="/compare/rls-vs-app-layer-auth">the reasoning is here</a>.</p>
+  <p><strong>You own the roadmap, which means you own the backlog.</strong> Every &ldquo;can it just&rdquo; is now yours forever. That is the freedom people want and the cost they underestimate.</p>
+
+  <h2>What I would tell someone deciding</h2>
+  <ol>
+    <li><strong>Buy first, always.</strong> Run the platform until it genuinely blocks you. The constraints teach you what to build, and most people who build first build the wrong thing.</li>
+    <li><strong>Write down the specific blocker.</strong> If you cannot name the thing the platform will not do, you are not ready. &ldquo;It feels clunky&rdquo; is not a specification.</li>
+    <li><strong>Cost the second year.</strong> Hosting, integrations, maintenance, and the features you will inevitably want.</li>
+    <li><strong>Check the exit before you enter.</strong> Contacts export; automations, funnels, calendars, and message history do not. You will rebuild process, not move it.</li>
+    <li><strong>Start with the one thing the platform cannot do.</strong> Build that alongside, not a full replacement on day one.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>When is building worth it?</h3>
+  <p>Unusual process, the CRM is the product, or fees scale with something you cannot control. Otherwise buy.</p>
+  <h3>What does GoHighLevel do well?</h3>
+  <p>The bundle, plus agency sub-accounts. Hard to beat by assembling parts if you run one playbook across many clients.</p>
+  <h3>What does custom really cost?</h3>
+  <p>The build is small. Owning integrations, deliverability, uptime, backups, and the backlog is the real cost. Budget year two.</p>
+  <h3>Can you migrate off later?</h3>
+  <p>Contacts yes; automations, funnels, calendars and history no. Plan to rebuild process.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/software/custom-software-vs-off-the-shelf">custom software vs off-the-shelf</a>, <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>, and <a href="/software/custom-crm-development">custom CRM development</a>.</p>
+</ContentArticle>

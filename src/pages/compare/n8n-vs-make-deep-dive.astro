@@ -1,0 +1,96 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is n8n better than Make?', a: 'n8n wins when you need real code inside a step, self-hosting, or version control over your automations. Make wins on the visual editor and on how quickly a non-developer can build something that works. The deciding factor is usually whether the person maintaining it writes code.' },
+  { q: 'What breaks first when automations scale?', a: 'Error handling. Both tools make the happy path easy and leave failure paths as something you have to think about deliberately. A workflow with no error branch does not report failure — it just silently stops doing its job.' },
+  { q: 'Can you version-control an automation?', a: 'With n8n, meaningfully — workflows are JSON you can export, diff, and keep in a repository. With Make it is harder, so change management tends to rely on discipline and naming rather than tooling.' },
+  { q: 'Should I self-host?', a: 'Only if you have a reason: data residency, cost at high volume, or needing packages the cloud version will not run. Self-hosting means you now own uptime for the thing that runs your business processes, which is a real obligation.' },
+];
+---
+<ContentArticle
+  slug="n8n-vs-make-deep-dive"
+  seoTitle="n8n vs Make: The Deep Cut"
+  description="Past the feature table, into the parts that decide whether an automation survives a year: error handling, versioning, debugging a run from three weeks ago, and what actually breaks at scale."
+  heading="n8n vs Make:"
+  accent="the deep cut"
+  lede="The feature comparison is everywhere and it stops exactly where the interesting part starts. This is about what happens after the workflow is built and something goes wrong at 2am."
+  idx="10"
+  keywords="n8n vs Make, workflow automation, Integromat, error handling, self-hosted automation, no-code"
+  faq={faq}
+>
+  <p><strong>n8n wins when you need real code inside a step, self-hosting, or version control over your automations. Make wins on the visual editor and on how fast a non-developer gets to something that works. The deciding factor is rarely a feature — it is whether the person who will maintain this in six months writes code.</strong></p>
+
+  <h2>The question that actually decides it</h2>
+  <p><strong>Who maintains this in six months?</strong></p>
+  <p>If the answer is a developer, or you, and you write code: n8n. The escape hatch of dropping into a code node instead of chaining fourteen visual steps is worth more than any other difference.</p>
+  <p>If the answer is an operations person who does not write code: Make. The visual model is genuinely easier to reason about, and an automation that its owner can confidently edit beats a more capable one they are afraid to touch.</p>
+  <p>Everything below is refinement on that.</p>
+
+  <h2>Error handling is where automations actually die</h2>
+  <p>Both tools make the happy path easy. Neither makes you handle failure, and that is where the real difference in outcomes comes from.</p>
+  <p>The failure mode is specific and worth naming: <strong>a workflow with no error branch does not announce that it failed. It silently stops doing its job.</strong> Nobody notices until someone asks why leads stopped arriving, and by then you have lost a week of data.</p>
+  <p>Things worth building on either platform, that most people skip:</p>
+  <ul>
+    <li><strong>An error path on every workflow that matters</strong>, routing to somewhere a human actually looks. A notification into a channel nobody reads is not error handling.</li>
+    <li><strong>A heartbeat.</strong> Something that fires on success, so silence is detectable. Absence of failure is not evidence of success.</li>
+    <li><strong>Deliberate retry policy.</strong> Distinguish transient errors, which should retry, from bad input, which should not. Retrying a malformed record forever is a common and expensive default.</li>
+    <li><strong>Idempotency where it matters.</strong> If a retry can create a duplicate invoice, retries are not safe.</li>
+  </ul>
+
+  <h2>Versioning and change management</h2>
+  <p>This is the biggest practical difference once you pass a handful of workflows.</p>
+  <p>n8n workflows are JSON. You can export them, diff them, keep them in a repository, and see what changed and when. That turns automations into something reviewable rather than something that mysteriously behaves differently than last Tuesday.</p>
+  <p>With Make, change management leans on discipline: naming conventions, a changelog somebody remembers to write, and a habit of duplicating before editing. That works right up until it does not, and the failure is unrecoverable in a way a git history is not.</p>
+  <p>If you are running automations that a business depends on, being able to answer &ldquo;what changed?&rdquo; is worth a lot.</p>
+
+  <h2>Side by side, on the things that matter later</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>n8n</th><th>Make</th></tr></thead>
+      <tbody>
+        <tr><td>Code inside a step</td><td><strong>First-class</strong></td><td>Limited</td></tr>
+        <tr><td>Version control</td><td>JSON, diffable</td><td>Discipline only</td></tr>
+        <tr><td>Self-hosting</td><td><strong>Yes</strong></td><td>No</td></tr>
+        <tr><td>Visual clarity</td><td>Good</td><td><strong>Better</strong></td></tr>
+        <tr><td>Non-developer friendly</td><td>Moderate</td><td><strong>Yes</strong></td></tr>
+        <tr><td>Debugging a past run</td><td>Execution history</td><td>Execution history</td></tr>
+        <tr><td>Cost shape</td><td>Per execution or self-hosted</td><td>Per operation</td></tr>
+        <tr><td>Complex branching</td><td>Comfortable</td><td>Gets visually messy</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Note the cost row. Make charges per <em>operation</em>, and a single logical workflow can be many operations. A loop over a hundred records is not one operation. That arithmetic surprises people at scale and pushes them toward designs that are cheaper rather than clearer.</p>
+
+  <h2>What breaks at scale</h2>
+  <p><strong>Long-running steps.</strong> Anything calling a language model can exceed the platform&rsquo;s patience. The fix is architectural rather than a setting: split into start-and-poll instead of waiting inside one step.</p>
+  <p><strong>Silent partial failures.</strong> A loop over a hundred records where three fail and ninety-seven succeed will often report success. Check counts, not status.</p>
+  <p><strong>Credential expiry.</strong> OAuth tokens expire, and the workflow that has run daily for eight months stops without ceremony. This is one of the most common causes of &ldquo;the automation just stopped.&rdquo;</p>
+  <p><strong>Workflow sprawl.</strong> Past twenty or thirty, nobody knows which are live, which are abandoned, and which two do nearly the same thing slightly differently. Naming and an owner per workflow matter more than any feature.</p>
+
+  <h2>On self-hosting</h2>
+  <p>Only with a reason: data residency, cost at high volume, or needing packages the cloud version will not run.</p>
+  <p>Otherwise you have taken on uptime for the thing that runs your business processes. That is a real obligation, and the failure is quiet &mdash; a self-hosted instance that falls over does not email you about it unless you built the thing that emails you.</p>
+
+  <h2>How I choose</h2>
+  <ol>
+    <li><strong>Developer maintaining it?</strong> n8n.</li>
+    <li><strong>Ops person maintaining it?</strong> Make.</li>
+    <li><strong>Business depends on it?</strong> n8n, for the version history alone.</li>
+    <li><strong>High-volume loops?</strong> Check the per-operation arithmetic before committing.</li>
+    <li><strong>Either way:</strong> build the error path and the heartbeat on day one, not after the first silent failure.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Is n8n better than Make?</h3>
+  <p>For code, self-hosting, and version control, yes. For visual clarity and non-developer speed, Make. Decide on who maintains it.</p>
+  <h3>What breaks first at scale?</h3>
+  <p>Error handling. A workflow with no error branch silently stops working rather than reporting failure.</p>
+  <h3>Can you version-control automations?</h3>
+  <p>Meaningfully in n8n, since workflows are diffable JSON. Harder in Make, so it relies on discipline.</p>
+  <h3>Should I self-host?</h3>
+  <p>Only for data residency, cost at volume, or package needs. You take on uptime for your business processes.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/n8n-vs-zapier-vs-make">n8n vs Zapier vs Make, the three-way</a> and <a href="/services/ai-automation-services">how I build automations</a>.</p>
+</ContentArticle>

@@ -1,0 +1,79 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Which scraping tool should I use?', a: 'Firecrawl when you want readable content out of a page and do not care how. Apify when someone has already solved your target and you would rather rent that than maintain it. Puppeteer when you need to control the browser precisely, or the job is not really scraping at all.' },
+  { q: 'When is Puppeteer the right choice?', a: 'When you need real browser control: logging in, clicking through a flow, taking screenshots, generating PDFs, or testing what a page actually renders. Half my Puppeteer use is not scraping — it is verification.' },
+  { q: 'Why does my scraper return an empty page?', a: 'Usually because the content is rendered by JavaScript after the initial HTML, and your fetch got the shell. It can also mean you were blocked and served a challenge page. Both look like "the page has no content", so check what you actually received before debugging your selectors.' },
+  { q: 'Is scraping legal?', a: 'It depends on what you collect, from where, and what you do with it. Public pages, robots directives, terms of service, rate limits, and personal data rules all matter, and they vary by jurisdiction. Read the terms of the site you are targeting and take advice for anything commercial.' },
+];
+---
+<ContentArticle
+  slug="firecrawl-vs-apify-vs-puppeteer"
+  seoTitle="Firecrawl vs Apify vs Puppeteer"
+  description="All three are in my stack for different jobs. A decision tree rather than a winner, plus the failure that makes every scraper look broken when it is actually being blocked."
+  heading="Firecrawl vs Apify vs"
+  accent="Puppeteer"
+  lede="These get compared as competitors. I use all three in the same week, for genuinely different jobs, and picking wrongly is what makes scraping feel harder than it is."
+  idx="11"
+  keywords="Firecrawl vs Apify, Puppeteer, web scraping, data extraction, headless browser, crawling"
+  faq={faq}
+>
+  <p><strong>Firecrawl when you want readable content out of a page and do not care how. Apify when someone has already solved your target and renting that beats maintaining it. Puppeteer when you need precise browser control — logging in, clicking through a flow, screenshotting, or verifying what a page actually renders. They are not competitors; they are three different jobs.</strong></p>
+
+  <h2>The decision tree</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>If you need&hellip;</th><th>Use</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Clean text or markdown from a URL</td><td><strong>Firecrawl</strong></td><td>Handles rendering; you get content, not HTML soup</td></tr>
+        <tr><td>A whole site crawled and extracted</td><td><strong>Firecrawl</strong></td><td>Crawl plus extraction in one job</td></tr>
+        <tr><td>A well-known target someone already solved</td><td><strong>Apify</strong></td><td>Rent the maintenance, not just the code</td></tr>
+        <tr><td>Scale, proxies, scheduling handled for you</td><td><strong>Apify</strong></td><td>That is the platform's actual product</td></tr>
+        <tr><td>Login, click a flow, fill a form</td><td><strong>Puppeteer</strong></td><td>Real browser control</td></tr>
+        <tr><td>Screenshots or PDFs</td><td><strong>Puppeteer</strong></td><td>Not scraping at all, but the same tool</td></tr>
+        <tr><td>To verify what a page renders</td><td><strong>Puppeteer</strong></td><td>Measure the DOM, not the source</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What each is actually for</h2>
+  <p><strong>Firecrawl</strong> solves the problem of &ldquo;I want what this page says.&rdquo; That sounds trivial and is not: a modern page is a shell plus JavaScript plus navigation plus cookie banners, and turning that into the paragraphs a human would read is real work. When the goal is feeding content to a model or an index, this is the shortest path.</p>
+  <p><strong>Apify</strong> solves a different problem: <em>somebody else already fought this target.</em> The value is not that you could not write the scraper &mdash; it is that the target will change and someone else will fix it. You are renting maintenance. That is worth a lot for platforms that actively resist scraping and change frequently.</p>
+  <p><strong>Puppeteer</strong> is a browser you can program, and calling it a scraping tool undersells it. Easily half my use is verification rather than extraction: rendering a page and measuring the actual computed styles, capturing screenshots at several viewports, checking whether an element is really visible. When I QA a site I am using Puppeteer to ask &ldquo;what does a browser actually do with this?&rdquo;, which no amount of reading source answers.</p>
+
+  <h2>The failure that wastes the most time</h2>
+  <p><strong>An empty result almost never means the page is empty.</strong></p>
+  <p>Two causes, and they look identical:</p>
+  <p>The content is rendered by JavaScript after the initial HTML, and you fetched the shell. Or you were blocked and served a challenge page, which is a perfectly valid HTML document containing none of what you wanted.</p>
+  <p>Both present as &ldquo;no content,&rdquo; and both send people off to debug selectors that were never the problem. <strong>Before touching a selector, print what you actually received.</strong> Ninety percent of the time the answer is visible in the first two hundred characters.</p>
+  <p>This is a specific case of a general trap I keep running into: <a href="/research/the-false-zero-machine">an empty response reads as an answer rather than a failure</a>. Treat empty as suspicious, never as data.</p>
+
+  <h2>Practical notes</h2>
+  <ul>
+    <li><strong>Cache every raw response.</strong> The single best decision in any scraping project. It lets you re-run every filter and change your mind about the schema without paying twice. On one competitor sweep this was the difference between 158 credits and several times that.</li>
+    <li><strong>Paginate properly.</strong> A response holding exactly the page size always has more behind it. Missing this understated a dataset by roughly tenfold for me once.</li>
+    <li><strong>Merge on a stable identifier</strong>, never on a name or filename. Merging on a name splits one entity into several fakes.</li>
+    <li><strong>Puppeteer&rsquo;s clip is page coordinates, not viewport.</strong> If you screenshot a region after scrolling, you will capture the wrong part unless you account for scroll position.</li>
+    <li><strong>Wait for the thing, not for a timeout.</strong> Fixed sleeps are flaky; wait for the element or the network condition you actually care about.</li>
+    <li><strong>Respect rate limits and terms.</strong> Beyond the legal question, hammering a target is how you get blocked and then spend a day on proxies you did not need.</li>
+  </ul>
+
+  <h2>How I actually combine them</h2>
+  <p>A real pipeline usually uses more than one.</p>
+  <p>On a recent competitor study: a platform API supplied the raw records, Firecrawl-style extraction turned each competitor&rsquo;s site into readable text for analysis, and Puppeteer checked whether the advertised landing pages actually loaded. That last step took ten minutes to write and found a company that had been paying for traffic into a broken page for 564 days.</p>
+  <p>That is the pattern worth copying: <strong>use the cheap tool for volume and the precise tool for verification.</strong> The verification step is almost always where the interesting finding is.</p>
+
+  <h2>FAQ</h2>
+  <h3>Which should I use?</h3>
+  <p>Firecrawl for readable content, Apify to rent maintenance on a solved target, Puppeteer for browser control and verification.</p>
+  <h3>When is Puppeteer right?</h3>
+  <p>Login flows, clicking, screenshots, PDFs, and checking what a page actually renders. Half my use is verification, not scraping.</p>
+  <h3>Why is my scraper returning nothing?</h3>
+  <p>Either JavaScript-rendered content you did not wait for, or a block page. Print what you received before debugging selectors.</p>
+  <h3>Is scraping legal?</h3>
+  <p>It depends on what, from where, and for what. Terms, robots directives, rate limits and personal-data rules all apply and vary by jurisdiction. Take advice for anything commercial.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-competitor-research">AI competitor research that produces real answers</a> and <a href="/research/the-false-zero-machine">the false-zero machine</a>.</p>
+</ContentArticle>

@@ -1,0 +1,84 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Can an AI SDR replace a human sales rep?', a: 'Not for the job a good rep actually does. It replaces the mechanical parts — researching accounts, drafting first touches, qualifying inbound, chasing follow-ups on schedule. It does not replace judgement about which accounts are worth pursuing or what to do when a prospect says something unexpected.' },
+  { q: 'What does an AI SDR actually do well?', a: 'Anything that is the same task repeated with discipline and never skipped. Follow-up is the clearest example: humans stop following up long before the data says they should, and an agent simply does not get bored.' },
+  { q: 'What is the biggest risk with an AI SDR?', a: 'Volume without validation. An agent working from bad data will contact the wrong people at scale, and the cost is your sending reputation rather than just a wasted hour. Validate the list before the agent touches it.' },
+  { q: 'What should stay with a human?', a: 'Deciding which accounts matter, handling anything off-script, and every negotiation. Also the final send on high-value accounts — the ones where being slightly wrong is expensive are exactly the ones worth a human minute.' },
+];
+---
+<ContentArticle
+  slug="ai-sdr-vs-hiring-an-sdr"
+  seoTitle="AI SDR vs Hiring an SDR"
+  description="I built a working sales agent. An honest account of what it replaced, what it absolutely did not, and the failure mode that makes an AI SDR worse than no SDR."
+  heading="AI SDR vs"
+  accent="hiring an SDR"
+  lede="I built and shipped a sales agent. It does real work every day. It also cannot do the part of the job that actually makes a good rep valuable, and pretending otherwise gets expensive."
+  idx="09"
+  keywords="AI SDR, sales development, AI sales agent, outbound automation, sales AI, prospecting"
+  faq={faq}
+>
+  <p><strong>An AI SDR replaces the mechanical parts of the role: researching accounts, drafting first touches, qualifying inbound, and following up on schedule without getting bored. It does not replace judgement about which accounts are worth pursuing or what to do when a prospect says something unexpected. The failure mode is volume without validation, and it costs your sending reputation rather than an hour.</strong></p>
+
+  <h2>The split</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>Agent</th><th>Human</th></tr></thead>
+      <tbody>
+        <tr><td>Research an account before contact</td><td><strong>Yes</strong></td><td>Reviews</td></tr>
+        <tr><td>Draft a first touch</td><td><strong>Yes</strong></td><td>Approves</td></tr>
+        <tr><td>Follow up on schedule, forever</td><td><strong>Yes</strong></td><td>&mdash;</td></tr>
+        <tr><td>Answer a routine inbound question</td><td><strong>Yes</strong></td><td>&mdash;</td></tr>
+        <tr><td>Decide which accounts matter</td><td>No</td><td><strong>Yes</strong></td></tr>
+        <tr><td>Handle an unexpected objection</td><td>No</td><td><strong>Yes</strong></td></tr>
+        <tr><td>Negotiate</td><td>No</td><td><strong>Yes</strong></td></tr>
+        <tr><td>Know when to walk away</td><td>No</td><td><strong>Yes</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Where the agent genuinely wins</h2>
+  <p><strong>Follow-up, and it is not close.</strong> Humans stop following up long before the data says they should &mdash; not from laziness but because chasing feels bad and there is always something more pleasant to do. An agent has no feelings about the fifth touch. If you deploy an AI SDR and change nothing else, this is where the return comes from.</p>
+  <p><strong>Research that would otherwise be skipped.</strong> Reading a prospect&rsquo;s site properly before writing takes a few minutes, so at volume it silently stops happening and every email becomes generic. An agent does it every time, which raises the floor even if it never raises the ceiling.</p>
+  <p><strong>Consistency of process.</strong> Every lead gets the same sequence, logged the same way. That is boring and it is exactly what breaks down first in a human-run process.</p>
+
+  <h2>Where it fails</h2>
+  <p><strong>It cannot tell you which accounts are worth it.</strong> Given a list, it works the list. Given a bad list, it works the bad list enthusiastically. The judgement about who to pursue sits before the agent, and it is most of the value in outbound.</p>
+  <p><strong>Anything off-script.</strong> The moment a prospect says something the sequence did not anticipate &mdash; a reorganisation, a competitor, a budget freeze, an actual question &mdash; you want a person. An agent will produce a fluent, confident, contextually wrong reply, which is worse than a slow human one.</p>
+  <p><strong>It has no shame.</strong> A human rep senses when they are becoming annoying. An agent will keep the cadence exactly as configured. Design the stopping rules deliberately, because nothing else will.</p>
+
+  <h2>The failure that makes it worse than nothing</h2>
+  <p>Volume without validation, and I have measured the cost of the input side of this.</p>
+  <p>Building an enrichment pipeline, roughly <strong>44% of the contacts I got back were attached to the wrong employer</strong> &mdash; real people, real titles, wrong company. They looked exactly like the good records. If an agent had sent to that list, it would have contacted two hundred people with a message referencing a company they do not work for, at machine speed.</p>
+  <p>The damage is not a wasted send. It is spam complaints against your sending domain, and that is slow and expensive to repair. <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">The full measurement is here</a>, and <a href="/guides/ai-lead-enrichment">the validation rule that fixes it is here</a>.</p>
+  <p>The principle generalises: <strong>an agent multiplies whatever you feed it, including the errors.</strong> A human working a bad list notices by row twenty. An agent does not notice at all.</p>
+
+  <h2>The economics, honestly</h2>
+  <p>The comparison people want is salary versus subscription, and it is the wrong frame.</p>
+  <p>A junior rep costs a salary and produces activity plus judgement plus someone who gets better every month and can be promoted. An agent costs less, produces activity and consistency, and does not improve on its own &mdash; it improves when you improve it.</p>
+  <p>The realistic setup is not either. It is <strong>one person plus an agent doing the work of a small team</strong>: the human decides targets and handles anything alive, the agent does research, drafting, and follow-up. That is what I run.</p>
+
+  <h2>How to build one responsibly</h2>
+  <ol>
+    <li><strong>Validate the list before the agent sees it.</strong> Non-negotiable. This is the difference between leverage and damage.</li>
+    <li><strong>Give it a small number of well-described tools</strong> rather than broad freedom. Most bad agent behaviour is a tool-description problem.</li>
+    <li><strong>Put a human approval step on the first touch</strong> until you trust the output, and keep it permanently on high-value accounts.</li>
+    <li><strong>Write explicit stopping rules.</strong> When to stop chasing, when to hand off, when to mark dead.</li>
+    <li><strong>Return errors as data.</strong> An agent that receives &ldquo;no results, try a broader query&rdquo; recovers; one that receives a stack trace improvises.</li>
+    <li><strong>Log what it did as itself.</strong> When something goes wrong you need to know what the agent actually sent, not what you think it was configured to send.</li>
+  </ol>
+
+  <h2>FAQ</h2>
+  <h3>Can an AI SDR replace a human rep?</h3>
+  <p>Not the part that makes a good rep valuable. It replaces research, drafting, qualification, and follow-up &mdash; not judgement.</p>
+  <h3>What does it do best?</h3>
+  <p>Follow-up. Humans stop long before the data says they should; an agent does not get bored.</p>
+  <h3>What is the biggest risk?</h3>
+  <p>Volume without validation. A bad list gets worked at machine speed, and the cost is your sending reputation.</p>
+  <h3>What stays human?</h3>
+  <p>Target selection, anything off-script, negotiation, and the final send on high-value accounts.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/ai-lead-enrichment">AI lead enrichment that survives reality</a> and <a href="/services/ai-agent-development">how I build AI agents</a>.</p>
+</ContentArticle>

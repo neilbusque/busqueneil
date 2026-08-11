@@ -1,0 +1,83 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Which model is better for coding?', a: 'They are close enough that the workflow around them matters more than the model. In daily use against real repositories the differences show up in temperament rather than capability: one tends to be more thorough and cautious on large refactors, the other more decisive on well-specified single tasks. Run both if you can.' },
+  { q: 'Does model choice matter more than the harness?', a: 'No. The tooling — how much of the codebase it can see, whether it can run tests, whether it can read the failure and try again — changes output quality far more than swapping one frontier model for another.' },
+  { q: 'What do both models get wrong?', a: 'Confident code that is subtly wrong: a package that does not exist, a permission rule that exposes the wrong data, a layout that breaks on a phone. All of it reads as correct. That is why the review layer matters more than the generation layer.' },
+  { q: 'Should I pay for both?', a: 'If coding is your job, probably yes, and route by task rather than loyalty. If you are picking one, pick the one whose harness fits how you work — that decision has a bigger effect on your output than the underlying model.' },
+];
+---
+<ContentArticle
+  slug="claude-vs-gpt-for-coding"
+  seoTitle="Claude vs GPT for Coding"
+  description="Both run daily against real production repositories here. Where each is stronger, why the harness matters more than the model, and the failure mode they share."
+  heading="Claude vs GPT"
+  accent="for coding"
+  lede="I run both every day against real repositories that real people use. The honest answer is less exciting than the benchmark posts, and more useful."
+  idx="06"
+  keywords="Claude vs GPT coding, AI coding assistant, LLM code generation, developer tools, AI pair programming"
+  faq={faq}
+>
+  <p><strong>At the frontier these models are close enough that the harness around them matters more than the choice between them. How much of the codebase the tool can see, whether it can run the tests, and whether it can read a failure and try again changes output quality far more than swapping one model for the other. Both share the same dangerous failure: confident code that is subtly wrong.</strong></p>
+
+  <h2>What I actually notice</h2>
+  <p>Being careful here, because this is the section where people overclaim. These are tendencies I observe in daily use, not benchmark results, and they shift with each release.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task shape</th><th>Tendency</th></tr></thead>
+      <tbody>
+        <tr><td>Large multi-file refactor</td><td>Thoroughness and willingness to read more context wins</td></tr>
+        <tr><td>Well-specified single function</td><td>Decisiveness wins; extra caution is just latency</td></tr>
+        <tr><td>Debugging from a stack trace</td><td>Whichever can actually run the code, regardless of model</td></tr>
+        <tr><td>Unfamiliar library</td><td>Both hallucinate; both improve enormously with docs in context</td></tr>
+        <tr><td>Writing tests</td><td>Both good, and both write tests that pass rather than tests that check</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>That last row is worth dwelling on. Ask either model for tests and you frequently get tests shaped around the implementation it just wrote, which means they pass and prove nothing. Specify the behaviour you want verified, not &ldquo;write tests for this.&rdquo;</p>
+
+  <h2>Why the harness dominates</h2>
+  <p>The single biggest quality jump I have had did not come from changing models. It came from giving the model the ability to run the test suite and iterate on the failure.</p>
+  <p>A model that writes code and stops is guessing. A model that writes code, runs it, reads the error, and fixes it is doing something categorically different. That loop is a property of the tool, not the model, and it is worth more than any benchmark difference between frontier models.</p>
+  <p>The same applies to context. A model that can read the surrounding files writes code that matches your conventions. A model working from a pasted snippet writes generic code that then needs rewriting to fit.</p>
+  <p>So if you are choosing, the useful question is not &ldquo;which model is smarter.&rdquo; It is <strong>which tool lets the model see the most and verify the most.</strong></p>
+
+  <h2>The failure they share</h2>
+  <p>Both produce code that looks right and is wrong, and the specific ways are consistent enough to check for deliberately:</p>
+  <ul>
+    <li><strong>Packages that do not exist</strong>, imported confidently with plausible names.</li>
+    <li><strong>Permission rules that expose the wrong data.</strong> This is the expensive one. Access-control logic reads as correct far more easily than it is correct.</li>
+    <li><strong>Layouts that break on a phone</strong>, because nothing in the loop looked at a phone.</li>
+    <li><strong>Tests that assert the implementation</strong> rather than the requirement.</li>
+    <li><strong>Silent fallbacks.</strong> Code that catches an error and continues with a default, so the failure never surfaces until the data is wrong.</li>
+  </ul>
+  <p>None of these announce themselves. They pass review by a tired human because they are syntactically clean and read as reasonable. I wrote up six real examples that shipped past every check in <a href="/guides/why-hire-a-person-when-ai-can-build-it">why you still need a person when AI does the building</a>.</p>
+
+  <h2>What I do in practice</h2>
+  <ol>
+    <li><strong>Route by task, not loyalty.</strong> Big cautious refactor versus fast well-specified change are different jobs.</li>
+    <li><strong>Give it the tests.</strong> The loop matters more than the model.</li>
+    <li><strong>Review permissions by hand, always.</strong> No exceptions. This is the category where a mistake is a breach rather than a bug.</li>
+    <li><strong>Ask for the plan before the code</strong> on anything non-trivial. It is much cheaper to correct an approach than a diff.</li>
+    <li><strong>Never accept a test suite you did not specify the behaviour for.</strong></li>
+    <li><strong>Check that a failure can actually fail.</strong> Break something deliberately and confirm the test goes red.</li>
+  </ol>
+
+  <h2>The honest summary</h2>
+  <p>If you want a winner declared, I cannot give you one that will still be true next quarter. Both are excellent, both are wrong in the same ways, and the gap between them is smaller than the gap between using either well and using either badly.</p>
+  <p>What I would actually spend my attention on: the review layer. The first 80% of a build got dramatically cheaper with these tools and the last 20% did not, and no model choice changes that.</p>
+
+  <h2>FAQ</h2>
+  <h3>Which model is better for coding?</h3>
+  <p>Close enough that workflow matters more. Differences show as temperament — thoroughness on big refactors versus decisiveness on well-specified tasks.</p>
+  <h3>Does the harness matter more than the model?</h3>
+  <p>Yes. Codebase visibility and the ability to run tests and iterate change output quality more than swapping frontier models.</p>
+  <h3>What do both get wrong?</h3>
+  <p>Confident, subtly wrong code: non-existent packages, permission rules that expose the wrong data, tests that assert the implementation.</p>
+  <h3>Should I pay for both?</h3>
+  <p>If coding is your job, probably, and route by task. If picking one, pick the harness that fits how you work.</p>
+
+  <p style="margin-top: 2rem;">Related: <a href="/guides/why-hire-a-person-when-ai-can-build-it">six defects AI shipped that passed every check</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship a web app in days</a>.</p>
+</ContentArticle>
