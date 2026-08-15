@@ -1,0 +1,69 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is Gmail a web application?', a: 'Yes, and it is probably the one that taught the world what a web app is. It runs in a browser, knows who you are, stores your data, and performs actions with consequences. If someone asks what a web application is, "Gmail, but for your problem" is often the fastest honest answer.' },
+  { q: 'What is the difference between a web app and a website?', a: 'A website publishes the same content to everyone. A web application has accounts, stores data, and changes state when users act. Most real projects pair one of each: a public site that explains and ranks, and an application behind a login that does the work. I keep a full comparison at web application vs website.' },
+  { q: 'What web apps do small businesses actually need?', a: 'The same three shapes, over and over: a client portal so customers stop emailing for updates, an internal dashboard that replaces the Monday spreadsheet ritual, and a CRM shaped like the actual sales process. Almost every request I get is one of those wearing different clothes.' },
+  { q: 'Do web apps work on phones?', a: 'Yes. A well-built web app is responsive by default and can be installed to the home screen as a PWA, with push notifications where they are supported. Several of the apps I run daily, including a couples app my wife and I use, live on phones without ever touching an app store.' },
+];
+---
+<ContentArticle
+  slug="web-application-examples"
+  seoTitle="12 Web Application Examples (6 Famous, 6 I Built)"
+  description="Twelve real web application examples: six famous apps grouped by the pattern they demonstrate, and six I built and shipped myself, from a multi-tenant CRM to cookieless analytics."
+  heading="Web application examples,"
+  accent="12 real ones"
+  lede="Most example lists name the same five giants and stop. Here are those, plus six web apps I built myself, with what each pattern looks like from the inside."
+  idx="27"
+  keywords="web application examples, web app examples, examples of web applications, types of web apps"
+  faq={faq}
+>
+  <p><strong>A web application is software that runs in the browser, knows who you are, and changes state when you act. The six famous examples below each demonstrate a pattern the industry copies. The six after them I built and shipped myself, which means I can tell you what each pattern costs and where it bites.</strong></p>
+
+  <h2>Six famous examples, by pattern</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>App</th><th>Pattern it demonstrates</th><th>What to notice</th></tr></thead>
+      <tbody>
+        <tr><td>Gmail</td><td>The app-in-a-browser</td><td>Proved a browser tab could replace installed software for something as constant as email</td></tr>
+        <tr><td>Google Docs</td><td>Realtime collaboration</td><td>Two cursors in one document. Sync is the product, not a feature</td></tr>
+        <tr><td>Figma</td><td>Heavy tooling in a tab</td><td>A full design suite in the browser, where "install nothing" beat a desktop incumbent</td></tr>
+        <tr><td>Notion</td><td>The flexible workspace</td><td>One data model (blocks) wearing a hundred faces: docs, tables, wikis, kanban</td></tr>
+        <tr><td>Trello</td><td>One metaphor, done well</td><td>Cards on boards. Scope discipline as a product strategy</td></tr>
+        <tr><td>Shopify admin</td><td>The operational backend</td><td>The public store is a website. The admin running it is the application</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Notice what all six share: accounts, stored data, and actions with consequences. That is the working definition, and I unpack it properly in <a href="/compare/web-application-vs-website">web application vs website</a>.</p>
+
+  <h2>Six I built and shipped</h2>
+  <p>These are live products, not mockups. Three have public case studies you can read.</p>
+
+  <h3>1. Orbit, a multi-tenant CRM</h3>
+  <p>Pipelines, contacts, tasks, billing, a page builder, and AI agents that act on records. The pattern is the classic business web app: many companies on one codebase, each seeing only its own data. Multi-tenancy is also the single hardest thing to retrofit, which is why it has to be a day-one decision. <a href="/case-studies/orbit">Case study here</a>.</p>
+
+  <h3>2. Tandem, a couples app</h3>
+  <p>Realtime sync, shared lists, video, and games for two people in different time zones. I built it for my own long-distance marriage, which made my wife the QA department. The pattern is the realtime app, the same family as Google Docs: the hard part is not the features, it is keeping two clients agreeing about state. <a href="/case-studies/tandem">Case study here</a>.</p>
+
+  <h3>3. Portal, a client-facing surface</h3>
+  <p>Files, progress, updates, and approvals in one logged-in place, plus a browser extension for pinning feedback onto a live page. The pattern is the client portal, the most requested web app in small-business work, because it replaces the "any update?" email. <a href="/case-studies/lumen-portal">Case study here</a>.</p>
+
+  <h3>4. Sonar, cookieless analytics</h3>
+  <p>A tracking script, an ingestion endpoint, and a dashboard answering "how is my traffic" across roughly 20 sites without cookies. The pattern is the data pipeline app: the UI is the easy half, and the write path that must never lose an event is the real build.</p>
+
+  <h3>5. Almanac, a trends dashboard</h3>
+  <p>Aggregates trend data into a browsable, searchable dashboard with audio summaries. The pattern is the read-heavy dashboard: ingest on a schedule, cache aggressively, and make the reading experience fast enough that people come back.</p>
+
+  <h3>6. Perch, an SEO rank tracker</h3>
+  <p>Tracks keyword rankings, runs site audits, and prices every recommendation with live search data. I built it because I wanted the tool, and this article exists partly because Perch's keyword data said it should. The pattern is the API-orchestration app: most of the product is talking to other services well, with caching and cost control doing the quiet work.</p>
+
+  <h2>What the examples add up to</h2>
+  <ul>
+    <li><strong>Every business web app is one of a few shapes.</strong> Portal, dashboard, CRM, pipeline, tracker. Vendors dress them up, but the underlying patterns repeat, which is why an experienced builder can scope them quickly.</li>
+    <li><strong>The visible screen is the small half.</strong> Across all six of mine, the auth, permissions, data model, and admin surfaces outweighed the pages users praise. Budget accordingly, and my <a href="/guides/web-app-development-cost">cost breakdown</a> shows exactly where that money goes.</li>
+    <li><strong>Browser-first keeps getting stronger.</strong> Everything above ships to every device instantly, with no app store between you and your users. For most business software the web is not the compromise option, it is the correct one.</li>
+  </ul>
+  <p>More of my shipped work, including the client builds, is on <a href="/work">the work page</a>. If one of these patterns looks like your problem, <a href="/services/web-apps">custom web app development</a> explains how a build with me runs, or just <a href="/contact">describe the workflow you want to kill</a>.</p>
+</ContentArticle>

@@ -932,9 +932,9 @@ const solutions: SoftwarePage[] = [
   {
     slug: 'workflow-automation-services',
     cat: 'solution',
-    title: 'Workflow Automation for Small Business | Neil Busque',
+    title: 'Workflow Automation Services | Neil Busque',
     metaDescription:
-      'Workflow automation that kills copy-paste: connect your tools, automate the busywork, and get reports that send themselves. $4,000/month.',
+      'Workflow automation services that kill copy-paste: connect your tools, automate the busywork, and get reports that send themselves. $4,000/month.',
     eyebrow: 'Software · Automation',
     h1: '**Workflow automation** that kills the copy-paste.',
     lede: 'Somewhere in your office, a person is re-typing data from one tool into another, every week, forever. That job should belong to software.',

@@ -1,0 +1,69 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'How much does a simple web app cost?', a: 'From a US agency, published ranges for a small scoped first version typically start around $15,000 to $30,000. A solo developer or small studio often lands between $8,000 and $25,000 for the same scope. My own model is $4,000 a month with the first working system usually live inside two weeks, so a simple app costs one month.' },
+  { q: 'Why do agencies not publish prices?', a: 'Because the market lets them. When I analyzed 30 custom software companies running paid ads, only 3 published a price anywhere. Unpriced quotes can flex to the buyer, which is good for the seller and bad for you. Treat "book a call for pricing" as a signal to ask harder questions.' },
+  { q: 'Does a web app cost more than a mobile app?', a: 'Usually less. A web app ships to every device through the browser, so you build and maintain one codebase. Native mobile often means two codebases, two app store review processes, and a slower release cycle. Most small businesses that ask me for a mobile app actually need a web app that works well on a phone.' },
+  { q: 'How has AI changed web app development cost?', a: 'It lowered the floor a lot and the ceiling a little. Prototypes that took weeks now take days, which is why AI-assisted builders can charge a fraction of the old quotes. But production concerns like auth, permissions, backups, and integrations still take experience, which is why the tools alone rarely get a business all the way there.' },
+  { q: 'What does a monthly subscription model include?', a: 'In my case, one builder working your queue: a first system usually live inside two weeks, then continuous shipping, fixes, and changes for as long as you keep the seat. You own the code and every account from day one, and you can cancel anytime. The point of the model is that software is never really finished.' },
+];
+---
+<ContentArticle
+  slug="web-app-development-cost"
+  seoTitle="Web App Development Cost in 2026: Real Numbers"
+  description="What a web app costs in 2026 from agencies, freelancers, and AI-assisted builders, the six things that actually move the number, and why 27 of 30 companies I studied hide their price."
+  heading="What a web app costs"
+  accent="in 2026"
+  lede="I price builds for a living and I studied 30 competitors' ads to see how they price theirs. Here are the real ranges, and the reason you can rarely find one published."
+  idx="26"
+  keywords="web app development cost, app development cost, custom web app pricing, how much does a web app cost"
+  faq={faq}
+>
+  <p><strong>A custom web app in 2026 typically runs $15,000 to $150,000+ from a US agency, $8,000 to $50,000 from a freelancer or small studio, and a fraction of that from an AI-assisted builder. The spread is not random. It comes down to six scope decisions, and to a market where almost nobody publishes a price.</strong></p>
+
+  <h2>The short answer, by route</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Route</th><th>Typical cost</th><th>Timeline to v1</th><th>Where it fits</th></tr></thead>
+      <tbody>
+        <tr><td>US agency</td><td>$15,000&ndash;$150,000+ per project</td><td>2&ndash;6 months</td><td>Large scope, compliance needs, or when you need a team's worth of throughput</td></tr>
+        <tr><td>Freelancer / small studio</td><td>$8,000&ndash;$50,000 per project</td><td>1&ndash;3 months</td><td>Well-defined scope with one clear owner on your side</td></tr>
+        <tr><td>Offshore team</td><td>$5,000&ndash;$40,000 per project</td><td>2&ndash;4 months</td><td>Price-sensitive builds where you can manage the communication overhead yourself</td></tr>
+        <tr><td>DIY with AI app builders</td><td>$0&ndash;$200 per month in tools</td><td>Days for a demo</td><td>Prototypes and internal experiments. Production is where it gets hard</td></tr>
+        <tr><td>AI-assisted builder (my model)</td><td>$4,000 per month, cancel anytime</td><td>First system usually inside 2 weeks</td><td>Small teams that want production software plus someone who keeps shipping</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The agency and freelancer figures are the ranges these firms publish when they publish anything at all, and they match the quotes my clients showed me before they landed here. The last row is my own price, live on <a href="https://offer.busqueneil.com">the offer page</a>. If you are comparing custom against off-the-shelf software instead, that decision has <a href="/software/custom-software-vs-off-the-shelf">its own write-up</a>.</p>
+
+  <h2>The six things that actually move the number</h2>
+  <p>Two apps that sound identical in a sales call can differ by 10x in cost. These are the decisions doing the moving:</p>
+  <ul>
+    <li><strong>Who logs in.</strong> A tool for your team is one thing. Customer logins mean password resets, roles, permissions, and a security surface you cannot get wrong. Multi-tenant, where each client company sees only its own data, is the step after that, and it is the single biggest scope multiplier I see.</li>
+    <li><strong>Integrations.</strong> Every external system the app must talk to (your CRM, QuickBooks, Stripe, a calendar, a phone system) adds a connection that has to survive that vendor's API changes forever.</li>
+    <li><strong>How much of the app is admin.</strong> The screen your customers see is often a third of the build. The tables, filters, exports, and settings your own team needs to run it are the quiet majority.</li>
+    <li><strong>Data migration.</strong> If years of spreadsheets or a legacy system have to come along, cleaning and importing that data can rival the app itself.</li>
+    <li><strong>Polish.</strong> A tool that is merely functional and a product that feels good to use are different budgets. Internal tools can lean functional. Anything customers touch cannot.</li>
+    <li><strong>Who maintains it.</strong> The quote is never the whole cost. APIs change, dependencies break, your process shifts. Ask every vendor what month 13 costs, because the answer is never zero.</li>
+  </ul>
+
+  <h2>Why you cannot find a price anywhere</h2>
+  <p>While researching my own market I pulled <a href="/research/866-custom-software-ads">866 ads from 30 custom software companies</a> that sell to US businesses. <a href="/research/only-3-of-30-publish-a-price">Only 3 of the 30 publish a price</a>. The other 27 route you to a sales call first.</p>
+  <p>The generous reading is that custom work is genuinely variable, and it is. The less generous reading is that an unpublished price can be shaped to whatever the call reveals about your budget. Both are true at once. Either way, the practical advice is the same: get any quote decomposed against the six drivers above, and be suspicious of a number that arrives before the questions do.</p>
+
+  <h2>What AI actually changed</h2>
+  <p>Tools like Lovable, Replit, and Bolt collapsed the cost of a working demo to almost nothing, and for prototypes they are genuinely good. I compared them head to head in <a href="/compare/lovable-vs-replit-vs-bolt">Lovable vs Replit vs Bolt</a> after using all three.</p>
+  <p>What they did not collapse is the cost of production: real auth, permissions that hold up, backups, integrations that survive an API change, and someone who answers when a dependency breaks at a bad time. The most interesting evidence for this is in my competitors' own ads. One company built <a href="/research/the-vibe-coding-wall">80 ad variants around a single message</a>: you already tried building it with AI, and you hit a wall. They would not spend that budget on a pain that does not exist.</p>
+  <p>So AI moved the floor, not the ceiling. It is also why my own price can sit where it does. I build with these tools every day, with the review layer that production requires, and the saved time is priced into the seat.</p>
+
+  <h2>How I would budget it</h2>
+  <ol>
+    <li><strong>Write the one-sentence job.</strong> "Our project managers re-type job data into three systems" beats a feature list. Cost follows the problem, not the wishlist.</li>
+    <li><strong>Scope a v1 that earns its keep in a month.</strong> The first version should replace one painful workflow end to end. Everything else is a later version, and half of it turns out unnecessary once real usage starts.</li>
+    <li><strong>Budget for month 13 on day one.</strong> Whatever route you pick, get the maintenance answer in writing before you start, not after the first thing breaks.</li>
+    <li><strong>Keep ownership.</strong> The repo, the database, and every account should be in your name whoever builds it. If a vendor resists that, the real price is higher than the quote.</li>
+  </ol>
+  <p>If you want the number for your specific app, the fastest path is to <a href="/contact">tell me what it needs to do</a>. My <a href="/services/web-apps">custom web app development</a> page covers what I build and how the process runs, and if you are still deciding what kind of thing you need, start with <a href="/compare/web-application-vs-website">web application vs website</a>.</p>
+</ContentArticle>

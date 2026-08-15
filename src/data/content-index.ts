@@ -66,6 +66,9 @@ export const CONTENT: ContentEntry[] = [
   { slug: 'shopify-vs-custom-ecommerce', cluster: 'compare', title: 'Shopify vs Custom Ecommerce', label: 'ECOMMERCE', blurb: 'Client builds on both. The revenue point where custom starts to pay for itself.', target: 'shopify vs custom store', published: '2026-08-11', modified: '2026-08-11', live: true },
   { slug: 'wordpress-vs-astro', cluster: 'compare', title: 'WordPress vs Astro', label: 'WEBSITES', blurb: 'I have migrated sites off WordPress. What you gain, what you give up, who should not move.', target: 'wordpress vs astro', published: '2026-08-11', modified: '2026-08-11', live: true },
   { slug: 'n8n-vs-make-deep-dive', cluster: 'compare', title: 'n8n vs Make: The Deep Cut', label: 'AUTOMATION', blurb: 'Past the feature table, into error handling, versioning, and what breaks at scale.', target: 'n8n vs make', published: '2026-08-11', modified: '2026-08-11', live: true },
+  /* Web-app buyer cluster (added 2026-08-15): low-difficulty terms behind the web-apps
+     service page, picked from live DataForSEO data (KD 2-3). */
+  { slug: 'web-application-vs-website', cluster: 'compare', title: 'Web Application vs Website', label: 'BASICS', blurb: 'I build both. The real difference, the gray zone in between, and which one your project actually needs.', target: 'web application vs website', published: '2026-08-15', modified: '2026-08-15', live: true },
 
   /* ---------------- Lane 2 — AI × marketing (16) ---------------- */
   { slug: 'ai-for-seo', cluster: 'guides', title: 'How to Use AI for SEO', label: 'AI SEO', blurb: 'What held up when I built 58 pages with AI, and the three places it produced work I had to throw away.', target: 'how to use ai for seo', published: '2026-08-11', modified: '2026-08-11', live: true },
@@ -94,6 +97,9 @@ export const CONTENT: ContentEntry[] = [
   { slug: 'measure-ai-impact-on-marketing', cluster: 'guides', title: 'How to Measure AI’s Impact on Marketing', label: 'ANALYTICS', blurb: 'Attribution that survives a cookieless setup, and the vanity metrics to drop.', target: 'measure ai marketing roi', published: '2026-08-11', modified: '2026-08-11', live: true },
   { slug: 'ai-marketing-stack-small-team', cluster: 'guides', title: 'An AI Marketing Stack for a Small Team', label: 'STACK', blurb: 'The actual tools I run, what each replaced, and what I pay.', target: 'ai marketing stack', published: '2026-08-11', modified: '2026-08-11', live: true },
   { slug: 'prompt-engineering-for-marketers', cluster: 'guides', title: 'Prompt Engineering for Marketers', label: 'PROMPTING', blurb: 'The handful of patterns that carry production work. No prompt library required.', target: 'prompt engineering marketing', published: '2026-08-11', modified: '2026-08-11', live: true },
+  /* Web-app buyer cluster (added 2026-08-15): guides feeding /services/web-apps. */
+  { slug: 'web-app-development-cost', cluster: 'guides', title: 'Web App Development Cost in 2026', label: 'COST', blurb: 'Real ranges for agencies, freelancers, and AI-assisted builds, what moves the number, and why almost nobody publishes theirs.', target: 'web app development cost', published: '2026-08-15', modified: '2026-08-15', live: true },
+  { slug: 'web-application-examples', cluster: 'guides', title: 'Web Application Examples: 12 Real Apps', label: 'EXAMPLES', blurb: 'Famous web apps grouped by pattern, plus six I built and shipped myself, with what each one teaches.', target: 'web application examples', published: '2026-08-15', modified: '2026-08-15', live: true },
 
   /* ---------------- Lane 3 — original research (12) ---------------- */
   {

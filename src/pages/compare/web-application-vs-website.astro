@@ -1,0 +1,65 @@
+---
+import ContentArticle from '../../layouts/ContentArticle.astro';
+export const prerender = true;
+
+const faq = [
+  { q: 'Is a web application a website?', a: 'Technically yes, in the sense that both live at a URL and load in a browser. The useful distinction is what happens after the page loads. A website publishes the same content to everyone. A web application changes based on who you are and what you do: it has accounts, stored data, and actions with consequences.' },
+  { q: 'Can a website become a web app later?', a: 'Yes, and it is a common path. Plenty of businesses start with a marketing site, then add a login area for clients, and grow that into a portal. The mistake is building the app parts speculatively before anyone asks for them. Start with the site, add application features when a real workflow demands them.' },
+  { q: 'Which costs more, a website or a web app?', a: 'A web app, usually by a wide margin. A website is mostly design and content. A web app adds accounts, a database, permissions, and ongoing maintenance, because software with users breaks in ways a brochure cannot. My cost guide has real ranges for both routes.' },
+  { q: 'Which is better for SEO?', a: 'The website, almost by definition. Search engines index public pages, and most of a web app lives behind a login where crawlers cannot go. The usual pattern is both: a public site that ranks and explains, and an application behind it that does the work. This very site is the public half of that pattern.' },
+];
+---
+<ContentArticle
+  slug="web-application-vs-website"
+  seoTitle="Web Application vs Website: The Real Difference"
+  description="The practical difference between a web application and a website, the gray zone most real projects live in, and how to tell which one your business actually needs."
+  heading="Web application"
+  accent="vs website"
+  lede="I build both for a living. The distinction is simpler than the industry makes it, and picking wrong costs real money in both directions."
+  idx="22"
+  keywords="web application vs website, difference between web app and website, web app or website"
+  faq={faq}
+>
+  <p><strong>A website publishes. A web application does. A website shows the same pages to everyone who visits, and its job is to inform or persuade. A web application knows who you are, stores what you do, and changes state when you act: it has logins, data, and consequences. Most real projects need one of each, in that order.</strong></p>
+
+  <h2>The difference in one table</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Dimension</th><th>Website</th><th>Web application</th></tr></thead>
+      <tbody>
+        <tr><td>Job</td><td>Inform, persuade, rank</td><td>Run a workflow, store and change data</td></tr>
+        <tr><td>Visitors</td><td>Anonymous, all see the same thing</td><td>Logged in, each sees their own data</td></tr>
+        <tr><td>State</td><td>None. Reading it changes nothing</td><td>Everything. Actions create, edit, and delete records</td></tr>
+        <tr><td>Examples</td><td>A marketing site, a blog, a restaurant's menu page</td><td>Gmail, a CRM, a client portal, online banking</td></tr>
+        <tr><td>Search visibility</td><td>Its main channel</td><td>Mostly invisible, lives behind a login</td></tr>
+        <tr><td>Typical cost</td><td>Lower, mostly design and content</td><td>Higher, plus permanent maintenance</td></tr>
+        <tr><td>When it breaks</td><td>Embarrassing</td><td>Operational. Work stops until it is fixed</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>What makes something a web application</h2>
+  <p>Three tests, and they are enough for almost every case:</p>
+  <ul>
+    <li><strong>Accounts.</strong> If different people see different things after logging in, it is an application. Identity is the line where a site starts needing security, sessions, and password resets.</li>
+    <li><strong>Stored actions.</strong> If a user can create or change something that is still there tomorrow (a record, an order, a message), the thing has a database and is an application.</li>
+    <li><strong>Consequences.</strong> If clicking a button moves money, books a slot, assigns a task, or sends an email on your behalf, the software is doing work, not just displaying it.</li>
+  </ul>
+  <p>A page that fails all three is a website, no matter how animated it is. A spreadsheet with logins that passes all three is an application, no matter how plain it looks.</p>
+
+  <h2>The gray zone, where most real things live</h2>
+  <p>The clean split above dissolves fast in practice. An ecommerce store is a website until the cart, and an application from there on. A marketing site with a newsletter form is 99% website with a single application feature. A client portal is an application wearing a website's clothes.</p>
+  <p>Concretely, from my own work: this site is a website. It is built with Astro, its pages are public, and its job is to explain and rank. <a href="/case-studies/orbit">Orbit</a>, the CRM I built, is a web application. It has multi-tenant accounts, pipelines, billing, and AI agents acting on records. The two share a browser and nothing else. The same pattern repeats across <a href="/guides/web-application-examples">every example I have shipped</a>: a public half that publishes and a private half that works.</p>
+
+  <h2>Which one you actually need</h2>
+  <p>The honest answer for most businesses is: a website first, and a web application only when a specific workflow demands one.</p>
+  <ul>
+    <li><strong>You need a website</strong> if the problem is "people cannot find us" or "our online presence embarrasses us". Building an app will not fix either, and an app you did not need is the most expensive kind. That work lives on my <a href="/services/websites">websites page</a>.</li>
+    <li><strong>You need a web application</strong> if the problem is operational: your team re-types data between tools, clients email you for updates a portal could show them, or the business runs on a spreadsheet that has outgrown itself. That is <a href="/services/web-apps">custom web app development</a>.</li>
+    <li><strong>You need both</strong> if you are launching a product. The application is the product, and the website is how anyone finds out it exists.</li>
+  </ul>
+
+  <h2>The cost difference, briefly</h2>
+  <p>A website is a bounded project. A web application is an ongoing responsibility, because software with users and data has to be maintained for as long as it runs. That difference matters more than the initial quote, and it is why the two are priced so differently. I broke down the real numbers for both routes in <a href="/guides/web-app-development-cost">what a web app costs in 2026</a>.</p>
+  <p>If you are not sure which side of the line your project falls on, <a href="/contact">describe the problem to me</a> and I will tell you straight, including when the answer is "you just need a website" or <a href="/software/build-vs-buy-software-checklist">"you should buy something off the shelf"</a>.</p>
+</ContentArticle>

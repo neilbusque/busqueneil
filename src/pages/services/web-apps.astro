@@ -5,11 +5,15 @@ import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
 
 export const prerender = true;
 
-const title = 'Web App Development for Small Teams | Neil Busque';
-const description = 'Custom dashboards, client portals, CRMs, and internal tools built by one person. See real shipped apps, then tell Neil Busque what your team needs.';
+const title = 'Custom Web App Development Services | Neil Busque';
+const description = 'Custom web app development for small teams: dashboards, client portals, and CRMs built by one person at a published price. See real shipped apps, then tell Neil Busque what your team needs.';
 const canonical = 'https://busqueneil.com/services/web-apps';
 
 const FAQ = [
+  {
+    q: 'How much does custom web app development cost?',
+    a: 'With me, $4,000 a month for a builder seat, with the first working system usually live inside two weeks, and you own the code and accounts from day one. Agency quotes for the same scope commonly start around $30,000 per project. I keep a full cost breakdown, with ranges for agencies, freelancers, and AI-assisted builds, in my web app cost guide.',
+  },
   {
     q: 'How long does a custom web app take to build?',
     a: 'A working first version usually takes two to four weeks. That is a real app with logins, a database, and the core workflow, not a clickable prototype. Bigger systems keep growing after that, but you have something usable in weeks rather than waiting a quarter to see anything.',
@@ -40,7 +44,7 @@ const service = {
   isPartOf: WEBSITE_REF,
   mainEntityOfPage: { '@id': `${canonical}#webpage` },
   areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
-  serviceType: ['Web app development', 'Dashboard development', 'Client portal development', 'Internal tools', 'CRM development'],
+  serviceType: ['Custom web app development', 'Web application development services', 'Dashboard development', 'Client portal development', 'Internal tools', 'CRM development'],
   description,
 };
 const faqSchema = {
@@ -64,7 +68,7 @@ const faqSchema = {
 
   <header class="page-head">
     <p class="eyebrow"><span class="idx">01</span> Services &#183; Web Apps</p>
-    <h1>Web app <span class="accent">development</span>.</h1>
+    <h1>Custom web app <span class="accent">development</span>.</h1>
     <p class="lede">Dashboards, client portals, CRMs, and the internal tools that replace a spreadsheet nobody trusts anymore. Built by one person, shipped in weeks, and yours at the end.</p>
   </header>
 
@@ -101,8 +105,12 @@ const faqSchema = {
         <li><strong>Launch and hand over.</strong> Repo, accounts, and documentation are yours. Keep me on to run it or take it in-house.</li>
       </ol>
 
-      <h2>Why one person instead of an agency</h2>
-      <p>Software needs maintenance. An API changes, a dependency breaks, your process shifts. When that happens you message the person who built it, and they already have the whole thing in their head. There is no relay through an account manager to a developer who has never seen your codebase.</p>
+      <h2>What it costs</h2>
+      <p>Most firms selling web application development services make you book a call to hear a number. In my own research on 30 competitors running custom software ads, <a href="/research/866-custom-software-ads">only 3 published a price</a>. Here is mine: $4,000 a month for a builder seat, first working system usually live inside two weeks, cancel anytime, and you keep everything. The full terms are on <a href="https://offer.busqueneil.com">the offer page</a>.</p>
+      <p>If you are still budgeting, I wrote up <a href="/guides/web-app-development-cost">what web apps actually cost in 2026</a> across agencies, freelancers, and AI-assisted builds, with the ranges and what moves them.</p>
+
+      <h2>Why one person instead of a company</h2>
+      <p>Searching for a custom web app development company usually returns agencies with account managers, project managers, and a developer you never meet. Software needs maintenance. An API changes, a dependency breaks, your process shifts. When that happens here, you message the person who built it, and they already have the whole thing in their head.</p>
       <p>The tradeoff is honest: I am one person, so I take on fewer projects and I will tell you on the first call if your timeline needs a team instead.</p>
 
       <h2>FAQ</h2>
@@ -113,7 +121,7 @@ const faqSchema = {
         </>
       ))}
 
-      <p>If you have an app in mind, <a href="/contact">tell me what it needs to do</a>. If you are still deciding, <a href="/work">open the work</a> or read about <a href="/services/ai-automation-services">the automation side</a>.</p>
+      <p>If you have an app in mind, <a href="/contact">tell me what it needs to do</a>. If you are still deciding, <a href="/work">open the work</a>, look at <a href="/guides/web-application-examples">real web application examples</a>, check <a href="/compare/web-application-vs-website">whether you need an app or a website</a>, or read about <a href="/services/ai-automation-services">the automation side</a>.</p>
     </div>
   </article>
 

@@ -2,6 +2,7 @@
 import AppShell from '../../layouts/AppShell.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { getFeed } from '../../lib/posts';
+import { liveByCluster } from '../../data/content-index';
 import type { Post } from '../../lib/types';
 
 const title = 'AI, Automation and Web App Guides | Neil Busque';
@@ -22,6 +23,12 @@ const TUTORIALS = [
   { slug: 'postgres-row-level-security', title: 'Postgres Row-Level Security', blurb: 'Turn it on without breaking the app, plus the three gotchas that bite every time.' },
 ];
 
+/* The guides lane of the content programme lives in content-index.ts. Rendering it from the
+   index (instead of another hardcoded list) is what keeps this hub in sync: a new live guide
+   appears here automatically. Before this, 11 live /guides pages were sitemap orphans with
+   zero internal links. Slugs already in TUTORIALS are excluded so nothing lists twice. */
+const GUIDES = liveByCluster('guides').filter((g) => !TUTORIALS.some((t) => t.slug === g.slug));
+
 // The feed is a live query; if it fails the tutorials half of the page must still render.
 let posts: Post[] = [];
 try {
@@ -33,8 +40,8 @@ Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-re
 const list = {
   '@type': 'ItemList',
   '@id': `${canonical}#guide-list`,
-  name: 'Tutorials by Neil Busque',
-  itemListElement: TUTORIALS.map((t, i) => ({
+  name: 'Guides by Neil Busque',
+  itemListElement: [...TUTORIALS, ...GUIDES].map((t, i) => ({
     '@type': 'ListItem', position: i + 1, name: t.title,
     url: `https://busqueneil.com/guides/${t.slug}`,
   })),
@@ -74,6 +81,25 @@ const collection = {
               <span class="pl-blurb">{t.blurb}</span>
             </span>
             <span class="tag">Tutorial</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="hsec">
+    <span class="eyebrow">Guides</span>
+    <h2 class="sec">Put it to <span class="mark-hl">work.</span></h2>
+    <p class="stack-note">AI in your marketing, what builds actually cost, and how to buy software well. Written from client work, not theory.</p>
+    <ul class="postlist res">
+      {GUIDES.map((g) => (
+        <li>
+          <a href={`/guides/${g.slug}`}>
+            <span class="pl-main">
+              <span class="pl-title">{g.title}</span>
+              <span class="pl-blurb">{g.blurb}</span>
+            </span>
+            <span class="tag">Guide</span>
           </a>
         </li>
       ))}

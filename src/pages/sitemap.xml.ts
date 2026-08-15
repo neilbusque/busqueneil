@@ -60,7 +60,8 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
     loc: `https://busqueneil.com${urlFor(c)}`,
     lastmod: c.modified ?? c.published,
   })),
-  { loc: 'https://busqueneil.com/resume.pdf' },
+  /* The résumé the site actually links; /resume.pdf still resolves but is referenced nowhere. */
+  { loc: 'https://busqueneil.com/neil-busque-resume.pdf' },
 ];
 
 export const GET: APIRoute = async ({ request, cookies }) => {
