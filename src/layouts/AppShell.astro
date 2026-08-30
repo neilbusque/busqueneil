@@ -1,13 +1,14 @@
 ---
 import '../styles/v8.css';
 import '../styles/v13.css';
+import '../styles/journal.css';
 import Base from './Base.astro';
 import RevealMotion from '../components/RevealMotion.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string; description: string; canonical?: string; ogImage?: string; ogType?: string; noindex?: boolean;
-  active: 'home' | 'story' | 'work' | 'services' | 'blog' | 'resources' | 'free' | 'hire' | 'contact';
+  active: 'home' | 'story' | 'work' | 'notes' | 'now' | 'services' | 'blog' | 'resources' | 'free' | 'hire' | 'contact';
   ctaHref?: string;
   ctaLabel?: string;
 }
@@ -20,12 +21,12 @@ const {
 
 const NAV = [
   { key: 'work',      href: '/work',      label: 'Work' },
-  { key: 'services',  href: '/services',  label: 'Services' },
+  { key: 'notes',     href: '/blog',      label: 'Notes' },
   { key: 'story',     href: '/story',     label: 'About' },
-  { key: 'resources', href: '/resources', label: 'Resources' },
+  { key: 'now',       href: '/now',       label: 'Now' },
 ] as const;
 
-const activeNav = active === 'blog' ? 'resources' : active;
+const activeNav = active === 'blog' || active === 'resources' ? 'notes' : active;
 const ctaIsExternal = /^https?:\/\//.test(ctaHref);
 ---
 <Base {...baseProps} v8={true}>
@@ -63,14 +64,15 @@ const ctaIsExternal = /^https?:\/\//.test(ctaHref);
       <footer class="shell-foot">
         <div class="foot-brand">
           <strong>Neil Busque</strong>
-          <span>AI engineer and product builder · © 2026</span>
+          <span>I build cool stuff with AI. · © 2026</span>
         </div>
         <nav class="shell-foot-links" aria-label="Footer">
           <a href="/work">Work</a>
-          <a href="/services">Services</a>
+          <a href="/blog">Notes</a>
           <a href="/story">About</a>
-          <a href="/contact">Contact</a>
+          <a href="/now">Now</a>
           <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">LinkedIn</a>
+          <a href={ctaHref} target="_blank" rel="noopener">WhatsApp</a>
         </nav>
       </footer>
     </main>

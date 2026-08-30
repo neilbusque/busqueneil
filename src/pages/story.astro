@@ -33,27 +33,30 @@ const profile = {
 };
 ---
 <AppShell
-  title="About Neil Busque | Design, Engineering and AI"
-  description="Who I am, what I build, and how I work. Design, programming, engineering and AI in one person, based in New Jersey and building for small teams."
+  title="About Neil Busque | Design, Software, Systems and AI"
+  description="About Neil Busque, a builder working across design, software, systems, automation, and AI from New Jersey."
   canonical={canonical}
   active="story"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(profile)} />
-  <span class="eyebrow">About me</span>
-  <h1 class="sec">Design, engineering, and the part in <span class="mark-hl">between.</span></h1>
-  <p class="story-lede">I am Neil Busque. I build web apps, websites, funnels, and automations for small teams, from New Jersey. One person, start to finish, no handoffs.</p>
+  <div class="journal-page about-page">
+  <header class="journal-page-head">
+    <span class="eyebrow">About</span>
+    <h1>Design, software, systems, and the part in <em>between.</em></h1>
+    <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
+  </header>
 
   {/* Photo slot. Swap the src for a real portrait when Neil has one he likes; the figure and
       caption stay as they are. Keep it 4:5 — the CSS crops to that ratio. */}
   <figure class="about-photo">
     <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="900" height="1125" loading="lazy" />
-    <figcaption>The guy who actually builds it, with my AI assistants. No account manager in between.</figcaption>
+    <figcaption>Neil Busque, in New Jersey. Usually building something, usually learning the next part as I go.</figcaption>
   </figure>
 
   <article class="article-page" style="padding-top:0">
     <div class="prose">
       <h2>Who I am</h2>
-      <p>I am a builder who came at it from three directions instead of one. I studied Information Technology and graduated top of my class. Then I spent years in graphic design, winning hundreds of contests on 99designs. Then marketing, paid ads, funnels, CRM, and automation, because the work kept asking for one more thing I did not have yet.</p>
+      <p>I am a builder who came at it from three directions instead of one. I studied Information Technology and graduated top of my class. Then I spent years in graphic design. Then came marketing, paid ads, funnels, CRM, and automation, because the work kept asking for one more thing I did not have yet.</p>
       <p>Most people in this field have one of those. I have all three, and the combination is the whole point: I can design the thing, build the thing, and understand why the business needed it in the first place. The handoffs where projects usually lose their shape do not exist when it is one person carrying all three.</p>
 
       <h2>How I try to get better</h2>
@@ -66,8 +69,8 @@ const profile = {
       <p>I also like problems where the answer is not more software. A lot of what I get asked to build should not be built, and finding that out on the first call is more satisfying to me than taking the money and building it anyway.</p>
       <p>And the unglamorous half: the migration, the permissions model, the reason a form works on your phone but not your client's. Most people find that boring. It is usually where the actual difficulty lives.</p>
 
-      <h2>How I can help you</h2>
-      <p>Concretely, five things: <a href="/services/web-apps">web apps</a>, <a href="/services/websites">websites</a>, <a href="/services/landing-pages">landing pages</a>, <a href="/services/funnels">funnels</a>, and <a href="/services/ai-automation-services">automation</a>.</p>
+      <h2>What I make</h2>
+      <p>Most of it falls into a few buckets: <a href="/services/web-apps">web apps</a>, <a href="/services/websites">websites</a>, <a href="/services/ai-agent-development">AI agents</a>, and <a href="/services/ai-automation-services">automation</a>. The labels matter less to me than whether the finished thing removes friction or makes somebody&rsquo;s day easier.</p>
       <p>Underneath those it is usually one of three jobs. You have a manual process eating hours a week that should be a system. You have traffic that is not converting and nobody can say which step is leaking. Or you have an idea and need someone who can take it from a sentence to a working product without a six-month discovery phase.</p>
       <p>Most first versions are live in days. You own the code and the accounts at the end, always.</p>
 
@@ -99,12 +102,13 @@ const profile = {
     ))}
   </div>
 
-  <section class="hsec v8-card why-card">
-    <h2>When you hire me, you get <span class="mark-hl">me.</span></h2>
-    <p>Not an agency that hands you to a junior account manager. You talk to the person actually building your product, and I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call and it costs you nothing.</p>
+  <section class="hsec v8-card why-card about-close">
+    <h2>This site is my corner of the internet.</h2>
+    <p>Part portfolio, part blog, part working notebook. If something here gives you an idea, tell me about it. You will be talking to the person who would actually build it.</p>
     <div class="hero-ctas" style="margin-top:18px">
       <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
       <a class="btn-ghost" href="/work">See what I've built</a>
     </div>
   </section>
+  </div>
 </AppShell>

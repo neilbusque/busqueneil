@@ -5,9 +5,10 @@ import { softwarePages } from '../data/software-pages';
 import { liveContent, urlFor } from '../data/content-index';
 
 const LAST_UPDATED = '2026-07-25';
+const JOURNAL_UPDATED = '2026-08-30';
 
 const STATIC_URLS: { loc: string; lastmod?: string }[] = [
-  { loc: 'https://busqueneil.com/', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/', lastmod: JOURNAL_UPDATED },
   { loc: 'https://busqueneil.com/resources', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/hire/ai-engineer', lastmod: LAST_UPDATED },
@@ -35,8 +36,10 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
   { loc: 'https://busqueneil.com/guides/n8n-vs-zapier-vs-make', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/postgres-row-level-security', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/story', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/work', lastmod: LAST_UPDATED },
+  { loc: 'https://busqueneil.com/story', lastmod: JOURNAL_UPDATED },
+  { loc: 'https://busqueneil.com/work', lastmod: JOURNAL_UPDATED },
+  { loc: 'https://busqueneil.com/blog', lastmod: JOURNAL_UPDATED },
+  { loc: 'https://busqueneil.com/now', lastmod: JOURNAL_UPDATED },
   { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/free', lastmod: LAST_UPDATED },
   { loc: 'https://busqueneil.com/analyzer' },
@@ -67,16 +70,7 @@ const STATIC_URLS: { loc: string; lastmod?: string }[] = [
 export const GET: APIRoute = async ({ request, cookies }) => {
   const posts = await getAllPublished({ request, cookies });
 
-  /* /blog is only worth submitting once it has something on it. With a single post the page
-     renders ~34 words, and a thin indexed page is a liability rather than a foothold. This
-     self-heals: publish a third post and it enters the sitemap on the next build. The page
-     stays reachable either way — Resources links to it. */
-  const blogUrls = posts.length >= 3
-    ? [`<url><loc>https://busqueneil.com/blog</loc><lastmod>${LAST_UPDATED}</lastmod></url>`]
-    : [];
-
   const urls = [
-    ...blogUrls,
     ...STATIC_URLS.map((u) =>
       `<url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`
     ),

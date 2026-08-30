@@ -1,10 +1,8 @@
 ---
 import AppShell from '../layouts/AppShell.astro';
 import Schema from '../components/Schema.astro';
-import ClientLogos from '../components/ClientLogos.astro';
-import StackIcon from '../components/StackIcon.astro';
-import Testimonials from '../components/Testimonials.astro';
 import { getFeed, getNow } from '../lib/posts';
+import { isNowFresh } from '../lib/now';
 import type { Post } from '../lib/types';
 
 const opts = { request: Astro.request, cookies: Astro.cookies };
@@ -12,354 +10,289 @@ const [{ posts: latest }, { current: now }] = await Promise.all([
   getFeed(opts, { page: 1 }),
   getNow(opts),
 ]);
-const latest3 = latest.filter((p) => p.type !== 'now').slice(0, 3);
+const latest3 = latest.filter((post) => post.type !== 'now').slice(0, 3);
+
+const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
+const LINKEDIN = 'https://www.linkedin.com/in/neilbusque/';
+
+const CAPABILITIES = [
+  {
+    number: '01',
+    name: 'AI agents',
+    description: 'Agents, assistants, and voice tools that answer questions, follow up, qualify leads, and help move work forward.',
+  },
+  {
+    number: '02',
+    name: 'Custom software',
+    description: 'Web apps, portals, dashboards, internal tools, and client-facing products built around the way people really work.',
+  },
+  {
+    number: '03',
+    name: 'Automations',
+    description: 'n8n, Zapier, GoHighLevel, APIs, webhooks, and the small connections that make a business run smoother.',
+  },
+  {
+    number: '04',
+    name: 'Websites and funnels',
+    description: 'Fast sites, landing pages, and simple flows that make it obvious what to do next.',
+  },
+];
 
 const WORK = [
-  { name: 'Orbit CRM', img: '/assets/work/orbit-app.webp', href: '/case-studies/orbit', tag: 'CRM + AI agents', clip: 'orbit' },
-  { name: 'Tandem', img: '/assets/work/tandem.webp', href: '/case-studies/tandem', tag: 'Couples app', note: 'built this for my wife', clip: 'tandem' },
-  { name: 'Darioo', img: '/assets/work/darioo.webp', href: '/work', tag: 'Client site + app', clip: 'darioo' },
-  { name: 'Scott Greenleaf', img: '/assets/work/scottgreenleaf.webp', href: 'https://scottgreenleaf.com/', tag: 'Client site' },
-];
-/* `clip` = a muted looping screen recording of the real product, played only when the card is
-   on screen and only when motion is allowed. The Greenleaf card has no clip: it is a site, and
-   its hero says more in a still than a scroll recording would.
-   ⚠️ Greenleaf replaced Otto here (Neil). Two different things share that name, so keep them
-   straight: THIS card is the shipped client site at scottgreenleaf.com, which Neil built. The
-   separate concept rebuild at greenleaf.busqueneil.com was never adopted and is no longer shown
-   anywhere on the site (the /work concepts band was removed 2026-07-27). A fresh headless
-   capture of scottgreenleaf.com renders an empty hero
-   (the GHL hero widget lazy-loads), which is why the shot on file stays. */
-const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
-
-/* Grouped by job rather than by vendor, so a visitor scanning for "do you know my CRM"
-   finds it in one place instead of reading a flat logo soup. */
-const STACK = [
-  { label: 'Build', items: ['Claude', 'Codex', 'VS Code', 'Astro', 'Next.js', 'React', 'TypeScript', 'Node'] },
-  { label: 'Infrastructure', items: ['Vercel', 'Railway', 'Supabase', 'Postgres', 'Cloudflare', 'Porkbun'] },
-  // Neil's actual strength, so it gets its own group instead of being buried in Automation
-  { label: 'APIs and integrations', items: ['REST APIs', 'Webhooks', 'MCP servers', 'OAuth', 'Puppeteer'] },
-  { label: 'Automation', items: ['n8n', 'Zapier', 'Make'] },
-  { label: 'CRM and email', items: ['GoHighLevel', 'HubSpot', 'Klaviyo', 'Resend', 'Mailgun', 'Twilio'] },
-  { label: 'Web and commerce', items: ['WordPress', 'Shopify', 'Stripe', 'ClickFunnels'] },
-  { label: 'AI and media', items: ['OpenRouter', 'ElevenLabs', 'Remotion', 'Kie.ai'] },
-  { label: 'Social', items: ['Zernio', 'Postiz'] },
-  { label: 'Design', items: ['Figma', 'Canva', 'Photoshop', 'Illustrator'] },
-  { label: 'Ads', items: ['Meta Ads', 'Google Ads'] },
-  { label: 'Analytics and SEO', items: ['GA4', 'Search Console', 'DataForSEO'] },
-  { label: 'Data', items: ['Apify', 'Firecrawl', 'Trawl'] },
+  {
+    name: 'Orbit CRM',
+    description: 'A CRM and operations workspace with AI features, built to help manage work in one place.',
+    img: '/assets/work/orbit-app.webp',
+    href: '/case-studies/orbit',
+    label: 'CRM + AI agents',
+  },
+  {
+    name: 'Tandem',
+    description: 'A couples app built around connection, shared experience, and product thinking.',
+    img: '/assets/work/tandem.webp',
+    href: '/case-studies/tandem',
+    label: 'Personal product',
+  },
+  {
+    name: 'Darioo',
+    description: 'A client site and app built to support the business with something real people can use.',
+    img: '/assets/work/darioo.webp',
+    href: 'https://darioo.com',
+    label: 'Client site + app',
+  },
+  {
+    name: 'Scott Greenleaf',
+    description: 'A client site focused on clarity, presentation, and getting the message across cleanly.',
+    img: '/assets/work/scottgreenleaf.webp',
+    href: 'https://scottgreenleaf.com/',
+    label: 'Client site',
+  },
 ];
 
-const nowPublished = now?.published_at ? new Date(now.published_at) : null;
-const nowIsFresh = nowPublished ? Date.now() - nowPublished.getTime() < 1000 * 60 * 60 * 24 * 75 : false;
-const nowText = nowIsFresh ? (now?.title || 'Building something new.') : 'Building, writing, and getting better at both.';
-/* Only stamp a date on a note that is actually current. Once the real "now" post ages past the
-   75-day window the copy falls back to the evergreen line, and pinning "Updated May 2026" under
-   it just advertised how long the page had been sitting. No date reads as timeless; a stale one
-   reads as neglected. */
-const nowDateStr = nowIsFresh && now?.published_at
+const TOPICS = [
+  'Building apps with AI',
+  'Automations and workflow systems',
+  'Design decisions',
+  'Product ideas',
+  'Experiments that worked',
+  'Experiments that did not',
+  'Lessons from client projects',
+  'Things I am figuring out in real time',
+];
+
+const nowIsFresh = isNowFresh(now?.published_at);
+const nowText = nowIsFresh
+  ? (now?.title || now?.excerpt || 'Building something new.')
+  : 'Right now I am focused on building better software, writing more, and getting sharper at turning rough ideas into things people can actually use.';
+const nowDate = nowIsFresh && now?.published_at
   ? new Date(now.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
   : null;
 
 function shortDate(iso: string | null): string {
   return iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 }
-function tagFor(p: Post): string {
-  if (p.tags?.includes('video')) return 'Video';
-  if (p.type === 'article') return p.tags.includes('tutorial') ? 'Tutorial' : 'Article';
+
+function tagFor(post: Post): string {
+  if (post.tags?.includes('video')) return 'Video';
+  if (post.type === 'article') return post.tags.includes('tutorial') ? 'Tutorial' : 'Note';
   const map: Record<string, string> = { status: 'Thought', project: 'Build', now: 'Now' };
-  return map[p.type] ?? 'Post';
+  return map[post.type] ?? 'Note';
 }
 ---
-<AppShell title="Neil Busque — AI Engineer. Software, AI Agents, Automations." description="I'm an AI engineer who builds custom software, AI agents, and automations. Message me on WhatsApp, and most first versions ship in days." ogImage="https://busqueneil.com/assets/brand/og-v13.png" active="home">
+<AppShell
+  title="Neil Busque — I Build Cool Stuff with AI"
+  description="Apps, automations, AI agents, and little internet projects by Neil Busque. See the work, read the notes, and follow what he is building now."
+  ogImage="https://busqueneil.com/assets/brand/og-journal.png"
+  active="home"
+>
   <Fragment slot="head"><Schema /></Fragment>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-field" aria-hidden="true"></div>
-    <div class="hero-copy">
-      <span class="eyebrow">AI engineer</span>
-      <h1>I build software and <em>AI agents.</em></h1>
-      <p class="hero-sub">Custom apps, AI agents, and automations that take real work off your team. You work directly with me, and most first versions ship in days.</p>
+  <div class="journal-home">
+    <section class="hero journal-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Neil Busque · builder</span>
+        <h1>I build <em>cool stuff</em> with AI.</h1>
+        <p class="hero-sub">I make apps, automations, AI agents, and little internet projects. Some are for clients. Some are ideas I want to see exist. This site is where I share the work, what I&rsquo;m learning, and what I&rsquo;m building right now.</p>
+        <div class="hero-ctas">
+          <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
+          <a class="link-arrow" href="/work">See what I&rsquo;m building <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <figure class="hero-product">
+          <div class="hero-product-bar" aria-hidden="true">
+            <span></span><span></span><span></span><strong>A real thing I built</strong>
+          </div>
+          <img src="/assets/work/orbit-app.webp" srcset="/assets/work/orbit-app-sm.webp 760w, /assets/work/orbit-app.webp 1440w" sizes="(max-width: 1020px) calc(100vw - 4rem), 48vw" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
+          <figcaption><span>Orbit CRM</span><strong>Software + AI agents</strong></figcaption>
+        </figure>
+        <figure class="hero-person">
+          <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
+          <figcaption><strong>Neil Busque</strong><span>The person building the work.</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="journal-strip" aria-label="How Neil works">
+      <span>Direct with Neil</span><i aria-hidden="true"></i><span>No middleman</span><i aria-hidden="true"></i><span>You own the work</span>
+    </div>
+
+    <section class="journal-section journal-intro">
+      <div>
+        <span class="eyebrow">Intro</span>
+        <h2>I like building useful things.</h2>
+      </div>
+      <div class="journal-copy">
+        <p>I like building useful things that save time, remove friction, or make someone&rsquo;s day a little easier. Most of my work lives somewhere between software, automation, design, and figuring out how to make a messy process feel simple.</p>
+        <p>I work with business owners, teams, and people with ideas who need someone to actually build the thing. I also use this space like a notebook, so not everything here is polished. Some of it is finished work. Some of it is what I am testing and learning in public.</p>
+      </div>
+    </section>
+
+    <section class="journal-section">
+      <div class="journal-heading">
+        <span class="eyebrow">Things I build</span>
+        <h2>Capabilities, not a service menu.</h2>
+        <p>Different kinds of work, usually connected by the same goal: make the complicated part feel simple.</p>
+      </div>
+      <ol class="cap-index">
+        {CAPABILITIES.map((capability) => (
+          <li>
+            <span class="cap-number">{capability.number}</span>
+            <h3>{capability.name}</h3>
+            <p>{capability.description}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="journal-section">
+      <div class="journal-heading split">
+        <div>
+          <span class="eyebrow">Selected work</span>
+          <h2>Things that made it out of my head.</h2>
+        </div>
+        <a class="link-arrow" href="/work">See all work <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="journal-work">
+        {WORK.map((item, index) => {
+          const external = item.href.startsWith('http');
+          return (
+            <a class:list={['journal-work-item', { featured: index === 0 }]} href={item.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
+              <div class="journal-work-shot">
+                <img src={item.img} srcset={`${item.img.replace('.webp', '-sm.webp')} 760w, ${item.img} 1440w`} sizes={index === 0 ? '(max-width: 900px) calc(100vw - 2rem), 72vw' : '(max-width: 900px) calc(100vw - 2rem), 34vw'} alt={`${item.name}, built by Neil Busque`} width="1280" height="800" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+              </div>
+              <div class="journal-work-meta">
+                <span>{item.label}</span>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="journal-section journal-notes">
+      <div class="journal-heading split">
+        <div>
+          <span class="eyebrow">Notes from building</span>
+          <h2>What I&rsquo;m learning while I make things.</h2>
+        </div>
+        <a class="link-arrow" href="/blog">Read all notes <span aria-hidden="true">↘</span></a>
+      </div>
+      <p class="journal-notes-lede">I do not just want a portfolio. I want a place to share what I am working on, what I am learning, what is breaking, what is getting better, and what I am noticing as I build.</p>
+      {latest3.length > 0 ? (
+        <ul class="journal-posts">
+          {latest3.map((post) => (
+            <li>
+              <a href={`/posts/${post.slug}`}>
+                <span class="journal-post-date">{shortDate(post.published_at)}</span>
+                <span class="journal-post-title">{post.title ?? 'Untitled'}</span>
+                <span class="journal-post-tag">{tagFor(post)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="journal-empty">The notebook is open. New notes will show up here as I publish them.</div>
+      )}
+      <ul class="topic-list" aria-label="Topics Neil writes about">
+        {TOPICS.map((topic) => <li>{topic}</li>)}
+      </ul>
+    </section>
+
+    <section class="newsletter-panel" aria-labelledby="newsletter-title">
+      <div>
+        <span class="eyebrow">Newsletter · coming soon</span>
+        <h2 id="newsletter-title">Build notes, sent occasionally.</h2>
+      </div>
+      <div>
+        <p>I&rsquo;m putting together a small newsletter about the things I build, what breaks, and what I learn fixing it. No signup box yet&mdash;I want the sending side ready before I ask for your email.</p>
+        <a href={LINKEDIN} target="_blank" rel="me noopener">Follow me on LinkedIn for now <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="journal-section">
+      <div class="journal-heading">
+        <span class="eyebrow">Free things I made</span>
+        <h2>Useful now. No sales call required.</h2>
+      </div>
+      <div class="magnet-grid">
+        <a class="magnet analyzer" href="/analyzer">
+          <span class="magnet-label">Interactive tool</span>
+          <strong class="magnet-mark">100</strong>
+          <h3>Landing Page Analyzer</h3>
+          <p>Paste a page, get a score, and see what is helping or hurting it. The score is free; email is optional for the full PDF report.</p>
+          <span class="magnet-link">Analyze a page <span aria-hidden="true">↘</span></span>
+        </a>
+        <a class="magnet report" href="/viral-post-heist.pdf" download>
+          <span class="magnet-label">Six-page field report</span>
+          <strong class="magnet-mark">300+</strong>
+          <h3>The Viral Post Heist</h3>
+          <p>How I used AI to study hundreds of top-performing posts, extract the patterns, and turn the research into a month of content.</p>
+          <span class="magnet-link">Download the PDF <span aria-hidden="true">↓</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="journal-section journal-now">
+      <div>
+        <span class="eyebrow">Now</span>
+        <h2>What I&rsquo;m focused on right now.</h2>
+      </div>
+      <div class="now-note">
+        <p>{nowText}</p>
+        <p>I am especially interested in custom software, AI tools that do real work, workflow systems, and products that feel simple on the surface even when the backend is doing a lot.</p>
+        {nowDate && <span>Updated {nowDate}</span>}
+        <a href="/now">Read the full now page <span aria-hidden="true">↘</span></a>
+      </div>
+    </section>
+
+    <section class="journal-section journal-two-up">
+      <article>
+        <span class="eyebrow">Why work with me</span>
+        <h2>One person, all the way through.</h2>
+        <p>You work directly with me from the first message to the finished build. No handoff, no account manager, no trying to explain the same project five different times.</p>
+        <p>I like moving fast, but I also care about making things dependable. Getting something to look finished is one thing. Making it actually work in real life is the part I take seriously.</p>
+      </article>
+      <article>
+        <span class="eyebrow">About</span>
+        <h2>Design, software, systems, and AI.</h2>
+        <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
+        <p>This site is my corner of the internet. Part portfolio, part blog, part working notebook.</p>
+        <a href="/story">More about me <span aria-hidden="true">↘</span></a>
+      </article>
+    </section>
+
+    <section class="journal-cta">
+      <span class="eyebrow">Got an idea?</span>
+      <h2>Got an idea, a broken process, or something you want built?</h2>
+      <p>Message me on WhatsApp and I&rsquo;ll tell you how I&rsquo;d approach it.</p>
       <div class="hero-ctas">
         <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-        <a class="link-arrow" href="/work">See real work <span aria-hidden="true">↘</span></a>
+        <a class="btn-ghost" href="/blog">Or read my notes</a>
       </div>
-      <p class="hero-note">Direct with Neil · No account-manager layer · You own the work</p>
-    </div>
-    <div class="hero-visual">
-      <figure class="hero-product">
-        <div class="hero-product-bar" aria-hidden="true">
-          <span></span><span></span><span></span><strong>Designed and built by Neil</strong>
-        </div>
-        <img src="/assets/work/orbit-app.webp" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
-        <figcaption><span>CRM + AI agents</span><strong>Working software, not a concept.</strong></figcaption>
-      </figure>
-      <figure class="hero-person">
-        <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
-        <figcaption><strong>Neil Busque</strong><span>The person who actually builds it.</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats">
-    <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
-    <!-- the sublabel has to carry the number, or "Days" alone reads as a missing value
-         next to "40+" and "1 person" -->
-    <div class="stat"><b>Days</b><span>not months. idea to first version</span></div>
-    <div class="stat"><b>Direct</b><span>with Neil from first call to launch</span></div>
-  </div>
-
-  <!-- SERVICES -->
-  <section class="hsec">
-    <span class="eyebrow">What I build</span>
-    <h2 class="sec">Four things I <span class="mark-hl">build.</span></h2>
-    <ul class="svc">
-      <li>
-        <a class="svc-row" href="/services/ai-agent-development">
-          <span class="num">01</span>
-          <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="3"/><rect class="cell" x="14" y="4" width="6" height="6"/><path d="M7 10v4a3 3 0 0 0 3 3h7"/><path d="M15 15l2 2-2 2"/></svg></span>
-          <span class="name">AI Agents</span>
-          <span class="desc">Sales agents, assistants, and voice agents that answer, follow up, and book while you work.</span>
-          <span class="svc-cta" aria-hidden="true">&#8594;</span>
-        </a>
-      </li>
-      <li>
-        <a class="svc-row" href="/services/web-apps">
-          <span class="num">02</span>
-          <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="5" y="8" width="14" height="10" rx="2"/><path d="M5 12h14M9 21h6"/></svg></span>
-          <span class="name">Custom Software</span>
-          <span class="desc">Web apps, portals, dashboards, and internal tools your team can actually use.</span>
-          <span class="svc-cta" aria-hidden="true">&#8594;</span>
-        </a>
-      </li>
-      <li>
-        <a class="svc-row" href="/services/ai-automation-services">
-          <span class="num">03</span>
-          <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4"/><path d="M21 7H8a5 5 0 0 0 0 10h6"/><rect class="cell" x="16" y="14" width="5" height="5" rx="1"/></svg></span>
-          <span class="name">Automations</span>
-          <span class="desc">n8n, Zapier, and GHL workflows that take repetitive work off your plate.</span>
-          <span class="svc-cta" aria-hidden="true">&#8594;</span>
-        </a>
-      </li>
-      <li>
-        <a class="svc-row" href="/services/websites">
-          <span class="num">04</span>
-          <span class="svc-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect class="cell" x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 13h7"/></svg></span>
-          <span class="name">Websites, Pages and Funnels</span>
-          <span class="desc">Fast, custom sites and funnels that make the next step obvious.</span>
-          <span class="svc-cta" aria-hidden="true">&#8594;</span>
-        </a>
-      </li>
-    </ul>
-    <p style="margin-top:22px"><a class="link-arrow" href="/services">All services
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  {/* No subscription card here on purpose: /unlimited is an unlisted offer Neil sends
-      directly, so the site must not surface it. */}
-
-  <!-- CLIENTS -->
-  <section class="hsec">
-    <span class="eyebrow">Worked with</span>
-    <ClientLogos />
-  </section>
-
-  <!-- WORK -->
-  <section class="hsec">
-    <span class="eyebrow">Selected work</span>
-    <h2 class="sec">Working products you can <span class="mark-hl">open.</span></h2>
-    <div class="workgrid">
-      {WORK.map((w) => (
-        <a class="workcard" href={w.href} target={w.href.startsWith('http') ? '_blank' : undefined} rel={w.href.startsWith('http') ? 'noopener' : undefined}>
-          {w.note && <span class="worknote">{w.note}</span>}
-          <div class="wc-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="wc-bar"></span></div>
-          <div class="wc-shot">
-            {w.clip
-              ? <video
-                  class="wc-video"
-                  poster={`/assets/work/${w.clip}-poster.webp`}
-                  width="960" height="600"
-                  muted loop playsinline preload="none"
-                  aria-label={`${w.name}, recorded`}
-                  data-wc-clip
-                >
-                  {/* H.264 first on purpose. Chrome picks the first source it can play, and
-                      three concurrent VP9 decodes on this page produced MEDIA_ERR_DECODE on two
-                      of the three cards while H.264 decodes fine (and is hardware-accelerated). */}
-                  <source src={`/assets/work/${w.clip}.mp4`} type="video/mp4" />
-                  <source src={`/assets/work/${w.clip}.webm`} type="video/webm" />
-                </video>
-              : <img
-                  src={w.img}
-                  srcset={`${w.img.replace('.webp', '-sm.webp')} 760w, ${w.img} 1440w`}
-                  sizes="(max-width: 980px) calc(100vw - 40px), 50vw"
-                  alt={w.name}
-                  width="1280" height="800"
-                  loading="lazy"
-                />}
-            <span class="wc-live">Live</span>
-          </div>
-          <div class="workmeta"><b>{w.name}</b><span>{w.tag}</span></div>
-        </a>
-      ))}
-    </div>
-    <p style="margin-top:22px"><a class="link-arrow" href="/work">All work
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <!-- PRAISE -->
-  <Testimonials />
-
-  <!-- NOW + BLOG -->
-  <section class="hsec">
-    <span class="eyebrow">Personal</span>
-    <h2 class="sec">What I&rsquo;m <span class="mark-hl">up to.</span></h2>
-    <div class="nowwrap">
-      <div>
-        <span class="nowlabel">right now:</span>
-        <p class="nowtext">{nowText}</p>
-        {nowDateStr && <span class="nowdate">Updated {nowDateStr}</span>}
-      </div>
-      <div>
-        {latest3.length > 0 ? (
-          <>
-            <ul class="postlist">
-              {latest3.map((p) => (
-                <li>
-                  <a href={`/posts/${p.slug}`}>
-                    <span class="pd">{shortDate(p.published_at)}</span>
-                    <span class="pt">{p.title ?? 'Untitled'}</span>
-                    <span class:list={['tag', { video: p.tags.includes('video') }]}>{tagFor(p)}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p style="margin-top:18px"><a class="link-arrow" href="/blog">Read the blog
-              <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-          </>
-        ) : (
-          <div class="v8-card nowcta">
-            <p>Most of what I build never becomes a post. The fastest way to find out if I can build yours is to ask.</p>
-            <div class="hero-ctas" style="margin-top:16px">
-              <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-              <a class="btn-ghost" href="/work">See the work</a>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  </section>
-
-  <!-- STATEMENT -->
-  <div class="statement">
-    <p>AI can start the work. <span class="mark-hl">Finished</span> <span class="script">is what you hire me for.</span></p>
-    <p class="statement-sub">The first draft is fast. The real job is making it dependable enough for customers and coworkers.</p>
-  </div>
-
-  <!-- STACK -->
-  <section class="hsec">
-    <span class="eyebrow">Tools I work in</span>
-    <h2 class="sec">The <span class="mark-hl">stack.</span></h2>
-    <p class="stack-note">My favorite part is making two tools that were never meant to talk work together. Webhooks, OAuth, MCP servers, whatever the job needs.</p>
-    <div class="stack">
-      {STACK.map((group) => (
-        <div class="stack-group">
-          <span class="stack-label">{group.label}</span>
-          <ul class="stack-list">
-            {group.items.map((t) => <StackIcon name={t} />)}
-          </ul>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <!-- GUARANTEE -->
-  <!-- DIY -->
-  <!-- Grounded in what people actually report about the AI app builders: credits vanishing in
-       debugging loops, a fix that creates two new bugs, hallucinated imports and layouts that
-       break on real use, and being locked to whatever stack the tool picked. No vendor named:
-       naming dates fast and reads petty, and the pattern is the same across all of them. -->
-  <section class="hsec">
-    <span class="eyebrow">Why not just build it yourself</span>
-    <h2 class="sec">The demo is easy. <span class="mark-hl">The last 20% is not.</span></h2>
-    <p class="stack-note">I use them too. They are great for a first pass. The trouble starts when the app has real users, real data, and edge cases.</p>
-    <ul class="diy">
-      <li>
-        <b>The first screen looks finished in an afternoon.</b>
-        <span>Then a real user takes the path the demo never covered.</span>
-      </li>
-      <li>
-        <b>Then the debugging loop starts.</b>
-        <span>One fix creates another bug, the context gets messier, and you stop knowing which change caused what.</span>
-      </li>
-      <li>
-        <b>The code can look right and still be wrong.</b>
-        <span>A package that does not exist. A layout that breaks on a phone. A permission rule that exposes the wrong data.</span>
-      </li>
-      <li>
-        <b>You inherit choices you never made.</b>
-        <span>The stack, the host, and the database shape are already decided. Changing them later is the expensive part.</span>
-      </li>
-    </ul>
-    <p class="diy-close">I use the speed. I still own the engineering.</p>
-  </section>
-
-  <!-- WHY ME -->
-  <section class="hsec">
-    <span class="eyebrow">Why people pick me</span>
-    <h2 class="sec">Your thing becomes <span class="mark-hl">my thing.</span></h2>
-    <ul class="why">
-      <li>
-        <b>I know what we talked about last time.</b>
-        <span>I keep the client list short on purpose. You do not have to re-explain the project every time you message me.</span>
-      </li>
-      <li>
-        <b>You get my actual phone number.</b>
-        <span>Me, on WhatsApp, usually the same day. No ticket queue in between.</span>
-      </li>
-      <li>
-        <b>Going live is not the finish line.</b>
-        <span>I want the thing doing the job you hired it to do, and I keep working until it does.</span>
-      </li>
-      <li>
-        <b>I care about the handoff.</b>
-        <span>You should understand what you own, where it lives, and what to do when something changes.</span>
-      </li>
-    </ul>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Working with me</span>
-    <h2 class="sec">The <span class="mark-hl">guarantee.</span></h2>
-    <ul class="guar">
-      <li>
-        <b>I keep working until you are proud of it.</b>
-        <span>Done means the agreed build works and you are happy to put your name on it.</span>
-      </li>
-      <li>
-        <b>If I am not the right fit, I tell you on the first call.</b>
-        <span>Costs you nothing, and you leave with an honest read on your problem.</span>
-      </li>
-      <li>
-        <b>You talk to me. Every time.</b>
-        <span>One person from the first call to live.</span>
-      </li>
-      <li>
-        <b>You see the scope before I start.</b>
-        <span>We agree on the job, timeline, and price before I build. No vague invoice at the end.</span>
-      </li>
-    </ul>
-  </section>
-
-  <!-- DARK CTA -->
-  <div class="darkcta">
-    <h2>Got something you want <span class="mark-hl">built?</span></h2>
-    <p>A rough idea is enough. Message me on WhatsApp and I will tell you how I would approach it. If you would rather write it out, the form works too.</p>
-    <div class="hero-ctas" style="margin-top:0">
-      <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-      <a class="btn-ghost" href="/contact">Or use the form</a>
-    </div>
-    <img class="sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
+      <img class="sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
+    </section>
   </div>
 </AppShell>

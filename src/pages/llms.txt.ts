@@ -15,7 +15,7 @@ const RESEARCH_LIST = liveByCluster('research')
 
 const STATIC_BIO = `# Neil Busque
 
-> AI engineer and product builder in New Jersey. I build AI agents, practical automations, and web products, then write down what worked and what did not. The site includes my work, services, story, and technical guides.
+> AI engineer and product builder in New Jersey. I build apps, automations, AI agents, and small internet projects, then write down what worked and what did not. This is my portfolio, notebook, and current build log.
 
 ## Identity
 
@@ -107,8 +107,9 @@ ${RESEARCH_LIST}
 - Tandem case study (realtime WebRTC couples app): https://busqueneil.com/case-studies/tandem
 - Suki Neighbors case study (marketplace PWA): https://busqueneil.com/case-studies/suki-neighbors
 - Preflight case study (funnel simulator): https://busqueneil.com/case-studies/preflight
-- Blog (includes now updates, filter with ?filter=now): https://busqueneil.com/blog
-- Story: https://busqueneil.com/story
+- Notes (canonical publishing archive): https://busqueneil.com/blog
+- Now (latest build update and archive): https://busqueneil.com/now
+- About: https://busqueneil.com/story
 - Paid acquisition system for financial advisors / RIAs (project service): https://busqueneil.com/ria/
 - Resume (PDF): https://busqueneil.com/resume.pdf
 - RSS feed: https://busqueneil.com/rss.xml

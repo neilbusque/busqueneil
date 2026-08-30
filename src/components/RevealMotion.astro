@@ -35,14 +35,23 @@
       '.v8 .tl-row', '.v8 .cs-row', '.v8 .art-img', '.v8 .about-photo', '.v8 .prose > h2',
       '.v8 .hire-vsl', '.v8 .hire-proofbar > p', '.v8 .hire-workcard', '.v8 .hire-value',
       '.v8 .hire-role-card', '.v8 .hire-commitment', '.v8 .hire-career-row',
+      '.v8 .journal-section > .journal-heading', '.v8 .cap-index > li',
+      '.v8 .journal-work-item', '.v8 .journal-posts li', '.v8 .topic-list li',
+      '.v8 .newsletter-panel', '.v8 .magnet', '.v8 .journal-now > *',
+      '.v8 .journal-two-up > article', '.v8 .journal-cta', '.v8 .journal-page-head > *',
+      '.v8 .work-ledger > a', '.v8 .private-ledger > *', '.v8 .case-ledger li',
+      '.v8 .notes-filters', '.v8 .now-current > *', '.v8 .now-archive li', '.v8 .now-close',
       '.v8 .shell-foot > *',
     ].join(',');
 
     // Rows slide in from the side, panels lift and settle, headings just rise.
-    const ROW = '.stack-group,.diy > li,.postlist li,.faq > details,.tl-row,.cs-row,.hire-career-row';
+    const ROW = '.stack-group,.diy > li,.postlist li,.faq > details,.tl-row,.cs-row,.hire-career-row,'
+      + '.cap-index > li,.journal-work-item,.journal-posts li,.topic-list li,.work-ledger > a,'
+      + '.private-ledger > *,.case-ledger li,.now-archive li';
     const PANEL = '.statement,.darkcta,.workcard,.svc > li,.offer-card,.svc-card,.praise-shot,'
-      + '.hire-vsl,.hire-workcard,.hire-role-card,.hire-commitment';
-    const HEADING = '.eyebrow,.sec,.prose > h2';
+      + '.hire-vsl,.hire-workcard,.hire-role-card,.hire-commitment,.newsletter-panel,.magnet,'
+      + '.journal-cta,.now-close';
+    const HEADING = '.eyebrow,.sec,.prose > h2,.journal-heading,.journal-page-head > *';
 
     const motionOK = matchMedia('(prefers-reduced-motion: no-preference)').matches;
     if (!motionOK) return;

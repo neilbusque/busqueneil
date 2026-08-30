@@ -1,4 +1,87 @@
 ---
-export const prerender = false;
-return Astro.redirect('/blog?filter=now', 301);
+import AppShell from '../../layouts/AppShell.astro';
+import { getNow, setPublicCache } from '../../lib/posts';
+import { isNowFresh } from '../../lib/now';
+import type { Post } from '../../lib/types';
+
+const { current, archive } = await getNow({ request: Astro.request, cookies: Astro.cookies });
+setPublicCache(Astro.response.headers);
+
+const isFresh = isNowFresh(current?.published_at);
+const archived: Post[] = isFresh ? archive : [current, ...archive].filter((post): post is Post => Boolean(post));
+
+const fallbackTitle = 'Building better software, writing more, and getting sharper.';
+const fallbackBody = 'I am focused on turning rough ideas into things people can actually use. I am especially interested in custom software, AI tools that do real work, workflow systems, and products that feel simple on the surface even when the backend is doing a lot.';
+
+function fullDate(iso: string | null): string {
+  return iso ? new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
+}
+
+const canonical = 'https://busqueneil.com/now';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${canonical}#webpage`,
+  name: 'What Neil Busque Is Doing Now',
+  description: 'What Neil Busque is building, learning, and focusing on right now.',
+  url: canonical,
+  dateModified: isFresh && current?.updated_at ? current.updated_at : '2026-08-30',
+};
 ---
+<AppShell
+  title="Now | Neil Busque"
+  description="What Neil Busque is building, learning, and focusing on right now."
+  canonical={canonical}
+  active="now"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="journal-page now-page">
+    <header class="journal-page-head">
+      <span class="eyebrow">Now</span>
+      <h1>What I&rsquo;m focused on <em>right now.</em></h1>
+      <p>A small, honest page about the work in front of me. Inspired by the <a href="https://nownownow.com/about" target="_blank" rel="noopener">Now page movement</a>.</p>
+    </header>
+
+    <section class="now-current">
+      <div class="now-current-label">
+        <span class="eyebrow">Current focus</span>
+        <span>{isFresh && current?.published_at ? `Updated ${fullDate(current.published_at)}` : 'Evergreen until the next update'}</span>
+      </div>
+      <article>
+        <h2>{isFresh && current?.title ? current.title : fallbackTitle}</h2>
+        {isFresh && current?.body_html ? (
+          <div class="prose now-prose" set:html={current.body_html} />
+        ) : (
+          <>
+            <p>{fallbackBody}</p>
+            <p>I also want to write more of the useful middle: what broke, why a decision changed, and how a rough idea became something dependable.</p>
+          </>
+        )}
+      </article>
+    </section>
+
+    {archived.length > 0 && (
+      <section class="journal-section now-archive">
+        <div class="journal-heading">
+          <span class="eyebrow">Past updates</span>
+          <h2>Where my attention used to be.</h2>
+        </div>
+        <ul>
+          {archived.map((post) => (
+            <li>
+              <a href={`/posts/${post.slug}`}>
+                <time datetime={post.published_at ?? undefined}>{fullDate(post.published_at)}</time>
+                <strong>{post.title ?? 'An earlier update'}</strong>
+                <span aria-hidden="true">↘</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="now-close">
+      <p>The simplest way to follow the moving pieces is through my <a href="/blog">notes from building</a>.</p>
+    </section>
+  </div>
+</AppShell>

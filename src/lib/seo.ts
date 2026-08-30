@@ -6,7 +6,7 @@ export const LOGO_ID = `${SITE_URL}/#logo`;
 export const SOCIAL_IMAGE_ID = `${SITE_URL}/#social-image`;
 
 export const LOGO_URL = `${SITE_URL}/assets/brand/icon-512.png`;
-export const SOCIAL_IMAGE_URL = `${SITE_URL}/assets/brand/og-v13.png`;
+export const SOCIAL_IMAGE_URL = `${SITE_URL}/assets/brand/og-journal.png`;
 export const PROFILE_IMAGE_URL = `${SITE_URL}/assets/art/neil-avatar.webp`;
 
 export const WEBSITE_REF = { '@id': WEBSITE_ID };
@@ -30,7 +30,7 @@ export const SOCIAL_IMAGE = {
   contentUrl: SOCIAL_IMAGE_URL,
   width: 1200,
   height: 630,
-  caption: 'Neil Busque, AI Engineer and Product Builder',
+  caption: 'Neil Busque — I build cool stuff with AI.',
 };
 
 export const AUTHOR = {

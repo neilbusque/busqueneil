@@ -53,13 +53,13 @@ const jsonLd = {
   canonical={canonical}
   ogImage={ogImage}
   ogType="article"
-  active="blog"
+  active="notes"
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <Breadcrumb items={[
       { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Writing', url: 'https://busqueneil.com/blog' },
+      { name: 'Notes', url: 'https://busqueneil.com/blog' },
       { name: title, url: canonical },
     ]} />
   </Fragment>
@@ -104,7 +104,7 @@ const jsonLd = {
     )}
 
     <p style="margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--rule);">
-      <a class="more" href="/blog">← Back to writing</a>
+      <a class="more" href="/blog">← Back to notes</a>
     </p>
   </article>
 </AppShell>
