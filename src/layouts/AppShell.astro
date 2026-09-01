@@ -1,9 +1,8 @@
 ---
-import '../styles/v8.css';
-import '../styles/v13.css';
-import '../styles/journal.css';
+import '../styles/v14-legacy.css';
+import '../styles/v14.css';
 import Base from './Base.astro';
-import RevealMotion from '../components/RevealMotion.astro';
+import MotionPrepaint from '../components/MotionPrepaint.astro';
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -33,12 +32,10 @@ const ctaIsExternal = /^https?:\/\//.test(ctaHref);
   <slot name="head" slot="head" />
   <ClientRouter slot="head" />
   {/* Must sit in <head> and stay inline: it hides reveal targets BEFORE first paint, which is
-      the whole reason the page no longer paints and then blanks itself. See RevealMotion. */}
-  <RevealMotion slot="head" />
+      the whole reason the page no longer paints and then blanks itself. See MotionPrepaint. */}
+  <MotionPrepaint slot="head" />
   <script>
-    import { initPointer } from '../scripts/pointer';
-    initPointer();
-    document.addEventListener('astro:page-load', () => initPointer());
+    import '../scripts/motion';
   </script>
 
   <div class="v8 shell">

@@ -11,6 +11,9 @@ export default defineConfig({
   // proto/host mismatch). Only the login form is a form POST; the admin JSON
   // API is protected by content-type + session cookie.
   security: { checkOrigin: false },
+  // v14: prefetch prerendered pages as their links scroll into view — with ClientRouter
+  // this makes most navigations feel instant at the cost of a few cached GETs.
+  prefetch: { defaultStrategy: 'viewport', prefetchAll: true },
   image: { service: passthroughImageService() },
   vite: {
     ssr: {

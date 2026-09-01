@@ -1,0 +1,28 @@
+---
+/* Pre-paint hide for GSAP scroll reveals — successor to RevealMotion.astro.
+   MUST stay inline in <head>: if reveal targets paint visible and are hidden a frame
+   later, the page flashes; if they are hidden by a bundled script that stalls, the page
+   blanks. Both have shipped as bugs here (see the old RevealMotion header for the
+   history). This script only injects a CSS rule; GSAP (src/scripts/motion.ts) takes
+   ownership by stamping `gsap-ready` on <html> and setting per-element inline styles.
+
+   Contract:
+   - Only [data-reveal] elements are ever hidden. Hero, nav, and anything above the fold
+     must NOT carry data-reveal — LCP paints at rest.
+   - Reduced motion or no JS: nothing is hidden, the resting design is the design.
+   - Failsafe: if GSAP never arrives, the rule self-destructs after 3s. */
+---
+<script is:inline>
+  (function () {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var s = document.createElement('style');
+      s.id = 'motion-prepaint';
+      s.textContent = 'html:not(.gsap-ready) [data-reveal]{opacity:0;transform:translateY(20px);visibility:hidden}';
+      document.head.appendChild(s);
+      setTimeout(function () {
+        if (!document.documentElement.classList.contains('gsap-ready') && s.parentNode) s.remove();
+      }, 3000);
+    } catch (e) { /* never let the guard itself break a page */ }
+  })();
+</script>

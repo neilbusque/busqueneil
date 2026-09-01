@@ -80,6 +80,17 @@ const TOPICS = [
   'Things I am figuring out in real time',
 ];
 
+/* The hero headline is split into words at build time so GSAP can settle them in without
+   SplitText and without any layout shift — the spans ARE the resting layout. */
+const HERO_WORDS: Array<{ text: string; hl?: boolean }> = [
+  { text: 'I' },
+  { text: 'build' },
+  { text: 'cool', hl: true },
+  { text: 'stuff', hl: true },
+  { text: 'with' },
+  { text: 'AI.' },
+];
+
 const nowIsFresh = isNowFresh(now?.published_at);
 const nowText = nowIsFresh
   ? (now?.title || now?.excerpt || 'Building something new.')
@@ -107,57 +118,65 @@ function tagFor(post: Post): string {
 >
   <Fragment slot="head"><Schema /></Fragment>
 
-  <div class="journal-home">
-    <section class="hero journal-hero">
-      <div class="hero-copy">
-        <span class="eyebrow">Neil Busque · builder</span>
-        <h1>I build <em>cool stuff</em> with AI.</h1>
-        <p class="hero-sub">I make apps, automations, AI agents, and little internet projects. Some are for clients. Some are ideas I want to see exist. This site is where I share the work, what I&rsquo;m learning, and what I&rsquo;m building right now.</p>
+  <div class="kin-home">
+    <section class="kin-hero">
+      <span class="eyebrow">Neil Busque · builder</span>
+      <h1 class="kin-hero-title" data-kinetic>
+        {HERO_WORDS.map((word) => (
+          <span class="kin-word-wrap">
+            <span class="kin-word" data-hero-word class:list={[{ 'mark-hl': word.hl }]}>{word.text}</span>
+          </span>
+        ))}
+      </h1>
+      <div class="kin-hero-row">
+        <p class="kin-hero-sub">Apps, automations, AI agents, and little internet projects. Some are for clients. Some are ideas I want to see exist. This is where I share the work and what I learn building it.</p>
         <div class="hero-ctas">
           <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-          <a class="link-arrow" href="/work">See what I&rsquo;m building <span aria-hidden="true">↘</span></a>
+          <a class="link-arrow" href="/work">See what I&rsquo;m building
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
       </div>
-      <div class="hero-visual">
-        <figure class="hero-product">
-          <div class="hero-product-bar" aria-hidden="true">
-            <span></span><span></span><span></span><strong>A real thing I built</strong>
-          </div>
-          <img src="/assets/work/orbit-app.webp" srcset="/assets/work/orbit-app-sm.webp 760w, /assets/work/orbit-app.webp 1440w" sizes="(max-width: 1020px) calc(100vw - 4rem), 48vw" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
-          <figcaption><span>Orbit CRM</span><strong>Software + AI agents</strong></figcaption>
-        </figure>
-        <figure class="hero-person">
-          <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
-          <figcaption><strong>Neil Busque</strong><span>The person building the work.</span></figcaption>
-        </figure>
-      </div>
+      <figure class="kin-hero-shot" data-drift="26">
+        <img src="/assets/work/orbit-app.webp" srcset="/assets/work/orbit-app-sm.webp 760w, /assets/work/orbit-app.webp 1440w" sizes="(max-width: 1020px) calc(100vw - 2.5rem), 1104px" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
+        <figcaption><span class="eyebrow-plain">A real thing I built</span><strong>Orbit CRM · Software + AI agents</strong></figcaption>
+      </figure>
     </section>
 
-    <div class="journal-strip" aria-label="How Neil works">
-      <span>Direct with Neil</span><i aria-hidden="true"></i><span>No middleman</span><i aria-hidden="true"></i><span>You own the work</span>
+    <div class="kin-marquee" aria-label="How Neil works">
+      <div class="kin-marquee-track">
+        {[0, 1].map((copy) => (
+          <div class="kin-marquee-set" aria-hidden={copy === 1 ? 'true' : undefined}>
+            <span>Direct with Neil</span><i></i>
+            <span>No middleman</span><i></i>
+            <span>You own the work</span><i></i>
+            <span>Apps · Automations · AI agents</span><i></i>
+          </div>
+        ))}
+      </div>
     </div>
 
-    <section class="journal-section journal-intro">
-      <div>
+    <section class="kin-sec kin-intro">
+      <div data-reveal>
         <span class="eyebrow">Intro</span>
-        <h2>I like building useful things.</h2>
+        <h2 class="kin-h2" data-kinetic>I like building useful things.</h2>
       </div>
-      <div class="journal-copy">
-        <p>I like building useful things that save time, remove friction, or make someone&rsquo;s day a little easier. Most of my work lives somewhere between software, automation, design, and figuring out how to make a messy process feel simple.</p>
-        <p>I work with business owners, teams, and people with ideas who need someone to actually build the thing. I also use this space like a notebook, so not everything here is polished. Some of it is finished work. Some of it is what I am testing and learning in public.</p>
+      <div class="kin-copy" data-reveal>
+        <p>Things that save time, remove friction, or make someone&rsquo;s day a little easier. Most of my work lives somewhere between software, automation, design, and making a messy process feel simple.</p>
+        <p>I work with business owners, teams, and people with ideas who need someone to actually build the thing. I also use this space like a notebook &mdash; some of it is finished work, some of it is what I am testing and learning in public.</p>
       </div>
     </section>
 
-    <section class="journal-section">
-      <div class="journal-heading">
+    <section class="kin-sec">
+      <div class="kin-heading" data-reveal>
         <span class="eyebrow">Things I build</span>
-        <h2>Capabilities, not a service menu.</h2>
+        <h2 class="kin-h2" data-kinetic>Capabilities, not a service menu.</h2>
         <p>Different kinds of work, usually connected by the same goal: make the complicated part feel simple.</p>
       </div>
-      <ol class="cap-index">
+      <ol class="kin-caps">
         {CAPABILITIES.map((capability) => (
-          <li>
-            <span class="cap-number">{capability.number}</span>
+          <li data-reveal>
+            <span class="kin-cap-num">{capability.number}</span>
             <h3>{capability.name}</h3>
             <p>{capability.description}</p>
           </li>
@@ -165,134 +184,149 @@ function tagFor(post: Post): string {
       </ol>
     </section>
 
-    <section class="journal-section">
-      <div class="journal-heading split">
+    <section class="kin-sec">
+      <div class="kin-heading split" data-reveal>
         <div>
           <span class="eyebrow">Selected work</span>
-          <h2>Things that made it out of my head.</h2>
+          <h2 class="kin-h2" data-kinetic>Things that made it out of my head.</h2>
         </div>
-        <a class="link-arrow" href="/work">See all work <span aria-hidden="true">↘</span></a>
+        <a class="link-arrow" href="/work">See all work
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
-      <div class="journal-work">
-        {WORK.map((item, index) => {
+      <div class="kin-work">
+        {WORK.map((item) => {
           const external = item.href.startsWith('http');
           return (
-            <a class:list={['journal-work-item', { featured: index === 0 }]} href={item.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
-              <div class="journal-work-shot">
-                <img src={item.img} srcset={`${item.img.replace('.webp', '-sm.webp')} 760w, ${item.img} 1440w`} sizes={index === 0 ? '(max-width: 900px) calc(100vw - 2rem), 72vw' : '(max-width: 900px) calc(100vw - 2rem), 34vw'} alt={`${item.name}, built by Neil Busque`} width="1280" height="800" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+            <a class="kin-work-row" href={item.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} data-reveal>
+              <div class="kin-work-shot">
+                <img src={item.img} srcset={`${item.img.replace('.webp', '-sm.webp')} 760w, ${item.img} 1440w`} sizes="(max-width: 760px) calc(100vw - 2.5rem), 300px" alt={`${item.name}, built by Neil Busque`} width="1280" height="800" loading="lazy" decoding="async" />
               </div>
-              <div class="journal-work-meta">
-                <span>{item.label}</span>
+              <div class="kin-work-meta">
+                <span class="kin-work-label">{item.label}</span>
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
               </div>
+              <svg class="kin-work-arrow" width="22" height="22" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
           );
         })}
       </div>
     </section>
 
-    <section class="journal-section journal-notes">
-      <div class="journal-heading split">
+    <section class="kin-sec">
+      <div class="kin-heading split" data-reveal>
         <div>
           <span class="eyebrow">Notes from building</span>
-          <h2>What I&rsquo;m learning while I make things.</h2>
+          <h2 class="kin-h2" data-kinetic>What I&rsquo;m learning while I make things.</h2>
         </div>
-        <a class="link-arrow" href="/blog">Read all notes <span aria-hidden="true">↘</span></a>
+        <a class="link-arrow" href="/blog">Read all notes
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
-      <p class="journal-notes-lede">I do not just want a portfolio. I want a place to share what I am working on, what I am learning, what is breaking, what is getting better, and what I am noticing as I build.</p>
+      <p class="kin-lede" data-reveal>Not just a portfolio &mdash; a place to share what I am working on, what is breaking, what is getting better, and what I notice as I build.</p>
       {latest3.length > 0 ? (
-        <ul class="journal-posts">
+        <ul class="kin-posts">
           {latest3.map((post) => (
-            <li>
+            <li data-reveal>
               <a href={`/posts/${post.slug}`}>
-                <span class="journal-post-date">{shortDate(post.published_at)}</span>
-                <span class="journal-post-title">{post.title ?? 'Untitled'}</span>
-                <span class="journal-post-tag">{tagFor(post)}</span>
+                <span class="kin-post-date">{shortDate(post.published_at)}</span>
+                <span class="kin-post-title">{post.title ?? 'Untitled'}</span>
+                <span class="kin-post-tag">{tagFor(post)}</span>
               </a>
             </li>
           ))}
         </ul>
       ) : (
-        <div class="journal-empty">The notebook is open. New notes will show up here as I publish them.</div>
+        <div class="kin-empty" data-reveal>The notebook is open. New notes will show up here as I publish them.</div>
       )}
-      <ul class="topic-list" aria-label="Topics Neil writes about">
-        {TOPICS.map((topic) => <li>{topic}</li>)}
+      <ul class="kin-topics" aria-label="Topics Neil writes about" data-reveal>
+        {TOPICS.map((topic) => <li class="chip">{topic}</li>)}
       </ul>
     </section>
 
-    <section class="newsletter-panel" aria-labelledby="newsletter-title">
+    <section class="kin-panel" aria-labelledby="newsletter-title" data-reveal>
       <div>
         <span class="eyebrow">Newsletter · coming soon</span>
-        <h2 id="newsletter-title">Build notes, sent occasionally.</h2>
+        <h2 id="newsletter-title" class="kin-h2">Build notes, sent occasionally.</h2>
       </div>
-      <div>
-        <p>I&rsquo;m putting together a small newsletter about the things I build, what breaks, and what I learn fixing it. No signup box yet&mdash;I want the sending side ready before I ask for your email.</p>
-        <a href={LINKEDIN} target="_blank" rel="me noopener">Follow me on LinkedIn for now <span aria-hidden="true">↗</span></a>
+      <div class="kin-copy">
+        <p>A small newsletter about the things I build, what breaks, and what I learn fixing it. No signup box yet&mdash;I want the sending side ready before I ask for your email.</p>
+        <a class="link-arrow" href={LINKEDIN} target="_blank" rel="me noopener">Follow me on LinkedIn for now
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </section>
 
-    <section class="journal-section">
-      <div class="journal-heading">
+    <section class="kin-sec">
+      <div class="kin-heading" data-reveal>
         <span class="eyebrow">Free things I made</span>
-        <h2>Useful now. No sales call required.</h2>
+        <h2 class="kin-h2" data-kinetic>Useful now. No sales call required.</h2>
       </div>
-      <div class="magnet-grid">
-        <a class="magnet analyzer" href="/analyzer">
-          <span class="magnet-label">Interactive tool</span>
-          <strong class="magnet-mark">100</strong>
+      <div class="kin-magnets">
+        <a class="kin-magnet" href="/analyzer" data-reveal>
+          <span class="kin-work-label">Interactive tool</span>
+          <strong class="kin-magnet-mark">100</strong>
           <h3>Landing Page Analyzer</h3>
           <p>Paste a page, get a score, and see what is helping or hurting it. The score is free; email is optional for the full PDF report.</p>
-          <span class="magnet-link">Analyze a page <span aria-hidden="true">↘</span></span>
+          <span class="kin-magnet-link">Analyze a page
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </a>
-        <a class="magnet report" href="/viral-post-heist.pdf" download>
-          <span class="magnet-label">Six-page field report</span>
-          <strong class="magnet-mark">300+</strong>
+        <a class="kin-magnet" href="/viral-post-heist.pdf" download data-reveal>
+          <span class="kin-work-label">Six-page field report</span>
+          <strong class="kin-magnet-mark">300+</strong>
           <h3>The Viral Post Heist</h3>
           <p>How I used AI to study hundreds of top-performing posts, extract the patterns, and turn the research into a month of content.</p>
-          <span class="magnet-link">Download the PDF <span aria-hidden="true">↓</span></span>
+          <span class="kin-magnet-link">Download the PDF
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 4v11m0 0-5-5m5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </a>
       </div>
     </section>
 
-    <section class="journal-section journal-now">
-      <div>
+    <section class="kin-sec kin-intro">
+      <div data-reveal>
         <span class="eyebrow">Now</span>
-        <h2>What I&rsquo;m focused on right now.</h2>
+        <h2 class="kin-h2" data-kinetic>What I&rsquo;m focused on right now.</h2>
       </div>
-      <div class="now-note">
+      <div class="kin-copy" data-reveal>
         <p>{nowText}</p>
         <p>I am especially interested in custom software, AI tools that do real work, workflow systems, and products that feel simple on the surface even when the backend is doing a lot.</p>
-        {nowDate && <span>Updated {nowDate}</span>}
-        <a href="/now">Read the full now page <span aria-hidden="true">↘</span></a>
+        {nowDate && <span class="kin-stamp">Updated {nowDate}</span>}
+        <a class="link-arrow" href="/now">Read the full now page
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </section>
 
-    <section class="journal-section journal-two-up">
-      <article>
+    <section class="kin-sec kin-two-up">
+      <article data-reveal>
         <span class="eyebrow">Why work with me</span>
-        <h2>One person, all the way through.</h2>
-        <p>You work directly with me from the first message to the finished build. No handoff, no account manager, no trying to explain the same project five different times.</p>
-        <p>I like moving fast, but I also care about making things dependable. Getting something to look finished is one thing. Making it actually work in real life is the part I take seriously.</p>
+        <h2 class="kin-h2">One person, all the way through.</h2>
+        <p>You work directly with me from the first message to the finished build. No handoff, no account manager, no explaining the same project five different times.</p>
+        <p>I like moving fast, but I also care about making things dependable. Getting something to look finished is one thing. Making it work in real life is the part I take seriously.</p>
       </article>
-      <article>
+      <article data-reveal>
         <span class="eyebrow">About</span>
-        <h2>Design, software, systems, and AI.</h2>
-        <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
+        <h2 class="kin-h2">Design, software, systems, and AI.</h2>
+        <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. I care about how things function, but I also care about how they feel to use.</p>
         <p>This site is my corner of the internet. Part portfolio, part blog, part working notebook.</p>
-        <a href="/story">More about me <span aria-hidden="true">↘</span></a>
+        <a class="link-arrow" href="/story">More about me
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </article>
     </section>
 
-    <section class="journal-cta">
+    <section class="kin-cta">
       <span class="eyebrow">Got an idea?</span>
-      <h2>Got an idea, a broken process, or something you want built?</h2>
-      <p>Message me on WhatsApp and I&rsquo;ll tell you how I&rsquo;d approach it.</p>
-      <div class="hero-ctas">
+      <h2 class="kin-cta-title" data-kinetic data-reveal>Got an idea, a broken process, or <span class="mark-hl">something you want built</span>?</h2>
+      <p data-reveal>Message me on WhatsApp and I&rsquo;ll tell you how I&rsquo;d approach it.</p>
+      <div class="hero-ctas" data-reveal>
         <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
         <a class="btn-ghost" href="/blog">Or read my notes</a>
       </div>
-      <img class="sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
+      <img class="kin-sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
     </section>
   </div>
 </AppShell>

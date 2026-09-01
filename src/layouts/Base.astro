@@ -29,22 +29,15 @@ const {
   v8 = false,
 } = Astro.props;
 
-/* v12: ONE typeface site-wide (Neil: "just use 1 font for everything"). Geist for all text
-   and UI; Geist Mono only inside <code>/<pre>, because proportional code is unreadable.
-   ⚠️ The old v8 href never requested Geist at all, yet CSS asked for it first via --sans.
-   document.fonts.check() reported it present because it resolves locally-installed faces,
-   so this looked fine on our machines while visitors silently got a fallback. Load it.
-
-   ⚠️ Ask for WEIGHT RANGES, not a list of weights. `wght@400;500;600;700;800` makes Google
-   serve five separate static files per family; `wght@400..800` serves one variable file that
-   covers the whole range, including the 550 and 650 the CSS actually uses (a static list
-   rounds those to the nearest requested weight). This stylesheet is render-blocking on a
-   third-party origin, so file count here is paint latency: the v8 pages went from 9 Latin
-   font files to 3. DM Serif Display is requested italic-only because every single usage of it
-   (.mark-hl, .hero h1 em, .statement .script, .accent, .hire-hero-copy h1 .accent) sets
-   font-style: italic — do not add ital@0 back without a roman usage to justify it. */
+/* v14: public (.v8) pages self-host their two faces — Bricolage Grotesque variable +
+   Geist Mono variable, latin subsets, @font-face in v14.css, preloaded below. That removes
+   the render-blocking third-party stylesheet from every public page AND permanently closes
+   the recurring "CSS asks for a family the href never loads" bug class (a family either has
+   an @font-face in the same file that uses it, or it doesn't exist).
+   Admin pages (not v8) keep the Google Fonts href for Geist — they are Neil-only and stay
+   on the old look on purpose. */
 const fontHref = v8
-  ? 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=Figtree:wght@400..800&family=Geist+Mono:wght@400..600&display=swap'
+  ? null
   : 'https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&display=swap';
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
@@ -72,11 +65,13 @@ const pageSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content={v8 ? '#F5F0E8' : (dark ? '#08080C' : '#FFFFFF')} />
+    <meta name="theme-color" content={v8 ? '#F6F7F8' : (dark ? '#08080C' : '#FFFFFF')} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={fontHref} />
+    {v8 && <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin />}
+    {v8 && <link rel="preload" href="/assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />}
+    {fontHref && <link rel="preconnect" href="https://fonts.googleapis.com" />}
+    {fontHref && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+    {fontHref && <link rel="stylesheet" href={fontHref} />}
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -135,43 +130,10 @@ const pageSchema = {
   </head>
   <body class={dark ? 'theme-dark' : undefined}>
     <slot />
-    <script is:inline>
-      /* .reveal elements start at opacity 0 and are shown by this observer.
-         ⚠️ This MUST re-arm after every ClientRouter navigation. It used to run once, as a
-         bare IIFE. ClientRouter replaces <body> on navigation, so on any client-side visit
-         the new page's .reveal elements were never observed and stayed invisible forever —
-         clicking a case study from /work rendered a blank page, while loading the same URL
-         directly was fine. Verified: .cs-metrics still hidden 5s after navigation.
-         Hence astro:page-load, plus a failsafe for anything already on screen. */
-      (function () {
-        var io = null;
-        function showAll() {
-          document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
-        }
-        function arm() {
-          if (io) { io.disconnect(); io = null; }
-          if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            showAll();
-            return;
-          }
-          io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-          }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-          var pending = document.querySelectorAll('.reveal:not(.in)');
-          pending.forEach(function (el) { io.observe(el); });
-          /* Belt and braces: anything sitting in the viewport and still hidden shortly after
-             is stuck, so show it unconditionally rather than leave a blank screen. */
-          setTimeout(function () {
-            document.querySelectorAll('.reveal:not(.in)').forEach(function (el) {
-              var r = el.getBoundingClientRect();
-              if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
-            });
-          }, 600);
-        }
-        arm();
-        document.addEventListener('astro:page-load', arm);
-      })();
-    </script>
+    {/* The legacy .reveal IntersectionObserver lived here until v14; scroll reveals are
+        now the GSAP system (data-reveal + MotionPrepaint + src/scripts/motion.ts), which
+        keeps the same guarantees: re-arms on astro:page-load, never hides above-the-fold
+        content, and fails open if the bundle never runs. */}
     {/* Talk concierge — availability-gated floating bubble; only shows "Speak with Neil live" when the host console is online.
         Gated on noConcierge ALONE. It used to also require !noindex, which silently coupled two
         unrelated things: a robots directive is about crawlers, the pill is about visitors. The

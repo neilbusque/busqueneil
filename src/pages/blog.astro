@@ -50,51 +50,53 @@ const collection = {
   active="notes"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
-  <div class="journal-page notes-page">
-    <header class="journal-page-head">
+  <div class="kin-page">
+    <header class="kin-page-head">
       <span class="eyebrow">Notes</span>
-      <h1>Things I&rsquo;m learning while I <em>build.</em></h1>
-      <p>What I am making, what broke, what I changed my mind about, and the decisions behind the finished screen. Some posts are polished. Some are notes from the middle of the work.</p>
+      <h1 data-kinetic>Things I&rsquo;m learning while I <span class="accent">build.</span></h1>
+      <p class="lede">What I am making, what broke, what I changed my mind about, and the decisions behind the finished screen. Some posts are polished. Some are notes from the middle of the work.</p>
     </header>
 
-    <nav class="notes-filters" aria-label="Filter notes">
+    <nav class="kin-filters" aria-label="Filter notes">
       {FILTERS.map((item) => (
-        <a class:list={{ active: (filter ?? 'all') === item.key }} href={chipHref(item.key)} aria-current={(filter ?? 'all') === item.key ? 'page' : undefined}>{item.label}</a>
+        <a class:list={['chip', { active: (filter ?? 'all') === item.key }]} href={chipHref(item.key)} aria-current={(filter ?? 'all') === item.key ? 'page' : undefined}>{item.label}</a>
       ))}
     </nav>
 
     {posts.length > 0 ? (
-      <ul class="journal-posts notes-index">
+      <ul class="kin-posts kin-posts-index">
         {posts.map((post) => (
           <li>
             <a href={`/posts/${post.slug}`}>
-              <span class="journal-post-date">{shortDate(post.published_at)}</span>
-              <span class="journal-post-main">
-                <span class="journal-post-title">{post.title ?? 'Untitled'}</span>
-                {post.excerpt && <span class="journal-post-excerpt">{post.excerpt}</span>}
+              <span class="kin-post-date">{shortDate(post.published_at)}</span>
+              <span class="kin-post-main">
+                <span class="kin-post-title">{post.title ?? 'Untitled'}</span>
+                {post.excerpt && <span class="kin-post-excerpt">{post.excerpt}</span>}
               </span>
-              <span class="journal-post-tag">{tagFor(post)}</span>
+              <span class="kin-post-tag">{tagFor(post)}</span>
             </a>
           </li>
         ))}
       </ul>
     ) : (
-      <div class="notes-empty">No notes match that filter yet. The notebook is still open.</div>
+      <div class="kin-empty">No notes match that filter yet. The notebook is still open.</div>
     )}
 
-    <nav class="notes-pager" aria-label="Notes pagination">
+    <nav class="kin-pager" aria-label="Notes pagination">
       {page > 1 && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page - 1) })}`}>Newer notes</a>}
       {hasMore && <a class="btn-ghost" href={`/blog?${new URLSearchParams({ ...(filter ? { filter } : {}), page: String(page + 1) })}`}>Older notes</a>}
     </nav>
 
-    <section class="newsletter-panel notes-newsletter" aria-labelledby="notes-newsletter-title">
+    <section class="kin-panel" aria-labelledby="notes-newsletter-title">
       <div>
         <span class="eyebrow">Newsletter · coming soon</span>
-        <h2 id="notes-newsletter-title">Build notes, sent occasionally.</h2>
+        <h2 id="notes-newsletter-title" class="kin-h2">Build notes, sent occasionally.</h2>
       </div>
-      <div>
+      <div class="kin-copy">
         <p>I&rsquo;m getting the newsletter ready before I ask for anyone&rsquo;s email. Until then, new notes live here first.</p>
-        <a href="https://www.linkedin.com/in/neilbusque/" target="_blank" rel="me noopener">Follow me on LinkedIn for now <span aria-hidden="true">↗</span></a>
+        <a class="link-arrow" href="https://www.linkedin.com/in/neilbusque/" target="_blank" rel="me noopener">Follow me on LinkedIn for now
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
       </div>
     </section>
   </div>

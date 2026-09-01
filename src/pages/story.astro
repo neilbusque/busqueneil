@@ -39,16 +39,16 @@ const profile = {
   active="story"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(profile)} />
-  <div class="journal-page about-page">
-  <header class="journal-page-head">
+  <div class="kin-page">
+  <header class="kin-page-head">
     <span class="eyebrow">About</span>
-    <h1>Design, software, systems, and the part in <em>between.</em></h1>
-    <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
+    <h1 data-kinetic>Design, software, systems, and the part in <span class="accent">between.</span></h1>
+    <p class="lede">I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
   </header>
 
   {/* Photo slot. Swap the src for a real portrait when Neil has one he likes; the figure and
       caption stay as they are. Keep it 4:5 — the CSS crops to that ratio. */}
-  <figure class="about-photo">
+  <figure class="kin-photo" data-drift="22">
     <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="900" height="1125" loading="lazy" />
     <figcaption>Neil Busque, in New Jersey. Usually building something, usually learning the next part as I go.</figcaption>
   </figure>

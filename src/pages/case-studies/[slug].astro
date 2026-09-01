@@ -92,7 +92,7 @@ const jsonLd = {
 
   <!-- ============ METRICS ============ -->
   {cs.metrics && cs.metrics.length > 0 && (
-    <section class="cs-metrics reveal">
+    <section class="cs-metrics" data-reveal>
       {cs.metrics.map((m) => (
         <div class="m"><div class="mv">{m.value}</div><div class="ml">{m.label}</div></div>
       ))}
@@ -103,7 +103,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">01 &middot; Problem</span><h2>{cs.problem.title}</h2></div>
-      <div class="cs-sec-body reveal">
+      <div class="cs-sec-body" data-reveal>
         {cs.problem.body.map((p) => <p>{p}</p>)}
       </div>
     </div>
@@ -113,7 +113,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">02 &middot; Approach</span><h2>{cs.approach.title}</h2></div>
-      <div class="cs-sec-body reveal">
+      <div class="cs-sec-body" data-reveal>
         {cs.approach.body.map((p) => <p>{p}</p>)}
       </div>
     </div>
@@ -123,7 +123,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">03 &middot; Build</span><h2>How it came together</h2></div>
-      <div class="cs-sec-body reveal" style="max-width:none">
+      <div class="cs-sec-body" data-reveal style="max-width:none">
         <div class="cs-tl">
           {cs.timeline.map((t) => (
             <div class="row">
@@ -140,7 +140,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">04 &middot; Capabilities</span><h2>What it actually does</h2></div>
-      <div class="cs-sec-body reveal" style="max-width:none">
+      <div class="cs-sec-body" data-reveal style="max-width:none">
         <div class="cs-feats">
           {cs.features.map((g) => (
             <div class="cs-feat">
@@ -157,7 +157,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">05 &middot; Engineering</span><h2>The parts that were hard</h2></div>
-      <div class="cs-sec-body reveal" style="max-width:none">
+      <div class="cs-sec-body" data-reveal style="max-width:none">
         <div class="cs-hard">
           {cs.hardParts.map((h, i) => (
             <div class="cs-hardrow">
@@ -177,7 +177,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">06 &middot; Outcome</span><h2>{cs.outcome.title}</h2></div>
-      <div class="cs-sec-body reveal">
+      <div class="cs-sec-body" data-reveal>
         {cs.outcome.body.map((p) => <p>{p}</p>)}
       </div>
     </div>
@@ -187,7 +187,7 @@ const jsonLd = {
   <section class="cs-sec">
     <div class="cs-sec-grid">
       <div class="label"><span class="n">07 &middot; Takeaways</span><h2>What I would tell you</h2></div>
-      <div class="cs-sec-body reveal" style="max-width:none">
+      <div class="cs-sec-body" data-reveal style="max-width:none">
         <ol class="cs-lessons">
           {cs.lessons.map((l) => <li>{l}</li>)}
         </ol>
