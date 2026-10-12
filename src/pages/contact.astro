@@ -18,7 +18,7 @@ const schema = {
   about: [PERSON_REF, ORGANIZATION_REF],
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} active="contact">
+<AppShell title={title} description={description} canonical={canonical} active="contact" ask={false}>
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
 
   <span class="eyebrow">Contact</span>

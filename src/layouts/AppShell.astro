@@ -1,81 +1,99 @@
 ---
-import '../styles/v8.css';
-import '../styles/v13.css';
-import '../styles/journal.css';
+/* Public site shell ("Cobalt Grid"): skip link, optional announcement bar, sticky nav with the
+   phone menu sheet, the page, then one navy block holding the closing ask and the footer.
+   Full page loads (no client router), so inline scripts run once per page.
+
+   Props kept from the old shell so every existing page renders unchanged:
+   title, description, canonical, ogImage, ogType, noindex, active, ctaHref, ctaLabel, and the
+   "head" slot. New, all optional:
+     ask          default true. false drops the closing ask but keeps the footer (Contact page).
+     closing      override the closing ask copy for one page.
+     noConcierge  passed to Base: hides the live-talk widget.
+     announce     one real piece of news in a bar above the nav.
+     rails        default true: hairlines on the container edges at 1280px and wider. */
 import Base from './Base.astro';
+import '@fontsource-variable/geist/wght.css';
+import '@fontsource-variable/geist-mono/wght.css';
+import geistLatin from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url';
+import '../styles/site.css';
 import RevealMotion from '../components/RevealMotion.astro';
-import { ClientRouter } from 'astro:transitions';
+import SiteNav from '../components/site/SiteNav.astro';
+import ClosingBand from '../components/site/ClosingBand.astro';
+import SiteFooter from '../components/site/SiteFooter.astro';
+import AnnouncementBar from '../components/site/AnnouncementBar.astro';
+import { NAV_CTA, waUrl, type ClosingCopy, type NavKey } from '../data/site';
+
+/* 'story', 'notes', 'blog' and 'now' are older values still passed by pages not yet rebuilt. */
+type Active = 'home' | 'services' | 'work' | 'resources' | 'free' | 'contact' | 'about' | 'hire' | 'article' | 'story' | 'notes' | 'blog' | 'now';
 
 interface Props {
-  title: string; description: string; canonical?: string; ogImage?: string; ogType?: string; noindex?: boolean;
-  active: 'home' | 'story' | 'work' | 'notes' | 'now' | 'services' | 'blog' | 'resources' | 'free' | 'hire' | 'contact';
+  title: string;
+  description: string;
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
+  active?: Active;
+  /** Nav button target. Defaults to WhatsApp with a short opening message. */
   ctaHref?: string;
   ctaLabel?: string;
+  ask?: boolean;
+  closing?: Partial<ClosingCopy>;
+  noConcierge?: boolean;
+  announce?: { id: string; text: string; tag?: string; href?: string; linkLabel?: string };
+  rails?: boolean;
 }
+
 const {
-  active,
-  ctaHref = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something',
-  ctaLabel = 'Message me on WhatsApp',
+  active = 'home',
+  ctaHref,
+  ctaLabel,
+  ask = true,
+  closing,
+  noConcierge = false,
+  announce,
+  rails = true,
   ...baseProps
 } = Astro.props;
 
-const NAV = [
-  { key: 'work',      href: '/work',      label: 'Work' },
-  { key: 'notes',     href: '/blog',      label: 'Notes' },
-  { key: 'story',     href: '/story',     label: 'About' },
-  { key: 'now',       href: '/now',       label: 'Now' },
-] as const;
+/* Map page sections onto the four nav items plus Contact. */
+const NAV_FOR: Partial<Record<Active, NavKey | 'contact' | 'home'>> = {
+  home: 'home',
+  services: 'services',
+  work: 'work',
+  resources: 'resources',
+  article: 'resources',
+  notes: 'resources',
+  blog: 'resources',
+  free: 'free',
+  contact: 'contact',
+};
+const navActive = NAV_FOR[active] ?? null;
 
-const activeNav = active === 'blog' || active === 'resources' ? 'notes' : active;
-const ctaIsExternal = /^https?:\/\//.test(ctaHref);
+const cta = ctaHref
+  ? { href: ctaHref, label: ctaLabel ?? NAV_CTA.label }
+  : { href: waUrl(NAV_CTA.message), label: ctaLabel ?? NAV_CTA.label, labelShort: ctaLabel ? undefined : NAV_CTA.labelShort };
 ---
-<Base {...baseProps} v8={true}>
-  <slot name="head" slot="head" />
-  <ClientRouter slot="head" />
-  {/* Must sit in <head> and stay inline: it hides reveal targets BEFORE first paint, which is
-      the whole reason the page no longer paints and then blanks itself. See RevealMotion. */}
+<Base {...baseProps} site={true} noConcierge={noConcierge}>
+  <link rel="preload" as="font" type="font/woff2" href={geistLatin} crossorigin slot="head" />
+  {/* Inline and in <head>: sets the reveal hidden state before first paint. See RevealMotion. */}
   <RevealMotion slot="head" />
-  <script>
-    import { initPointer } from '../scripts/pointer';
-    initPointer();
-    document.addEventListener('astro:page-load', () => initPointer());
-  </script>
+  <slot name="head" slot="head" />
 
-  <div class="v8 shell">
-    <slot name="intro" />
+  <div class:list={['site', rails && 'rails', !noConcierge && 'has-concierge']}>
+    <a class="skip" href="#main">Skip to content</a>
+    {announce && <AnnouncementBar {...announce} />}
+    <SiteNav active={navActive} cta={cta} />
 
-    <header class="topnav">
-      <nav class="topnav-inner" aria-label="Primary">
-        <a class="topnav-brand" href="/" aria-label="Neil Busque, home" aria-current={active === 'home' ? 'page' : undefined}>Neil Busque</a>
-        <div class="topnav-links">
-          {NAV.map((n) => (
-            <a class:list={['topnav-link', { active: activeNav === n.key }]} href={n.href} aria-current={activeNav === n.key ? 'page' : undefined}>
-              {n.label}
-            </a>
-          ))}
-        </div>
-        <a class="btn-sun topnav-cta" href={ctaHref} target={ctaIsExternal ? '_blank' : undefined} rel={ctaIsExternal ? 'noopener' : undefined}>{ctaLabel}</a>
-      </nav>
-    </header>
-
-    <main class="shell-main" transition:animate="fade">
+    <main id="main" tabindex="-1">
       <slot />
-
-      <footer class="shell-foot">
-        <div class="foot-brand">
-          <strong>Neil Busque</strong>
-          <span>I build cool stuff with AI. · © 2026</span>
-        </div>
-        <nav class="shell-foot-links" aria-label="Footer">
-          <a href="/work">Work</a>
-          <a href="/blog">Notes</a>
-          <a href="/story">About</a>
-          <a href="/now">Now</a>
-          <a href="https://www.linkedin.com/in/neilbusque/" aria-label="LinkedIn" rel="me" target="_blank">LinkedIn</a>
-          <a href={ctaHref} target="_blank" rel="noopener">WhatsApp</a>
-        </nav>
-      </footer>
     </main>
-  </div>
 
+    <div class="band band--navy site-end">
+      {ask && <ClosingBand {...(closing ?? {})} />}
+      <SiteFooter current={Astro.url.pathname} />
+    </div>
+  </div>
+  {/* Arms the reveal observer as soon as the markup is parsed, before module scripts load. */}
+  <script is:inline>document.dispatchEvent(new Event('reveal:arm'));</script>
 </Base>

@@ -1,0 +1,66 @@
+---
+/* Art frame: seeded placeholder art now, a real image later, in the same frame and ratio.
+
+   <Art seed={item.slug} kind="project" />                        placeholder
+   <Art seed={item.slug} kind="project" src={item.image} alt=… />  real image, no layout shift
+
+   Ratio: pass `ratio` to force one (it wins over any CSS). Leave it out and the frame takes the
+   kind default from site.css (project and service 16/10, tool 4/3, article 16/9, portrait 4/5,
+   hero 6/7) or whatever the parent component sets, for example 16/7 inside a bento card.
+   The placeholder is decorative and hidden from screen readers; the card title carries meaning.
+   A real image needs real alt text. */
+import { art, type ArtKind, type ArtLayout, type PaletteName } from '../lib/art';
+
+interface Props {
+  /** Stable key, usually the slug. Same seed, same picture. */
+  seed: string;
+  kind?: ArtKind;
+  /** CSS aspect ratio such as "16 / 10". */
+  ratio?: string;
+  /** Real image URL. Export at 1600px wide in the slot's ratio. */
+  src?: string;
+  /** Required when src is set. */
+  alt?: string;
+  /** Force a palette to balance neighbors on a page. */
+  palette?: PaletteName;
+  layout?: ArtLayout;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  /** Real image variants, for example "/img/x-760.webp 760w, /img/x-1600.webp 1600w". */
+  srcset?: string;
+  /** Rendered width for srcset, for example "(max-width: 640px) 100vw, 50vw". */
+  sizes?: string;
+}
+
+const KIND_RATIO: Record<ArtKind, [number, number]> = {
+  project: [16, 10],
+  service: [16, 10],
+  tool: [4, 3],
+  article: [16, 9],
+  portrait: [4, 5],
+  hero: [6, 7],
+};
+
+const { seed, kind = 'project', ratio, src, alt = '', palette, layout, class: className, loading = 'lazy', srcset, sizes } = Astro.props;
+
+const parsed = typeof ratio === 'string' ? ratio.split('/').map((n) => parseFloat(n)) : [];
+const forced = parsed.length === 2 && parsed.every((n) => Number.isFinite(n) && n > 0) ? (parsed as [number, number]) : null;
+const [rw, rh] = forced ?? KIND_RATIO[kind];
+const w = 1600;
+const h = Math.round((w * rh) / rw);
+// A fresh suffix per render keeps pattern ids unique when the same seed appears twice on a page.
+const uid = Math.random().toString(36).slice(2, 8);
+const svg = src ? '' : art({ seed, kind, w, h, palette, layout, uid });
+---
+<figure
+  class:list={['art', className]}
+  data-kind={kind}
+  style={forced ? `--ratio: ${rw} / ${rh}` : undefined}
+  aria-hidden={src ? undefined : 'true'}
+>
+  {src ? (
+    <img src={src} srcset={srcset} sizes={srcset ? sizes : undefined} alt={alt} width={w} height={h} loading={loading} decoding="async" />
+  ) : (
+    <Fragment set:html={svg} />
+  )}
+</figure>

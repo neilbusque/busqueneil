@@ -1,0 +1,41 @@
+---
+/* Closing ask: H2, lead, primary (WhatsApp) and secondary (booking) buttons on the left,
+   contact channel rows on the right. AppShell renders it at the end of every page inside the
+   navy block, right above the footer, so pages normally do not use it directly; they pass
+   AppShell `closing` to change the copy, or `ask={false}` to drop it.
+   It has no background of its own: put it inside a .band--navy element. */
+import Button from './Button.astro';
+import ContactChannels from './ContactChannels.astro';
+import { CHANNELS, CLOSING, type Channel, type LinkItem } from '../../data/site';
+
+interface Props {
+  title?: string;
+  lead?: string;
+  primary?: LinkItem;
+  secondary?: LinkItem | false;
+  channels?: Channel[] | false;
+  id?: string;
+}
+
+const {
+  title = CLOSING.title,
+  lead = CLOSING.lead,
+  primary = CLOSING.primary,
+  secondary = CLOSING.secondary,
+  channels = CHANNELS,
+  id = 'closing-title',
+} = Astro.props;
+---
+<section class="closing" aria-labelledby={id}>
+  <div class="wrap closing-grid">
+    <div class="closing-copy">
+      <h2 id={id}>{title}</h2>
+      {lead && <p class="t-lead">{lead}</p>}
+      <div class="btn-row btn-row--stack">
+        <Button href={primary.href} variant="primary">{primary.label}</Button>
+        {secondary && <Button href={secondary.href} variant="secondary">{secondary.label}</Button>}
+      </div>
+    </div>
+    {channels && channels.length > 0 && <ContactChannels items={channels} tone="navy" />}
+  </div>
+</section>

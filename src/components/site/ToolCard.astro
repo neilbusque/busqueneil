@@ -1,0 +1,46 @@
+---
+/* Tool card: art 4/3 (tiles), name, one line, platform line, "Free" only when true, and an
+   "Open the tool" line with an arrow (up-right when it leaves the site). The whole card is the
+   link. Wrap several in <div class="tool-grid"> (3 across, a row layout on tablets, 1 on phones). */
+import Art from '../Art.astro';
+import Icon from './Icon.astro';
+import type { ArtLayout, PaletteName } from '../../lib/art';
+
+interface Props {
+  href: string;
+  name: string;
+  text: string;
+  /** For example "Web app", "Mac app", "Chrome extension". */
+  platform: string;
+  /** Show "Free" only when it is actually free to use. */
+  free?: boolean;
+  /** Defaults to "Open the tool". */
+  cta?: string;
+  seed: string;
+  palette?: PaletteName;
+  layout?: ArtLayout;
+  image?: string;
+  imageAlt?: string;
+  as?: 'h2' | 'h3';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, name, text, platform, free = false, cta = 'Open the tool', seed, palette, layout, image, imageAlt, as: Title = 'h3', class: className, ...rest } = Astro.props;
+const isHttp = /^https?:/i.test(href);
+---
+<a class:list={['tool-card', className]} href={href} target={isHttp ? '_blank' : undefined} rel={isHttp ? 'noopener' : undefined} {...rest}>
+  <Art seed={seed} kind="tool" palette={palette} layout={layout} src={image} alt={imageAlt} />
+  <div class="tool-body">
+    <div class="tool-meta">
+      <span class="t-label">{platform}</span>
+      {free && <span class="t-label">Free</span>}
+    </div>
+    <Title>{name}</Title>
+    <p>{text}</p>
+    <span class="tool-open">
+      {cta}<Icon name={isHttp ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+      {isHttp && <span class="sr-only"> (opens in a new tab)</span>}
+    </span>
+  </div>
+</a>

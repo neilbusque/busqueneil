@@ -1,0 +1,28 @@
+---
+/* Checklist. Items are plain strings, or { title, text } for a bold line with a muted line under it.
+   variant "no" swaps the cobalt check for a muted x (never red), for "not included" or
+   "not a fit" lists. */
+import Icon from './Icon.astro';
+
+export type CheckItem = string | { title: string; text?: string };
+
+interface Props {
+  items: CheckItem[];
+  variant?: 'yes' | 'no';
+  class?: string;
+}
+
+const { items, variant = 'yes', class: className } = Astro.props;
+---
+<ul class:list={['check', variant === 'no' && 'check--no', className]} role="list">
+  {items.map((item) => (
+    <li>
+      <Icon name={variant === 'no' ? 'x' : 'check'} strokeWidth={2} />
+      {typeof item === 'string' ? (
+        <span>{item}</span>
+      ) : (
+        <span><strong>{item.title}</strong>{item.text && <span class="check-text">{item.text}</span>}</span>
+      )}
+    </li>
+  ))}
+</ul>

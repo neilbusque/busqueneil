@@ -1,0 +1,52 @@
+---
+/* Announcement bar: 36px ink strip above the nav for one piece of real news (a new free tool,
+   a new study). Never for discounts or scarcity. AppShell renders it when a page passes
+   `announce`. The close button remembers dismissal per `id` in localStorage; an inline
+   script hides a dismissed bar before it paints, so nothing jumps. Storage failures (private
+   mode, blocked storage) simply leave the bar visible. */
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Storage key. Change it to show a new announcement to people who closed the last one. */
+  id: string;
+  text: string;
+  /** Small outlined tag before the text, for example "New". */
+  tag?: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+const { id, text, tag, href, linkLabel = 'Take a look' } = Astro.props;
+const key = `announce:${id}`;
+---
+<div class="announce" data-announce={key}>
+  <div class="wrap announce-inner">
+    {tag && <span class="announce-tag">{tag}</span>}
+    <span>{text}</span>
+    {href && <a href={href}>{linkLabel}</a>}
+  </div>
+  <button class="announce-close" type="button" aria-label="Dismiss announcement" data-announce-close>
+    <Icon name="close" strokeWidth={2} />
+  </button>
+</div>
+<script is:inline define:vars={{ key }}>
+  try {
+    if (localStorage.getItem(key)) {
+      var bar = document.querySelector('[data-announce="' + key + '"]');
+      if (bar) bar.hidden = true;
+    }
+  } catch (e) {}
+</script>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-announce]').forEach((bar) => {
+    bar.querySelector('[data-announce-close]')?.addEventListener('click', () => {
+      bar.hidden = true;
+      try {
+        localStorage.setItem(bar.dataset.announce ?? 'announce', '1');
+      } catch {
+        /* Dismissal just will not be remembered. */
+      }
+    });
+  });
+</script>

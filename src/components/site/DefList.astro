@@ -1,0 +1,27 @@
+---
+/* Definition rows: label left in muted, value right in ink, hairline between rows.
+   For engagement facts (Good for, Typical start, What you own) and case-study facts.
+   Real answers only: leave a row out rather than invent a value. */
+
+interface Props {
+  items: { term: string; value: string; href?: string }[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+const isHttp = (u?: string) => Boolean(u && /^https?:/i.test(u));
+---
+<dl class:list={['deflist', className]}>
+  {items.map((item) => (
+    <div>
+      <dt>{item.term}</dt>
+      <dd>
+        {item.href ? (
+          <a href={item.href} target={isHttp(item.href) ? '_blank' : undefined} rel={isHttp(item.href) ? 'noopener' : undefined}>{item.value}</a>
+        ) : (
+          item.value
+        )}
+      </dd>
+    </div>
+  ))}
+</dl>

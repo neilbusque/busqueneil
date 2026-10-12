@@ -13,7 +13,9 @@ interface Props {
   dark?: boolean;
   /** Suppress the floating Talk concierge bubble (focused conversion pages). */
   noConcierge?: boolean;
-  /** v8 app shell: current light brand system. */
+  /** Public site shell (AppShell). Fonts are self-hosted by the shell, so no Google Fonts here. */
+  site?: boolean;
+  /** Old name for `site`, kept so any caller still passing it keeps working. */
   v8?: boolean;
 }
 
@@ -26,26 +28,26 @@ const {
   noindex = false,
   dark = false,
   noConcierge = false,
+  site = false,
   v8 = false,
 } = Astro.props;
+const isSite = site || v8;
 
-/* v12: ONE typeface site-wide (Neil: "just use 1 font for everything"). Geist for all text
-   and UI; Geist Mono only inside <code>/<pre>, because proportional code is unreadable.
-   ⚠️ The old v8 href never requested Geist at all, yet CSS asked for it first via --sans.
-   document.fonts.check() reported it present because it resolves locally-installed faces,
-   so this looked fine on our machines while visitors silently got a fallback. Load it.
+/* ONE typeface site-wide (Neil: "just use 1 font for everything"). Geist for all text and UI;
+   Geist Mono only inside <code>/<pre>, because proportional code is unreadable.
 
-   ⚠️ Ask for WEIGHT RANGES, not a list of weights. `wght@400;500;600;700;800` makes Google
-   serve five separate static files per family; `wght@400..800` serves one variable file that
-   covers the whole range, including the 550 and 650 the CSS actually uses (a static list
-   rounds those to the nearest requested weight). This stylesheet is render-blocking on a
-   third-party origin, so file count here is paint latency: the v8 pages went from 9 Latin
-   font files to 3. DM Serif Display is requested italic-only because every single usage of it
-   (.mark-hl, .hero h1 em, .statement .script, .accent, .hire-hero-copy h1 .accent) sets
-   font-style: italic — do not add ital@0 back without a roman usage to justify it. */
-const fontHref = v8
-  ? 'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@1&family=Figtree:wght@400..800&family=Geist+Mono:wght@400..600&display=swap'
+   Site pages (AppShell) self-host both through Fontsource and preload the latin Geist file,
+   so they load no Google Fonts at all: one less render-blocking third-party request. The
+   family names there are 'Geist Variable' and 'Geist Mono Variable'. Do not rely on plain
+   'Geist': document.fonts.check() resolves locally installed faces, so a missing web font
+   looks fine on a developer's machine while visitors silently get a fallback.
+
+   Only the admin pages still use the Google link below. Ask for WEIGHT RANGES there, not a
+   list of weights: `wght@400..800` serves one variable file, a list serves one file each. */
+const fontHref = isSite
+  ? null
   : 'https://fonts.googleapis.com/css2?family=Geist:wght@400..800&family=Geist+Mono:wght@400..600&display=swap';
+const bodyClass = [dark && 'theme-dark', isSite && 'site-body'].filter(Boolean).join(' ') || undefined;
 
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 const pageSchema = {
@@ -72,11 +74,15 @@ const pageSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content={v8 ? '#F5F0E8' : (dark ? '#08080C' : '#FFFFFF')} />
+    <meta name="theme-color" content={isSite ? '#F7F8FA' : (dark ? '#08080C' : '#FFFFFF')} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={fontHref} />
+    {fontHref && (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href={fontHref} />
+      </>
+    )}
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -133,7 +139,7 @@ const pageSchema = {
 
     <slot name="head" />
   </head>
-  <body class={dark ? 'theme-dark' : undefined}>
+  <body class={bodyClass}>
     <slot />
     <script is:inline>
       /* .reveal elements start at opacity 0 and are shown by this observer.

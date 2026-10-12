@@ -1,0 +1,33 @@
+---
+/* Page section with the standard vertical rhythm (72 / 64 / 48px a side) and the container.
+   band: "plain" (page color), "mist" (pale alternate) or "navy". Two plain sections in a row
+   share one hairline automatically. Never put two mist sections back to back.
+   Navy is reserved for the closing band, which the shell renders, so pages rarely need it. */
+
+interface Props {
+  band?: 'plain' | 'mist' | 'navy';
+  id?: string;
+  /** Id of the heading that names this section. */
+  labelledby?: string;
+  /** "measure" centers a 680px reading column inside the container (the hairline above the
+      section stays container wide); false drops the container. */
+  wrap?: true | false | 'measure';
+  as?: 'section' | 'div' | 'aside';
+  class?: string;
+}
+
+const { band = 'plain', id, labelledby, wrap = true, as: Tag = 'section', class: className } = Astro.props;
+---
+<Tag
+  class:list={['section', band !== 'plain' && ['band', `band--${band}`], className]}
+  id={id}
+  aria-labelledby={labelledby}
+>
+  {wrap === 'measure' ? (
+    <div class="wrap"><div class="measure-col"><slot /></div></div>
+  ) : wrap ? (
+    <div class="wrap"><slot /></div>
+  ) : (
+    <slot />
+  )}
+</Tag>

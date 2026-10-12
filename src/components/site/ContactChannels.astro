@@ -1,0 +1,31 @@
+---
+/* Contact channels: one channel per 64px row, small label in a 112px column, the value in
+   ink, an arrow at the end (up-right when it leaves the site). Light by default; inside the
+   navy band it switches to the navy look on its own, or pass tone="navy" on another navy
+   surface. Defaults to CHANNELS from src/data/site.ts (WhatsApp, Email, Book a call, LinkedIn). */
+import Icon from './Icon.astro';
+import { CHANNELS, type Channel } from '../../data/site';
+
+interface Props {
+  items?: Channel[];
+  tone?: 'light' | 'navy';
+  label?: string;
+  class?: string;
+}
+
+const { items = CHANNELS, tone = 'light', label = 'Ways to reach me', class: className } = Astro.props;
+const isHttp = (u: string) => /^https?:/i.test(u);
+const leaves = (u: string) => /^(https?:|mailto:|tel:|sms:)/i.test(u);
+---
+<ul class:list={['channels', tone === 'navy' && 'channels--navy', className]} role="list" aria-label={label}>
+  {items.map((c) => (
+    <li>
+      <a href={c.href} target={isHttp(c.href) ? '_blank' : undefined} rel={isHttp(c.href) ? 'noopener' : undefined}>
+        <span class="ch-label">{c.label}</span>
+        <span class="ch-value">{c.value}</span>
+        <Icon name={leaves(c.href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+        {isHttp(c.href) && <span class="sr-only"> (opens in a new tab)</span>}
+      </a>
+    </li>
+  ))}
+</ul>

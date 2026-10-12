@@ -1,0 +1,82 @@
+---
+/* Filter tabs: one line of buttons that show and hide items in a target container.
+   Every element inside the target with a data-filter attribute is filtered; data-filter holds
+   one or more space separated keys. The first tab is usually "all" (shows everything).
+   Without JS the bar hides and every item stays visible. The choice is kept in the URL
+   (?filter=key by default) so a filtered view can be shared, and announced to screen readers.
+   On phones the bar scrolls sideways inside its own row, never the page. */
+
+interface Props {
+  tabs: { key: string; label: string; count?: number }[];
+  /** id of the container to filter, for example the ResourceTable id. */
+  target: string;
+  /** Accessible name for the group, for example "Filter resources". */
+  label?: string;
+  /** Key that shows everything. */
+  allKey?: string;
+  /** URL search param that remembers the choice. */
+  param?: string;
+  /** Initially selected key. */
+  selected?: string;
+  class?: string;
+}
+
+const { tabs, target, label = 'Filter', allKey = 'all', param = 'filter', selected, class: className } = Astro.props;
+const initial = selected ?? tabs[0]?.key;
+---
+<div class:list={['tabs-wrap', className]} data-tabs data-target={target} data-all={allKey} data-param={param}>
+  <div class="tabs" role="group" aria-label={label}>
+    {tabs.map((t) => (
+      <button type="button" class="tab" data-key={t.key} aria-pressed={t.key === initial ? 'true' : 'false'}>
+        {t.label}
+        {typeof t.count === 'number' && <span class="count">{t.count}</span>}
+      </button>
+    ))}
+  </div>
+  <p class="sr-only" aria-live="polite" data-tabs-status></p>
+</div>
+
+<script>
+  function initTabs(root: HTMLElement) {
+    const target = document.getElementById(root.dataset.target ?? '');
+    if (!target) return;
+    const all = root.dataset.all || 'all';
+    const param = root.dataset.param || 'filter';
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.tab[data-key]'));
+    const status = root.querySelector<HTMLElement>('[data-tabs-status]');
+
+    const apply = (key: string, announce: boolean) => {
+      let shown = 0;
+      target.querySelectorAll<HTMLElement>('[data-filter]').forEach((el) => {
+        const keys = (el.dataset.filter ?? '').split(/\s+/);
+        const show = key === all || keys.includes(key);
+        el.hidden = !show;
+        if (show) shown += 1;
+      });
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.key === key)));
+      if (announce && status) status.textContent = `Showing ${shown} ${shown === 1 ? 'item' : 'items'}`;
+    };
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const key = b.dataset.key ?? all;
+        apply(key, true);
+        try {
+          const url = new URL(window.location.href);
+          if (key === all) url.searchParams.delete(param);
+          else url.searchParams.set(param, key);
+          history.replaceState(history.state, '', url);
+        } catch {
+          /* URL state is a convenience; filtering already happened. */
+        }
+      }),
+    );
+
+    const fromUrl = new URL(window.location.href).searchParams.get(param);
+    const pressed = buttons.find((b) => b.getAttribute('aria-pressed') === 'true')?.dataset.key;
+    const start = fromUrl && buttons.some((b) => b.dataset.key === fromUrl) ? fromUrl : pressed;
+    if (start && start !== all) apply(start, false);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach(initTabs);
+</script>

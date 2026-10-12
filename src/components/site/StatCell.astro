@@ -1,0 +1,20 @@
+---
+/* Stat cell for a RuledGrid: light cobalt numeral, a short caption, the source under it.
+   Only numbers that trace to a source. If there are none, leave the whole row out. */
+
+interface Props {
+  /** The number as it should read, for example "3 of 30". */
+  value: string;
+  caption: string;
+  source?: string;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { value, caption, source, class: className, ...rest } = Astro.props;
+---
+<div class:list={['stat', className]} {...rest}>
+  <p class="t-num">{value}</p>
+  <p class="stat-caption">{caption}</p>
+  {source && <p class="t-label stat-source">{source}</p>}
+</div>

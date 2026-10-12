@@ -1,0 +1,42 @@
+---
+/* Breadcrumb, new style: one quiet back link to the parent page ("All work", "Resources")
+   above the page title, plus the full BreadcrumbList JSON-LD. The visible part never repeats
+   the current page's title. Place it in the page body, not in the head slot.
+   Pass the whole trail, current page last, with absolute URLs (as the schema needs them);
+   links on this site are shown as relative paths so they also work in dev.
+   The older src/components/Breadcrumb.astro (schema only, head slot) still serves pages that
+   have not moved to the new layout. Do not use both on one page. */
+import Icon from './Icon.astro';
+import { SITE } from '../../data/site';
+
+interface Item {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  items: Item[];
+  /** Visible label for the back link. Defaults to the parent item's name. */
+  backLabel?: string;
+  /** Show the visible back link. */
+  back?: boolean;
+  /** Emit BreadcrumbList JSON-LD. */
+  schema?: boolean;
+  class?: string;
+}
+
+const { items, backLabel, back = true, schema = true, class: className } = Astro.props;
+const parent = items.length > 1 ? items[items.length - 2] : null;
+const local = (url: string) => (url.startsWith(SITE.url) ? url.slice(SITE.url.length) || '/' : url);
+const json = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: it.url })),
+};
+---
+{back && parent && (
+  <nav class:list={['crumb', className]} aria-label="Breadcrumb">
+    <a href={local(parent.url)}><Icon name="arrow-left" strokeWidth={2} />{backLabel ?? parent.name}</a>
+  </nav>
+)}
+{schema && items.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(json)} />}

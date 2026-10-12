@@ -1,0 +1,433 @@
+---
+/* Component gallery for reviewing the Cobalt Grid system. noindex, not in the sitemap (the
+   sitemap is a fixed list), linked from nowhere. Delete before launch. */
+import AppShell from '../../layouts/AppShell.astro';
+import Art from '../../components/Art.astro';
+import Section from '../../components/site/Section.astro';
+import PageHead from '../../components/site/PageHead.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import Button from '../../components/site/Button.astro';
+import Icon from '../../components/site/Icon.astro';
+import RuledGrid from '../../components/site/RuledGrid.astro';
+import RuledCell from '../../components/site/RuledCell.astro';
+import StatCell from '../../components/site/StatCell.astro';
+import Bento from '../../components/site/Bento.astro';
+import BentoCard from '../../components/site/BentoCard.astro';
+import WorkCard from '../../components/site/WorkCard.astro';
+import FeatureSplit from '../../components/site/FeatureSplit.astro';
+import ToolCard from '../../components/site/ToolCard.astro';
+import QuoteCard from '../../components/site/QuoteCard.astro';
+import Steps from '../../components/site/Steps.astro';
+import CheckList from '../../components/site/CheckList.astro';
+import FitList from '../../components/site/FitList.astro';
+import DefList from '../../components/site/DefList.astro';
+import ResourceTable from '../../components/site/ResourceTable.astro';
+import Tabs from '../../components/site/Tabs.astro';
+import Faq from '../../components/site/Faq.astro';
+import PromptCard from '../../components/site/PromptCard.astro';
+import ContactChannels from '../../components/site/ContactChannels.astro';
+import Portrait from '../../components/site/Portrait.astro';
+import Breadcrumb from '../../components/site/Breadcrumb.astro';
+import { FAQS, FIT, PROJECTS, SERVICES, SITE, STATS, STEPS, TOOLS, mailUrl, type Tool } from '../../data/site';
+import type { ArtKind, PaletteName } from '../../lib/art';
+
+const SAMPLE_TOOLS: Tool[] = [
+  ...TOOLS,
+  { slug: 'sample-mac-tool', name: 'Sample Mac tool', text: 'One line on what it does for the person using it.', platform: 'Mac app', free: true, href: '/free' },
+  { slug: 'sample-extension', name: 'Sample extension', text: 'One line on what it does for the person using it.', platform: 'Chrome extension', free: false, href: 'https://example.com' },
+];
+
+const RESOURCES = [
+  { href: '/guides/build-an-ai-sdr', type: 'Guide', title: 'How to Build an AI SDR', excerpt: 'A working sales agent: the tools it gets, the approval rules, and where a human stays in the loop.', read: '9 min', date: 'Aug 2026', dateTime: '2026-08-11' },
+  { href: '/research/866-custom-software-ads', type: 'Research', title: 'I Analyzed 866 Ads From 30 Custom Software Companies', excerpt: 'Three tiers, real prices, and the offers that have survived longest.', read: '14 min', date: 'Aug 2026', dateTime: '2026-08-11' },
+  { href: '/compare/web-application-vs-website', type: 'Comparison', title: 'Web Application vs Website', excerpt: 'The real difference, the gray zone in between, and which one your project needs.', read: '7 min', date: 'Aug 2026', dateTime: '2026-08-15' },
+  { href: '/compare/ai-sdr-vs-hiring-an-sdr', type: 'Comparison', title: 'AI SDR vs Hiring an SDR', excerpt: 'What a working sales agent replaced, and what it did not.', read: '8 min', date: 'Aug 2026', dateTime: '2026-08-11' },
+  { href: '/guides/ai-for-seo', type: 'Guide', title: 'How to Use AI for SEO', excerpt: 'What held up across 58 pages built with AI, and what had to be thrown away.', read: '10 min', date: 'Aug 2026', dateTime: '2026-08-11' },
+];
+const count = (type: string) => RESOURCES.filter((r) => r.type === type).length;
+
+const MORE_FAQS = [
+  ...FAQS,
+  { q: 'How long does it take?', a: 'Most first versions are live in days, not months. A web app is usually two to four weeks to a working first version.\n\nThen we improve it based on what real use shows.' },
+  { q: 'Who actually does the work?', a: 'I do. There is no account manager and no handoff. You talk to the person building the thing.' },
+];
+
+const ART_SAMPLES: { seed: string; kind: ArtKind; palette?: PaletteName }[] = [
+  { seed: 'crm-with-ai-follow-up', kind: 'project' },
+  { seed: 'funnel-simulator', kind: 'project' },
+  { seed: 'landing-page-analyzer', kind: 'tool' },
+  { seed: 'build-an-ai-sdr', kind: 'article' },
+  { seed: 'ai-agents', kind: 'service', palette: 'paper' },
+  { seed: 'automations', kind: 'service', palette: 'dusk' },
+  { seed: 'web-application-vs-website', kind: 'article', palette: 'cobalt' },
+  { seed: 'portrait', kind: 'portrait' },
+];
+
+const INDEX = [
+  ['Hero and prompt card', '#hero'],
+  ['Type', '#type'],
+  ['Buttons and links', '#buttons'],
+  ['Ruled grids and stats', '#ruled'],
+  ['Cards', '#cards'],
+  ['Lists', '#lists'],
+  ['Resources and FAQ', '#resources'],
+  ['Forms, art and prose', '#forms'],
+];
+---
+<AppShell
+  title="Component gallery | Neil Busque"
+  description="Internal review page for the site components."
+  noindex
+  noConcierge
+  announce={{ id: 'gallery-demo', tag: 'New', text: 'Sample announcement bar, for real news only.', href: '#art', linkLabel: 'See the art' }}
+>
+  <PageHead label="Internal review page" title="Component" accent="gallery" lead="Every shared component and eight placeholder pictures, for review before the pages are rebuilt. Linked from nowhere and deleted before launch.">
+    <div class="btn-row btn-row--stack">
+      <Button href="#buttons">See the buttons</Button>
+      <Button href="#art" variant="secondary">See the art</Button>
+    </div>
+    <Fragment slot="aside">
+      <RuledGrid cols={2} label="Sections on this page">
+        {INDEX.map(([name, href], i) => (
+          <RuledCell href={href} label={String(i + 1).padStart(2, '0')} title={name} titleAs="h4" />
+        ))}
+      </RuledGrid>
+    </Fragment>
+  </PageHead>
+
+  <!-- Hero sample: the home hero layout with the floating prompt card and the capability strip. -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h2 class="t-display" id="hero-title">Sample hero with one <span class="accent">accent.</span></h2>
+          <p class="t-lead">Stand-in copy. The copy deck replaces it. Two lines at most, on what gets built and for whom.</p>
+          <div class="btn-row btn-row--stack">
+            <Button href={'/contact'}>Start a project</Button>
+            <Button href="/work" variant="secondary">See the work</Button>
+          </div>
+        </div>
+        <div class="hero-media">
+          <Art seed="home" kind="hero" loading="eager" />
+          <PromptCard floating />
+        </div>
+      </div>
+      <RuledGrid cols={4} label="Services">
+        {SERVICES.map((s, i) => (
+          <RuledCell href={s.href} label={String(i + 1).padStart(2, '0')} title={s.name} compact text={s.line} />
+        ))}
+      </RuledGrid>
+    </div>
+  </section>
+
+  <Section band="mist" id="statement">
+    <p class="t-statement">A statement line: the belief behind the offer, centered, once per page.</p>
+  </Section>
+
+  <Section id="type" labelledby="type-title">
+    <SectionHead id="type-title" label="Type" title="One family, from display to labels" lead="Geist for everything. Geist Mono appears only inside code. Labels are Geist 500 at 13px, sentence case." link={{ href: '#prose', label: 'See prose' }} />
+    <div class="ks-type">
+      <div class="ks-row"><span class="t-label">Display</span><p class="t-display">Build the AI your <span class="accent">business</span> runs on</p></div>
+      <div class="ks-row"><span class="t-label">H1</span><p class="t-h1">Page title with an <span class="accent">accent</span></p></div>
+      <div class="ks-row"><span class="t-label">H2</span><p class="t-h2">Section title, up to twenty two characters wide</p></div>
+      <div class="ks-row"><span class="t-label">Split</span><p class="t-split"><strong>What I can help with.</strong> The rest of the sentence sits in muted gray instead of a subtitle.</p></div>
+      <div class="ks-row"><span class="t-label">H3</span><p class="t-h3">Card and row titles</p></div>
+      <div class="ks-row"><span class="t-label">H4</span><p class="t-h4">Small titles and FAQ questions</p></div>
+      <div class="ks-row"><span class="t-label">Lead</span><p class="t-lead">Lead text under a page title, in muted gray, at most two or three lines long.</p></div>
+      <div class="ks-row"><span class="t-label">Body</span><p class="t-body">Body text at 16px with a 1.6 line height, in the second ink color, for everything that is not a heading.</p></div>
+      <div class="ks-row"><span class="t-label">Small</span><p class="t-small">Captions, meta lines and the footer.</p></div>
+      <div class="ks-row"><span class="t-label">Label</span><p class="t-label">Sentence case label, 2026, 01 to 04</p></div>
+      <div class="ks-row"><span class="t-label">Numerals</span><p class="ks-nums"><span class="t-num">3 of 30</span><span class="t-step">01</span></p></div>
+    </div>
+  </Section>
+
+  <Section id="buttons" labelledby="buttons-title">
+    <SectionHead id="buttons-title" title="Buttons and links" />
+    <div class="ks-stack">
+      <div class="btn-row">
+        <Button href="/contact">Primary internal</Button>
+        <Button href="https://example.com">Primary external</Button>
+        <Button href="/work" variant="secondary">Secondary internal</Button>
+        <Button href={SITE.booking} variant="secondary">Secondary external</Button>
+      </div>
+      <div class="btn-row">
+        <Button href="/contact" size="sm">Small primary</Button>
+        <Button href="/work" size="sm" variant="secondary">Small secondary</Button>
+        <Button disabled>Disabled</Button>
+        <Button type="button" variant="secondary" arrow="right">Button element</Button>
+      </div>
+      <div class="btn-row">
+        <a class="link-arrow" href="/work">Arrow link<Icon name="arrow-right" strokeWidth={2} /></a>
+        <a class="link-arrow" href="https://example.com" target="_blank" rel="noopener">External arrow link<Icon name="arrow-up-right" strokeWidth={2} /></a>
+        <p>An <a class="link" href="/resources">inline text link</a> inside a sentence.</p>
+      </div>
+      <div class="band band--navy ks-navy">
+        <div class="btn-row btn-row--stack">
+          <Button href="/contact">Primary on navy</Button>
+          <Button href={SITE.booking} variant="secondary">Secondary on navy</Button>
+        </div>
+        <a class="link-arrow" href="/work">Arrow link on navy<Icon name="arrow-right" strokeWidth={2} /></a>
+      </div>
+      <div class="ks-icons">
+        {(['arrow-right', 'arrow-left', 'arrow-up-right', 'arrow-up', 'check', 'x', 'plus', 'menu', 'close'] as const).map((name) => (
+          <span class="ks-icon"><Icon name={name} size={20} /><span class="t-label">{name}</span></span>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section id="heads" labelledby="heads-title">
+    <div class="ks-stack ks-stack--wide">
+      <SectionHead id="heads-title" label="Shape 1" title="A section title on its own" />
+      <SectionHead label="Shape 2" strong="What I can help with." rest="Four kinds of build, one person who stays reachable after launch." />
+      <SectionHead label="Shape 3" title="Selected work" lead="A lead on the right, bottom aligned with the title, with one link under it." link={{ href: '/work', label: 'All work' }} />
+    </div>
+  </Section>
+
+  <Section id="ruled" labelledby="ruled-title">
+    <SectionHead id="ruled-title" title="Ruled grids and stats" />
+    <div class="ks-stack ks-stack--wide">
+      <RuledGrid cols={3}>
+        <RuledCell span={2} label="Featured cell" title="A span-2 cell can carry art" text="It counts as two cells, so this row of three is full.">
+          <Art seed="ruled-feature" kind="service" ratio="16 / 6" />
+        </RuledCell>
+        <RuledCell href="/resources" label="12 guides" title="Linked cell" text="The whole cell is the link and fills white on hover." cta="Read the guides" />
+      </RuledGrid>
+      <RuledGrid cols={2}>
+        {STATS.map((s) => <StatCell value={s.value} caption={s.caption} source={s.source} />)}
+      </RuledGrid>
+      <RuledGrid cols={3}>
+        <QuoteCard quote="Placeholder for a real, approved quote, with client names removed. No stars, no logos." name="First name" role="Generic role" />
+        <QuoteCard quote="A second placeholder quote. Quotes stay out of the site until Neil approves real ones." role="Generic role" />
+        <QuoteCard quote="A third placeholder, so the row of three is full." name="First name" />
+      </RuledGrid>
+    </div>
+  </Section>
+
+  <Section id="cards" labelledby="cards-title">
+    <SectionHead id="cards-title" strong="Cards." rest="One bento for the services, featured splits and work cards for projects, tool cards for free tools." />
+    <Bento label="Services">
+      {SERVICES.map((s, i) => (
+        <BentoCard href={s.href} title={s.name} text={s.line} items={i === 0 ? s.items : undefined} seed={s.slug} layout={s.layout} palette={s.palette} data-reveal />
+      ))}
+    </Bento>
+  </Section>
+
+  <Section id="work-sample" labelledby="work-title">
+    <SectionHead id="work-title" title="Selected work" lead="Featured split first, then a two-column grid of work cards." link={{ href: '/work', label: 'All work' }} />
+    <div class="ks-stack ks-stack--wide">
+      <FeatureSplit
+        label={PROJECTS[0].category}
+        title={PROJECTS[0].title}
+        text={PROJECTS[0].text}
+        items={PROJECTS[0].built}
+        stack={PROJECTS[0].stack}
+        cta={{ href: PROJECTS[0].href, label: 'Read the case study' }}
+        seed={PROJECTS[0].slug}
+      />
+      <div class="work-grid">
+        {PROJECTS.map((p) => (
+          <WorkCard href={p.href} title={p.title} text={p.text} category={p.category} year={p.year} outcome={p.outcome} seed={p.slug} data-reveal />
+        ))}
+      </div>
+      <FeatureSplit reverse label="Reverse" title="Featured split with the art on the right" text="Same frame, art on the right, a button instead of an arrow link." seed="feature-reverse" kind="tool" cta={{ href: '/free', label: 'Open the tool', style: 'button' }} />
+    </div>
+  </Section>
+
+  <Section id="tools" labelledby="tools-title">
+    <SectionHead id="tools-title" title="Free tools" lead="Three across on desktop, a row layout on tablets, one column on phones." link={{ href: '/free', label: 'All free tools' }} />
+    <div class="tool-grid">
+      {SAMPLE_TOOLS.map((t) => (
+        <ToolCard href={t.href} name={t.name} text={t.text} platform={t.platform} free={t.free} seed={t.slug} data-reveal />
+      ))}
+    </div>
+  </Section>
+
+  <Section band="mist" id="steps" labelledby="steps-title">
+    <SectionHead id="steps-title" title="How it works" />
+    <Steps items={STEPS} />
+  </Section>
+
+  <Section id="lists" labelledby="lists-title">
+    <SectionHead id="lists-title" title="Lists" />
+    <div class="ks-cols">
+      <div class="ks-stack">
+        <p class="t-label">Checklist</p>
+        <CheckList items={SERVICES[0].items} />
+        <p class="t-label">Title and text</p>
+        <CheckList items={[{ title: 'A bold first line', text: 'A muted line under it with the detail.' }, { title: 'Another item', text: 'Short and specific.' }]} />
+        <p class="t-label">Not included</p>
+        <CheckList variant="no" items={['Muted x marks, never red', 'For "not a fit" lists']} />
+      </div>
+      <div class="ks-stack ks-stack--wide">
+        <p class="t-label">Definition rows</p>
+        <DefList items={[{ term: 'Time zone', value: SITE.timezone }, { term: 'Reply on', value: 'WhatsApp or email' }, { term: 'Email', value: SITE.email, href: mailUrl() }]} />
+        <p class="t-label">Compact steps</p>
+        <Steps compact items={[{ title: 'You send a rough idea', text: 'A few lines is enough.' }, { title: 'I reply with questions', text: 'And how I would approach it.' }, { title: 'We pick a first step', text: 'Small, scoped and dated.' }]} as="h4" />
+      </div>
+    </div>
+    <div class="ks-gap">
+      <FitList fit={FIT.fit} notFit={FIT.notFit} />
+    </div>
+  </Section>
+
+  <Section id="resources" labelledby="resources-title">
+    <SectionHead id="resources-title" title="Resources" lead="Filter tabs over the resource table. Without JS the tabs hide and every row shows." link={{ href: '/resources', label: 'All resources' }} />
+    <div class="ks-stack ks-stack--wide">
+      <Tabs
+        target="ks-resources"
+        label="Filter resources"
+        tabs={[
+          { key: 'all', label: 'All', count: RESOURCES.length },
+          { key: 'guide', label: 'Guides', count: count('Guide') },
+          { key: 'comparison', label: 'Comparisons', count: count('Comparison') },
+          { key: 'research', label: 'Research', count: count('Research') },
+        ]}
+      />
+      <ResourceTable id="ks-resources" rows={RESOURCES} />
+    </div>
+  </Section>
+
+  <Section id="faq" labelledby="faq-title">
+    <Faq id="faq-title" title="Questions" lead="One line under the title. The answers are open by tap, no boxes." items={MORE_FAQS} />
+  </Section>
+
+  <Section band="mist" id="forms" labelledby="forms-title">
+    <SectionHead id="forms-title" title="Forms, contact and portrait" />
+    <div class="ks-cols ks-cols--form">
+      <form class="form-card" action="#" novalidate onsubmit="event.preventDefault()">
+        <div class="field">
+          <label for="ks-name">Name</label>
+          <input class="input" id="ks-name" name="name" type="text" autocomplete="name" />
+          <span class="field-error">Tell me who I am talking to.</span>
+        </div>
+        <div class="field" data-invalid>
+          <label for="ks-email">Email</label>
+          <input class="input" id="ks-email" name="email" type="email" value="not-an-email" />
+          <span class="field-error">I need a real email to reply to.</span>
+        </div>
+        <div class="field">
+          <label for="ks-company">Company <span class="opt">(optional)</span></label>
+          <input class="input" id="ks-company" name="company" type="text" placeholder="Where you work" />
+          <span class="field-error"></span>
+        </div>
+        <fieldset class="field">
+          <legend>What do you need?</legend>
+          <div class="choices">
+            {['AI agent', 'Custom software', 'Automation', 'Website or funnel', 'Not sure yet'].map((c, i) => (
+              <>
+                <input type="radio" id={`ks-need-${i}`} name="need" value={c} checked={i === 0} />
+                <label for={`ks-need-${i}`}>{c}</label>
+              </>
+            ))}
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="ks-message">Message</label>
+          <textarea class="textarea" id="ks-message" name="message" placeholder="A rough idea is enough"></textarea>
+          <span class="field-error"></span>
+        </div>
+        <Button type="submit">Send message</Button>
+      </form>
+      <div class="ks-stack ks-stack--wide">
+        <Breadcrumb items={[{ name: 'Home', url: `${SITE.url}/` }, { name: 'All work', url: `${SITE.url}/work` }, { name: 'This page', url: `${SITE.url}/dev/kitchen-sink` }]} schema={false} />
+        <ContactChannels />
+        <div class="form-success" role="status">
+          <p class="t-h4">Sent. Thank you.</p>
+          <p class="t-body">Success panel that replaces the form in place.</p>
+        </div>
+        <div class="ks-portraits">
+          <Portrait class="ks-portrait" />
+          <div class="ks-author">
+            <Portrait variant="avatar" seed="portrait-avatar" />
+            <div>
+              <p class="t-h4">{SITE.name}</p>
+              <p class="t-small">Author box avatar, 72px.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="art" labelledby="art-title">
+    <SectionHead id="art-title" title="Placeholder art" lead="Seeded by slug: the same slug always draws the same picture. Blues, navy, pale and white grounds with one small warm spark at most." />
+    <div class="ks-art">
+      {ART_SAMPLES.map((a) => (
+        <figure class="ks-art-item">
+          <Art seed={a.seed} kind={a.kind} palette={a.palette} />
+          <figcaption class="work-meta">
+            <span class="t-label">{a.kind}{a.palette ? `, ${a.palette}` : ''}</span>
+            <span class="t-label">{a.seed}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <div class="ks-gap">
+      <p class="t-label">Static prompt card (in the page flow)</p>
+      <PromptCard class="ks-prompt" />
+    </div>
+  </Section>
+
+  <Section id="prose" labelledby="prose-title" wrap="measure">
+    <div class="prose">
+      <h2 id="prose-title">Prose for articles</h2>
+      <p>Body copy at 18px with a 1.7 line height and a 680px measure. Links look like <a href="/resources">this one</a>, and <strong>strong text</strong> turns to ink.</p>
+      <h3>A third level heading</h3>
+      <ul>
+        <li>Unordered list items use pale cobalt markers.</li>
+        <li>Each item is spaced 8px from the next.</li>
+      </ul>
+      <ol>
+        <li>Ordered lists use muted numerals with even widths.</li>
+        <li>Second step.</li>
+      </ol>
+      <blockquote><p>A pull quote sits between two hairlines. Never a side border.</p></blockquote>
+      <div class="callout"><span class="callout-label">Note</span><p>A callout on the mist fill, for side notes and warnings.</p></div>
+      <p>Inline <code>code()</code> sits on mist. Blocks sit on ink:</p>
+      <pre><code>const greeting = 'Hi Neil, I want to build something.';
+console.log(greeting);</code></pre>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Option</th><th>Best for</th><th>Setup</th><th>Monthly</th></tr></thead>
+          <tbody>
+            <tr><td>Off the shelf</td><td>Standard processes</td><td>Days</td><td>Per seat</td></tr>
+            <tr><td>Custom build</td><td>Work that does not fit a template</td><td>2 to 4 weeks</td><td>Hosting only</td></tr>
+            <tr><td>Automation</td><td>Glue between tools you keep</td><td>Days</td><td>Usage based</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <hr />
+      <p>The closing ask and the footer below come from the shell on every page.</p>
+    </div>
+  </Section>
+</AppShell>
+
+<style>
+  .ks-stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-content: start; justify-items: start; }
+  .ks-stack--wide { justify-items: stretch; gap: 32px; }
+  .ks-gap { margin-top: 40px; }
+  .ks-type { display: grid; border-top: 1px solid var(--line); }
+  .ks-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .ks-nums { display: flex; align-items: baseline; gap: 40px; }
+  .ks-navy { display: grid; gap: 16px; justify-items: start; padding: 32px; border-radius: var(--r-lg); }
+  .ks-icons { display: flex; flex-wrap: wrap; gap: 12px 28px; }
+  .ks-icon { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+  .ks-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px var(--grid-gap); }
+  .ks-cols--form { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+  .ks-portraits { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: end; width: 100%; }
+  .ks-author { display: flex; align-items: center; gap: 16px; }
+  .ks-art { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px var(--grid-gap); }
+  .ks-art-item { display: grid; gap: 10px; align-content: start; }
+  .ks-art-item .work-meta { margin: 0; }
+  @media (max-width: 1023px) { .ks-art { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 900px) {
+    .ks-cols, .ks-cols--form { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .ks-row { grid-template-columns: 1fr; gap: 6px; }
+    .ks-art { grid-template-columns: 1fr; }
+    .ks-portraits { grid-template-columns: minmax(0, 200px); }
+    .ks-navy { padding: 24px 20px; }
+  }
+</style>

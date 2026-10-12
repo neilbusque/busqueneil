@@ -1,0 +1,41 @@
+---
+/* Bento card: white, hairline border, title and one line at the top with an arrow square,
+   an optional checklist (large card only), and art bleeding to the bottom and side edges.
+   The whole card is the link. */
+import Art from '../Art.astro';
+import Icon from './Icon.astro';
+import CheckList from './CheckList.astro';
+import type { ArtKind, ArtLayout, PaletteName } from '../../lib/art';
+
+interface Props {
+  href: string;
+  title: string;
+  text: string;
+  /** "What you get" items. Put them on the first, large card only. */
+  items?: string[];
+  /** Art seed, usually the service slug. */
+  seed: string;
+  kind?: ArtKind;
+  palette?: PaletteName;
+  layout?: ArtLayout;
+  /** Real image in the same frame. */
+  image?: string;
+  imageAlt?: string;
+  as?: 'h2' | 'h3';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, title, text, items, seed, kind = 'service', palette, layout, image, imageAlt, as: Title = 'h3', class: className, ...rest } = Astro.props;
+---
+<a class:list={['card', className]} href={href} {...rest}>
+  <div class="card-top">
+    <div class="card-copy">
+      <Title class="t-h3">{title}</Title>
+      <p>{text}</p>
+    </div>
+    <span class="go" aria-hidden="true"><Icon name="arrow-right" strokeWidth={2} /></span>
+  </div>
+  {items && items.length > 0 && <CheckList items={items} />}
+  <Art seed={seed} kind={kind} ratio="16 / 7" palette={palette} layout={layout} src={image} alt={imageAlt} />
+</a>

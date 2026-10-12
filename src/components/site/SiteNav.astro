@@ -1,0 +1,111 @@
+---
+/* Top bar and phone menu sheet. AppShell renders it; pages pass `active` through AppShell.
+   Desktop: wordmark left, four links centered, Contact plus one small primary button right.
+   900px and below: wordmark, the small button and a menu button that opens a full-screen
+   sheet (a modal dialog: focus stays inside, Esc closes, body scroll locks, 60px rows,
+   full-width button at the bottom above the safe area).
+   Without JS the menu button is a plain link to the footer, which lists every page. */
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { NAV, NAV_CONTACT, SITE, type NavKey } from '../../data/site';
+
+interface Props {
+  active?: NavKey | 'contact' | 'home' | null;
+  cta: { href: string; label: string; labelShort?: string };
+}
+
+const { active = null, cta } = Astro.props;
+const short = cta.labelShort && cta.labelShort !== cta.label ? cta.labelShort : null;
+const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === n.key })), { href: NAV_CONTACT.href, label: NAV_CONTACT.label, on: active === 'contact' }];
+---
+<header class="nav">
+  <nav class="wrap nav-inner" aria-label="Primary">
+    <a class="wordmark" href="/" aria-current={active === 'home' ? 'page' : undefined}>{SITE.name}</a>
+    <ul class="nav-links" role="list">
+      {NAV.map((n) => (
+        <li><a class="nav-link" href={n.href} aria-current={active === n.key ? 'page' : undefined}>{n.label}</a></li>
+      ))}
+    </ul>
+    <div class="nav-end">
+      <a class="nav-link" href={NAV_CONTACT.href} aria-current={active === 'contact' ? 'page' : undefined}>{NAV_CONTACT.label}</a>
+      <Button href={cta.href} size="sm">
+        {short ? (
+          <><span class="lbl-full">{cta.label}</span><span class="lbl-short">{short}</span></>
+        ) : (
+          cta.label
+        )}
+      </Button>
+      <a class="menu-btn" href="#site-footer" data-menu-open aria-label="Menu">
+        <Icon name="menu" strokeWidth={1.75} />
+      </a>
+    </div>
+  </nav>
+
+  <dialog class="sheet" id="site-menu" data-menu-sheet aria-label="Menu">
+    <div class="sheet-head">
+      <a class="wordmark" href="/">{SITE.name}</a>
+      <button class="menu-btn" type="button" data-menu-close aria-label="Close menu" autofocus>
+        <Icon name="close" strokeWidth={1.75} />
+      </button>
+    </div>
+    <ul class="sheet-links" role="list">
+      {rows.map((r) => (
+        <li>
+          <a href={r.href} aria-current={r.on ? 'page' : undefined}>
+            {r.label}<Icon name="arrow-right" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="sheet-foot">
+      <Button href={cta.href} full>{cta.label}</Button>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  const opener = document.querySelector<HTMLAnchorElement>('[data-menu-open]');
+  const sheet = document.querySelector<HTMLDialogElement>('[data-menu-sheet]');
+
+  if (opener && sheet && typeof sheet.showModal === 'function') {
+    const root = document.documentElement;
+    let returnTo: HTMLElement | null = null;
+
+    opener.setAttribute('role', 'button');
+    opener.setAttribute('aria-haspopup', 'dialog');
+    opener.setAttribute('aria-controls', sheet.id);
+    opener.setAttribute('aria-expanded', 'false');
+
+    const open = (event: Event) => {
+      event.preventDefault();
+      if (sheet.open) return;
+      returnTo = document.activeElement instanceof HTMLElement ? document.activeElement : opener;
+      sheet.showModal();
+      root.classList.add('sheet-open');
+      opener.setAttribute('aria-expanded', 'true');
+    };
+
+    opener.addEventListener('click', open);
+    opener.addEventListener('keydown', (event) => {
+      if (event.key === ' ') open(event);
+    });
+
+    // Esc fires "cancel" then "close" natively; every way of closing ends here.
+    sheet.addEventListener('close', () => {
+      root.classList.remove('sheet-open');
+      opener.setAttribute('aria-expanded', 'false');
+      if (returnTo && document.contains(returnTo)) returnTo.focus();
+      returnTo = null;
+    });
+
+    sheet.querySelector('[data-menu-close]')?.addEventListener('click', () => sheet.close());
+    sheet.addEventListener('click', (event) => {
+      if ((event.target as Element | null)?.closest('a')) sheet.close();
+    });
+
+    const desktop = window.matchMedia('(min-width: 901px)');
+    desktop.addEventListener('change', (event) => {
+      if (event.matches && sheet.open) sheet.close();
+    });
+  }
+</script>

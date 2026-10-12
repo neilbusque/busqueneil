@@ -1,0 +1,23 @@
+---
+/* Ruled grid: cells share 1px hairlines, no radius, no shadow.
+   cols 4 goes 4, 2, 1 across breakpoints; cols 3 goes 3, 1; cols 2 goes 2, 1.
+   The cell count must fill every row at every width: 4 or 8 cells for cols 4, 3 or 6 for
+   cols 3, 2 or 4 for cols 2. A span-2 cell counts as two.
+   Children: RuledCell, StatCell, QuoteCard, or any single element (it gets cell padding). */
+
+interface Props {
+  cols?: 2 | 3 | 4;
+  /** Accessible name when the grid is a meaningful group, such as a list of services. */
+  label?: string;
+  class?: string;
+}
+
+const { cols = 4, label, class: className } = Astro.props;
+---
+<div
+  class:list={['ruled', cols === 3 && 'ruled--3', cols === 2 && 'ruled--2', className]}
+  role={label ? 'group' : undefined}
+  aria-label={label}
+>
+  <slot />
+</div>

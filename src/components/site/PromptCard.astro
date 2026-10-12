@@ -1,0 +1,111 @@
+---
+/* Prompt card: a one-line brief that opens WhatsApp with the message ready to send.
+   Row 1: input and a cobalt send button. Row 2: suggestion chips that fill the input
+   (three on desktop, two on phones; they wrap or truncate, never overflow the card).
+   Submit opens waUrl(prefix + text) in a new tab. An empty submit just focuses the input.
+   Without JS the form still submits to WhatsApp with the raw text.
+   It is a form, not a chatbot: nothing on it promises an AI answer.
+   `floating` pins it inside a positioned parent (the hero media panel), 24px from the
+   bottom left (12px on phones). Without it the card sits in the flow at up to 480px wide. */
+import Icon from './Icon.astro';
+import { PROMPT_CHIPS, SITE, WA_PROMPT_PREFIX } from '../../data/site';
+
+interface Props {
+  placeholder?: string;
+  /** Shorter placeholder for phones, where the long one would be cut off. */
+  placeholderShort?: string;
+  chips?: string[];
+  /** Text placed before the visitor's words in the WhatsApp message. */
+  prefix?: string;
+  /** Visually hidden label for the input. */
+  label?: string;
+  floating?: boolean;
+  class?: string;
+}
+
+const {
+  placeholder = 'Describe what you want to build or automate',
+  placeholderShort = 'What should we build?',
+  chips = PROMPT_CHIPS,
+  prefix = WA_PROMPT_PREFIX,
+  label = 'Describe what you want to build',
+  floating = false,
+  class: className,
+} = Astro.props;
+
+const uid = `prompt-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class:list={['prompt', floating && 'prompt--float', className]}>
+  <form
+    class="prompt-row"
+    action={`https://wa.me/${SITE.whatsapp}`}
+    method="get"
+    target="_blank"
+    rel="noopener"
+    data-prompt
+    data-prefix={prefix}
+    data-placeholder={placeholder}
+    data-placeholder-short={placeholderShort}
+  >
+    <label class="sr-only" for={uid}>{label}</label>
+    <input
+      class="prompt-input"
+      id={uid}
+      name="text"
+      type="text"
+      autocomplete="off"
+      enterkeyhint="send"
+      placeholder={placeholder}
+    />
+    <button class="prompt-send" type="submit" aria-label="Send on WhatsApp (opens in a new tab)" title="Send on WhatsApp">
+      <Icon name="arrow-up" strokeWidth={2} />
+    </button>
+  </form>
+  {chips.length > 0 && (
+    <div class="prompt-chips" role="group" aria-label="Suggestions">
+      {chips.slice(0, 3).map((c) => (
+        <button type="button" class="chip" data-fill={c} aria-controls={uid}>{c}</button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  import { waUrl } from '../../data/site';
+
+  const phone = window.matchMedia('(max-width: 640px)');
+
+  document.querySelectorAll<HTMLFormElement>('form[data-prompt]').forEach((form) => {
+    const input = form.querySelector<HTMLInputElement>('.prompt-input');
+    if (!input) return;
+    const card = form.closest('.prompt');
+    const prefix = form.dataset.prefix ?? '';
+    const long = form.dataset.placeholder ?? input.placeholder;
+    const short = form.dataset.placeholderShort || long;
+
+    const setPlaceholder = () => {
+      input.placeholder = phone.matches ? short : long;
+    };
+    setPlaceholder();
+    phone.addEventListener('change', setPlaceholder);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) {
+        input.focus();
+        return;
+      }
+      window.open(waUrl(prefix + text), '_blank', 'noopener');
+    });
+
+    card?.querySelectorAll<HTMLButtonElement>('.chip[data-fill]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        input.value = chip.dataset.fill ?? chip.textContent?.trim() ?? '';
+        input.focus();
+        const end = input.value.length;
+        input.setSelectionRange(end, end);
+      });
+    });
+  });
+</script>

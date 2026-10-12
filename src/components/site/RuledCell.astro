@@ -1,0 +1,52 @@
+---
+/* One cell of a RuledGrid. With `href` the whole cell is the link and fills white on hover.
+   Layout top to bottom: label, title, text, default slot, then a foot pinned to the bottom
+   (`cta` text on a linked cell, or a separate `link` on a plain cell). */
+import Icon from './Icon.astro';
+
+interface Props {
+  href?: string;
+  label?: string;
+  title?: string;
+  titleAs?: 'h2' | 'h3' | 'h4';
+  /** Smaller 17px title, for strips and indexes (the capability strip under the hero). */
+  compact?: boolean;
+  text?: string;
+  /** Takes two columns where the grid has room. Counts as two cells. */
+  span?: 1 | 2;
+  /** Words shown at the bottom of a linked cell, with an arrow, for example "Read the guides". */
+  cta?: string;
+  /** Separate arrow link at the bottom of a cell that is not itself a link. */
+  link?: { href: string; label: string };
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, label, title, titleAs: Title = 'h3', compact = false, text, span = 1, cta, link, class: className, ...rest } = Astro.props;
+const isHttp = (u?: string) => Boolean(u && /^https?:/i.test(u));
+const leaves = (u?: string) => Boolean(u && /^(https?:|mailto:|tel:)/i.test(u));
+const Tag = href ? 'a' : 'div';
+const titleClass = compact || Title === 'h4' ? 't-h4' : 't-h3';
+---
+<Tag
+  class:list={[span === 2 && 'span-2', className]}
+  href={href}
+  target={isHttp(href) ? '_blank' : undefined}
+  rel={isHttp(href) ? 'noopener' : undefined}
+  {...rest}
+>
+  {label && <p class="t-label">{label}</p>}
+  {title && <Title class={titleClass}>{title}</Title>}
+  {text && <p class="cell-text">{text}</p>}
+  <slot />
+  {href && cta && (
+    <span class="cell-foot cell-go">{cta}<Icon name={leaves(href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} /></span>
+  )}
+  {!href && link && (
+    <span class="cell-foot">
+      <a class="link-arrow" href={link.href} target={isHttp(link.href) ? '_blank' : undefined} rel={isHttp(link.href) ? 'noopener' : undefined}>
+        {link.label}<Icon name={leaves(link.href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+      </a>
+    </span>
+  )}
+</Tag>

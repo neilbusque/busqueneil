@@ -1,0 +1,14 @@
+---
+/* Bento grid for BentoCards: first card 8 columns, second 4, then halves. Stacks below 900px.
+   Use once per page at most (the services overview). Four cards is the intended count. */
+
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+<div class:list={['bento', className]} role={label ? 'group' : undefined} aria-label={label}>
+  <slot />
+</div>

@@ -1,0 +1,69 @@
+---
+/* Button: a link when `href` is set, otherwise a <button>.
+   Variants: primary (cobalt fill) and secondary (white, outlined). size="sm" is the 36px nav size.
+   On the navy band both variants switch to their navy look automatically; pass onNavy to get
+   that look on any other navy surface.
+   Arrow rule: external links (http, mailto, tel) get the up-right arrow, internal primary
+   buttons get the right arrow, internal secondary buttons get none. Override with `arrow`.
+   http(s) links open in a new tab by default and say so to screen readers. */
+import Icon from './Icon.astro';
+
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'sm';
+  arrow?: 'auto' | 'right' | 'external' | 'none';
+  onNavy?: boolean;
+  /** Full width. Use .btn-row--stack on the row instead when only phones should go full width. */
+  full?: boolean;
+  /** Defaults to true for http(s) links. */
+  newTab?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  /** Text when no slot content is given. */
+  label?: string;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  arrow = 'auto',
+  onNavy = false,
+  full = false,
+  newTab,
+  type = 'button',
+  label,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const isHttp = typeof href === 'string' && /^https?:\/\//i.test(href);
+const leavesSite = typeof href === 'string' && (isHttp || /^(mailto|tel|sms):/i.test(href));
+const openNew = newTab ?? isHttp;
+const icon = arrow === 'auto' ? (leavesSite ? 'external' : variant === 'primary' ? 'right' : 'none') : arrow;
+const classes = [
+  'btn',
+  `btn--${variant}`,
+  size === 'sm' && 'btn--sm',
+  onNavy && 'btn--on-navy',
+  full && 'btn--full',
+  className,
+];
+const attrs = rest as Record<string, unknown>;
+---
+{href ? (
+  <a class:list={classes} href={href} target={openNew ? '_blank' : undefined} rel={openNew ? 'noopener' : undefined} {...attrs}>
+    <slot>{label}</slot>
+    {openNew && <span class="sr-only"> (opens in a new tab)</span>}
+    {icon === 'right' && <Icon name="arrow-right" strokeWidth={2} />}
+    {icon === 'external' && <Icon name="arrow-up-right" strokeWidth={2} />}
+  </a>
+) : (
+  <button class:list={classes} type={type} {...attrs}>
+    <slot>{label}</slot>
+    {icon === 'right' && <Icon name="arrow-right" strokeWidth={2} />}
+    {icon === 'external' && <Icon name="arrow-up-right" strokeWidth={2} />}
+  </button>
+)}

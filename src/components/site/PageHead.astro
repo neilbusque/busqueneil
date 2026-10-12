@@ -1,0 +1,30 @@
+---
+/* Page head for inner pages: optional label, H1, lead, then whatever goes in the default slot
+   (usually a .btn-row). Content in the "aside" slot fills a right column (grid 7 | 5), for
+   example a ruled index of services or a search field. Without an aside the copy runs wider.
+   It renders its own container, so place it directly in the page, not inside a Section. */
+
+interface Props {
+  title: string;
+  /** Words appended to the title in cobalt. */
+  accent?: string;
+  label?: string;
+  lead?: string;
+  id?: string;
+  class?: string;
+}
+
+const { title, accent, label, lead, id, class: className } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+<header class:list={['phead', !hasAside && 'phead--solo', className]}>
+  <div class="wrap phead-grid">
+    <div class="phead-main">
+      {label && <p class="t-label">{label}</p>}
+      <h1 class="t-h1" id={id}>{title}{accent && <> <span class="accent">{accent}</span></>}</h1>
+      {lead && <p class="t-lead">{lead}</p>}
+      <slot />
+    </div>
+    {hasAside && <div class="phead-aside"><slot name="aside" /></div>}
+  </div>
+</header>

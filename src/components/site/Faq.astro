@@ -1,0 +1,73 @@
+---
+/* FAQ: <details> rows with hairlines, a plus that turns into a cross when open, no boxes.
+   Works without JS. With `title` it renders the two-column section layout: H2, one line and
+   an "Ask me directly" link on the left (WhatsApp by default), questions on the right.
+   `schema` also emits FAQPage JSON-LD; only use it when these questions are visible here and
+   not already marked up by the page layout. */
+import Icon from './Icon.astro';
+import { waUrl } from '../../data/site';
+
+interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+  lead?: string;
+  /** Link under the intro. false hides it. */
+  ask?: { href: string; label: string } | false;
+  schema?: boolean;
+  /** Heading id, for aria-labelledby on the section. */
+  id?: string;
+  class?: string;
+}
+
+const {
+  items,
+  title,
+  lead,
+  ask = { href: waUrl('Hi Neil, I have a question.'), label: 'Ask me directly' },
+  schema = false,
+  id,
+  class: className,
+} = Astro.props;
+
+const paragraphs = (a: string) => a.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+const isHttp = ask ? /^https?:/i.test(ask.href) : false;
+const leaves = ask ? /^(https?:|mailto:)/i.test(ask.href) : false;
+const json = schema
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    }
+  : null;
+---
+{title ? (
+  <div class:list={['faq-layout', className]}>
+    <div class="faq-intro">
+      <h2 class="t-h2" id={id}>{title}</h2>
+      {lead && <p class="t-lead">{lead}</p>}
+      {ask && (
+        <a class="link-arrow" href={ask.href} target={isHttp ? '_blank' : undefined} rel={isHttp ? 'noopener' : undefined}>
+          {ask.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+        </a>
+      )}
+    </div>
+    <div class="faq">
+      {items.map((f) => (
+        <details>
+          <summary><span>{f.q}</span><Icon name="plus" strokeWidth={2} /></summary>
+          <div class="answer">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+) : (
+  <div class:list={['faq', className]}>
+    {items.map((f) => (
+      <details>
+        <summary><span>{f.q}</span><Icon name="plus" strokeWidth={2} /></summary>
+        <div class="answer">{paragraphs(f.a).map((p) => <p>{p}</p>)}</div>
+      </details>
+    ))}
+  </div>
+)}
+{json && <script type="application/ld+json" set:html={JSON.stringify(json)} />}

@@ -1,0 +1,31 @@
+---
+/* Portrait slot: 4/5 frame with a 16px radius, placeholder art (navy or mist) until Neil's
+   real photo exists, then the photo in the same frame (cover, anchored to the top).
+   variant "avatar" is the 72px square with a 12px radius for the article author box. */
+import Art from '../Art.astro';
+import type { PaletteName } from '../../lib/art';
+
+interface Props {
+  src?: string;
+  /** Required with src. */
+  alt?: string;
+  seed?: string;
+  variant?: 'full' | 'avatar';
+  palette?: PaletteName;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+}
+
+const { src, alt, seed = 'portrait', variant = 'full', palette, loading = 'lazy', class: className } = Astro.props;
+const avatar = variant === 'avatar';
+---
+<Art
+  seed={seed}
+  kind="portrait"
+  ratio={avatar ? '1 / 1' : '4 / 5'}
+  src={src}
+  alt={alt}
+  palette={palette}
+  loading={loading}
+  class:list={['portrait', avatar && 'portrait--avatar', className]}
+/>

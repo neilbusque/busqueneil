@@ -1,0 +1,82 @@
+---
+/* Featured split: one bordered white frame, art in 7 columns, body in 5. Art goes on top below
+   900px. Body top to bottom: label, title, context, a short checklist, the stack as one plain
+   line, then a button or arrow link pinned to the bottom. `reverse` puts the art on the right. */
+import Art from '../Art.astro';
+import Icon from './Icon.astro';
+import CheckList from './CheckList.astro';
+import type { ArtKind, ArtLayout, PaletteName } from '../../lib/art';
+
+interface Props {
+  title: string;
+  text: string;
+  label?: string;
+  /** Up to three short items. */
+  items?: string[];
+  /** Small heading over the items, for example "What I built". */
+  itemsTitle?: string;
+  /** Stack as one plain, comma separated line. No pills. */
+  stack?: string;
+  cta?: { href: string; label: string; style?: 'button' | 'arrow' };
+  seed: string;
+  kind?: ArtKind;
+  palette?: PaletteName;
+  layout?: ArtLayout;
+  image?: string;
+  imageAlt?: string;
+  reverse?: boolean;
+  as?: 'h2' | 'h3';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  title,
+  text,
+  label,
+  items,
+  itemsTitle = 'What I built',
+  stack,
+  cta,
+  seed,
+  kind = 'project',
+  palette,
+  layout,
+  image,
+  imageAlt,
+  reverse = false,
+  as: Title = 'h3',
+  class: className,
+  ...rest
+} = Astro.props;
+const leaves = Boolean(cta && /^(https?:|mailto:)/i.test(cta.href));
+const newTab = Boolean(cta && /^https?:/i.test(cta.href));
+---
+<article class:list={['feature', reverse && 'feature--reverse', className]} {...rest}>
+  <Art seed={seed} kind={kind} palette={palette} layout={layout} src={image} alt={imageAlt} />
+  <div class="feature-body">
+    {label && <p class="t-label">{label}</p>}
+    <Title class="feature-title">{title}</Title>
+    <p class="feature-text">{text}</p>
+    {items && items.length > 0 && (
+      <div class="feature-list">
+        <p class="t-label">{itemsTitle}</p>
+        <CheckList items={items} />
+      </div>
+    )}
+    {stack && <p class="t-label">{stack}</p>}
+    {cta && (
+      <div class="feature-cta">
+        {cta.style === 'button' ? (
+          <a class="btn btn--primary" href={cta.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
+            {cta.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+          </a>
+        ) : (
+          <a class="link-arrow" href={cta.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
+            {cta.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+          </a>
+        )}
+      </div>
+    )}
+  </div>
+</article>

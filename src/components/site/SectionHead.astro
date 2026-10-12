@@ -1,0 +1,59 @@
+---
+/* Section header. Pick one shape per section:
+     H2 alone            <SectionHead title="Selected work" />
+     split heading       <SectionHead strong="What I can help with." rest="Four kinds of build, one person." />
+     two columns         <SectionHead title="Selected work" lead="…" link={{ href: '/work', label: 'All work' }} />
+   The two-column shape is used whenever `lead` or `link` is given: H2 in 6 columns on the left,
+   lead and link in 5 columns on the right, bottom aligned. Stacks below 900px.
+   `label` adds a small line above the H2. Use it only when it carries information ("4 services"). */
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  /** Words appended to the title in cobalt. One accent per heading at most. */
+  accent?: string;
+  /** Split heading: the first sentence, in ink. */
+  strong?: string;
+  /** Split heading: the rest, in muted. */
+  rest?: string;
+  label?: string;
+  lead?: string;
+  link?: { href: string; label: string; style?: 'arrow' | 'button' };
+  /** Heading id, for aria-labelledby on the section. */
+  id?: string;
+  as?: 'h2' | 'h3';
+  class?: string;
+}
+
+const { title, accent, strong, rest, label, lead, link, id, as: Tag = 'h2', class: className } = Astro.props;
+const split = Boolean(strong);
+const cols = !split && Boolean(lead || link);
+const external = Boolean(link && /^(https?:|mailto:)/i.test(link.href));
+const newTab = Boolean(link && /^https?:/i.test(link.href));
+---
+<div class:list={['sec-head', cols && 'sec-head--cols', className]}>
+  <div class="sec-head-main">
+    {label && <p class="t-label">{label}</p>}
+    {split ? (
+      <Tag class="t-split" id={id}><strong>{strong}</strong>{rest && ` ${rest}`}</Tag>
+    ) : (
+      <Tag class="t-h2" id={id}>{title}{accent && <> <span class="accent">{accent}</span></>}</Tag>
+    )}
+  </div>
+  {cols && (
+    <div class="sec-head-side">
+      {lead && <p class="t-lead">{lead}</p>}
+      {link && (link.style === 'button' ? (
+        <a class="btn btn--secondary" href={link.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
+          {link.label}
+          {external && <Icon name="arrow-up-right" strokeWidth={2} />}
+        </a>
+      ) : (
+        <a class="link-arrow" href={link.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
+          {link.label}
+          <Icon name={external ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+        </a>
+      ))}
+    </div>
+  )}
+</div>

@@ -1,0 +1,26 @@
+---
+/* Numbered rows separated by hairlines: large pale numeral, title, text.
+   Desktop: numeral | title | text. Below 900px: numeral beside a title and text stack.
+   `compact` makes small 20px numerals and tighter rows (for "What happens next" lists). */
+
+interface Props {
+  items: { title: string; text: string }[];
+  /** First number. Numbers are zero padded: 01, 02, 03. */
+  start?: number;
+  compact?: boolean;
+  as?: 'h3' | 'h4';
+  class?: string;
+}
+
+const { items, start = 1, compact = false, as: Title = 'h3', class: className } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<ol class:list={['steps', compact && 'steps--compact', className]} role="list">
+  {items.map((step, i) => (
+    <li>
+      <span class="t-step" aria-hidden="true">{pad(start + i)}</span>
+      <Title class={compact ? 't-h4' : 't-h3'}>{step.title}</Title>
+      <p>{step.text}</p>
+    </li>
+  ))}
+</ol>

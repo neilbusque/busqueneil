@@ -1,0 +1,44 @@
+---
+/* Footer inside the navy block: brand column (wordmark, one line, email), three link columns
+   from FOOTER_COLUMNS, and a base row (copyright left; LinkedIn and email right).
+   AppShell renders it on every page. `current` marks the matching link with aria-current. */
+import { FOOTER_COLUMNS, FOOTER_TAGLINE, SITE, mailUrl } from '../../data/site';
+
+interface Props {
+  /** Path of the current page, to mark the matching footer link. */
+  current?: string;
+}
+
+const { current } = Astro.props;
+const year = new Date().getFullYear();
+const norm = (p?: string) => (p ? p.replace(/\/+$/, '') || '/' : '');
+const here = norm(current);
+---
+<footer class="footer" id="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="foot-brand">
+        <a class="wordmark" href="/">{SITE.name}</a>
+        <p>{FOOTER_TAGLINE}</p>
+        <a href={mailUrl()}>{SITE.email}</a>
+      </div>
+      {FOOTER_COLUMNS.map((col) => (
+        <nav aria-label={col.title}>
+          <h2 class="footer-head">{col.title}</h2>
+          <ul role="list">
+            {col.links.map((l) => (
+              <li><a href={l.href} aria-current={here && norm(l.href) === here ? 'page' : undefined}>{l.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+    <div class="footer-base">
+      <p>© {year} {SITE.name}</p>
+      <ul role="list">
+        <li><a href={SITE.linkedin} target="_blank" rel="me noopener">LinkedIn</a></li>
+        <li><a href={mailUrl()}>Email</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

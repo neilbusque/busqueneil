@@ -1,0 +1,25 @@
+---
+/* Quote card: real, approved words only, with client names removed. Usually a cell in a
+   3-column RuledGrid. No stars, no avatars, no logos. */
+
+interface Props {
+  quote: string;
+  /** A first name or nothing. Never a company. */
+  name?: string;
+  /** Generic role, for example "Owner, home services business". */
+  role?: string;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { quote, name, role, class: className, ...rest } = Astro.props;
+---
+<figure class:list={['quote', className]} {...rest}>
+  <blockquote><p>{quote}</p></blockquote>
+  {(name || role) && (
+    <figcaption>
+      {name && <strong>{name}</strong>}
+      {role && <span>{role}</span>}
+    </figcaption>
+  )}
+</figure>

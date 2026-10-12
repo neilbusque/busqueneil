@@ -1,0 +1,57 @@
+---
+/* Resource table: ink top rule, pale header row (Type, Title, Read, Date), 72px rows with
+   hairlines, whole row is the link and fills white on hover. Phones show the title and one
+   meta line (type and read time). Rows carry data-filter so Tabs can filter them: give the
+   table an `id` and point Tabs at it. */
+
+export interface ResourceRow {
+  href: string;
+  /** Kind shown in the first column, for example "Guide", "Comparison", "Research". */
+  type: string;
+  title: string;
+  excerpt?: string;
+  /** Read time as it should read, for example "8 min". */
+  read?: string;
+  /** Display date, for example "Aug 2026". */
+  date?: string;
+  /** Machine date for <time>, for example "2026-08-11". */
+  dateTime?: string;
+  /** Filter key(s) for Tabs, space separated. Defaults to the type in lowercase. */
+  filter?: string;
+}
+
+interface Props {
+  rows: ResourceRow[];
+  id?: string;
+  /** Show the header row. */
+  head?: boolean;
+  columns?: [string, string, string, string];
+  class?: string;
+}
+
+const { rows, id, head = true, columns = ['Type', 'Title', 'Read', 'Date'], class: className } = Astro.props;
+const keyOf = (r: ResourceRow) => r.filter ?? r.type.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const isHttp = (u: string) => /^https?:/i.test(u);
+---
+<div class:list={['rtable', className]} id={id}>
+  {head && (
+    <div class="rtable-head" aria-hidden="true">
+      {columns.map((c) => <span>{c}</span>)}
+    </div>
+  )}
+  <ul class="rtable-rows" role="list">
+    {rows.map((r) => (
+      <li data-filter={keyOf(r)}>
+        <a class="rtable-row" href={r.href} target={isHttp(r.href) ? '_blank' : undefined} rel={isHttp(r.href) ? 'noopener' : undefined}>
+          <span class="rt-type">{r.type}</span>
+          <span class="rt-main">
+            <span class="rt-title">{r.title}</span>
+            {r.excerpt && <span class="rt-excerpt">{r.excerpt}</span>}
+          </span>
+          <span class="rt-read">{r.read && <><span class="sr-only">Read time </span>{r.read}</>}</span>
+          <span class="rt-date">{r.date && <time datetime={r.dateTime}>{r.date}</time>}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

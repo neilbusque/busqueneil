@@ -1,0 +1,26 @@
+---
+/* Good fit / not a fit: two checklists side by side in a 2-cell ruled grid. Stacks on phones.
+   The "not" column uses muted x marks, never red. */
+import CheckList from './CheckList.astro';
+
+interface Props {
+  fit: string[];
+  notFit: string[];
+  fitTitle?: string;
+  notFitTitle?: string;
+  as?: 'h3' | 'h4';
+  class?: string;
+}
+
+const { fit, notFit, fitTitle = 'A good fit if', notFitTitle = 'Not a fit if', as: Title = 'h3', class: className } = Astro.props;
+---
+<div class:list={['ruled', 'ruled--2', 'fit', className]}>
+  <div>
+    <Title class="t-h4">{fitTitle}</Title>
+    <CheckList items={fit} />
+  </div>
+  <div>
+    <Title class="t-h4">{notFitTitle}</Title>
+    <CheckList items={notFit} variant="no" />
+  </div>
+</div>

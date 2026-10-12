@@ -1,0 +1,49 @@
+---
+/* Work card: art 16/10 on top; a meta row (category left, year right); title; one or two lines
+   of context; an optional real outcome. No box around the text. The whole card is the link.
+   Wrap several in <div class="work-grid"> (2 columns, 1 on phones).
+   Titles are generic descriptors, never client or product names. */
+import Art from '../Art.astro';
+import type { ArtLayout, PaletteName } from '../../lib/art';
+
+interface Props {
+  href: string;
+  title: string;
+  text: string;
+  category: string;
+  year?: string;
+  /** A real, checkable outcome. Leave out when there is none. */
+  outcome?: string;
+  /** Art seed, usually the project slug. */
+  seed: string;
+  palette?: PaletteName;
+  layout?: ArtLayout;
+  image?: string;
+  imageAlt?: string;
+  /** Use a data-filter key so Tabs can filter the grid. */
+  filter?: string;
+  as?: 'h2' | 'h3';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, title, text, category, year, outcome, seed, palette, layout, image, imageAlt, filter, as: Title = 'h3', class: className, ...rest } = Astro.props;
+const isHttp = /^https?:/i.test(href);
+---
+<a
+  class:list={['work-card', className]}
+  href={href}
+  data-filter={filter}
+  {...rest}
+  target={isHttp ? '_blank' : undefined}
+  rel={isHttp ? 'noopener' : undefined}
+>
+  <Art seed={seed} kind="project" palette={palette} layout={layout} src={image} alt={imageAlt} />
+  <div class="work-meta">
+    <span class="t-label">{category}</span>
+    {year && <span class="t-label">{year}</span>}
+  </div>
+  <Title>{title}</Title>
+  <p>{text}</p>
+  {outcome && <p class="work-outcome">{outcome}</p>}
+</a>
