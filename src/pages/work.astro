@@ -1,181 +1,95 @@
 ---
+/* Work: page head with filter tabs, the featured project, eight work cards, then the "More
+   builds" table. Copy follows the copy deck's WORK section; the lists come from
+   src/data/site.ts and this page's own strings from src/data/work-page.ts.
+   The tabs filter every [data-filter] element inside <main>: the featured split, the cards and
+   the table rows. Without JS the tab bar hides and everything shows. */
 import AppShell from '../layouts/AppShell.astro';
-import ClientLogos from '../components/ClientLogos.astro';
-import { caseStudies } from '../data/case-studies';
+import Section from '../components/site/Section.astro';
+import PageHead from '../components/site/PageHead.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import Tabs from '../components/site/Tabs.astro';
+import FeatureSplit from '../components/site/FeatureSplit.astro';
+import WorkCard from '../components/site/WorkCard.astro';
+import Breadcrumb from '../components/site/Breadcrumb.astro';
+import BuildsTable from '../components/work/BuildsTable.astro';
+import { FEATURED_PROJECT, MORE_BUILDS, PROJECTS, SITE, WORK_TABS } from '../data/site';
+import { WORK_PAGE } from '../data/work-page';
+import { PERSON_REF, WEBSITE_REF } from '../lib/seo';
+import '../styles/pages/work.css';
 
-type WorkItem = {
-  name: string;
-  tag: string;
-  description: string;
-  img?: string;
-  href?: string;
-  note?: string;
+export const prerender = true;
+
+const canonical = `${SITE.url}/work`;
+const cards = PROJECTS;
+const absolute = (href: string | null) => (href ? (href.startsWith('/') ? `${SITE.url}${href}` : href) : undefined);
+
+const listed = [FEATURED_PROJECT, ...cards, ...MORE_BUILDS];
+const collection = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${canonical}#collection`,
+  name: WORK_PAGE.title,
+  description: WORK_PAGE.description,
+  url: canonical,
+  isPartOf: WEBSITE_REF,
+  about: PERSON_REF,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Work',
+    numberOfItems: listed.length,
+    itemListElement: listed.map((p, i) => {
+      const url = absolute(p.href);
+      return { '@type': 'ListItem', position: i + 1, name: p.title, ...(url ? { url } : {}) };
+    }),
+  },
 };
-
-const SELECTED: WorkItem[] = [
-  {
-    name: 'Orbit CRM',
-    tag: 'CRM + AI agents',
-    description: 'A CRM and operations workspace with AI features, built to help manage relationships, projects, and follow-up in one place.',
-    img: '/assets/work/orbit-app.webp',
-    href: '/case-studies/orbit',
-  },
-  {
-    name: 'Tandem',
-    tag: 'App for couples',
-    description: 'A couples app built around connection, shared experiences, and the reality of being far apart.',
-    img: '/assets/work/tandem.webp',
-    href: '/case-studies/tandem',
-    note: 'Built this for my wife',
-  },
-  {
-    name: 'Darioo',
-    tag: 'Manufacturing site + app',
-    description: 'A client site and interactive product experience built to make a complex industrial business easier to understand.',
-    img: '/assets/work/darioo.webp',
-    href: 'https://darioo.com',
-  },
-  {
-    name: 'Scott Greenleaf',
-    tag: 'Client site',
-    description: 'A clearer, calmer client site focused on presentation, trust, and getting the message across cleanly.',
-    img: '/assets/work/scottgreenleaf.webp',
-    href: 'https://scottgreenleaf.com/',
-  },
-];
-
-const EXPERIMENTS: WorkItem[] = [
-  { name: 'Preflight', tag: 'Funnel testing', description: 'Score and click through a whole funnel before spending money on traffic.', img: '/assets/work/preflight.webp', href: 'https://preflight.neilb.app' },
-  { name: 'Flow', tag: 'Focus tool', description: 'A deep-work timer that blocks the noise instead of politely suggesting focus.', img: '/assets/work/flow.webp', href: 'https://goflow.space' },
-  { name: 'Cue', tag: 'Video tool', description: 'A teleprompter for talking-head video that keeps the script out of the way.', img: '/assets/work/cue.webp', href: 'https://cue.neilb.app' },
-  { name: 'Watch Together', tag: 'Personal product', description: 'Watch something in sync with someone far away, built for my own long-distance marriage.', img: '/assets/work/watch-together.webp', href: 'https://watch.yengandneil.site' },
-];
-
-const PRIVATE_TOOLS: WorkItem[] = [
-  { name: 'Portal', tag: 'Client files, updates, and approvals', description: 'One place for clients to see the work and respond without another email thread.', href: '/case-studies/lumen-portal' },
-  { name: 'Vid', tag: 'Screen recorder', description: 'Record a screen, share one link, and keep feedback attached to the thing itself.', img: '/assets/work/vid.webp' },
-  { name: 'Prism', tag: 'Research browser', description: 'A purpose-built browser for research sessions and AI-assisted synthesis.' },
-  { name: 'Hop', tag: 'Links + analytics', description: 'Short links, click analytics, and push notifications for the links I actually care about.', img: '/assets/work/hop.webp' },
-  { name: 'Magus', tag: 'Outreach agent', description: 'Research, draft, and follow-up support with a person reviewing what goes out.' },
-  { name: 'Otto', tag: 'AI command center', description: 'An internal operations workspace that helps me keep projects and follow-ups moving.', img: '/assets/work/otto.webp' },
-];
-
-const CAPABILITIES = [
-  ['AI agents connected to real tools', 'CRM, inbox, database, APIs, and approval steps instead of an isolated chatbot.'],
-  ['Custom software around the real workflow', 'Portals, dashboards, internal tools, and customer products shaped around how people already work.'],
-  ['Automations that survive real life', 'n8n, Zapier, GHL, webhooks, retries, failure paths, and a human in the loop where judgment matters.'],
-  ['Design and frontend craft', 'Responsive interfaces with clear hierarchy, thoughtful interaction, and fewer things competing for attention.'],
-  ['Testing and release work', 'Real-browser QA, permissions, edge cases, deployment, and the last part that turns a demo into dependable software.'],
-];
-
-const isExternal = (href?: string) => !!href && /^https?:\/\//.test(href);
 ---
-<AppShell
-  title="Work by Neil Busque | Apps, AI Agents and Internet Projects"
-  description="Selected apps, client work, experiments, and internal tools designed and built by Neil Busque."
-  active="work"
->
-  <div class="journal-page work-page">
-    <header class="journal-page-head">
-      <span class="eyebrow">Work</span>
-      <h1>Things I&rsquo;ve built and <em>shipped for real.</em></h1>
-      <p>A mix of client work, personal products, experiments, and private tools I made because I needed them. If there is a link, you can open the real thing.</p>
-    </header>
+<AppShell title={WORK_PAGE.title} description={WORK_PAGE.description} canonical={canonical} active="work">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
+  <Breadcrumb items={[{ name: 'Home', url: `${SITE.url}/` }, { name: 'Work', url: canonical }]} back={false} />
 
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Selected work</span>
-        <h2>A few good places to start.</h2>
-      </div>
-      <div class="journal-work">
-        {SELECTED.map((item, index) => (
-          <a class:list={['journal-work-item', { featured: index === 0 }]} href={item.href} target={isExternal(item.href) ? '_blank' : undefined} rel={isExternal(item.href) ? 'noopener' : undefined}>
-            <div class="journal-work-shot">
-              <img src={item.img} srcset={`${item.img!.replace('.webp', '-sm.webp')} 760w, ${item.img} 1440w`} sizes={index === 0 ? '(max-width: 900px) calc(100vw - 2rem), 72vw' : '(max-width: 900px) calc(100vw - 2rem), 34vw'} alt={`${item.name}, built by Neil Busque`} width="1280" height="800" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
-            </div>
-            <div class="journal-work-meta">
-              <span>{item.tag}</span>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              {item.note && <small>{item.note}</small>}
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
+  <PageHead class="work-phead" title={WORK_PAGE.h1} accent={WORK_PAGE.accent} lead={WORK_PAGE.lead}>
+    <Tabs target="main" label="Filter work" tabs={WORK_TABS} />
+  </PageHead>
 
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Experiments</span>
-        <h2>Small ideas I wanted to see exist.</h2>
-        <p>These are public, useful, and free to open. Some started as a personal annoyance. Some were just worth testing.</p>
-      </div>
-      <div class="work-ledger">
-        {EXPERIMENTS.map((item) => (
-          <a href={item.href} target="_blank" rel="noopener">
-            <img src={item.img} alt="" width="240" height="150" loading="lazy" />
-            <span><small>{item.tag}</small><strong>{item.name}</strong><p>{item.description}</p></span>
-            <i aria-hidden="true">↗</i>
-          </a>
-        ))}
-      </div>
-    </section>
+  <Section class="work-main" labelledby="work-featured-title">
+    <h2 class="sr-only" id="work-featured-title">Selected builds</h2>
+    <FeatureSplit
+      data-filter={FEATURED_PROJECT.type}
+      label={FEATURED_PROJECT.category}
+      year={FEATURED_PROJECT.year}
+      title={FEATURED_PROJECT.title}
+      text={FEATURED_PROJECT.text}
+      outcome={FEATURED_PROJECT.outcome}
+      items={FEATURED_PROJECT.built}
+      stack={FEATURED_PROJECT.stack}
+      cta={FEATURED_PROJECT.cta}
+      seed={FEATURED_PROJECT.slug}
+      palette={FEATURED_PROJECT.palette}
+      layout={FEATURED_PROJECT.layout}
+    />
+    <div class="work-grid">
+      {cards.map((p) => (
+        <WorkCard
+          href={p.href}
+          title={p.title}
+          text={p.text}
+          category={p.category}
+          year={p.year}
+          outcome={p.outcome}
+          seed={p.slug}
+          palette={p.palette}
+          layout={p.layout}
+          filter={p.type}
+          data-reveal
+        />
+      ))}
+    </div>
+  </Section>
 
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Private tools</span>
-        <h2>The things that run my own work.</h2>
-        <p>Most do not have a public URL by design. They solve real problems in my day instead of filling another portfolio grid.</p>
-      </div>
-      <div class="private-ledger">
-        {PRIVATE_TOOLS.map((item) => {
-          const Tag = item.href ? 'a' : 'article';
-          return (
-            <Tag href={item.href}>
-              <span class="private-initial" aria-hidden="true">{item.name.charAt(0)}</span>
-              <div><small>{item.tag}</small><h3>{item.name}</h3><p>{item.description}</p></div>
-            </Tag>
-          );
-        })}
-      </div>
-    </section>
-
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Capabilities</span>
-        <h2>What sits behind the screenshots.</h2>
-      </div>
-      <ol class="cap-index compact">
-        {CAPABILITIES.map(([name, description], index) => (
-          <li><span class="cap-number">0{index + 1}</span><h3>{name}</h3><p>{description}</p></li>
-        ))}
-      </ol>
-    </section>
-
-    {caseStudies.length > 0 && (
-      <section class="journal-section">
-        <div class="journal-heading">
-          <span class="eyebrow">Case studies</span>
-          <h2>The longer version.</h2>
-          <p>What went wrong, what I decided, what was harder than expected, and what finally shipped.</p>
-        </div>
-        <ul class="case-ledger">
-          {caseStudies.map((study) => (
-            <li><a href={`/case-studies/${study.slug}`}><strong>{study.name}</strong><span>{study.summary}</span><i aria-hidden="true">↘</i></a></li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    <section class="journal-section work-proof">
-      <span class="eyebrow">Worked with</span>
-      <ClientLogos />
-    </section>
-
-    <section class="work-close">
-      <span class="eyebrow">That is the work</span>
-      <p>Most of it started as a rough sentence and a problem somebody was tired of dealing with.</p>
-      <a class="btn-sun" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something" target="_blank" rel="noopener">Tell me what you want to make</a>
-    </section>
-  </div>
+  <Section class="work-more" labelledby="more-builds-title">
+    <SectionHead id="more-builds-title" title={WORK_PAGE.moreTitle} lead={WORK_PAGE.moreLead} />
+    <BuildsTable rows={MORE_BUILDS} columns={WORK_PAGE.moreColumns} caption={WORK_PAGE.moreLead} />
+  </Section>
 </AppShell>

@@ -20,7 +20,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       ?.toLowerCase();
     const host = forwardedHost || requestHost || context.url.hostname.toLowerCase();
 
-    // Keep /hire available on the main site while the recruiter-facing domain stays memorable.
+    // The hire subdomain serves the /hire page at its root; /hire stays on the main site too.
     if (host === 'hire.busqueneil.com') {
       return context.rewrite('/hire');
     }

@@ -1,298 +1,280 @@
 ---
+/* Home: the landing page that converts. Section order and copy follow the design blueprint
+   (Home) and the copy deck's HOME section. Lists come from src/data/site.ts; section headings
+   and leads live here. Server rendered on purpose: the middleware reads the Host header on "/"
+   to serve the hire subdomain, which a prerendered page cannot do. */
 import AppShell from '../layouts/AppShell.astro';
+import Art from '../components/Art.astro';
+import Section from '../components/site/Section.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import Button from '../components/site/Button.astro';
+import Icon from '../components/site/Icon.astro';
+import PromptCard from '../components/site/PromptCard.astro';
+import RuledGrid from '../components/site/RuledGrid.astro';
+import RuledCell from '../components/site/RuledCell.astro';
+import Bento from '../components/site/Bento.astro';
+import BentoCard from '../components/site/BentoCard.astro';
+import CtaRow from '../components/site/CtaRow.astro';
+import FeatureSplit from '../components/site/FeatureSplit.astro';
+import WorkCard from '../components/site/WorkCard.astro';
+import QuoteCard from '../components/site/QuoteCard.astro';
+import StatCell from '../components/site/StatCell.astro';
+import Steps from '../components/site/Steps.astro';
+import FitList from '../components/site/FitList.astro';
+import ToolCard from '../components/site/ToolCard.astro';
+import ResourceTable, { type ResourceRow } from '../components/site/ResourceTable.astro';
+import Portrait from '../components/site/Portrait.astro';
+import DefList from '../components/site/DefList.astro';
+import Faq from '../components/site/Faq.astro';
+import {
+  ABOUT_FACTS,
+  CAPABILITIES,
+  FAQS,
+  FEATURED_PROJECT,
+  FEATURED_TOOL,
+  FIT,
+  INDUSTRIES,
+  PROJECTS,
+  QUOTES,
+  SERVICE_CARDS,
+  STATS,
+  STEPS,
+  TOOLS,
+  waGlobal,
+  type Project,
+  type Tool,
+} from '../data/site';
+import { liveContent, readMinutes, urlFor, type Cluster, type ContentEntry } from '../data/content-index';
 import Schema from '../components/Schema.astro';
-import { getFeed, getNow } from '../lib/posts';
-import { isNowFresh } from '../lib/now';
-import type { Post } from '../lib/types';
+import { SITE_URL } from '../lib/seo';
+import '../styles/pages/home.css';
 
-const opts = { request: Astro.request, cookies: Astro.cookies };
-const [{ posts: latest }, { current: now }] = await Promise.all([
-  getFeed(opts, { page: 1 }),
-  getNow(opts),
-]);
-const latest3 = latest.filter((post) => post.type !== 'now').slice(0, 3);
+const title = 'Neil Busque | Your AI guy for agents, apps and automation';
+const description =
+  'I find the work worth handing to AI, build it and keep it running. AI agents, custom software, automations and sites. First versions in days.';
+const canonical = `${SITE_URL}/`;
 
-const WA_BUILD = 'https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20want%20to%20build%20something';
-const LINKEDIN = 'https://www.linkedin.com/in/neilbusque/';
+/* ------------------------------------------------------------------ picks from the shared lists */
 
-const CAPABILITIES = [
-  {
-    number: '01',
-    name: 'AI agents',
-    description: 'Agents, assistants, and voice tools that answer questions, follow up, qualify leads, and help move work forward.',
-  },
-  {
-    number: '02',
-    name: 'Custom software',
-    description: 'Web apps, portals, dashboards, internal tools, and client-facing products built around the way people really work.',
-  },
-  {
-    number: '03',
-    name: 'Automations',
-    description: 'n8n, Zapier, GoHighLevel, APIs, webhooks, and the small connections that make a business run smoother.',
-  },
-  {
-    number: '04',
-    name: 'Websites and funnels',
-    description: 'Fast sites, landing pages, and simple flows that make it obvious what to do next.',
-  },
-];
+const pick = <T extends { slug: string }>(list: T[], slugs: string[]): T[] =>
+  slugs.map((slug) => {
+    const item = list.find((x) => x.slug === slug);
+    if (!item) throw new Error(`Home: "${slug}" is missing from src/data/site.ts`);
+    return item;
+  });
 
-const WORK = [
-  {
-    name: 'Orbit CRM',
-    description: 'A CRM and operations workspace with AI features, built to help manage work in one place.',
-    img: '/assets/work/orbit-app.webp',
-    href: '/case-studies/orbit',
-    label: 'CRM + AI agents',
-  },
-  {
-    name: 'Tandem',
-    description: 'A couples app built around connection, shared experience, and product thinking.',
-    img: '/assets/work/tandem.webp',
-    href: '/case-studies/tandem',
-    label: 'Personal product',
-  },
-  {
-    name: 'Darioo',
-    description: 'A client site and app built to support the business with something real people can use.',
-    img: '/assets/work/darioo.webp',
-    href: 'https://darioo.com',
-    label: 'Client site + app',
-  },
-  {
-    name: 'Scott Greenleaf',
-    description: 'A client site focused on clarity, presentation, and getting the message across cleanly.',
-    img: '/assets/work/scottgreenleaf.webp',
-    href: 'https://scottgreenleaf.com/',
-    label: 'Client site',
-  },
-];
+/* The deck's four work cards, in its order. The CRM and the funnel simulator show in the free
+   tools strip instead, so they do not repeat. */
+const WORK: Project[] = pick(PROJECTS, ['agency-os-assistant-asks-first', 'ai-phone-receptionist-roofing', 'meeting-notes-to-tasks', 'ai-ads-app']);
+/* The analyzer, then two of the tool cards. */
+const HOME_TOOLS: Tool[] = [FEATURED_TOOL, ...pick(TOOLS, ['crm-with-ai-follow-up', 'funnel-simulator'])];
 
-const TOPICS = [
-  'Building apps with AI',
-  'Automations and workflow systems',
-  'Design decisions',
-  'Product ideas',
-  'Experiments that worked',
-  'Experiments that did not',
-  'Lessons from client projects',
-  'Things I am figuring out in real time',
-];
+/* ------------------------------------------------------------------ resources: the 5 newest live pieces */
 
-const nowIsFresh = isNowFresh(now?.published_at);
-const nowText = nowIsFresh
-  ? (now?.title || now?.excerpt || 'Building something new.')
-  : 'Right now I am focused on building better software, writing more, and getting sharper at turning rough ideas into things people can actually use.';
-const nowDate = nowIsFresh && now?.published_at
-  ? new Date(now.published_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-  : null;
-
-function shortDate(iso: string | null): string {
-  return iso ? new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+const KIND: Record<Cluster, string> = { guides: 'Guide', compare: 'Comparison', research: 'Research' };
+/* Newest day first, the same order as the /resources table: pieces published the same day take
+   turns by kind (guide, research, comparison), so one busy day does not fill the rows with one
+   kind. Within a kind they keep their order in content-index.ts. */
+const TURN: Cluster[] = ['guides', 'research', 'compare'];
+function newestFive(entries: ContentEntry[]): ContentEntry[] {
+  const days = [...new Set(entries.map((e) => e.published ?? ''))].sort().reverse();
+  const out: ContentEntry[] = [];
+  for (const day of days) {
+    const queues = TURN.map((c) => entries.filter((e) => (e.published ?? '') === day && e.cluster === c));
+    while (queues.some((q) => q.length) && out.length < 5) {
+      for (const q of queues) {
+        const next = q.shift();
+        if (next && out.length < 5) out.push(next);
+      }
+    }
+    if (out.length >= 5) break;
+  }
+  return out;
 }
+const newest = newestFive(liveContent);
 
-function tagFor(post: Post): string {
-  if (post.tags?.includes('video')) return 'Video';
-  if (post.type === 'article') return post.tags.includes('tutorial') ? 'Tutorial' : 'Note';
-  const map: Record<string, string> = { status: 'Thought', project: 'Build', now: 'Now' };
-  return map[post.type] ?? 'Note';
-}
+/* Read time from the index (counted from each page's source, the same number the article prints). */
+const readTime = (entry: ContentEntry) => {
+  const minutes = readMinutes(entry);
+  return minutes ? `${minutes} min` : undefined;
+};
+const day = (iso: string) =>
+  new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+
+const RESOURCES: ResourceRow[] = newest.map((entry) => ({
+  href: urlFor(entry),
+  type: KIND[entry.cluster],
+  title: entry.name,
+  excerpt: entry.blurb,
+  read: readTime(entry),
+  date: entry.published ? day(entry.published) : undefined,
+  dateTime: entry.published,
+  filter: entry.cluster,
+}));
+
 ---
-<AppShell
-  title="Neil Busque — I Build Cool Stuff with AI"
-  description="Apps, automations, AI agents, and little internet projects by Neil Busque. See the work, read the notes, and follow what he is building now."
-  ogImage="https://busqueneil.com/assets/brand/og-journal.png"
-  active="home"
->
-  <Fragment slot="head"><Schema /></Fragment>
+<AppShell title={title} description={description} canonical={canonical} active="home">
+  <Fragment slot="head">
+    <Schema description={description} />
+  </Fragment>
 
-  <div class="journal-home">
-    <section class="hero journal-hero">
-      <div class="hero-copy">
-        <span class="eyebrow">Neil Busque · builder</span>
-        <h1>I build <em>cool stuff</em> with AI.</h1>
-        <p class="hero-sub">I make apps, automations, AI agents, and little internet projects. Some are for clients. Some are ideas I want to see exist. This site is where I share the work, what I&rsquo;m learning, and what I&rsquo;m building right now.</p>
-        <div class="hero-ctas">
-          <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-          <a class="link-arrow" href="/work">See what I&rsquo;m building <span aria-hidden="true">↘</span></a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <figure class="hero-product">
-          <div class="hero-product-bar" aria-hidden="true">
-            <span></span><span></span><span></span><strong>A real thing I built</strong>
+  <section class="hero home-hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <h1 class="t-display" id="hero-title">Your business needs&nbsp;an <span class="accent">AI guy.</span></h1>
+          <p class="t-lead">I find the work worth handing to AI, then build the agents, apps and automations. First versions in days.</p>
+          <div class="btn-row btn-row--stack">
+            <Button href={waGlobal()}>Message me on WhatsApp</Button>
+            <Button href="/work" variant="secondary">See the work</Button>
           </div>
-          <img src="/assets/work/orbit-app.webp" srcset="/assets/work/orbit-app-sm.webp 760w, /assets/work/orbit-app.webp 1440w" sizes="(max-width: 1020px) calc(100vw - 4rem), 48vw" alt="Orbit CRM and operations workspace designed and built by Neil Busque" width="1280" height="800" fetchpriority="high" />
-          <figcaption><span>Orbit CRM</span><strong>Software + AI agents</strong></figcaption>
-        </figure>
-        <figure class="hero-person">
-          <img src="/assets/art/neil-cutout.webp" alt="Neil Busque" width="640" height="1413" fetchpriority="high" />
-          <figcaption><strong>Neil Busque</strong><span>The person building the work.</span></figcaption>
-        </figure>
+        </div>
+        <div class="hero-media">
+          <Art seed="home" kind="hero" loading="eager" />
+          <PromptCard floating />
+        </div>
       </div>
-    </section>
-
-    <div class="journal-strip" aria-label="How Neil works">
-      <span>Direct with Neil</span><i aria-hidden="true"></i><span>No middleman</span><i aria-hidden="true"></i><span>You own the work</span>
-    </div>
-
-    <section class="journal-section journal-intro">
-      <div>
-        <span class="eyebrow">Intro</span>
-        <h2>I like building useful things.</h2>
-      </div>
-      <div class="journal-copy">
-        <p>I like building useful things that save time, remove friction, or make someone&rsquo;s day a little easier. Most of my work lives somewhere between software, automation, design, and figuring out how to make a messy process feel simple.</p>
-        <p>I work with business owners, teams, and people with ideas who need someone to actually build the thing. I also use this space like a notebook, so not everything here is polished. Some of it is finished work. Some of it is what I am testing and learning in public.</p>
-      </div>
-    </section>
-
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Things I build</span>
-        <h2>Capabilities, not a service menu.</h2>
-        <p>Different kinds of work, usually connected by the same goal: make the complicated part feel simple.</p>
-      </div>
-      <ol class="cap-index">
-        {CAPABILITIES.map((capability) => (
-          <li>
-            <span class="cap-number">{capability.number}</span>
-            <h3>{capability.name}</h3>
-            <p>{capability.description}</p>
-          </li>
+      <RuledGrid cols={4} label="What I build">
+        {CAPABILITIES.map((c) => (
+          <RuledCell href={c.href} label={c.number} title={c.name} compact text={c.line} />
         ))}
-      </ol>
-    </section>
+      </RuledGrid>
+    </div>
+  </section>
 
-    <section class="journal-section">
-      <div class="journal-heading split">
-        <div>
-          <span class="eyebrow">Selected work</span>
-          <h2>Things that made it out of my head.</h2>
+  <Section band="mist" as="div" class="home-statement">
+    <p class="t-statement">The hard part of AI is knowing what to hand it.</p>
+    <a class="link-arrow" href="/story#how-i-work">How I work<Icon name="arrow-right" strokeWidth={2} /></a>
+  </Section>
+
+  <Section id="services" labelledby="services-title" class="home-services">
+    <SectionHead id="services-title" strong="Four ways I take work off your plate." rest="Each one starts small, with a working first version in days, and it stays yours." />
+    <Bento label="Services">
+      {SERVICE_CARDS.map((s) => (
+        <BentoCard href={s.href} title={s.title} text={s.line} items={s.items} seed={s.slug} layout={s.layout} palette={s.palette} data-reveal />
+      ))}
+    </Bento>
+    <CtaRow
+      text="If you're not sure what you need, walk me through a normal day for your team. I'll say what I'd build first."
+      cta={{ href: waGlobal(), label: 'Start with a message' }}
+      data-reveal
+    />
+  </Section>
+
+  <Section id="work" labelledby="work-title" class="home-work">
+    <SectionHead
+      id="work-title"
+      title="Selected work"
+      lead="Client systems and my own products. Client names stay private, so each build is named for what it does."
+      link={{ href: '/work', label: 'All work' }}
+    />
+    <FeatureSplit
+      label={FEATURED_PROJECT.category}
+      year={FEATURED_PROJECT.year}
+      title={FEATURED_PROJECT.title}
+      text={FEATURED_PROJECT.text}
+      outcome={FEATURED_PROJECT.outcome}
+      items={FEATURED_PROJECT.built}
+      stack={FEATURED_PROJECT.stack}
+      cta={FEATURED_PROJECT.cta}
+      seed={FEATURED_PROJECT.slug}
+      palette={FEATURED_PROJECT.palette}
+      layout={FEATURED_PROJECT.layout}
+      data-reveal
+    />
+    <div class="work-grid">
+      {WORK.map((p) => (
+        <WorkCard
+          href={p.href}
+          title={p.title}
+          text={p.text}
+          category={p.category}
+          year={p.year}
+          outcome={p.outcome}
+          seed={p.slug}
+          palette={p.palette}
+          layout={p.layout}
+          data-reveal
+        />
+      ))}
+    </div>
+  </Section>
+
+  <Section id="proof" labelledby="proof-title" class="home-proof">
+    <SectionHead id="proof-title" title="The record so far" />
+    <RuledGrid cols={2} label="Quotes from clients">
+      {QUOTES.map((q) => <QuoteCard quote={q.quote} role={q.role} data-reveal />)}
+    </RuledGrid>
+    <RuledGrid cols={3} label="Numbers">
+      {STATS.map((s) => <StatCell value={s.value} caption={s.caption} data-reveal />)}
+    </RuledGrid>
+  </Section>
+
+  <Section band="mist" id="how-it-works" labelledby="how-title">
+    <SectionHead id="how-title" title="How it works" />
+    <Steps items={STEPS} />
+  </Section>
+
+  <Section id="fit" labelledby="fit-title">
+    <SectionHead id="fit-title" title="Who I work best with" />
+    <FitList fit={FIT.fit} notFit={FIT.notFit} fitTitle={FIT.fitTitle} notFitTitle={FIT.notFitTitle} />
+  </Section>
+
+  <Section id="industries" labelledby="industries-title" class="home-industries">
+    <div class="home-industries-grid">
+      <div class="home-industries-head">
+        <h2 class="t-h2" id="industries-title">Ideas for <span class="accent">your industry.</span></h2>
+        <p class="t-lead">Pick yours to see the software and AI I'd build for a business like it.</p>
+        <a class="link-arrow" href="/software">All industries<Icon name="arrow-right" strokeWidth={2} /></a>
+      </div>
+      <RuledGrid cols={2} class="ruled--links" label="Industries">
+        {INDUSTRIES.map((i) => <RuledCell href={i.href} title={i.name} compact />)}
+      </RuledGrid>
+    </div>
+  </Section>
+
+  <Section id="free-tools" labelledby="tools-title">
+    <SectionHead
+      id="tools-title"
+      title="Free tools you can use today"
+      lead="Tools I built that you can use for free. Open one now, no call needed."
+      link={{ href: '/free', label: 'All free tools' }}
+    />
+    <div class="tool-grid">
+      {HOME_TOOLS.map((t) => (
+        <ToolCard href={t.href} name={t.name} text={t.text} platform={t.platform} cta={t.cta} seed={t.slug} palette={t.palette} layout={t.layout} data-reveal />
+      ))}
+    </div>
+  </Section>
+
+  <Section id="resources" labelledby="resources-title">
+    <SectionHead
+      id="resources-title"
+      title="Read before you build"
+      lead="Plain guides, tool comparisons and original research, written from my own projects."
+      link={{ href: '/resources', label: 'All resources' }}
+    />
+    <ResourceTable rows={RESOURCES} />
+  </Section>
+
+  <Section band="mist" id="about" labelledby="about-title">
+    <div class="home-about">
+      <Portrait seed="portrait" />
+      <div class="home-about-body">
+        <p class="t-label">Who you'll work with</p>
+        <h2 class="t-h2" id="about-title">Hi, I'm Neil.</h2>
+        <div class="home-about-copy">
+          <p>I'm the person a business brings in to lead its AI work. I find the jobs worth handing to AI, build them myself and keep them running.</p>
+          <p>I use AI coding tools every day, and they make me fast. My job is to catch what they get wrong before your team or your customers do.</p>
+          <p>You talk to me directly, from the first message to launch and after. When a tool changes or your business grows, I'm the one who keeps it working.</p>
         </div>
-        <a class="link-arrow" href="/work">See all work <span aria-hidden="true">↘</span></a>
+        <DefList items={ABOUT_FACTS} />
+        <a class="link-arrow" href="/story">More about me<Icon name="arrow-right" strokeWidth={2} /></a>
       </div>
-      <div class="journal-work">
-        {WORK.map((item, index) => {
-          const external = item.href.startsWith('http');
-          return (
-            <a class:list={['journal-work-item', { featured: index === 0 }]} href={item.href} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
-              <div class="journal-work-shot">
-                <img src={item.img} srcset={`${item.img.replace('.webp', '-sm.webp')} 760w, ${item.img} 1440w`} sizes={index === 0 ? '(max-width: 900px) calc(100vw - 2rem), 72vw' : '(max-width: 900px) calc(100vw - 2rem), 34vw'} alt={`${item.name}, built by Neil Busque`} width="1280" height="800" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
-              </div>
-              <div class="journal-work-meta">
-                <span>{item.label}</span>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </section>
+    </div>
+  </Section>
 
-    <section class="journal-section journal-notes">
-      <div class="journal-heading split">
-        <div>
-          <span class="eyebrow">Notes from building</span>
-          <h2>What I&rsquo;m learning while I make things.</h2>
-        </div>
-        <a class="link-arrow" href="/blog">Read all notes <span aria-hidden="true">↘</span></a>
-      </div>
-      <p class="journal-notes-lede">I do not just want a portfolio. I want a place to share what I am working on, what I am learning, what is breaking, what is getting better, and what I am noticing as I build.</p>
-      {latest3.length > 0 ? (
-        <ul class="journal-posts">
-          {latest3.map((post) => (
-            <li>
-              <a href={`/posts/${post.slug}`}>
-                <span class="journal-post-date">{shortDate(post.published_at)}</span>
-                <span class="journal-post-title">{post.title ?? 'Untitled'}</span>
-                <span class="journal-post-tag">{tagFor(post)}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div class="journal-empty">The notebook is open. New notes will show up here as I publish them.</div>
-      )}
-      <ul class="topic-list" aria-label="Topics Neil writes about">
-        {TOPICS.map((topic) => <li>{topic}</li>)}
-      </ul>
-    </section>
-
-    <section class="newsletter-panel" aria-labelledby="newsletter-title">
-      <div>
-        <span class="eyebrow">Newsletter · coming soon</span>
-        <h2 id="newsletter-title">Build notes, sent occasionally.</h2>
-      </div>
-      <div>
-        <p>I&rsquo;m putting together a small newsletter about the things I build, what breaks, and what I learn fixing it. No signup box yet&mdash;I want the sending side ready before I ask for your email.</p>
-        <a href={LINKEDIN} target="_blank" rel="me noopener">Follow me on LinkedIn for now <span aria-hidden="true">↗</span></a>
-      </div>
-    </section>
-
-    <section class="journal-section">
-      <div class="journal-heading">
-        <span class="eyebrow">Free things I made</span>
-        <h2>Useful now. No sales call required.</h2>
-      </div>
-      <div class="magnet-grid">
-        <a class="magnet analyzer" href="/analyzer">
-          <span class="magnet-label">Interactive tool</span>
-          <strong class="magnet-mark">100</strong>
-          <h3>Landing Page Analyzer</h3>
-          <p>Paste a page, get a score, and see what is helping or hurting it. The score is free; email is optional for the full PDF report.</p>
-          <span class="magnet-link">Analyze a page <span aria-hidden="true">↘</span></span>
-        </a>
-        <a class="magnet report" href="/viral-post-heist.pdf" download>
-          <span class="magnet-label">Six-page field report</span>
-          <strong class="magnet-mark">300+</strong>
-          <h3>The Viral Post Heist</h3>
-          <p>How I used AI to study hundreds of top-performing posts, extract the patterns, and turn the research into a month of content.</p>
-          <span class="magnet-link">Download the PDF <span aria-hidden="true">↓</span></span>
-        </a>
-      </div>
-    </section>
-
-    <section class="journal-section journal-now">
-      <div>
-        <span class="eyebrow">Now</span>
-        <h2>What I&rsquo;m focused on right now.</h2>
-      </div>
-      <div class="now-note">
-        <p>{nowText}</p>
-        <p>I am especially interested in custom software, AI tools that do real work, workflow systems, and products that feel simple on the surface even when the backend is doing a lot.</p>
-        {nowDate && <span>Updated {nowDate}</span>}
-        <a href="/now">Read the full now page <span aria-hidden="true">↘</span></a>
-      </div>
-    </section>
-
-    <section class="journal-section journal-two-up">
-      <article>
-        <span class="eyebrow">Why work with me</span>
-        <h2>One person, all the way through.</h2>
-        <p>You work directly with me from the first message to the finished build. No handoff, no account manager, no trying to explain the same project five different times.</p>
-        <p>I like moving fast, but I also care about making things dependable. Getting something to look finished is one thing. Making it actually work in real life is the part I take seriously.</p>
-      </article>
-      <article>
-        <span class="eyebrow">About</span>
-        <h2>Design, software, systems, and AI.</h2>
-        <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
-        <p>This site is my corner of the internet. Part portfolio, part blog, part working notebook.</p>
-        <a href="/story">More about me <span aria-hidden="true">↘</span></a>
-      </article>
-    </section>
-
-    <section class="journal-cta">
-      <span class="eyebrow">Got an idea?</span>
-      <h2>Got an idea, a broken process, or something you want built?</h2>
-      <p>Message me on WhatsApp and I&rsquo;ll tell you how I&rsquo;d approach it.</p>
-      <div class="hero-ctas">
-        <a class="btn-sun" href={WA_BUILD} target="_blank" rel="noopener">Message me on WhatsApp</a>
-        <a class="btn-ghost" href="/blog">Or read my notes</a>
-      </div>
-      <img class="sig" src="/assets/brand/sig-sun.webp" alt="Neil" width="280" height="165" loading="lazy" />
-    </section>
-  </div>
+  <Section id="faq" labelledby="faq-title">
+    <Faq id="faq-title" title="Questions owners ask first" lead="Straight answers before we talk." items={FAQS} schema />
+  </Section>
 </AppShell>

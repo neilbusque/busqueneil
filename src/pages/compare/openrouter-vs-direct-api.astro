@@ -4,7 +4,7 @@ export const prerender = true;
 
 const faq = [
   { q: 'Should I use OpenRouter or call the provider API directly?', a: 'A router when you genuinely run several models, want to switch without a deploy, or need a fallback when one provider is unavailable. Direct when you run one model in production and want the provider\'s newest features the day they ship.' },
-  { q: 'Does a router cost more?', a: 'There is a margin, and against it you get one integration, one bill, and the ability to change models without shipping code. Whether that is worth it depends on volume — at high volume the margin becomes the dominant consideration.' },
+  { q: 'Does a router cost more?', a: 'There is a margin, and against it you get one integration, one bill, and the ability to change models without shipping code. Whether that is worth it depends on volume. At high volume the margin becomes the dominant consideration.' },
   { q: 'What is the biggest risk of routing?', a: 'Silent behaviour change. Models differ in how they handle tools, structured output, and long context, so a swap that looks like a config change can alter what your product does. Test the swap, never assume it.' },
   { q: 'Can you run out of credit mid-production?', a: 'Yes, and it is a real operational risk with prepaid balances. A drained account looks like an application outage, so alert on balance the way you would alert on disk space.' },
 ];
@@ -20,10 +20,10 @@ const faq = [
   keywords="OpenRouter vs OpenAI API, LLM routing, model fallback, AI infrastructure, multi-model"
   faq={faq}
 >
-  <p><strong>A router buys you one integration, one bill, and the ability to change models without shipping code. Calling direct buys you the provider&rsquo;s newest features on the day they ship and one less party between you and the model. The decision is about how many models you actually run, and the real risk is not price — it is silent behaviour change on a swap.</strong></p>
+  <p><strong>A router buys you one integration, one bill, and the ability to change models without shipping code. Calling direct buys you the provider&rsquo;s newest features on the day they ship and one less party between you and the model. The decision is about how many models you actually run, and the real risk is not price. It is silent behaviour change on a swap.</strong></p>
 
   <h2>What the router actually buys</h2>
-  <p><strong>One integration instead of several.</strong> The obvious one, and it matters more than it sounds when a product uses different models for different jobs &mdash; a cheap one for classification, a strong one for the hard step.</p>
+  <p><strong>One integration instead of several.</strong> The obvious one, and it matters more than it sounds when a product uses different models for different jobs: a cheap one for classification, a strong one for the hard step.</p>
   <p><strong>Model choice as configuration.</strong> This is the one I value most. Changing which model backs a feature becomes a value in the database rather than a deploy. That turns a model swap from an engineering task into an operational one.</p>
   <p><strong>A fallback path.</strong> When a provider has a bad hour, you can route around it. For anything user-facing that is worth real money.</p>
   <p><strong>One bill.</strong> Administrative rather than technical, and still genuinely useful.</p>
@@ -81,15 +81,5 @@ const faq = [
     <li><strong>Log which model actually served each request.</strong> When quality changes, the first question is what answered, and you cannot reconstruct that later.</li>
   </ul>
 
-  <h2>FAQ</h2>
-  <h3>Router or direct?</h3>
-  <p>Router for several models, config-level switching, and fallback. Direct for one model and the newest provider features.</p>
-  <h3>Does a router cost more?</h3>
-  <p>There is a margin, against one integration and one bill. At high volume the margin dominates.</p>
-  <h3>Biggest risk?</h3>
-  <p>Silent behaviour change on a swap. Models differ on tools, structured output and long context. Test, never assume.</p>
-  <h3>Can you run out of credit mid-production?</h3>
-  <p>Yes, and it looks like an outage. Alert on balance like disk space.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/compare/claude-vs-gpt-for-coding">Claude vs GPT for coding</a>, <a href="/compare/mcp-vs-function-calling">MCP vs function calling</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+  <p class="article-coda">Related: <a href="/compare/claude-vs-gpt-for-coding">Claude vs GPT for coding</a>, <a href="/compare/mcp-vs-function-calling">MCP vs function calling</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
 </ContentArticle>

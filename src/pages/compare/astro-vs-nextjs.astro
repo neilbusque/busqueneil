@@ -46,7 +46,7 @@ const faq = [
 
   <h2>What islands actually change</h2>
   <p>The headline is &ldquo;zero JavaScript by default,&rdquo; which sounds like a benchmark talking point. The practical effect is different and more useful: <strong>interactivity becomes a decision you make deliberately, per component.</strong></p>
-  <p>On this site the pages are HTML and CSS. A handful of components are interactive, and those are the only things that ship JavaScript. When I added a scroll-reveal system I had to consciously decide it was worth the bytes &mdash; the framework did not quietly absorb it into a runtime that was loading anyway.</p>
+  <p>On this site the pages are HTML and CSS. A handful of components are interactive, and those are the only things that ship JavaScript. When I added a scroll-reveal system I had to consciously decide it was worth the bytes. The framework did not quietly absorb it into a runtime that was loading anyway.</p>
   <p>That constraint is the value. It is not that Next cannot be fast; it obviously can. It is that Astro makes the expensive choice visible at the moment you make it, and visible costs get questioned.</p>
   <p>The corollary: if nearly every component on your page needs to be interactive, islands stop helping. You have an application, and you are now hand-wiring what a React app gives you for free.</p>
 
@@ -67,7 +67,7 @@ const faq = [
   <p>What I would avoid is picking one to avoid running two things and then living with the mismatch for years. The overhead of a second deployment is a few hours. The overhead of the wrong framework is every sprint.</p>
 
   <h2>SEO and Core Web Vitals</h2>
-  <p>Both render HTML on the server, so crawlability is not a differentiator &mdash; that argument is a few years out of date.</p>
+  <p>Both render HTML on the server, so crawlability is not a differentiator. That argument is a few years out of date.</p>
   <p>The real difference is interaction readiness. A page that ships no JavaScript is interactive when it paints. A page that hydrates a framework has a window where it looks ready and is not. That window is measurable and it is ranking-relevant.</p>
   <p>Next can absolutely be fast, with server components and disciplined client boundaries. The difference is the default. On Astro you have to work to make a content page slow; on Next you have to work to keep one fast.</p>
   <p>Worth stating plainly: framework choice is far from the biggest factor in either rankings or speed. A well-built Next site beats a badly-built Astro one comfortably.</p>
@@ -81,15 +81,5 @@ const faq = [
     <li><strong>Every component interactive?</strong> Islands are not buying you anything. Next.</li>
   </ol>
 
-  <h2>FAQ</h2>
-  <h3>Is Astro better than Next.js?</h3>
-  <p>For content-led sites, usually. For authenticated stateful applications, no &mdash; Next is the better fit and the gap grows with the app.</p>
-  <h3>Can Astro handle server rendering?</h3>
-  <p>Yes: server adapters, API routes, middleware, and per-page control over static versus server rendering.</p>
-  <h3>Can you use React inside Astro?</h3>
-  <p>Yes, per component. You opt into JavaScript only where it is needed rather than shipping a runtime for the whole page.</p>
-  <h3>Which is better for SEO?</h3>
-  <p>Both server-render, so crawling is fine either way. Astro tends to win Core Web Vitals on content pages because it ships far less JavaScript by default.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/compare">other tool comparisons</a>, <a href="/guides/programmatic-seo-with-ai">how I built 58 pages on one Astro route</a>, and <a href="/services/web-apps">how I build web apps</a>.</p>
+  <p class="article-coda">Related: <a href="/compare">other tool comparisons</a>, <a href="/guides/programmatic-seo-with-ai">how I built 58 pages on one Astro route</a>, and <a href="/services/web-apps">how I build web apps</a>.</p>
 </ContentArticle>

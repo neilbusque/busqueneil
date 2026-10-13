@@ -1,130 +1,84 @@
 ---
+/* Free tools: page head, the featured analyzer, the tool cards and a build-for-you row.
+   Copy follows the copy deck's FREE TOOLS section. Every tool here is free and live; a card's
+   URL is only its link target, never printed. Cards held back in HELD_TOOLS never render. */
 import AppShell from '../layouts/AppShell.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL } from '../lib/seo';
+import Section from '../components/site/Section.astro';
+import PageHead from '../components/site/PageHead.astro';
+import ToolCard from '../components/site/ToolCard.astro';
+import CtaRow from '../components/site/CtaRow.astro';
+import Breadcrumb from '../components/site/Breadcrumb.astro';
+import FeaturedTool from '../components/work/FeaturedTool.astro';
+import { FEATURED_TOOL, SITE, TOOLS, waFreeTools } from '../data/site';
+import { FREE_PAGE, FREE_TOOL_PALETTES } from '../data/work-page';
+import { PERSON_REF, WEBSITE_REF } from '../lib/seo';
+import '../styles/pages/free.css';
 
 export const prerender = true;
 
-const title = 'Free Tools and Guides | Neil Busque';
-const description = 'Free apps, a CRM with AI agents, and a landing page analyzer you can open right now. No credit card, no trial, no upsell. Everything here is live and genuinely free.';
-const canonical = 'https://busqueneil.com/free';
-
-/* Everything here has to be genuinely free and genuinely live. No "free trial", no lead
-   magnet that is really a form, no credit card. Orbit is the one entry that needs an
-   account, because it stores your data; its free plan is a real free plan, not a countdown.
-   Anything that unlocks only after a sales call does not belong on this page. */
-const TOOLS = [
-  {
-    name: 'Orbit',
-    href: 'https://www.inorbit.one',
-    blurb: 'A CRM where AI agents do the follow-up: they watch your contacts, draft the next message, and tell you who is going cold. Free plan, no card.',
-    tag: 'App',
-    img: '/assets/work/orbit-dark.webp',
-  },
-  {
-    name: 'Landing Page Analyzer',
-    href: '/analyzer',
-    blurb: 'Paste a URL and get a score on speed, mobile, and the conversion elements that matter. No signup to see your score.',
-    tag: 'Tool',
-  },
-  {
-    name: 'Preflight',
-    href: 'https://preflight.neilb.app',
-    blurb: 'Build and click through a whole funnel, ads to booking, before you spend a dollar driving traffic into it.',
-    tag: 'App',
-    img: '/assets/work/preflight.webp',
-  },
-  {
-    name: 'Flow',
-    href: 'https://goflow.space',
-    blurb: 'A deep-work timer that actually blocks the noise instead of politely suggesting you focus.',
-    tag: 'App',
-    img: '/assets/work/flow.webp',
-  },
-  {
-    name: 'Cue',
-    href: 'https://cue.neilb.app',
-    blurb: 'A teleprompter for talking-head video, so you can read a script without looking like you are reading a script.',
-    tag: 'App',
-    img: '/assets/work/cue.webp',
-  },
-  {
-    name: 'Watch Together',
-    href: 'https://watch.yengandneil.site',
-    blurb: 'Watch something in sync with someone far away. I built it for my own long-distance marriage.',
-    tag: 'App',
-    img: '/assets/work/watch-together.webp',
-  },
-];
-
-
-const list = {
-  '@type': 'ItemList',
-  '@id': `${canonical}#free-list`,
-  name: 'Free tools and guides by Neil Busque',
-  itemListElement: TOOLS.map((t, i) => ({
-    '@type': 'ListItem', position: i + 1, name: t.name,
-    url: t.href.startsWith('http') ? t.href : `https://busqueneil.com${t.href}`,
-  })),
-};
+const canonical = `${SITE.url}/free`;
+const all = [FEATURED_TOOL, ...TOOLS];
 const collection = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  '@id': `${canonical}#webpage`,
-  name: title,
-  description,
+  '@id': `${canonical}#collection`,
+  name: FREE_PAGE.title,
+  description: FREE_PAGE.description,
   url: canonical,
-  about: ORGANIZATION_REF,
-  mainEntity: list,
+  isPartOf: WEBSITE_REF,
+  about: PERSON_REF,
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Free tools',
+    numberOfItems: all.length,
+    itemListElement: all.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.name,
+      url: t.href.startsWith('/') ? `${SITE.url}${t.href}` : t.href,
+    })),
+  },
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="free">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Free', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
-  </Fragment>
+<AppShell title={FREE_PAGE.title} description={FREE_PAGE.description} canonical={canonical} active="free">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
+  <Breadcrumb items={[{ name: 'Home', url: `${SITE.url}/` }, { name: 'Free tools', url: canonical }]} back={false} />
 
-  <span class="eyebrow">Free</span>
-  <h1 class="sec">Take any of this, <span class="mark-hl">free.</span></h1>
-  <p class="res-lede">Apps I built and use, plus a tool that scores your landing page. Nothing here needs a credit card, a trial, or a call with me first. Orbit is the only one that asks you to make an account, because it holds your data, and its free plan stays free.</p>
+  <PageHead title={FREE_PAGE.h1} accent={FREE_PAGE.accent} lead={FREE_PAGE.lead} />
 
-  <section class="hsec">
-    <span class="eyebrow">Tools and apps</span>
-    <h2 class="sec">Open them right <span class="mark-hl">now.</span></h2>
-    <div class="offer-grid free-grid">
+  <Section class="free-featured" labelledby="featured-tool-title">
+    <FeaturedTool
+      tool={FEATURED_TOOL}
+      whoLabel={FREE_PAGE.whoLabel}
+      stepsLabel={FREE_PAGE.stepsLabel}
+      palette={FREE_TOOL_PALETTES[FEATURED_TOOL.slug]}
+      id="featured-tool-title"
+    />
+  </Section>
+
+  <Section class="free-tools" labelledby="free-tools-title">
+    <h2 class="sr-only" id="free-tools-title">{FREE_PAGE.gridTitle}</h2>
+    <div class="tool-grid tool-grid--4">
       {TOOLS.map((t) => (
-        <a class="v8-card offer-card" href={t.href} target={t.href.startsWith('http') ? '_blank' : undefined} rel={t.href.startsWith('http') ? 'noopener' : undefined}>
-          {t.img
-            ? <img class="offer-shot" src={t.img} alt={`${t.name}, a free app built by Neil Busque`} width="640" height="400" loading="lazy" decoding="async" />
-            : <div class="offer-shot free-shot" aria-hidden="true"><span>{t.name.charAt(0)}</span></div>}
-          <div class="offer-body">
-            <span class="offer-num">{t.tag}</span>
-            <span class="offer-name">{t.name}</span>
-            <span class="offer-desc">{t.blurb}</span>
-            <span class="offer-go">Open &#8594;</span>
-          </div>
-        </a>
+        <ToolCard
+          href={t.href}
+          name={t.name}
+          text={t.text}
+          platform={t.platform}
+          free={t.free}
+          cta={t.cta}
+          seed={t.slug}
+          palette={t.palette ?? FREE_TOOL_PALETTES[t.slug]}
+          layout={t.layout}
+          image={t.image}
+          imageAlt={t.imageAlt}
+          data-reveal
+        />
       ))}
     </div>
-  </section>
+  </Section>
 
-  <section class="hsec">
-    <span class="eyebrow">Also free</span>
-    <h2 class="sec">Every guide I have <span class="mark-hl">written.</span></h2>
-    <p class="res-lede">Step-by-step write-ups on MCP, AI agents, automation, AI search, and shipping fast. All of them live under Resources.</p>
-    <p style="margin-top:20px"><a class="link-arrow" href="/resources">Read the guides
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">If you want more than a tool</span>
-    <p class="guarantee">Use all of it free. If you would rather I just built the thing, book a call and tell me what you need.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
+  <Section band="mist" class="free-build">
+    <CtaRow text={FREE_PAGE.buildLine} cta={{ href: waFreeTools(), label: FREE_PAGE.buildCta }} variant="primary" />
+  </Section>
 </AppShell>

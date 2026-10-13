@@ -1,0 +1,32 @@
+/* About page (src/pages/story.astro). Scoped under .site like site.css and bound by the same
+   bans: no side accent borders, inset stripes, gradient functions, capitalised text transforms
+   or shadows on cards. */
+
+/* ================================================================ head + portrait slot */
+.site .about-head .t-h1 { max-width: 13ch; }
+.site .about-head .phead-aside { display: flex; justify-content: flex-end; }
+.site .about-portrait { width: min(100%, 360px); }
+@media (max-width: 900px) {
+  .site .about-head .phead-aside { justify-content: flex-start; }
+  .site .about-portrait { width: min(100%, 280px); }
+}
+@media (max-width: 640px) {
+  /* On phones the slot becomes a short band, so the story starts within the first screens. */
+  .site .about-portrait { width: 100%; height: 200px; }
+}
+
+/* ================================================================ story: prose 7 | facts 4 */
+.site .about-story-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px var(--grid-gap); align-items: start; }
+.site .about-story-grid > .about-prose { grid-column: 1 / span 7; max-width: var(--measure); }
+.site .about-facts { grid-column: 9 / span 4; position: sticky; top: 96px; display: grid; gap: 12px; justify-items: start; }
+.site .about-facts .deflist { width: 100%; }
+@media (max-width: 900px) {
+  .site .about-story-grid > .about-prose, .site .about-facts { grid-column: 1 / -1; }
+  .site .about-facts { position: static; }
+}
+.site .about-prose { display: grid; gap: 22px; font-size: var(--fs-prose); line-height: 1.7; color: var(--ink-2); }
+.site .about-prose > p:first-of-type { font-size: 1.25rem; line-height: 1.6; letter-spacing: -.01em; color: var(--ink); }
+@media (max-width: 640px) {
+  .site .about-prose { font-size: 1.0625rem; }
+  .site .about-prose > p:first-of-type { font-size: 1.125rem; }
+}

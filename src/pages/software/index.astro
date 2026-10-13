@@ -1,15 +1,27 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
+import Section from '../../components/site/Section.astro';
+import PageHead from '../../components/site/PageHead.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import Button from '../../components/site/Button.astro';
+import RuledGrid from '../../components/site/RuledGrid.astro';
+import RuledCell from '../../components/site/RuledCell.astro';
+import Breadcrumb from '../../components/site/Breadcrumb.astro';
+import LinkRows from '../../components/services/LinkRows.astro';
 import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
-import { softwarePages, softwareCats } from '../../data/software-pages';
+import { waGlobal } from '../../data/site';
+import { softwarePages, softwareCats, softwareLabel, industryLabel, type SoftwarePage } from '../../data/software-pages';
+import '../../styles/pages/services.css';
 
 export const prerender = true;
 
 const canonical = 'https://busqueneil.com/software';
 const title = 'Custom Software, by Industry and System | Neil Busque';
 const description =
-  'Custom software, AI agents, and automations for real businesses: roofing to law firms, CRMs to phone agents. Published pricing, honest guides.';
+  'Custom software, AI agents and automations for real businesses, from roofing to law firms and CRMs to phone agents. Plain guides on cost and build or buy.';
+
+const byCat = (key: SoftwarePage['cat']) => softwarePages.filter((p) => p.cat === key);
+const cat = (key: SoftwarePage['cat']) => softwareCats.find((c) => c.key === key)!;
 
 const collection = {
   '@context': 'https://schema.org',
@@ -21,48 +33,50 @@ const collection = {
   isPartOf: WEBSITE_REF,
   about: ORGANIZATION_REF,
   description,
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: softwarePages.length,
+    itemListElement: softwarePages.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: softwareLabel(p),
+      url: `${canonical}/${p.slug}`,
+    })),
+  },
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Software', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
-  </Fragment>
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(collection)} />
+  <Breadcrumb back={false} items={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Software', url: canonical },
+  ]} />
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Custom software</p>
-    <h1>Custom software, <span class="accent">by industry and system</span>.</h1>
-    <p class="lede">What I build, for whom, with published pricing and honest build-or-buy guides. Every page below is specific on purpose: your trade, your tool, your numbers.</p>
-  </header>
-
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      {softwareCats.map((cat) => (
-        <>
-          <h2>{cat.label}</h2>
-          <p>{cat.blurb}</p>
-          <ul>
-            {softwarePages
-              .filter((p) => p.cat === cat.key)
-              .map((p) => (
-                <li><a href={`/software/${p.slug}`}>{p.title.replace(' | Neil Busque', '')}</a></li>
-              ))}
-          </ul>
-        </>
-      ))}
-      <h2>Not seeing your business?</h2>
-      <p>The pages above are the common asks, not the limits. If your team does it on a screen, it can be built for you. Start from the <a href="/services">services overview</a>, browse <a href="/work">shipped work</a>, or just <a href="https://book.busqueneil.com/" rel="noopener">book a free call</a> and describe what is slow.</p>
+  <PageHead
+    title="Software and AI, built for"
+    accent="your trade."
+    lead="What I'd build for a business like yours, from roofing to law firms, plus plain guides on cost and build or buy. Every page is about one trade or one system."
+  >
+    <div class="btn-row btn-row--stack">
+      <Button href={waGlobal()}>Message me on WhatsApp</Button>
+      <Button href="/services" variant="secondary">See all services</Button>
     </div>
-  </article>
+  </PageHead>
 
-  <div class="hire-cta v8-card">
-    <p class="guarantee">First working software in 14 days, or month one is free. Full offer at offer.busqueneil.com.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a free call</a>
-      <a class="btn-ghost" href="https://offer.busqueneil.com" target="_blank" rel="noopener">See the full offer</a>
-    </div>
-  </div>
+  {(['industry', 'solution', 'combo'] as const).map((key) => (
+    <Section id={key} labelledby={`${key}-title`}>
+      <SectionHead id={`${key}-title`} title={cat(key).label} lead={cat(key).blurb} />
+      <RuledGrid cols={4} class={key === 'industry' ? 'ruled--links sw-grid' : 'ruled--links sw-grid sw-grid--long'} label={cat(key).label}>
+        {byCat(key).map((p) => (
+          <RuledCell href={`/software/${p.slug}`} title={key === 'industry' ? industryLabel(p) : softwareLabel(p)} titleAs="h3" compact />
+        ))}
+      </RuledGrid>
+    </Section>
+  ))}
+
+  <Section id="decision" labelledby="decision-title">
+    <SectionHead id="decision-title" title={cat('decision').label} lead={cat('decision').blurb} />
+    <LinkRows rows={byCat('decision').map((p) => ({ href: `/software/${p.slug}`, title: softwareLabel(p), text: p.lede }))} />
+    <p class="t-body sw-more">Not seeing your business? These are the common asks, not the limits. If your team does it on a screen, it can be built for you. Start from the <a class="link" href="/services">services overview</a> or browse <a class="link" href="/work">the work</a>.</p>
+  </Section>
 </AppShell>

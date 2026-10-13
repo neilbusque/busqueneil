@@ -1,4 +1,5 @@
 ---
+// Notes, the now page and the old feed folded into the resources hub. 301 keeps old links and rankings.
 export const prerender = false;
-return Astro.redirect(`/blog${Astro.url.search}`, 301);
+return Astro.redirect('/resources', 301);
 ---

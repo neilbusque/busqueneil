@@ -47,11 +47,13 @@ const newTab = Boolean(link && /^https?:/i.test(link.href));
         <a class="btn btn--secondary" href={link.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
           {link.label}
           {external && <Icon name="arrow-up-right" strokeWidth={2} />}
+          {newTab && <span class="sr-only"> (opens in a new tab)</span>}
         </a>
       ) : (
         <a class="link-arrow" href={link.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
           {link.label}
           <Icon name={external ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+          {newTab && <span class="sr-only"> (opens in a new tab)</span>}
         </a>
       ))}
     </div>

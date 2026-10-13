@@ -1,0 +1,91 @@
+---
+/* A published note (a row in the posts table) in the article chrome. The page fetches the post
+   and the related rows; this component only renders, so it can be checked with a fixture. */
+import AppShell from '../../layouts/AppShell.astro';
+import ArticleFrame from './ArticleFrame.astro';
+import Icon from '../site/Icon.astro';
+import { countWords, minutesFor, prepareProse } from './prose';
+import { noteRow, ROW_KIND_LABEL, type HubRow } from './rows';
+import { publicImageUrl } from '../../lib/supabase';
+import { deriveExcerpt } from '../../lib/markdown';
+import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+import type { Post } from '../../lib/types';
+
+interface Props {
+  post: Post;
+  related?: HubRow[];
+  /** For a preview: keep it out of search. */
+  noindex?: boolean;
+}
+
+const { post, related = [], noindex = false } = Astro.props;
+
+const title = post.title ?? deriveExcerpt(post.body_md, 60);
+const description = post.excerpt ?? deriveExcerpt(post.body_md);
+const canonical = `${SITE_URL}/posts/${post.slug}`;
+const ogImage = `${SITE_URL}/og/${post.slug}.png?v=${encodeURIComponent(post.updated_at)}`;
+
+const { html: body, toc } = prepareProse(post.body_html ?? '', ['faq', 'main', 'article-title']);
+const minutes = minutesFor(countWords(body));
+const row = noteRow(post);
+
+const meta = post.type === 'project' ? post.project_meta : null;
+const stack = meta?.stack?.filter(Boolean) ?? [];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': post.type === 'project' ? 'CreativeWork' : 'BlogPosting',
+  '@id': `${canonical}#article`,
+  headline: title,
+  description,
+  url: canonical,
+  datePublished: post.published_at,
+  dateModified: post.updated_at,
+  image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
+  author: AUTHOR,
+  publisher: PUBLISHER,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  inLanguage: 'en-US',
+  ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
+};
+---
+<AppShell
+  title={`${title} | Neil Busque`}
+  description={description}
+  canonical={canonical}
+  ogImage={ogImage}
+  ogType="article"
+  active="article"
+  noindex={noindex}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <ArticleFrame
+    kind={ROW_KIND_LABEL.note}
+    heading={title}
+    lede={post.excerpt ?? undefined}
+    minutes={minutes}
+    date={row.dateTime ? { iso: row.dateTime, label: 'Published', text: row.date } : undefined}
+    artSeed={post.slug}
+    body={body}
+    toc={toc}
+    related={related}
+    crumbs={[
+      { name: 'Home', url: `${SITE_URL}/` },
+      { name: 'Resources', url: `${SITE_URL}/resources` },
+      { name: title, url: canonical },
+    ]}
+  >
+    {meta && (stack.length > 0 || meta.live_url) && (
+      <div class="note-meta" slot="after-body">
+        {stack.length > 0 && <p class="t-label">Built with {stack.join(', ')}</p>}
+        {meta.live_url && (
+          <a class="link-arrow" href={meta.live_url} target="_blank" rel="noopener">
+            See it live<Icon name="arrow-up-right" strokeWidth={2} /><span class="sr-only"> (opens in a new tab)</span>
+          </a>
+        )}
+      </div>
+    )}
+  </ArticleFrame>
+</AppShell>

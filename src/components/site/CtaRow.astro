@@ -1,0 +1,22 @@
+---
+/* One sentence and one button on a single row, for "if you're not sure what you need" and
+   "I can build one for you" rows under a grid. A hairline above and below, no box. The text
+   takes the room it needs and the button sits at the end; below 640px they stack and the
+   button goes full width. */
+import Button from './Button.astro';
+import type { LinkItem } from '../../data/site';
+
+interface Props {
+  text: string;
+  cta: LinkItem;
+  variant?: 'primary' | 'secondary';
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { text, cta, variant = 'secondary', class: className, ...rest } = Astro.props;
+---
+<div class:list={['cta-row', className]} {...rest}>
+  <p>{text}</p>
+  <Button href={cta.href} variant={variant}>{cta.label}</Button>
+</div>

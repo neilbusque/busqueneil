@@ -1,77 +1,82 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
 
 export const prerender = true;
 
-const title = 'AI Engineer in New Jersey | Neil Busque';
-const description = 'Neil Busque is a New Jersey AI engineer building agents, automations, and web apps for local and remote teams. Based in Elizabeth, NJ.';
 const canonical = 'https://busqueneil.com/hire/ai-engineer-nj';
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Engineer in New Jersey | Neil Busque',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: [
-    { '@type': 'State', name: 'New Jersey' },
-    { '@type': 'City', name: 'Newark' },
-    { '@type': 'City', name: 'Jersey City' },
-    { '@type': 'City', name: 'Elizabeth' },
-  ],
-  serviceType: ['AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'Do you work on site in New Jersey?',
+    a: "When it helps, yes. I can join a kickoff or a working session at your office in New Jersey, then handle the day-to-day build remotely. Most of the work doesn't need a room, so we meet when it's worth it.",
+  },
+  {
+    q: 'Who does the work?',
+    a: "I do. You talk to the person building it, from the first message to launch and after. There's no account manager in between.",
+  },
+  {
+    q: 'How do you price the work?',
+    a: 'A single build gets its own scope and price. Ongoing work is a monthly arrangement. Either way, you see the scope and price before any work starts.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: 'https://busqueneil.com/hire' },
-      { name: 'AI Engineer in New Jersey', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="AI Engineer in New Jersey | Neil Busque"
+  description="Neil Busque is a New Jersey AI engineer building agents, automations and web apps for local and remote teams, on US Eastern time."
+  canonical={canonical}
+  active="hire"
+  heading="Hire an **AI engineer in New Jersey**."
+  lead="I'm Neil Busque, an AI engineer based in New Jersey. I build agents, automations and web apps for teams across the state, in person when it helps and remote when it doesn't."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Hire', url: 'https://busqueneil.com/hire' },
+    { name: 'AI Engineer in New Jersey', url: canonical },
+  ]}
+  backLabel="When to hire me"
+  topic="hiring an AI engineer in New Jersey"
+  artSeed="hire-ai-engineer-nj"
+  artPalette="mist"
+  summary={{
+    items: [
+      'AI agents that answer leads and update your CRM',
+      'Automations that take busywork off your team',
+      'Custom web apps, with a first version in days',
+      'Pages that get found in Google and AI search',
+      'In-person meetings in New Jersey when they help',
+    ],
+    facts: [
+      { term: 'Good for', value: 'New Jersey businesses that want a local builder' },
+      { term: 'How it starts', value: 'A message, then a call or a meeting in person' },
+      { term: 'What you own', value: 'The code and every account, in your name' },
+    ],
+  }}
+  related={['agency-os-assistant-asks-first', 'crm-with-ai-follow-up']}
+  relatedPalettes={['paper', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'AI Engineer in New Jersey',
+    serviceType: ['AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
+    areaServed: [
+      { '@type': 'State', name: 'New Jersey' },
+      { '@type': 'City', name: 'Newark' },
+      { '@type': 'City', name: 'Jersey City' },
+    ],
+  }}
+>
+  <h2>Local, and same time zone</h2>
+  <p>I'm based in the NJ and NYC metro and work on US Eastern time. I can join an in-person kickoff or a working session in Newark, Jersey City, the Princeton corridor or your office, then handle the day-to-day build remotely.</p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire · New Jersey</p>
-    <h1>Hire an <span class="accent">AI engineer in New Jersey</span>.</h1>
-    <p class="lede">I am Neil Busque, an AI engineer based in Elizabeth, New Jersey. I build agents, automations, and web apps for teams across the state, in person when it helps and remote when it does not.</p>
-  </header>
+  <h2>What I build for NJ companies</h2>
+  <ul>
+    <li><strong>AI agents</strong> that answer leads, update your CRM and handle repetitive work. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+    <li><strong>Automation</strong> in n8n, Zapier and GoHighLevel that takes the manual busywork off your team.</li>
+    <li><strong>Custom web apps</strong>, with a working first version in days. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
+    <li><strong>GEO and SEO</strong> so you get found in AI search and Google. See <a href="/guides/geo-for-local-business">GEO for local businesses</a>.</li>
+  </ul>
 
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      <h2>Local, and same timezone</h2>
-      <p>I live in the NJ and NYC metro and work in Eastern Time. I can join an in-person kickoff or focused sprint in Newark, Jersey City, the Princeton corridor, or your office, then handle the day-to-day build remotely.</p>
+  <h2>See the work first</h2>
+  <p>In 2026 I shipped more than 40 apps, AI agents and automations, including operating systems for six agencies and service businesses that I still look after. Browse <a href="/work">the work</a> before you decide.</p>
 
-      <h2>What I build for NJ companies</h2>
-      <ul>
-        <li><strong>AI agents</strong> that answer leads, update your CRM, and handle repetitive work. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
-        <li><strong>Automation</strong> in n8n, Zapier, and GoHighLevel that takes the manual busywork off your team.</li>
-        <li><strong>Custom web apps and PWAs</strong>, shipped in days. Here is <a href="/guides/ship-web-app-in-days-with-ai">how</a>.</li>
-        <li><strong>GEO and SEO</strong> so you get found in AI search and Google. See <a href="/guides/geo-generative-engine-optimization-guide">my GEO guide</a>.</li>
-      </ul>
-
-      <h2>See the work first</h2>
-      <p>In 2026 I shipped more than 40 web apps, AI agents, and automations, from a CRM to a link shortener with analytics. Browse <a href="/work">the work</a> before you decide.</p>
-
-      <h2>Hire me</h2>
-      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Near the city instead? See <a href="/hire/ai-engineer-nyc">hire an AI engineer in NYC</a> or <a href="/hire/ai-engineer-remote">hire a remote AI engineer</a>. Full details on the <a href="/hire">hire page</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Hire me</h2>
+  <p>Message me on WhatsApp, email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>. Closer to the city? See <a href="/hire/ai-engineer-nyc">an AI engineer for NYC teams</a> or <a href="/hire/ai-engineer-remote">a remote AI engineer</a>. More on <a href="/hire">when to bring me in</a>.</p>
+</ServicePage>

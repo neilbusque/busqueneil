@@ -6,13 +6,13 @@ const faq = [
   { q: 'Does the Meta Ad Library show ad spend or performance?', a: 'No. It shows creative, the advertiser, and the date an ad started running, plus whether it is still active. It does not show spend, impressions, clicks, or conversions for commercial advertisers. Longevity is the closest available proxy, because nobody keeps paying to run an ad that loses money.' },
   { q: 'How long does an ad have to run before it counts as proven?', a: 'Past about 60 days it is very likely paying for itself. Below 30 days you are usually looking at testing rather than a winner. The longest single creative in this dataset has run 564 days.' },
   { q: 'What does a company running 80 near-identical ads tell you?', a: 'That they are in aggressive test mode, not that they have found something. Eighty variants all under two weeks old is a company searching. One creative running 18 months is a company that already found it.' },
-  { q: 'What is the biggest mistake when reading the ad library?', a: 'Not paginating. Results come back 30 at a time, and a page holding exactly 30 always has more behind the cursor. Reading only the first page makes every advertiser look far newer than they are — on my first pass this understated longevity by roughly 10x.' },
+  { q: 'What is the biggest mistake when reading the ad library?', a: 'Not paginating. Results come back 30 at a time, and a page holding exactly 30 always has more behind the cursor. Reading only the first page makes every advertiser look far newer than they are. On my first pass this understated longevity by roughly 10x.' },
 ];
 ---
 <ContentArticle
   slug="ad-longevity-as-a-conversion-proxy"
   seoTitle="Ad Longevity Is the Closest Thing to a Public Conversion Signal"
-  description="The Meta Ad Library shows no spend and no conversions. It does show start dates, and that turns out to be enough — a method for reading any competitor's ad account, with the pagination trap that breaks it."
+  description="The Meta Ad Library shows no spend and no conversions. It does show start dates, and that turns out to be enough: a method for reading any competitor's ad account, with the pagination trap that breaks it."
   heading="Ad longevity is a public"
   accent="conversion signal"
   lede="Meta never shows you spend or results. It does show you when an ad started and whether it is still running, and nobody keeps paying for an ad that loses money."
@@ -34,7 +34,7 @@ const faq = [
       <thead><tr><th>What you see</th><th>What it means</th></tr></thead>
       <tbody>
         <tr><td>One creative, 500+ days</td><td>A proven offer. Copy the <em>offer</em>, not the design.</td></tr>
-        <tr><td>A handful of ads, 60&ndash;120 days</td><td>Working. Worth reading closely.</td></tr>
+        <tr><td>A handful of ads, 60 to 120 days</td><td>Working. Worth reading closely.</td></tr>
         <tr><td>80 variants, all under 14 days</td><td>Aggressive testing. They have not found it yet.</td></tr>
         <tr><td>Many ads, none older than 30 days</td><td>Either new, or nothing has stuck.</td></tr>
         <tr><td>Long-running ad, one creative, no website</td><td>The offer is carrying it. Study the words.</td></tr>
@@ -68,18 +68,8 @@ const faq = [
 
   <h2>What it cannot tell you</h2>
   <p>Being fair about the limits, because this method is easy to over-trust.</p>
-  <p>Longevity does not measure <em>volume</em>. A cheap ad running to a tiny audience can survive a long time on trivial spend. It does not distinguish a great offer from a merely acceptable one in a category with no competition. It does not account for a company running ads for brand reasons rather than direct response. And a badly-run account can keep a losing ad live purely through neglect &mdash; which, given the 404 above, is not a theoretical concern.</p>
+  <p>Longevity does not measure <em>volume</em>. A cheap ad running to a tiny audience can survive a long time on trivial spend. It does not distinguish a great offer from a merely acceptable one in a category with no competition. It does not account for a company running ads for brand reasons rather than direct response. And a badly-run account can keep a losing ad live purely through neglect, which, given the 404 above, is not a theoretical concern.</p>
   <p>Treat it as strong evidence, not proof. It is still the best free signal available.</p>
 
-  <h2>FAQ</h2>
-  <h3>Does the Meta Ad Library show spend or performance?</h3>
-  <p>Not for commercial advertisers. It shows creative, advertiser, start date, and active status. Longevity is the proxy.</p>
-  <h3>How long before an ad counts as proven?</h3>
-  <p>Past about 60 days it is very likely paying for itself. Under 30 days you are usually watching a test. The longest single creative here has run 564 days.</p>
-  <h3>What does 80 near-identical ads mean?</h3>
-  <p>Aggressive testing, not success. Eighty variants under two weeks old is a company searching; one creative running 18 months is a company that already found it.</p>
-  <h3>What is the biggest mistake reading the ad library?</h3>
-  <p>Not paginating. A page of exactly 30 results always has more behind it, and reading only the first page makes every advertiser look far newer than they are.</p>
-
-  <p style="margin-top: 2rem;">Full method and findings: <a href="/research/866-custom-software-ads">I analyzed 866 ads from 30 custom software companies</a>. Related: <a href="/research/the-false-zero-machine">the false-zero machine</a>, a search trap that will hand you a confident wrong answer.</p>
+  <p class="article-coda">Full method and findings: <a href="/research/866-custom-software-ads">I analyzed 866 ads from 30 custom software companies</a>. Related: <a href="/research/the-false-zero-machine">the false-zero machine</a>, a search trap that will hand you a confident wrong answer.</p>
 </ContentArticle>

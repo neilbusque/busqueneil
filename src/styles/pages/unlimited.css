@@ -1,0 +1,72 @@
+/* Unlisted subscription offer (src/pages/unlimited.astro and unlimited/thanks.astro). Scoped
+   under .site like site.css and bound by the same bans: no side accent borders, inset stripes,
+   gradient functions, capitalised text transforms or shadows on cards. */
+
+/* ================================================================ head */
+.site .unl-head .t-h1 { max-width: 15ch; }
+.site .unl-head .t-lead { color: var(--ink); font-weight: 500; }
+.site .unl-lede { max-width: 40em; color: var(--muted); }
+
+/* ================================================================ requests: items as one quiet line */
+.site .unl-req-items { margin-top: auto; padding-top: 8px; color: var(--ink-2); }
+
+/* ================================================================ text bands: H2 left, copy right */
+.site .unl-rule-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px var(--grid-gap); align-items: start; }
+.site .unl-rule-grid > h2 { grid-column: 1 / span 5; }
+.site .unl-rule-copy { grid-column: 7 / span 6; display: grid; gap: 16px; justify-items: start; font-size: 17px; line-height: 1.65; color: var(--ink-2); }
+.site .unl-strong { color: var(--ink); font-weight: 600; }
+@media (max-width: 900px) {
+  .site .unl-rule-grid > h2, .site .unl-rule-copy { grid-column: 1 / -1; }
+}
+
+/* ================================================================ turnaround: head left, rows right */
+.site .unl-split { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 0 var(--grid-gap); align-items: start; }
+.site .unl-split > .sec-head { grid-column: 1 / span 5; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.site .unl-split > .sec-head.sec-head--cols > :is(.sec-head-main, .sec-head-side) { grid-column: 1 / -1; }
+.site .unl-split > .deflist { grid-column: 7 / span 6; }
+@media (max-width: 900px) {
+  .site .unl-split > .sec-head, .site .unl-split > .deflist { grid-column: 1 / -1; }
+}
+
+/* ================================================================ pricing */
+.site .unl-price-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px var(--grid-gap); align-items: start; }
+.site .unl-price { grid-column: 1 / span 7; display: grid; gap: 18px; padding: 36px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.site .unl-price-num { display: flex; align-items: baseline; gap: 12px; font-size: clamp(3rem, 2.4rem + 2.4vw, 4.5rem); line-height: 1; letter-spacing: -.04em; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+.site .unl-price-per { font-size: 17px; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+.site .unl-price-sub { color: var(--ink-2); }
+.site .unl-price .check { padding-top: 18px; border-top: 1px solid var(--line); }
+.site .unl-price-actions { display: grid; gap: 4px; justify-items: center; margin-top: 8px; }
+.site .unl-notes { grid-column: 9 / span 4; display: grid; border-top: 1px solid var(--line); }
+.site .unl-note { display: grid; gap: 6px; justify-items: start; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.site .unl-note p { color: var(--muted); }
+@media (max-width: 1023px) {
+  .site .unl-price { grid-column: 1 / span 7; }
+  .site .unl-notes { grid-column: 8 / span 5; }
+}
+@media (max-width: 900px) {
+  .site .unl-price, .site .unl-notes { grid-column: 1 / -1; }
+}
+@media (max-width: 640px) {
+  .site .unl-price { padding: 24px 20px; }
+}
+
+/* ================================================================ comparison table */
+.site .unl-cmp-wrap { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; }
+.site .unl-cmp-wrap:focus-visible { outline-offset: 4px; }
+.site .unl-cmp { width: 100%; min-width: 760px; border-collapse: collapse; border-top: 1px solid var(--ink); font-size: 15px; line-height: 1.5; }
+.site .unl-cmp thead th { padding: 10px 14px; background: var(--bg-2); font-size: var(--fs-label); font-weight: 500; letter-spacing: 0; color: var(--muted); text-align: left; }
+.site .unl-cmp tbody :is(th, td) { padding: 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; color: var(--ink-2); }
+.site .unl-cmp tbody th { width: 22%; font-weight: 600; color: var(--ink); }
+/* "This" column: a fill, never a side stripe. */
+.site .unl-cmp .unl-cmp-mine { background: var(--blue-wash); color: var(--blue-ink); font-weight: 600; }
+.site .unl-cmp-note { margin-top: 14px; }
+
+.site .unl-cta-row { margin-top: 40px; }
+.site .unl-guar-line { margin-top: 16px; }
+
+/* ================================================================ thanks page */
+.site .unl-thanks-steps { margin-top: 8px; }
+.site .unl-thanks-note { display: grid; gap: 10px; max-width: 760px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.site .unl-thanks-note p { color: var(--ink-2); }
+.site .unl-thanks-note .channels { margin-top: 8px; }
+@media (max-width: 640px) { .site .unl-thanks-note { padding: 24px 20px; } }

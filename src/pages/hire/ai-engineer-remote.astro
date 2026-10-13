@@ -1,76 +1,78 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
 
 export const prerender = true;
 
-const title = 'Remote AI Engineer in US Eastern Time | Neil Busque';
-const description = 'Neil Busque is a remote AI engineer building agents, automations, and web apps from the US East Coast, with clear updates and frequent preview links.';
 const canonical = 'https://busqueneil.com/hire/ai-engineer-remote';
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'Remote AI Engineer | Neil Busque',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: [
-    { '@type': 'Country', name: 'United States' },
-    'Remote',
-    'Worldwide',
-  ],
-  serviceType: ['Remote AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'How do we stay in touch?',
+    a: 'WhatsApp or email day to day, with a link to try after each round, and a call when a decision is easier to make together. I reply myself, usually the same day.',
+  },
+  {
+    q: 'Which time zone do you work in?',
+    a: 'US Eastern. That overlaps with every US time zone and part of the European afternoon, and still leaves uninterrupted time to build.',
+  },
+  {
+    q: 'Who owns the code?',
+    a: 'You do. The code and the accounts it runs on are in your name. If we ever stop working together, everything stays with you.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: 'https://busqueneil.com/hire' },
-      { name: 'Remote AI Engineer', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="Remote AI Engineer in US Eastern Time | Neil Busque"
+  description="Neil Busque is a remote AI engineer building agents, automations and web apps from the US East Coast, with clear updates and frequent preview links."
+  canonical={canonical}
+  active="hire"
+  heading="Hire a **remote AI engineer**."
+  lead="I build AI agents, automations and web apps remotely from the US East Coast. You get written updates, frequent preview links and calls when a decision is easier to make together."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Hire', url: 'https://busqueneil.com/hire' },
+    { name: 'Remote AI Engineer', url: canonical },
+  ]}
+  backLabel="When to hire me"
+  topic="hiring a remote AI engineer"
+  artSeed="hire-ai-engineer-remote"
+  artPalette="mist"
+  summary={{
+    items: [
+      'Written updates in plain English',
+      'Preview links as the build takes shape',
+      'Calls when a decision is easier together',
+      'AI agents, automations and web apps',
+      'The code and the accounts, in your name',
+    ],
+    facts: [
+      { term: 'Good for', value: 'Teams anywhere in the US, and some in Europe' },
+      { term: 'How it starts', value: 'A message on WhatsApp or email' },
+      { term: 'What you own', value: 'The code, the data and every account' },
+    ],
+  }}
+  related={['crm-with-ai-follow-up', 'funnel-simulator']}
+  relatedPalettes={['mist', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'Remote AI Engineer',
+    serviceType: ['Remote AI engineering', 'AI agent development', 'AI automation', 'Web app development'],
+    areaServed: [{ '@type': 'Country', name: 'United States' }, 'Remote', 'Worldwide'],
+  }}
+>
+  <h2>Remote that actually works</h2>
+  <p>Remote work goes wrong when the project disappears for a month. I keep the tasks small, ship often and share preview links as the build takes shape. You review real progress instead of reading a status paragraph.</p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire · Remote</p>
-    <h1>Hire a <span class="accent">remote AI engineer</span>.</h1>
-    <p class="lede">I build AI agents, automations, and web apps remotely from the US East Coast. You get written updates, frequent preview links, and calls when a decision is easier to make together.</p>
-  </header>
+  <h2>A time zone that overlaps</h2>
+  <p>I work on US Eastern time. That gives working overlap with every US time zone and part of the European afternoon, while leaving enough uninterrupted time to build.</p>
 
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      <h2>Remote that actually works</h2>
-      <p>Remote work goes wrong when the project disappears for a month. I keep the tasks small, deploy often, and share preview links as the build takes shape. You can review real progress instead of reading a status paragraph.</p>
+  <h2>What I ship remotely</h2>
+  <ul>
+    <li><strong>AI agents</strong> wired into your tools. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+    <li><strong>Automations</strong> that remove manual work in n8n, Zapier and GoHighLevel.</li>
+    <li><strong>Web apps</strong> with a working first version in days. Here is <a href="/guides/ship-web-app-in-days-with-ai">the process</a>.</li>
+    <li><strong>GEO and SEO</strong> so you get found in AI search. See <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>.</li>
+  </ul>
 
-      <h2>A timezone that overlaps</h2>
-      <p>I am in Eastern Time. That gives me working overlap with every US timezone and part of the European afternoon, while leaving enough uninterrupted time to build.</p>
-
-      <h2>What I ship remotely</h2>
-      <ul>
-        <li><strong>AI agents</strong> wired into your tools. See <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
-        <li><strong>Automations</strong> that remove manual work in n8n, Zapier, and GoHighLevel.</li>
-        <li><strong>Web apps and PWAs</strong> in days, deployed on Vercel. Here is <a href="/guides/ship-web-app-in-days-with-ai">the process</a>.</li>
-        <li><strong>GEO and SEO</strong> so you get found in AI search. See <a href="/guides/geo-generative-engine-optimization-guide">the GEO guide</a>.</li>
-      </ul>
-
-      <h2>Hire me remotely</h2>
-      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or message me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Prefer someone local to the NYC area? See <a href="/hire/ai-engineer-nj">New Jersey</a> or <a href="/hire/ai-engineer-nyc">NYC</a>. Full details on the <a href="/hire">hire page</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Hire me remotely</h2>
+  <p>Message me on WhatsApp, email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>. Prefer someone local to the NYC area? See <a href="/hire/ai-engineer-nj">New Jersey</a> or <a href="/hire/ai-engineer-nyc">NYC</a>. More on <a href="/hire">when to bring me in</a>.</p>
+</ServicePage>

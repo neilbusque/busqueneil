@@ -1,38 +1,76 @@
 ---
+/* Landing page analyzer. The tool sits in the page head's right column so it is on the first
+   screen; on phones it follows the head. Then what the score covers, how it works, and a row
+   for people who would rather have the page fixed for them. The Analyzer component keeps its
+   API calls (/api/analyzer/scan, /api/analyzer/deliver) and behavior; ?url= starts a scan. */
 import AppShell from '../layouts/AppShell.astro';
 import Analyzer from '../components/Analyzer.tsx';
+import Section from '../components/site/Section.astro';
+import PageHead from '../components/site/PageHead.astro';
+import CheckList from '../components/site/CheckList.astro';
+import CtaRow from '../components/site/CtaRow.astro';
+import Breadcrumb from '../components/site/Breadcrumb.astro';
+import { FEATURED_TOOL, SITE } from '../data/site';
+import { ANALYZER_PAGE, FREE_PAGE } from '../data/work-page';
+import { PERSON_REF } from '../lib/seo';
+import '../styles/pages/free.css';
+/* Page styles: the analyzer section of free.css. */
 
 export const prerender = false;
 
 const initialUrl = new URL(Astro.request.url).searchParams.get('url') ?? '';
-const title = 'Free Landing Page Analyzer | Neil Busque';
-const description = 'Paste a URL and get an instant score on speed, mobile, and the conversion elements that matter. Free, no signup required to see your score.';
-const canonical = 'https://busqueneil.com/analyzer';
+const canonical = `${SITE.url}/analyzer`;
+
+const app = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  '@id': `${canonical}#app`,
+  name: FEATURED_TOOL.name,
+  description: ANALYZER_PAGE.description,
+  url: canonical,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  creator: PERSON_REF,
+};
 ---
-<!-- v12: was a standalone dark page on Base with inline #08080C styles, which made it the one
-     off-brand surface on the site and an SEO dead end with no nav and no internal links.
-     Now it runs inside AppShell like everything else. -->
-<AppShell title={title} description={description} canonical={canonical} active="free">
-  <span class="eyebrow">Free tool</span>
-  <h1 class="sec">Score your landing page, <span class="mark-hl">free.</span></h1>
-  <p class="res-lede">Paste a URL and get an instant read on speed, mobile setup, and the conversion elements that decide whether the traffic you are paying for does anything. No signup to see your score.</p>
+<AppShell title={ANALYZER_PAGE.title} description={ANALYZER_PAGE.description} canonical={canonical} active="free">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(app)} />
+  <Breadcrumb
+    items={[
+      { name: 'Home', url: `${SITE.url}/` },
+      { name: 'Free tools', url: `${SITE.url}/free` },
+      { name: FEATURED_TOOL.name, url: canonical },
+    ]}
+    backLabel="Free tools"
+    class="az-crumb wrap"
+  />
 
-  <div class="az-wrap">
-    <Analyzer client:load initialUrl={initialUrl} />
-  </div>
+  <PageHead class="az-head" title={ANALYZER_PAGE.h1} accent={ANALYZER_PAGE.accent} lead={ANALYZER_PAGE.lead}>
+    <Fragment slot="aside">
+      <Analyzer client:load initialUrl={initialUrl} />
+    </Fragment>
+  </PageHead>
 
-  <section class="hsec">
-    <span class="eyebrow">After the score</span>
-    <h2 class="sec">Know what to fix <span class="mark-hl">next.</span></h2>
-    <p class="res-lede">The score tells you where a page is leaking. If you would rather not fix it yourself, that is what <a href="/services/landing-pages">landing pages</a> and <a href="/services/funnels">funnels</a> are for.</p>
-  </section>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
+  <Section class="az-more" labelledby="az-covers-title">
+    <div class="az-more-grid">
+      <div class="az-more-col">
+        <h2 class="t-h3" id="az-covers-title">{ANALYZER_PAGE.aboutTitle}</h2>
+        <CheckList items={ANALYZER_PAGE.checks} />
+      </div>
+      <div class="az-more-col">
+        <h2 class="t-h3">{FREE_PAGE.stepsLabel}</h2>
+        <ol class="ftool-steps" role="list">
+          {FEATURED_TOOL.steps.map((s, i) => (
+            <li><span class="ftool-n" aria-hidden="true">{i + 1}</span><span>{s}</span></li>
+          ))}
+        </ol>
+        <h2 class="t-h3 az-who-title">{FREE_PAGE.whoLabel}</h2>
+        <p class="t-body">{FEATURED_TOOL.who}</p>
+      </div>
     </div>
-  </div>
+    <CtaRow class="az-fix" text={ANALYZER_PAGE.fixLine} cta={{ href: ANALYZER_PAGE.fixHref, label: ANALYZER_PAGE.fixCta }} />
+  </Section>
 </AppShell>
+

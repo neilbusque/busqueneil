@@ -23,7 +23,7 @@ const faq = [
   <p><strong>Build a CRM only when your process is genuinely unusual, when the CRM is the product rather than a tool supporting it, or when platform fees scale with something you cannot control. Outside those three cases, buy. The build is the cheap part; owning integrations, deliverability, uptime, and every future request is the expensive part.</strong></p>
 
   <h2>The three conditions</h2>
-  <p><strong>1. Your process is genuinely unusual.</strong> Not &ldquo;we do it slightly differently&rdquo; &mdash; every business believes that. Genuinely unusual means the platform&rsquo;s core object model does not fit: you need a record type it does not have, or a relationship it cannot express, and you are already maintaining a spreadsheet alongside the CRM to hold the truth. That spreadsheet is the signal.</p>
+  <p><strong>1. Your process is genuinely unusual.</strong> Not &ldquo;we do it slightly differently&rdquo;, because every business believes that. Genuinely unusual means the platform&rsquo;s core object model does not fit: you need a record type it does not have, or a relationship it cannot express, and you are already maintaining a spreadsheet alongside the CRM to hold the truth. That spreadsheet is the signal.</p>
   <p><strong>2. The CRM is the product.</strong> If you are selling access to it, or it is the thing clients log into, you cannot build your business on someone else&rsquo;s roadmap and pricing. This was my reason.</p>
   <p><strong>3. Fees scale with something you do not control.</strong> Per-seat pricing when your seats grow with headcount is fine. Per-contact or per-message pricing when volume is your business model is a tax on success, and at some volume the build pays for itself on arithmetic alone.</p>
   <p>If none of those apply, buying is the better decision and the money is better spent on demand.</p>
@@ -55,7 +55,7 @@ const faq = [
   <p><strong>Deliverability becomes your job.</strong> This is the one that surprises people most. Sending email is easy; sending email that arrives is a discipline involving sending domains, authentication alignment, warm-up, and reputation. I have written up <a href="/compare/resend-vs-mailgun">the specific trap that sends your mail to spam regardless of provider</a>, because it cost me real time.</p>
   <p><strong>Two email lanes, not one.</strong> A multi-tenant CRM sends on behalf of customers <em>and</em> sends to its own customers. Those must not share a quota system, or a tenant who exhausts their sending cap also stops receiving &ldquo;your payment failed.&rdquo; You have coupled your revenue notifications to a customer&rsquo;s usage limit.</p>
   <p><strong>Every integration is permanent.</strong> Calendar, payments, messaging, and each provider&rsquo;s auth model and rate limits and breaking changes. The bundle you were paying for was mostly this.</p>
-  <p><strong>Multi-tenant authorisation is the highest-stakes code you will write.</strong> One wrong policy and a customer sees another customer&rsquo;s pipeline. Put it in the database, not the application, and verify it empirically &mdash; <a href="/compare/rls-vs-app-layer-auth">the reasoning is here</a>.</p>
+  <p><strong>Multi-tenant authorisation is the highest-stakes code you will write.</strong> One wrong policy and a customer sees another customer&rsquo;s pipeline. Put it in the database, not the application, and verify it empirically. <a href="/compare/rls-vs-app-layer-auth">The reasoning is here</a>.</p>
   <p><strong>You own the roadmap, which means you own the backlog.</strong> Every &ldquo;can it just&rdquo; is now yours forever. That is the freedom people want and the cost they underestimate.</p>
 
   <h2>What I would tell someone deciding</h2>
@@ -67,15 +67,5 @@ const faq = [
     <li><strong>Start with the one thing the platform cannot do.</strong> Build that alongside, not a full replacement on day one.</li>
   </ol>
 
-  <h2>FAQ</h2>
-  <h3>When is building worth it?</h3>
-  <p>Unusual process, the CRM is the product, or fees scale with something you cannot control. Otherwise buy.</p>
-  <h3>What does GoHighLevel do well?</h3>
-  <p>The bundle, plus agency sub-accounts. Hard to beat by assembling parts if you run one playbook across many clients.</p>
-  <h3>What does custom really cost?</h3>
-  <p>The build is small. Owning integrations, deliverability, uptime, backups, and the backlog is the real cost. Budget year two.</p>
-  <h3>Can you migrate off later?</h3>
-  <p>Contacts yes; automations, funnels, calendars and history no. Plan to rebuild process.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/software/custom-software-vs-off-the-shelf">custom software vs off-the-shelf</a>, <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>, and <a href="/software/custom-crm-development">custom CRM development</a>.</p>
+  <p class="article-coda">Related: <a href="/software/custom-software-vs-off-the-shelf">custom software vs off-the-shelf</a>, <a href="/software/build-vs-buy-software-checklist">the build-vs-buy checklist</a>, and <a href="/software/custom-crm-development">custom CRM development</a>.</p>
 </ContentArticle>

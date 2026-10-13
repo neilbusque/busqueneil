@@ -1,71 +1,77 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
 
 export const prerender = true;
 
-const title = 'AI Engineer for NYC Teams | Neil Busque';
-const description = 'Neil Busque builds AI agents, automations, and web apps for NYC teams, with in-person work available when useful and remote delivery for the build.';
 const canonical = 'https://busqueneil.com/hire/ai-engineer-nyc';
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Engineer for NYC | Neil Busque',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: [
-    { '@type': 'City', name: 'New York City' },
-    { '@type': 'City', name: 'Manhattan' },
-    { '@type': 'City', name: 'Brooklyn' },
-  ],
-  serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'AI automation'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'Can you meet in person in New York City?',
+    a: "Yes, when it helps. I'm a short trip from Manhattan, so I can join a kickoff or a working session in Manhattan or Brooklyn. The day-to-day build happens remotely.",
+  },
+  {
+    q: 'Who does the work?',
+    a: "I do. You talk to the person building it, from the first message to launch and after. There's no account manager in between.",
+  },
+  {
+    q: 'Can we start small?',
+    a: 'Yes. Start with one build. If it pays off, we plan the next one or move to a monthly arrangement.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: 'https://busqueneil.com/hire' },
-      { name: 'AI Engineer in NYC', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="AI Engineer for NYC Teams | Neil Busque"
+  description="Neil Busque builds AI agents, automations and web apps for NYC teams, with in-person work available when useful and remote delivery for the build."
+  canonical={canonical}
+  active="hire"
+  heading="Hire an **AI engineer for NYC**."
+  lead="I'm Neil Busque, an AI engineer based just outside New York City. I build agents, LLM features, automations and apps for NYC teams, in person when it helps and remote for the rest."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Hire', url: 'https://busqueneil.com/hire' },
+    { name: 'AI Engineer in NYC', url: canonical },
+  ]}
+  backLabel="When to hire me"
+  topic="hiring an AI engineer for NYC"
+  artSeed="hire-ai-engineer-nyc"
+  artPalette="paper"
+  summary={{
+    items: [
+      'Inbound agents that answer and qualify leads',
+      'LLM features inside your product or tools',
+      'Automations that replace a manual process',
+      'Internal tools, with a first version in days',
+      'In-person kickoffs in Manhattan or Brooklyn',
+    ],
+    facts: [
+      { term: 'Good for', value: 'Startups, agencies and service teams in New York City' },
+      { term: 'How it starts', value: 'A message, then a call or an in-person kickoff' },
+      { term: 'What you own', value: 'The code, the prompts and every account' },
+    ],
+  }}
+  related={['ai-ads-app', 'meeting-notes-to-tasks']}
+  relatedPalettes={['mist', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'AI Engineer for NYC',
+    serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'AI automation'],
+    areaServed: [
+      { '@type': 'City', name: 'New York City' },
+      { '@type': 'City', name: 'Manhattan' },
+      { '@type': 'City', name: 'Brooklyn' },
+    ],
+  }}
+>
+  <h2>Close enough to be in the room</h2>
+  <p>Some decisions are easier with everyone at the same table. I'm a short trip from Manhattan, so I can join an in-person kickoff or a working session in Manhattan or Brooklyn, then run the rest of the build remotely.</p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire · New York City</p>
-    <h1>Hire an <span class="accent">AI engineer for NYC</span>.</h1>
-    <p class="lede">I am Neil Busque, an AI engineer based just outside New York City. I build agents, LLM features, automations, and apps for NYC teams, with in-person work when it helps and remote delivery for the rest.</p>
-  </header>
+  <h2>The work I can take on</h2>
+  <p>I can plug into a startup, agency, media company or professional-services team for a focused build: an inbound agent, an LLM feature, an automation that replaces a manual process or a full internal tool. Read <a href="/guides/build-ai-agent-claude-code">how I build agents</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship apps in days</a>.</p>
 
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      <h2>Close enough to be in the room</h2>
-      <p>Some decisions are easier with everyone at the same table. I am a short train ride from Manhattan, so I can join an in-person kickoff or focused sprint in Manhattan or Brooklyn, then run the rest of the build remotely.</p>
+  <h2>Work you can check</h2>
+  <p>I shipped more than 40 apps, agents and automations in 2026. Client names stay private, so each build is named for what it does. See <a href="/work">the projects</a> and read <a href="/resources">the guides</a> before we talk.</p>
 
-      <h2>The work I can take on</h2>
-      <p>I can plug into a startup, agency, media company, or professional-services team for a focused build: an inbound agent, an LLM feature, an automation that replaces a manual process, or a full internal tool. Read <a href="/guides/build-ai-agent-claude-code">how I build agents</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship apps in days</a>.</p>
-
-      <h2>Work you can check</h2>
-      <p>I shipped more than 40 apps, agents, and automations in 2026. See <a href="/work">the projects</a> and read <a href="/resources">the guides</a> before we talk.</p>
-
-      <h2>Let's talk</h2>
-      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or find me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Based in Jersey instead? See <a href="/hire/ai-engineer-nj">hire an AI engineer in New Jersey</a>, or go fully <a href="/hire/ai-engineer-remote">remote</a>. Full details on the <a href="/hire">hire page</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Let's talk</h2>
+  <p>Message me on WhatsApp, email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or find me on <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>. Based in New Jersey instead? See <a href="/hire/ai-engineer-nj">an AI engineer in New Jersey</a>, or go fully <a href="/hire/ai-engineer-remote">remote</a>. More on <a href="/hire">when to bring me in</a>.</p>
+</ServicePage>

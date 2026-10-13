@@ -1,114 +1,72 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+import ContentArticle from '../../layouts/ContentArticle.astro';
+import { SITE_URL } from '../../lib/seo';
 
 export const prerender = true;
 
-const title = 'GEO and AI Search: What Actually Helps in 2026';
-const description = 'A practical guide to AI search visibility without the myths: what Google confirms, what llms.txt does not do, and where first-hand content still wins.';
-const canonical = 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide';
-const guideImage = `${SITE_URL}/og/guides/geo-generative-engine-optimization-guide.png`;
-const published = '2026-06-30';
-const modified = '2026-07-25';
-
-const article = {
-  '@context': 'https://schema.org',
-  '@type': 'TechArticle',
-  headline: title,
-  description,
-  '@id': `${canonical}#article`,
-  author: AUTHOR,
-  publisher: PUBLISHER,
-  datePublished: published,
-  dateModified: modified,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  isPartOf: WEBSITE_REF,
-  image: guideImage,
-  inLanguage: 'en-US',
-  keywords: 'GEO, generative engine optimization, AI SEO, answer engine optimization, AEO, AI Overviews, ChatGPT SEO, Perplexity, LLM optimization',
-};
-
+const faq = [
+  { q: 'Is GEO different from SEO?', a: "The label is different, but for Google's AI features the work is still SEO: useful content, technical clarity, indexability, and a strong page experience. Other answer engines have their own mechanics, so treat broad GEO advice carefully." },
+  { q: 'Does llms.txt improve Google rankings?', a: 'No. Google says Search does not use llms.txt, including for its generative AI features. Keeping one for another tool is fine, but it is not a Google ranking signal.' },
+  { q: 'Do I need special schema for AI answers?', a: 'No. Use structured data that accurately describes the visible page and is supported for the search features you care about. There is no special AI schema required for Google AI Overviews or AI Mode.' },
+  { q: 'Can anyone guarantee an AI citation?', a: 'No. You can improve eligibility, clarity, and usefulness, but no consultant can guarantee that an answer engine will retrieve or cite a page for a particular question.' },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Resources', url: 'https://busqueneil.com/resources' },
-      { name: 'GEO: rank in AI answers', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(article)} />
-  </Fragment>
+<ContentArticle
+  slug="geo-generative-engine-optimization-guide"
+  titleTag="GEO and AI Search: What Actually Helps in 2026"
+  description="A practical guide to AI search visibility without the myths: what Google confirms, what llms.txt does not do, and where first-hand content still wins."
+  heading="GEO and AI search:"
+  accent="what actually helps"
+  lede="There is useful work behind AI search visibility, but there are also plenty of made-up shortcuts. Here is the part I would spend time on, updated against Google's current guidance."
+  keywords="GEO, generative engine optimization, AI SEO, answer engine optimization, AEO, AI Overviews, ChatGPT SEO, Perplexity, LLM optimization"
+  ogImage={`${SITE_URL}/og/guides/geo-generative-engine-optimization-guide.png`}
+  faq={faq}
+>
+  <p><strong>Short version: there is no separate trick that makes a page appear in AI answers. For Google's AI features, the same foundation still matters: useful first-hand content, crawlable pages, clean internal links, accurate facts, and a site people can use. Google explicitly says llms.txt does not help its rankings, special AI schema is unnecessary, and rewriting pages into tiny “AI-friendly” chunks is not required.</strong></p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">03</span> Guide</p>
-    <h1>GEO and AI search: what actually helps</h1>
-    <p class="lede">There is useful work behind AI search visibility, but there are also plenty of made-up shortcuts. Here is the part I would spend time on, updated against Google's current guidance.</p>
-  </header>
+  <h2>What GEO means now</h2>
+  <p>GEO stands for Generative Engine Optimization. People use it to describe work aimed at earning visibility in AI-generated answers from Google, ChatGPT, Perplexity, and similar products.</p>
+  <p>The name is convenient, but it can make the work sound more exotic than it is. Google now says that optimizing for AI Overviews and AI Mode is still SEO. Its generative features use the same search index and many of the same ranking and quality systems. The best place to start is not a new file or a new schema type. It is a page worth retrieving.</p>
 
-  <article class="article-page">
-    <div class="prose">
-      <p><strong>Short version: there is no separate trick that makes a page appear in AI answers. For Google's AI features, the same foundation still matters: useful first-hand content, crawlable pages, clean internal links, accurate facts, and a site people can use. Google explicitly says llms.txt does not help its rankings, special AI schema is unnecessary, and rewriting pages into tiny “AI-friendly” chunks is not required.</strong></p>
+  <h2>What Google actually confirms</h2>
+  <p>Google's current <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">guide to generative AI features in Search</a> is unusually direct. It recommends unique, non-commodity content; a clear technical structure; crawlable and indexable pages; useful images or video where they genuinely help; and a good experience after the click.</p>
+  <p>It also calls out several myths. Google Search does not use llms.txt. There is no special AI markup you need. You do not have to split every answer into tiny chunks or make a separate page for every wording of the same question.</p>
 
-      <h2>What GEO means now</h2>
-      <p>GEO stands for Generative Engine Optimization. People use it to describe work aimed at earning visibility in AI-generated answers from Google, ChatGPT, Perplexity, and similar products.</p>
-      <p>The name is convenient, but it can make the work sound more exotic than it is. Google now says that optimizing for AI Overviews and AI Mode is still SEO. Its generative features use the same search index and many of the same ranking and quality systems. The best place to start is not a new file or a new schema type. It is a page worth retrieving.</p>
+  <h2>The work I would do first</h2>
 
-      <h2>What Google actually confirms</h2>
-      <p>Google's current <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">guide to generative AI features in Search</a> is unusually direct. It recommends unique, non-commodity content; a clear technical structure; crawlable and indexable pages; useful images or video where they genuinely help; and a good experience after the click.</p>
-      <p>It also calls out several myths. Google Search does not use llms.txt. There is no special AI markup you need. You do not have to split every answer into tiny chunks or make a separate page for every wording of the same question.</p>
+  <h3>1. Publish something only you could write</h3>
+  <p>A summary of the same ten tips already on the internet is easy to replace. A walkthrough of the system you built, the numbers you measured, the mistake you found, or the decision you changed is harder to replace. That first-hand layer helps people, and it gives search systems a reason to choose your page over another summary.</p>
 
-      <h2>The work I would do first</h2>
+  <h3>2. Answer the whole decision, not every keyword variation</h3>
+  <p>Cover the main question and the follow-up questions a real person needs before acting. Use clear headings because they make the page easier to scan, not because an AI needs one exact phrase. One strong page is usually more useful than a cluster of near-duplicates written for slightly different queries.</p>
 
-      <h3>1. Publish something only you could write</h3>
-      <p>A summary of the same ten tips already on the internet is easy to replace. A walkthrough of the system you built, the numbers you measured, the mistake you found, or the decision you changed is harder to replace. That first-hand layer helps people, and it gives search systems a reason to choose your page over another summary.</p>
+  <h3>3. Make the page easy to find and index</h3>
+  <p>Give important pages descriptive links from relevant places on your site. Use a self-referencing canonical, include the canonical URL in your sitemap, and make sure robots rules or a noindex tag are not blocking it. For Google's AI features, a page must already be indexed and eligible to show a normal search snippet.</p>
 
-      <h3>2. Answer the whole decision, not every keyword variation</h3>
-      <p>Cover the main question and the follow-up questions a real person needs before acting. Use clear headings because they make the page easier to scan, not because an AI needs one exact phrase. One strong page is usually more useful than a cluster of near-duplicates written for slightly different queries.</p>
+  <h3>4. Show who did the work</h3>
+  <p>Add a real byline to articles and link it to an author page. Explain the experience behind the advice. Cite primary sources when a claim depends on someone else's research or documentation. This is good editorial practice before it is an SEO tactic.</p>
 
-      <h3>3. Make the page easy to find and index</h3>
-      <p>Give important pages descriptive links from relevant places on your site. Use a self-referencing canonical, include the canonical URL in your sitemap, and make sure robots rules or a noindex tag are not blocking it. For Google's AI features, a page must already be indexed and eligible to show a normal search snippet.</p>
+  <h3>5. Keep titles, descriptions, and internal links specific</h3>
+  <p>A descriptive title helps people understand why they should open the page. A useful meta description gives search engines a good candidate for the snippet. Internal links with meaningful text help both readers and crawlers understand how the page fits into the rest of the site.</p>
 
-      <h3>4. Show who did the work</h3>
-      <p>Add a real byline to articles and link it to an author page. Explain the experience behind the advice. Cite primary sources when a claim depends on someone else's research or documentation. This is good editorial practice before it is an SEO tactic.</p>
+  <h3>6. Use structured data for what the page really is</h3>
+  <p>Article, profile, breadcrumb, service, and other supported schema can clarify page meaning and make a page eligible for specific search features. It is not a special pass into AI answers. The markup should match content a visitor can actually see.</p>
 
-      <h3>5. Keep titles, descriptions, and internal links specific</h3>
-      <p>A descriptive title helps people understand why they should open the page. A useful meta description gives search engines a good candidate for the snippet. Internal links with meaningful text help both readers and crawlers understand how the page fits into the rest of the site.</p>
+  <h2>What I would not sell as an AI-search tactic</h2>
+  <ul>
+    <li><strong>llms.txt for Google rankings.</strong> It can be a handy plain-text summary for tools that choose to read it, but Google says it neither helps nor hurts Search visibility.</li>
+    <li><strong>FAQ schema as an AI citation hack.</strong> Google does not require special structured data for AI features, and FAQ rich results are generally limited to authoritative government and health sites.</li>
+    <li><strong>Tiny content chunks.</strong> Write sections for humans. Google says there is no required chunk size and no ideal page length.</li>
+    <li><strong>A page for every long-tail variation.</strong> Search systems understand synonyms. Near-duplicate pages created mainly to manipulate visibility can do more harm than good.</li>
+    <li><strong>Guaranteed citations.</strong> Following every guideline still does not guarantee that any search or answer engine will cite a page.</li>
+  </ul>
 
-      <h3>6. Use structured data for what the page really is</h3>
-      <p>Article, profile, breadcrumb, service, and other supported schema can clarify page meaning and make a page eligible for specific search features. It is not a special pass into AI answers. The markup should match content a visitor can actually see.</p>
+  <h2>What about ChatGPT and Perplexity?</h2>
+  <p>Do not assume every answer engine works like Google. Their retrieval systems, crawler controls, source selection, and reporting differ. The durable work still travels well: publish original material, make it publicly accessible, state claims clearly, link to evidence, and keep the page current. For platform-specific controls, use that platform's own documentation instead of a universal “GEO checklist.”</p>
 
-      <h2>What I would not sell as an AI-search tactic</h2>
-      <ul>
-        <li><strong>llms.txt for Google rankings.</strong> It can be a handy plain-text summary for tools that choose to read it, but Google says it neither helps nor hurts Search visibility.</li>
-        <li><strong>FAQ schema as an AI citation hack.</strong> Google does not require special structured data for AI features, and FAQ rich results are generally limited to authoritative government and health sites.</li>
-        <li><strong>Tiny content chunks.</strong> Write sections for humans. Google says there is no required chunk size and no ideal page length.</li>
-        <li><strong>A page for every long-tail variation.</strong> Search systems understand synonyms. Near-duplicate pages created mainly to manipulate visibility can do more harm than good.</li>
-        <li><strong>Guaranteed citations.</strong> Following every guideline still does not guarantee that any search or answer engine will cite a page.</li>
-      </ul>
+  <h2>How to measure AI search visibility</h2>
+  <p>For Google, use Search Console's generative AI performance reporting and normal page and query data. For other products, track referral traffic and qualified conversions, then manually review a small set of questions that matter to your business. Citation checks are useful snapshots, not stable rankings.</p>
+  <p>The metric that matters is not “how many prompts mentioned us?” It is whether the right people found the page, trusted it, and took a useful next step.</p>
 
-      <h2>What about ChatGPT and Perplexity?</h2>
-      <p>Do not assume every answer engine works like Google. Their retrieval systems, crawler controls, source selection, and reporting differ. The durable work still travels well: publish original material, make it publicly accessible, state claims clearly, link to evidence, and keep the page current. For platform-specific controls, use that platform's own documentation instead of a universal “GEO checklist.”</p>
-
-      <h2>How to measure AI search visibility</h2>
-      <p>For Google, use Search Console's generative AI performance reporting and normal page and query data. For other products, track referral traffic and qualified conversions, then manually review a small set of questions that matter to your business. Citation checks are useful snapshots, not stable rankings.</p>
-      <p>The metric that matters is not “how many prompts mentioned us?” It is whether the right people found the page, trusted it, and took a useful next step.</p>
-
-      <h2>FAQ</h2>
-
-      <h3>Is GEO different from SEO?</h3>
-      <p>The label is different, but for Google's AI features the work is still SEO: useful content, technical clarity, indexability, and a strong page experience. Other answer engines have their own mechanics, so treat broad GEO advice carefully.</p>
-
-      <h3>Does llms.txt improve Google rankings?</h3>
-      <p>No. Google says Search does not use llms.txt, including for its generative AI features. Keeping one for another tool is fine, but it is not a Google ranking signal.</p>
-
-      <h3>Do I need special schema for AI answers?</h3>
-      <p>No. Use structured data that accurately describes the visible page and is supported for the search features you care about. There is no special AI schema required for Google AI Overviews or AI Mode.</p>
-
-      <h3>Can anyone guarantee an AI citation?</h3>
-      <p>No. You can improve eligibility, clarity, and usefulness, but no consultant can guarantee that an answer engine will retrieve or cite a page for a particular question.</p>
-
-      <p style="margin-top: 2rem;">If your site needs this kind of cleanup, I can audit the content, technical structure, and search fundamentals without selling you a made-up AI shortcut. <a href="/contact">Tell me what you are working with</a>, or read <a href="/guides/google-ai-overviews-guide">the Google AI Overviews guide</a>.</p>
-    </div>
-  </article>
-</AppShell>
+  <p class="article-coda">If your site needs this kind of cleanup, I can audit the content, technical structure, and search fundamentals without selling you a made-up AI shortcut. <a href="/contact">Tell me what you are working with</a>, or read <a href="/guides/google-ai-overviews-guide">the Google AI Overviews guide</a>.</p>
+</ContentArticle>

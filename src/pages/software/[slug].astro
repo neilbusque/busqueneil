@@ -1,8 +1,17 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
+import Section from '../../components/site/Section.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import Button from '../../components/site/Button.astro';
+import Faq from '../../components/site/Faq.astro';
+import ServiceHead from '../../components/services/ServiceHead.astro';
+import ServiceBody from '../../components/services/ServiceBody.astro';
+import LinkRows from '../../components/services/LinkRows.astro';
 import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
-import { softwarePages, softwareBySlug } from '../../data/software-pages';
+import { waSoftware } from '../../data/site';
+import { softwarePages, softwareBySlug, softwareName, softwareLabel } from '../../data/software-pages';
+import type { PaletteName } from '../../lib/art';
+import '../../styles/pages/services.css';
 
 export const prerender = true;
 
@@ -15,17 +24,39 @@ const page = softwareBySlug.get(slug!);
 if (!page) return Astro.redirect('/software');
 
 const canonical = `https://busqueneil.com/software/${page.slug}`;
-const [h1Pre, h1Accent, h1Post] = page.h1.split('**');
+const name = softwareName(page);
+const wa = { label: 'Message me on WhatsApp', href: waSoftware(page.title) };
 
-const relatedPages = page.related
+/* Light art grounds only in the head, so the page never opens on a dark slab. */
+const HEAD_PALETTES: PaletteName[] = ['mist', 'paper'];
+const artPalette = HEAD_PALETTES[[...page.slug].reduce((n, c) => n + c.charCodeAt(0), 0) % HEAD_PALETTES.length];
+
+const BACK: Record<typeof page.cat, string> = {
+  industry: 'Software by industry',
+  combo: 'Software by industry',
+  solution: 'Software by system',
+  decision: 'Software guides',
+};
+
+const summaryItems = [
+  'A clear scope and price before any work starts',
+  'A working first version in days',
+  'Software that fits how your team already works',
+  'The code and the accounts, in your name',
+];
+
+const related = page.related
   .map((r) => softwareBySlug.get(r))
-  .filter((p): p is NonNullable<typeof p> => Boolean(p));
+  .filter((p): p is NonNullable<typeof p> => Boolean(p))
+  .map((p) => ({ href: `/software/${p.slug}`, title: softwareLabel(p), text: p.lede }));
+if (page.guide) related.push({ href: page.guide.href, title: page.guide.label, text: '' });
+related.push({ href: '/work', title: 'See the work', text: 'Client systems, agency work and my own products, named for what they do.' });
 
 const service = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': `${canonical}#service`,
-  name: page.title.replace(' | Neil Busque', ''),
+  name,
   url: canonical,
   image: SOCIAL_IMAGE_URL,
   provider: ORGANIZATION_REF,
@@ -34,45 +65,28 @@ const service = {
   mainEntityOfPage: { '@id': `${canonical}#webpage` },
   serviceType: ['Custom software development', 'AI agent development', 'AI automation'],
   areaServed: { '@type': 'Country', name: 'United States' },
-  offers: {
-    '@type': 'Offer',
-    price: '4000',
-    priceCurrency: 'USD',
-    description: '$4,000 per month. First working software in 14 days. Month one refundable.',
-  },
   description: page.metaDescription,
 };
-
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  '@id': `${canonical}#faq`,
-  mainEntity: page.faq.map((f) => ({
-    '@type': 'Question',
-    name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
-  })),
-};
 ---
-<AppShell title={page.title} description={page.metaDescription} canonical={canonical} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
+<AppShell title={page.title} description={page.metaDescription} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(service)} />
+
+  <ServiceHead
+    heading={page.h1}
+    lead={page.lede}
+    crumbs={[
       { name: 'Home', url: 'https://busqueneil.com/' },
       { name: 'Software', url: 'https://busqueneil.com/software' },
-      { name: page.title.replace(' | Neil Busque', ''), url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
+      { name, url: canonical },
+    ]}
+    backLabel={BACK[page.cat]}
+    primary={wa}
+    artSeed={page.slug}
+    artPalette={artPalette}
+  />
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> {page.eyebrow}</p>
-    <h1>{h1Pre}<span class="accent">{h1Accent}</span>{h1Post}</h1>
-    <p class="lede">{page.lede}</p>
-  </header>
-
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
+  <Section id="details">
+    <ServiceBody id="summary-title" title="Working with me" items={summaryItems} cta={wa} desktopOnly>
       {page.sections.map((s) => (
         <>
           <h2>{s.h2}</h2>
@@ -84,40 +98,28 @@ const faqSchema = {
           )}
         </>
       ))}
+    </ServiceBody>
+  </Section>
 
-      <h2>The offer, in one paragraph</h2>
-      <p>
-        I work as the AI systems builder on your team: $4,000 a month, published price, no contract.
-        Your first working software lands inside 14 days of an approved plain-English plan, and month
-        one is refundable if you are not happy. You own the code, the data, and the accounts from day
-        one. The full offer, guarantees included, is at <a href="https://offer.busqueneil.com" rel="noopener">offer.busqueneil.com</a>,
-        and the pricing logic is unpacked in <a href="/software/custom-software-cost">what custom software costs in 2026</a>.
-      </p>
-
-      <h2>Common questions</h2>
-      {page.faq.map((f) => (
-        <>
-          <h3>{f.q}</h3>
-          <p>{f.a}</p>
-        </>
-      ))}
-
-      <h2>Keep reading</h2>
-      <ul>
-        {relatedPages.map((r) => (
-          <li><a href={`/software/${r.slug}`}>{r.title.replace(' | Neil Busque', '')}</a></li>
-        ))}
-        {page.guide && <li><a href={page.guide.href}>{page.guide.label}</a></li>}
-        <li><a href="/work">See 40+ shipped builds</a></li>
-      </ul>
+  <section class="section band band--mist" aria-labelledby="build-title">
+    <div class="wrap svc-cta-grid">
+      <h2 class="t-h2" id="build-title">I can build this for <span class="accent">your business.</span></h2>
+      <div class="svc-cta-side">
+        <p class="t-lead">Tell me how your team works today. You get a clear scope and price before any work starts, and you own everything I build.</p>
+        <div class="btn-row btn-row--stack">
+          <Button href={wa.href}>{wa.label}</Button>
+          <Button href="/work" variant="secondary">See the work</Button>
+        </div>
+      </div>
     </div>
-  </article>
+  </section>
 
-  <div class="hire-cta v8-card">
-    <p class="guarantee">First working software in 14 days, or month one is free. Not happy with month one? Full refund. You own everything either way.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a free call</a>
-      <a class="btn-ghost" href="https://offer.busqueneil.com" target="_blank" rel="noopener">See the full offer</a>
-    </div>
-  </div>
+  <Section id="faq" labelledby="faq-title">
+    <Faq id="faq-title" title="Common questions" lead="Straight answers before we talk." items={page.faq} ask={{ href: wa.href, label: 'Ask me directly' }} schema />
+  </Section>
+
+  <Section id="more" labelledby="more-title">
+    <SectionHead id="more-title" title="Keep reading" link={{ href: '/software', label: 'All industries and systems' }} />
+    <LinkRows rows={related} />
+  </Section>
 </AppShell>

@@ -1,0 +1,48 @@
+---
+/* "Related work" on a service or hire page: two work cards picked by slug from the shared
+   project lists, with a link to /work. Unknown slugs are skipped. */
+import Section from '../site/Section.astro';
+import SectionHead from '../site/SectionHead.astro';
+import WorkCard from '../site/WorkCard.astro';
+import { FEATURED_PROJECT, PROJECTS, type Project } from '../../data/site';
+import type { PaletteName } from '../../lib/art';
+
+interface Props {
+  /** Two project slugs, in order. */
+  slugs: string[];
+  /** Optional palette per card, to keep one dark picture per row at most. */
+  palettes?: (PaletteName | undefined)[];
+}
+
+const { slugs, palettes = [] } = Astro.props;
+const all: Project[] = [FEATURED_PROJECT, ...PROJECTS];
+const picked = slugs
+  .map((s) => all.find((p) => p.slug === s))
+  .filter((p): p is Project => Boolean(p));
+---
+{picked.length > 0 && (
+  <Section id="related-work" labelledby="related-work-title">
+    <SectionHead
+      id="related-work-title"
+      title="Related work"
+      lead="Client builds and my own products. Names stay private, so each build is named for what it does."
+      link={{ href: '/work', label: 'All work' }}
+    />
+    <div class="work-grid">
+      {picked.map((p, i) => (
+        <WorkCard
+          href={p.href}
+          title={p.title}
+          text={p.text}
+          category={p.category}
+          year={p.year}
+          outcome={p.outcome}
+          seed={p.slug}
+          palette={palettes[i] ?? p.palette}
+          layout={p.layout}
+          data-reveal
+        />
+      ))}
+    </div>
+  </Section>
+)}

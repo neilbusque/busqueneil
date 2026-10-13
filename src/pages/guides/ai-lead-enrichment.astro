@@ -3,7 +3,7 @@ import ContentArticle from '../../layouts/ContentArticle.astro';
 export const prerender = true;
 
 const faq = [
-  { q: 'What is lead enrichment?', a: 'Turning a thin record — a company name, a domain, an ad you saw — into something you can actually contact: a named decision-maker, a verified email, a role. It is the step between having a list and being able to do anything with it.' },
+  { q: 'What is lead enrichment?', a: 'Turning a thin record (a company name, a domain, an ad you saw) into something you can actually contact: a named decision-maker, a verified email, a role. It is the step between having a list and being able to do anything with it.' },
   { q: 'Why do enrichment tools need a domain?', a: 'Because a domain is a unique identifier and a company name is not. Almost no people-enrichment service will accept a company name alone, which means the real first job is usually finding a domain rather than finding a person.' },
   { q: 'How accurate is enriched contact data?', a: 'Plan for a double-digit error rate. In a run across 254 contacts at 100 companies, roughly 44% came back attached to the wrong employer. The errors look identical to good records, so validation has to happen in code rather than by eye.' },
   { q: 'Should I email everyone an enrichment tool returns?', a: 'No. Unvalidated enrichment reaching a sending tool is how you burn a sending domain. Validate the link between contact and company first, and treat the output as a draft.' },
@@ -12,7 +12,7 @@ const faq = [
 <ContentArticle
   slug="ai-lead-enrichment"
   seoTitle="AI Lead Enrichment That Survives Contact With Reality"
-  description="Building a pipeline that turns an advertiser into a named human with a verified email — the domain problem nobody warns you about, and the validation step that saved 44% of the output from being wrong."
+  description="Building a pipeline that turns an advertiser into a named human with a verified email: the domain problem nobody warns you about, and the validation step that saved 44% of the output from being wrong."
   heading="AI lead enrichment"
   accent="that actually works"
   lede="I built a pipeline that turns a company running ads into a named human with contact details. It worked. It also produced 200 contacts I had to throw away, and that part is the useful lesson."
@@ -27,7 +27,7 @@ const faq = [
   <p>That gap is where most prospecting stalls, and it stalls for a reason that surprises people the first time.</p>
 
   <h2>The domain problem</h2>
-  <p><strong>Most ad-library leads have no website in the ad.</strong> And essentially no people-enrichment service will accept a company without a domain &mdash; pass a company name and you get nothing, or worse, you get a different company with a similar name.</p>
+  <p><strong>Most ad-library leads have no website in the ad.</strong> And essentially no people-enrichment service will accept a company without a domain. Pass a company name and you get nothing, or worse, you get a different company with a similar name.</p>
   <p>So the pipeline has a stage before the stage everyone talks about. You have to resolve a domain first.</p>
   <p>The unlock was the advertiser&rsquo;s public page profile. One lookup per company returns the website, an email, a phone number, a category, and the social links. That got a usable domain for <strong>196 of 210 leads</strong>. It also returned contact details directly, which meant a chunk of the list did not need enrichment at all.</p>
   <p>Two practical notes: that lookup is slow, several seconds each, so parallelise it or a couple of hundred companies takes an afternoon. And the social handle it returns must be verified against a stable identifier you already hold, because a name-based match will confidently return a different business with a similar name. That check caught a genuine mismatch in my run.</p>
@@ -75,15 +75,5 @@ const faq = [
   <p>My run ended at 254 validated people across 100 companies, with LinkedIn coverage on all of them, plus a large majority carrying company emails and a good share with phone numbers. That is a workable list.</p>
   <p>It came from roughly 450 raw contacts. <strong>The 44% you discard is not waste, it is the cost of the 56% being trustworthy.</strong> A pipeline that returns 450 contacts and skips validation has not done more work, it has just moved the failure downstream to whoever sends the emails.</p>
 
-  <h2>FAQ</h2>
-  <h3>What is lead enrichment?</h3>
-  <p>Turning a thin record into a contactable one: a named decision-maker, a verified email, a role. The step between having a list and being able to use it.</p>
-  <h3>Why do enrichment tools need a domain?</h3>
-  <p>A domain is unique; a company name is not. Most services reject names outright, so finding a domain is usually the real first job.</p>
-  <h3>How accurate is the data?</h3>
-  <p>Plan for double-digit error. Mine was ~44% wrong-employer, and bad records look exactly like good ones.</p>
-  <h3>Should I email everything it returns?</h3>
-  <p>No. Unvalidated enrichment reaching a sending tool is how you burn a sending domain.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">the full error measurement</a> and <a href="/guides/ai-competitor-research">how to build the company list in the first place</a>.</p>
+  <p class="article-coda">Related: <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">the full error measurement</a> and <a href="/guides/ai-competitor-research">how to build the company list in the first place</a>.</p>
 </ContentArticle>

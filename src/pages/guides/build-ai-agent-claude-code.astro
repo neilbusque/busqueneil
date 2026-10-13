@@ -1,111 +1,71 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+import ContentArticle from '../../layouts/ContentArticle.astro';
+import { SITE_URL } from '../../lib/seo';
 
 export const prerender = true;
 
-const title = 'How to Build an AI Agent with Claude Code and MCP';
-const description = 'A practical AI agent pattern using Claude Code and MCP: choose one job, connect only the tools it needs, set approval rules, and test real failures.';
-const canonical = 'https://busqueneil.com/guides/build-ai-agent-claude-code';
-const guideImage = `${SITE_URL}/og/guides/build-ai-agent-claude-code.png`;
-const published = '2026-06-30';
-const modified = '2026-07-25';
-
-const article = {
-  '@context': 'https://schema.org',
-  '@type': 'TechArticle',
-  headline: title,
-  description,
-  '@id': `${canonical}#article`,
-  author: AUTHOR,
-  publisher: PUBLISHER,
-  datePublished: published,
-  dateModified: modified,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  isPartOf: WEBSITE_REF,
-  image: guideImage,
-  inLanguage: 'en-US',
-  keywords: 'AI agent, Claude Code, MCP, Model Context Protocol, agentic automation',
-};
+const faq = [
+  { q: 'What is an AI agent?', a: 'An AI agent is a large language model wrapped in a loop, with tools it can call. The model reads a goal, decides on an action, calls a tool, reads the result, and repeats until the job is done. The tools are what turn a chatbot into an agent that can act on real systems.' },
+  { q: 'What is MCP and why does it matter?', a: 'MCP (Model Context Protocol) is an open standard from Anthropic for connecting AI models to tools and data. Instead of writing custom glue for every app, you point your agent at an MCP server and it gets a clean set of tools. One protocol works across Notion, Slack, databases, and more.' },
+  { q: 'Do I need to know how to code to build an AI agent?', a: 'You need some comfort with the command line and JSON config, but you do not need to be a senior engineer. Claude Code writes most of the code for you. The hard part is picking the right job, wiring the right tools, and testing on real tasks.' },
+  { q: 'How is Claude Code different from a chatbot?', a: 'A chatbot answers in text. Claude Code runs a loop with real tools: it reads and writes files, runs commands, and calls MCP servers. It can finish a multi-step task on your machine instead of just describing how to do it.' },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Resources', url: 'https://busqueneil.com/resources' },
-      { name: 'Build an AI agent with Claude Code', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(article)} />
-  </Fragment>
+<ContentArticle
+  slug="build-ai-agent-claude-code"
+  titleTag="How to Build an AI Agent with Claude Code and MCP"
+  description="A practical AI agent pattern using Claude Code and MCP: choose one job, connect only the tools it needs, set approval rules, and test real failures."
+  heading="How to build an AI agent with"
+  accent="Claude Code and MCP"
+  lede="The useful version of an agent is smaller than most demos make it look: one job, a few tools, clear approval rules, and tests built around the ways it can fail."
+  keywords="AI agent, Claude Code, MCP, Model Context Protocol, agentic automation"
+  ogImage={`${SITE_URL}/og/guides/build-ai-agent-claude-code.png`}
+  faq={faq}
+>
+  <p><strong>Short version: pick one narrow job, connect Claude Code to only the tools that job needs, write down what “done” means, and require approval before any risky action. Then test the messy cases with real data. The loop is easy. The boundaries are the product.</strong></p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">01</span> Guide</p>
-    <h1>How to Build an AI Agent with Claude Code and MCP</h1>
-    <p class="lede">The useful version of an agent is smaller than most demos make it look: one job, a few tools, clear approval rules, and tests built around the ways it can fail.</p>
-  </header>
+  <h2>What an AI agent actually is</h2>
+  <p>At the simplest level, an AI agent is a model, a set of tools, and a loop.</p>
+  <p>The model reads a goal. It decides what to do. It calls a tool. It reads the result. Then it does it again, and again, until the job is finished. That loop is the whole trick. Take the loop away and you have a chatbot. Add the loop and real tools, and you have something that can book a call, update a CRM, or clean a spreadsheet without you touching it.</p>
+  <p>The tools are what matter most. A model with no tools can only talk. A model that can read a database, send a Slack message, or edit a file can act. So most of the work in building a good agent is not prompting. It is picking the right tools and wiring them in cleanly.</p>
 
-  <article class="article-page">
-    <div class="prose">
-      <p><strong>Short version: pick one narrow job, connect Claude Code to only the tools that job needs, write down what “done” means, and require approval before any risky action. Then test the messy cases with real data. The loop is easy. The boundaries are the product.</strong></p>
+  <h3>Where Claude Code fits</h3>
+  <p>Claude Code is Anthropic's coding agent for the terminal. It can read and write files, run commands, and call connected tools while it works through a task. For an internal agent, that means you can focus on the job, permissions, and review points instead of rebuilding the basic tool-calling loop.</p>
 
-      <h2>What an AI agent actually is</h2>
-      <p>At the simplest level, an AI agent is a model, a set of tools, and a loop.</p>
-      <p>The model reads a goal. It decides what to do. It calls a tool. It reads the result. Then it does it again, and again, until the job is finished. That loop is the whole trick. Take the loop away and you have a chatbot. Add the loop and real tools, and you have something that can book a call, update a CRM, or clean a spreadsheet without you touching it.</p>
-      <p>The tools are what matter most. A model with no tools can only talk. A model that can read a database, send a Slack message, or edit a file can act. So most of the work in building a good agent is not prompting. It is picking the right tools and wiring them in cleanly.</p>
+  <h2>What MCP is and why it matters</h2>
+  <p>MCP stands for Model Context Protocol. Anthropic released it as an open standard in November 2024 (see <a href="https://www.anthropic.com/news/model-context-protocol">Anthropic's MCP announcement</a>). The idea is simple. Instead of writing custom code to connect your agent to every single app, you connect it once to an MCP server, and that server hands the agent a clean set of tools.</p>
+  <p>Think of it like a USB-C port for AI applications. Before MCP, every connection was a one-off. MCP gives hosts and servers a shared protocol for discovering tools, resources, and prompts. The official architecture lives at <a href="https://modelcontextprotocol.io/docs/learn/architecture">modelcontextprotocol.io</a>. I use it when that shared interface makes the integration easier to reuse and control.</p>
+  <p>I have wired agents into GoHighLevel, n8n, Notion, and Slack this way. The GHL agent pulls contacts, checks pipelines, and sends messages. The Notion one reads and writes tasks. Same pattern every time: the MCP server exposes the tools, and Claude Code decides when to call them.</p>
 
-      <h3>Where Claude Code fits</h3>
-      <p>Claude Code is Anthropic's coding agent for the terminal. It can read and write files, run commands, and call connected tools while it works through a task. For an internal agent, that means you can focus on the job, permissions, and review points instead of rebuilding the basic tool-calling loop.</p>
+  <h2>A concrete step-by-step build</h2>
+  <p>Here is the exact order I follow. Do it in this order and you will not paint yourself into a corner.</p>
+  <ol>
+    <li><strong>Pick the job.</strong> One job, narrow and clear. Not "handle my whole business." Something like "when a new lead comes in, enrich it and add it to the CRM." A narrow job is testable. A vague job never ships.</li>
+    <li><strong>Wire tools via MCP servers.</strong> List every action the job needs. Reading a sheet? Sending a message? Match each action to a tool. If an MCP server already exists for that app, use it. If not, a bash or file tool often covers it.</li>
+    <li><strong>Give it a system prompt or skill.</strong> Tell the agent who it is, what the job is, and what "done" looks like. Be specific. Claude Code reads a project file for this, so the instructions live with the work.</li>
+    <li><strong>Add a loop and guardrails.</strong> Claude Code runs the loop. Your job is the guardrails: which tools it can use, what it must ask before doing, and a hard stop so it cannot run forever.</li>
+    <li><strong>Test on real tasks.</strong> Not made-up examples. Real leads, real files, real messages. Watch where it goes wrong, then fix the prompt or the tools. Repeat until it is boring and reliable.</li>
+  </ol>
 
-      <h2>What MCP is and why it matters</h2>
-      <p>MCP stands for Model Context Protocol. Anthropic released it as an open standard in November 2024 (see <a href="https://www.anthropic.com/news/model-context-protocol">Anthropic's MCP announcement</a>). The idea is simple. Instead of writing custom code to connect your agent to every single app, you connect it once to an MCP server, and that server hands the agent a clean set of tools.</p>
-      <p>Think of it like a USB-C port for AI applications. Before MCP, every connection was a one-off. MCP gives hosts and servers a shared protocol for discovering tools, resources, and prompts. The official architecture lives at <a href="https://modelcontextprotocol.io/docs/learn/architecture">modelcontextprotocol.io</a>. I use it when that shared interface makes the integration easier to reuse and control.</p>
-      <p>I have wired agents into GoHighLevel, n8n, Notion, and Slack this way. The GHL agent pulls contacts, checks pipelines, and sends messages. The Notion one reads and writes tasks. Same pattern every time: the MCP server exposes the tools, and Claude Code decides when to call them.</p>
+  <h3>A current setup example</h3>
+  <p>Claude Code can add a remote MCP server from the command line. Notion provides a hosted endpoint, so the setup is one command:</p>
+  <pre><code>claude mcp add --transport http notion https://mcp.notion.com/mcp</code></pre>
+  <p>Claude Code handles the connection and authentication flow. After that, inspect the available tools, keep the server scoped to the project or user that needs it, and review permissions before letting an agent write anything.</p>
 
-      <h2>A concrete step-by-step build</h2>
-      <p>Here is the exact order I follow. Do it in this order and you will not paint yourself into a corner.</p>
-      <ol>
-        <li><strong>Pick the job.</strong> One job, narrow and clear. Not "handle my whole business." Something like "when a new lead comes in, enrich it and add it to the CRM." A narrow job is testable. A vague job never ships.</li>
-        <li><strong>Wire tools via MCP servers.</strong> List every action the job needs. Reading a sheet? Sending a message? Match each action to a tool. If an MCP server already exists for that app, use it. If not, a bash or file tool often covers it.</li>
-        <li><strong>Give it a system prompt or skill.</strong> Tell the agent who it is, what the job is, and what "done" looks like. Be specific. Claude Code reads a project file for this, so the instructions live with the work.</li>
-        <li><strong>Add a loop and guardrails.</strong> Claude Code runs the loop. Your job is the guardrails: which tools it can use, what it must ask before doing, and a hard stop so it cannot run forever.</li>
-        <li><strong>Test on real tasks.</strong> Not made-up examples. Real leads, real files, real messages. Watch where it goes wrong, then fix the prompt or the tools. Repeat until it is boring and reliable.</li>
-      </ol>
+  <h2>Common mistakes</h2>
+  <p>I have made all of these, so learn from them.</p>
+  <ul>
+    <li><strong>Too many tools at once.</strong> A model handed forty tools gets confused about which to reach for. Give it the few it needs for the job. Add more only when a real task proves you need them.</li>
+    <li><strong>No guardrails on actions that cannot be undone.</strong> Sending an email or deleting a record should ask first, or be behind a check. Reads are safe. Writes need a gate.</li>
+    <li><strong>Vague instructions.</strong> "Be helpful" produces nothing useful. "Add the lead to the New Leads pipeline stage, then tag it hot if the deal size is over 10k" produces a working agent.</li>
+    <li><strong>Skipping the real-task test.</strong> An agent that works on your clean example will still break on the messy real thing. Test on the mess.</li>
+    <li><strong>Building an agent when a script would do.</strong> If the steps never change, write a script. Agents earn their cost when the task is open-ended and hard to spell out in advance.</li>
+  </ul>
 
-      <h3>A current setup example</h3>
-      <p>Claude Code can add a remote MCP server from the command line. Notion provides a hosted endpoint, so the setup is one command:</p>
-      <pre><code>claude mcp add --transport http notion https://mcp.notion.com/mcp</code></pre>
-      <p>Claude Code handles the connection and authentication flow. After that, inspect the available tools, keep the server scoped to the project or user that needs it, and review permissions before letting an agent write anything.</p>
+  <h2>When to build vs buy</h2>
+  <p>Build when the job is specific to you, touches your own systems, and would cost more to buy than to run. Most of my client agents fall here. There is no off-the-shelf tool that knows their exact GHL pipeline and their exact rules, so a custom agent on Claude Code plus a couple of MCP servers wins.</p>
+  <p>Buy when the problem is common and someone already solved it well. If a proven tool does the job for a fair price, use it. Do not build a worse version of a product that already exists just to say you built it.</p>
+  <p>The honest test is simple: could a normal script do this? If yes, write the script. It will be cheaper and easier to predict. If the task is open-ended, multi-step, and difficult to express as fixed rules, then an agent may earn its keep.</p>
 
-      <h2>Common mistakes</h2>
-      <p>I have made all of these, so learn from them.</p>
-      <ul>
-        <li><strong>Too many tools at once.</strong> A model handed forty tools gets confused about which to reach for. Give it the few it needs for the job. Add more only when a real task proves you need them.</li>
-        <li><strong>No guardrails on actions that cannot be undone.</strong> Sending an email or deleting a record should ask first, or be behind a check. Reads are safe. Writes need a gate.</li>
-        <li><strong>Vague instructions.</strong> "Be helpful" produces nothing useful. "Add the lead to the New Leads pipeline stage, then tag it hot if the deal size is over 10k" produces a working agent.</li>
-        <li><strong>Skipping the real-task test.</strong> An agent that works on your clean example will still break on the messy real thing. Test on the mess.</li>
-        <li><strong>Building an agent when a script would do.</strong> If the steps never change, write a script. Agents earn their cost when the task is open-ended and hard to spell out in advance.</li>
-      </ul>
-
-      <h2>When to build vs buy</h2>
-      <p>Build when the job is specific to you, touches your own systems, and would cost more to buy than to run. Most of my client agents fall here. There is no off-the-shelf tool that knows their exact GHL pipeline and their exact rules, so a custom agent on Claude Code plus a couple of MCP servers wins.</p>
-      <p>Buy when the problem is common and someone already solved it well. If a proven tool does the job for a fair price, use it. Do not build a worse version of a product that already exists just to say you built it.</p>
-      <p>The honest test is simple: could a normal script do this? If yes, write the script. It will be cheaper and easier to predict. If the task is open-ended, multi-step, and difficult to express as fixed rules, then an agent may earn its keep.</p>
-
-      <h2>FAQ</h2>
-      <h3>What is an AI agent?</h3>
-      <p>An AI agent is a large language model wrapped in a loop, with tools it can call. The model reads a goal, decides on an action, calls a tool, reads the result, and repeats until the job is done. The tools are what turn a chatbot into an agent that can act on real systems.</p>
-
-      <h3>What is MCP and why does it matter?</h3>
-      <p>MCP (Model Context Protocol) is an open standard from Anthropic for connecting AI models to tools and data. Instead of writing custom glue for every app, you point your agent at an MCP server and it gets a clean set of tools. One protocol works across Notion, Slack, databases, and more.</p>
-
-      <h3>Do I need to know how to code to build an AI agent?</h3>
-      <p>You need some comfort with the command line and JSON config, but you do not need to be a senior engineer. Claude Code writes most of the code for you. The hard part is picking the right job, wiring the right tools, and testing on real tasks.</p>
-
-      <h3>How is Claude Code different from a chatbot?</h3>
-      <p>A chatbot answers in text. Claude Code runs a loop with real tools: it reads and writes files, runs commands, and calls MCP servers. It can finish a multi-step task on your machine instead of just describing how to do it.</p>
-
-      <p style="margin-top: 2rem;">If you have one repeated job in mind, <a href="/contact">tell me what it is</a>. I will tell you whether it needs an agent, a normal workflow, or something simpler. You can also read <a href="/guides/what-is-mcp-model-context-protocol">the plain MCP guide</a> or <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps with AI</a>.</p>
-    </div>
-  </article>
-</AppShell>
+  <p class="article-coda">If you have one repeated job in mind, <a href="/contact">tell me what it is</a>. I will tell you whether it needs an agent, a normal workflow, or something simpler. You can also read <a href="/guides/what-is-mcp-model-context-protocol">the plain MCP guide</a> or <a href="/guides/ship-web-app-in-days-with-ai">how I ship web apps with AI</a>.</p>
+</ContentArticle>

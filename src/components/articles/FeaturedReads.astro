@@ -1,0 +1,39 @@
+---
+/* Featured reads on /resources (grid 7 | 5): one large card on the left (art, type and read
+   time, title, excerpt) and two smaller cards stacked on the right (art, type, title). Whole
+   cards are links; no box around the text, like the work cards. The large card's art grows to
+   the height of the right column so the two columns end together. */
+import Art from '../Art.astro';
+import type { PaletteName } from '../../lib/art';
+import type { HubRow } from './rows';
+
+interface Props {
+  lead: HubRow;
+  side: HubRow[];
+  /** Palettes per card, to keep neighbours apart. */
+  palettes?: (PaletteName | undefined)[];
+}
+
+const { lead, side, palettes = [] } = Astro.props;
+---
+<div class="rfeatured">
+  <a class="rfeat rfeat--lead" href={lead.href}>
+    <Art seed={lead.slug} kind="article" class="rfeat-art" palette={palettes[0]} />
+    <div class="rfeat-body">
+      <p class="work-meta"><span class="t-label">{lead.type}</span>{lead.read && <span class="t-label">{lead.read} read</span>}</p>
+      <h3 class="rfeat-title">{lead.title}</h3>
+      {lead.excerpt && <p class="rfeat-text">{lead.excerpt}</p>}
+    </div>
+  </a>
+  <div class="rfeat-side">
+    {side.map((r, i) => (
+      <a class="rfeat" href={r.href}>
+        <Art seed={r.slug} kind="article" class="rfeat-art" palette={palettes[i + 1]} />
+        <div class="rfeat-body">
+          <p class="work-meta"><span class="t-label">{r.type}</span>{r.read && <span class="t-label">{r.read} read</span>}</p>
+          <h3 class="rfeat-title">{r.title}</h3>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>

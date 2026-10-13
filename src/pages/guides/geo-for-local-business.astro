@@ -3,16 +3,16 @@ import ContentArticle from '../../layouts/ContentArticle.astro';
 export const prerender = true;
 
 const faq = [
-  { q: 'How do AI answers handle local queries?', a: 'They lean heavily on structured, corroborated facts about a business — name, address, phone, hours, services — and on what third parties say about it. Consistency across sources matters more than volume of content, because a contradiction gives an answer engine a reason to pick someone else.' },
+  { q: 'How do AI answers handle local queries?', a: 'They lean heavily on structured, corroborated facts about a business (name, address, phone, hours, services) and on what third parties say about it. Consistency across sources matters more than volume of content, because a contradiction gives an answer engine a reason to pick someone else.' },
   { q: 'Does llms.txt help a local business rank?', a: 'No. Google states plainly that Search does not use llms.txt, including for its AI features. Keeping one for other tools is harmless, but it is not a ranking or citation lever.' },
   { q: 'What matters most for local AI visibility?', a: 'Being consistently described in the same way everywhere, having pages that answer whole decisions rather than keyword variants, and being mentioned by sources other than your own site. Third-party corroboration does disproportionate work.' },
-  { q: 'Do I need special schema for AI answers?', a: 'No special AI schema exists or is required. Use accurate structured data that describes what is visibly on the page — LocalBusiness, Service, FAQ where genuinely answered — and make sure it matches reality.' },
+  { q: 'Do I need special schema for AI answers?', a: 'No special AI schema exists or is required. Use accurate structured data that describes what is visibly on the page (LocalBusiness, Service, FAQ where genuinely answered), and make sure it matches reality.' },
 ];
 ---
 <ContentArticle
   slug="geo-for-local-business"
   seoTitle="GEO for Local Business"
-  description="How AI answers handle local intent, why consistency across sources beats content volume, and which of the widely-sold GEO tactics do nothing — including the ones Google has explicitly ruled out."
+  description="How AI answers handle local intent, why consistency across sources beats content volume, and which of the widely-sold GEO tactics do nothing, including the ones Google has explicitly ruled out."
   heading="GEO for"
   accent="local business"
   lede="Local is where AI answers are most decisive, because there is usually one right answer and the engine has to pick it. Being pickable is mostly about consistency, not content."
@@ -73,18 +73,8 @@ const faq = [
 
   <h2>How to check where you stand</h2>
   <p>Manual, and worth an hour a month.</p>
-  <p>Take your ten most valuable queries &mdash; the ones that mean someone is ready to call. Run each through the AI surfaces your customers plausibly use. Record whether you appear, who does, and which page of theirs was used. Repeat monthly and watch the direction rather than the absolute.</p>
+  <p>Take your ten most valuable queries, the ones that mean someone is ready to call. Run each through the AI surfaces your customers plausibly use. Record whether you appear, who does, and which page of theirs was used. Repeat monthly and watch the direction rather than the absolute.</p>
   <p>Do not chase a single result. Answers vary between sessions, so a snapshot is a snapshot. The trend across a month is the signal.</p>
 
-  <h2>FAQ</h2>
-  <h3>How do AI answers handle local queries?</h3>
-  <p>They lean on structured, corroborated facts and on third-party sources. Consistency matters more than content volume, because contradictions are disqualifying.</p>
-  <h3>Does llms.txt help?</h3>
-  <p>No. Google states Search does not use it, including for AI features.</p>
-  <h3>What matters most?</h3>
-  <p>Being described identically everywhere, answering whole decisions, and being mentioned by sources other than yourself.</p>
-  <h3>Do I need special schema?</h3>
-  <p>No AI-specific schema exists or is needed. Use accurate structured data that matches the visible page.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search</a>, <a href="/guides/google-ai-overviews-guide">Google AI Overviews</a>, and <a href="/guides/ai-for-seo">how to use AI for SEO</a>.</p>
+  <p class="article-coda">Related: <a href="/guides/geo-generative-engine-optimization-guide">GEO and AI search</a>, <a href="/guides/google-ai-overviews-guide">Google AI Overviews</a>, and <a href="/guides/ai-for-seo">how to use AI for SEO</a>.</p>
 </ContentArticle>

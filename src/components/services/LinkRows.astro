@@ -1,0 +1,27 @@
+---
+/* Hairline rows of links: a title, an optional one-line description and an arrow. The whole
+   row is the link. For "Keep reading" lists and the buyer's guides on /software. */
+import Icon from '../site/Icon.astro';
+
+interface Props {
+  rows: { href: string; title: string; text?: string }[];
+  class?: string;
+}
+
+const { rows, class: className } = Astro.props;
+const isHttp = (u: string) => /^https?:/i.test(u);
+---
+<ul class:list={['lrows', className]} role="list">
+  {rows.map((r) => (
+    <li>
+      <a href={r.href} target={isHttp(r.href) ? '_blank' : undefined} rel={isHttp(r.href) ? 'noopener' : undefined}>
+        <span class="lrow-main">
+          <span class="lrow-title">{r.title}</span>
+          {r.text && <span class="lrow-text">{r.text}</span>}
+        </span>
+        <Icon name={isHttp(r.href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+        {isHttp(r.href) && <span class="sr-only"> (opens in a new tab)</span>}
+      </a>
+    </li>
+  ))}
+</ul>

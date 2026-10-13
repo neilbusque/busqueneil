@@ -3,16 +3,16 @@ import ContentArticle from '../../layouts/ContentArticle.astro';
 export const prerender = true;
 
 const faq = [
-  { q: 'Why does an ad library search return zero ads for a company that clearly advertises?', a: 'Usually because the search resolved the wrong page. Big brands have many pages with similar names — regional accounts, defunct accounts, fan pages — and search ranking does not reliably put the active advertiser first. You get a genuine zero for a page nobody uses.' },
+  { q: 'Why does an ad library search return zero ads for a company that clearly advertises?', a: 'Usually because the search resolved the wrong page. Big brands have many pages with similar names (regional accounts, defunct accounts, fan pages), and search ranking does not reliably put the active advertiser first. You get a genuine zero for a page nobody uses.' },
   { q: 'How do I know which page a zero-result response came from?', a: 'Often you cannot, which is the trap. A response with no results frequently carries no page name either, so nothing in the payload proves which page answered. Resolve and confirm the page identity in a separate step before you trust any count.' },
-  { q: 'What is a false zero?', a: 'A query that returns an empty result set for a reason unrelated to the question you asked. It is dangerous because emptiness reads as an answer — "they run no ads" — rather than as a failure, so it never gets retried.' },
+  { q: 'What is a false zero?', a: 'A query that returns an empty result set for a reason unrelated to the question you asked. It is dangerous because emptiness reads as an answer ("they run no ads") rather than as a failure, so it never gets retried.' },
   { q: 'How do I avoid false zeros generally?', a: 'Treat empty as suspicious rather than informative. Verify the identifier resolved to what you meant, cross-check a zero against an independent signal, and never take the first search result without a real name match.' },
 ];
 ---
 <ContentArticle
   slug="the-false-zero-machine"
   seoTitle="The False-Zero Machine"
-  description="An ad-library search that ranks the wrong page first will hand you a confident, empty, completely wrong answer — and nothing in the response tells you it happened. A measured example and the checks that catch it."
+  description="An ad-library search that ranks the wrong page first will hand you a confident, empty, completely wrong answer, and nothing in the response tells you it happened. A measured example and the checks that catch it."
   heading="The false-zero"
   accent="machine"
   lede="A wrong answer announces itself eventually. An empty one does not. This is the failure mode that quietly poisoned a competitor study before I caught it."
@@ -38,7 +38,7 @@ const faq = [
 
   <h2>Why nothing in the response saves you</h2>
   <p>Here is the detail that turns an annoyance into a trap.</p>
-  <p>When the result set is empty, there are no results &mdash; and the page name typically travels <em>inside</em> the results. So a zero-ad response often carries <strong>no identifying information about which page answered.</strong></p>
+  <p>When the result set is empty, there are no results, and the page name typically travels <em>inside</em> the results. So a zero-ad response often carries <strong>no identifying information about which page answered.</strong></p>
   <p>You cannot inspect the payload and discover you asked the wrong thing, because the payload does not contain the answer to that question. The only way to know is to have verified the page identity in a separate step, before the query you actually cared about.</p>
   <p>This is what makes it a machine rather than a mistake. It will produce the same confident emptiness every time, for every brand whose name is ambiguous, and the output is indistinguishable from a real finding.</p>
 
@@ -73,15 +73,5 @@ const faq = [
   <p><strong>Merging on the wrong key.</strong> When combining paginated results, merging on anything derived from a name or filename splits one advertiser into several fake competitors. Merge on the stable identifier. Otherwise your market looks more crowded than it is, and your per-competitor ad counts are all too low.</p>
   <p>Three different traps, one lesson: <strong>a response describes what it contains, never what it omitted.</strong></p>
 
-  <h2>FAQ</h2>
-  <h3>Why does an ad library return zero ads for a company that clearly advertises?</h3>
-  <p>The search usually resolved the wrong page. Brands accumulate multiple pages, and ranking does not reliably surface the one currently buying ads.</p>
-  <h3>How do I tell which page a zero-result response came from?</h3>
-  <p>Often you cannot, because the page name travels inside the results and there are none. Resolve and verify page identity in a separate step first.</p>
-  <h3>What is a false zero?</h3>
-  <p>An empty result caused by something other than a genuine absence. Dangerous because emptiness reads as an answer rather than a failure.</p>
-  <h3>How do I avoid them generally?</h3>
-  <p>Treat empty as suspicious, verify the identifier resolved to what you meant, cross-check against an independent signal, and never take the first search result on faith.</p>
-
-  <p style="margin-top: 2rem;">This came out of <a href="/research/866-custom-software-ads">a study of 866 competitor ads</a>. Related: <a href="/research/ad-longevity-as-a-conversion-proxy">reading ad longevity as a conversion signal</a> and <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">why 44% of enriched contacts were wrong</a>.</p>
+  <p class="article-coda">This came out of <a href="/research/866-custom-software-ads">a study of 866 competitor ads</a>. Related: <a href="/research/ad-longevity-as-a-conversion-proxy">reading ad longevity as a conversion signal</a> and <a href="/research/44-percent-of-ai-enriched-contacts-are-wrong">why 44% of enriched contacts were wrong</a>.</p>
 </ContentArticle>

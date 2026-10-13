@@ -1,0 +1,65 @@
+/* Home page only (src/pages/index.astro). Scoped under .site like site.css, and bound by the
+   same bans: no side accent borders, inset stripes, gradient functions, capitalised text
+   transforms or shadows on cards. */
+
+/* ================================================================ hero */
+.site .home-hero .hero-copy { gap: 24px; }
+/* "AI guy." never splits across lines. */
+.site .home-hero h1 .accent { white-space: nowrap; }
+.site .home-hero .t-lead { max-width: 30em; }
+
+/* Stacked hero on tablets: a 6/7 panel at full width would be taller than the screen, so the
+   panel takes a wider frame there. Phones keep the 6/7 panel. */
+@media (max-width: 900px) and (min-width: 641px) {
+  .site .home-hero .hero-media .art { --ratio: 16 / 11; }
+}
+/* The capability strip stacks on phones: tighter cells keep it from running a screen long. */
+@media (max-width: 640px) {
+  .site .home-hero .ruled > * { gap: 6px; padding: 18px 20px; }
+}
+
+/* ================================================================ statement */
+.site .home-statement .wrap { display: grid; justify-items: center; gap: 20px; text-align: center; }
+
+/* ================================================================ services */
+.site .home-services .cta-row { margin-top: var(--grid-gap); }
+
+/* ================================================================ selected work */
+.site .home-work .work-grid { margin-top: 48px; }
+@media (max-width: 640px) { .site .home-work .work-grid { margin-top: 40px; } }
+
+/* ================================================================ proof */
+.site .home-proof .ruled + .ruled { margin-top: var(--grid-gap); }
+/* Three short stats still fit side by side on tablets. */
+@media (min-width: 641px) and (max-width: 900px) {
+  .site .home-proof .ruled--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.site .home-proof .quote blockquote { font-size: clamp(1.125rem, 1.05rem + .3vw, 1.25rem); }
+
+/* ================================================================ industries: heading left, links right */
+.site .home-industries-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px var(--grid-gap); align-items: start; }
+.site .home-industries-head { grid-column: 1 / span 5; display: grid; gap: 16px; justify-items: start; }
+.site .home-industries-head .link-arrow { margin-top: -4px; }
+.site .home-industries-grid > .ruled { grid-column: 6 / span 7; }
+@media (max-width: 900px) {
+  .site .home-industries-head, .site .home-industries-grid > .ruled { grid-column: 1 / -1; }
+}
+
+/* ================================================================ who you'll work with */
+.site .home-about { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px var(--grid-gap); align-items: start; }
+.site .home-about .portrait { grid-column: 1 / span 4; }
+.site .home-about-body { grid-column: 6 / span 7; display: grid; gap: 20px; justify-items: start; }
+.site .home-about-copy { display: grid; gap: 14px; max-width: 60ch; color: var(--ink-2); }
+.site .home-about-copy p { font-size: 17px; line-height: 1.65; }
+.site .home-about .deflist { width: 100%; margin-top: 8px; }
+.site .home-about .link-arrow { margin-top: -4px; }
+/* Tablets keep the portrait beside the copy; phones stack it, small, above. */
+@media (max-width: 1023px) and (min-width: 641px) {
+  .site .home-about-body { grid-column: 5 / span 8; }
+}
+@media (max-width: 640px) {
+  .site .home-about { gap: 28px; }
+  .site .home-about .portrait { grid-column: 1 / -1; width: min(100%, 220px); }
+  .site .home-about-body { grid-column: 1 / -1; }
+  .site .home-about-copy p { font-size: 16px; }
+}

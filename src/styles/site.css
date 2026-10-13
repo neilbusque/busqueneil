@@ -327,6 +327,18 @@ html.sheet-open { overflow: hidden; }
   .site .ruled > * { padding: 22px 20px; }
 }
 
+/* Compact link cells (.ruled--links): one row each, name left and an arrow right. */
+.site .ruled--links > a { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 18px 24px; }
+.site .ruled--links > a .cell-arrow { flex: none; width: 16px; height: 16px; color: var(--muted); transition: transform var(--dur-hover) var(--ease-out), color var(--dur-hover) ease; }
+.site .ruled--links > a:hover .cell-arrow { color: var(--blue-ink); transform: translateX(3px); }
+.site .ruled--links > a:hover .cell-arrow.icon--arrow-up-right { transform: translate(2px, -2px); }
+.site .ruled--links > a:hover :is(h2, h3, h4) { color: var(--blue-ink); }
+@media (max-width: 640px) {
+  .site .ruled.ruled--links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site .ruled--links > a { min-height: 56px; padding: 14px 16px; }
+}
+@media (max-width: 359px) { .site .ruled.ruled--links { grid-template-columns: 1fr; } }
+
 /* stat cell: real, sourced numbers only */
 .site .stat .t-num { margin-bottom: 6px; }
 .site .stat-caption { max-width: 26ch; font-size: var(--fs-small); line-height: 1.5; color: var(--muted); }
@@ -379,7 +391,11 @@ html.sheet-open { overflow: hidden; }
 .site .prompt-chips { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; padding: 12px 16px 14px; border-top: 1px solid var(--line); }
 .site .chip { display: inline-block; max-width: 100%; height: 32px; padding: 0 12px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--surface); font: 400 13px/30px var(--font-sans); color: var(--ink-2); white-space: nowrap; text-overflow: ellipsis; cursor: pointer; transition: border-color var(--dur-hover) ease, color var(--dur-hover) ease; }
 .site .chip:hover { border-color: var(--line-2); color: var(--ink); }
-@media (pointer: coarse) { .site .chip { height: 40px; line-height: 38px; } }
+/* Touch: 44px targets for the chips and the send button. */
+@media (pointer: coarse) {
+  .site .chip { height: 44px; line-height: 42px; }
+  .site .prompt-send { width: 44px; height: 44px; }
+}
 @media (max-width: 640px) {
   .site .prompt--float { left: 12px; bottom: 12px; width: calc(100% - 24px); }
   .site .prompt .chip:nth-child(n + 3) { display: none; }
@@ -402,10 +418,12 @@ html.sheet-open { overflow: hidden; }
 .site .bento > .card { grid-column: span 6; min-height: 380px; }
 .site .bento > .card:nth-child(1) { grid-column: span 8; }
 .site .bento > .card:nth-child(2) { grid-column: span 4; }
+/* Tablets: two cards a row, so four cards do not stack into a 2,400px column. Phones: one. */
 @media (max-width: 900px) {
-  .site .bento > .card:nth-child(n) { grid-column: 1 / -1; min-height: 0; }
+  .site .bento > .card:nth-child(n) { grid-column: span 6; min-height: 0; }
   .site .bento .card .art { aspect-ratio: 16 / 8; }
 }
+@media (max-width: 640px) { .site .bento > .card:nth-child(n) { grid-column: 1 / -1; } }
 @media (max-width: 640px) { .site .card { padding: 24px; } .site .card .art { margin: auto -24px -24px; } }
 
 /* Work card: art on top, text below, no box around the text. */
@@ -416,6 +434,11 @@ html.sheet-open { overflow: hidden; }
 .site .work-card:hover h3 { text-decoration-color: currentColor; }
 .site .work-card p { color: var(--muted); }
 .site .work-card .work-outcome { color: var(--ink); font-weight: 500; }
+/* A card with nothing to link to: no hover underline, no art nudge. */
+.site .work-card--static:hover h3 { text-decoration-color: transparent; }
+/* External cards end the title with a small up-right arrow. */
+.site .work-card h3 .work-go { display: inline-block; width: 15px; height: 15px; margin-left: 6px; vertical-align: -1px; color: var(--muted); transition: transform var(--dur-hover) var(--ease-out), color var(--dur-hover) ease; }
+.site .work-card:hover h3 .work-go { color: var(--blue-ink); transform: translate(2px, -2px); }
 @media (max-width: 640px) { .site .work-grid { grid-template-columns: 1fr; gap: 40px; } }
 
 /* Featured split: art 7 columns, body 5, inside one bordered frame. Art on top below 900px.
@@ -428,6 +451,8 @@ html.sheet-open { overflow: hidden; }
 .site .feature-body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; min-width: 0; padding: 40px; }
 .site .feature-title { font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem); line-height: 1.12; letter-spacing: -.03em; font-weight: 600; }
 .site .feature-text { color: var(--ink-2); }
+.site .feature-meta { align-self: stretch; margin: 0; }
+.site .feature-outcome { color: var(--ink); font-weight: 500; }
 .site .feature-list { display: grid; gap: 10px; }
 .site .feature-cta { margin-top: auto; padding-top: 8px; }
 @media (max-width: 900px) {
@@ -438,26 +463,29 @@ html.sheet-open { overflow: hidden; }
 
 /* Tool card: whole card is the link. */
 .site .tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px var(--grid-gap); }
-.site .tool-card { display: grid; gap: 14px; align-content: start; min-width: 0; color: inherit; text-decoration: none; }
-.site .tool-body { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.site .tool-card { display: grid; grid-template-rows: auto 1fr; gap: 14px; min-width: 0; color: inherit; text-decoration: none; }
+.site .tool-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .site .tool-meta { display: flex; justify-content: space-between; gap: 12px; }
 .site .tool-card h3 { font-size: 20px; line-height: 1.25; letter-spacing: -.015em; text-decoration: underline 1px transparent; text-underline-offset: 4px; transition: text-decoration-color var(--dur-hover) ease; }
 .site .tool-card:hover h3 { text-decoration-color: currentColor; }
 .site .tool-card p { color: var(--muted); }
-.site .tool-open { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 15px; font-weight: 600; color: var(--ink); transition: color var(--dur-hover) ease; }
+.site .tool-open { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 4px; font-size: 15px; font-weight: 600; color: var(--ink); transition: color var(--dur-hover) ease; }
 .site .tool-open svg { width: 14px; height: 14px; transition: transform var(--dur-hover) var(--ease-out); }
 .site .tool-card:hover .tool-open { color: var(--blue-ink); }
 .site .tool-card:hover .tool-open svg { transform: translateX(3px); }
 .site .tool-card:hover .tool-open svg.icon--arrow-up-right { transform: translate(2px, -2px); }
 @media (max-width: 900px) and (min-width: 641px) {
   .site .tool-grid { grid-template-columns: 1fr; gap: 32px; }
-  .site .tool-card { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 24px; align-items: center; }
+  .site .tool-card { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); grid-template-rows: auto; gap: 24px; align-items: center; }
 }
 @media (max-width: 640px) { .site .tool-grid { grid-template-columns: 1fr; gap: 40px; } }
 
 /* Quote card: real, approved quotes only. */
 .site .quote { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
 .site .quote blockquote { margin: 0; font-size: 20px; line-height: 1.45; letter-spacing: -.012em; font-weight: 500; color: var(--ink); }
+/* Typographic quote marks come from CSS, so the data keeps the approved words exactly. */
+.site .quote blockquote p::before { content: '\201C'; }
+.site .quote blockquote p::after { content: '\201D'; }
 .site .quote figcaption { display: grid; gap: 2px; font-size: var(--fs-small); color: var(--muted); }
 .site .quote figcaption strong { color: var(--ink); font-weight: 600; }
 
@@ -482,13 +510,22 @@ html.sheet-open { overflow: hidden; }
 }
 
 .site .check { list-style: none; display: grid; gap: 12px; }
-.site .check > li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--ink-2); }
+.site .check > li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 12px; align-items: start; color: var(--ink-2); text-wrap: pretty; }
 .site .check > li > svg { width: 16px; height: 16px; margin-top: .3em; color: var(--blue); }
 .site .check--no > li > svg { color: var(--muted); }
 .site .check strong { display: block; color: var(--ink); font-weight: 600; }
 .site .check-text { display: block; margin-top: 2px; color: var(--muted); }
 
 .site .fit > * { gap: 18px; }
+
+/* CTA row: one sentence and one button under a grid ("not sure" and "build one for you"). */
+.site .cta-row { display: flex; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 20px; border-top: 1px solid var(--line); }
+.site .cta-row > p { max-width: 60ch; font-size: 17px; line-height: 1.5; color: var(--ink-2); }
+.site .cta-row > .btn { flex: none; }
+@media (max-width: 640px) {
+  .site .cta-row { flex-direction: column; align-items: stretch; }
+  .site .cta-row > .btn { width: 100%; justify-content: space-between; }
+}
 
 .site .deflist { margin: 0; border-top: 1px solid var(--line); }
 .site .deflist > div { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--line); }

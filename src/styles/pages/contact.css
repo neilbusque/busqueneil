@@ -1,0 +1,49 @@
+/* Contact page (src/pages/contact.astro). Scoped under .site like site.css and bound by the
+   same bans: no side accent borders, inset stripes, gradient functions, capitalised text
+   transforms or shadows on cards. */
+
+/* ================================================================ main: 5 | 7 */
+.site .contact.section { padding-top: 48px; }
+.site .contact-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 48px var(--grid-gap); align-items: start; }
+.site .contact-side { grid-column: 1 / span 5; display: grid; gap: 40px; min-width: 0; }
+.site .contact-form-col { grid-column: 7 / span 6; min-width: 0; scroll-margin-top: 88px; }
+.site .contact-head { display: grid; gap: 20px; }
+.site .contact-head .t-h1 { max-width: 12ch; }
+.site .contact-next { display: grid; gap: 12px; }
+.site .contact-next .steps--compact > li:first-child { padding-top: 16px; }
+@media (max-width: 1023px) {
+  .site .contact-side { grid-column: 1 / span 6; }
+  .site .contact-form-col { grid-column: 7 / span 6; }
+}
+@media (max-width: 900px) {
+  .site .contact.section { padding-top: 32px; }
+  .site .contact-side, .site .contact-form-col { grid-column: 1 / -1; }
+  .site .contact-grid { row-gap: 40px; }
+}
+
+/* ================================================================ form card */
+.site .contact-form { gap: 4px; }
+.site .contact-form > h2 { margin-bottom: 20px; }
+/* Every field keeps its error line reserved (site.css), so fields sit 4px plus that line apart. */
+.site .contact-form .field { gap: 8px; }
+.site .contact-form fieldset.field { margin-bottom: 22px; }
+.site .contact-form .field > label .opt { margin-left: 2px; }
+.site .contact-submit { display: grid; gap: 16px; margin-top: 4px; padding-top: 20px; border-top: 1px solid var(--line); }
+.site .contact-promise { max-width: 52ch; color: var(--ink-2); }
+.site .contact-btn { justify-self: start; min-width: 168px; }
+.site .contact-btn[aria-busy="true"] { cursor: progress; }
+/* The send error keeps its line, so the button never moves when it appears. */
+.site .contact-fail { min-height: 20px; font-size: 14px; line-height: 20px; color: var(--error); }
+.site .contact-fail:empty { visibility: hidden; }
+/* Honeypot: off-screen for people, still in the form for bots. */
+.site .contact-form .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+@media (max-width: 640px) {
+  .site .contact-btn { justify-self: stretch; }
+}
+
+/* ================================================================ success panel */
+.site .contact-done { justify-items: start; gap: 12px; }
+.site .contact-done:focus { outline: none; }
+.site .contact-done-mark { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 4px; border-radius: var(--r-md); background: var(--blue-wash); color: var(--blue-ink); }
+.site .contact-done-mark svg { width: 20px; height: 20px; }
+.site .contact-done .t-body { max-width: 46ch; }

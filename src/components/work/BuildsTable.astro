@@ -1,0 +1,54 @@
+---
+/* "More builds": a real table with aligned columns (Build, What it does, Type, Year), an ink top
+   rule, a pale header row and hairline rows. A row links out only when it has a public target;
+   the build name carries the link. Rows carry data-filter so the work page Tabs can filter them.
+   Below 760px each row stacks: name, what it does, then type and year on one quiet line.
+   Styles: src/styles/pages/work.css. */
+import Icon from '../site/Icon.astro';
+import type { ProjectRow } from '../../data/site';
+
+interface Props {
+  rows: ProjectRow[];
+  columns: readonly [string, string, string, string];
+  caption?: string;
+  id?: string;
+  class?: string;
+}
+
+const { rows, columns, caption, id, class: className } = Astro.props;
+const isHttp = (u: string) => /^https?:/i.test(u);
+---
+<div class:list={['btable-wrap', className]} id={id}>
+  <table class="btable">
+    {caption && <caption class="sr-only">{caption}</caption>}
+    <thead>
+      <tr>
+        {columns.map((c) => <th scope="col">{c}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr data-filter={r.type}>
+          <th scope="row" class="bt-name">
+            {r.href ? (
+              <a
+                href={r.href}
+                target={isHttp(r.href) ? '_blank' : undefined}
+                rel={isHttp(r.href) ? 'noopener' : undefined}
+              >
+                <span>{r.title}</span>
+                <Icon name={isHttp(r.href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+                {isHttp(r.href) && <span class="sr-only"> (opens in a new tab)</span>}
+              </a>
+            ) : (
+              r.title
+            )}
+          </th>
+          <td class="bt-text">{r.text}</td>
+          <td class="bt-type">{r.category}</td>
+          <td class="bt-year">{r.year}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

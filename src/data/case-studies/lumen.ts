@@ -2,24 +2,24 @@ import type { CaseStudy } from './types';
 
 export const lumen: CaseStudy = {
   slug: 'lumen-portal',
-  name: 'Lumen Portal',
-  tagline: 'The client-facing surface with a lock on it',
-  seoTitle: 'Lumen Portal: a client portal build',
-  category: 'SaaS · Client Portal',
+  title: 'Branded client portal with e-signatures',
+  category: 'Software',
   year: '2026',
-  status: 'Live in production',
-  liveUrl: 'https://portal.busqueneil.com',
+  seoTitle: 'Case study: a client portal with e-signatures',
+  seoDescription:
+    'A branded client portal with files, docs, reports and legally binding e-signatures, built on Postgres security rules instead of a separate signing tool.',
   summary:
-    'A branded client portal with files, docs, reports, and legally binding e-signatures built in-house on Postgres RLS instead of a bolted-on signing vendor.',
+    'Files, reports, boards and legally binding signatures in one place for a firm\'s clients, with signing built in instead of bolted on.',
   lede:
-    'Every agency hits the same wall: the work is good, but the client experience around the work is chaos. Files in email, updates in Slack, contracts in DocuSign, status in someone\'s head. Lumen Portal is the fix I built for myself first. One login, one URL per client, and now, a signature that actually holds up.',
+    "Client work rarely falls apart because the work is bad. It falls apart in the gaps: files in email, updates in chat, contracts in a signing tool, status in someone's head. This portal gives each client one login and one place for all of it, and now a signature that holds up.",
 
-  facts: [
-    { k: 'Role', v: 'Solo builder, full stack' },
-    { k: 'Timeline', v: 'May 2026 to present, active' },
-    { k: 'Version', v: 'v0.36.1' },
-    { k: 'Stack', v: 'React, TypeScript, Supabase, Postgres RLS' },
-  ],
+  facts: {
+    whoFor: 'Agencies and firms that share files, reports and contracts with clients',
+    built: 'A branded client portal with boards, files, docs, reports and e-signatures',
+    timeline: 'Live in May 2026, signing added in July',
+    stack: 'React, TypeScript, Supabase, Postgres security rules',
+  },
+
   stack: [
     'React 19',
     'TypeScript',
@@ -29,183 +29,129 @@ export const lumen: CaseStudy = {
     'TipTap',
     'dnd-kit',
   ],
+
   metrics: [
-    { value: '4', label: 'signature RPCs, all SECURITY DEFINER' },
-    { value: '55', label: 'migrations shipped to prod' },
-    { value: 'v0.36.1', label: 'current shipped version' },
+    { value: '55', label: 'Database migrations shipped to production' },
+    { value: '4', label: 'Signing functions, each checking who is calling' },
+    { value: 'v0.36', label: 'The release where signing went live' },
   ],
 
   problem: {
-    title: 'The problem',
     body: [
-      'Client work doesn\'t fall apart because the deliverable is bad. It falls apart in the gaps around it. A revision note lives in a text message. A final logo file lives in a Google Drive link that expires. A signed statement of work lives in a DocuSign account the client never gets access to again. Six weeks in, nobody, including me, can answer "where do things actually stand" without opening four different tools.',
-      'The worst version of this is the contract. Most solo operators and small agencies either sign things over email (no audit trail, no tamper protection, arguably not enforceable) or pay for a signing tool that lives completely outside the project. The client signs in DocuSign, then goes back to Slack for the actual work. Two systems, two logins, and the signed document has no connection to the deliverables it describes.',
-      'None of this is a client problem. It\'s an operator problem that clients experience as a lack of professionalism. A scattered engagement reads as a small, disorganized shop even when the work itself is excellent.',
+      'A revision note lives in a text message. A final logo file lives in a shared-drive link that expires. A signed statement of work lives in a signing account the client never opens again. Six weeks in, nobody can say where things stand without opening four different tools.',
+      'Contracts are the worst of it. Small firms either agree to things over email, with no audit trail and no protection against edits, or pay for a signing tool that lives outside the project. The client signs in one place, then goes back to chat for the actual work. Two systems, two logins, and the signed document has no link to the work it describes.',
+      "None of this is the client's problem. It is the firm's problem, and clients feel it as a lack of polish, even when the work itself is excellent.",
     ],
   },
 
   approach: {
-    title: 'The approach',
     body: [
-      'Lumen Portal is the single client-facing surface that sits on top of Orbit\'s data. Orbit is where I run the business, deals, pipeline, tasks. Lumen is what the client actually sees: their board, their files, their docs, their reports, all scoped to one workspace with their branding on it. When a deal closes in Orbit, a signed webhook provisions a Lumen workspace automatically and the client gets a magic-link invite. No separate onboarding, no separate account creation on my end.',
-      'The decision that shaped the last month of work was building agreements and e-signatures myself instead of embedding a vendor. An embedded signing widget solves the UI problem but not the trust problem, you\'re still asking the client to believe a third party did the right thing with the document. Building it in-house meant the agreement is just a doc row with `doc_type=\'agreement\'`, so it gets the same editor, the same folder structure, and the same access model as everything else in the portal, plus a lifecycle: draft, sent, signed, with void and reopen for the admin. Every state transition runs through a SECURITY DEFINER Postgres function, `send_agreement`, `sign_document`, `void_agreement`, `reopen_agreement`, so the security boundary lives in the database, not in a client-side check that a modified request could skip.',
-      'The same philosophy runs through storage. The `media` bucket that holds every client file was public when I first shipped it, which is the default in most Supabase starters and a real hole once real client work is flowing through it. I moved it to private with signed URLs that expire, which meant rewriting how every image and file reference gets stored and rendered, not just flipping a flag. Documents in the rich-text editor now store the storage path, never the URL, and a render-time hook signs it fresh. A URL that expires can\'t accidentally get baked into a permanent document.',
-      'I also chose RPC-first mutations over letting the client talk to tables directly wherever the action matters, who can sign, who can void, who can see a report before it\'s sent. Row-level security policies handle read access well, but anything with a lifecycle or an audit requirement gets a dedicated function with an explicit identity check and an explicit grant. That\'s slower to build than opening a table up to `authenticated` and trusting the UI to behave, but it means a client can\'t forge a signature or alter a sent contract no matter what they send the API directly.',
-      'The files, docs, and reports were originally three separate rail items with their own routes. As the portal grew I consolidated them into one Files hub with tabs, on real nested routes rather than local tab state, so deep links, notification links, and the command palette all still resolve correctly. The three data models stayed separate underneath. Consolidation of the interface, not a merge of the data.',
+      "The portal is the one surface a client sees: their board, their files, their docs and their reports, scoped to one workspace with their branding on it. It sits on top of my CRM's data. When a deal closes there, a signed webhook sets up a portal workspace on its own and the client gets a magic-link invite. No separate onboarding and no accounts to create by hand.",
+      "The decision that shaped the last month was building agreements and e-signatures myself instead of embedding a signing vendor. An embedded widget solves the screen, not the trust: you still ask the client to believe a third party did the right thing with the document. Built in, an agreement is just a document with a lifecycle (draft, sent, signed, with void and reopen for the admin), so it shares the editor, the folders and the access model with everything else. Every change of state runs through a database function, so the security check lives in the database, not in a button a modified request could skip.",
+      "Storage follows the same idea. The bucket holding every client file was public when it first shipped, which is the default in most starter setups and a real hole once client work flows through it. I moved it to private, with signed links that expire. That meant changing how every image and file reference is stored, not just flipping a flag: documents now store the file's path, and a fresh signed link is made each time the page renders, so an expiring link can never get baked into a saved document.",
+      "Anything with a lifecycle or an audit need goes through a dedicated function with an explicit identity check, instead of letting the browser write to tables directly: who can sign, who can void, who can see a report before it is sent. It is slower to build than opening a table to every signed-in user and trusting the interface to behave, but it means a client cannot forge a signature or change a sent contract, whatever they send the API.",
+      'Files, docs and reports started as three separate menu items. As the portal grew I folded them into one Files hub with tabs, on real routes rather than local tab state, so deep links, notification links and the command palette all still land in the right place. The interface merged; the three data models underneath stayed separate.',
     ],
   },
 
   timeline: [
-    {
-      when: 'May 2026',
-      title: 'Portal goes live',
-      what: 'Provisioning webhook from Orbit, kanban board, in-app messaging, docs, notifications, PWA install. First client workspace stood up on portal.busqueneil.com.',
-    },
-    {
-      when: 'June 26, 2026',
-      title: 'Design system parity + digests',
-      what: 'Full visual port from Orbit: compact component system, command palette, rotating dashboard quote. Weekly progress digest and 4-hour unread-message email added, both dedupe-guarded and cron-driven.',
-    },
-    {
-      when: 'July 9, 2026 (v0.19.0)',
-      title: 'Rebrand, calendar, reports',
-      what: 'Deep Space visual system ported in. New Calendar tab on FullCalendar with drag-to-schedule. New Reports tab with read receipts and per-report comments.',
-    },
-    {
-      when: 'July 15, 2026 (v0.30.0)',
-      title: 'Files unified, versioning added',
-      what: 'Card attachments and the Files section merged into one file record with full version history. A file uploaded on a task and a file in the Files browser became the same row, same comments, same history.',
-    },
-    {
-      when: 'July 15-16, 2026 (v0.34.0-v0.35.0)',
-      title: 'Storage locked down',
-      what: 'The media bucket flipped from public to private with signed URLs. WebP compression added on upload. Card attachments migrated to a versioned file model with archive support, live on production data.',
-    },
-    {
-      when: 'July 16, 2026 (v0.36.0)',
-      title: 'Files hub + signable agreements',
-      what: 'Docs and Reports consolidated into one Files hub on real nested routes. Signable agreements shipped: lifecycle states, four SECURITY DEFINER RPCs, a lock trigger, and a sha256 audit trail. Migration 0055 applied to production.',
-    },
-    {
-      when: 'July 16, 2026 (v0.36.1)',
-      title: 'Adversarial review fixes',
-      what: 'A concurrent-signing race and a lock-bypass path found in review, both fixed and verified against production data before close.',
-    },
+    { when: 'May 2026', title: 'Portal goes live', what: 'Automatic setup from the CRM, a project board, messaging, docs, notifications and an installable app. First client workspace live.' },
+    { when: 'June 26, 2026', title: 'Shared design system and digests', what: 'A compact component set and command palette, plus a weekly progress email and an unread-message email, both guarded against duplicates.' },
+    { when: 'July 9, 2026', title: 'Calendar and reports', what: 'A new visual system, a calendar with drag-to-schedule, and reports with read receipts and comments.' },
+    { when: 'July 15, 2026', title: 'One file record with versions', what: 'Task attachments and the Files section merged into one file record with full version history.' },
+    { when: 'July 16, 2026', title: 'Storage locked down', what: 'The file bucket moved from public to private with signed links, plus image compression on upload, live on real data.' },
+    { when: 'July 16, 2026', title: 'Files hub and signable agreements', what: 'Docs and reports joined one Files hub. Agreements shipped with lifecycle states, four signing functions, a lock and a hash-based audit trail.' },
+    { when: 'July 16, 2026', title: 'Fixes from a hostile review', what: 'A race between two signers and a way around the lock, both found in review and fixed on production data the same day.' },
   ],
 
   features: [
     {
       group: 'Files hub',
       items: [
-        'One consolidated hub with Files, Docs, and Reports as tabs on real nested routes',
-        'Grid and list views, folders, drag-and-drop upload, global search',
-        'Every file is versioned from the moment it\'s uploaded, with restore-as-new-version history',
-        'Archive vs. remove vs. delete as three distinct, deliberate actions',
+        'Files, docs and reports as tabs in one hub, on real routes',
+        'Grid and list views, folders, drag-and-drop upload and search',
+        'Every file versioned from its first upload, with restore as a new version',
+        'Archive, remove and delete as three separate, deliberate actions',
       ],
     },
     {
-      group: 'Docs',
+      group: 'Docs and reports',
       items: [
-        'Rich-text editor with slash commands, callouts, embeds, and tables',
-        'Per-folder new-doc button',
+        'A rich-text editor with slash commands, callouts, embeds and tables',
         'Autosave with version history',
-        'Same editor and folder model shared with Reports and agreements',
-      ],
-    },
-    {
-      group: 'Reports',
-      items: [
-        'Draft and sent states, client sees only what\'s been sent',
-        'Read receipts logged on open',
-        'Threaded comments on a sent report',
-        'Notification fired to the client the moment a report goes out',
+        'Reports in draft and sent states, so clients only see what was sent',
+        'Read receipts on open, threaded comments and a notification when a report goes out',
       ],
     },
     {
       group: 'Agreements and signing',
       items: [
         'An agreement is a doc with a lifecycle: draft, sent, signed, void, reopen',
-        'One row per required signature, created only when the agreement is sent',
-        'Type-your-name-to-sign flow with a per-signer status list',
-        'Signed document body is frozen at the database level, not just in the UI',
-        'sha256 hash of the document body captured at send and again at signing',
+        'One signature row per signer, created only when the agreement is sent',
+        'Type your name to sign, with a status for each signer',
+        'The signed text is frozen by the database, not just the interface',
+        'A hash of the document taken when it is sent and again when it is signed',
       ],
     },
     {
-      group: 'Cards and projects',
+      group: 'Boards and access',
       items: [
-        'Kanban board with drag-and-drop, realtime sync',
-        'Per-task activity timeline, subtask checklists with assignees',
-        'Calendar view with drag-to-schedule',
-        'Card comments with @mentions and pinned file annotations',
-      ],
-    },
-    {
-      group: 'Auth and access',
-      items: [
-        'Magic-link login, no passwords',
-        'Workspace-scoped access, a client sees only their own workspace',
-        'Admin and team-member roles distinct from client roles at the policy level',
-        'Automatic provisioning from a signed webhook when a deal closes',
+        'A project board with drag and drop and live sync',
+        'Task timelines, subtask checklists with owners, and a calendar view',
+        'Magic-link login, with no passwords',
+        'Each client sees only their own workspace; admin and team roles are kept apart by the database',
       ],
     },
   ],
 
   hardParts: [
     {
-      title: 'Making a signed document actually tamper-evident',
+      title: 'Making a signed document tamper-evident',
       problem:
-        'An existing RLS policy let any workspace member update any doc, which is correct for a working draft and dangerous for a document two parties just countersigned. UI-only locking isn\'t real protection, a direct API call bypasses a disabled button.',
+        'An existing rule let any workspace member edit any doc. That is right for a working draft and dangerous for a document two parties just signed. Locking it in the interface is not protection: a direct API call skips a disabled button.',
       solution:
-        'Added a BEFORE UPDATE trigger on the docs table that freezes the body and title once an agreement moves to sent or signed, enforced at the database for every write path including the signing RPCs themselves. Paired it with a sha256 hash of the document body captured at send and again at signing, so any dispute over what was actually agreed to has a server-computed answer, not a client-side claim. The audit trail deliberately omits an IP column: Supabase RPCs see the connection pooler\'s address, not the signer\'s, and a false record is worse than no record.',
+        "A database trigger now freezes the title and body once an agreement is sent or signed, for every write path, including the signing functions themselves. A hash of the body is taken at send and again at signing, so any dispute over what was agreed has a server-computed answer. The audit trail leaves out the signer's IP on purpose: the database sees the connection pooler's address, and a false record is worse than none.",
     },
     {
-      title: 'Flipping a public storage bucket to private without breaking anything live',
+      title: 'Making a public file bucket private without breaking anything live',
       problem:
-        'The bucket holding every client file, contracts, deliverables, annotated designs, was public from day one, meaning anyone with a URL could read it, no auth required. Flipping the bucket flag alone wasn\'t enough: a pre-existing storage policy still granted read access to the public role, which includes the anon key, meaning the "public" endpoint and the RLS-governed endpoint were two separate doors and closing one left the other open.',
+        "The bucket holding every contract, deliverable and design was public from day one. Flipping its flag was not enough: an older storage rule still let the public role read it, so there were two doors, and closing one left the other open.",
       solution:
-        'Shipped the signed-URL layer first, while the bucket was still public, so reads kept working the entire time. Then dropped the permissive storage policy and flipped the bucket to private in the same change, verified with the anon key directly rather than trusting a URL returning a 403. In the rich-text editor, images now store the storage path, not a URL, a signed URL is minted only at render time. A path can\'t expire inside a saved document; a URL can and does.',
+        'I shipped the signed-link layer first, while the bucket was still public, so reads kept working the whole time. Then I removed the open rule and made the bucket private in the same change, and checked it with the public key directly instead of trusting a 403 on one URL.',
     },
     {
-      title: 'Replacing card attachments with a real versioned file model, live',
+      title: 'Moving to versioned files on live data',
       problem:
-        'Card attachments and the Files section were two separate tables with a workaround stitching them together. A file attached to a task and the "same" file in the Files browser weren\'t actually the same record, so there was no shared comment thread and no version history across the two views. Rebuilding this meant a live data migration on a table already holding real client files, with zero acceptable downtime.',
+        'Task attachments and the Files section were two tables held together by a workaround, so the "same" file in two places had no shared comments and no shared history. Fixing it meant migrating a table that already held real client files, with no downtime.',
       solution:
-        'Migration 0055 (preceded by 0050-0054 building up to it) merged the two into one files table, archived rather than dropped the old table so the change stayed reversible, and added a trigger that seeds version 1 automatically on every insert so no code path can create a file with no history. Dry-ran the migration twice inside one transaction to prove it was idempotent, then applied it to production and verified row counts before considering it done.',
+        'One migration merged the two into a single files table, archived the old table instead of dropping it so the change could be undone, and added a trigger that creates version 1 on every insert, so no code path can make a file without history. I ran it twice inside a transaction that rolled back, to prove it was safe to repeat, then applied it and checked the row counts.',
     },
     {
-      title: 'The PostgREST transaction trap',
+      title: 'Client-scoped access without a maze of rules',
       problem:
-        'A raise inside a Postgres function called via PostgREST rolls back every write that function made in that same call, including writes that happened before the raise. A tempting pattern for anything security-adjacent is to record an attempt, then raise on failure, an audit log plus a rejection in one function. That pattern silently does nothing: the audit row is written, then immediately discarded by the exception.',
+        'A client should see their workspace and nothing else, the admin sees everything, and a small team sits in between. Security rules that look at other tables can fail outright when the caller cannot read those tables, and a stale rule from an old migration can quietly break a table for everyone.',
       solution:
-        'Functions that need to both record an outcome and signal failure now return a status value instead of raising, and raise only on branches that write nothing, so there\'s nothing left to roll back. The client checks the returned value explicitly rather than treating a null error as success, because with this pattern a rejected action and a successful one can otherwise look identical from the client\'s side. The fix generalizes past this codebase: anything that increments a counter and then raises to reject the same request needs to be measured after the fact, not just code-reviewed, to catch this.',
-    },
-    {
-      title: 'Client-scoped access without a table-by-table maze',
-      problem:
-        'A client should see exactly their workspace and nothing else, while the admin sees everything and a small operator team sits in between with elevated but not unlimited access. Row-level security policies that reference other tables can fail outright if the calling role doesn\'t have read access to those tables, and a stale policy left behind by an earlier migration can silently poison a table for every role, even when a correct policy also exists.',
-      solution:
-        'Cross-table access checks route through SECURITY DEFINER helper functions rather than raw subqueries in the policy, so the check runs with the function owner\'s privileges regardless of the caller\'s grants. Every policy set gets audited directly against `pg_policies` rather than trusted from memory, because the failure mode here is invisible until you query it, code review alone won\'t catch a duplicate or conflicting policy from three migrations ago.',
+        'Cross-table checks go through helper functions that run with fixed privileges, whoever the caller is. And every rule set gets audited against the live list of policies, not memory, because a duplicate or conflicting rule from three migrations ago is invisible until you query for it.',
     },
   ],
 
   outcome: {
-    title: 'Where it landed',
     body: [
-      'Lumen Portal is live at v0.36.1, built as the client-facing layer for every active engagement. A client logs in once and sees their board, their files with full version history, their docs, their sent reports with read receipts, and now, agreements they can review and sign inside the same portal, with a lock and an audit trail that hold up because the database enforces them, not because a UI button happens to be disabled.',
-      'The files that matter, contracts, deliverables, revision history, live in one place with private storage instead of a public bucket and a signing step instead of an email chain. Nothing here required a paid signing tool, a separate file-sharing service, or a second login for the client to keep track of.',
+      "Clients log in once and see their board, their files with full version history, their docs, their sent reports with read receipts, and agreements they can review and sign in the same place. The lock and the audit trail hold up because the database enforces them, not because a button happens to be disabled.",
+      'Contracts, deliverables and revision history live in one place, with private storage instead of a public bucket and a signing step instead of an email chain. No separate signing tool, no file-sharing service and no second login for the client.',
     ],
   },
 
   lessons: [
-    'A public storage bucket usually has two doors, the bucket flag and the RLS policy, and closing one without checking the other looks like a fix and isn\'t.',
-    'Anything with a lifecycle, especially signatures, should mutate through a database function with an explicit identity check, not a table the client can write to directly.',
-    'A raise inside a Postgres RPC rolls back that whole call\'s writes, so audit-then-reject logic has to return a status, not raise after recording the attempt.',
-    'Store a reference, not a URL, whenever the thing behind the URL can expire. A path signed at render time can\'t be accidentally frozen into a document.',
-    'Dry-run a production migration inside a transaction that force-aborts before you run it for real. It surfaces the exact row counts you\'re about to change with nothing written yet.',
-    'An audit trail should only record what the server can actually vouch for. A field you can\'t verify server-side is worse than an empty one.',
+    'A public storage bucket usually has two doors, the bucket flag and the access rule. Closing one looks like a fix and is not.',
+    'Anything with a lifecycle, especially a signature, should change through a database function with an explicit identity check.',
+    'Store a reference, not a link, whenever the thing behind the link can expire.',
+    'Dry-run a production migration inside a transaction that rolls back. It shows the exact rows you are about to change, with nothing written.',
+    'An audit trail should record only what the server can vouch for. A field you cannot verify is worse than an empty one.',
   ],
 
   proof:
-    'This is what it looks like to take client trust seriously past the point of "it works in the demo." Storage that\'s actually private, signatures that are actually locked, and mutations that can\'t be forged from the browser console, are the parts that never show up in a screenshot and are exactly what a security-minded client or hiring manager checks for first.',
+    'This is what taking client trust seriously looks like past "it works in the demo": storage that is private, signatures that are locked and changes that cannot be forged from the browser. Those are the parts that never show in a screenshot and the first things a careful client checks.',
+
+  palette: 'paper',
 };

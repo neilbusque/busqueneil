@@ -1,0 +1,6 @@
+/* 404 page (src/pages/404.astro). Scoped under .site like site.css and bound by the same bans. */
+
+/* The four places to try belong to the head, so they follow it without a shared hairline. */
+.site .phead.nf-head { padding-bottom: 40px; }
+.site .phead.nf-head + .section.nf-places:not(.band) { padding-top: 0; }
+.site .phead.nf-head + .section.nf-places:not(.band) > .wrap { padding-top: 0; border-top: 0; }

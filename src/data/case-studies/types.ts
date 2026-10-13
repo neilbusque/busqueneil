@@ -1,18 +1,16 @@
-/** Case study data model for busqueneil.com/case-studies
- *  One file per product under src/data/case-studies/<slug>.ts
- *  Registered in src/data/case-studies/index.ts
+/** Case study data model for busqueneil.com/case-studies/<slug>.
+ *  One file per build under src/data/case-studies/<file>.ts, registered in index.ts.
+ *  The repo is public, so: no company, client or product names in any visible string (the H1
+ *  is a descriptive title, the URL slug stays as it was), no personal details, no prices or
+ *  offer terms, no dashes in copy, and only claims that can be checked.
  */
+import type { PaletteName } from '../../lib/art';
 
-/** Where every "book a call" CTA points. Swap in one place. */
-export const BOOKING_URL = 'https://talk.busqueneil.com';
-export const WHATSAPP_URL = 'https://api.whatsapp.com/send/?phone=9083164140';
+/** WhatsApp with the US country code. Prefer the helpers in src/data/site.ts in new code. */
+export const WHATSAPP_URL = 'https://wa.me/19083164140';
+/** The booking page (secondary to WhatsApp). */
+export const BOOKING_URL = 'https://book.busqueneil.com';
 export const EMAIL_URL = 'mailto:busqueneil@gmail.com';
-
-export interface Fact {
-  /** short mono key, e.g. "Role", "Timeline", "Stack" */
-  k: string;
-  v: string;
-}
 
 export interface Metric {
   value: string;
@@ -32,7 +30,7 @@ export interface FeatureGroup {
   items: string[];
 }
 
-/** An engineering war story: the interesting part. */
+/** An engineering problem worth telling. */
 export interface HardPart {
   title: string;
   /** the constraint or failure */
@@ -42,54 +40,57 @@ export interface HardPart {
 }
 
 export interface Section {
-  title: string;
   /** paragraphs, plain text (no markdown) */
   body: string[];
 }
 
+/** The four cells under the page head. */
+export interface CaseFacts {
+  whoFor: string;
+  built: string;
+  timeline: string;
+  stack: string;
+}
+
 export interface CaseStudy {
+  /** URL slug. Kept from the original pages so every link keeps working. */
   slug: string;
-  /** product name, e.g. "Orbit" */
-  name: string;
-  /** 4-8 words, appears under the name */
-  tagline: string;
-  /** e.g. "SaaS · CRM", "Consumer PWA" */
+  /** The H1: named for what it does, never a product or client name. */
+  title: string;
+  /** Visible category, one of the work page's: AI agents, Software, Automations, Sites and funnels. */
   category: string;
-  /** e.g. "2026" */
   year: string;
-  /** e.g. "Live in production" */
-  status: string;
+  /** Live product, used only as a link target ("Open the live app"). Never printed. */
   liveUrl?: string;
-  /** one sentence for the index card and meta description */
+  /** One or two sentences for the next-project card and the meta description fallback. */
   summary: string;
-  /** Optional <title> front half. The default template is `${name} case study: ${tagline}`,
-   *  which runs 71-88 chars on most entries and gets truncated in results. Set this when the
-   *  generated one exceeds ~46 chars (60 minus " | Neil Busque"). */
-  seoTitle?: string;
-  /** Optional meta description. Several summaries run 175-235 chars because they earn their
-   *  length on the page; this is the 120-160 version for search results only. */
-  seoDescription?: string;
-  /** the page's opening paragraph, 2-3 sentences */
+  /** <title> front half, about 46 characters or fewer (" | Neil Busque" is appended). */
+  seoTitle: string;
+  /** Meta description, 155 characters or fewer. */
+  seoDescription: string;
+  /** The page's opening paragraph, two or three sentences. */
   lede: string;
-
-  facts: Fact[];
+  facts: CaseFacts;
+  /** Full stack, for the schema keywords. */
   stack: string[];
+  /** Real, sourced numbers only. Three or four, so the ruled row fills. */
   metrics?: Metric[];
-
-  /** why it exists */
+  /** The situation: why it exists. */
   problem: Section;
-  /** the thinking: what was decided and why */
+  /** What I built: the decisions and why. */
   approach: Section;
-  /** how it got built, in order */
+  /** How it came together, in order. */
   timeline: Milestone[];
-  /** what it does */
+  /** What it does. */
   features: FeatureGroup[];
-  /** the genuinely hard engineering */
+  /** The engineering that was hard. */
   hardParts: HardPart[];
-  /** where it landed */
+  /** What changed: where it landed. */
   outcome: Section;
-  /** transferable takeaways, one line each */
+  /** Transferable takeaways, one line each. */
   lessons: string[];
-  /** the bridge into the CTA: what this proves I can build for you */
+  /** The bridge into the ask: what this shows I can build for you. */
   proof: string;
+  /** Art palette for the page image, to balance neighbors. */
+  palette?: PaletteName;
 }

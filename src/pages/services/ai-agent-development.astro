@@ -1,87 +1,82 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
+import { SERVICES } from '../../data/site';
 
 export const prerender = true;
 
-const title = 'Custom AI Agent Development Services | Neil Busque';
-const description = 'Custom AI agents that work inside your CRM, inbox, calendar, and database, with clear permissions, approval steps, and direct access to the builder.';
 const canonical = 'https://busqueneil.com/services/ai-agent-development';
+const svc = SERVICES[0];
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Agent Development Services',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
-  serviceType: ['AI agent development', 'LLM application development', 'MCP tool integration', 'AI automation'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'What if the AI gets something wrong?',
+    a: 'I plan for it. Every agent gets clear limits that you approve before launch. Anything risky, like spending money, publishing or deleting, waits for a person to approve it. I test it on real examples from your business before it goes live.',
+  },
+  {
+    q: 'Which AI models do you use?',
+    a: 'Whichever fits the job, usually Claude or GPT. I set things up so you can switch models later without starting over.',
+  },
+  {
+    q: 'How long does an agent take to build?',
+    a: "A working first version usually takes days. We pick one job, like lead follow-up, build that first and test it on real examples from your business. Then it gets better as real use shows what to fix.",
+  },
+  {
+    q: 'Who owns the agent?',
+    a: 'You do. The code, the instructions and the accounts it runs on are in your name. If we ever stop working together, everything stays with you.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Services', url: 'https://busqueneil.com/services' },
-      { name: 'AI Agent Development', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="Custom AI Agent Development Services | Neil Busque"
+  description="Custom AI agents that work inside your CRM, inbox, calendar and database, with clear limits, approval steps and direct access to the person who builds them."
+  canonical={canonical}
+  heading="AI agent development for **growing businesses**."
+  lead="I build agents that work inside the tools your team already uses. They answer leads, update the CRM, run research and draft replies, and anything risky waits for your OK."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Services', url: 'https://busqueneil.com/services' },
+    { name: 'AI Agent Development', url: canonical },
+  ]}
+  topic="AI agent development"
+  artSeed={svc.slug}
+  artPalette="mist"
+  summary={{ items: svc.items, facts: svc.facts }}
+  related={['crm-with-ai-follow-up', 'ai-phone-receptionist-roofing']}
+  relatedPalettes={['paper', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'AI Agent Development Services',
+    serviceType: ['AI agent development', 'LLM application development', 'MCP tool integration', 'AI automation'],
+    areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  }}
+>
+  <h2>What an AI agent actually is</h2>
+  <p>A useful agent is more than a chat window. It reads a situation, chooses the next step and uses a small set of tools to finish the job. The difference is action: a chatbot answers, while an agent can update the systems where the work lives.</p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">&#8727;</span> Services &#183; AI Agents</p>
-    <h1>AI agent development <span class="accent">services</span>.</h1>
-    <p class="lede">I build agents that work inside the tools your team already uses. They can answer leads, update the CRM, run research, and draft a reply for a person to approve.</p>
-  </header>
+  <h2>Agents I build</h2>
+  <ul>
+    <li><strong>Inbox and lead agents.</strong> Read what came in, sort it, look the person up, draft the reply, log it and pass the ones that need you.</li>
+    <li><strong>CRM agents.</strong> Keep records clean, fill in missing details and move deals on real signals instead of someone remembering.</li>
+    <li><strong>Phone and website agents.</strong> Answer, ask the right questions and book the appointment. More on <a href="/software/ai-phone-agent-for-business">AI phone agents</a>.</li>
+    <li><strong>Research agents.</strong> Pull sources on a schedule, summarize them and hand you a short brief instead of fifty open tabs.</li>
+    <li><strong>Ops agents.</strong> Watch for a condition, do the steps that follow and tell you when they could not.</li>
+  </ul>
 
-  <article class="article-page">
-    <div class="prose">
-      <h2>What an AI agent actually is</h2>
-      <p>A useful agent is more than a chat window. It reads a situation, chooses the next step, and uses a small set of tools to complete the job. The important difference is action: a chatbot answers, while an agent can update the systems where the work lives.</p>
+  <h2>The stack</h2>
+  <p>I usually build on Claude and connect the agent through MCP. That gives it controlled access to a CRM, inbox, calendar or database without wiring every tool into one app. The permissions and the shape of the job matter more than the model name.</p>
 
-      <h2>Agents I build</h2>
-      <ul>
-        <li><strong>Inbox and lead agents.</strong> Read what came in, classify it, look the person up, draft the reply, log it, and escalate the ones that need you.</li>
-        <li><strong>CRM agents.</strong> Keep records clean, enrich contacts, move deals on real signals rather than on someone remembering.</li>
-        <li><strong>Research agents.</strong> Pull sources on a schedule, summarize, and hand you a brief instead of a tab graveyard.</li>
-        <li><strong>Ops agents.</strong> Watch for a condition, do the multi-step thing that follows, and tell you when it could not.</li>
-      </ul>
+  <h2>Guardrails, because agents fail</h2>
+  <p>Every agent needs a clear boundary. Reads can be broad when the data is safe. Writes stay limited to the job. Anything risky, like spending money, publishing or deleting, waits for a person to approve it. The goal is not pretending the agent will never make a mistake. It is making mistakes visible, easy to undo and cheap.</p>
+  <p>My own CRM works this way: its assistant can take about 150 different actions in the app, and it asks before anything risky.</p>
 
-      <h2>The stack</h2>
-      <p>I usually build on Claude and connect the agent through MCP. That gives it controlled access to a CRM, inbox, calendar, or database without hard-wiring every tool into one app. The permissions and the shape of the job matter more than the model name.</p>
+  <h2>How the work runs</h2>
+  <ol>
+    <li><strong>A first message or a short call.</strong> Which job are we handing over, and what is it allowed to touch.</li>
+    <li><strong>A clear scope and price.</strong> In plain English, before anything is built.</li>
+    <li><strong>A first version in days.</strong> Wired into your real systems, tested on real examples from your business.</li>
+    <li><strong>Launch, then you choose.</strong> I keep it running and tune it each month, or hand it to your team.</li>
+  </ol>
 
-      <h2>Guardrails, because agents fail</h2>
-      <p>Every agent needs a clear boundary. Reads can be broad when the data is safe. Writes stay limited to the job. Anything a customer will see should wait for approval unless you decide otherwise. The goal is not pretending the agent will never make a mistake. It is making mistakes visible, reversible, and cheap.</p>
-
-      <h2>How the work runs</h2>
-      <ol>
-        <li><strong>One call to find the job.</strong> Which repeated decision are we handing over, and what is it allowed to touch.</li>
-        <li><strong>I scope it before building.</strong> You see the boundaries in writing first.</li>
-        <li><strong>I build and wire it in.</strong> Into your actual systems, not a demo environment.</li>
-        <li><strong>You watch it run.</strong> With logs, so you can see what it did and why.</li>
-      </ol>
-
-      <h2>Who you are working with</h2>
-      <p>You work with me directly from the first call through launch. I am Neil Busque, based in Elizabeth, New Jersey, and I work across the NJ and NYC metro and remotely across the United States. I shipped more than 40 web apps, agents, and automations in 2026, including a CRM with agents built into it. See <a href="/work">the work</a> and read <a href="/guides/build-ai-agent-claude-code">how I build agents</a> before we talk.</p>
-
-      <h2>Start here</h2>
-      <p>Tell me the decision you want handed over and I will tell you whether an agent is the right shape for it. <a href="/contact">Send me the problem</a>, or read about <a href="/services/ai-automation-services">AI automation services</a> more broadly.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Who you are working with</h2>
+  <p>You work with me directly, from the first message to launch and after. I'm Neil Busque, based in New Jersey, and I work with teams across New Jersey, New York City and the rest of the US. I shipped more than 40 apps, agents and automations in 2026. See <a href="/work">the work</a>, read <a href="/guides/build-ai-agent-claude-code">how I build agents</a>, or see the wider picture in <a href="/services/ai-automation-services">AI automation services</a>.</p>
+</ServicePage>

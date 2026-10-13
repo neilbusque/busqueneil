@@ -1,19 +1,24 @@
 ---
 /* Work card: art 16/10 on top; a meta row (category left, year right); title; one or two lines
-   of context; an optional real outcome. No box around the text. The whole card is the link.
+   of context; an optional real outcome. No box around the text.
+   With an href the whole card is the link (http links open in a new tab and say so to screen
+   readers). With no href (null or left out) it renders as a plain article: some builds have
+   nothing public to link to, and a card that goes nowhere should not look clickable.
    Wrap several in <div class="work-grid"> (2 columns, 1 on phones).
    Titles are generic descriptors, never client or product names. */
 import Art from '../Art.astro';
+import Icon from './Icon.astro';
 import type { ArtLayout, PaletteName } from '../../lib/art';
 
 interface Props {
-  href: string;
+  /** Link target. null or undefined renders a card without a link. */
+  href?: string | null;
   title: string;
   text: string;
   category: string;
   year?: string;
-  /** A real, checkable outcome. Leave out when there is none. */
-  outcome?: string;
+  /** A real, checkable outcome. Leave out (or null) when there is none. */
+  outcome?: string | null;
   /** Art seed, usually the project slug. */
   seed: string;
   palette?: PaletteName;
@@ -28,11 +33,12 @@ interface Props {
 }
 
 const { href, title, text, category, year, outcome, seed, palette, layout, image, imageAlt, filter, as: Title = 'h3', class: className, ...rest } = Astro.props;
-const isHttp = /^https?:/i.test(href);
+const isHttp = typeof href === 'string' && /^https?:/i.test(href);
+const Tag = href ? 'a' : 'article';
 ---
-<a
-  class:list={['work-card', className]}
-  href={href}
+<Tag
+  class:list={['work-card', !href && 'work-card--static', className]}
+  href={href || undefined}
   data-filter={filter}
   {...rest}
   target={isHttp ? '_blank' : undefined}
@@ -43,7 +49,15 @@ const isHttp = /^https?:/i.test(href);
     <span class="t-label">{category}</span>
     {year && <span class="t-label">{year}</span>}
   </div>
-  <Title>{title}</Title>
+  <Title>
+    {title}
+    {isHttp && (
+      <>
+        <Icon name="arrow-up-right" strokeWidth={2} class="work-go" />
+        <span class="sr-only"> (opens in a new tab)</span>
+      </>
+    )}
+  </Title>
   <p>{text}</p>
   {outcome && <p class="work-outcome">{outcome}</p>}
-</a>
+</Tag>

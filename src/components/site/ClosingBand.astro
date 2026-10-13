@@ -10,6 +10,8 @@ import { CHANNELS, CLOSING, type Channel, type LinkItem } from '../../data/site'
 
 interface Props {
   title?: string;
+  /** Words appended to the title in the navy accent color, period included. */
+  accent?: string;
   lead?: string;
   primary?: LinkItem;
   secondary?: LinkItem | false;
@@ -19,6 +21,7 @@ interface Props {
 
 const {
   title = CLOSING.title,
+  accent = CLOSING.accent,
   lead = CLOSING.lead,
   primary = CLOSING.primary,
   secondary = CLOSING.secondary,
@@ -29,7 +32,7 @@ const {
 <section class="closing" aria-labelledby={id}>
   <div class="wrap closing-grid">
     <div class="closing-copy">
-      <h2 id={id}>{title}</h2>
+      <h2 id={id}>{title}{accent && <> <span class="accent">{accent}</span></>}</h2>
       {lead && <p class="t-lead">{lead}</p>}
       <div class="btn-row btn-row--stack">
         <Button href={primary.href} variant="primary">{primary.label}</Button>

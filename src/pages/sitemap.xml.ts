@@ -2,85 +2,63 @@ import type { APIRoute } from 'astro';
 import { getAllPublished } from '../lib/posts';
 import { caseStudies } from '../data/case-studies';
 import { softwarePages } from '../data/software-pages';
-import { liveContent, urlFor } from '../data/content-index';
+import { ARTICLES, urlFor } from '../data/content-index';
 
-const LAST_UPDATED = '2026-07-25';
-const JOURNAL_UPDATED = '2026-08-30';
+/* Every live, indexable route and nothing else. Left out on purpose:
+   - redirects (/about, /blog, /now, /feed, /notes, /posts, /guides, /case-studies, /projects,
+     /shop and the retired funnels and PDFs in vercel.json), because a sitemap entry that
+     redirects reports as an error in Search Console;
+   - noindex pages (/unlimited, /unlimited/thanks, /admin, the 404 page);
+   - API routes and generated images.
+   Article URLs come from content-index, so a URL cannot appear here without a page behind it. */
 
-const STATIC_URLS: { loc: string; lastmod?: string }[] = [
-  { loc: 'https://busqueneil.com/', lastmod: JOURNAL_UPDATED },
-  { loc: 'https://busqueneil.com/resources', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire/ai-engineer', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire/ai-automation', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-nj', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-nyc', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/hire/ai-engineer-remote', lastmod: LAST_UPDATED },
-  /* /unlimited is deliberately absent: it is an unlisted offer Neil sends directly, is
-     noindex, and is not linked from anywhere on the site. Listing a noindex URL here would
-     ask Google to index a page that refuses indexing, which reports as a coverage error. */
-  { loc: 'https://busqueneil.com/services', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/web-apps', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/websites', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/landing-pages', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/funnels', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/ai-automation-services', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/ai-agent-development', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/services/ai-automation-consultant', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/geo-generative-engine-optimization-guide', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/google-ai-overviews-guide', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/build-ai-agent-claude-code', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/what-is-mcp-model-context-protocol', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/ship-web-app-in-days-with-ai', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/how-to-build-an-mcp-server', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/n8n-vs-zapier-vs-make', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/postgres-row-level-security', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/guides/why-hire-a-person-when-ai-can-build-it', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/story', lastmod: JOURNAL_UPDATED },
-  { loc: 'https://busqueneil.com/work', lastmod: JOURNAL_UPDATED },
-  { loc: 'https://busqueneil.com/blog', lastmod: JOURNAL_UPDATED },
-  { loc: 'https://busqueneil.com/now', lastmod: JOURNAL_UPDATED },
-  { loc: 'https://busqueneil.com/contact', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/free', lastmod: LAST_UPDATED },
-  { loc: 'https://busqueneil.com/analyzer' },
-  /* /case-studies is deliberately absent: it 301s to /work (see case-studies/index.astro).
-     A sitemap should only list URLs that return 200, or Search Console reports the entry
-     as a redirect error. The five detail pages below are the real, indexable ones. */
-  ...caseStudies.map((cs) => ({
-    loc: `https://busqueneil.com/case-studies/${cs.slug}`,
-  })),
-  { loc: 'https://busqueneil.com/software', lastmod: '2026-08-08' },
-  ...softwarePages.map((p) => ({
-    loc: `https://busqueneil.com/software/${p.slug}`,
-    lastmod: '2026-08-08',
-  })),
-  /* The 50-piece programme (docs/content-plan-50.md). Driven off content-index so a URL
-     cannot appear here without a page behind it: only `live` entries are exported. The two
-     hubs are listed unconditionally because they render a real page either way. */
-  { loc: 'https://busqueneil.com/compare', lastmod: '2026-08-11' },
-  { loc: 'https://busqueneil.com/research', lastmod: '2026-08-11' },
-  ...liveContent.map((c) => ({
-    loc: `https://busqueneil.com${urlFor(c)}`,
-    lastmod: c.modified ?? c.published,
-  })),
-  /* The résumé the site actually links; /resume.pdf still resolves but is referenced nowhere. */
-  { loc: 'https://busqueneil.com/neil-busque-resume.pdf' },
+const SITE = 'https://busqueneil.com';
+/* The rebuilt pages: home, services, work, tools, resources hubs, contact and about. */
+const REBUILT = '2026-10-12';
+
+const PAGES: { path: string; lastmod?: string }[] = [
+  { path: '/', lastmod: REBUILT },
+  { path: '/services', lastmod: REBUILT },
+  { path: '/services/ai-agent-development', lastmod: REBUILT },
+  { path: '/services/ai-automation-services', lastmod: REBUILT },
+  { path: '/services/ai-automation-consultant', lastmod: REBUILT },
+  { path: '/services/web-apps', lastmod: REBUILT },
+  { path: '/services/websites', lastmod: REBUILT },
+  { path: '/services/landing-pages', lastmod: REBUILT },
+  { path: '/services/funnels', lastmod: REBUILT },
+  { path: '/hire', lastmod: REBUILT },
+  { path: '/hire/ai-engineer', lastmod: REBUILT },
+  { path: '/hire/ai-automation', lastmod: REBUILT },
+  { path: '/hire/ai-engineer-nj', lastmod: REBUILT },
+  { path: '/hire/ai-engineer-nyc', lastmod: REBUILT },
+  { path: '/hire/ai-engineer-remote', lastmod: REBUILT },
+  { path: '/work', lastmod: REBUILT },
+  ...caseStudies.map((cs) => ({ path: `/case-studies/${cs.slug}`, lastmod: REBUILT })),
+  { path: '/free', lastmod: REBUILT },
+  { path: '/analyzer', lastmod: REBUILT },
+  { path: '/resources', lastmod: REBUILT },
+  { path: '/compare', lastmod: REBUILT },
+  { path: '/research', lastmod: REBUILT },
+  ...ARTICLES.map((c) => ({ path: urlFor(c), lastmod: c.modified ?? c.published })),
+  { path: '/software', lastmod: REBUILT },
+  ...softwarePages.map((p) => ({ path: `/software/${p.slug}`, lastmod: REBUILT })),
+  { path: '/story', lastmod: REBUILT },
+  { path: '/contact', lastmod: REBUILT },
 ];
 
 export const GET: APIRoute = async ({ request, cookies }) => {
+  /* Published build notes only: getAllPublished leaves out hidden and personal posts. */
   const posts = await getAllPublished({ request, cookies });
 
-  const urls = [
-    ...STATIC_URLS.map((u) =>
-      `<url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}</url>`
-    ),
-    ...posts.map(
-      (p) =>
-        `<url><loc>https://busqueneil.com/posts/${p.slug}</loc><lastmod>${
-          (p.updated_at ?? p.created_at).slice(0, 10)
-        }</lastmod></url>`
-    ),
-  ].join('\n  ');
+  const seen = new Set<string>();
+  const rows = [
+    ...PAGES.map((p) => ({ loc: `${SITE}${p.path}`, lastmod: p.lastmod })),
+    ...posts.map((p) => ({ loc: `${SITE}/posts/${p.slug}`, lastmod: (p.updated_at ?? p.created_at).slice(0, 10) })),
+  ].filter((r) => (seen.has(r.loc) ? false : (seen.add(r.loc), true)));
+
+  const urls = rows
+    .map((r) => `<url><loc>${r.loc}</loc>${r.lastmod ? `<lastmod>${r.lastmod}</lastmod>` : ''}</url>`)
+    .join('\n  ');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

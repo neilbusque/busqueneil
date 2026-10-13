@@ -1,17 +1,31 @@
 ---
+/* /research: the research view of the resources hub, same table and tabs. The URL and the
+   title tag stay as they were for search. Only live studies are listed: an orphan link to a
+   page that does not exist yet is worse than no link (see src/data/content-index.ts). */
 import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { liveByCluster, urlFor } from '../../data/content-index';
-
-export const prerender = true;
+import PageHead from '../../components/site/PageHead.astro';
+import Section from '../../components/site/Section.astro';
+import Breadcrumb from '../../components/site/Breadcrumb.astro';
+import ResourceIndex from '../../components/articles/ResourceIndex.astro';
+import { articleRows, indexTabs, newestFirst, noteRow, type HubRow } from '../../components/articles/rows';
+import { getAllPublished } from '../../lib/posts';
+import { SITE_URL } from '../../lib/seo';
+import '../../styles/pages/articles.css';
 
 const title = 'Original Research | Neil Busque';
-const description = 'Studies built from data I collected myself: competitor ad libraries, viral content transcripts, contact-enrichment error rates, and analytics across 20 live sites.';
-const canonical = 'https://busqueneil.com/research';
+const description = 'Studies built from data I collected myself: competitor ad libraries, viral content transcripts and contact-enrichment error rates, with the method stated on every one.';
+const canonical = `${SITE_URL}/research`;
 
-/* Only `live` entries render. An orphan link to a page that does not exist yet is worse
-   than no link, and a hub that lists 404s reads as abandoned. See data/content-index.ts. */
-const items = liveByCluster('research');
+let notes: HubRow[] = [];
+try {
+  notes = (await getAllPublished({ request: Astro.request, cookies: Astro.cookies })).map(noteRow);
+} catch {
+  notes = [];
+}
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
+
+const everything = newestFirst([...articleRows(), ...notes]);
+const rows = everything.filter((r) => r.kind === 'research');
 
 const collection = {
   '@context': 'https://schema.org',
@@ -24,53 +38,24 @@ const collection = {
     '@type': 'ItemList',
     '@id': `${canonical}#list`,
     name: 'Original research by Neil Busque',
-    itemListElement: items.map((c, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: c.title,
-      url: `https://busqueneil.com${urlFor(c)}`,
-    })),
+    numberOfItems: rows.length,
+    itemListElement: rows.map((r, i) => ({ '@type': 'ListItem', position: i + 1, name: r.title, url: `${SITE_URL}${r.href}` })),
   },
 };
 ---
 <AppShell title={title} description={description} canonical={canonical} active="resources">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Research', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
-  </Fragment>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
+  <Breadcrumb back={false} items={[{ name: 'Home', url: `${SITE_URL}/` }, { name: 'Research', url: canonical }]} />
 
-  <span class="eyebrow">Research</span>
-  <h1 class="sec">Data I collected <span class="mark-hl">myself.</span></h1>
-  <p class="res-lede">Not a roundup of other people&rsquo;s studies. Each of these comes from a dataset I pulled, cleaned, and had to make a decision with. Method is stated on every one so you can reproduce it or argue with it.</p>
+  <PageHead
+    title="Research from my"
+    accent="own data."
+    class="rview-head"
+    lead="Not a roundup of other people's studies. Each one comes from a dataset I pulled, cleaned and had to make a decision with. The method is on every page, so you can check it or argue with it."
+  />
 
-  <section class="hsec">
-    <span class="eyebrow">Studies</span>
-    <h2 class="sec">What the <span class="mark-hl">numbers said.</span></h2>
-    {items.length > 0 ? (
-      <ul class="postlist res">
-        {items.map((c) => (
-          <li>
-            <a href={urlFor(c)}>
-              <span class="pl-main">
-                <span class="pl-title">{c.title}</span>
-                <span class="pl-blurb">{c.blurb}</span>
-              </span>
-              <span class="tag">{c.label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <div class="v8-card nowcta"><p>First study lands shortly.</p></div>
-    )}
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Related</span>
-    <h2 class="sec">How I <span class="mark-hl">work.</span></h2>
-    <p class="stack-note">The research feeds the guides. If you want the how-to rather than the findings, start at <a href="/resources">resources</a>, or see <a href="/compare">the comparisons</a> for head-to-head calls on specific tools.</p>
-  </section>
+  <Section labelledby="list-title" class="rview-list">
+    <h2 class="sr-only" id="list-title">All studies</h2>
+    <ResourceIndex rows={rows} tabs={indexTabs(everything, 'view')} active="research" mode="view" label="Resource types" />
+  </Section>
 </AppShell>

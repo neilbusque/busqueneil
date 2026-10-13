@@ -1,0 +1,55 @@
+/* Work page (src/pages/work.astro). Scoped under .site like site.css and bound by the same bans:
+   no side accent borders, inset stripes, gradient functions, capitalised text transforms or
+   shadows on cards. */
+
+/* ================================================================ page head + tabs */
+/* The tab row sits in a start-aligned grid; it has to stretch, or its contained width
+   collapses to nothing. */
+.site .work-phead .tabs-wrap { justify-self: stretch; margin-top: 8px; }
+.site .work-phead .t-lead { max-width: 40em; }
+/* The tabs belong to the list under them, so the list follows closely, without the hairline
+   two plain sections would otherwise share. */
+.site .work-phead { padding-bottom: 0; }
+.site .phead.work-phead + .section.work-main:not(.band) { padding-top: 40px; }
+.site .phead.work-phead + .section.work-main:not(.band) > .wrap { padding-top: 0; border-top: 0; }
+@media (max-width: 640px) { .site .phead.work-phead + .section.work-main:not(.band) { padding-top: 28px; } }
+
+/* ================================================================ featured + cards */
+.site .work-main .work-grid { margin-top: 56px; }
+/* A filter can hide the featured split: the grid then leads the section. */
+.site .work-main .feature[hidden] + .work-grid { margin-top: 0; }
+@media (max-width: 640px) { .site .work-main .work-grid { margin-top: 40px; } }
+
+/* ================================================================ more builds table */
+.site .btable-wrap { min-width: 0; }
+.site .btable { width: 100%; border-collapse: collapse; border-top: 1px solid var(--ink); font-size: 15px; line-height: 1.5; table-layout: fixed; }
+.site .btable thead th { padding: 10px 12px; background: var(--bg-2); font-size: var(--fs-label); font-weight: 500; line-height: 1.4; letter-spacing: 0; color: var(--muted); text-align: left; white-space: nowrap; }
+.site .btable thead th:nth-child(1) { width: 30%; }
+.site .btable thead th:nth-child(3) { width: 150px; }
+.site .btable thead th:nth-child(4) { width: 112px; }
+.site .btable tbody :is(th, td) { padding: 18px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.site .btable .bt-name { font-size: 16px; font-weight: 600; line-height: 1.4; letter-spacing: -.01em; color: var(--ink); }
+.site .btable .bt-name a { display: inline-flex; align-items: baseline; gap: 6px; min-height: 24px; color: var(--ink); text-decoration: underline 1px transparent; text-underline-offset: 4px; transition: color var(--dur-hover) ease, text-decoration-color var(--dur-hover) ease; }
+.site .btable .bt-name a svg { flex: none; width: 14px; height: 14px; align-self: center; color: var(--muted); transition: transform var(--dur-hover) var(--ease-out), color var(--dur-hover) ease; }
+.site .btable .bt-name a:hover { color: var(--blue-ink); text-decoration-color: currentColor; }
+.site .btable .bt-name a:hover svg { color: var(--blue-ink); transform: translateX(3px); }
+.site .btable .bt-name a:hover svg.icon--arrow-up-right { transform: translate(2px, -2px); }
+/* The whole row is the tap target for a linked build. */
+.site .btable tbody tr { position: relative; transition: background-color var(--dur-hover) ease; }
+.site .btable .bt-name a::after { content: ''; position: absolute; inset: 0; }
+.site .btable tbody tr:has(a):hover { background: var(--surface); }
+.site .btable .bt-text { color: var(--muted); }
+.site .btable :is(.bt-type, .bt-year) { padding-top: 21px; font-size: var(--fs-label); font-weight: 500; line-height: 1.4; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Phones and small tablets: one stacked block per row, type and year on one quiet line. */
+@media (max-width: 760px) {
+  .site .btable, .site .btable tbody { display: block; }
+  .site .btable thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .site .btable tbody tr { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 6px 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .site .btable tbody tr[hidden] { display: none; }
+  .site .btable tbody :is(th, td) { display: block; padding: 0; border: 0; }
+  .site .btable .bt-name, .site .btable .bt-text { grid-column: 1 / -1; }
+  .site .btable .bt-text { font-size: 15px; }
+  .site .btable :is(.bt-type, .bt-year) { padding-top: 4px; }
+  .site .btable .bt-name a { min-height: 32px; }
+}

@@ -1,0 +1,94 @@
+---
+/* The article-style page for one service (/services/*) or one way to hire (/hire/*):
+   service head, prose with the "What you get" card, related work, FAQ, then the shell's
+   closing band. Pages pass their prose in the default slot. Emits the Service JSON-LD, the
+   BreadcrumbList (through ServiceHead) and an FAQPage that matches the visible questions. */
+import AppShell from '../../layouts/AppShell.astro';
+import Section from '../site/Section.astro';
+import Faq from '../site/Faq.astro';
+import ServiceHead from './ServiceHead.astro';
+import ServiceBody from './ServiceBody.astro';
+import RelatedWork from './RelatedWork.astro';
+import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import { waUrl, type LinkItem } from '../../data/site';
+import type { PaletteName } from '../../lib/art';
+import '../../styles/pages/services.css';
+
+type AreaServed = string | { '@type': string; name: string };
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  active?: 'services' | 'hire';
+  /** H1 with the accent phrase in **double asterisks**. */
+  heading: string;
+  lead: string;
+  label?: string;
+  crumbs: { name: string; url: string }[];
+  backLabel?: string;
+  /** What the page is about, for the WhatsApp prefill: "Hi Neil, I read your page on <topic>. Here's what we need: ". */
+  topic: string;
+  artSeed: string;
+  artPalette?: PaletteName;
+  summary: { title?: string; items: string[]; facts?: { term: string; value: string }[] };
+  related: string[];
+  relatedPalettes?: (PaletteName | undefined)[];
+  faq: { q: string; a: string }[];
+  faqTitle?: string;
+  faqLead?: string;
+  service: { name: string; serviceType: string[]; areaServed: AreaServed[] };
+}
+
+const {
+  title, description, canonical, active = 'services', heading, lead, label, crumbs, backLabel, topic,
+  artSeed, artPalette, summary, related, relatedPalettes, faq, faqTitle = 'Common questions',
+  faqLead = 'Straight answers before we talk.', service,
+} = Astro.props;
+
+const wa: LinkItem = { label: 'Message me on WhatsApp', href: waUrl(`Hi Neil, I read your page on ${topic}. Here's what we need: `) };
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${canonical}#service`,
+  name: service.name,
+  url: canonical,
+  image: SOCIAL_IMAGE_URL,
+  provider: ORGANIZATION_REF,
+  brand: ORGANIZATION_REF,
+  isPartOf: WEBSITE_REF,
+  mainEntityOfPage: { '@id': `${canonical}#webpage` },
+  areaServed: service.areaServed,
+  serviceType: service.serviceType,
+  description,
+};
+---
+<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active={active}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(serviceSchema)} />
+
+  <ServiceHead
+    heading={heading}
+    lead={lead}
+    label={label}
+    crumbs={crumbs}
+    backLabel={backLabel}
+    primary={wa}
+    artSeed={artSeed}
+    artPalette={artPalette}
+  />
+
+  <Section id="details">
+    <ServiceBody id="summary-title" title={summary.title ?? 'What you get'} items={summary.items} facts={summary.facts} cta={wa}>
+      <slot />
+    </ServiceBody>
+  </Section>
+
+  <RelatedWork slugs={related} palettes={relatedPalettes} />
+
+  {faq.length > 0 && (
+    <Section id="faq" labelledby="faq-title">
+      <Faq id="faq-title" title={faqTitle} lead={faqLead} items={faq} ask={{ href: wa.href, label: 'Ask me directly' }} schema />
+    </Section>
+  )}
+</AppShell>

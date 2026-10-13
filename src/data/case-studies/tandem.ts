@@ -2,198 +2,171 @@ import type { CaseStudy } from './types';
 
 export const tandem: CaseStudy = {
   slug: 'tandem',
-  name: 'Tandem',
-  tagline: 'A couples app I built for my own long-distance marriage',
-  seoTitle: 'Tandem: a couples app case study',
-  seoDescription: 'A long-distance couples PWA with WebRTC video, six real-time games, and letters that arrive on a delay. Built for my own marriage across 8,000 miles.',
-  category: 'Consumer PWA · Realtime multiplayer',
+  title: 'A real-time couples app with video, games and letters',
+  category: 'Software',
   year: '2026',
-  status: 'Live in production',
-  liveUrl: 'https://tandem.my',
+  seoTitle: 'Case study: a real-time couples app',
+  seoDescription:
+    'A couples web app with live video rooms, six real-time games and letters that arrive on a delay. More than 800 registered users and 40+ releases in six weeks.',
   summary:
-    'A long-distance-couples PWA with WebRTC video rooms, six real-time multiplayer games, and letters that arrive on a delay, built for my own marriage across 8,000 miles and shipped to hundreds of households.',
+    'A web app for couples with live video rooms, six real-time games and letters that arrive on a delay, grown to more than 800 registered users.',
   lede:
-    'My wife is in Manila. I am in New Jersey. Every couples app I tried treated distance as a feature request instead of the whole problem, so I built the one we actually needed. Tandem is now a live product with real signups, a Pro tier, and a family fork running on its own domain.',
+    "Most couples apps cover the easy part: a shared calendar, a streak, a 'thinking of you' button. The hard part is doing things together live when you are not in the same room. This app does that, with video rooms that carry a movie's sound, games played in real time and letters that take a while to arrive.",
 
-  facts: [
-    { k: 'Role', v: 'Solo builder, product + engineering' },
-    { k: 'Timeline', v: 'June 2026 to present, 40+ shipped releases' },
-    { k: 'Users', v: '800+ signups, Pro tier live with real paid sales' },
-    { k: 'Stack', v: 'React, Vite, Supabase, WebRTC, Vercel' },
-  ],
+  facts: {
+    whoFor: 'Couples who spend time apart, often in different time zones',
+    built: 'A live app with video rooms, six multiplayer games, letters, chat and a paid tier',
+    timeline: 'June 2026 onward, with 40+ releases in the first six weeks',
+    stack: 'React, Vite, Supabase, WebRTC, Vercel',
+  },
 
   stack: [
-    'React 18 + TypeScript',
-    'Vite 5 + vite-plugin-pwa',
+    'React 18 and TypeScript',
+    'Vite 5 with vite-plugin-pwa',
     'Supabase (Postgres, Auth, Realtime, Storage, Edge Functions, pg_cron)',
-    'WebRTC (native RTCPeerConnection, mesh signaling over Supabase Realtime)',
+    'WebRTC (native RTCPeerConnection, signaling over Supabase Realtime)',
     'Cloudflare TURN',
-    'Tailwind CSS + Framer Motion',
-    'chess.js, @mediapipe/tasks-vision, @dnd-kit',
-    'Mailgun (transactional + lifecycle email)',
-    'Vercel (edge functions + static hosting)',
+    'Tailwind CSS and Framer Motion',
+    'chess.js, MediaPipe Tasks Vision, dnd-kit',
+    'Mailgun (transactional and lifecycle email)',
+    'Vercel (edge functions and static hosting)',
   ],
 
   metrics: [
-    { value: '800+', label: 'signups since public launch' },
-    { value: '40+', label: 'shipped releases in 6 weeks' },
-    { value: '6', label: 'real-time multiplayer games' },
-    { value: '440', label: 'automated tests in the suite' },
+    { value: '800+', label: 'Registered users' },
+    { value: '40+', label: 'Releases in the first six weeks' },
+    { value: '6', label: 'Real-time multiplayer games' },
+    { value: '440', label: 'Automated tests' },
   ],
 
   problem: {
-    title: 'The problem',
     body: [
-      'My wife and I have been long-distance since we got married. New Jersey to Manila is a 12-hour time difference and a 8,000-mile gap that no amount of Zoom calls closes. We tried the couples apps. They handle the easy 20%: a shared calendar, a "thinking of you" button, a streak counter. None of them handle the actual hard part, which is that video calling from two different continents drops audio, screen-share on Zoom mutes the movie you are trying to watch together, and every "connection" feature reads like it was designed by someone who has never spent a year apart from the person they love.',
-      'The real problem was narrower and more specific than "we need a couples app." We needed to watch a movie together and hear the sound. We needed to play a game against each other without waiting a day for a turn notification. We needed letters, actual letters, not chat bubbles that vanish. And we needed all of it to work identically whether it was 9am in Elizabeth or 9pm in Manila.',
-      'So I built it for us first. No market research, no landing page test, just my own marriage as the spec. That constraint turned out to be the strongest thing about the product: every feature had to survive a real two-device test across a real 12-hour time difference before I trusted it, and every UX decision got graded against "would my wife actually use this tonight."',
+      "Video calls between two countries drop audio. Sharing a screen on the usual call tools mutes the movie you are trying to watch together. Turn-based games make you wait a day for a notification. And most 'connection' features read like they were designed by someone who has never had to plan a week around another person's clock.",
+      "The real need was narrower than 'a couples app'. Watch a movie together and hear it. Play a game against each other without waiting a day. Send letters that feel like letters, not chat bubbles that scroll away. And have all of it work the same at 9am in one city and 9pm in another.",
+      'It started as an app for two real users, built around their real evenings, and every feature had to survive a two-device test across a real time difference before it shipped. That constraint turned out to be the strongest thing about the product.',
     ],
   },
 
   approach: {
-    title: 'The approach',
     body: [
-      'The video layer came first because it was the hardest and the most personal. I had already solved a piece of this in a side project called Watch Together, a WebRTC mesh app that transmits shared-tab audio as its own track so movie night audio actually comes through, which Zoom and Meet both drop. I ported that mesh architecture into Tandem as the "Room": one door for watching together, one for a shared focus/Pomodoro session with forced mic mute, one for a two-seat photo booth with live face tracking. Signaling rides Supabase Realtime channels, not a dedicated media server, so the whole video stack costs close to nothing to run. TURN relay through Cloudflare handles NAT traversal, which matters a lot more than STUN alone across two different carrier networks on two different continents.',
-      'The games needed two different sync models and I built both. Turn-based games (Scrabble, Chess, Connect 4, Checkers, Battleship) use one generic `couple_games` table with a kind-discriminated jsonb state column, so adding a new turn-based game costs zero migrations. Battleship is the one exception: ship positions never touch the shared row. They live in a separate `battleship_secrets` table with no INSERT policy at all, and two SECURITY DEFINER RPCs (`battleship_place`, `battleship_fire`) that re-check every authorization inside the function body, because a definer function bypasses RLS, which means the function body is the only gate that exists. Quiz, the sixth game, is fundamentally different: it is simultaneous, not turn-based, and a simultaneous general-knowledge duel cannot use a turn pointer. That forced a lockstep design, covered in the hard parts below.',
-      'The retention mechanic came from actually reading my own data. Tandem already had a "your turn" badge and a push notification, but the notification fired exactly once, from the mover\'s browser, and never again. Miss it and the game vanished from view forever. I rebuilt this as a pull loop: an hourly cron job checks every pending turn against the recipient\'s own local hours (never waking anyone at 4am), dedupes per turn number so a 40-move chess game does not spam, and caps at one push and one email per person per day. The first real run on production data found roughly 140 stale, abandoned games sitting untouched, which told me the badge alone was not enough. It never is.',
-      'Everything ships as a PWA, not an app-store app, because the whole point was to move fast without an App Store review cycle standing between "Neil wants this feature" and "Neil\'s wife has this feature" a few hours later. That decision shaped the release cadence: over 40 versioned releases in about six weeks, most same-day from a live feature request during an actual video call, several with an "on-device test pending Neil and Yeng" note attached because WebRTC media paths cannot be verified headlessly.',
+      "Video came first because it was the hardest. I had already solved part of it in a side project: a peer-to-peer video app that sends a shared tab's audio as its own track, so movie night actually has sound. I brought that architecture in as the Room, with three doors: watch together, a shared focus session with microphones muted, and a two-seat photo booth with live face tracking. Signaling runs over Supabase Realtime channels instead of a media server, so the video stack costs close to nothing to run, and a Cloudflare TURN relay handles the networks that peer-to-peer alone cannot get through.",
+      'The games needed two different sync models, and I built both. Turn-based games (word game, chess, connect four, checkers and battleship) share one generic games table with the state in a JSON column, so a new turn-based game needs no migration. Battleship is the exception: ship positions never touch the shared row. They live in a separate table with no insert rule at all, reached only through two database functions that recheck every permission inside, because a function that runs with raised privileges skips the usual rules. The sixth game, a quiz, is simultaneous rather than turn-based, which forced a lockstep design, covered under the hard parts.',
+      "Retention came from reading real data. The app already showed a 'your turn' badge and sent a push, but the push fired once and never again. Miss it and the game vanished from view. I rebuilt it as a pull loop: an hourly job checks every pending turn against the other player's own local hours (never waking anyone at 4am), avoids repeats per turn and caps at one push and one email per person per day. The first run on production found about 140 abandoned games, which said the badge alone was never enough.",
+      'Everything ships as a web app, not through an app store, so a feature asked for during a call could reach both phones a few hours later. That set the pace: more than 40 versioned releases in about six weeks, most of them the same day as the request.',
     ],
   },
 
   timeline: [
-    { when: 'June 12, 2026', title: 'First live version', what: 'Core app live at a private domain for two users: shared habits, lists, letters, timezone-aware partner clock.' },
-    { when: 'June 17, 2026', title: 'First multiplayer game', what: 'Full official two-player async Scrabble shipped, pure tested engine, 100-tile bag, official scoring.' },
-    { when: 'June 20, 2026', title: 'The Room', what: 'WebRTC video calling ported in, full parity with the Watch Together mesh: video, screen-share with tab audio, drag/PiP faces.' },
-    { when: 'July 4, 2026', title: 'Public multi-tenant launch', what: 'Any couple can sign up. Landing page merged into the app repo, magic-link auth, unified single deploy.' },
-    { when: 'July 7, 2026', title: 'tandem.my registered', what: 'Custom domain, rebrand to "leaning hearts" mark, free-forever pricing on the landing page.' },
-    { when: 'July 10, 2026', title: 'Pro tier suite begins', what: 'Letter scheduling, custom backgrounds with adaptive theming, and premium slideshow letters ship as the first paid-tier features.' },
-    { when: 'July 16, 2026', title: 'Pro billing goes live', what: 'Manual GCash orders, admin plan management, and the first real Pro sale close the same day the games platform (Connect 4, Checkers, Battleship) ships.' },
-    { when: 'July 17, 2026', title: 'Tandem Family launches', what: 'Full family fork ships to its own domain, family.tandem.my, with chores, group chat, and a six-person WebRTC mesh.' },
-    { when: 'July 18, 2026', title: 'Quiz goes lockstep + Room redesign', what: 'Sixth game ships as a synchronized lockstep duel; the Room UI is rebuilt around a "mirror and three doors" layout after live QA.' },
+    { when: 'June 12, 2026', title: 'First live version', what: 'Shared habits, lists, letters and a clock showing the other person\'s local time, live for two users.' },
+    { when: 'June 17, 2026', title: 'First multiplayer game', what: 'A full two-player word game with official scoring and a tested game engine.' },
+    { when: 'June 20, 2026', title: 'The Room', what: 'Video calling with screen share that carries tab audio, and movable picture-in-picture faces.' },
+    { when: 'July 4, 2026', title: 'Public launch', what: 'Any couple can sign up. The landing page joined the app repo, with magic-link login and one deploy.' },
+    { when: 'July 7, 2026', title: 'Own domain and brand', what: 'A custom domain, a new mark and a free plan on the landing page.' },
+    { when: 'July 10, 2026', title: 'Paid features begin', what: 'Scheduled letters, custom backgrounds with matching colors, and slideshow letters.' },
+    { when: 'July 16, 2026', title: 'Paid tier and more games', what: 'Manual orders with admin approval, plan management, and three new games: connect four, checkers and battleship.' },
+    { when: 'July 17, 2026', title: 'A family version', what: 'A fork for families on its own domain, with chores, group chat and six-person video.' },
+    { when: 'July 18, 2026', title: 'Lockstep quiz and a new Room', what: 'The sixth game ships as a synchronized duel, and the Room is redesigned after live testing.' },
   ],
 
   features: [
     {
       group: 'The Room (live video)',
       items: [
-        'Watch together with shared-tab audio (fixes the Zoom/Meet screen-share audio gap)',
-        'Synced YouTube watch parties with search built in',
-        'Shared Focus sessions (25/5 or 55/5 Pomodoro) with forced mic mute during focus',
-        'Two-seat Photo Booth with live face tracking, props, frames, and shared scene backgrounds',
-        'Karaoke mode with a studio vocal chain (EQ, compression, reverb, doubler) on outgoing mic audio',
-        'Presence-aware doors that show which room your partner is already in',
+        'Watch together with the shared tab\'s sound, which the usual call tools drop',
+        'Synced video watch parties with search built in',
+        'Shared focus sessions with microphones muted while you work',
+        'A two-seat photo booth with live face tracking, props and frames',
+        'A karaoke mode with a studio vocal chain on the outgoing microphone',
+        'Doors that show which room the other person is already in',
       ],
     },
     {
-      group: 'Games (six, all real-time synced)',
+      group: 'Games (six, all in real time)',
       items: [
-        'Scrabble: full official rules, 100-tile bag, blanks, premium squares, one lifeline per game',
-        'Chess: chess.js engine, drag-to-move, board flips for the black player',
-        'Connect 4: animated disc drops, winning-line highlight',
-        'Checkers: flying kings, forced captures, maximal multi-jumps',
-        'Battleship: hidden-information ship placement enforced server-side, manual drag placement',
-        'Quiz: simultaneous lockstep general-knowledge duel, 10 questions, three difficulties, 600-question no-repeat bank',
+        'A word game with official rules, a full tile bag and premium squares',
+        'Chess with drag-to-move and a board that flips for black',
+        'Connect four, checkers with flying kings, and battleship with hidden ships enforced on the server',
+        'A quiz: a simultaneous ten-question duel with three difficulties and a 600-question bank that never repeats',
       ],
     },
     {
-      group: 'Connection',
+      group: 'Staying close',
       items: [
-        'Typewritten and voice letters with a 1-3 hour randomized snail-mail delay',
-        'Scheduled letters up to 30 days out (Pro)',
-        'Slideshow letters with a curated photo set and a chosen song (Pro)',
-        'Habit-point gift economy: completed habits earn points, spend them on sendable gifts',
-        'Real-time chat with read receipts, photo messages (Pro), and presence-aware push',
-        'Nudge hearts with a full-screen animation on the partner\'s live screen',
+        'Typed and voice letters that arrive one to three hours later, like mail',
+        'Scheduled letters up to 30 days out, and slideshow letters with photos and a song',
+        'Habits that earn points, spent on gifts you can send',
+        'Real-time chat with read receipts and photo messages',
+        'A shared calendar with RSVPs and anniversaries, plus private lists for planning surprises',
       ],
     },
     {
-      group: 'Shared life',
+      group: 'Account and trust',
       items: [
-        'Heart-shaped habit tracker (half-heart per partner, full heart when both complete it)',
-        'Per-habit analytics: streaks, completion rate, together-percentage',
-        'Shared calendar with RSVP and milestone/anniversary tracking',
-        'Private lists (RLS-enforced, partner-invisible, for surprise planning)',
-        'Timezone-aware partner clock ("It\'s 2:57 PM for Yeng · already tomorrow there")',
-        'Home/away status, opt-in',
-      ],
-    },
-    {
-      group: 'Settings and trust',
-      items: [
-        'Google OAuth and email/password sign-in with Turnstile bot protection',
-        'PWA install guide with platform-specific steps',
-        'Six visual theme presets plus custom background upload with adaptive recoloring',
-        'In-app bug report / feature request form',
-        'Lifecycle email sequence (pairing nudges, dormancy winbacks) with one-click unsubscribe',
-      ],
-    },
-    {
-      group: 'Tandem Pro',
-      items: [
-        'One price covers both partners: monthly, yearly, or lifetime',
-        'Unlocks all six games, chat photo messages, custom themes, letter scheduling and slideshow letters',
-        'Manual GCash ordering flow with admin verification and auto-granted access',
-        'Founding-couple pricing during the launch window',
+        'Google and email sign-in with bot protection',
+        'An install guide with steps for each platform',
+        'Six theme presets plus custom backgrounds that recolor the app',
+        'Lifecycle emails (pairing nudges and win-backs) with one-click unsubscribe',
+        'One plan covers both partners',
       ],
     },
   ],
 
   hardParts: [
     {
-      title: 'Mobile screen-share played back frozen or silent',
+      title: 'Screen share that played frozen or silent on phones',
       problem:
-        'The shared-screen video element is deliberately unmuted, because it has to carry the shared tab\'s audio, not just the picture. Mobile browsers block unmuted-autoplay by policy, so `play()` on that element rejected silently on phones. The viewer just saw a frozen or black tile and read it as "screen share is broken," when the video was actually playing, muted, with nothing telling anyone what happened.',
+        "The shared-screen video has to stay unmuted, because it carries the tab's sound as well as the picture. Mobile browsers block unmuted autoplay, so playback failed silently on phones. The viewer saw a frozen or black tile and assumed screen share was broken.",
       solution:
-        'Added a forced-mute fallback: when the browser rejects unmuted autoplay, the video tile retries as muted so the picture always renders, and the existing "tap to enable sound" control unmutes inside the user gesture that follows. The same fallback fixed the remote camera tile too, which had the identical failure mode nobody had connected to this root cause yet.',
+        'When the browser refuses unmuted playback, the tile now retries muted so the picture always shows, and the existing "tap to enable sound" control unmutes inside the tap that follows. The same fix repaired the remote camera tile, which had the same root cause nobody had connected yet.',
     },
     {
-      title: 'iOS cannot fullscreen a div',
+      title: 'iOS cannot make a call full screen',
       problem:
-        'The fullscreen button in the Room did nothing on an iPhone. iOS Safari only allows native fullscreen on a `<video>` element via `webkitEnterFullscreen`, which also drops in the browser\'s own playback controls and hides the two people on the call. Calling `Element.requestFullscreen()` on the call container, the standard desktop approach, is a silent no-op on iOS.',
+        "The full-screen button did nothing on an iPhone. iOS Safari only allows native full screen on a single video element, which also brings its own controls and hides both faces on the call. The standard approach on the call container does nothing on iOS.",
       solution:
-        'Replaced the native fullscreen call with a CSS-only "immersive" mode: one class toggled on the room container that hides the header, controls, chat, and hints, leaving only the shared video and the two face tiles plus a single floating exit button. Desktop still gets a bonus native fullscreen request layered on top. A mount guard prevents an iOS phantom `fullscreenchange` event from tearing the immersive layout down mid-call.',
+        'An immersive mode in plain CSS: one class on the room hides the header, controls, chat and hints, leaving the shared video, the two face tiles and one exit button. Desktop still gets native full screen on top, and a guard stops a stray iOS event from tearing the layout down mid-call.',
     },
     {
-      title: 'Synchronizing a simultaneous quiz across two phones on opposite sides of the planet',
+      title: 'Keeping a live quiz in sync on two phones in different countries',
       problem:
-        'The first five games are turn-based, so a stale connection just means a slow turn. Quiz is not: both partners are supposed to see the same question at the same moment and race the clock. A naive "start when you open it" design breaks immediately if one partner opens the game five minutes before the other, and there is no way to enforce a shared countdown across two independent client clocks with no shared server tick.',
+        'The first five games are turn-based, so a slow connection just means a slow turn. The quiz is not: both players should see the same question at the same moment and race the clock. A "start when you open it" design breaks as soon as one player opens it five minutes early, and two independent phone clocks cannot share a countdown on their own.',
       solution:
-        'Built a three-part lockstep protocol. First, a presence-based lobby handshake: opening the game pings a `quiz_ready` state every 8 seconds, and the server only starts the match once both partners have pinged within a 15-second window, so nobody starts solo and nobody is left waiting indefinitely without knowing why. Second, a shared clock: on a fresh double-ping the server stamps one `start_at` timestamp, and both clients derive every question\'s time slot as pure math from that single timestamp rather than trusting their own local clock. Client clocks are corrected against the server\'s `updated_at` deltas, filtering out any stale value more than 30 seconds off so an old cached row cannot drag the countdown backward. Third, disconnect-safety: the timeline never pauses for a dropped connection, and if a partner never returns, the other client finalizes the match after a fixed grace period, padding the absentee\'s unanswered questions as timeouts and settling a winner instead of leaving the game stuck.',
+        'Three parts. A lobby handshake: opening the game pings a ready state every 8 seconds, and the match starts only when both players have pinged within 15 seconds. A shared clock: the server stamps one start time, and both phones work out every question\'s time slot from that single stamp, corrected against the server and ignoring any stale value more than 30 seconds off. And disconnect safety: the timeline never pauses, and if a player never comes back, the other phone settles the match after a grace period instead of leaving it stuck.',
     },
     {
-      title: 'NAT traversal across two different carrier networks, two continents apart',
+      title: 'Getting video through two carrier networks in different countries',
       problem:
-        'STUN-only WebRTC (the free, serverless default) works fine on the same network or across similar ISPs. It does not reliably punch through two different carrier-grade NATs on opposite sides of the world, which is exactly the setup a New Jersey to Manila video call runs on. Early testing produced calls that connected on paper but never actually saw or heard each other.',
+        'Peer-to-peer video without a relay works on the same network or similar ones. It does not reliably get through two different mobile carriers in different countries, which is exactly the setup this app exists for. Early calls connected on paper and never saw or heard each other.',
       solution:
-        'Added Cloudflare TURN as a relay fallback, minted through a short-lived credential endpoint so the TURN secret never ships to the client. TURN is not optional here; it is the difference between a demo that works on a local network and a product that works for the actual use case it exists for. The relay endpoint was later generalized so a second product, Tandem Family, could proxy the same TURN service instead of needing its own credentials.',
+        'A Cloudflare TURN relay as the fallback, with short-lived credentials minted by an endpoint so the secret never reaches the browser. The relay is the difference between a demo that works on one network and a product that works for its real use. It was later shared so the family version could use the same relay.',
     },
     {
-      title: 'Real-time presence without one setter clobbering another',
+      title: 'Live presence without one update erasing another',
       problem:
-        'The Room shows which of the three doors (watch, focus, photo booth) a partner is currently behind, and that status has to update live and clear itself the instant they leave. Supabase presence tracking replaces the entire payload on every `track()` call rather than merging it, so two independent pieces of code each calling `track()` with only their own field would silently overwrite each other\'s data.',
+        'The Room shows which door the other person is behind, live, and clears it the moment they leave. The presence service replaces the whole payload on every update instead of merging, so two parts of the app each sending their own field would quietly overwrite each other.',
       solution:
-        'Centralized presence writes behind one `trackPresence()` helper that always sends the full payload (`{at, area, room}`) together, and mounted the room-specific field only for the duration of being inside a room so it self-clears on leave or on minimizing away. The fix generalized past this one feature: any presence field added later has to go through the same single writer, or it will silently lose data the next time something else calls `track()`.',
+        'One helper now sends the full payload every time, and the room field exists only while someone is inside a room, so it clears itself on leave. Any presence field added later goes through the same single writer.',
     },
   ],
 
   outcome: {
-    title: 'Where it landed',
     body: [
-      'Tandem is live at tandem.my with public signup, over 800 registered users, and a working Pro tier with real paying households on a manual GCash order flow I built and verify myself. The app has shipped more than 40 versioned releases in about six weeks, most of them same-day fixes or features pulled straight from a real conversation with my wife during an actual call.',
-      'The architecture proved itself well enough to fork. Tandem Family, a family version with chores, a shared calendar, group chat, and a six-person WebRTC mesh, launched on its own domain, family.tandem.my, running on a separately provisioned Supabase project, reusing the same core patterns: the generic games table, the presence system, the TURN relay, the pull-loop retention design.',
-      'The product still runs on the same test that started it: does this actually work for a couple who is 8,000 miles and 12 hours apart. Every feature that touches live video or synced state gets a real two-device pass across that exact gap before I call it done.',
+      'The app is live with public signup, more than 800 registered users and a working paid tier, with a manual payment flow I built and approve myself. It shipped more than 40 versioned releases in about six weeks, most of them same-day fixes or features asked for during a real call.',
+      'The architecture held up well enough to fork. A family version, with chores, a shared calendar, group chat and six-person video, launched on its own domain and its own database, reusing the same core: the generic games table, the presence system, the video relay and the pull loop that brings people back.',
+      'It still runs on the test that started it: does this work for two people in different time zones. Every feature that touches live video or synced state gets a real two-device pass across that gap before it ships.',
     ],
   },
 
   lessons: [
-    'Build for one real user with a real constraint before building for a market; the constraint does the product design for you.',
-    'Optimistic UI and monotonic state guards are not free: a guard that protects your own state also protects your own bugs, so failure paths need an explicit bypass.',
-    'A raise inside a database function rolls back every write in that same call, including counters incremented earlier in the function; security counters have to be measured after the fact, not trusted from the code.',
-    'Never route per-frame animation (face tracking, live overlays) through a UI framework\'s state layer; it will lose the race against the render loop every time.',
-    'A retention feature that fires once and never again is not a retention feature. Build the recheck loop before calling the notification done.',
-    'Ship as a PWA when the goal is speed of iteration on a live relationship with a real user testing it that same night; app-store review cycles are the wrong trade for that loop.',
+    'Build for one real user with a real constraint before building for a market. The constraint does the product design for you.',
+    'An error inside a database function rolls back every write in that call, including counters. Measure security counters after the fact.',
+    'Never send per-frame animation, like face tracking, through a UI framework\'s state. It loses the race with the render loop every time.',
+    'A reminder that fires once and never again is not a retention feature. Build the recheck loop before calling it done.',
+    'Ship as a web app when the goal is fast changes for real users who test them that same night. App store reviews are the wrong trade for that loop.',
   ],
 
   proof:
-    'Tandem is proof I can take a product from a real, specific personal problem through live WebRTC infrastructure, real-time multiplayer sync, a working payment and admin flow, and a second production fork, without a team. If you need real-time, multi-user, or video-call product built and actually shipped to real users, this is the receipt.',
+    'This app shows live video, real-time multiplayer sync, a working payment and admin flow and a second production fork, built and shipped by one person. If you need something real-time, multi-user or video-based built and in front of real users, this is the proof.',
+
+  palette: 'mist',
 };

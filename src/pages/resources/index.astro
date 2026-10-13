@@ -1,51 +1,64 @@
 ---
+/* The resources hub (blueprint "Resources"): page head with search, three featured reads, the
+   four topics, every guide, comparison, study and published note in one table, and the free
+   tools strip. Rendered on request so filters, search and "Show more" work from the URL
+   without JavaScript, and so newly published notes appear within a minute. /guides, /blog,
+   /notes, /feed, /posts and /now all 301 here. */
 import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { getFeed } from '../../lib/posts';
-import { liveByCluster } from '../../data/content-index';
-import type { Post } from '../../lib/types';
+import PageHead from '../../components/site/PageHead.astro';
+import Section from '../../components/site/Section.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import RuledGrid from '../../components/site/RuledGrid.astro';
+import RuledCell from '../../components/site/RuledCell.astro';
+import ToolCard from '../../components/site/ToolCard.astro';
+import Breadcrumb from '../../components/site/Breadcrumb.astro';
+import Icon from '../../components/site/Icon.astro';
+import FeaturedReads from '../../components/articles/FeaturedReads.astro';
+import ResourceIndex from '../../components/articles/ResourceIndex.astro';
+import ResourceSearch from '../../components/articles/ResourceSearch.astro';
+import { articleRows, indexTabs, newestFirst, noteRow, type HubRow } from '../../components/articles/rows';
+import { TOPICS } from '../../data/content-index';
+import { FEATURED_TOOL, TOOLS, type Tool } from '../../data/site';
+import { getAllPublished } from '../../lib/posts';
+import { hubHref, parseHubFilters } from '../../lib/blogFilters';
+import { SITE_URL } from '../../lib/seo';
+import '../../styles/pages/articles.css';
 
-const title = 'AI, Automation and Web App Guides | Neil Busque';
-const description = 'Practical guides to AI agents, MCP, AI search, and shipping web apps, plus honest notes from the products Neil Busque is building.';
-const canonical = 'https://busqueneil.com/resources';
+const title = 'Guides on AI agents, automation and software | Neil Busque';
+const description = 'Plain guides, tool comparisons and original research on AI agents, automation, custom software and AI search, written from real builds.';
+const canonical = `${SITE_URL}/resources`;
 
-// Tutorials keep living at /guides/* so their existing rankings are untouched. This is the hub.
-const TUTORIALS = [
-  { slug: 'programmatic-seo-with-ai', title: 'Programmatic SEO with AI', blurb: 'I shipped 58 pages from one route and one data file. The method, and the decision that mattered more than the tooling.' },
-  { slug: 'why-hire-a-person-when-ai-can-build-it', title: 'Why You Still Need a Person When AI Does the Building', blurb: 'Six defects AI shipped for me that passed every check, what each cost, and the review layer that catches them.' },
-  { slug: 'geo-generative-engine-optimization-guide', title: 'GEO and AI Search: What Actually Helps', blurb: 'The useful parts of AI search optimization, without the llms.txt myths or schema tricks.' },
-  { slug: 'google-ai-overviews-guide', title: 'How to Show Up in Google AI Overviews', blurb: 'Google’s current guidance, translated into a practical checklist for your site.' },
-  { slug: 'build-ai-agent-claude-code', title: 'How to Build an AI Agent with Claude Code and MCP', blurb: 'A working pattern: one job, a few tools, clear approval rules, and real tests.' },
-  { slug: 'what-is-mcp-model-context-protocol', title: 'What Is MCP (Model Context Protocol)?', blurb: 'What MCP connects, how clients and servers work, and where the USB analogy falls short.' },
-  { slug: 'ship-web-app-in-days-with-ai', title: 'How I Ship a Web App in Days with AI', blurb: 'The small-scope workflow I use to move from an idea to a reviewed, live app.' },
-  { slug: 'how-to-build-an-mcp-server', title: 'How to Build an MCP Server', blurb: 'A working server in about 30 lines, then the parts that actually break.' },
-  { slug: 'n8n-vs-zapier-vs-make', title: 'n8n vs Zapier vs Make', blurb: 'Shipped 20+ workflows across all three. How they differ and how to pick.' },
-  { slug: 'postgres-row-level-security', title: 'Postgres Row-Level Security', blurb: 'Turn it on without breaking the app, plus the three gotchas that bite every time.' },
-];
+const filters = parseHubFilters(Astro.url.searchParams);
 
-/* The guides lane of the content programme lives in content-index.ts. Rendering it from the
-   index (instead of another hardcoded list) is what keeps this hub in sync: a new live guide
-   appears here automatically. Before this, 11 live /guides pages were sitemap orphans with
-   zero internal links. Slugs already in TUTORIALS are excluded so nothing lists twice. */
-const GUIDES = liveByCluster('guides').filter((g) => !TUTORIALS.some((t) => t.slug === g.slug));
-
-// The feed is a live query; if it fails the tutorials half of the page must still render.
-let posts: Post[] = [];
+/* Notes are a live query. If it fails, the articles still render. */
+let notes: HubRow[] = [];
 try {
-  const feed = await getFeed({ request: Astro.request, cookies: Astro.cookies }, { page: 1 });
-  posts = feed.posts.slice(0, 5);
-} catch { posts = []; }
+  notes = (await getAllPublished({ request: Astro.request, cookies: Astro.cookies })).map(noteRow);
+} catch {
+  notes = [];
+}
 Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=86400');
 
-const list = {
-  '@type': 'ItemList',
-  '@id': `${canonical}#guide-list`,
-  name: 'Guides by Neil Busque',
-  itemListElement: [...TUTORIALS, ...GUIDES].map((t, i) => ({
-    '@type': 'ListItem', position: i + 1, name: t.title,
-    url: `https://busqueneil.com/guides/${t.slug}`,
-  })),
-};
+const articles = articleRows();
+const everything = newestFirst([...articles, ...notes]);
+const inTopic = filters.topic ? everything.filter((r) => r.topic === filters.topic) : everything;
+const topic = filters.topic ? TOPICS.find((t) => t.key === filters.topic) ?? null : null;
+const tabs = indexTabs(inTopic, 'hub', filters.topic);
+/* A kind with no rows (no notes yet, say) falls back to the whole list rather than an empty tab. */
+const active = tabs.some((t) => t.key === filters.kind) ? filters.kind : 'all';
+
+/* Featured: the strongest piece on why a person still matters, the flagship study, and the
+   voice-agent comparison. Picked by hand; a slug that disappears simply drops out. */
+const FEATURED = ['why-hire-a-person-when-ai-can-build-it', '866-custom-software-ads', 'ai-phone-agent-vs-chatbot-vs-live-chat'];
+const featured = FEATURED.map((slug) => articles.find((r) => r.slug === slug)).filter((r): r is HubRow => Boolean(r));
+
+const topicCount = (key: string) => articles.filter((r) => r.topic === key).length;
+
+/* Free tools strip: the same three the home page shows (analyzer, CRM, funnel simulator). */
+const STRIP = ['crm-with-ai-follow-up', 'funnel-simulator'];
+const tools: Tool[] = [FEATURED_TOOL, ...STRIP.map((slug) => TOOLS.find((t) => t.slug === slug)).filter((t): t is Tool => Boolean(t))];
+const strip = tools.length >= 3 ? tools.slice(0, 3) : [FEATURED_TOOL, ...TOOLS].slice(0, 3);
+
 const collection = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -53,98 +66,82 @@ const collection = {
   name: title,
   description,
   url: canonical,
-  mainEntity: list,
+  mainEntity: {
+    '@type': 'ItemList',
+    '@id': `${canonical}#list`,
+    name: 'Guides, comparisons and research by Neil Busque',
+    numberOfItems: everything.length,
+    itemListElement: everything.map((r, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: r.title,
+      url: `${SITE_URL}${r.href}`,
+    })),
+  },
 };
 ---
 <AppShell title={title} description={description} canonical={canonical} active="resources">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Resources', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
-  </Fragment>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(collection)} />
+  <Breadcrumb back={false} items={[{ name: 'Home', url: `${SITE_URL}/` }, { name: 'Resources', url: canonical }]} />
 
-  <span class="eyebrow">Resources</span>
-  <h1 class="sec">Tutorials and <span class="mark-hl">notes.</span></h1>
-  <p class="res-lede">The guides explain how I do the work. Notes are looser: what I am building, what broke, and what I changed my mind about.</p>
+  <PageHead
+    title="Guides written from"
+    accent="real work."
+    lead="Plain guides, side-by-side tool comparisons and my own research on AI agents, automation and building software. Free to read, no email needed."
+    class="rhead"
+  >
+    <Fragment slot="aside">
+      <ResourceSearch query={filters.query} kind={active} topic={filters.topic} />
+    </Fragment>
+  </PageHead>
 
-  <section class="hsec">
-    <span class="eyebrow">Tutorials</span>
-    <h2 class="sec">How to <span class="mark-hl">do it.</span></h2>
-    <ul class="postlist res">
-      {TUTORIALS.map((t) => (
-        <li>
-          <a href={`/guides/${t.slug}`}>
-            <span class="pl-main">
-              <span class="pl-title">{t.title}</span>
-              <span class="pl-blurb">{t.blurb}</span>
-            </span>
-            <span class="tag">Tutorial</span>
-          </a>
-        </li>
+  {featured.length === 3 && (
+    <Section labelledby="featured-title" class="rsec-featured">
+      <h2 class="sr-only" id="featured-title">Featured</h2>
+      <FeaturedReads lead={featured[0]} side={featured.slice(1)} palettes={['navy']} />
+    </Section>
+  )}
+
+  <Section labelledby="topics-title" class="rsec-topics">
+    <SectionHead id="topics-title" title="Browse by topic" />
+    <RuledGrid cols={4} label="Topics" class="rtopics">
+      {TOPICS.map((t) => (
+        <RuledCell
+          href={hubHref({ topic: t.key })}
+          title={t.name}
+          titleAs="h3"
+          compact
+          text={t.line}
+          cta={`${topicCount(t.key)} articles`}
+          aria-current={filters.topic === t.key ? 'true' : undefined}
+        />
       ))}
-    </ul>
-  </section>
+    </RuledGrid>
+  </Section>
 
-  <section class="hsec">
-    <span class="eyebrow">Guides</span>
-    <h2 class="sec">Put it to <span class="mark-hl">work.</span></h2>
-    <p class="stack-note">AI in your marketing, what builds actually cost, and how to buy software well. Written from client work, not theory.</p>
-    <ul class="postlist res">
-      {GUIDES.map((g) => (
-        <li>
-          <a href={`/guides/${g.slug}`}>
-            <span class="pl-main">
-              <span class="pl-title">{g.title}</span>
-              <span class="pl-blurb">{g.blurb}</span>
-            </span>
-            <span class="tag">Guide</span>
-          </a>
-        </li>
+  <Section id="everything" labelledby="everything-title" class="rsec-all">
+    <div class="rsec-all-head">
+      <h2 class="t-h2" id="everything-title">{topic ? topic.name : 'The full list'}</h2>
+      {topic && (
+        <a class="link-arrow" href={hubHref({ kind: active })}>Show every topic<Icon name="arrow-right" strokeWidth={2} /></a>
+      )}
+    </div>
+    <ResourceIndex
+      rows={inTopic}
+      tabs={tabs}
+      active={active}
+      query={filters.query}
+      expanded={filters.expanded}
+      moreHref={hubHref({ topic: filters.topic, kind: active, query: filters.query, expanded: true }, '')}
+    />
+  </Section>
+
+  <Section band="mist" labelledby="tools-title" class="rsec-tools">
+    <SectionHead id="tools-title" title="Free tools to try today" link={{ href: '/free', label: 'All free tools' }} />
+    <div class="tool-grid">
+      {strip.map((t) => (
+        <ToolCard href={t.href} name={t.name} text={t.text} platform={t.platform} cta={t.cta} free={t.free} seed={t.slug} palette={t.palette} layout={t.layout} image={t.image} imageAlt={t.imageAlt} />
       ))}
-    </ul>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Compare</span>
-    <h2 class="sec">Tools, <span class="mark-hl">head to head.</span></h2>
-    <p class="stack-note">Comparisons between things I have run in production at the same time, which is the only way to know where each one breaks.</p>
-    <p style="margin-top:22px"><a class="link-arrow" href="/compare">See the comparisons
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Research</span>
-    <h2 class="sec">Data I collected <span class="mark-hl">myself.</span></h2>
-    <p class="stack-note">Studies from my own datasets: competitor ad libraries, viral content transcripts, enrichment error rates. Method stated on every one.</p>
-    <p style="margin-top:22px"><a class="link-arrow" href="/research">Read the research
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Notes</span>
-    <h2 class="sec">Everything <span class="mark-hl">else.</span></h2>
-    <p class="stack-note">Build notes, lessons, and the occasional opinion I could not fit into a step-by-step guide.</p>
-    {posts.length > 0 ? (
-      <ul class="postlist res">
-        {posts.map((p) => (
-          <li>
-            <a href={`/posts/${p.slug}`}>
-              <span class="pl-main">
-                <span class="pl-title">{p.title}</span>
-              </span>
-              <span class="tag">Post</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <div class="v8-card nowcta">
-        <p>Newest posts land in Notes first.</p>
-      </div>
-    )}
-    <p style="margin-top:22px"><a class="link-arrow" href="/blog">Read the notes
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#16150F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
+    </div>
+  </Section>
 </AppShell>

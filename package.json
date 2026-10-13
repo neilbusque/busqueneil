@@ -3,7 +3,7 @@
   "version": "11.30.0",
   "private": true,
   "type": "module",
-  "description": "Neil Busque \u2014 personal site. Astro SSR premium landing + Supabase build-in-public feed.",
+  "description": "busqueneil.com, the personal site of Neil Busque: AI agents, custom software and automations.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

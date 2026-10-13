@@ -1,89 +1,95 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
 
 export const prerender = true;
 
-const title = 'AI Automation Consultant in NJ and NYC | Neil Busque';
-const description = 'Neil Busque finds the processes costing your team time, then builds the automation to fix them. Direct, hands-on consulting in NJ, NYC, and remote.';
 const canonical = 'https://busqueneil.com/services/ai-automation-consultant';
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Automation Consultant',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
-  serviceType: ['AI automation consulting', 'Workflow automation', 'Business process automation', 'AI strategy'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'Do you only advise, or do you build too?',
+    a: "I build. The person asking the questions is the person building the fix, so nothing gets lost between a plan and the work. If you only want strategy slides, I'm not the right fit.",
+  },
+  {
+    q: 'How do you find what to automate?',
+    a: "You walk me through a normal week: where the hours go, what keeps breaking and what you'd hand off tomorrow if you could. I'll tell you what's worth handing to AI, what's better as a plain workflow, and what to leave alone.",
+  },
+  {
+    q: 'Do you work on site?',
+    a: "Most of the work is remote, wherever you are. I'm based in New Jersey, so I can meet in person in New Jersey or New York City when a kickoff or a working session is easier at the same table.",
+  },
+  {
+    q: 'Can we start small?',
+    a: 'Yes. Start with one build. If it pays off, we plan the next one or move to a monthly arrangement.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Services', url: 'https://busqueneil.com/services' },
-      { name: 'AI Automation Consultant', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="AI Automation Consultant in NJ and NYC | Neil Busque"
+  description="Neil Busque finds the processes costing your team time, then builds the automation to fix them. Direct, hands-on consulting in NJ, NYC and remote."
+  canonical={canonical}
+  heading="An AI automation consultant who **builds the fix**."
+  lead="Most teams don't need more software. They need someone to trace where the work gets stuck, decide what should change and build the fix."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Services', url: 'https://busqueneil.com/services' },
+    { name: 'AI Automation Consultant', url: canonical },
+  ]}
+  topic="AI automation consulting"
+  artSeed="ai-automation-consultant"
+  artPalette="paper"
+  summary={{
+    items: [
+      "A map of where your team's hours go",
+      'A short list of the jobs worth automating, in order',
+      'The first automation built, not just planned',
+      'Plain notes for your team, or ongoing help each month',
+    ],
+    facts: [
+      { term: 'Good for', value: 'Teams that know something should change, but not what' },
+      { term: 'How it starts', value: 'You walk me through a normal week for your team' },
+      { term: 'What you own', value: 'Every workflow, document and account' },
+    ],
+  }}
+  related={['meeting-notes-to-tasks', 'agency-os-assistant-asks-first']}
+  relatedPalettes={['navy', 'paper']}
+  faq={FAQ}
+  service={{
+    name: 'AI Automation Consultant',
+    serviceType: ['AI automation consulting', 'Workflow automation', 'Business process automation', 'AI strategy'],
+    areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  }}
+>
+  <h2>What an AI automation consultant does</h2>
+  <p>The work has two parts. First, trace the process closely enough to find the real bottleneck. Then build the fix and put it into the tools your team already uses. A strategy deck can be useful, but it doesn't run your follow-up on Tuesday morning.</p>
+  <p>I handle both parts. The person asking the questions is also the person building the system.</p>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">&#8727;</span> Services &#183; Consulting</p>
-    <h1>AI automation <span class="accent">consultant</span>.</h1>
-    <p class="lede">Most teams do not need more software. They need someone to trace where the work gets stuck, decide what should change, and build the fix.</p>
-  </header>
+  <h2>When it is worth hiring one</h2>
+  <ul>
+    <li>Your team spends hours on work that needs no judgment.</li>
+    <li>Leads or tickets go cold because follow-up depends on someone remembering.</li>
+    <li>You pay for tools that don't talk to each other, so a person is the integration.</li>
+    <li>You know something should be automated, but not what, or in what order.</li>
+  </ul>
+  <p>If you already know exactly what needs building, skip the consulting and tell me what to build.</p>
 
-  <article class="article-page">
-    <div class="prose">
-      <h2>What an AI automation consultant does</h2>
-      <p>The work has two parts. First, trace the process closely enough to find the real bottleneck. Then build the fix and put it into the tools your team already uses. A strategy deck can be useful, but it does not run your follow-up on Tuesday morning.</p>
-      <p>I handle both parts. The person asking the questions is also the person building the system.</p>
+  <h2>Consultant, agency or in-house</h2>
+  <p>An agency gives you a team and a repeatable process. An in-house hire gives you long-term ownership. A hands-on consultant makes sense when the problem is bounded, speed matters and you want a direct line to the builder. If your problem really needs a permanent owner, I'll say so on the first call.</p>
 
-      <h2>When it is worth hiring one</h2>
-      <ul>
-        <li>Your team spends hours on work that needs no judgment.</li>
-        <li>Leads or tickets go cold because follow-up depends on someone remembering.</li>
-        <li>You have bought tools that do not talk to each other, so a person is the integration.</li>
-        <li>You know something should be automated but not what, or in what order.</li>
-      </ul>
-      <p>If you already know exactly what needs building, skip the consulting framing entirely and just tell me what to build.</p>
+  <h2>How I run it</h2>
+  <ol>
+    <li><strong>A first conversation.</strong> Where the hours go, what breaks and what you have already tried.</li>
+    <li><strong>A clear scope and price.</strong> What gets automated, what doesn't and what done looks like.</li>
+    <li><strong>The first build in days.</strong> You see it working on real data and tell me what to change.</li>
+    <li><strong>Hand it over, or keep me on.</strong> It's your system either way.</li>
+  </ol>
 
-      <h2>Consultant, agency, or in-house</h2>
-      <p>An agency gives you a team and a repeatable process. An in-house hire gives you long-term ownership. A hands-on consultant makes sense when the problem is bounded, speed matters, and you want a direct line to the builder. If your problem really needs a permanent owner, I will say so on the first call.</p>
+  <h2>What I build with</h2>
+  <p>n8n, Zapier and GoHighLevel for workflows, and Claude with MCP tools where the task needs judgment. I use plain automation wherever a rule would do, because a model where a rule belongs is how automation becomes expensive and unpredictable. More on <a href="/services/ai-automation-services">AI automation services</a> and <a href="/services/ai-agent-development">AI agent development</a>.</p>
 
-      <h2>How I run it</h2>
-      <ol>
-        <li><strong>Diagnosis call.</strong> Where the hours go, what breaks, what you have already tried.</li>
-        <li><strong>Scope in writing.</strong> What gets automated, what does not, and what done looks like.</li>
-        <li><strong>Build.</strong> Days, not quarters. You see it as it goes.</li>
-        <li><strong>Handoff or keep me.</strong> It is your system either way.</li>
-      </ol>
+  <h2>Serving New Jersey, NYC and remote</h2>
+  <p>I'm Neil Busque, based in New Jersey. I work with teams across New Jersey and New York City and remotely across the United States, on US Eastern time. Most of the work happens remotely, wherever you are.</p>
 
-      <h2>What I build with</h2>
-      <p>n8n, Zapier, and GoHighLevel for workflows, and Claude with MCP tools where the task needs judgment. I use plain automation wherever a rule would do, because a model where a rule belongs is how automation becomes expensive and unpredictable. More on <a href="/services/ai-automation-services">AI automation services</a> and <a href="/services/ai-agent-development">AI agent development</a>.</p>
-
-      <h2>Serving New Jersey, NYC, and remote</h2>
-      <p>I am Neil Busque, based in Elizabeth, New Jersey. I work with teams across the NJ and NYC metro and remotely across the United States, in Eastern time. Most of the work happens remotely no matter where you are.</p>
-
-      <h2>See how I work first</h2>
-      <p>In 2026 I shipped more than 40 web apps, AI agents, and automations. Before that, I shipped over 20 production n8n workflows across more than 10 client accounts, including an onboarding system that cut a 30-day process to 7 days. See <a href="/work">the work</a>, read <a href="/resources">the guides</a>, then <a href="/contact">tell me where your hours go</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>See how I work first</h2>
+  <p>In 2026 I shipped more than 40 apps, AI agents and automations. Before that, I built more than 20 production n8n workflows across more than 10 client accounts at a marketing agency, including one-click client onboarding that cut a 30-day process to 7. See <a href="/work">the work</a> and read <a href="/resources">the guides</a>.</p>
+</ServicePage>

@@ -1,0 +1,43 @@
+---
+/* Featured tool on /free: the featured-split frame from site.css (art 7 columns, body 5) with
+   the tool's platform line, name, what it does, who it's for, three numbered "how it works"
+   steps and a primary button. Styles for the parts the shared split lacks live in
+   src/styles/pages/free.css. */
+import Art from '../Art.astro';
+import Button from '../site/Button.astro';
+import type { FeaturedTool } from '../../data/site';
+import type { PaletteName } from '../../lib/art';
+
+interface Props {
+  tool: FeaturedTool;
+  whoLabel: string;
+  stepsLabel: string;
+  palette?: PaletteName;
+  id?: string;
+}
+
+const { tool, whoLabel, stepsLabel, palette, id } = Astro.props;
+---
+<article class="feature ftool">
+  <Art seed={tool.slug} kind="tool" palette={palette ?? tool.palette} layout={tool.layout ?? 'tiles'} src={tool.image} alt={tool.imageAlt} />
+  <div class="feature-body">
+    <p class="t-label">{tool.platform}</p>
+    <h2 class="feature-title" id={id}>{tool.name}</h2>
+    <p class="feature-text">{tool.what}</p>
+    <div class="ftool-block">
+      <p class="t-label">{whoLabel}</p>
+      <p class="ftool-who">{tool.who}</p>
+    </div>
+    <div class="ftool-block">
+      <p class="t-label">{stepsLabel}</p>
+      <ol class="ftool-steps" role="list">
+        {tool.steps.map((s, i) => (
+          <li><span class="ftool-n" aria-hidden="true">{i + 1}</span><span>{s}</span></li>
+        ))}
+      </ol>
+    </div>
+    <div class="feature-cta">
+      <Button href={tool.href}>{tool.cta}</Button>
+    </div>
+  </div>
+</article>

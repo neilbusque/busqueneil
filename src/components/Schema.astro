@@ -1,142 +1,119 @@
 ---
-// The homepage establishes one connected identity graph. Page-specific schema references
-// these stable IDs so crawlers see one person, one brand, and one website across every route.
+/* The site's identity graph: one person, one brand and one website. The home page renders it,
+   and page-level schema points at these stable ids (PERSON_REF, ORGANIZATION_REF, WEBSITE_REF).
+   Facts come from the copy deck's Person schema and llms.txt bio. Keep it free of employers,
+   schools, cities and portraits. */
+import { SITE, FOOTER_TAGLINE } from '../data/site';
 import {
-  AUTHOR,
   LOGO,
   ORGANIZATION_ID,
   ORGANIZATION_REF,
   PERSON_ID,
   PERSON_REF,
-  PROFILE_IMAGE_URL,
+  SITE_URL,
   SOCIAL_IMAGE,
   WEBSITE_ID,
 } from '../lib/seo';
 
+interface Props {
+  /** WebSite description. Defaults to the home page meta description. */
+  description?: string;
+}
+
+const HOME_DESCRIPTION =
+  'I find the work worth handing to AI, build it and keep it running. AI agents, custom software, automations and sites. First versions in days.';
+const { description = HOME_DESCRIPTION } = Astro.props;
+
+const url = `${SITE_URL}/`;
+const telephone = '+1-908-316-4140';
+const jobTitle = 'AI developer and fractional AI lead';
+const sameAs = [
+  'https://www.linkedin.com/in/neilbusque/',
+  'https://www.facebook.com/neilvbusque/',
+  'https://www.instagram.com/neil_busque/',
+];
+const address = { '@type': 'PostalAddress', addressRegion: 'New Jersey', addressCountry: 'US' };
+
 const person = {
   '@type': 'Person',
   '@id': PERSON_ID,
-  name: 'Neil Busque',
+  name: SITE.name,
   givenName: 'Neil',
   familyName: 'Busque',
   alternateName: 'busqueneil',
-  url: 'https://busqueneil.com/',
-  mainEntityOfPage: { '@id': 'https://busqueneil.com/story#webpage' },
-  image: {
-    '@type': 'ImageObject',
-    url: PROFILE_IMAGE_URL,
-    contentUrl: PROFILE_IMAGE_URL,
-    caption: 'Neil Busque',
-  },
-  jobTitle: 'AI Engineer and Product Builder',
+  url,
+  mainEntityOfPage: { '@id': `${SITE_URL}/story#webpage` },
+  jobTitle,
   description:
-    'Neil Busque is an AI engineer and product builder in New Jersey. He builds practical AI agents, automations, web apps, and websites for small teams and growing companies.',
-  email: 'mailto:busqueneil@gmail.com',
-  telephone: '+1-908-316-4140',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'New Jersey',
-    addressRegion: 'NJ',
-    addressCountry: 'US',
-  },
+    'Neil Busque, based in New Jersey, finds the work worth handing to AI for small and mid-size businesses, builds the agents, software and automations, and keeps them running.',
+  email: `mailto:${SITE.email}`,
+  telephone,
+  address,
   hasOccupation: {
     '@type': 'Occupation',
-    name: 'AI Engineer and Product Builder',
+    name: jobTitle,
     occupationLocation: { '@type': 'State', name: 'New Jersey' },
-    skills: 'AI agents, LLM applications, Model Context Protocol (MCP), workflow automation, n8n, generative engine optimization (GEO), SEO, paid search, CRM, web app development',
-  },
-  worksFor: ORGANIZATION_REF,
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: 'STI Tagum College',
-    address: 'Philippines',
+    skills:
+      'AI agents, AI voice agents, LLM applications, Model Context Protocol (MCP), workflow automation, n8n, custom software, business operating systems, CRM, websites and funnels',
   },
   knowsAbout: [
     'Artificial intelligence',
     'AI agents',
+    'AI voice agents',
     'Large language models',
-    'Generative Engine Optimization (GEO)',
-    'AI search optimization',
     'Model Context Protocol (MCP)',
     'Retrieval-augmented generation (RAG)',
-    'Prompt engineering',
-    'Claude Code',
     'Workflow automation',
     'n8n',
     'GoHighLevel',
-    'Digital marketing',
-    'SEO',
-    'Paid search',
-    'Conversion funnels',
     'CRM',
+    'Custom software',
     'Web app development',
-    'Astro',
-    'Supabase',
+    'Generative Engine Optimization (GEO)',
+    'SEO',
+    'Conversion funnels',
   ],
-  sameAs: [
-    'https://www.linkedin.com/in/neilbusque',
-    'https://www.facebook.com/neilvbusque/',
-    'https://www.instagram.com/neil_busque/',
-  ],
+  sameAs,
 };
 
 const organization = {
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
   name: 'busqueneil',
-  alternateName: 'Neil Busque',
-  url: 'https://busqueneil.com/',
-  slogan: 'I build cool stuff with AI.',
-  description:
-    'Neil Busque’s personal build journal: apps, automations, AI agents, client work, and small internet projects.',
+  alternateName: SITE.name,
+  url,
+  slogan: 'Your AI guy.',
+  description: FOOTER_TAGLINE,
   logo: LOGO,
   image: SOCIAL_IMAGE,
-  founder: AUTHOR,
-  email: 'busqueneil@gmail.com',
-  telephone: '+1-908-316-4140',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Elizabeth',
-    addressRegion: 'NJ',
-    addressCountry: 'US',
-  },
-  areaServed: [
-    { '@type': 'State', name: 'New Jersey' },
-    { '@type': 'City', name: 'New York City' },
-    { '@type': 'Country', name: 'United States' },
-    'Remote',
-  ],
+  founder: PERSON_REF,
+  email: SITE.email,
+  telephone,
+  address,
+  areaServed: [{ '@type': 'State', name: 'New Jersey' }, { '@type': 'Country', name: 'United States' }, 'Remote'],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'project inquiries',
-    email: 'busqueneil@gmail.com',
-    telephone: '+1-908-316-4140',
+    email: SITE.email,
+    telephone,
     availableLanguage: ['English'],
   },
-  sameAs: [
-    'https://www.linkedin.com/in/neilbusque',
-    'https://www.facebook.com/neilvbusque/',
-    'https://www.instagram.com/neil_busque/',
-  ],
+  sameAs,
 };
 
 const website = {
   '@type': 'WebSite',
   '@id': WEBSITE_ID,
-  url: 'https://busqueneil.com/',
+  url,
   name: 'busqueneil',
-  alternateName: 'Neil Busque',
-  description:
-    'The personal site of Neil Busque: selected work, notes from building, current projects, apps, automations, and AI agents.',
+  alternateName: SITE.name,
+  description,
   inLanguage: 'en-US',
   publisher: ORGANIZATION_REF,
   creator: PERSON_REF,
   about: [PERSON_REF, ORGANIZATION_REF],
 };
 
-const graph = {
-  '@context': 'https://schema.org',
-  '@graph': [LOGO, SOCIAL_IMAGE, organization, person, website],
-};
+const graph = { '@context': 'https://schema.org', '@graph': [LOGO, SOCIAL_IMAGE, organization, person, website] };
 ---
 <script type="application/ld+json" set:html={JSON.stringify(graph)} />

@@ -1,0 +1,95 @@
+---
+/* The article chrome shared by guides, comparisons, research (src/layouts/ContentArticle.astro)
+   and published notes (src/pages/posts/[slug].astro): back link to /resources, kind label, H1,
+   lead, meta row, art 16/9 seeded by the slug, the body with a sticky table of contents at
+   1200px and wider, the FAQ, the author box and three related rows. AppShell adds the closing
+   band. Pass the body already run through prepareProse (prose.ts). */
+import Art from '../Art.astro';
+import Breadcrumb from '../site/Breadcrumb.astro';
+import Faq from '../site/Faq.astro';
+import Icon from '../site/Icon.astro';
+import SectionHead from '../site/SectionHead.astro';
+import ResourceTable from '../site/ResourceTable.astro';
+import ArticleToc from './ArticleToc.astro';
+import AuthorBox from './AuthorBox.astro';
+import { formatDay, type HubRow } from './rows';
+import type { TocItem } from './prose';
+import '../../styles/pages/articles.css';
+
+interface FaqItem { q: string; a: string }
+interface Props {
+  /** Shown above the H1, for example "Guide" or "Note". */
+  kind: string;
+  heading: string;
+  accent?: string;
+  lede?: string;
+  minutes: number;
+  /** The date shown in the meta row, and whether it is a publish or update date. */
+  date?: { iso: string; label: 'Updated' | 'Published'; text?: string };
+  artSeed: string;
+  /** Prepared body HTML. */
+  body: string;
+  toc: TocItem[];
+  faq?: FaqItem[];
+  related?: HubRow[];
+  /** BreadcrumbList JSON-LD trail, current page last, absolute URLs. */
+  crumbs: { name: string; url: string }[];
+  /** Word count, exposed as data-words for refreshing stored read times. */
+  words?: number;
+}
+
+const { kind, heading, accent, lede, minutes, date, artSeed, body, toc, faq = [], related = [], crumbs, words } = Astro.props;
+const hasAfter = Astro.slots.has('after-body');
+---
+<article class="article" aria-labelledby="article-title" data-words={words}>
+  <div class="section article-top">
+    <div class="wrap">
+      <div class="article-col">
+        <header class="article-head">
+          <nav class="crumb" aria-label="Breadcrumb">
+            <a href="/resources"><Icon name="arrow-left" strokeWidth={2} />Resources</a>
+          </nav>
+          <Breadcrumb back={false} items={crumbs} />
+          <p class="t-label article-kind">{kind}</p>
+          <h1 class="article-title" id="article-title">{heading}{accent && <> <span class="accent">{accent}</span></>}</h1>
+          {lede && <p class="t-lead article-lede">{lede}</p>}
+          <p class="article-meta">
+            <span>Neil Busque</span>
+            <span>{minutes} min read</span>
+            {date && <span>{date.label} <time datetime={date.iso}>{date.text ?? formatDay(date.iso)}</time></span>}
+          </p>
+        </header>
+
+        <Art seed={artSeed} kind="article" class="article-art" loading="eager" />
+
+        <div class="article-body">
+          <div class="article-main">
+            <div class="prose" set:html={body} />
+            {hasAfter && <slot name="after-body" />}
+
+            {faq.length > 0 && (
+              <section class="article-faq" aria-labelledby="faq">
+                <h2 class="article-h2" id="faq">FAQ</h2>
+                <Faq items={faq} />
+              </section>
+            )}
+
+            <AuthorBox />
+          </div>
+          <ArticleToc items={toc} />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <section class="section article-related" aria-labelledby="related-title">
+      <div class="wrap">
+        <div class="article-col">
+          <SectionHead id="related-title" title="Read next" link={{ href: '/resources', label: 'All resources' }} />
+          <ResourceTable rows={related} head={false} />
+        </div>
+      </div>
+    </section>
+  )}
+</article>

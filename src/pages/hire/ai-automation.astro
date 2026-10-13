@@ -1,72 +1,67 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
+import { SERVICES } from '../../data/site';
 
 export const prerender = true;
 
-const title = 'Hire an AI Automation Specialist | Neil Busque';
-const description = 'Hire Neil Busque to automate lead handling, follow-up, reporting, CRM upkeep, and repetitive operations with n8n, Zapier, GHL, and AI agents.';
 const canonical = 'https://busqueneil.com/hire/ai-automation';
+const svc = SERVICES[3];
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Automation Consultant | Neil Busque',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
-  serviceType: ['AI automation', 'Workflow automation', 'Business process automation', 'CRM automation'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'What should we automate first?',
+    a: "The task your team repeats most and complains about loudest. Usually that's lead intake into the CRM, follow-ups that depend on someone remembering, or a weekly report someone builds by hand. Show me that task, and I'll map it and price it.",
+  },
+  {
+    q: 'Do we need AI, or a normal workflow?',
+    a: 'Often a normal workflow. If the steps never change, plain automation is cheaper and easier to trust. I add AI when the input is messy, a decision is needed or a person should review a draft.',
+  },
+  {
+    q: 'Can we start small?',
+    a: 'Yes. Start with one build. If it pays off, we plan the next one or move to a monthly arrangement.',
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: 'https://busqueneil.com/hire' },
-      { name: 'AI Automation', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="Hire an AI Automation Specialist | Neil Busque"
+  description="Hire Neil Busque to automate lead handling, follow-up, reporting, CRM upkeep and repetitive operations with n8n, Zapier, GHL and AI agents."
+  canonical={canonical}
+  active="hire"
+  heading="Automate the **busywork** with AI."
+  lead="I turn repeated manual work into workflows your team can see, understand and trust. Some use AI. Many don't need it."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Hire', url: 'https://busqueneil.com/hire' },
+    { name: 'AI Automation', url: canonical },
+  ]}
+  backLabel="When to hire me"
+  topic="hiring for AI automation"
+  artSeed="hire-ai-automation"
+  artPalette="paper"
+  summary={{ items: svc.items, facts: svc.facts }}
+  related={['one-click-client-onboarding', 'meeting-notes-to-tasks']}
+  relatedPalettes={['mist', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'AI Automation Specialist',
+    serviceType: ['AI automation', 'Workflow automation', 'Business process automation', 'CRM automation'],
+    areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
+  }}
+>
+  <h2>What I automate</h2>
+  <ul>
+    <li><strong>Leads.</strong> Capture, enrich, route and follow up automatically, so nothing sits and goes cold.</li>
+    <li><strong>Follow-up and nurture.</strong> Timely sequences across email and SMS, triggered by what people actually do.</li>
+    <li><strong>Ops and admin.</strong> Data entry, reporting, CRM cleanup and the handoffs that eat your team's hours.</li>
+    <li><strong>Content and research.</strong> AI agents that draft, summarize and pull information together on a schedule.</li>
+  </ul>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire · AI Automation</p>
-    <h1>Automate the <span class="accent">busywork</span> with AI.</h1>
-    <p class="lede">I turn repeated manual work into workflows your team can see, understand, and trust. Some use AI. Many do not need it.</p>
-  </header>
+  <h2>Plain automation vs AI agents</h2>
+  <p>When the steps never change, I build a normal workflow because it's cheaper and more predictable. I add an agent when the task involves messy input, a judgment call or a draft a person should review. Here is <a href="/guides/build-ai-agent-claude-code">how those agents work</a>.</p>
 
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      <h2>What I automate</h2>
-      <ul>
-        <li><strong>Leads.</strong> Capture, enrich, route, and follow up automatically, so nothing sits and goes cold.</li>
-        <li><strong>Follow-up and nurture.</strong> Timely, personalized sequences across email and SMS, triggered by what people actually do.</li>
-        <li><strong>Ops and admin.</strong> Data entry, reporting, CRM cleanup, and handoffs that eat your team's hours.</li>
-        <li><strong>Content and research.</strong> AI agents that draft, summarize, and pull together information on a schedule.</li>
-      </ul>
+  <h2>Work you can check</h2>
+  <p>At a marketing agency I built more than 20 production n8n workflows across more than 10 client accounts, plus one-click client onboarding that cut a 30-day process to 7. In 2026 I shipped more than 40 apps, agents and automations. See <a href="/work">the work</a> before we talk.</p>
 
-      <h2>Plain automation vs AI agents</h2>
-      <p>When the steps never change, I build a normal workflow because it is cheaper and more predictable. I add an agent when the task involves messy input, a judgment call, or a draft a person should review. Here is <a href="/guides/build-ai-agent-claude-code">how those agents work</a>.</p>
-
-      <h2>Work you can check</h2>
-      <p>At an agency I shipped more than 20 production n8n workflows across over 10 client accounts, plus an onboarding system that cut a 30-day process to 7 days. See <a href="/work">the work</a> before we talk.</p>
-
-      <h2>Let's find your time sinks</h2>
-      <p>Tell me where your team loses hours. Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or message me on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Want the engineering angle instead? See <a href="/hire/ai-engineer">hire me as an AI engineer</a>, or the full <a href="/hire">hire page</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Let's find your time sinks</h2>
+  <p>Tell me where your team loses hours. Message me on WhatsApp, email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>. Want the engineering side instead? See <a href="/hire/ai-engineer">hiring an AI engineer</a>, or the full list of <a href="/services/ai-automation-services">AI automation services</a>.</p>
+</ServicePage>

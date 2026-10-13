@@ -4,9 +4,9 @@ export const prerender = true;
 
 const faq = [
   { q: 'Which model is better for coding?', a: 'They are close enough that the workflow around them matters more than the model. In daily use against real repositories the differences show up in temperament rather than capability: one tends to be more thorough and cautious on large refactors, the other more decisive on well-specified single tasks. Run both if you can.' },
-  { q: 'Does model choice matter more than the harness?', a: 'No. The tooling — how much of the codebase it can see, whether it can run tests, whether it can read the failure and try again — changes output quality far more than swapping one frontier model for another.' },
+  { q: 'Does model choice matter more than the harness?', a: 'No. The tooling (how much of the codebase it can see, whether it can run tests, whether it can read the failure and try again) changes output quality far more than swapping one frontier model for another.' },
   { q: 'What do both models get wrong?', a: 'Confident code that is subtly wrong: a package that does not exist, a permission rule that exposes the wrong data, a layout that breaks on a phone. All of it reads as correct. That is why the review layer matters more than the generation layer.' },
-  { q: 'Should I pay for both?', a: 'If coding is your job, probably yes, and route by task rather than loyalty. If you are picking one, pick the one whose harness fits how you work — that decision has a bigger effect on your output than the underlying model.' },
+  { q: 'Should I pay for both?', a: 'If coding is your job, probably yes, and route by task rather than loyalty. If you are picking one, pick the one whose harness fits how you work. That decision has a bigger effect on your output than the underlying model.' },
 ];
 ---
 <ContentArticle
@@ -69,15 +69,5 @@ const faq = [
   <p>If you want a winner declared, I cannot give you one that will still be true next quarter. Both are excellent, both are wrong in the same ways, and the gap between them is smaller than the gap between using either well and using either badly.</p>
   <p>What I would actually spend my attention on: the review layer. The first 80% of a build got dramatically cheaper with these tools and the last 20% did not, and no model choice changes that.</p>
 
-  <h2>FAQ</h2>
-  <h3>Which model is better for coding?</h3>
-  <p>Close enough that workflow matters more. Differences show as temperament — thoroughness on big refactors versus decisiveness on well-specified tasks.</p>
-  <h3>Does the harness matter more than the model?</h3>
-  <p>Yes. Codebase visibility and the ability to run tests and iterate change output quality more than swapping frontier models.</p>
-  <h3>What do both get wrong?</h3>
-  <p>Confident, subtly wrong code: non-existent packages, permission rules that expose the wrong data, tests that assert the implementation.</p>
-  <h3>Should I pay for both?</h3>
-  <p>If coding is your job, probably, and route by task. If picking one, pick the harness that fits how you work.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/guides/why-hire-a-person-when-ai-can-build-it">six defects AI shipped that passed every check</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship a web app in days</a>.</p>
+  <p class="article-coda">Related: <a href="/guides/why-hire-a-person-when-ai-can-build-it">six defects AI shipped that passed every check</a> and <a href="/guides/ship-web-app-in-days-with-ai">how I ship a web app in days</a>.</p>
 </ContentArticle>

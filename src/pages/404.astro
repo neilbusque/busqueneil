@@ -1,24 +1,37 @@
 ---
-// Server-rendered on purpose: a prerendered 404 makes the SSR function fetch
-// the static page internally, which fails behind deployment protection.
+/* 404. Server-rendered on purpose: a prerendered 404 makes the SSR function fetch the static
+   page internally, which fails behind deployment protection. Copy follows the copy deck's
+   GLOBAL > 404 page. */
 import AppShell from '../layouts/AppShell.astro';
+import Section from '../components/site/Section.astro';
+import PageHead from '../components/site/PageHead.astro';
+import RuledGrid from '../components/site/RuledGrid.astro';
+import RuledCell from '../components/site/RuledCell.astro';
+import Button from '../components/site/Button.astro';
+import { waGlobal } from '../data/site';
+import '../styles/pages/notfound.css';
+
+Astro.response.status = 404;
+
+const PLACES = [
+  { href: '/services', name: 'Services', line: "What I build and how we'd work together." },
+  { href: '/work', name: 'Work', line: 'Client builds, agency work and my own products.' },
+  { href: '/resources', name: 'Resources', line: 'Guides, comparisons and research.' },
+  { href: '/free', name: 'Free tools', line: 'Tools you can open right now.' },
+];
 ---
-<AppShell
-  title="Page Not Found | Neil Busque"
-  description="That page does not exist."
-  active="home"
-  noindex
->
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">404</span> Not found</p>
-    <h1>That page <span class="accent">isn&rsquo;t here</span>.</h1>
-    <p class="lede">
-      It may have moved when the site was rebuilt. Try <a href="/work">the work</a>,
-      the <a href="/resources">tutorials and blog</a>, or tell me what you were after.
-    </p>
-    <div class="hero-ctas" style="margin-top:28px;">
-      <a class="btn-sun" href="/">Back home</a>
-      <a class="btn-ghost" href="/contact">Tell me what you needed</a>
+<AppShell title="Page not found | Neil Busque" description="This page moved or never existed." noindex>
+  <PageHead class="nf-head" title="This page moved or never existed." lead="Try one of these instead, or message me and I'll point you to it.">
+    <div class="btn-row btn-row--stack">
+      <Button href={waGlobal()}>Message me on WhatsApp</Button>
+      <Button href="/" variant="secondary">Go to the home page</Button>
     </div>
-  </header>
+  </PageHead>
+
+  <Section class="nf-places" labelledby="nf-places-title">
+    <h2 class="sr-only" id="nf-places-title">Pages to try</h2>
+    <RuledGrid cols={4} label="Pages to try">
+      {PLACES.map((p) => <RuledCell href={p.href} title={p.name} compact text={p.line} cta="Open" />)}
+    </RuledGrid>
+  </Section>
 </AppShell>

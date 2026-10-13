@@ -1,237 +1,212 @@
 ---
 import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import ClientLogos from '../../components/ClientLogos.astro';
+import Art from '../../components/Art.astro';
+import Section from '../../components/site/Section.astro';
+import PageHead from '../../components/site/PageHead.astro';
+import SectionHead from '../../components/site/SectionHead.astro';
+import Button from '../../components/site/Button.astro';
+import Icon from '../../components/site/Icon.astro';
+import RuledGrid from '../../components/site/RuledGrid.astro';
+import CheckList from '../../components/site/CheckList.astro';
+import DefList from '../../components/site/DefList.astro';
+import Steps from '../../components/site/Steps.astro';
+import FitList from '../../components/site/FitList.astro';
+import CtaRow from '../../components/site/CtaRow.astro';
+import Faq from '../../components/site/Faq.astro';
+import Breadcrumb from '../../components/site/Breadcrumb.astro';
 import { ORGANIZATION_REF, SOCIAL_IMAGE_URL } from '../../lib/seo';
+import { SERVICES, waGlobal, waOneBuild, waOngoing, type LinkItem } from '../../data/site';
+import type { PaletteName } from '../../lib/art';
+import '../../styles/pages/services.css';
 
 export const prerender = true;
 
-const title = 'Services | Web Apps, Websites, Funnels and Automation';
-const description = 'Web apps, websites, landing pages, funnels, and automation, built by one person. See real products, then tell Neil Busque what you need built.';
+const title = 'AI agents, software and automation services | Neil Busque';
+const description = 'AI agents, phone agents, custom software, automations and websites, built and run by one person. Clear scope and price before any work starts.';
 const canonical = 'https://busqueneil.com/services';
 
-/* The five offers match the "Five ways I can help" list on the home page, in the same order,
-   so a visitor who clicks a card there lands on the thing they clicked.
-   Cards carry hand-authored abstract SVG marks. Two earlier passes were wrong: product
-   screenshots put five different palettes (Orbit purple, Darioo magenta, a dark photo)
-   against a neutral system, and AI renders produced literal objects plus, on one, invented
-   lettering. Geometry is not what image models are for. These are one system — 640x400,
-   white ground, hairline greys, exactly one #FFE45C element each — around 1KB apiece and
-   crisp at any density. The proof did not disappear: client logos, "Open the work first",
-   and the case studies all still sit on this page. */
-const OFFERS = [
+/* Extra deep pages per service, so every /services/* page is one click from this hub.
+   Art palettes alternate light grounds with one dark picture, top to bottom. */
+const EXTRA: Record<string, { links: LinkItem[]; palette: PaletteName }> = {
+  'ai-agents': { links: [], palette: 'mist' },
+  'ai-voice-agents': { links: [{ label: 'Phone agent or answering service', href: '/software/ai-phone-agent-vs-answering-service' }], palette: 'navy' },
+  'custom-software': { links: [{ label: 'Software by industry', href: '/software' }], palette: 'paper' },
+  automations: { links: [{ label: 'Working with a consultant', href: '/services/ai-automation-consultant' }], palette: 'mist' },
+  'ai-sites': { links: [{ label: 'Landing pages', href: '/services/landing-pages' }, { label: 'Funnels', href: '/services/funnels' }], palette: 'paper' },
+};
+
+const WAYS = [
   {
-    href: '/services/web-apps',
-    num: '01',
-    name: 'Web Apps',
-    blurb: 'Portals, dashboards, CRMs, and internal tools your team can actually use, with real logins and real data.',
-    tags: ['Dashboards', 'Client portals', 'CRM', 'Internal tools'],
-    img: '/assets/art/svc-web-apps.svg',
-    alt: 'Abstract mark: stacked planes',
+    title: 'One build',
+    fit: 'You have one clear job in mind: an agent, an app or an automation.',
+    facts: [
+      { term: 'How it starts', value: 'A few messages or a short call, then a clear scope and price' },
+      { term: 'How long', value: 'A working first version in days, finished in weeks' },
+      { term: 'What you get', value: 'The finished build, running in your accounts and yours to keep' },
+      { term: 'How we talk', value: 'WhatsApp or email, with a link to try after each round' },
+    ],
+    cta: { label: 'Talk about a build', href: waOneBuild() },
   },
   {
-    href: '/services/websites',
-    num: '02',
-    name: 'Websites',
-    blurb: 'Fast, custom sites that feel like your business instead of a template, and that search engines can actually read.',
-    tags: ['Custom design', 'Astro / Next', 'SEO-ready', 'CMS'],
-    img: '/assets/art/svc-websites.svg',
-    alt: 'Abstract mark: a modular grid with one cell resolved',
-  },
-  {
-    href: '/services/landing-pages',
-    num: '03',
-    name: 'Landing Pages',
-    blurb: 'One focused page that makes the next step obvious, written and built to convert traffic you are already paying for.',
-    tags: ['Copy included', 'A/B ready', 'Fast load', 'Tracking'],
-    img: '/assets/art/svc-landing-pages.svg',
-    alt: 'Abstract mark: converging lines meeting one point',
-  },
-  {
-    href: '/services/funnels',
-    num: '04',
-    name: 'Funnels',
-    blurb: 'From first click to booked call, with every handoff connected: page, form, CRM, follow-up, and the reporting that tells you what worked.',
-    tags: ['Lead capture', 'CRM wiring', 'Email + SMS', 'Booking'],
-    img: '/assets/art/svc-funnels.svg',
-    alt: 'Abstract mark: successive narrowing to a single output',
-  },
-  {
-    href: '/services/ai-automation-services',
-    num: '05',
-    name: 'Automation',
-    blurb: 'n8n, Zapier, GHL, and custom AI agents that take repetitive work off your plate and keep it off.',
-    tags: ['n8n', 'AI agents', 'CRM sync', 'Reporting'],
-    img: '/assets/art/svc-automation.svg',
-    alt: 'Abstract mark: a closed loop of nodes with one running',
+    title: 'Ongoing AI lead',
+    fit: 'You want one person to find, build and look after your AI work, month after month.',
+    facts: [
+      { term: 'How it starts', value: 'We list the jobs worth handing to AI and pick the first one' },
+      { term: 'How long', value: 'Ongoing, as a monthly arrangement' },
+      { term: 'What you get', value: 'New builds, fixes and improvements every month, from one person who knows your business' },
+      { term: 'How we talk', value: 'A shared chat and a regular check-in call' },
+    ],
+    cta: { label: 'Talk about ongoing help', href: waOngoing() },
   },
 ];
 
-const STEPS = [
-  { n: '01', t: 'One call', d: 'You tell me what is slow, broken, or missing. I tell you honestly if I am the right fit.' },
-  { n: '02', t: 'Scope first', d: 'You see exactly what gets built and what does not, before anything starts.' },
-  { n: '03', t: 'Build', d: 'Days, not quarters. You see progress as it goes and can redirect it.' },
-  { n: '04', t: 'Launch', d: 'It goes live, you own it, and I am still reachable when something changes.' },
+const HOW = [
+  { title: 'First message', text: 'On WhatsApp, email or a short call. You describe the work, and I ask about your tools, your team and what a good result looks like.' },
+  { title: 'Scope and price', text: "In plain English: what gets built, what doesn't, what it costs and when you'll see the first version." },
+  { title: 'First version in days', text: 'You get a link to something that works. You click through it, and we adjust in short rounds.' },
+  { title: 'Launch and after', text: 'It goes live in your accounts. Then I keep it running each month, or hand it to your team with what they need to run it.' },
 ];
+
+const FIT = {
+  fit: [
+    'You can name a task your team repeats every week.',
+    "You pay for tools that don't talk to each other.",
+    "Leads or calls slip through when you're busy.",
+    'You want one person accountable from start to finish.',
+    "You're ready to give feedback on early versions.",
+  ],
+  notFit: [
+    'You need a large team for a big company-wide rollout.',
+    'You only want strategy slides and no build.',
+    'You want AI to spend money or delete records with no human check.',
+    'You need someone on site every day.',
+    "You can't share access to the tools we'd connect.",
+  ],
+};
 
 const FAQ = [
-  {
-    q: 'How much does a project cost?',
-    a: 'It depends on scope, so I quote per project after the first call rather than posting a rate that would be wrong for most of the work. Landing pages and small automations are the cheapest starting points. Web apps and full funnels cost more because they carry data, logins, and integrations.',
-  },
-  {
-    q: 'How long does it take?',
-    a: 'Most first versions are live in days, not months. A landing page or an automation is usually a few days. A web app or a full funnel is typically two to four weeks to a working first version, then we iterate on what real usage shows.',
-  },
-  {
-    q: 'Who actually does the work?',
-    a: 'I do. There is no account manager, no offshore team, and no handoff. You talk to the person building the thing, which is also why maintenance later is a message rather than a support ticket.',
-  },
-  {
-    q: 'Do you write the copy too?',
-    a: 'Yes. Landing pages and funnels include the copy, because a page built around the wrong message converts badly no matter how it looks. If you already have copy you like, I will build to it.',
-  },
-  {
-    q: 'What happens after launch?',
-    a: 'You own the code and the accounts. You can take it in-house, keep me on to run it, or call me only when something changes. I do not lock work behind a platform you have to keep renting from me.',
-  },
-  {
-    q: 'Do you work with clients outside New Jersey?',
-    a: 'Yes. I am based in Elizabeth, New Jersey and work with teams across the NJ and NYC metro, plus remote clients across the United States. Almost all of the work is remote regardless of where you are, and I am reachable in Eastern time.',
-  },
+  { q: 'How do you price the work?', a: 'A single build gets its own scope and price. Ongoing work is a monthly arrangement. Either way, you see the scope and price before any work starts.' },
+  { q: 'Who does the work?', a: "I do. You talk to the person building it, from the first message to launch and after. There's no account manager in between." },
+  { q: 'What if the AI gets something wrong?', a: 'I plan for it. Every agent gets clear limits that you approve before launch. Anything risky, like spending money, publishing or deleting, waits for a person to approve it. I test it on real examples from your business before it goes live.' },
+  { q: 'Which AI models do you use?', a: 'Whichever fits the job, usually Claude or GPT. I set things up so you can switch models later without starting over.' },
+  { q: 'Can you take over something another developer started?', a: "Yes. I've taken over apps started by other developers and by AI app builders, cleaned them up and kept building. I'll look at what you have and tell you whether to keep it or start fresh." },
+  { q: 'Can we start small?', a: 'Yes. Start with one build. If it pays off, we plan the next one or move to a monthly arrangement.' },
 ];
 
-const list = {
-  '@type': 'ItemList',
-  '@id': `${canonical}#services-list`,
-  name: 'Services by Neil Busque',
-  itemListElement: OFFERS.map((s, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: s.name,
-    url: `https://busqueneil.com${s.href}`,
-  })),
-};
 const collection = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  '@id': `${canonical}#webpage`,
+  '@id': `${canonical}#collection`,
   name: title,
   description,
   url: canonical,
   about: ORGANIZATION_REF,
-  mainEntity: list,
-};
-/* FAQPage is a separate node rather than a property of the CollectionPage, so the questions
-   stay eligible on their own if Google decides the collection is the primary entity. */
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  '@id': `${canonical}#faq`,
-  isPartOf: { '@id': `${canonical}#webpage` },
-  mainEntity: FAQ.map((f) => ({
-    '@type': 'Question',
-    name: f.q,
-    acceptedAnswer: { '@type': 'Answer', text: f.a },
-  })),
+  mainEntity: {
+    '@type': 'ItemList',
+    '@id': `${canonical}#services-list`,
+    name: 'Services by Neil Busque',
+    itemListElement: SERVICES.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: s.name,
+      url: `https://busqueneil.com${s.href}`,
+    })),
+  },
 };
 ---
 <AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Services', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(collection)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(collection)} />
+  <Breadcrumb back={false} items={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Services', url: canonical },
+  ]} />
 
-  <span class="eyebrow">Services</span>
-  <h1 class="sec">Five things I <span class="mark-hl">build.</span></h1>
-  <p class="res-lede">Web apps, websites, landing pages, funnels, and automation. Whichever one you need, you work with me directly from the first call through launch, and every example below is something I actually shipped.</p>
+  <PageHead
+    title="Agents, apps and automations, one person"
+    accent="accountable."
+    lead="Start with one build, or keep me on each month as your ongoing AI lead. Either way, you get a clear scope and price before any work starts."
+  >
+    <div class="btn-row btn-row--stack">
+      <Button href={waGlobal()}>Message me on WhatsApp</Button>
+      <Button href="/work" variant="secondary">See the work</Button>
+    </div>
+    <nav slot="aside" aria-label="Services on this page">
+      <ol class="svc-index" role="list">
+        {SERVICES.map((s) => (
+          <li>
+            <a href={`#${s.slug}`}>
+              <span class="t-label">{s.number}</span>
+              <span class="svc-index-name">{s.name}</span>
+              <span class="svc-index-line">{s.line}</span>
+              <Icon name="arrow-right" strokeWidth={2} />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </PageHead>
 
-  <div class="stats">
-    <div class="stat"><b>40+</b><span>products shipped in 2026</span></div>
-    <div class="stat"><b>Days</b><span>not months. idea to first version</span></div>
-    <div class="stat"><b>1 person</b><span>start to finish, no handoffs</span></div>
-  </div>
-
-  <section class="hsec">
-    <span class="eyebrow">What I build</span>
-    <h2 class="sec">Pick the one that <span class="mark-hl">fits.</span></h2>
-    <div class="offer-grid">
-      {OFFERS.map((o) => (
-        <a class="v8-card offer-card" href={o.href}>
-          <img class="offer-shot" src={o.img} alt={o.alt} width="640" height="400" loading="lazy" decoding="async" />
-          <div class="offer-body">
-            <span class="offer-num">{o.num}</span>
-            <span class="offer-name">{o.name}</span>
-            <span class="offer-desc">{o.blurb}</span>
-            <ul class="offer-list">{o.tags.map((t) => <li>{t}</li>)}</ul>
-            <span class="offer-go">Read more &#8594;</span>
+  {SERVICES.map((s, i) => (
+    <section class:list={['section', 'svc-sec', i % 2 === 1 && 'svc-sec--flip']} id={s.slug} aria-labelledby={`${s.slug}-title`}>
+      <div class="wrap svc-sec-grid">
+        <div class="svc-sec-copy">
+          <p class="t-label">{s.number}</p>
+          <h2 class="t-h2" id={`${s.slug}-title`}>{s.name}</h2>
+          <p class="svc-sec-text">{s.text}</p>
+          <h3 class="t-h4 svc-sec-sub">What you get</h3>
+          <CheckList items={s.items} />
+          <DefList items={s.facts} />
+          <div class="svc-links">
+            <a class="link-arrow" href={s.link.href}>{s.link.label}<Icon name="arrow-right" strokeWidth={2} /></a>
+            {EXTRA[s.slug]?.links.map((l) => (
+              <a class="link-arrow" href={l.href}>{l.label}<Icon name="arrow-right" strokeWidth={2} /></a>
+            ))}
           </div>
-        </a>
+        </div>
+        <div class="svc-sec-art">
+          <Art seed={s.slug} kind="service" ratio="4 / 3" palette={EXTRA[s.slug]?.palette} />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <Section band="mist" id="ways" labelledby="ways-title">
+    <SectionHead id="ways-title" title="Two ways to work together" />
+    <RuledGrid cols={2} class="svc-ways" label="Ways to work together">
+      {WAYS.map((w) => (
+        <div>
+          <h3 class="t-h3">{w.title}</h3>
+          <p class="cell-text">{w.fit}</p>
+          <dl class="svc-facts">
+            {w.facts.map((f) => (
+              <div>
+                <dt>{f.term}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <Button href={w.cta.href}>{w.cta.label}</Button>
+        </div>
       ))}
-    </div>
-  </section>
+    </RuledGrid>
+    <CtaRow
+      class="svc-ways-row"
+      text="If you're not sure which fits, tell me about your business. I'll say which one I'd pick."
+      cta={{ href: waGlobal(), label: 'Start with a message' }}
+    />
+  </Section>
 
-  {/* No subscription band here on purpose: /unlimited is an unlisted offer Neil sends
-      directly, so the site must not surface it. */}
-  <section class="hsec">
-    <span class="eyebrow">Worked with</span>
-    <h2 class="sec">Teams that trusted me <span class="mark-hl">first.</span></h2>
-    <ClientLogos />
-  </section>
+  <Section id="how" labelledby="how-title">
+    <SectionHead id="how-title" title="From first message to launch" />
+    <Steps items={HOW} />
+  </Section>
 
-  <section class="hsec">
-    <span class="eyebrow">How it runs</span>
-    <h2 class="sec">Four steps, no <span class="mark-hl">mystery.</span></h2>
-    <ul class="steps">
-      {STEPS.map((s) => (
-        <li>
-          <span class="step-n">{s.n}</span>
-          <b>{s.t}</b>
-          <span>{s.d}</span>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <Section id="fit" labelledby="fit-title">
+    <SectionHead id="fit-title" title="Who this is for" />
+    <FitList fit={FIT.fit} notFit={FIT.notFit} />
+  </Section>
 
-  <section class="hsec">
-    <span class="eyebrow">By industry</span>
-    <h2 class="sec">Your trade, <span class="mark-hl">specifically.</span></h2>
-    <p class="res-lede">Roofing, construction, law firms, med spas, and more: pages that get specific about what I build for businesses like yours, with published pricing and honest build-or-buy guides.</p>
-    <p style="margin-top:20px"><a class="link-arrow" href="/software">Browse custom software by industry
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Before you decide</span>
-    <h2 class="sec">Open the work <span class="mark-hl">first.</span></h2>
-    <p class="res-lede">You do not have to take my word for any of this. Every product above is live, and the case studies walk through what the problem was, what I built, and what it cost me to learn.</p>
-    <p style="margin-top:20px"><a class="link-arrow" href="/work">See all the work
-      <svg width="44" height="16" viewBox="0 0 44 16" fill="none"><path d="M2 9 C 14 4, 26 12, 41 7 M35 3 L 42 7 L 35 12" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></p>
-  </section>
-
-  <section class="hsec">
-    <span class="eyebrow">Questions</span>
-    <h2 class="sec">What people ask <span class="mark-hl">first.</span></h2>
-    <div class="faq">
-      {FAQ.map((f, i) => (
-        <details open={i === 0}>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
+  <Section id="faq" labelledby="faq-title">
+    <Faq id="faq-title" title="Before you decide" lead="Short answers to what people ask before a build." items={FAQ} schema />
+  </Section>
 </AppShell>

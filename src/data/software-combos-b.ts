@@ -7,8 +7,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Client Portal for Law Firms | Neil Busque',
     metaDescription:
-      'A secure law firm client portal: case status, documents, and messages in one login, so clients stop calling for updates. $4,000/month.',
-    eyebrow: 'Legal · Portal',
+      'A secure law firm client portal: case status, documents, and messages in one login, so clients stop calling for updates.',
+    eyebrow: 'Legal, Portal',
     h1: 'A client portal for **law firms**.',
     lede: 'Half of client anxiety is not knowing what is happening. A portal that shows case status and next steps turns update calls into logins.',
     sections: [
@@ -39,11 +39,11 @@ export const combosB: SoftwarePage[] = [
     faq: [
       {
         q: 'Does it integrate with Clio or MyCase?',
-        a: 'Clio has a solid API and integration usually works well: matters and documents sync so the portal reflects reality without double entry. Other platforms vary, and I confirm your exact path on the free call.',
+        a: 'Clio has a solid API and integration usually works well: matters and documents sync so the portal reflects reality without double entry. Other platforms vary, and I confirm your exact path on the first call.',
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the flat $4,000 a month seat. A first portal ships inside 14 days, month one is refundable, and the firm owns the code and every account.',
+        a: 'It depends on what the portal connects to. You get a clear scope and price before any work starts, a working first version usually takes days, and the firm owns the code and every account.',
       },
     ],
     related: [
@@ -58,8 +58,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Law Firms | Neil Busque',
     metaDescription:
-      'Law firm automation: intake that runs itself, deadline tracking, document assembly, and follow-ups that never lapse. $4,000/month.',
-    eyebrow: 'Legal · Automation',
+      'Law firm automation: intake that runs itself, deadline tracking, document assembly, and follow-ups that never lapse.',
+    eyebrow: 'Legal, Automation',
     h1: 'Workflow automation for **law firms**.',
     lede: 'Unbillable admin eats firm margin quietly: intake, chasing signatures, assembling the same documents. Software should be doing most of it.',
     sections: [
@@ -90,7 +90,7 @@ export const combosB: SoftwarePage[] = [
     faq: [
       {
         q: 'What should a firm automate first?',
-        a: 'Intake, almost always: it touches revenue, happens daily, and has clear rules. A firm typically sees the first automated intake flow live inside 14 days.',
+        a: 'Intake, almost always: it touches revenue, happens daily, and has clear rules. The first automated intake flow is usually live within days.',
       },
       {
         q: 'Is our client data safe in these workflows?',
@@ -109,8 +109,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Email Assistant for Law Firms | Neil Busque',
     metaDescription:
-      'An AI email assistant for law firms: triage the inbox, draft routine replies for attorney review, and surface what matters. $4,000/month.',
-    eyebrow: 'Legal · AI Email',
+      'An AI email assistant for law firms: triage the inbox, draft routine replies for attorney review, and surface what matters.',
+    eyebrow: 'Legal, AI Email',
     h1: 'An AI email assistant for **law firms**.',
     lede: 'An attorney inbox mixes urgent court notices with newsletters and scheduling ping-pong. The assistant sorts it and drafts the routine, for review.',
     sections: [
@@ -145,7 +145,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, commonly paired with intake automation in the same month. First version inside 14 days, month one refundable.',
+        a: 'It depends on the inboxes and categories it covers, and it is commonly paired with intake automation. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -160,13 +160,13 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Custom CRM for Real Estate Teams | Neil Busque',
     metaDescription:
-      'A custom real estate CRM: speed-to-lead routing, long-term nurture, and transaction tracking without per-agent fees. $4,000/month.',
-    eyebrow: 'Real Estate · CRM',
+      'A custom real estate CRM: speed-to-lead routing, long-term nurture, and transaction tracking without per-agent fees.',
+    eyebrow: 'Real Estate, CRM',
     h1: 'A custom CRM for **real estate teams**.',
-    lede: 'Per-agent seat fees punish growth, and rigid pipelines ignore how your team actually converts. A custom CRM fixes both, permanently.',
+    lede: 'Per-agent fees punish growth, and rigid pipelines ignore how your team actually converts. A custom CRM fixes both, permanently.',
     sections: [
       {
-        h2: 'The seat-fee math on a 15-agent team',
+        h2: 'The per-agent math on a 15-agent team',
         body: [
           'Mainstream real estate CRMs price per agent per month. Across a growing team that becomes a five-figure annual tax on headcount. A custom CRM costs the same whether you run 5 agents or 50, because you own it.',
         ],
@@ -196,7 +196,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost versus per-agent platforms?',
-        a: '$4,000 a month flat while I build and improve it, no per-agent fees ever. Cross-check that against your current per-seat bill times your growth plan.',
+        a: 'The build gets its own scope and price, agreed before any work starts, with no per-agent fees ever. Cross-check that against your current per-agent bill times your growth plan.',
       },
     ],
     related: [
@@ -211,8 +211,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Real Estate Teams | Neil Busque',
     metaDescription:
-      'Real estate automation: instant lead follow-up, transaction checklists, and past-client nurture that runs itself. $4,000/month.',
-    eyebrow: 'Real Estate · Automation',
+      'Real estate automation: instant lead follow-up, transaction checklists, and past-client nurture that runs itself.',
+    eyebrow: 'Real Estate, Automation',
     h1: 'Workflow automation for **real estate teams**.',
     lede: 'Deals die in the gaps: the lead nobody texted back, the deadline nobody tracked, the past client nobody called. Automation closes the gaps.',
     sections: [
@@ -247,7 +247,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What should a team automate first?',
-        a: 'Speed-to-lead, always: it has the clearest revenue math and ships inside the first 14 days. Transaction checklists usually come second.',
+        a: 'Speed-to-lead, always: it has the clearest revenue math and ships first, usually within days. Transaction checklists usually come second.',
       },
     ],
     related: [
@@ -262,8 +262,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Real Estate Teams | Neil Busque',
     metaDescription:
-      'An AI phone agent for real estate: answers sign calls and portal leads, qualifies buyers, and books showings around the clock. $4,000/month.',
-    eyebrow: 'Real Estate · AI Phone',
+      'An AI phone agent for real estate: answers sign calls and portal leads, qualifies buyers, and books showings around the clock.',
+    eyebrow: 'Real Estate, AI Phone',
     h1: 'An AI phone agent for **real estate teams**.',
     lede: 'Sign calls come at dinner time and portal leads call once. The agent answers every time, qualifies politely, and books the showing.',
     sections: [
@@ -298,7 +298,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, live inside 14 days, month one refundable. One saved buyer conversation tends to settle the ROI debate for the year.',
+        a: 'It depends on your lead sources and calendars. You get a clear scope and price before any work starts. One saved buyer conversation tends to settle the ROI debate for the year.',
       },
     ],
     related: [
@@ -313,8 +313,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Tenant & Owner Portal for Property Management | Neil Busque',
     metaDescription:
-      'Custom portals for property managers: tenants self-serve maintenance and payments, owners see real numbers. Fewer calls all around. $4,000/month.',
-    eyebrow: 'Property · Portal',
+      'Custom portals for property managers: tenants self-serve maintenance and payments, owners see real numbers. Fewer calls all around.',
+    eyebrow: 'Property, Portal',
     h1: 'Tenant and owner portals for **property managers**.',
     lede: 'Tenants call about rent and repairs. Owners call about money. Two portals, one build, and your phone gets quiet.',
     sections: [
@@ -349,7 +349,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'How fast can portals ship?',
-        a: 'The tenant portal first, inside 14 days from an approved plan; the owner portal typically the following cycle. Month one refundable, everything in your accounts.',
+        a: 'The tenant portal first, usually within days once we agree on the plan; the owner portal typically comes next. Everything runs in your accounts.',
       },
     ],
     related: [
@@ -364,8 +364,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Property Management | Neil Busque',
     metaDescription:
-      'An AI phone agent for property managers: maintenance triage at 2am, rent questions answered, emergencies routed correctly. $4,000/month.',
-    eyebrow: 'Property · AI Phone',
+      'An AI phone agent for property managers: maintenance triage at 2am, rent questions answered, emergencies routed correctly.',
+    eyebrow: 'Property, AI Phone',
     h1: 'An AI phone agent for **property management**.',
     lede: 'The 7pm maintenance call decides whether your evening exists. The agent answers it, triages it, and wakes a human only when the rules say so.',
     sections: [
@@ -400,7 +400,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost per door?',
-        a: 'Nothing per door: $4,000 a month flat, whatever your portfolio size. First version inside 14 days, month one refundable.',
+        a: 'Nothing per door. The build gets its own scope and price, agreed before any work starts, whatever your portfolio size.',
       },
     ],
     related: [
@@ -415,8 +415,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Property Management | Neil Busque',
     metaDescription:
-      'Property management automation: turnovers on rails, delinquency follow-up, renewals, and owner statements that assemble themselves. $4,000/month.',
-    eyebrow: 'Property · Automation',
+      'Property management automation: turnovers on rails, delinquency follow-up, renewals, and owner statements that assemble themselves.',
+    eyebrow: 'Property, Automation',
     h1: 'Workflow automation for **property management**.',
     lede: 'Every door adds the same recurring chores. Automate the chores and doors stop costing headcount.',
     sections: [
@@ -447,11 +447,11 @@ export const combosB: SoftwarePage[] = [
     faq: [
       {
         q: 'Can it work with our AppFolio data?',
-        a: 'AppFolio and Buildium expose enough through APIs and reports to drive most of these workflows. I verify your exact version and plan on the free call, before any commitment.',
+        a: 'AppFolio and Buildium expose enough through APIs and reports to drive most of these workflows. I verify your exact version and plan on the first call, before any commitment.',
       },
       {
         q: 'What is the first automation worth doing?',
-        a: 'Turnovers, usually: the most moving parts, the most dropped balls, and the fastest visible payoff. First workflow live inside 14 days.',
+        a: 'Turnovers, usually: the most moving parts, the most dropped balls, and the fastest visible payoff. The first workflow is usually live within days.',
       },
     ],
     related: [
@@ -466,8 +466,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Client Portal for Accounting Firms | Neil Busque',
     metaDescription:
-      'A secure client portal for accounting firms: document collection that chases itself, e-signatures, and status clients can see. $4,000/month.',
-    eyebrow: 'Accounting · Portal',
+      'A secure client portal for accounting firms: document collection that chases itself, e-signatures, and status clients can see.',
+    eyebrow: 'Accounting, Portal',
     h1: 'A client portal for **accounting firms**.',
     lede: 'Tax season is a document-collection problem wearing a deadline. A portal that chases files politely and relentlessly changes the season.',
     sections: [
@@ -491,7 +491,7 @@ export const combosB: SoftwarePage[] = [
       {
         h2: 'Season-proof, and yours',
         body: [
-          'The portal runs encrypted in accounts the firm owns. Hold the seat through busy season for changes and support, then pause if you like: the portal keeps working because you own it.',
+          'The portal runs encrypted in accounts the firm owns. Keep me on through busy season for changes and support, or not: the portal keeps working because you own it.',
         ],
       },
     ],
@@ -501,8 +501,8 @@ export const combosB: SoftwarePage[] = [
         a: 'The upload flow is deliberately dead simple: click the email link, phone camera, done. Firms are usually surprised by which clients adopt it first. Holdouts can still hand you paper; the checklist tracks them too.',
       },
       {
-        q: 'What does it cost against staff hours?',
-        a: '$4,000 a month flat. Set that against the staff hours currently spent chasing documents in March and the math tends to end the meeting.',
+        q: 'What does it cost?',
+        a: 'It depends on what the portal needs to do. You get a clear scope and price before any work starts. Set that against the staff hours currently spent chasing documents in March.',
       },
     ],
     related: [
@@ -517,8 +517,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Accounting Firms | Neil Busque',
     metaDescription:
-      'Accounting firm automation: deadline tracking, client onboarding, document chasing, and recurring work on rails. $4,000/month.',
-    eyebrow: 'Accounting · Automation',
+      'Accounting firm automation: deadline tracking, client onboarding, document chasing, and recurring work on rails.',
+    eyebrow: 'Accounting, Automation',
     h1: 'Workflow automation for **accounting firms**.',
     lede: 'Firms sell accuracy under deadline, then track both in heads and spreadsheets. I put the recurring work on rails.',
     sections: [
@@ -553,7 +553,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'When should a firm start this, given busy season?',
-        a: 'Off-season is ideal, but the 14-day first build means even a January start can ship the document chaser before the crunch peaks. Month one is refundable either way.',
+        a: 'Off-season is ideal, but a working first version usually takes days, so even a January start can ship the document chaser before the crunch peaks.',
       },
     ],
     related: [
@@ -568,8 +568,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Booking Software for Med Spas | Neil Busque',
     metaDescription:
-      'Med spa booking built for providers, rooms, and devices: deposits, consult flows, and no-show reduction. No per-booking fees. $4,000/month.',
-    eyebrow: 'Med Spa · Booking',
+      'Med spa booking built for providers, rooms, and devices: deposits, consult flows, and no-show reduction. No per-booking fees.',
+    eyebrow: 'Med Spa, Booking',
     h1: 'Booking software for **med spas**.',
     lede: 'A med spa books against providers, rooms, and devices at once. Generic schedulers juggle one of the three, and your front desk pays for it.',
     sections: [
@@ -604,7 +604,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, no per-booking fees. First version inside 14 days, month one refundable, all accounts yours.',
+        a: 'It depends on your services and rules. You get a clear scope and price before any work starts, with no per-booking fees, and every account is yours.',
       },
     ],
     related: [
@@ -619,8 +619,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Med Spas | Neil Busque',
     metaDescription:
-      'An AI phone agent for med spas: answers during treatments, books consults, handles pricing questions with care. $4,000/month.',
-    eyebrow: 'Med Spa · AI Phone',
+      'An AI phone agent for med spas: answers during treatments, books consults, handles pricing questions with care.',
+    eyebrow: 'Med Spa, AI Phone',
     h1: 'An AI phone agent for **med spas**.',
     lede: 'When your team is in a treatment, the phone rings unanswered. That caller books with whichever spa picks up. Yours should always pick up.',
     sections: [
@@ -654,8 +654,8 @@ export const combosB: SoftwarePage[] = [
         a: 'However you decide: exact prices, ranges with a consult push, or consult-only for premium treatments. The policy is yours; the agent just applies it consistently.',
       },
       {
-        q: 'What does it cost against one consult?',
-        a: 'The seat is $4,000 a month flat. With consult values where they are in aesthetics, a few saved calls a month typically carries it, and the after-hours coverage is free on top.',
+        q: 'What does it cost?',
+        a: 'It depends on your call flow and booking rules. You get a clear scope and price before any work starts. With consult values where they are in aesthetics, a few saved calls a month typically carry it, and the after-hours coverage comes with it.',
       },
     ],
     related: [
@@ -670,8 +670,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Class Booking Software for Gyms & Studios | Neil Busque',
     metaDescription:
-      'Custom class booking for gyms and studios: waitlists that fill themselves, membership rules, and no-show handling. $4,000/month.',
-    eyebrow: 'Fitness · Booking',
+      'Custom class booking for gyms and studios: waitlists that fill themselves, membership rules, and no-show handling.',
+    eyebrow: 'Fitness, Booking',
     h1: 'Class booking for **gyms and studios**.',
     lede: 'Empty bikes in a "full" class are pure lost revenue. Waitlists that fill themselves and no-show rules with teeth fix it quietly.',
     sections: [
@@ -695,7 +695,7 @@ export const combosB: SoftwarePage[] = [
       {
         h2: 'Your brand, no per-member fees',
         body: [
-          'Booking runs on your domain in your app-like portal, not a marketplace app that upsells your members someone else’s classes. Flat $4,000 a month while you hold the seat, no per-member or per-booking fees, and you own it.',
+          'Booking runs on your domain in your app-like portal, not a marketplace app that upsells your members someone else’s classes. No per-member or per-booking fees, and you own it.',
         ],
       },
     ],
@@ -721,8 +721,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Member Portal for Gyms & Studios | Neil Busque',
     metaDescription:
-      'A custom member portal for gyms: schedule, milestones, referrals, and account self-service in your brand. $4,000/month.',
-    eyebrow: 'Fitness · Portal',
+      'A custom member portal for gyms: schedule, milestones, referrals, and account self-service in your brand.',
+    eyebrow: 'Fitness, Portal',
     h1: 'A member portal for **gyms and studios**.',
     lede: 'Members who feel progress stay. A portal that shows their streaks, milestones, and next class makes progress visible every week.',
     sections: [
@@ -757,7 +757,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, first version inside 14 days, month one refundable. No per-member fees at any size.',
+        a: 'It depends on what members need to do in it. You get a clear scope and price before any work starts, with no per-member fees at any size.',
       },
     ],
     related: [
@@ -772,8 +772,8 @@ export const combosB: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Small Business | Neil Busque',
     metaDescription:
-      'Small business workflow automation: connect your tools, kill weekly copy-paste, and get the busywork off your team. $4,000/month.',
-    eyebrow: 'Small Business · Automation',
+      'Small business workflow automation: connect your tools, kill weekly copy-paste, and get the busywork off your team.',
+    eyebrow: 'Small Business, Automation',
     h1: 'Workflow automation for **small businesses**.',
     lede: 'You do not need enterprise software. You need the eleven tools you already pay for to finally talk to each other.',
     sections: [
@@ -797,7 +797,7 @@ export const combosB: SoftwarePage[] = [
       {
         h2: 'Start with the worst chore',
         body: [
-          'On the free call we find the chore your team hates most and automate it first, inside 14 days. Momentum beats master plans. Month one refundable, $4,000 flat, every workflow documented and owned by you.',
+          'On our first call we find the chore your team hates most and automate it first, usually within days. Momentum beats master plans. Every workflow is documented and owned by you.',
         ],
       },
     ],
@@ -808,7 +808,7 @@ export const combosB: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, several automations per typical month, cancel any month and keep everything running. The full offer with guarantees is on my offer page.',
+        a: 'A single automation costs less than an app build. You get a clear scope and price before any work starts, and everything keeps running in your accounts if we stop working together.',
       },
     ],
     related: [

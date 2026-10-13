@@ -3,7 +3,7 @@ import ContentArticle from '../../layouts/ContentArticle.astro';
 export const prerender = true;
 
 const faq = [
-  { q: 'How do you research competitors with AI?', a: 'Use AI for the reading, not the finding. Pull a real dataset from a source that only contains people spending money — an ad library is ideal — then use a model to screen, categorise, and summarise it. Asking a model to name your competitors from its own knowledge produces a plausible list rather than a real one.' },
+  { q: 'How do you research competitors with AI?', a: 'Use AI for the reading, not the finding. Pull a real dataset from a source that only contains people spending money (an ad library is ideal), then use a model to screen, categorise, and summarise it. Asking a model to name your competitors from its own knowledge produces a plausible list rather than a real one.' },
   { q: 'What is the best free source of competitor intelligence?', a: 'Public ad libraries. Everyone in the results is spending money right now, which is a filter no directory gives you, and start dates let you infer which offers are working.' },
   { q: 'How much does a competitor sweep like this cost?', a: 'The sweep behind this guide cost 158 API credits and covered 866 ads from 30 companies, screened from 585 advertisers. The expensive part is not data, it is deciding what question you are answering.' },
   { q: 'Can I just ask ChatGPT who my competitors are?', a: 'You will get a confident list built from training data, weighted toward whoever had the most written about them. It will miss the small advertiser outspending everyone in your city and include companies that have since pivoted or closed. Use a model to read a real dataset, not to be one.' },
@@ -73,18 +73,8 @@ const faq = [
   </ul>
 
   <h2>Make it repeatable</h2>
-  <p>The first sweep tells you the shape of the market. The <em>diff between sweeps</em> tells you who entered, who died, and which offers survived &mdash; and that is worth far more than any single snapshot.</p>
+  <p>The first sweep tells you the shape of the market. The <em>diff between sweeps</em> tells you who entered, who died, and which offers survived, and that is worth far more than any single snapshot.</p>
   <p>Because raw responses are cached, a re-run is cheap. Put it on a schedule, keep the scripts, and treat the output as a market radar rather than a one-off report.</p>
 
-  <h2>FAQ</h2>
-  <h3>How do you research competitors with AI?</h3>
-  <p>Use it for reading, not finding. Pull a real dataset from a money-filtered source, then have a model screen, categorise, and summarise it.</p>
-  <h3>What is the best free source?</h3>
-  <p>Public ad libraries. Everyone in the results is spending money right now, and start dates let you infer which offers work.</p>
-  <h3>What does a sweep cost?</h3>
-  <p>Mine was 158 API credits for 866 ads across 30 companies. The expensive part is deciding what question you are answering.</p>
-  <h3>Can I just ask a chatbot who my competitors are?</h3>
-  <p>You will get a plausible list, not a real one &mdash; missing current small spenders and including companies that have closed.</p>
-
-  <p style="margin-top: 2rem;">The study this came from: <a href="/research/866-custom-software-ads">866 ads from 30 custom software companies</a>. Want it run on your category? <a href="/contact">Tell me what you sell</a>.</p>
+  <p class="article-coda">The study this came from: <a href="/research/866-custom-software-ads">866 ads from 30 custom software companies</a>. Want it run on your category? <a href="/contact">Tell me what you sell</a>.</p>
 </ContentArticle>

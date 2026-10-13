@@ -25,34 +25,35 @@ export const POST: APIRoute = async ({ request }) => {
   const name = String(body.name ?? '').trim().slice(0, 200);
   const email = String(body.email ?? '').trim().slice(0, 200);
   const need = String(body.need ?? '').trim().slice(0, 100);
+  const company = String(body.company ?? '').trim().slice(0, 200);
   const message = String(body.message ?? '').trim().slice(0, 5000);
 
   if (!name || !message || !/^\S+@\S+\.\S+$/.test(email)) {
     return json({ error: 'Missing or invalid fields' }, 400);
   }
 
-  const subject = `[busqueneil.com] ${name} · ${need || 'Not sure yet'}`;
+  const subject = `[busqueneil.com] ${name}${company ? `, ${company}` : ''}: ${need || 'Not sure yet'}`;
   const text = `New message from busqueneil.com/contact
 
 Name: ${name}
-Email: ${email}
+Email: ${email}${company ? `\nCompany: ${company}` : ''}
 Needs: ${need || 'Not sure yet'}
 
 ${message}`;
   const html = `<p><strong>New message from busqueneil.com/contact</strong></p>
-<p>Name: ${esc(name)}<br/>Email: ${esc(email)}<br/>Needs: ${esc(need || 'Not sure yet')}</p>
+<p>Name: ${esc(name)}<br/>Email: ${esc(email)}<br/>${company ? `Company: ${esc(company)}<br/>` : ''}Needs: ${esc(need || 'Not sure yet')}</p>
 <p style="white-space:pre-wrap">${esc(message)}</p>`;
 
-  // Primary: Gmail SMTP (same proven transport as the Analyzer — lands in
-  // Neil's inbox as a self-send, replies thread to the visitor via Reply-To).
+  // Primary: Gmail SMTP, the same transport as the analyzer. It lands in Neil's inbox
+  // as a self-send, and replies go to the visitor through Reply-To.
   let sent = await sendContactEmail({ subject, html, text, replyTo: `${name} <${email}>` });
 
-  // Fallback: Mailgun on mail.hatchos.one.
+  // Fallback: Mailgun.
   if (!sent) sent = await sendViaMailgun({ subject, html, text, replyTo: `${name} <${email}>` });
 
   if (!sent) return json({ error: 'Could not send your message' }, 502);
 
-  // Best-effort: also file the lead in Orbit CRM. Never blocks the reply.
+  // Best effort: also file the lead in the CRM. Never blocks the reply.
   try {
     await fetch(ORBIT_FORM_LEAD, {
       method: 'POST',
@@ -61,7 +62,15 @@ ${message}`;
         apikey: ORBIT_ANON,
         Authorization: `Bearer ${ORBIT_ANON}`,
       },
-      body: JSON.stringify({ form: 'contact', name, email, need, message }),
+      // The company also leads the message, so the CRM keeps it even where it has no company field.
+      body: JSON.stringify({
+        form: 'contact',
+        name,
+        email,
+        need,
+        company: company || undefined,
+        message: company ? `Company: ${company}\n\n${message}` : message,
+      }),
     });
   } catch {
     // email already delivered; CRM copy is optional

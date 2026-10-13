@@ -6,7 +6,7 @@ const faq = [
   { q: 'What is an AI voice agent good at?', a: 'Answering immediately, at any hour, and asking the same three qualifying questions every time without getting tired or improvising. Speed of response is where most inbound leads are actually lost, and that is a problem a machine solves completely.' },
   { q: 'Will callers know they are talking to AI?', a: 'Usually within a sentence or two, and pretending otherwise is a bad trade. Say it up front. People are far more tolerant of a machine that is clearly a machine and useful than of one that was trying to pass.' },
   { q: 'What breaks an AI voice agent?', a: 'Anything off-script, background noise, accents the recogniser handles poorly, and the caller who wants to explain something complicated. Design the handoff to a human as a first-class path, not an error state.' },
-  { q: 'Should a voice agent book appointments directly?', a: 'Only against a real calendar with real availability rules, and only for simple bookings. The failure mode — a confidently booked slot that does not exist — is worse than taking a message.' },
+  { q: 'Should a voice agent book appointments directly?', a: 'Only against a real calendar with real availability rules, and only for simple bookings. The failure mode, a confidently booked slot that does not exist, is worse than taking a message.' },
 ];
 ---
 <ContentArticle
@@ -44,7 +44,7 @@ const faq = [
   <h2>What breaks it</h2>
   <p><strong>Anything off-script.</strong> A caller who wants to explain a complicated situation, or who asks something the agent has no tool for, will get a fluent and confidently wrong answer. This is the failure that damages trust, because it sounds authoritative.</p>
   <p><strong>Real-world audio.</strong> Wind, a job site, a car, a speakerphone, an accent the recogniser handles poorly. Recognition degrades and the agent starts responding to what it thought it heard. Design for mishearing as a normal condition, not an exception.</p>
-  <p><strong>Emotional calls.</strong> Somebody with water coming through their ceiling does not want a qualifying sequence. Route urgency to a human immediately, and make the urgency detection generous &mdash; a false positive costs you a phone call, a false negative costs you the customer.</p>
+  <p><strong>Emotional calls.</strong> Somebody with water coming through their ceiling does not want a qualifying sequence. Route urgency to a human immediately, and make the urgency detection generous: a false positive costs you a phone call, a false negative costs you the customer.</p>
   <p><strong>Anything with money attached.</strong> Quoting, discounting, negotiating. An agent that guesses a price has made a commitment on your behalf.</p>
 
   <h2>Design the handoff first</h2>
@@ -59,12 +59,12 @@ const faq = [
 
   <h2>Disclosure</h2>
   <p>Say it is an AI, in the first sentence.</p>
-  <p>Callers work it out quickly regardless, and the moment of realisation is much worse if they feel it was concealed. Stated up front, most people simply adjust &mdash; they speak more clearly, they keep answers short, and they are notably tolerant of a machine that is obviously a machine and actually useful.</p>
+  <p>Callers work it out quickly regardless, and the moment of realisation is much worse if they feel it was concealed. Stated up front, most people simply adjust. They speak more clearly, they keep answers short, and they are notably tolerant of a machine that is obviously a machine and actually useful.</p>
   <p>There are also disclosure rules in some jurisdictions, and call recording has its own requirements that vary by state and country. Check what applies where you operate before launching, not after.</p>
 
   <h2>Booking directly</h2>
   <p>Only against a real calendar with real availability rules, and only for simple appointments.</p>
-  <p>The failure mode is specific: a confidently booked slot that does not exist, or a double booking. That is worse than taking a message, because now you have a customer expecting you at a time you cannot make. If your scheduling has any real complexity &mdash; travel time, crew skills, equipment &mdash; have the agent capture the request and let a human place it.</p>
+  <p>The failure mode is specific: a confidently booked slot that does not exist, or a double booking. That is worse than taking a message, because now you have a customer expecting you at a time you cannot make. If your scheduling has any real complexity (travel time, crew skills, equipment), have the agent capture the request and let a human place it.</p>
 
   <h2>Build notes</h2>
   <ul>
@@ -75,15 +75,5 @@ const faq = [
     <li><strong>Test with bad audio deliberately.</strong> Call it from a car. That is the real condition.</li>
   </ul>
 
-  <h2>FAQ</h2>
-  <h3>What is it good at?</h3>
-  <p>Answering instantly at any hour and asking the same qualifying questions every time. Response speed is where most inbound leads are lost.</p>
-  <h3>Will callers know?</h3>
-  <p>Usually within a sentence. Say it up front &mdash; concealment is a bad trade, and disclosure rules may apply where you operate.</p>
-  <h3>What breaks it?</h3>
-  <p>Off-script questions, real-world audio, emotional calls, and anything involving price. Make handoff a first-class path.</p>
-  <h3>Should it book directly?</h3>
-  <p>Only against real availability and only for simple bookings. A confidently booked slot that does not exist is worse than a message.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/software/ai-phone-agent-vs-answering-service">AI phone agent vs answering service</a>, <a href="/software/ai-phone-agent-for-roofing-companies">AI phone agents for roofing</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
+  <p class="article-coda">Related: <a href="/software/ai-phone-agent-vs-answering-service">AI phone agent vs answering service</a>, <a href="/software/ai-phone-agent-for-roofing-companies">AI phone agents for roofing</a>, and <a href="/services/ai-agent-development">AI agent development</a>.</p>
 </ContentArticle>

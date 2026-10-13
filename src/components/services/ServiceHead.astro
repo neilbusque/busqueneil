@@ -1,0 +1,47 @@
+---
+/* Head for one service, hire or software page: a quiet back link, an optional label, the H1,
+   the lead, the WhatsApp button and a secondary button, with placeholder art on the right.
+   The heading marks its one accent phrase with **double asterisks**, the way the software
+   data does, so the accent can sit anywhere in the line. The BreadcrumbList JSON-LD comes
+   from the same trail as the back link. Place it directly in the page, not inside a Section. */
+import Art from '../Art.astro';
+import Breadcrumb from '../site/Breadcrumb.astro';
+import Button from '../site/Button.astro';
+import type { PaletteName } from '../../lib/art';
+import type { LinkItem } from '../../data/site';
+
+interface Props {
+  /** H1 text; wrap the accent phrase in **double asterisks**. */
+  heading: string;
+  lead: string;
+  label?: string;
+  /** Trail for the back link and the BreadcrumbList schema, current page last, absolute URLs. */
+  crumbs: { name: string; url: string }[];
+  /** Visible label of the back link. Defaults to the parent's name. */
+  backLabel?: string;
+  primary: LinkItem;
+  secondary?: LinkItem;
+  artSeed: string;
+  artPalette?: PaletteName;
+}
+
+const { heading, lead, label, crumbs, backLabel, primary, secondary = { label: 'See the work', href: '/work' }, artSeed, artPalette } = Astro.props;
+const [pre, accent, post] = heading.split('**');
+---
+<header class="phead svc-head">
+  <div class="wrap svc-head-grid">
+    <div class="svc-head-main">
+      <Breadcrumb items={crumbs} backLabel={backLabel} />
+      {label && <p class="t-label">{label}</p>}
+      <h1 class="t-h1 svc-title">{pre}{accent && <span class="accent">{accent}</span>}{post}</h1>
+      <p class="t-lead">{lead}</p>
+      <div class="btn-row btn-row--stack">
+        <Button href={primary.href}>{primary.label}</Button>
+        <Button href={secondary.href} variant="secondary">{secondary.label}</Button>
+      </div>
+    </div>
+    <div class="svc-head-art">
+      <Art seed={artSeed} kind="service" ratio="4 / 3" palette={artPalette} loading="eager" />
+    </div>
+  </div>
+</header>

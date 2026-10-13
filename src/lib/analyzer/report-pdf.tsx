@@ -78,13 +78,15 @@ function ReportDoc({ url, score, grade, audit, report }: ReportPdfData) {
         <Text style={s.h2}>Who put this together</Text>
         <Text style={s.h1}>Neil Busque</Text>
         <Text style={{ marginTop: 8 }}>
-          I am a builder and marketer who ships. I take ideas from a blank file to a live product, usually solo, often in days.
-          My path went from design to web to funnels and CRM to automation, and now I build with AI every day.
+          I'm the person a business brings in to lead its AI work. I find the jobs worth handing to AI, build them myself and keep them running.
+          I use AI coding tools every day, and they make me fast. My job is to catch what they get wrong before your team or your customers do.
         </Text>
         <Text style={s.h2}>How I can help with this page</Text>
         <Text>I fix the exact issues in this report: sharper hook and offer, a single clear call to action, proof that builds trust, a faster mobile page, and the follow-up behind it so leads do not slip. I also build the CRM, automations, and AI systems around it.</Text>
-        <Link src="https://api.whatsapp.com/send/?phone=9083164140" style={s.cta}>Message me on WhatsApp</Link>
-        <Text style={{ marginTop: 12 }} >More at busqueneil.com  ·  linkedin.com/in/neilbusque  ·  busqueneil@gmail.com</Text>
+        <Link src="https://wa.me/19083164140" style={s.cta}>Message me on WhatsApp</Link>
+        <Text style={{ marginTop: 12 }}>More at busqueneil.com</Text>
+        <Text>Email: busqueneil@gmail.com</Text>
+        <Text>LinkedIn: linkedin.com/in/neilbusque</Text>
       </Page>
     </Document>
   );

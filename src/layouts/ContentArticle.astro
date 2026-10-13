@@ -1,84 +1,120 @@
 ---
-/* Shared shell for the 50-piece content programme (docs/content-plan-50.md).
- *
- * Each article was ~60 lines of identical schema and header boilerplate. Across 50 pages that
- * is 3,000 lines of copy-paste, and copy-paste is how a canonical ends up pointing at the page
- * it was duplicated from. This takes a slug, reads everything else from content-index, and
- * leaves the article file as frontmatter plus prose.
- *
- * ⚠️ The entry must exist in content-index.ts and be `live: true`, or the build fails here
- * rather than shipping a page the sitemap and hubs do not know about.
- */
+/* Article layout for every guide, comparison and research page.
+
+   A page passes its slug and its copy; everything else (title tag, dates, canonical, schema,
+   related reading) comes from src/data/content-index.ts, so a canonical can never point at the
+   page it was copied from. The entry must exist in the index and be live, or the build fails
+   here rather than shipping a page the hubs and the sitemap do not know about.
+
+   Page order (blueprint "Article page"): back link to /resources, kind label, H1, lead, meta row
+   (author, read time, updated date), art 16/9 seeded by the slug, then the body in a 680px
+   column with a sticky table of contents at 1200px and wider, the FAQ, the author box, three
+   related reads, and the closing band from AppShell.
+
+   FAQ: the questions passed in `faq` are rendered visibly here AND marked up as FAQPage, from
+   the same array, so the schema always matches what a reader sees. Do not repeat them in the
+   body. */
 import AppShell from './AppShell.astro';
-import Breadcrumb from '../components/Breadcrumb.astro';
-import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../lib/seo';
-import { CONTENT, clusterPath, urlFor, type Cluster } from '../data/content-index';
+import ArticleFrame from '../components/articles/ArticleFrame.astro';
+import { countWords, minutesFor, prepareProse } from '../components/articles/prose';
+import { relatedRows } from '../components/articles/rows';
+import { AUTHOR, PUBLISHER, SITE_URL, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
+import { ARTICLES, KIND_LABEL, kindOf, readMinutes, urlFor, type Cluster } from '../data/content-index';
 
 interface FaqItem { q: string; a: string }
 interface Props {
   slug: string;
-  /** Overrides the index title for the <title> tag when the H1 needs to differ. */
+  /** Overrides the index title for the title tag and the schema headline. */
   seoTitle?: string;
+  /** The exact title tag, with no suffix added. For pages that keep an older title tag. */
+  titleTag?: string;
+  /** Schema headline, when it should differ from the title. */
+  headline?: string;
   description: string;
-  /** Rendered as the H1. Wrap the accent word in the `accent` prop instead of markup. */
+  /** Rendered as the H1. Put the accent words in `accent`, not in markup. */
   heading: string;
   accent?: string;
   lede: string;
-  /** Index number shown in the eyebrow, e.g. "02". */
-  idx: string;
+  /** Old index number. Kept so existing pages compile; no longer shown. */
+  idx?: string;
   faq?: FaqItem[];
   keywords?: string;
+  /** Schema type. Most pieces are how-to or technical, so TechArticle is the default. */
+  schemaType?: 'TechArticle' | 'Article';
+  /** Extra fields merged into the article schema, for example proficiencyLevel. */
+  schema?: Record<string, unknown>;
+  /** Social image. Defaults to the site's article image. */
+  ogImage?: string;
 }
 
-const { slug, seoTitle, description, heading, accent, lede, idx, faq = [], keywords } = Astro.props;
+const {
+  slug,
+  seoTitle,
+  titleTag,
+  headline,
+  description,
+  heading,
+  accent,
+  lede,
+  faq = [],
+  keywords,
+  schemaType = 'TechArticle',
+  schema: extraSchema,
+  ogImage,
+} = Astro.props;
 
-const entry = CONTENT.find((c) => c.slug === slug);
-if (!entry) throw new Error(`ContentArticle: "${slug}" is not in content-index.ts`);
-if (!entry.live) throw new Error(`ContentArticle: "${slug}" is in content-index but not marked live:true`);
+const entry = ARTICLES.find((c) => c.slug === slug);
+if (!entry) throw new Error(`ContentArticle: "${slug}" is not a live entry in content-index.ts`);
 
 const cluster: Cluster = entry.cluster;
 const canonical = `${SITE_URL}${urlFor(entry)}`;
-const image = `${SITE_URL}/assets/brand/og-v13.png`;
+const image = ogImage ?? SOCIAL_IMAGE_URL;
+const kind = kindOf(entry);
+const updated = entry.modified ?? entry.published;
 
-const CRUMB_LABEL: Record<Cluster, string> = {
-  compare: 'Compare',
-  guides: 'Resources',
-  research: 'Research',
+/* The body, rendered once: H2s get ids and feed the table of contents, bare tables get a
+   scrolling wrapper. */
+const rendered = await Astro.slots.render('default');
+const { html: body, toc } = prepareProse(rendered, ['faq', 'main', 'article-title']);
+if (faq.length) toc.push({ id: 'faq', html: 'FAQ' });
+
+const words = countWords(body) + faq.reduce((n, f) => n + countWords(`${f.q} ${f.a}`), 0);
+/* The hubs list the stored READ_MINUTES; the live count is the fallback for a new page and the
+   source for refreshing the stored numbers (data-words below). */
+const minutes = readMinutes(entry) ?? minutesFor(words);
+
+/* Breadcrumb schema as before: Compare, Resources (guides; /guides 301s there) or Research. */
+const CRUMB: Record<Cluster, { name: string; url: string }> = {
+  compare: { name: 'Compare', url: `${SITE_URL}/compare` },
+  guides: { name: 'Resources', url: `${SITE_URL}/resources` },
+  research: { name: 'Research', url: `${SITE_URL}/research` },
 };
-/* /guides 301s to /resources, so the breadcrumb for a guide must point at the 200. */
-const CRUMB_URL: Record<Cluster, string> = {
-  compare: `${SITE_URL}/compare`,
-  guides: `${SITE_URL}/resources`,
-  research: `${SITE_URL}/research`,
-};
-const EYEBROW: Record<Cluster, string> = { compare: 'Compare', guides: 'Guide', research: 'Research' };
 
 const article = {
   '@context': 'https://schema.org',
-  '@type': 'TechArticle',
-  headline: seoTitle ?? entry.title,
+  '@type': schemaType,
+  headline: headline ?? seoTitle ?? entry.title,
   description,
   '@id': `${canonical}#article`,
   author: AUTHOR,
   publisher: PUBLISHER,
   datePublished: entry.published,
-  dateModified: entry.modified ?? entry.published,
+  dateModified: updated,
   mainEntityOfPage: { '@id': `${canonical}#webpage` },
   isPartOf: WEBSITE_REF,
   image,
   inLanguage: 'en-US',
   ...(keywords ? { keywords } : {}),
+  ...(extraSchema ?? {}),
 };
 
-/* FAQPage is emitted only when the questions are genuinely answered in visible copy on the
-   page. Marking up questions that are not on the page is a structured-data violation, and
-   FAQ rich results are in any case now limited to authoritative gov/health sites — this is
-   for machine comprehension, not a rich-result play. */
+/* FAQPage only for questions shown on the page (they render below, from this same array). */
 const faqSchema = faq.length
   ? {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
       '@id': `${canonical}#faq`,
+      isPartOf: { '@id': `${canonical}#webpage` },
       mainEntity: faq.map((f) => ({
         '@type': 'Question',
         name: f.q,
@@ -86,34 +122,35 @@ const faqSchema = faq.length
       })),
     }
   : null;
+
+const related = relatedRows(entry);
 ---
 <AppShell
-  title={`${seoTitle ?? entry.title} | Neil Busque`}
+  title={titleTag ?? `${seoTitle ?? entry.title} | Neil Busque`}
   description={description}
   canonical={canonical}
   ogImage={image}
   ogType="article"
-  active="resources"
+  active="article"
 >
   <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: `${SITE_URL}/` },
-      { name: CRUMB_LABEL[cluster], url: CRUMB_URL[cluster] },
-      { name: entry.title, url: canonical },
-    ]} />
     <script type="application/ld+json" set:html={JSON.stringify(article)} />
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
   </Fragment>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">{idx}</span> {EYEBROW[cluster]}</p>
-    <h1>{heading} {accent && <span class="accent">{accent}</span>}</h1>
-    <p class="lede">{lede}</p>
-  </header>
-
-  <article class="article-page">
-    <div class="prose">
-      <slot />
-    </div>
-  </article>
+  <ArticleFrame
+    kind={KIND_LABEL[kind]}
+    heading={heading}
+    accent={accent}
+    lede={lede}
+    minutes={minutes}
+    date={updated ? { iso: updated, label: 'Updated' } : undefined}
+    artSeed={slug}
+    body={body}
+    toc={toc}
+    faq={faq}
+    related={related}
+    words={words}
+    crumbs={[{ name: 'Home', url: `${SITE_URL}/` }, CRUMB[cluster], { name: entry.title, url: canonical }]}
+  />
 </AppShell>

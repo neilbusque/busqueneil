@@ -1,11 +1,12 @@
 ---
 /* FAQ: <details> rows with hairlines, a plus that turns into a cross when open, no boxes.
    Works without JS. With `title` it renders the two-column section layout: H2, one line and
-   an "Ask me directly" link on the left (WhatsApp by default), questions on the right.
+   an "Ask me directly" link on the left (WhatsApp with the global prefill by default),
+   questions on the right.
    `schema` also emits FAQPage JSON-LD; only use it when these questions are visible here and
    not already marked up by the page layout. */
 import Icon from './Icon.astro';
-import { waUrl } from '../../data/site';
+import { waGlobal } from '../../data/site';
 
 interface Props {
   items: { q: string; a: string }[];
@@ -23,7 +24,7 @@ const {
   items,
   title,
   lead,
-  ask = { href: waUrl('Hi Neil, I have a question.'), label: 'Ask me directly' },
+  ask = { href: waGlobal(), label: 'Ask me directly' },
   schema = false,
   id,
   class: className,
@@ -48,6 +49,7 @@ const json = schema
       {ask && (
         <a class="link-arrow" href={ask.href} target={isHttp ? '_blank' : undefined} rel={isHttp ? 'noopener' : undefined}>
           {ask.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+          {isHttp && <span class="sr-only"> (opens in a new tab)</span>}
         </a>
       )}
     </div>

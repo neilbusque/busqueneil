@@ -1,0 +1,21 @@
+---
+/* Author box under an article: a ruled frame with the 72px portrait slot, the name, one line on
+   what Neil does, and a link to work with him. Copy from the deck (ARTICLE + SOFTWARE TEMPLATES). */
+import Portrait from '../site/Portrait.astro';
+import Icon from '../site/Icon.astro';
+import { SITE } from '../../data/site';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+<aside class:list={['author-box', className]} aria-label="About the author">
+  <Portrait variant="avatar" seed="author-avatar" palette="navy" />
+  <div class="author-copy">
+    <p class="t-h4">{SITE.name}</p>
+    <p class="author-line">I build AI agents, custom software and automations for growing businesses, and write down what I learn.</p>
+    <a class="link-arrow" href="/contact">Work with me<Icon name="arrow-right" strokeWidth={2} /></a>
+  </div>
+</aside>

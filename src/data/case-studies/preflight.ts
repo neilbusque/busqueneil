@@ -2,24 +2,25 @@ import type { CaseStudy } from './types';
 
 export const preflight: CaseStudy = {
   slug: 'preflight',
-  name: 'Preflight',
-  tagline: 'Run your funnel before you run your ads',
-  seoTitle: 'Preflight: a funnel simulator build',
-  category: 'SaaS · Marketing Tooling',
+  title: 'A funnel simulator with an AI audit',
+  category: 'Sites and funnels',
   year: '2026',
-  status: 'Live in production',
   liveUrl: 'https://preflight.neilb.app',
+  seoTitle: 'Case study: funnel simulator with an AI audit',
+  seoDescription:
+    'A canvas where you lay out a whole funnel, from ad to booking to follow-up, click through it like a buyer and get an AI audit before you buy traffic.',
   summary:
-    'A node-canvas funnel simulator that lets you build, click through, and audit a full marketing funnel, ads to booking, before a dollar hits the ad account.',
+    'Lay out a whole funnel, from ad to booking to follow-up, and click through it before you buy traffic. AI drafts the first version and audits it.',
   lede:
-    'Preflight is a visual funnel builder that mocks up every step of a marketing funnel with faithful platform UI, then lets you click through it like a real prospect would. Build the ad, the landing page, the booking flow, and the follow-up in one canvas, walk it end to end, and find the broken step before you find it in your ad spend.',
+    'A visual funnel builder that mocks up every step of a marketing funnel in the look of the real platforms, then lets you click through it the way a buyer would. Build the ad, the landing page, the booking flow and the follow-up on one canvas, walk it end to end, and find the broken step before your ad spend does.',
 
-  facts: [
-    { k: 'Role', v: 'Solo builder, product + design + engineering' },
-    { k: 'Timeline', v: '3 weeks, May to July 2026' },
-    { k: 'Stack', v: 'Vite, React 18, TypeScript, React Flow, Supabase' },
-    { k: 'Live', v: 'preflight.neilb.app' },
-  ],
+  facts: {
+    whoFor: 'Agencies and owners planning paid traffic, and the people who sign off on it',
+    built: 'A node canvas with platform-style mockups, a click-through mode and a scored audit',
+    timeline: 'About three weeks, mid 2026',
+    stack: 'Vite, React 18, TypeScript, React Flow, Supabase',
+  },
+
   stack: [
     'Vite',
     'React 18',
@@ -31,157 +32,148 @@ export const preflight: CaseStudy = {
     'Vercel',
     'OpenRouter',
   ],
+
   metrics: [
-    { value: '7', label: 'node types: ad, page, booking, email, SMS, action, decision' },
-    { value: '5', label: 'live QA rounds across v1 through v4' },
-    { value: '85+', label: 'automated tests (vitest) covering graph logic and analyzer parsing' },
+    { value: '7', label: 'Step types: ad, page, booking, email, SMS, action and decision' },
+    { value: '5', label: 'Rounds of live testing across four versions' },
+    { value: '85+', label: 'Automated tests on the graph logic and the audit parser' },
   ],
 
   problem: {
-    title: 'The problem',
     body: [
-      "Most funnels fail somewhere nobody walked before launch. Not the offer, not the targeting, the plumbing: a booking link that opens to the wrong calendar, a follow-up SMS that fires before the email does, a decision branch nobody built the no-show path for. Nobody catches it because nobody experiences the funnel as a prospect would before spending is live. Reviewing a funnel today means opening five different tools, an ad manager, a page builder, a CRM, an email platform, a texting app, and mentally stitching them into a sequence. Nobody actually does that. So the first real walkthrough happens after the money's out the door, when a lead comments that the booking page 404s or the SMS never sent.",
-      "The failure mode isn't bad strategy. It's an unwalked path. A funnel is a sequence of screens and decisions, and the only way to know if the sequence holds together is to move through it in order, seeing exactly what the prospect sees at each step, including the branches: what happens if they book, what happens if they ghost, what happens if they show up and no-show. Nobody builds a tool for that because it sits between two disciplines: it needs the visual fidelity of a design tool and the logic of a flowchart. Preflight is built to close that gap.",
+      "Most funnels fail somewhere nobody walked before launch. Not the offer and not the targeting, but the plumbing: a booking link that opens the wrong calendar, a follow-up text that goes out before the email, a decision with no path for the no-show. Reviewing a funnel today means opening an ad manager, a page builder, a CRM, an email tool and a texting app, and stitching them together in your head. Nobody does that, so the first real walkthrough happens after the money is spent.",
+      'The failure is not bad strategy. It is an unwalked path. A funnel is a sequence of screens and decisions, and the only way to know it holds together is to move through it in order, seeing what the buyer sees at each step, including what happens if they book, ghost or book and do not show. That sits between two kinds of tool: it needs the look of a design tool and the logic of a flowchart.',
     ],
   },
 
   approach: {
-    title: 'The approach',
     body: [
-      "Preflight does three jobs and the product is organized around exactly those three, no more: simulate the funnel, pitch it to a client or stakeholder, and audit it against real benchmarks. Simulate means build the sequence as nodes and walk it in play mode like a prospect would, including every branch. Pitch means the same canvas, in front of a client, replaces a slide deck: click through the actual ad, actual landing page, actual booking flow, with commenting turned on so they can react node by node. Audit means run the finished sequence, or a single piece of it, against a benchmark knowledge base and get a scored report with specific fixes, not a vague grade. Three jobs, one canvas, no context-switching between tools to do any of them.",
-      "The core data model is a node graph: `funnels.graph` is a JSON blob of nodes and edges, each node carrying its own `config`, optional `metrics`, and optional `variants`. Edges carry timing labels ('Day 1', 'after 3 days no-show') so the sequence reads as a real campaign cadence, not just a flowchart. Decision nodes are the one node type that fans out more than a single edge, one branch per outcome (booked / no-show / ghosted), and every other node type enforces a strict one-outgoing-edge rule. That asymmetry is deliberate: it's what makes branching legible on the canvas instead of turning into an unreadable web, and it's the rule the drag-to-create interaction and the AI graph generator both have to respect.",
-      "React Flow (`@xyflow/react`) is the canvas engine, but the differentiator isn't the graph library, it's the mockups. Every node type renders as a full-fidelity, platform-authentic mockup: five ad variants across Facebook feed, Instagram feed and story, LinkedIn, and Google; a browser-framed landing page (live URL via iframe or an uploaded screenshot); a Calendly-style booking screen; a Gmail-style email; an iMessage-style SMS thread; a phone-call or DM action screen themed per platform. This matters because Preflight has to work as a pitch tool in front of a non-technical stakeholder. A generic flowchart with labeled boxes doesn't land in a client meeting. A mockup that looks exactly like the Facebook ad they'll actually see does. Faithful platform chrome is what turns 'here's our plan' into 'here's what your customer sees,' and that's the sentence that closes the pitch.",
-      "The product was originally named Funnel Simulator, which described the mechanism but not the reason anyone would use it. On 2026-07-03 it was rebranded to Preflight, with the tagline 'Run your funnel before you run your ads.' The rename reframes the product around an aviation metaphor that's already fluent to anyone who's flown: you don't take off without a checklist, you don't spend on ads without walking the sequence first. The visual system followed the metaphor directly, a checkmark-to-ascent logo mark meant to read as 'cleared for launch,' a coral-and-navy palette chosen for confidence over cuteness, and a literal preflight-checklist device used across the marketing site. Positioning language shifted from 'build and preview a funnel' to 'clear it before you spend,' which is a small wording change that changes who the product is for: not just funnel builders, but the person who has to sign off on ad spend.",
-      "Every non-trivial feature after the rebrand was scoped against those three jobs. Page builder blocks and an A/B variant system serve simulate (make the mockup match reality). Comment threads on public share links serve pitch (a client reacts on the node, not in a separate feedback doc). The analyzer, benchmark citations, and PageSpeed-backed URL audits serve audit (a scored report instead of a gut check). Anything that didn't clearly serve one of the three didn't ship.",
+      'The product does three jobs and is organized around exactly those three. Simulate: build the sequence as steps and walk it like a buyer, including every branch. Pitch: put the same canvas in front of a client instead of a slide deck, with comments on each step. Audit: run the finished sequence, or one part of it, against real benchmarks and get a scored report with specific fixes, not a vague grade.',
+      "Underneath is a graph: each funnel is a set of steps and links, each step with its own settings, optional numbers and optional variants. Links carry timing labels, like 'Day 1' or 'after 3 days, no-show', so the sequence reads like a real campaign. Decision steps are the only kind that branch, one link per outcome (booked, no-show, ghosted), and every other kind allows exactly one link out. That one asymmetric rule keeps the canvas readable instead of a web, and both the drag-to-create gesture and the AI generator have to respect it.",
+      "React Flow draws the canvas, but the mockups are what set it apart. Every step renders in the look of the real platform: five ad formats across Facebook, Instagram, LinkedIn and Google, a browser-framed landing page, a booking screen, an email, a text thread, and call and DM screens. That matters in a client meeting. A flowchart of labeled boxes does not land with a non-technical owner. A mockup that looks exactly like the ad they will see does.",
+      "A rename early on reframed the product around one idea: clear the funnel before you spend on traffic. The positioning moved from 'build and preview a funnel' to 'check it before you spend', which changed who it is for: not only the person building funnels, but the person who signs off on the ad budget.",
+      "After that, every feature was checked against the three jobs. Page blocks and A/B variants serve simulate. Comment threads on share links serve pitch. The audit, its benchmark sources and the page-speed checks serve audit. Anything that did not clearly serve one of the three did not ship.",
     ],
   },
 
   timeline: [
-    { when: '2026-06 (v1)', title: 'Core canvas + play mode', what: 'Node-canvas editor with five node types, edge timing labels, decision-node branching, public play mode, share links, autosave.' },
-    { when: '2026-07-02', title: 'Live QA + autosave bug fixed', what: 'Headless Playwright pass on a seeded funnel: play, branching, share, RLS, and keyboard all verified. Found and fixed a debounce bug where React Flow\'s idle position/selection churn reset the autosave timer indefinitely.' },
-    { when: '2026-07-03', title: 'v2: page builder, AI generation, device toggle', what: '10-block page builder, AI funnel generation via OpenRouter, mobile device toggle across all mockup types, Facebook feed intro sequence.' },
-    { when: '2026-07-03', title: 'v3: Funnel Analyzer', what: 'Benchmark-grounded audit engine, five audit scopes, scored reports with per-section findings and one-click fix application.' },
-    { when: '2026-07-03', title: 'v3.1: URL landing audit', what: 'Drop-a-link auto-audit backed by Google PageSpeed Insights, no funnel required, plus branded PDF export via print-to-PDF.' },
-    { when: '2026-07-03', title: 'Rebrand: Funnel Simulator to Preflight', what: 'New name, tagline, logo mark, coral/navy brand system, and a public marketing landing page at the root domain (dashboard moved behind /app).' },
-    { when: '2026-07-03', title: 'Action node + drag-to-create', what: 'Call and DM node type with platform-themed threads; drag out of any node\'s handle to drop and create the next node in one motion.' },
-    { when: '2026-07-04', title: 'v4: multi-tenant + custom domain', what: 'Moved off a single shared unlock password to real per-account auth with row-level security, added a daily AI usage cap, launched on preflight.neilb.app with transactional email via Resend.' },
+    { when: 'June 2026', title: 'Canvas and click-through', what: 'A step editor with five step types, timing labels, branching decisions, a public click-through mode, share links and autosave.' },
+    { when: 'July 2, 2026', title: 'Live testing finds an autosave bug', what: 'A full browser test of a seeded funnel covered play mode, branching, sharing, permissions and the keyboard, and found the autosave timer resetting forever.' },
+    { when: 'July 3, 2026', title: 'Page builder and AI drafts', what: 'A 10-block page builder, AI funnel generation, a phone preview for every mockup and an intro that scrolls a fake feed to the ad.' },
+    { when: 'July 3, 2026', title: 'The audit', what: 'A benchmark-based audit with five scopes and scored reports, with one-click fixes.' },
+    { when: 'July 3, 2026', title: 'Drop in a link', what: 'Audit any landing page from its URL, backed by Google PageSpeed Insights, plus a branded PDF export.' },
+    { when: 'July 3, 2026', title: 'Rename and new brand', what: 'A new name, mark and palette, and a public marketing page, with the app moved behind a login.' },
+    { when: 'July 3, 2026', title: 'Call and DM steps, drag to create', what: 'A call and DM step with platform-style threads, and drag out of any step to create and connect the next one.' },
+    { when: 'July 4, 2026', title: 'Real accounts', what: 'Per-account sign-in with database security rules instead of one shared password, a daily AI usage cap, its own domain and transactional email.' },
   ],
 
   features: [
     {
       group: 'Canvas editor',
       items: [
-        'n8n-style node cards with colored icon chips per node type',
-        'Auto-layout ("Tidy") via dagre graph layout',
-        'Full-screen node editor: live mockup and editable inspector side by side, autosaves on every change',
-        'Drag out of any node\'s connector and drop on empty canvas to create and auto-wire the next node',
+        'Step cards with a colored icon for each type',
+        'One-click tidy layout',
+        'A full-screen editor with the live mockup and its settings side by side, saving as you go',
+        'Drag out of any step and drop on empty canvas to create and connect the next one',
       ],
     },
     {
-      group: 'Node types',
+      group: 'Step types',
       items: [
-        'Ad: 5 platform variants (Facebook feed, Instagram feed and story, LinkedIn, Google)',
-        'Page: live URL iframe, uploaded screenshot, or a 10-block page builder (nav, headline, media, bullets, CTA, form, testimonial, guarantee, footer) with an accent-color theme',
-        'Booking, Email, SMS: Calendly-style, Gmail-style, and iMessage-style mockups',
-        'Action: phone-call script screen or platform-themed DM thread (Instagram, LinkedIn, Messenger, X, WhatsApp)',
-        'Decision: the one node type that branches, one outgoing edge per outcome',
+        'Ads in five formats: Facebook feed, Instagram feed and story, LinkedIn and Google',
+        'Pages from a live URL, a screenshot or a 10-block page builder',
+        'Booking, email and text-message mockups',
+        'Call scripts and DM threads for Instagram, LinkedIn, Messenger, X and WhatsApp',
+        'Decisions, the only step that branches, one path per outcome',
       ],
     },
     {
-      group: 'Play mode',
+      group: 'Click-through mode',
       items: [
-        'Public, anonymous-capable click-through of the full sequence',
-        'Facebook-feed intro: auto-scrolling fake feed that lands on the real ad before the journey starts',
-        'Decision nodes let the presenter pick the branch live',
-        'Desktop and mobile device toggle, phone-framed mockups on mobile',
-        'Keyboard navigation (forward, back, replay)',
+        'A public click-through of the whole sequence, with no login needed',
+        'An intro that scrolls a fake social feed and lands on the real ad',
+        'The presenter picks each branch live',
+        'Desktop and phone views, with phone-framed mockups',
+        'Keyboard controls to go forward, back and replay',
       ],
     },
     {
-      group: 'Audit engine',
+      group: 'The audit',
       items: [
-        'Five scopes: whole funnel, landing page, ad, opt-in, email',
-        'Drop-a-URL express audit backed by Google PageSpeed Insights, no funnel setup required',
-        '0-100 score with per-section findings, each citing a benchmark (Unbounce conversion medians, WordStream CTR/CPC, Klaviyo email data)',
-        'One-click deterministic fix application, or an AI-assisted edit instruction',
-        'Branded PDF export via print-to-PDF with a customizable CTA block',
+        'Five scopes: whole funnel, landing page, ad, opt-in and email',
+        'Drop in a URL for a fast audit backed by Google PageSpeed Insights',
+        'A score out of 100 with findings that each cite a benchmark (Unbounce, WordStream, Klaviyo)',
+        'One-click fixes, or an AI-assisted edit',
+        'A branded PDF export with your own call to action',
       ],
     },
     {
-      group: 'Sharing + collaboration',
+      group: 'Sharing',
       items: [
-        'Public share links with a view-only, comment-enabled mode',
-        'Comment threads pinned to a specific node, resolvable by the owner',
-        'A/B variants per node with side-by-side compare and in-play toggle',
-        'Funnelytics-style per-node analytics: traffic, spend, impressions, clicks, revenue, and edge conversion percentages',
-      ],
-    },
-    {
-      group: 'Marketing site',
-      items: [
-        'Public landing page with a live canvas mockup in the hero',
-        'Three-jobs framing (Simulate, Pitch, Audit) with feature deep-dives using the same real product mockups',
-        'How-it-works checklist, agency/operator use-case split, FAQ, dark final-CTA band',
-        'Reveal-on-scroll animation that respects reduced-motion preference',
+        'Share links that are view-only with comments turned on',
+        'Comment threads pinned to a step, which the owner can resolve',
+        'A/B variants per step, compared side by side',
+        'Numbers per step: traffic, spend, clicks, revenue and conversion between steps',
       ],
     },
   ],
 
   hardParts: [
     {
-      title: 'Drag-to-create without breaking the branching rule',
+      title: 'Drag to create without breaking the branching rule',
       problem:
-        'Every node type except decision must have exactly one outgoing edge; decision nodes must have exactly one outgoing edge per outcome. The drag-to-create feature (drag out of a node\'s connector, drop on empty canvas, pick a type) had to create a new node AND wire the edge in one motion, without a code path that could violate that rule.',
+        'Every step except a decision must have exactly one link out, and a decision exactly one per outcome. Drag-to-create had to make a new step and connect it in one motion, without a code path that could break that rule.',
       solution:
-        'Wired the interaction through React Flow\'s `onConnectStart`/`onConnectEnd` (not present before this feature), which fire on a drag-out from a handle even when it doesn\'t land on an existing node. On drop over empty canvas, a node-type menu opens at the drop point; picking a type calls the same `addNode` path used by the toolbar palette, positioned via `screenToFlowPosition`, then auto-connects from the source using the exact same linear-one-edge / decision-per-outcome logic that governs manual `onConnect`. One rule set, two entry points, no special case for the drag-to-create path to drift out of sync with manual connection.',
+        "I wired the gesture through React Flow's connect-start and connect-end events, which fire even when the drag ends on empty canvas. Dropping opens a menu of step types at that spot, and picking one uses the same add-step path as the toolbar, then connects it with the exact same one-link and per-outcome logic as a manual connection. One rule set, two ways in, nothing to drift apart.",
     },
     {
-      title: 'A scrollable canvas mock broke mobile page width',
+      title: 'A scrolling canvas mockup broke the page width on phones',
       problem:
-        'The new marketing landing page hero included a live, scrollable canvas mockup. On mobile it forced the entire page wider than the viewport, horizontal overflow on every section, not just the hero, because a flex/grid child with intrinsic scrollable content doesn\'t shrink below its content width by default.',
+        'The marketing page hero included a live, scrollable canvas mockup. On phones it made the whole page wider than the screen, with sideways scroll on every section, because a grid child with scrollable content does not shrink below its content by default.',
       solution:
-        'The fix was a single missing Tailwind utility: `min-w-0` on the grid/flex container wrapping the canvas mock. Without it, a grid item defaults to `min-width: auto`, which lets its content (the scrollable canvas) dictate the column\'s minimum width instead of the column constraining the content. Caught in a puppeteer QA pass at 390px and 1440px specifically because the bug was invisible at desktop width and only showed up as overflow on narrow viewports.',
+        'The fix was one missing min-w-0 on the container around the mockup. Without it, a grid item lets its content set the column\'s minimum width. A browser test at 390 and 1440 pixels caught it, because the bug was invisible on desktop.',
     },
     {
-      title: 'Autosave silently stopped firing mid-session',
+      title: 'Autosave that quietly stopped mid-session',
       problem:
-        'A debounced autosave never fired while a user was actively working the canvas, even though data was correctly persisted on navigate-away. React Flow\'s `onNodesChange` handler was folding every change type, including idle `select` and `dimensions` events that fire on hover and layout measurement, back into the graph state, which reset the debounce timer on every one of those non-substantive events. The debounce effectively never had 2.5 seconds of quiet to fire.',
+        "Autosave never fired while someone was working on the canvas, even though nothing was lost on leaving the page. Every change event, including idle selection and size measurements that fire on hover, reset the save timer, so it never got 2.5 quiet seconds.",
       solution:
-        'Live QA (headless Playwright against a seeded funnel) caught the gap between "data survives" and "the save indicator is honest." Fixed by filtering `onNodesChange` to only persist actual `position` changes into the debounce trigger, plus adding a 2.5-second hard max-wait so a continuously-dragged node still saves periodically instead of waiting for a pause that dragging never produces.',
+        'Live testing caught the gap between "the data survives" and "the save indicator tells the truth". Now only real position changes reset the timer, and a 2.5-second maximum wait means a step being dragged still saves along the way.',
     },
     {
-      title: 'Public share links needed the platform-security default turned off',
+      title: 'Share links hit a login wall',
       problem:
-        'Vercel\'s deployment protection (SSO gating) is on by default for a personal-account project, which is correct for an internal tool but silently breaks the entire pitch use case: a client clicking a public play/share link would hit a login wall instead of the funnel.',
+        "The hosting platform's deployment protection is on by default for a personal project, which is right for an internal tool and quietly breaks the pitch: a client opening a share link hit a login screen instead of the funnel.",
       solution:
-        'Deployment protection had to be explicitly disabled at the Vercel project level for `/:id/play` and `/preview` to actually be public. This is easy to miss because everything looks correct in local dev and in an authenticated browser session, the break only shows up when someone outside the account opens the link, which is exactly the moment it matters most (a client, mid-pitch, clicking a link Neil just sent them).',
+        'Protection had to be turned off at the project level for the click-through and preview routes to be public. It is easy to miss, because everything looks fine in development and in a signed-in browser. It only breaks when someone outside the account opens the link, which is exactly when it matters most.',
     },
     {
-      title: 'Going multi-tenant without an app-store level rewrite',
+      title: 'Moving to real accounts without breaking live funnels',
       problem:
-        'The app shipped single-tenant first: one shared "app-unlock password" logged everyone into the same Supabase user, and row-level security was `authenticated = true`, meaning any signed-in session could see every row. Converting to real per-account isolation after the fact meant migrating live data without breaking the three funnels and eleven analyses that already existed.',
+        'The app first shipped with one shared password that signed everyone into the same user, and security rules that let any signed-in session see every row. Separating accounts afterwards meant migrating live data without breaking the funnels and reports that already existed.',
       solution:
-        'Added a `user_id` column (default `auth.uid()`) to `funnels` and `analyses`, backfilled every existing row to the one prior user, then rewrote RLS to owner-only on those tables and owner-via-funnel on the dependent `comments` table, while preserving anonymous read (and, for public funnels, anonymous comment/insert) so play and pitch links kept working for logged-out viewers. New rows need zero application code changes to be correctly owned, the database default handles it. Paired with an atomic `bump_ai_usage` Postgres function (check-then-increment in one round trip) to enforce a daily AI generation cap per user without a race condition.',
+        'A user column with the current user as its default, every existing row assigned to the one prior user, and owner-only rules on funnels, reports and their comments, while keeping public read access so click-through and pitch links still work for visitors. New rows are owned correctly with no app code changes. A single database function checks and counts AI use in one step, so the daily cap holds without a race.',
     },
   ],
 
   outcome: {
-    title: 'Where it landed',
     body: [
-      "Preflight is live at preflight.neilb.app (also reachable at preflight.busqueneil.com and funnels.busqueneil.com, all serving the same deployment) with real multi-tenant accounts, transactional email, and a public marketing site separate from the authenticated app. It's in active use two ways: as a client-facing pitch tool, walking a prospect through their exact funnel with real platform mockups instead of a slide deck, and as Neil's own planning canvas for scoping funnel work before it's built, catching sequencing problems on a node graph instead of in a live campaign.",
-      "The audit engine runs against a curated benchmark knowledge base (Unbounce, WordStream, Klaviyo, plus copy-quality heuristics) and, for landing pages, against live Google PageSpeed Insights data, so a report cites a real number instead of a generic score. That's the piece that turns the tool from a mockup builder into something with teeth: it doesn't just show what the funnel looks like, it tells you specifically where it's weak against real conversion benchmarks and lets you apply the fix on the spot.",
+      'It is live with real accounts, transactional email and a public marketing site separate from the app. I use it two ways: as a pitch tool, walking a prospect through their exact funnel with real platform mockups instead of a slide deck, and as my own planning canvas, catching sequencing problems on a graph before they reach a live campaign.',
+      'The audit runs against a curated set of benchmarks (Unbounce, WordStream, Klaviyo and copy rules) and, for landing pages, live Google PageSpeed data, so a report cites a real number instead of a generic score. That turns the tool from a mockup builder into something with teeth: it shows where the funnel is weak against real conversion numbers and lets you apply the fix on the spot.',
     ],
   },
 
   lessons: [
-    'A tool that has to double as a pitch instrument needs pixel-faithful mockups, not schematic placeholders, fidelity is the difference between a plan and a demo.',
-    'One asymmetric rule (decision nodes branch, everything else is linear) kept a graph-based UI legible at scale instead of turning into an unreadable web.',
-    'The bug that broke mobile page width lived in a single missing `min-w-0`, viewport-specific QA at real breakpoints catches what desktop testing never will.',
-    'Retrofitting multi-tenancy is a database-default problem more than an application-code problem: get the schema and RLS right and the app layer barely changes.',
-    'A rename isn\'t just an asset swap, "Preflight" changed who the pitch was for, from funnel builders to the person who signs off on spend.',
-    'Debounced autosave needs a hard max-wait as well as a quiet-period trigger, continuous interaction (like dragging) can prevent the quiet period from ever occurring.',
+    'A tool that doubles as a pitch needs mockups that look like the real thing. Fidelity is the difference between a plan and a demo.',
+    'One asymmetric rule (decisions branch, everything else is linear) kept a graph interface readable as it grew.',
+    'The bug that broke the page width on phones was one missing class. Test at real phone widths; desktop testing never catches it.',
+    'Adding accounts after launch is mostly a database defaults problem. Get the schema and the security rules right and the app barely changes.',
+    "A rename is not just new artwork. The new name changed who the pitch was for, from funnel builders to the person who approves the spend.",
+    'Debounced autosave needs a maximum wait as well as a quiet period. Continuous work, like dragging, can stop the quiet period from ever arriving.',
   ],
 
   proof:
-    'Preflight is a marketing tool built by someone who runs marketing funnels for a living, which is why the product logic mirrors how a real campaign actually breaks: sequencing, branching, and the gap between what a deck promises and what a prospect sees. It shows I can take a product from a raw mechanism to a positioned brand, ship the unglamorous infrastructure underneath it (multi-tenant auth, RLS, benchmark-grounded scoring), and keep shipping without breaking what\'s already live.',
+    'This is a marketing tool built by someone who runs funnels, which is why it mirrors how real campaigns break: sequencing, branching and the gap between the plan and what a buyer sees. It shows I can take a product from a raw idea to a positioned brand, build the unglamorous parts underneath (accounts, security rules, benchmark scoring) and keep shipping without breaking what is live.',
+
+  palette: 'mist',
 };

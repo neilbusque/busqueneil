@@ -2,33 +2,41 @@
 /* Prompt card: a one-line brief that opens WhatsApp with the message ready to send.
    Row 1: input and a cobalt send button. Row 2: suggestion chips that fill the input
    (three on desktop, two on phones; they wrap or truncate, never overflow the card).
-   Submit opens waUrl(prefix + text) in a new tab. An empty submit just focuses the input.
+   Submit opens waUrl(prefix + text) in a new tab. An empty submit opens WhatsApp with the
+   global prefill (`emptyText`), so the button always does something.
    Without JS the form still submits to WhatsApp with the raw text.
    It is a form, not a chatbot: nothing on it promises an AI answer.
    `floating` pins it inside a positioned parent (the hero media panel), 24px from the
    bottom left (12px on phones). Without it the card sits in the flow at up to 480px wide. */
 import Icon from './Icon.astro';
-import { PROMPT_CHIPS, SITE, WA_PROMPT_PREFIX } from '../../data/site';
+import { PROMPT, SITE, WA_TEXT, type PromptChip } from '../../data/site';
 
 interface Props {
   placeholder?: string;
   /** Shorter placeholder for phones, where the long one would be cut off. */
   placeholderShort?: string;
-  chips?: string[];
+  /** Label on the chip, and the text it puts in the input. */
+  chips?: PromptChip[];
   /** Text placed before the visitor's words in the WhatsApp message. */
   prefix?: string;
+  /** Whole message when the input is empty. */
+  emptyText?: string;
   /** Visually hidden label for the input. */
   label?: string;
+  /** Accessible name of the send button. */
+  sendLabel?: string;
   floating?: boolean;
   class?: string;
 }
 
 const {
-  placeholder = 'Describe what you want to build or automate',
-  placeholderShort = 'What should we build?',
-  chips = PROMPT_CHIPS,
-  prefix = WA_PROMPT_PREFIX,
-  label = 'Describe what you want to build',
+  placeholder = PROMPT.placeholder,
+  placeholderShort = PROMPT.placeholderShort,
+  chips = PROMPT.chips,
+  prefix = WA_TEXT.prompt,
+  emptyText = WA_TEXT.global,
+  label = PROMPT.label,
+  sendLabel = PROMPT.sendLabel,
   floating = false,
   class: className,
 } = Astro.props;
@@ -44,6 +52,7 @@ const uid = `prompt-${Math.random().toString(36).slice(2, 8)}`;
     rel="noopener"
     data-prompt
     data-prefix={prefix}
+    data-empty={emptyText}
     data-placeholder={placeholder}
     data-placeholder-short={placeholderShort}
   >
@@ -57,22 +66,22 @@ const uid = `prompt-${Math.random().toString(36).slice(2, 8)}`;
       enterkeyhint="send"
       placeholder={placeholder}
     />
-    <button class="prompt-send" type="submit" aria-label="Send on WhatsApp (opens in a new tab)" title="Send on WhatsApp">
+    <button class="prompt-send" type="submit" aria-label={sendLabel} title={sendLabel}>
       <Icon name="arrow-up" strokeWidth={2} />
     </button>
   </form>
   {chips.length > 0 && (
     <div class="prompt-chips" role="group" aria-label="Suggestions">
       {chips.slice(0, 3).map((c) => (
-        <button type="button" class="chip" data-fill={c} aria-controls={uid}>{c}</button>
+        <button type="button" class="chip" data-fill={c.fill} aria-controls={uid}>{c.label}</button>
       ))}
     </div>
   )}
 </div>
 
 <script>
-  import { waUrl } from '../../data/site';
-
+  /* Builds the link from the form's own action (https://wa.me/<number>), so the browser bundle
+     never pulls in the site data module. Same encoding as waUrl() in src/data/site.ts. */
   const phone = window.matchMedia('(max-width: 640px)');
 
   document.querySelectorAll<HTMLFormElement>('form[data-prompt]').forEach((form) => {
@@ -80,6 +89,7 @@ const uid = `prompt-${Math.random().toString(36).slice(2, 8)}`;
     if (!input) return;
     const card = form.closest('.prompt');
     const prefix = form.dataset.prefix ?? '';
+    const empty = form.dataset.empty ?? '';
     const long = form.dataset.placeholder ?? input.placeholder;
     const short = form.dataset.placeholderShort || long;
 
@@ -92,11 +102,9 @@ const uid = `prompt-${Math.random().toString(36).slice(2, 8)}`;
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const text = input.value.trim();
-      if (!text) {
-        input.focus();
-        return;
-      }
-      window.open(waUrl(prefix + text), '_blank', 'noopener');
+      const message = text ? prefix + text : empty;
+      const base = form.getAttribute('action') ?? '';
+      window.open(message.trim() ? `${base}?text=${encodeURIComponent(message)}` : base, '_blank', 'noopener');
     });
 
     card?.querySelectorAll<HTMLButtonElement>('.chip[data-fill]').forEach((chip) => {

@@ -5,8 +5,8 @@ export const prerender = true;
 const faq = [
   { q: 'What is the difference between Stripe Checkout and Payment Links?', a: 'A Payment Link is a URL you create once and share; it needs no code at all. Checkout is a session your application creates, which lets you set the price, the customer, and the metadata per transaction. Payment Links are the fastest path to a first payment; Checkout is what you need once the purchase depends on application state.' },
   { q: 'Which should I start with?', a: 'Payment Links, almost always. If you are validating whether anyone will pay, a link you can put in an email today beats an integration you ship next week.' },
-  { q: 'When do you have to move to Checkout?', a: 'When the price or the product depends on something your application knows — a quantity, a plan, a specific customer — or when you need reliable metadata tying the payment back to a record in your system.' },
-  { q: 'Do I still need webhooks?', a: 'Yes, for anything beyond taking money. The redirect after payment is not a reliable signal — customers close tabs and networks fail. Fulfilment should hang off the webhook, not the return URL.' },
+  { q: 'When do you have to move to Checkout?', a: 'When the price or the product depends on something your application knows (a quantity, a plan, a specific customer), or when you need reliable metadata tying the payment back to a record in your system.' },
+  { q: 'Do I still need webhooks?', a: 'Yes, for anything beyond taking money. The redirect after payment is not a reliable signal: customers close tabs and networks fail. Fulfilment should hang off the webhook, not the return URL.' },
 ];
 ---
 <ContentArticle
@@ -20,7 +20,7 @@ const faq = [
   keywords="Stripe Checkout vs Payment Links, Stripe integration, payments, webhooks, subscription billing"
   faq={faq}
 >
-  <p><strong>A Payment Link is a URL you create once and share, with no code. Checkout is a session your application creates, so the price, customer and metadata can depend on application state. Start with links — if you are validating whether anyone will pay, a URL you can send today beats an integration you ship next week.</strong></p>
+  <p><strong>A Payment Link is a URL you create once and share, with no code. Checkout is a session your application creates, so the price, customer and metadata can depend on application state. Start with links. If you are validating whether anyone will pay, a URL you can send today beats an integration you ship next week.</strong></p>
 
   <h2>The upgrade trigger</h2>
   <p>Move from links to Checkout when <strong>the purchase depends on something only your application knows.</strong></p>
@@ -76,15 +76,5 @@ const faq = [
     <li><strong>Handle failed renewals</strong> before you need to, because you will need to.</li>
   </ol>
 
-  <h2>FAQ</h2>
-  <h3>What is the difference?</h3>
-  <p>A link is a static URL needing no code. Checkout is a session your app creates, so price, customer and metadata can vary per transaction.</p>
-  <h3>Which should I start with?</h3>
-  <p>Links. Validating that someone will pay beats shipping an integration first.</p>
-  <h3>When do you upgrade?</h3>
-  <p>When the purchase depends on something only your application knows, or you need reliable metadata tying it to a record.</p>
-  <h3>Do I still need webhooks?</h3>
-  <p>Yes. The redirect is not a reliable signal. Fulfil on the webhook, make it idempotent, verify the signature.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/compare/shopify-vs-custom-ecommerce">Shopify vs custom ecommerce</a> and <a href="/services/web-apps">how I build web apps</a>.</p>
+  <p class="article-coda">Related: <a href="/compare/shopify-vs-custom-ecommerce">Shopify vs custom ecommerce</a> and <a href="/services/web-apps">how I build web apps</a>.</p>
 </ContentArticle>

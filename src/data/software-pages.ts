@@ -1,8 +1,11 @@
 /* Programmatic SEO pages under /software/.
    One entry = one page. Rendered by src/pages/software/[slug].astro,
    listed by src/pages/software/index.astro, submitted by sitemap.xml.ts.
-   Content rules: Neil's voice, short sentences, no em dashes, honest
-   off-the-shelf comparisons, real example builds only where true. */
+   Content rules: Neil's voice, short sentences, no em or en dashes, honest
+   off-the-shelf comparisons, real example builds only where true.
+   No prices, offer terms or guarantees (no monthly fee, money-back window or delivery deadline):
+   a cost answer says the scope and price are agreed after the first conversation, before any
+   work starts. No client, employer or product names; builds are named for what they do. */
 
 import { softwareCombos } from './software-combos';
 
@@ -17,6 +20,7 @@ export type SoftwarePage = {
   cat: 'industry' | 'solution' | 'combo' | 'decision';
   title: string;
   metaDescription: string;
+  /** Short topic label. Not rendered by the template today. */
   eyebrow: string;
   h1: string; // wrap the accent phrase in **double asterisks**
   lede: string;
@@ -32,8 +36,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Roofing Companies | Neil Busque',
     metaDescription:
-      'Custom software for roofing companies: CRMs, AI phone agents, and quoting tools built around your crews. $4,000/month, first build in 14 days.',
-    eyebrow: 'Software · Roofing',
+      'Custom software for roofing companies: CRMs, AI phone agents, and quoting tools built around your crews. First version in days, and you own the code.',
+    eyebrow: 'Roofing',
     h1: 'Custom software for **roofing companies**.',
     lede: 'Roofing runs on speed. The first company to call a lead back usually wins the job. I build the software that makes your office as fast as your crews.',
     sections: [
@@ -60,7 +64,7 @@ const industries: SoftwarePage[] = [
       {
         h2: 'Real work, not theory',
         body: [
-          'I built an AI voice agent for a commercial roofing contractor that answers calls and captures the details their office used to chase. I have also shipped CRMs, quoting tools, and client portals across 40+ builds this year. Browse the work and judge for yourself.',
+          'I built an AI phone receptionist for a roofing company. It answers inbound calls, asks about the roof, and books inspections on the company calendar. I have also shipped CRMs and client portals among more than 40 products in 2026. Browse the work and judge for yourself.',
         ],
       },
     ],
@@ -71,11 +75,11 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'How fast can a roofing CRM or phone agent be live?',
-        a: 'A first working version in 14 days from an approved plan. Real software your team can click, connected to your actual lead sources.',
+        a: 'A working first version usually takes days once we agree on the plan. Real software your team can click, connected to your actual lead sources.',
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, published right here. First build lands in month one, and month one is refundable if you are not happy. You own the code and accounts either way.',
+        a: 'It depends on what we build. After the first conversation you get a clear scope and price, and no work starts until you say yes. You own the code and accounts either way.',
       },
     ],
     related: [
@@ -90,8 +94,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Construction Companies | Neil Busque',
     metaDescription:
-      'Custom software for construction: project tracking, AIA-style progress billing, client portals, and automations. $4,000/month, first build in 14 days.',
-    eyebrow: 'Software · Construction',
+      'Custom software for construction: project tracking, AIA-style progress billing, client portals, and automations. Built around your jobs, owned by you.',
+    eyebrow: 'Construction',
     h1: 'Custom software for **construction companies**.',
     lede: 'Spreadsheets run more construction companies than any platform does. They work until the third change order. I build tools that match how your projects actually run.',
     sections: [
@@ -116,7 +120,7 @@ const industries: SoftwarePage[] = [
       {
         h2: 'Real work, not theory',
         body: [
-          'I built an operations app for a commercial contractor that runs their jobs from bid to final payment, including AIA-style progress billing that used to eat their office days every month. That is one of 40+ systems I shipped this year.',
+          'I took over and launched a construction CRM for a commercial contractor, with progress billing, change orders, and several companies in one login. It is one of more than 40 products I shipped in 2026.',
         ],
       },
     ],
@@ -127,11 +131,11 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'Can you handle progress billing and retainage?',
-        a: 'Yes. I have built AIA-style progress billing with retainage math that rebills correctly every period. It is exactly the kind of logic off-the-shelf tools get almost right, which is worse than wrong.',
+        a: 'Yes. I have built progress billing for a contractor, and retainage is exactly the kind of logic off-the-shelf tools get almost right, which is worse than wrong. I build it to match your contracts.',
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month. First working version in 14 days. Month one is refundable, and you own the code, data, and accounts from day one.',
+        a: 'It depends on the scope. You get a clear scope and price before any work starts, and you own the code, data, and accounts from day one.',
       },
     ],
     related: [
@@ -146,8 +150,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for HVAC Companies | Neil Busque',
     metaDescription:
-      'Custom software for HVAC: AI phone agents that book service calls, dispatch boards, quoting and maintenance-agreement tools. $4,000/month.',
-    eyebrow: 'Software · HVAC',
+      'Custom software for HVAC: AI phone agents that book service calls, dispatch boards, quoting and maintenance-agreement tools, owned by you.',
+    eyebrow: 'HVAC',
     h1: 'Custom software for **HVAC companies**.',
     lede: 'Every missed call in July is a job your competitor took. I build software that answers, books, and dispatches while your techs stay on the tools.',
     sections: [
@@ -187,7 +191,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, first build live in 14 days, month one refundable. No per-tech seat fees, ever.',
+        a: 'It depends on what we build. You get a clear scope and price after the first conversation, and there are no per-tech fees, ever.',
       },
     ],
     related: [
@@ -202,8 +206,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Plumbing Companies | Neil Busque',
     metaDescription:
-      'Custom software for plumbing companies: AI answering, emergency dispatch, quoting, and follow-up automations. $4,000/month, first build in 14 days.',
-    eyebrow: 'Software · Plumbing',
+      'Custom software for plumbing companies: AI answering, emergency dispatch, quoting, and follow-up automations. First version in days.',
+    eyebrow: 'Plumbing',
     h1: 'Custom software for **plumbing companies**.',
     lede: 'A burst pipe at 2am is your best lead of the week, if someone answers. I build the software that picks up, books, and keeps your board full.',
     sections: [
@@ -226,9 +230,9 @@ const industries: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'Priced for a real plumbing company',
+        h2: 'Built for a real plumbing company',
         body: [
-          'The field-service platforms price per user and add up fast for a 6-truck shop. My seat is one flat number: $4,000 a month, published here. First working tool in 14 days. If month one does not earn it, you get the month back.',
+          'The field-service platforms price per user, and that adds up fast for a 6-truck shop. Software I build for you has no per-user fees: a clear scope and price up front, a working first tool in days, and the code in your name.',
         ],
       },
     ],
@@ -243,7 +247,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, cancel any month. No per-truck fees. You own the number, the software, and the data.',
+        a: 'It depends on the build. You get a clear scope and price before any work starts, with no per-truck fees. You own the number, the software, and the data.',
       },
     ],
     related: [
@@ -258,8 +262,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Landscaping Companies | Neil Busque',
     metaDescription:
-      'Custom software for landscaping: estimating tools, route-day scheduling, contract renewals, and crew dashboards. $4,000/month.',
-    eyebrow: 'Software · Landscaping',
+      'Custom software for landscaping: estimating tools, route-day scheduling, contract renewals, and crew dashboards, built for your company.',
+    eyebrow: 'Landscaping',
     h1: 'Custom software for **landscaping companies**.',
     lede: 'Landscaping margins hide in estimating and routing. I build tools that price jobs consistently and keep every crew day full.',
     sections: [
@@ -282,9 +286,9 @@ const industries: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'One price, no per-crew fees',
+        h2: 'No per-crew fees',
         body: [
-          '$4,000 a month for an AI systems builder on your team. First tool live in 14 days. Month one refundable. Everything in your accounts, so if we part ways, nothing stops working.',
+          'You get a clear scope and price before any work starts, and there are no per-crew fees as you grow. Everything runs in your accounts, so if we part ways, nothing stops working.',
         ],
       },
     ],
@@ -299,7 +303,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, flat. No per-user pricing, no seasonal upcharge. Cancel any month and keep everything.',
+        a: 'It depends on what we build. You get a clear scope and price after the first conversation, with no per-user pricing and no seasonal upcharge. You keep everything.',
       },
     ],
     related: [
@@ -314,8 +318,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Dental Practices | Neil Busque',
     metaDescription:
-      'Custom software for dental practices: AI phone answering, recall automation, and patient communication tools that work with your PMS. $4,000/month.',
-    eyebrow: 'Software · Dental',
+      'Custom software for dental practices: AI phone answering, recall automation, and patient communication tools that work with your PMS.',
+    eyebrow: 'Dental',
     h1: 'Custom software for **dental practices**.',
     lede: 'Your front desk is doing three jobs at once, and the phone always loses. I build the software layer that answers, reminds, and refills the chair.',
     sections: [
@@ -355,7 +359,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, first working tool in 14 days, month one refundable. Compare that to one unfilled chair day.',
+        a: 'It depends on the build. You get a clear scope and price before any work starts, and a working first tool usually takes days.',
       },
     ],
     related: [
@@ -370,8 +374,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Law Firms | Neil Busque',
     metaDescription:
-      'Custom software for law firms: client intake automation, secure portals, and AI email triage that respects confidentiality. $4,000/month.',
-    eyebrow: 'Software · Legal',
+      'Custom software for law firms: client intake automation, secure portals, and AI email triage that respects confidentiality.',
+    eyebrow: 'Legal',
     h1: 'Custom software for **law firms**.',
     lede: 'Firms bill hours, then spend unbillable ones on intake, status calls, and email. I build systems that give those hours back.',
     sections: [
@@ -411,7 +415,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, flat, published here. First working system in 14 days. Month one refundable if it does not earn its keep.',
+        a: 'It depends on the scope. You get a clear scope and price before any work starts. A working first system usually takes days, and the firm owns everything.',
       },
     ],
     related: [
@@ -426,8 +430,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Real Estate Teams | Neil Busque',
     metaDescription:
-      'Custom software for real estate teams: speed-to-lead automation, custom CRMs, and AI follow-up that works your database. $4,000/month.',
-    eyebrow: 'Software · Real Estate',
+      'Custom software for real estate teams: speed-to-lead automation, custom CRMs, and AI follow-up that works your database.',
+    eyebrow: 'Real Estate',
     h1: 'Custom software for **real estate teams**.',
     lede: 'The team that calls in five minutes beats the team that calls in an hour. I build the software that makes five minutes automatic.',
     sections: [
@@ -440,7 +444,7 @@ const industries: SoftwarePage[] = [
       },
       {
         h2: 'What I build for real estate teams',
-        body: ['One flat price. No per-agent seat fees as you grow.'],
+        body: ['No per-agent fees as you grow, and every record stays in your accounts.'],
         bullets: [
           'Lead routing that texts the right agent in seconds, with instant AI first-touch',
           'A CRM shaped to your pipeline: nurture, active, under contract, past client',
@@ -459,7 +463,7 @@ const industries: SoftwarePage[] = [
     faq: [
       {
         q: 'We use Follow Up Boss. Replace or extend?',
-        a: 'Extend first. FUB has a good API, and the highest-value builds are usually the AI first-touch, the sign-call agent, and reporting FUB does not do. Replacement only makes sense when seat fees or workflow limits actually hurt.',
+        a: 'Extend first. FUB has a good API, and the highest-value builds are usually the AI first-touch, the sign-call agent, and reporting FUB does not do. Replacement only makes sense when per-agent fees or workflow limits actually hurt.',
       },
       {
         q: 'Is AI first-touch allowed on leads?',
@@ -467,7 +471,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month for the whole team. Compare that to per-agent pricing across 15 agents and the math gets easy.',
+        a: 'It depends on what we build. You get a clear scope and price before any work starts, and there are no per-agent fees, so adding agents adds no cost.',
       },
     ],
     related: [
@@ -482,8 +486,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Property Management | Neil Busque',
     metaDescription:
-      'Custom software for property managers: tenant portals, maintenance triage, owner reporting, and AI phone answering. $4,000/month.',
-    eyebrow: 'Software · Property Management',
+      'Custom software for property managers: tenant portals, maintenance triage, owner reporting, and AI phone answering.',
+    eyebrow: 'Property Management',
     h1: 'Custom software for **property management companies**.',
     lede: 'Every door you add multiplies the calls, tickets, and owner questions. I build the systems that scale doors without scaling headcount.',
     sections: [
@@ -508,7 +512,7 @@ const industries: SoftwarePage[] = [
       {
         h2: 'Real work, not theory',
         body: [
-          'I have shipped tenant-facing portals, booking systems, and operations dashboards among 40+ builds this year. Property management is workflow software, and workflow software is the job.',
+          'I have shipped client portals, booking systems, and operations dashboards among more than 40 products in 2026. Property management is workflow software, and workflow software is the job.',
         ],
       },
     ],
@@ -523,7 +527,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month regardless of door count. First build in 14 days. Month one refundable.',
+        a: 'It depends on the build, not your door count. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -538,8 +542,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Accounting Firms | Neil Busque',
     metaDescription:
-      'Custom software for accounting firms: client document portals, deadline tracking, and workflow automation for tax season. $4,000/month.',
-    eyebrow: 'Software · Accounting',
+      'Custom software for accounting firms: client document portals, deadline tracking, and workflow automation for tax season.',
+    eyebrow: 'Accounting',
     h1: 'Custom software for **accounting firms**.',
     lede: 'Tax season should not run on email attachments and memory. I build the systems that chase documents and deadlines so your staff can do the work.',
     sections: [
@@ -562,9 +566,9 @@ const industries: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'Priced like a line item, not a project',
+        h2: 'A clear number before any work starts',
         body: [
-          '$4,000 a month, published here because you of all people appreciate a real number. First working tool in 14 days. Month one refundable. Cancel after busy season if you want; everything keeps working because you own it.',
+          'You of all people appreciate a real number. You get a clear scope and price before any work starts, and a working first tool usually takes days. Everything runs in the firm’s own accounts, so it keeps working through busy season and after.',
         ],
       },
     ],
@@ -579,7 +583,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, flat. If you only need it built once and then want to leave, that is allowed. You keep everything.',
+        a: 'It depends on what we build. You get a clear scope and price before any work starts. If you only need it built once, that is fine: you keep everything.',
       },
     ],
     related: [
@@ -594,8 +598,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Med Spas | Neil Busque',
     metaDescription:
-      'Custom software for med spas: booking that fills the calendar, membership management, and AI phone answering. $4,000/month.',
-    eyebrow: 'Software · Med Spa',
+      'Custom software for med spas: booking that fills the calendar, membership management, and AI phone answering.',
+    eyebrow: 'Med Spa',
     h1: 'Custom software for **med spas**.',
     lede: 'Your calendar is your revenue. I build the software that keeps it full: booking, memberships, reminders, and a phone that always answers.',
     sections: [
@@ -635,7 +639,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, first build in 14 days, month one refundable. About the revenue of a few filled slots you are currently missing.',
+        a: 'It depends on the build. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -650,8 +654,8 @@ const industries: SoftwarePage[] = [
     cat: 'industry',
     title: 'Custom Software for Gyms & Fitness Studios | Neil Busque',
     metaDescription:
-      'Custom software for gyms and studios: member portals, retention automation, class booking, and churn-saving check-ins. $4,000/month.',
-    eyebrow: 'Software · Fitness',
+      'Custom software for gyms and studios: member portals, retention automation, class booking, and churn-saving check-ins.',
+    eyebrow: 'Fitness',
     h1: 'Custom software for **gyms and studios**.',
     lede: 'Gyms lose more revenue to quiet churn than to slow sales. I build the software that notices the member fading and does something about it.',
     sections: [
@@ -674,9 +678,9 @@ const industries: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'One flat price',
+        h2: 'No per-member fees',
         body: [
-          '$4,000 a month, no per-member fees, no per-location multiplier. First working tool in 14 days. Month one refundable. You own it all, so it keeps working even if we stop.',
+          'Software I build for you has no per-member fees and no per-location multiplier. You get a clear scope and price before any work starts, and you own it all, so it keeps working even if we stop.',
         ],
       },
     ],
@@ -691,7 +695,7 @@ const industries: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month. Saving roughly a member a week covers it for most studios, and the system works nights and weekends.',
+        a: 'It depends on the build. You get a clear scope and price before any work starts. The system works nights and weekends, so it keeps catching fading members while you sleep.',
       },
     ],
     related: [
@@ -709,15 +713,15 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Custom CRM Development for Small Business | Neil Busque',
     metaDescription:
-      'Custom CRM development: a CRM shaped to your pipeline, owned by you, no per-seat fees. $4,000/month, first version in 14 days.',
-    eyebrow: 'Software · CRM',
+      'Custom CRM development: a CRM shaped to your pipeline, owned by you, with no per-user fees. First version in days.',
+    eyebrow: 'CRM',
     h1: 'A **custom CRM** shaped like your business.',
-    lede: 'Generic CRMs make your business fit their pipeline. A custom CRM fits yours: your stages, your follow-up rules, your reports, no per-seat rent.',
+    lede: 'Generic CRMs make your business fit their pipeline. A custom CRM fits yours: your stages, your follow-up rules, your reports, no per-user rent.',
     sections: [
       {
         h2: 'When custom beats HubSpot and Salesforce',
         body: [
-          'HubSpot and Salesforce are excellent platforms, and for many teams the right answer. Custom wins in three situations: your pipeline logic does not fit their objects, per-seat pricing has become a tax on growth, or you use 10% of the platform and pay for 100%.',
+          'HubSpot and Salesforce are excellent platforms, and for many teams the right answer. Custom wins in three situations: your pipeline logic does not fit their objects, per-user pricing has become a tax on growth, or you use 10% of the platform and pay for 100%.',
           'A custom CRM has exactly your fields, your stages, your automations. Nothing to configure around, nothing unused.',
         ],
       },
@@ -735,14 +739,14 @@ const solutions: SoftwarePage[] = [
       {
         h2: 'I use my own',
         body: [
-          'I run my business on a CRM I built, and I have shipped CRM builds for client teams this year alongside 40+ other systems. The demo on my offer page is a real one with sample data. Ask to click around it on the call.',
+          'I run my business on a CRM I built, and I have built CRMs for client teams among more than 40 products in 2026. There is a live demo with sample data on my free tools page, so you can click around before we talk.',
         ],
       },
     ],
     faq: [
       {
         q: 'How long does a custom CRM take?',
-        a: 'A working first version in 14 days from an approved plan: your pipeline, your fields, your data imported. Then it grows month by month while your team uses it.',
+        a: 'A working first version usually takes days once we agree on the plan: your pipeline, your fields, your data imported. Then it grows while your team uses it.',
       },
       {
         q: 'What about our data in the old CRM?',
@@ -750,7 +754,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost compared to HubSpot?',
-        a: '$4,000 a month while I am building for you, then nothing but hosting pennies when you stop. Fifteen seats on a mid-tier platform plan often costs more, forever, for software you rent.',
+        a: 'The build gets its own scope and price, agreed before any work starts. Once it is built, running it costs little more than hosting. Fifteen users on a mid-tier platform plan often cost more, forever, for software you rent.',
       },
     ],
     related: [
@@ -765,8 +769,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'AI Phone Agent for Your Business | Neil Busque',
     metaDescription:
-      'A custom AI phone agent that answers every call, books appointments, and hands hard calls to humans. Built for your business. $4,000/month.',
-    eyebrow: 'Software · AI Phone',
+      'A custom AI phone agent that answers every call, books appointments, and hands hard calls to humans. Built for your business.',
+    eyebrow: 'AI Phone',
     h1: 'An **AI phone agent** that never misses a call.',
     lede: 'It answers on the second ring, sounds human, asks the questions your best receptionist asks, and books the job. At 2pm and at 2am.',
     sections: [
@@ -791,7 +795,7 @@ const solutions: SoftwarePage[] = [
       {
         h2: 'Real work, not theory',
         body: [
-          'I built an AI voice agent for a commercial roofing contractor that answers and captures the calls their office used to miss. Voice is unforgiving to build well, which is exactly why it is worth having built properly.',
+          'I built an AI phone receptionist for a roofing company. It answers inbound calls, asks about the roof, and books inspections on the company calendar. Voice is unforgiving to build well, which is exactly why it is worth having built properly.',
         ],
       },
     ],
@@ -806,7 +810,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, and a phone agent is a common first build: live inside 14 days. Month one refundable. The phone number and every account stay in your name.',
+        a: 'It depends on your call flow and how many systems it books into. You get a clear scope and price before any work starts. A phone agent is a common first build, and the phone number and every account stay in your name.',
       },
     ],
     related: [
@@ -822,8 +826,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Client Portal Development | Neil Busque',
     metaDescription:
-      'Custom client portals: give clients one login for status, documents, and payments, and stop answering the same email. $4,000/month.',
-    eyebrow: 'Software · Portals',
+      'Custom client portals: give clients one login for status, documents, and payments, and stop answering the same email.',
+    eyebrow: 'Portals',
     h1: 'A **client portal** that answers the emails for you.',
     lede: 'Half your inbox is clients asking things a login could answer. Status, documents, invoices, next steps: one portal, zero "just checking in" emails.',
     sections: [
@@ -831,7 +835,7 @@ const solutions: SoftwarePage[] = [
         h2: 'The "any update?" tax',
         body: [
           'Service businesses pay a quiet tax: hours every week answering questions the client could self-serve. Worse, clients hate asking. A portal makes you look bigger and calmer than the competition on day one.',
-          'I have shipped client portals for real service teams, including portals with white-label branding per client. It is one of the most requested builds on my list, because it works.',
+          'I have shipped client portals for real service teams, including a branded portal with e-signatures. It is one of the most requested builds on my list, because it works.',
         ],
       },
       {
@@ -859,11 +863,11 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'Can it match our branding?',
-        a: 'Yes, fully: your logo, colors, and domain. If you serve multiple clients under different brands, per-client theming is a build I have already shipped elsewhere.',
+        a: 'Yes, fully: your logo, colors, and domain. If you serve clients under different brands, the portal can carry each brand.',
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat. A first portal is live in 14 days, month one refundable, and you own the code and every account.',
+        a: 'It depends on what the portal needs to show. You get a clear scope and price before any work starts, a working first version usually takes days, and you own the code and every account.',
       },
     ],
     related: [
@@ -878,8 +882,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Custom Quoting & Invoicing Software | Neil Busque',
     metaDescription:
-      'Custom quoting and invoicing tools: price jobs consistently, send clean quotes fast, and stop re-typing into your accounting. $4,000/month.',
-    eyebrow: 'Software · Quoting',
+      'Custom quoting and invoicing tools: price jobs consistently, send clean quotes fast, and stop re-typing into your accounting.',
+    eyebrow: 'Quoting',
     h1: '**Quoting software** that prices like your best estimator.',
     lede: 'Your pricing logic lives in one person’s head or one fragile spreadsheet. I turn it into a tool anyone on the team can use without breaking it.',
     sections: [
@@ -919,7 +923,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, first version in 14 days. Month one refundable. Most shops feel the payback in the first week of faster quotes.',
+        a: 'It depends on how complex your pricing is. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -934,8 +938,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Workflow Automation Services | Neil Busque',
     metaDescription:
-      'Workflow automation services that kill copy-paste: connect your tools, automate the busywork, and get reports that send themselves. $4,000/month.',
-    eyebrow: 'Software · Automation',
+      'Workflow automation services that kill copy-paste: connect your tools, automate the busywork, and get reports that send themselves.',
+    eyebrow: 'Automation',
     h1: '**Workflow automation** that kills the copy-paste.',
     lede: 'Somewhere in your office, a person is re-typing data from one tool into another, every week, forever. That job should belong to software.',
     sections: [
@@ -967,15 +971,15 @@ const solutions: SoftwarePage[] = [
     faq: [
       {
         q: 'What is a good first automation?',
-        a: 'The one your team complains about most. Usually it is lead intake to CRM, quote follow-ups, or the weekly report someone assembles by hand. First one live inside 14 days.',
+        a: 'The one your team complains about most. Usually it is lead intake to CRM, quote follow-ups, or the weekly report someone assembles by hand. The first one is usually live in days.',
       },
       {
         q: 'What if an automation breaks?',
-        a: 'It alerts instead of failing silently, and while you hold the seat I fix it as part of the month. That monitoring habit is the difference between automation and a future mess.',
+        a: 'It alerts instead of failing silently, and if you keep me on each month, I fix it as part of that work. That monitoring habit is the difference between automation and a future mess.',
       },
       {
         q: 'What does it cost?',
-        a: '$4,000 a month, and automations usually come several per month since each is smaller than an app build. Month one refundable. You own every workflow.',
+        a: 'A single automation costs less than an app build. You get a clear scope and price before any work starts, and you own every workflow.',
       },
     ],
     related: [
@@ -991,8 +995,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'AI Email Assistant for Business | Neil Busque',
     metaDescription:
-      'A custom AI email assistant: triage the inbox, draft replies for review, and never lose a lead in the pile. $4,000/month.',
-    eyebrow: 'Software · AI Email',
+      'A custom AI email assistant: triage the inbox, draft replies for review, and never lose a lead in the pile.',
+    eyebrow: 'AI Email',
     h1: 'An **AI email assistant** for the inbox that never empties.',
     lede: 'The inbox is where leads cool off and balls get dropped. I build assistants that triage, draft, and chase, while a human keeps the judgment calls.',
     sections: [
@@ -1032,7 +1036,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, often paired with a phone agent or CRM in the same month. First version in 14 days. Month one refundable.',
+        a: 'It depends on how many inboxes and categories it handles. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -1047,8 +1051,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Custom Booking & Scheduling Software | Neil Busque',
     metaDescription:
-      'Custom booking systems built around your real rules: providers, rooms, crews, deposits, reminders. No per-booking fees. $4,000/month.',
-    eyebrow: 'Software · Booking',
+      'Custom booking systems built around your real rules: providers, rooms, crews, deposits, reminders. No per-booking fees.',
+    eyebrow: 'Booking',
     h1: '**Booking software** built around your real rules.',
     lede: 'Calendly is great until your rules get real: two providers, one room, a deposit, and a 48-hour cancellation window. Then you need booking software that knows your business.',
     sections: [
@@ -1080,7 +1084,7 @@ const solutions: SoftwarePage[] = [
     faq: [
       {
         q: 'Can it handle deposits and cancellation fees?',
-        a: 'Yes, through your own Stripe account: deposits at booking, your cancellation policy enforced automatically, refunds by your rules. The money never touches my accounts.',
+        a: 'Yes, through your own Stripe account: deposits at booking, your cancellation policy enforced automatically, and money back handled by your rules. The money never touches my accounts.',
       },
       {
         q: 'Will it sync with our existing calendars?',
@@ -1088,7 +1092,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat. A booking system is a classic 14-day first build. Month one refundable, and there are no per-booking fees, ever.',
+        a: 'It depends on your rules and integrations. You get a clear scope and price before any work starts, and there are no per-booking fees, ever.',
       },
     ],
     related: [
@@ -1103,8 +1107,8 @@ const solutions: SoftwarePage[] = [
     cat: 'solution',
     title: 'Custom Dashboards & Business Reporting | Neil Busque',
     metaDescription:
-      'Custom dashboards that pull from your real tools: one screen with the numbers that matter, updated automatically. $4,000/month.',
-    eyebrow: 'Software · Dashboards',
+      'Custom dashboards that pull from your real tools: one screen with the numbers that matter, updated automatically.',
+    eyebrow: 'Dashboards',
     h1: 'A **dashboard** with the numbers you actually run on.',
     lede: 'Your numbers exist, scattered across six tools and one heroic spreadsheet. I build the one screen that shows the business truthfully, every morning.',
     sections: [
@@ -1144,7 +1148,7 @@ const solutions: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, first dashboard live in 14 days. Month one refundable. The data pipelines are documented and yours.',
+        a: 'It depends on how many tools it pulls from. You get a clear scope and price before any work starts, and the data pipelines are documented and yours.',
       },
     ],
     related: [
@@ -1162,15 +1166,15 @@ const decisions: SoftwarePage[] = [
     cat: 'decision',
     title: 'Custom Software vs Off-the-Shelf: an Honest Guide | Neil Busque',
     metaDescription:
-      'Custom software vs off-the-shelf SaaS: when each wins, real cost math, and the questions to ask before you build. From a builder who tells people not to build.',
-    eyebrow: 'Software · Decisions',
+      'Custom software vs off-the-shelf SaaS: when each wins, real cost math, and the questions to ask first. From a builder who tells people not to build.',
+    eyebrow: 'Decisions',
     h1: 'Custom software **vs off-the-shelf**: the honest version.',
     lede: 'I sell custom software, and I still tell some owners to buy the SaaS. Here is the actual decision, without the sales pitch.',
     sections: [
       {
         h2: 'When off-the-shelf wins',
         body: [
-          'Buy the SaaS when your process is standard, the tool fits without contortions, and the seat math stays sane. Accounting is the classic case: use QuickBooks, do not build one.',
+          'Buy the SaaS when your process is standard, the tool fits without contortions, and the per-user math stays sane. Accounting is the classic case: use QuickBooks, do not build one.',
           'A good platform also carries features you will grow into. Renting a mature product beats building a worse copy of it.',
         ],
       },
@@ -1179,22 +1183,22 @@ const decisions: SoftwarePage[] = [
         body: ['Three signals, and you only need one:'],
         bullets: [
           'The workaround tax: your team bends its day around the tool, with spreadsheets bridging every gap',
-          'The seat-fee tax: per-user pricing has turned growth into a penalty',
+          'The headcount tax: per-user pricing has turned growth into a penalty',
           'The 10% problem: you pay for a platform and use a tenth of it, while the one feature you need is missing',
         ],
       },
       {
         h2: 'The math, with real numbers',
         body: [
-          'Mid-tier SaaS for a 15-person team commonly runs $100 to $200 per seat monthly: $18,000 to $36,000 a year, forever, for rented software. My seat is $4,000 a month, published on my offer page, and when the build is done you can stop paying and keep everything, because you own the code and accounts.',
-          'The honest caveat: custom needs a builder you trust, and dev-shop pricing without a published number is where these projects go wrong. Ask any builder for their price in writing before you start. Mine is already in writing.',
+          'Mid-tier SaaS for a 15-person team commonly runs $100 to $200 per user monthly: $18,000 to $36,000 a year, forever, for rented software. A custom build has its own price, agreed before any work starts, and when it is done you can stop paying me and keep everything, because you own the code and accounts.',
+          'The honest caveat: custom needs a builder you trust, and open-ended pricing is where these projects go wrong. Ask any builder for a clear scope and price before you start. You get mine before any work starts.',
         ],
       },
     ],
     faq: [
       {
         q: 'Is custom software risky for a small business?',
-        a: 'The risk is the builder, not the concept. Reduce it with published pricing, a written plan before money moves, short delivery cycles, and ownership of code and accounts from day one. Those four are my standard terms.',
+        a: 'The risk is the builder, not the concept. Reduce it with a clear price up front, a plain-English plan before money moves, short delivery cycles, and ownership of code and accounts from day one. That is how I run every build.',
       },
       {
         q: 'Can we mix both?',
@@ -1202,7 +1206,7 @@ const decisions: SoftwarePage[] = [
       },
       {
         q: 'What should we do first?',
-        a: 'List the three most annoying manual processes in your week. That list is better than any requirements document, and it is exactly where a free planning call starts.',
+        a: 'List the three most annoying manual processes in your week. That list is better than any requirements document, and it is exactly where our first conversation starts.',
       },
     ],
     related: [
@@ -1217,10 +1221,10 @@ const decisions: SoftwarePage[] = [
     cat: 'decision',
     title: 'How Much Does Custom Software Cost in 2026? | Neil Busque',
     metaDescription:
-      'Real 2026 custom software pricing: what agencies charge, what AI changed, and a published price you can actually plan around.',
-    eyebrow: 'Software · Pricing',
+      'Real 2026 custom software pricing: what agencies charge, what AI changed, and how I scope and price a build.',
+    eyebrow: 'Pricing',
     h1: 'What custom software **actually costs** in 2026.',
-    lede: 'Almost nobody in this industry publishes a price. Here is the real market, with numbers, including mine.',
+    lede: 'Almost nobody in this industry publishes a price. Here is the real market, with numbers, and how I price my own work.',
     sections: [
       {
         h2: 'The market, honestly',
@@ -1236,10 +1240,10 @@ const decisions: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'My price, published',
+        h2: 'How I price a build',
         body: [
-          '$4,000 a month for an AI systems builder on your team. First working software in 14 days from an approved plan. Month one refundable if you are not happy. Unlimited requests, one at a time, cancel any month, and you own the code, data, and accounts from day one.',
-          'One number, on the page, so you can decide from your desk instead of from a sales call.',
+          'Each build gets its own scope and price, agreed after the first conversation and before any work starts. Ongoing work is a monthly arrangement. A working first version usually takes days, and you own the code, data, and accounts from day one.',
+          'One clear number before you commit, in plain English, so you decide on facts instead of on a sales pitch.',
         ],
       },
     ],
@@ -1249,12 +1253,12 @@ const decisions: SoftwarePage[] = [
         a: 'Because unpublished pricing can flex to your budget. Discovery calls are partly scoping and partly pricing you. A published number removes that game, which is exactly why so few publish one.',
       },
       {
-        q: 'What does $4,000 a month actually buy?',
-        a: 'A build queue you control: apps, AI agents, automations, fixes, handled one at a time with a weekly call and daily updates. Most months ship one substantial system or several smaller automations.',
+        q: 'What do I get if I keep you on each month?',
+        a: 'New builds, fixes and improvements every month, from one person who knows your business. You get a shared chat and a regular check-in call, and you decide what comes next.',
       },
       {
         q: 'What if we only need one thing built?',
-        a: 'Hold the seat for a month or two, get the thing built, then cancel and keep everything. That is allowed and normal. Software you own does not stop working when you stop paying me.',
+        a: 'Then we scope that one build, I build it, and you keep everything. That is normal. Software you own does not stop working when you stop paying me.',
       },
     ],
     related: [
@@ -1270,7 +1274,7 @@ const decisions: SoftwarePage[] = [
     title: 'AI Phone Agent vs Answering Service: Which Wins? | Neil Busque',
     metaDescription:
       'AI phone agent vs human answering service: cost, quality, and booking rates compared honestly, with the cases where humans still win.',
-    eyebrow: 'Software · Decisions',
+    eyebrow: 'Decisions',
     h1: 'AI phone agent **vs answering service**.',
     lede: 'Both stop the missed-call bleed. They are not the same tool. Here is the honest comparison, including where the human service still wins.',
     sections: [
@@ -1297,7 +1301,7 @@ const decisions: SoftwarePage[] = [
     faq: [
       {
         q: 'What does each option cost?',
-        a: 'Answering services commonly run $1 to $2 per minute, which scales with your call volume. A custom agent is part of my flat $4,000 a month seat, handles unlimited calls, and the number stays yours.',
+        a: 'Answering services commonly run $1 to $2 per minute, which scales with your call volume. A custom agent is priced as a build, agreed before any work starts. After that you pay the voice and phone providers for usage, usually a fraction of a per-minute service, and the number stays yours.',
       },
       {
         q: 'Can the AI handle my industry’s specific questions?',
@@ -1305,7 +1309,7 @@ const decisions: SoftwarePage[] = [
       },
       {
         q: 'How fast can it be live?',
-        a: 'Inside 14 days from an approved plan, on your existing number or a new one. Month one refundable if it does not earn its place.',
+        a: 'A working first version usually takes days once we agree on the call script, on your existing number or a new one.',
       },
     ],
     related: [
@@ -1321,7 +1325,7 @@ const decisions: SoftwarePage[] = [
     title: 'Lovable & Replit vs Hiring a Builder: After the Wall | Neil Busque',
     metaDescription:
       'You built it with Lovable or Replit and hit the wall: integrations, auth, production. What those tools are for, and when to bring in a builder.',
-    eyebrow: 'Software · Decisions',
+    eyebrow: 'Decisions',
     h1: 'Lovable and Replit **vs hiring a builder**.',
     lede: 'AI app builders are genuinely good now. I use AI to build every day. Here is where they shine, where they wall, and what to do after the wall.',
     sections: [
@@ -1346,7 +1350,7 @@ const decisions: SoftwarePage[] = [
       {
         h2: 'After the wall',
         body: [
-          'Two honest options. Learn the production layer yourself: real skills, several months, worth it if software is becoming your business. Or bring in a builder who ships past the wall for a living. I do the second for a flat $4,000 a month, and your prototype is genuinely useful to me: it is the best product spec you could hand anyone.',
+          'Two honest options. Learn the production layer yourself: real skills, several months, worth it if software is becoming your business. Or bring in a builder who ships past the wall for a living. I do the second, and your prototype is genuinely useful to me: it is the best product spec you could hand anyone.',
         ],
       },
     ],
@@ -1357,11 +1361,11 @@ const decisions: SoftwarePage[] = [
       },
       {
         q: 'Was building the prototype myself a waste?',
-        a: 'The opposite. You proved the idea and defined the product. That typically saves weeks of back-and-forth and makes the 14-day first build sharper.',
+        a: 'The opposite. You proved the idea and defined the product. That typically saves weeks of back-and-forth and makes the first build sharper.',
       },
       {
         q: 'What does finishing it cost?',
-        a: 'The same published seat: $4,000 a month, first working production version inside 14 days, month one refundable, you own everything. No penalty for having tried it yourself first. The attempt earns respect.',
+        a: 'It depends on what is there and what is missing. I look at your app first, then you get a clear scope and price before any work starts. You own everything, and there is no penalty for having tried it yourself first. The attempt earns respect.',
       },
     ],
     related: [
@@ -1378,7 +1382,7 @@ const decisions: SoftwarePage[] = [
     title: 'Build vs Buy Software: a 10-Question Checklist | Neil Busque',
     metaDescription:
       'A 10-question build vs buy checklist for business software, from a builder who often answers "buy". Score your situation in five minutes.',
-    eyebrow: 'Software · Decisions',
+    eyebrow: 'Decisions',
     h1: 'Build vs buy: a **10-question checklist**.',
     lede: 'Answer these honestly and the decision usually makes itself. I am a builder, and on plenty of calls the right answer is still "buy the SaaS".',
     sections: [
@@ -1387,7 +1391,7 @@ const decisions: SoftwarePage[] = [
         body: ['Count your yes answers.'],
         bullets: [
           '1. Does your team keep a spreadsheet alongside the tool to cover its gaps?',
-          '2. Are per-seat fees making you hesitate to add people?',
+          '2. Are per-user fees making you hesitate to add people?',
           '3. Do you use less than a quarter of the platform you pay for?',
           '4. Is one process in your business genuinely different from competitors, on purpose?',
           '5. Have you asked the vendor for a feature and waited more than a year?',
@@ -1407,22 +1411,22 @@ const decisions: SoftwarePage[] = [
       {
         h2: 'What to do with your score',
         body: [
-          'Bring the checklist to a free call. I will tell you which yes answers are worth money and which are livable. If the answer is "stay on the SaaS", you will hear it plainly, and you will have saved yourself a project.',
+          'Bring the checklist to our first call. I will tell you which yes answers are worth money and which are livable. If the answer is "stay on the SaaS", you will hear it plainly, and you will have saved yourself a project.',
         ],
       },
     ],
     faq: [
       {
         q: 'Is hybrid a cop-out answer?',
-        a: 'It is the most common right answer. Keep QuickBooks and your industry platform; add custom automation, dashboards, and the one tool nobody sells. Most of my monthly seats are hybrid work.',
+        a: 'It is the most common right answer. Keep QuickBooks and your industry platform; add custom automation, dashboards, and the one tool nobody sells. Most of my builds are hybrid work.',
       },
       {
         q: 'How fast would a build start after deciding?',
-        a: 'Free call, written plain-English plan, and the 14-day clock starts on your approval. You see working software before the first month ends, and month one is refundable.',
+        a: 'A short call, then a plain-English scope and price, and the build starts when you say yes. You usually see working software within days.',
       },
       {
         q: 'What does building cost?',
-        a: '$4,000 a month, published, flat. The full offer with the guarantee stack is on my offer page. No discovery-call pricing games.',
+        a: 'It depends on what we build. You get a clear scope and price after the first conversation, before any work starts. No pricing games.',
       },
     ],
     related: [
@@ -1445,7 +1449,30 @@ export const softwareBySlug = new Map(softwarePages.map((p) => [p.slug, p]));
 
 export const softwareCats: { key: SoftwarePage['cat']; label: string; blurb: string }[] = [
   { key: 'industry', label: 'By industry', blurb: 'Custom software shaped around how your trade actually runs.' },
-  { key: 'solution', label: 'By system', blurb: 'CRMs, portals, phone agents, automations: the builds I ship most.' },
+  { key: 'solution', label: 'By system', blurb: 'CRMs, portals, phone agents and automations: the builds I ship most.' },
   { key: 'combo', label: 'By industry and system', blurb: 'The specific tool for the specific business.' },
-  { key: 'decision', label: 'Decisions and pricing', blurb: 'Honest guides for the build-or-buy call, with real numbers.' },
+  { key: 'decision', label: 'Before you buy', blurb: 'Plain guides for the build or buy call, with real numbers.' },
 ];
+
+/** The page title without the site name, with its capitals as written (for the WhatsApp prefill and schema). */
+export const softwareName = (p: SoftwarePage): string => p.title.replace(/\s*\|\s*Neil Busque\s*$/, '').trim();
+
+/* Words that keep their capitals when a title is shown in sentence case. */
+const KEEP_CASE = new Set(['AI', 'CRM', 'HVAC', 'PMS', 'Lovable', 'Replit', 'NYC']);
+
+/** A title in sentence case for lists and link text: "Custom CRM for roofing companies". */
+export const sentenceCase = (title: string): string =>
+  title
+    .replace(/ & /g, ' and ')
+    .split(' ')
+    .map((w, i) => (i === 0 || KEEP_CASE.has(w.replace(/[^A-Za-z]/g, '')) ? w : w.toLowerCase()))
+    .join(' ');
+
+/** Link text for a page: "Custom CRM for roofing companies". */
+export const softwareLabel = (p: SoftwarePage): string => sentenceCase(softwareName(p));
+
+/** Short name for an industry page: "Roofing companies". */
+export const industryLabel = (p: SoftwarePage): string => {
+  const rest = softwareName(p).replace(/^Custom Software for /, '');
+  return sentenceCase(rest.charAt(0).toUpperCase() + rest.slice(1));
+};

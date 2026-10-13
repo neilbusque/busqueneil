@@ -4,8 +4,8 @@ export const prerender = true;
 
 const faq = [
   { q: 'Is n8n better than Make?', a: 'n8n wins when you need real code inside a step, self-hosting, or version control over your automations. Make wins on the visual editor and on how quickly a non-developer can build something that works. The deciding factor is usually whether the person maintaining it writes code.' },
-  { q: 'What breaks first when automations scale?', a: 'Error handling. Both tools make the happy path easy and leave failure paths as something you have to think about deliberately. A workflow with no error branch does not report failure — it just silently stops doing its job.' },
-  { q: 'Can you version-control an automation?', a: 'With n8n, meaningfully — workflows are JSON you can export, diff, and keep in a repository. With Make it is harder, so change management tends to rely on discipline and naming rather than tooling.' },
+  { q: 'What breaks first when automations scale?', a: 'Error handling. Both tools make the happy path easy and leave failure paths as something you have to think about deliberately. A workflow with no error branch does not report failure. It just silently stops doing its job.' },
+  { q: 'Can you version-control an automation?', a: 'With n8n, meaningfully: workflows are JSON you can export, diff, and keep in a repository. With Make it is harder, so change management tends to rely on discipline and naming rather than tooling.' },
   { q: 'Should I self-host?', a: 'Only if you have a reason: data residency, cost at high volume, or needing packages the cloud version will not run. Self-hosting means you now own uptime for the thing that runs your business processes, which is a real obligation.' },
 ];
 ---
@@ -20,7 +20,7 @@ const faq = [
   keywords="n8n vs Make, workflow automation, Integromat, error handling, self-hosted automation, no-code"
   faq={faq}
 >
-  <p><strong>n8n wins when you need real code inside a step, self-hosting, or version control over your automations. Make wins on the visual editor and on how fast a non-developer gets to something that works. The deciding factor is rarely a feature — it is whether the person who will maintain this in six months writes code.</strong></p>
+  <p><strong>n8n wins when you need real code inside a step, self-hosting, or version control over your automations. Make wins on the visual editor and on how fast a non-developer gets to something that works. The deciding factor is rarely a feature. It is whether the person who will maintain this in six months writes code.</strong></p>
 
   <h2>The question that actually decides it</h2>
   <p><strong>Who maintains this in six months?</strong></p>
@@ -71,7 +71,7 @@ const faq = [
 
   <h2>On self-hosting</h2>
   <p>Only with a reason: data residency, cost at high volume, or needing packages the cloud version will not run.</p>
-  <p>Otherwise you have taken on uptime for the thing that runs your business processes. That is a real obligation, and the failure is quiet &mdash; a self-hosted instance that falls over does not email you about it unless you built the thing that emails you.</p>
+  <p>Otherwise you have taken on uptime for the thing that runs your business processes. That is a real obligation, and the failure is quiet: a self-hosted instance that falls over does not email you about it unless you built the thing that emails you.</p>
 
   <h2>How I choose</h2>
   <ol>
@@ -82,15 +82,5 @@ const faq = [
     <li><strong>Either way:</strong> build the error path and the heartbeat on day one, not after the first silent failure.</li>
   </ol>
 
-  <h2>FAQ</h2>
-  <h3>Is n8n better than Make?</h3>
-  <p>For code, self-hosting, and version control, yes. For visual clarity and non-developer speed, Make. Decide on who maintains it.</p>
-  <h3>What breaks first at scale?</h3>
-  <p>Error handling. A workflow with no error branch silently stops working rather than reporting failure.</p>
-  <h3>Can you version-control automations?</h3>
-  <p>Meaningfully in n8n, since workflows are diffable JSON. Harder in Make, so it relies on discipline.</p>
-  <h3>Should I self-host?</h3>
-  <p>Only for data residency, cost at volume, or package needs. You take on uptime for your business processes.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/guides/n8n-vs-zapier-vs-make">n8n vs Zapier vs Make, the three-way</a> and <a href="/services/ai-automation-services">how I build automations</a>.</p>
+  <p class="article-coda">Related: <a href="/guides/n8n-vs-zapier-vs-make">n8n vs Zapier vs Make, the three-way</a> and <a href="/services/ai-automation-services">how I build automations</a>.</p>
 </ContentArticle>

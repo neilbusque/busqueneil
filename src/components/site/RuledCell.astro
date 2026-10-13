@@ -1,7 +1,9 @@
 ---
 /* One cell of a RuledGrid. With `href` the whole cell is the link and fills white on hover.
    Layout top to bottom: label, title, text, default slot, then a foot pinned to the bottom
-   (`cta` text on a linked cell, or a separate `link` on a plain cell). */
+   (`cta` text on a linked cell, or a separate `link` on a plain cell).
+   A linked compact cell with only a title gets an arrow instead: inside a
+   RuledGrid with class "ruled--links" it becomes one row, name left and arrow right. */
 import Icon from './Icon.astro';
 
 interface Props {
@@ -42,10 +44,15 @@ const titleClass = compact || Title === 'h4' ? 't-h4' : 't-h3';
   {href && cta && (
     <span class="cell-foot cell-go">{cta}<Icon name={leaves(href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} /></span>
   )}
+  {href && !cta && compact && !text && (
+    <Icon name={leaves(href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} class="cell-arrow" />
+  )}
+  {isHttp(href) && <span class="sr-only"> (opens in a new tab)</span>}
   {!href && link && (
     <span class="cell-foot">
       <a class="link-arrow" href={link.href} target={isHttp(link.href) ? '_blank' : undefined} rel={isHttp(link.href) ? 'noopener' : undefined}>
         {link.label}<Icon name={leaves(link.href) ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+        {isHttp(link.href) && <span class="sr-only"> (opens in a new tab)</span>}
       </a>
     </span>
   )}

@@ -7,15 +7,21 @@
    Without JS the menu button is a plain link to the footer, which lists every page. */
 import Button from './Button.astro';
 import Icon from './Icon.astro';
-import { NAV, NAV_CONTACT, SITE, type NavKey } from '../../data/site';
+import { MENU_LABELS, NAV, NAV_CONTACT, NAV_CTA, SITE, type NavKey } from '../../data/site';
 
 interface Props {
   active?: NavKey | 'contact' | 'home' | null;
-  cta: { href: string; label: string; labelShort?: string };
+  /** ariaLabel and sheetLabel default to NAV_CTA's when the button is the default one. */
+  cta: { href: string; label: string; labelShort?: string; ariaLabel?: string; sheetLabel?: string };
 }
 
 const { active = null, cta } = Astro.props;
 const short = cta.labelShort && cta.labelShort !== cta.label ? cta.labelShort : null;
+/* The default button ("Message me", WhatsApp) gets the deck's accessible name and a longer
+   label in the phone sheet. A page that overrides the button keeps its own words. */
+const isDefault = cta.label === NAV_CTA.label && /^https:\/\/wa\.me\//.test(cta.href);
+const ariaLabel = cta.ariaLabel ?? (isDefault ? NAV_CTA.ariaLabel : undefined);
+const sheetLabel = cta.sheetLabel ?? (isDefault ? NAV_CTA.sheetLabel : cta.label);
 const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === n.key })), { href: NAV_CONTACT.href, label: NAV_CONTACT.label, on: active === 'contact' }];
 ---
 <header class="nav">
@@ -28,14 +34,14 @@ const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === 
     </ul>
     <div class="nav-end">
       <a class="nav-link" href={NAV_CONTACT.href} aria-current={active === 'contact' ? 'page' : undefined}>{NAV_CONTACT.label}</a>
-      <Button href={cta.href} size="sm">
+      <Button href={cta.href} size="sm" aria-label={ariaLabel}>
         {short ? (
           <><span class="lbl-full">{cta.label}</span><span class="lbl-short">{short}</span></>
         ) : (
           cta.label
         )}
       </Button>
-      <a class="menu-btn" href="#site-footer" data-menu-open aria-label="Menu">
+      <a class="menu-btn" href="#site-footer" data-menu-open aria-label={MENU_LABELS.open} data-label-open={MENU_LABELS.open} data-label-close={MENU_LABELS.close}>
         <Icon name="menu" strokeWidth={1.75} />
       </a>
     </div>
@@ -44,7 +50,7 @@ const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === 
   <dialog class="sheet" id="site-menu" data-menu-sheet aria-label="Menu">
     <div class="sheet-head">
       <a class="wordmark" href="/">{SITE.name}</a>
-      <button class="menu-btn" type="button" data-menu-close aria-label="Close menu" autofocus>
+      <button class="menu-btn" type="button" data-menu-close aria-label={MENU_LABELS.close} autofocus>
         <Icon name="close" strokeWidth={1.75} />
       </button>
     </div>
@@ -58,7 +64,7 @@ const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === 
       ))}
     </ul>
     <div class="sheet-foot">
-      <Button href={cta.href} full>{cta.label}</Button>
+      <Button href={cta.href} full>{sheetLabel}</Button>
     </div>
   </dialog>
 </header>
@@ -83,6 +89,7 @@ const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === 
       sheet.showModal();
       root.classList.add('sheet-open');
       opener.setAttribute('aria-expanded', 'true');
+      if (opener.dataset.labelClose) opener.setAttribute('aria-label', opener.dataset.labelClose);
     };
 
     opener.addEventListener('click', open);
@@ -94,6 +101,7 @@ const rows = [...NAV.map((n) => ({ href: n.href, label: n.label, on: active === 
     sheet.addEventListener('close', () => {
       root.classList.remove('sheet-open');
       opener.setAttribute('aria-expanded', 'false');
+      if (opener.dataset.labelOpen) opener.setAttribute('aria-label', opener.dataset.labelOpen);
       if (returnTo && document.contains(returnTo)) returnTo.focus();
       returnTo = null;
     });

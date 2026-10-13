@@ -1,73 +1,79 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
 
 export const prerender = true;
 
-const title = 'Hire a Freelance AI Engineer | Neil Busque';
-const description = 'Hire Neil Busque for AI agents, LLM features, RAG, MCP integrations, and custom software. Based in New Jersey and working across the US.';
 const canonical = 'https://busqueneil.com/hire/ai-engineer';
 
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'AI Engineer for Hire | Neil Busque',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
-  serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'RAG', 'MCP integration'],
-  description,
-};
+const FAQ = [
+  {
+    q: 'Which AI models do you use?',
+    a: 'Whichever fits the job, usually Claude or GPT. I set things up so you can switch models later without starting over.',
+  },
+  {
+    q: 'What if the AI gets something wrong?',
+    a: 'I plan for it. Every agent gets clear limits that you approve before launch. Anything risky, like spending money, publishing or deleting, waits for a person to approve it. I test it on real examples from your business before it goes live.',
+  },
+  {
+    q: 'Can you take over something another developer started?',
+    a: "Yes. I've taken over apps started by other developers and by AI app builders, cleaned them up and kept building. I'll look at what you have and tell you whether to keep it or start fresh.",
+  },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} active="hire">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Hire', url: 'https://busqueneil.com/hire' },
-      { name: 'AI Engineer', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-  </Fragment>
+<ServicePage
+  title="Hire a Freelance AI Engineer | Neil Busque"
+  description="Hire Neil Busque for AI agents, LLM features, RAG, MCP integrations and custom software. Based in New Jersey and working across the US."
+  canonical={canonical}
+  active="hire"
+  heading="Hire a freelance **AI engineer**."
+  lead="I'm Neil Busque, an AI engineer in New Jersey. I build agents, LLM features, RAG systems and MCP integrations that connect to the tools where your work already happens."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Hire', url: 'https://busqueneil.com/hire' },
+    { name: 'AI Engineer', url: canonical },
+  ]}
+  backLabel="When to hire me"
+  topic="hiring an AI engineer"
+  artSeed="hire-ai-engineer"
+  artPalette="mist"
+  summary={{
+    items: [
+      'AI agents that take actions inside your tools',
+      'LLM features for drafting, extraction, sorting and search',
+      'Answers grounded in your own documents and data',
+      'MCP connections to your CRM, database and tools',
+      'Tests on the risky parts, and a person who reviews every change',
+    ],
+    facts: [
+      { term: 'Good for', value: 'Teams with an AI feature to ship and nobody to own it' },
+      { term: 'How it starts', value: "Send me the feature or the job, and I'll say how I'd build it" },
+      { term: 'What you own', value: 'The code, the prompts and every account' },
+    ],
+  }}
+  related={['recruiting-crm-ai-screening', 'ai-phone-receptionist-roofing']}
+  relatedPalettes={['mist', 'navy']}
+  faq={FAQ}
+  service={{
+    name: 'AI Engineer for Hire',
+    serviceType: ['AI engineering', 'AI agent development', 'LLM application development', 'RAG', 'MCP integration'],
+    areaServed: ['New Jersey', 'New York', 'United States', 'Remote'],
+  }}
+>
+  <h2>What you get</h2>
+  <p>I build software that uses AI for a specific job, with enough context, testing and guardrails to be useful after the demo. In practice, that includes:</p>
+  <ul>
+    <li><strong>AI agents that act.</strong> Not chatbots. Agents with tools that read your data, take actions and finish multi-step jobs. Read <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
+    <li><strong>LLM apps.</strong> Features powered by language models: drafting, extraction, sorting, summaries and search. Built to be reliable in production, not just impressive in a demo.</li>
+    <li><strong>RAG and retrieval.</strong> Grounding models in your documents and data, so answers are accurate and cited, not made up.</li>
+    <li><strong>MCP integrations.</strong> Connecting models to your CRM, database and tools through the Model Context Protocol, so the integration is clean and reusable.</li>
+  </ul>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">∗</span> Hire · AI Engineer</p>
-    <h1>Hire a freelance <span class="accent">AI engineer</span>.</h1>
-    <p class="lede">I am Neil Busque, an AI engineer in New Jersey. I build agents, LLM features, RAG systems, and MCP integrations that connect to the tools where your work already happens.</p>
-  </header>
+  <h2>How I work</h2>
+  <p>I work in small, written tasks, test the risky parts and review every change. AI coding tools write a lot of the code, and they make me fast. My job is to catch what they get wrong before your team or your customers do. I shipped more than 40 apps, agents and automations in 2026. Read <a href="/guides/ship-web-app-in-days-with-ai">how I ship in days</a> and browse <a href="/work">the work</a>.</p>
 
-  <article class="article-page" style="padding-top: 8px;">
-    <div class="prose">
-      <h2>What you get</h2>
-      <p>I build software that uses AI for a specific job, with enough context, testing, and guardrails to be useful after the demo. In practice, that includes:</p>
-      <ul>
-        <li><strong>AI agents that act.</strong> Not chatbots. Agents with tools that read your data, take actions, and finish multi-step jobs. Read <a href="/guides/build-ai-agent-claude-code">how I build them</a>.</li>
-        <li><strong>LLM apps.</strong> Features powered by language models: drafting, extraction, classification, summarization, search. Built to be reliable in production, not just impressive in a demo.</li>
-        <li><strong>RAG and retrieval.</strong> Grounding models in your documents and data so answers are accurate and cited, not made up.</li>
-        <li><strong>MCP integrations.</strong> Connecting models to your CRM, database, and tools through the Model Context Protocol, so the integration is clean and reusable.</li>
-      </ul>
+  <h2>The difference</h2>
+  <p>Prompting is the easy part. The useful work is choosing the right boundary, connecting the data safely, testing the failure cases and leaving behind something another engineer can maintain.</p>
 
-      <h2>How I work</h2>
-      <p>I work in small, written tasks, test the risky parts, and review every change. AI writes a lot of the code, but I stay responsible for what ships. I have shipped more than 40 apps, agents, and automations in 2026. Read <a href="/guides/ship-web-app-in-days-with-ai">how I ship in days</a> and browse <a href="/work">the work</a>.</p>
-
-      <h2>The difference</h2>
-      <p>Prompting is the easy part. The useful work is choosing the right boundary, connecting the data safely, testing the failure cases, and leaving behind something another engineer can maintain.</p>
-
-      <h2>Start the conversation</h2>
-      <p>Email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque" rel="me">LinkedIn</a>. Prefer automation-first framing? See <a href="/hire/ai-automation">hire me for AI automation</a>, or the full <a href="/hire">hire page</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Start the conversation</h2>
+  <p>Message me on WhatsApp, email <a href="mailto:busqueneil@gmail.com">busqueneil@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/neilbusque/" rel="me noopener" target="_blank">LinkedIn</a>. Prefer the automation side? See <a href="/hire/ai-automation">hiring for AI automation</a>, or read <a href="/hire">when to bring me in</a>.</p>
+</ServicePage>

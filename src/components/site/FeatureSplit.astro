@@ -1,7 +1,8 @@
 ---
 /* Featured split: one bordered white frame, art in 7 columns, body in 5. Art goes on top below
-   900px. Body top to bottom: label, title, context, a short checklist, the stack as one plain
-   line, then a button or arrow link pinned to the bottom. `reverse` puts the art on the right. */
+   900px. Body top to bottom: label (with the year on the right when given), title, context, an
+   optional real outcome, a short checklist, the stack as one plain line, then a button or arrow
+   link pinned to the bottom. `reverse` puts the art on the right. */
 import Art from '../Art.astro';
 import Icon from './Icon.astro';
 import CheckList from './CheckList.astro';
@@ -11,6 +12,10 @@ interface Props {
   title: string;
   text: string;
   label?: string;
+  /** Shown at the right end of the label row, for example "2026". */
+  year?: string;
+  /** A real, checkable outcome, shown under the context. */
+  outcome?: string | null;
   /** Up to three short items. */
   items?: string[];
   /** Small heading over the items, for example "What I built". */
@@ -34,6 +39,8 @@ const {
   title,
   text,
   label,
+  year,
+  outcome,
   items,
   itemsTitle = 'What I built',
   stack,
@@ -55,9 +62,17 @@ const newTab = Boolean(cta && /^https?:/i.test(cta.href));
 <article class:list={['feature', reverse && 'feature--reverse', className]} {...rest}>
   <Art seed={seed} kind={kind} palette={palette} layout={layout} src={image} alt={imageAlt} />
   <div class="feature-body">
-    {label && <p class="t-label">{label}</p>}
+    {year ? (
+      <div class="work-meta feature-meta">
+        {label && <span class="t-label">{label}</span>}
+        <span class="t-label">{year}</span>
+      </div>
+    ) : (
+      label && <p class="t-label">{label}</p>
+    )}
     <Title class="feature-title">{title}</Title>
     <p class="feature-text">{text}</p>
+    {outcome && <p class="feature-outcome">{outcome}</p>}
     {items && items.length > 0 && (
       <div class="feature-list">
         <p class="t-label">{itemsTitle}</p>
@@ -70,10 +85,12 @@ const newTab = Boolean(cta && /^https?:/i.test(cta.href));
         {cta.style === 'button' ? (
           <a class="btn btn--primary" href={cta.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
             {cta.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+            {newTab && <span class="sr-only"> (opens in a new tab)</span>}
           </a>
         ) : (
           <a class="link-arrow" href={cta.href} target={newTab ? '_blank' : undefined} rel={newTab ? 'noopener' : undefined}>
             {cta.label}<Icon name={leaves ? 'arrow-up-right' : 'arrow-right'} strokeWidth={2} />
+            {newTab && <span class="sr-only"> (opens in a new tab)</span>}
           </a>
         )}
       </div>

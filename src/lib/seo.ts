@@ -5,9 +5,10 @@ export const PERSON_ID = `${SITE_URL}/#person`;
 export const LOGO_ID = `${SITE_URL}/#logo`;
 export const SOCIAL_IMAGE_ID = `${SITE_URL}/#social-image`;
 
-export const LOGO_URL = `${SITE_URL}/assets/brand/icon-512.png`;
-export const SOCIAL_IMAGE_URL = `${SITE_URL}/assets/brand/og-journal.png`;
-export const PROFILE_IMAGE_URL = `${SITE_URL}/assets/art/neil-avatar.webp`;
+export const LOGO_URL = `${SITE_URL}/assets/brand/icon-512.png?v=13`;
+/* The default social card: near-white ground, cobalt mark, wordmark and the hero line.
+   Rendered at build time by src/pages/og/site.png.ts. */
+export const SOCIAL_IMAGE_URL = `${SITE_URL}/og/site.png`;
 
 export const WEBSITE_REF = { '@id': WEBSITE_ID };
 export const ORGANIZATION_REF = { '@id': ORGANIZATION_ID };
@@ -20,7 +21,7 @@ export const LOGO = {
   contentUrl: LOGO_URL,
   width: 512,
   height: 512,
-  caption: 'busqueneil Ribbon N logo',
+  caption: 'Neil Busque logo',
 };
 
 export const SOCIAL_IMAGE = {
@@ -30,7 +31,7 @@ export const SOCIAL_IMAGE = {
   contentUrl: SOCIAL_IMAGE_URL,
   width: 1200,
   height: 630,
-  caption: 'Neil Busque — I build cool stuff with AI.',
+  caption: 'Neil Busque, your AI guy for agents, apps and automation',
 };
 
 export const AUTHOR = {

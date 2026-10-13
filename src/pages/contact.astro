@@ -1,127 +1,251 @@
 ---
+/* Contact: page head, channel rows (WhatsApp first) and "What happens next" on the left, the
+   form card on the right (stacks below 900px, form second), then a short FAQ. The closing ask
+   is dropped (ask={false}) and the live-talk widget is hidden, so nothing floats over the form.
+   Copy follows the copy deck's CONTACT section.
+   The form posts JSON to /api/contact: name, email, need, an optional company, message and the
+   bot_field honeypot. ?brief=<text> (from the home prompt card or a shared link) prefills the
+   message. */
 import AppShell from '../layouts/AppShell.astro';
-import { ORGANIZATION_REF, PERSON_REF, WEBSITE_REF } from '../lib/seo';
+import Section from '../components/site/Section.astro';
+import ContactChannels from '../components/site/ContactChannels.astro';
+import Steps from '../components/site/Steps.astro';
+import Faq from '../components/site/Faq.astro';
+import Button from '../components/site/Button.astro';
+import Icon from '../components/site/Icon.astro';
+import Breadcrumb from '../components/site/Breadcrumb.astro';
+import { SITE } from '../data/site';
+import { PERSON_REF, WEBSITE_REF } from '../lib/seo';
+import '../styles/pages/contact.css';
 
 export const prerender = true;
 
-const title = 'Contact Neil Busque | Talk About Your Build';
-const description = 'Tell Neil Busque about the AI agent, automation, web app, website, or funnel you want to build. A rough idea is enough.';
-const canonical = 'https://busqueneil.com/contact';
+const title = 'Contact Neil Busque | WhatsApp, email or a call';
+const description =
+  'Tell me what you want to build or fix. WhatsApp is fastest, and I usually reply the same day. Clear scope and price before any work starts.';
+const canonical = `${SITE.url}/contact`;
+
+const NEXT = [
+  { title: 'I reply, usually the same day', text: "With questions, or a first idea of what I'd build." },
+  { title: 'We talk it through', text: 'By message or a short call, whichever suits you.' },
+  { title: 'You get a scope and price', text: 'Nothing starts until you say yes. Then you see a first version in days.' },
+];
+
+const NEEDS = ['AI agent', 'Custom software', 'Automation', 'Website or funnel', 'Not sure yet'];
+
+const FORM = {
+  heading: 'Send me a message',
+  name: 'Name',
+  email: 'Email',
+  company: 'Company',
+  optional: '(optional)',
+  need: 'What do you need?',
+  message: 'Tell me about it',
+  placeholder: 'What does your business do, and what would you hand off first?',
+  promise: 'I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.',
+  submit: 'Send to Neil',
+  sending: 'Sending',
+  successTitle: 'Got it. Thank you.',
+  successLine: `I read every message myself and usually reply the same day. If it's urgent, WhatsApp me at ${SITE.whatsappDisplay}.`,
+  failLine: `That didn't send. Try again, or email me at ${SITE.email}.`,
+  errName: "Add your name so I know who I'm talking to.",
+  errEmail: 'Add an email I can reply to.',
+  errMessage: 'Add a line or two about what you need.',
+};
+
+const FAQ = [
+  { q: 'How much will it cost?', a: 'It depends on the job. You get a clear scope and price before any work starts.' },
+  { q: 'How soon will I see something?', a: 'First versions are usually ready in days. Bigger builds take a few weeks.' },
+  { q: 'Who owns what you build?', a: 'You do. The code and the accounts stay in your name, even if we stop working together.' },
+  { q: 'Will you sign an NDA?', a: "Send yours with your first message, and I'll review it before you share anything sensitive." },
+];
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
-  '@id': `${canonical}#webpage`,
+  '@id': `${canonical}#contact`,
   name: title,
+  description,
   url: canonical,
   isPartOf: WEBSITE_REF,
-  about: [PERSON_REF, ORGANIZATION_REF],
+  about: PERSON_REF,
 };
 ---
-<AppShell title={title} description={description} canonical={canonical} active="contact" ask={false}>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+<AppShell title={title} description={description} canonical={canonical} active="contact" ask={false} noConcierge>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Breadcrumb items={[{ name: 'Home', url: `${SITE.url}/` }, { name: 'Contact', url: canonical }]} back={false} />
 
-  <span class="eyebrow">Contact</span>
-  <h1 class="sec">Tell me what <span class="mark-hl">you want to build.</span></h1>
-  <p class="story-lede">A rough idea is enough. Write it the way you would say it out loud. I will reply with the questions I have, how I would approach it, and what the next step looks like.</p>
+  <section class="section contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="contact-side">
+        <div class="contact-head">
+          <h1 class="t-h1" id="contact-title">Start with a <span class="accent">message.</span></h1>
+          <p class="t-lead">Tell me what you want to build, or where your team loses time. A rough idea is enough. I reply myself, usually the same day.</p>
+        </div>
+        <ContactChannels />
+        <div class="contact-next">
+          <h2 class="t-h4" id="next-title">What happens next</h2>
+          <Steps items={NEXT} compact as="h3" />
+        </div>
+      </div>
 
-  <div class="contact-grid">
-    <div>
-      <form class="contact-form v8-card" id="cform" novalidate>
-        <div class="field">
-          <label for="cf-name">Your name</label>
-          <input id="cf-name" name="name" type="text" autocomplete="name" required />
-          <span class="ferr">Tell me who I am talking to.</span>
+      <div class="contact-form-col" id="form">
+        <form class="form-card contact-form" id="cform" novalidate aria-labelledby="form-title">
+          <h2 class="t-h3" id="form-title">{FORM.heading}</h2>
+
+          <div class="field">
+            <label for="cf-name">{FORM.name}</label>
+            <input class="input" id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-err" maxlength="200" />
+            <span class="field-error" id="cf-name-err">{FORM.errName}</span>
+          </div>
+
+          <div class="field">
+            <label for="cf-email">{FORM.email}</label>
+            <input class="input" id="cf-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="cf-email-err" maxlength="200" />
+            <span class="field-error" id="cf-email-err">{FORM.errEmail}</span>
+          </div>
+
+          <div class="field">
+            <label for="cf-company">{FORM.company} <span class="opt">{FORM.optional}</span></label>
+            <input class="input" id="cf-company" name="company" type="text" autocomplete="organization" maxlength="200" />
+            <span class="field-error" aria-hidden="true"></span>
+          </div>
+
+          <fieldset class="field">
+            <legend>{FORM.need}</legend>
+            <div class="choices">
+              {NEEDS.map((n, i) => (
+                <>
+                  <input type="radio" id={`cf-need-${i}`} name="need" value={n} />
+                  <label for={`cf-need-${i}`}>{n}</label>
+                </>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="cf-msg">{FORM.message}</label>
+            <textarea class="textarea" id="cf-msg" name="message" rows="6" required placeholder={FORM.placeholder} aria-describedby="cf-msg-err" maxlength="5000"></textarea>
+            <span class="field-error" id="cf-msg-err">{FORM.errMessage}</span>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for="cf-bot">Leave this empty</label>
+            <input type="text" id="cf-bot" name="bot_field" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="contact-submit">
+            <p class="t-small contact-promise">{FORM.promise}</p>
+            <Button type="submit" class="contact-btn" arrow="none" data-label={FORM.submit} data-sending={FORM.sending}>{FORM.submit}</Button>
+            <p class="contact-fail" id="cfail" role="alert" data-text={FORM.failLine}></p>
+          </div>
+        </form>
+
+        <div class="form-success contact-done" id="cdone" role="status" tabindex="-1" hidden>
+          <span class="contact-done-mark" aria-hidden="true"><Icon name="check" size={20} strokeWidth={2.25} /></span>
+          <h2 class="t-h3">{FORM.successTitle}</h2>
+          <p class="t-body">{FORM.successLine}</p>
         </div>
-        <div class="field">
-          <label for="cf-email">Email</label>
-          <input id="cf-email" name="email" type="email" autocomplete="email" required />
-          <span class="ferr">I need a real email to reply to.</span>
-        </div>
-        <div class="field">
-          <label for="cf-need">What do you need?</label>
-          <select id="cf-need" name="need">
-            <option>Web app</option>
-            <option>Website</option>
-            <option>Landing page or funnel</option>
-            <option>Automation or AI</option>
-            <option selected>Not sure yet</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="cf-msg">Your idea</label>
-          <textarea id="cf-msg" name="message" required placeholder="What are you trying to build, and what should it do?"></textarea>
-          <span class="ferr">Give me at least a sentence to work with.</span>
-        </div>
-        <input type="text" name="bot_field" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px" />
-        <p class="form-note">This goes straight to my inbox. I will not add you to a list.</p>
-        <p class="guarantee-line">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-        <button class="btn-sun" type="submit">Send it to Neil</button>
-        <span class="form-fail" id="cfail">Something broke on my end. Email me instead: busqueneil@gmail.com</span>
-      </form>
-      <div class="form-done v8-card" id="cdone" role="status">
-        <span class="hand">Got it. Talk soon.</span>
-        <p>Your message is in my inbox. I read everything myself and usually answer the same day. If it is urgent, WhatsApp is the fastest way to reach me.</p>
       </div>
     </div>
-    <aside class="contact-aside">
-      <p class="aside-note hand">I answer personally, usually the same day ↓</p>
-      <a class="cway v8-card" href="mailto:busqueneil@gmail.com">Email <span>busqueneil@gmail.com</span></a>
-      <a class="cway v8-card" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20got%20an%20idea%3A%20" target="_blank" rel="noopener">WhatsApp <span>fastest way to reach me</span></a>
-      <a class="cway v8-card" href="https://www.linkedin.com/in/neilbusque/" rel="me">LinkedIn <span>connect or DM</span></a>
-      <img class="art-img" src="/assets/art/paper-plane.webp" alt="" width="1200" height="896" loading="lazy" />
-    </aside>
-  </div>
+  </section>
 
-  <script>
-    function bindContactForm() {
-      const form = document.getElementById('cform') as HTMLFormElement | null;
-      if (!form || form.dataset.bound) return;
-      form.dataset.bound = '1';
-      const fail = document.getElementById('cfail')!;
-      const done = document.getElementById('cdone')!;
-      const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  <Section class="contact-faq" labelledby="contact-faq-title">
+    <Faq id="contact-faq-title" title="Quick answers" items={FAQ} ask={false} schema />
+  </Section>
+</AppShell>
 
-      const validate = () => {
-        let ok = true;
-        for (const name of ['name', 'email', 'message']) {
-          const input = form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
-          const bad = !input.value.trim() || (name === 'email' && !/^\S+@\S+\.\S+$/.test(input.value));
-          input.closest('.field')?.classList.toggle('invalid', bad);
-          if (bad) ok = false;
-        }
-        return ok;
-      };
-      for (const name of ['name', 'email', 'message']) {
-        (form.elements.namedItem(name) as HTMLElement).addEventListener('blur', validate);
-      }
+<script>
+  function bindContactForm() {
+    const form = document.getElementById('cform') as HTMLFormElement | null;
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = '1';
+    const done = document.getElementById('cdone') as HTMLElement;
+    const fail = document.getElementById('cfail') as HTMLElement;
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const message = form.elements.namedItem('message') as HTMLTextAreaElement;
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        fail.style.display = 'none';
-        if (!validate()) return;
-        btn.disabled = true;
-        const label = btn.textContent;
-        btn.textContent = 'Sending…';
-        try {
-          const data = Object.fromEntries(new FormData(form).entries());
-          const res = await fetch('/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-          });
-          const out = await res.json().catch(() => ({}));
-          if (!res.ok || !out.ok) throw new Error(out.error || 'send failed');
-          form.style.display = 'none';
-          done.style.display = 'block';
-        } catch {
-          fail.style.display = 'block';
-          btn.disabled = false;
-          btn.textContent = label;
-        }
+    /* Prefill the message from ?brief=, unless the visitor already typed something. */
+    try {
+      const brief = new URL(window.location.href).searchParams.get('brief');
+      if (brief && !message.value.trim()) message.value = brief.slice(0, 5000);
+    } catch {
+      /* A bad URL only means no prefill. */
+    }
+
+    const REQUIRED = ['name', 'email', 'message'] as const;
+    const touched = new Set<string>();
+    const fieldOf = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+    const isBad = (name: string) => {
+      const v = fieldOf(name).value.trim();
+      return !v || (name === 'email' && !/^\S+@\S+\.\S+$/.test(v));
+    };
+    const show = (name: string, bad: boolean) => {
+      const input = fieldOf(name);
+      const field = input.closest('.field') as HTMLElement | null;
+      if (!field) return;
+      if (bad) field.setAttribute('data-invalid', '');
+      else field.removeAttribute('data-invalid');
+      input.setAttribute('aria-invalid', bad ? 'true' : 'false');
+    };
+
+    for (const name of REQUIRED) {
+      const input = fieldOf(name);
+      input.addEventListener('blur', () => {
+        if (input.value.trim()) touched.add(name);
+        if (touched.has(name)) show(name, isBad(name));
+      });
+      input.addEventListener('input', () => {
+        if (touched.has(name) && !isBad(name)) show(name, false);
       });
     }
-    bindContactForm();
-    document.addEventListener('astro:page-load', bindContactForm);
-  </script>
-</AppShell>
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      fail.textContent = '';
+      let firstBad: string | null = null;
+      for (const name of REQUIRED) {
+        touched.add(name);
+        const bad = isBad(name);
+        show(name, bad);
+        if (bad && !firstBad) firstBad = name;
+      }
+      if (firstBad) {
+        fieldOf(firstBad).focus();
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        name: String(data.get('name') ?? '').trim(),
+        email: String(data.get('email') ?? '').trim(),
+        need: String(data.get('need') ?? ''),
+        company: String(data.get('company') ?? '').trim(),
+        message: String(data.get('message') ?? '').trim(),
+        bot_field: String(data.get('bot_field') ?? ''),
+      };
+
+      btn.disabled = true;
+      btn.setAttribute('aria-busy', 'true');
+      btn.textContent = btn.dataset.sending ?? 'Sending';
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const out = await res.json().catch(() => ({}));
+        if (!res.ok || !out.ok) throw new Error(out.error || 'send failed');
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch {
+        fail.textContent = fail.dataset.text ?? '';
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        btn.textContent = btn.dataset.label ?? 'Send';
+      }
+    });
+  }
+  bindContactForm();
+</script>

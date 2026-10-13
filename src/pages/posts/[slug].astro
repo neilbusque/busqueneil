@@ -1,110 +1,26 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { getPostBySlug, setPublicCache } from '../../lib/posts';
-import { publicImageUrl } from '../../lib/supabase';
-import { formatDate, readingTime } from '../../lib/format';
-import { deriveExcerpt } from '../../lib/markdown';
-import { AUTHOR, PUBLISHER, WEBSITE_REF } from '../../lib/seo';
+/* A published note, in the same article chrome as the guides. Hidden posts and "now" posts
+   come back null from getPostBySlug (src/lib/posts.ts), so their URLs answer 404. */
+import NoteArticle from '../../components/articles/NoteArticle.astro';
+import { articleRows, newestFirst, noteRow, type HubRow } from '../../components/articles/rows';
+import { getAllPublished, getPostBySlug, setPublicCache } from '../../lib/posts';
 
 const { slug } = Astro.params;
-const post = slug
-  ? await getPostBySlug({ request: Astro.request, cookies: Astro.cookies }, slug)
-  : null;
+const opts = { request: Astro.request, cookies: Astro.cookies };
+const post = slug ? await getPostBySlug(opts, slug) : null;
 
 if (!post) {
   return new Response(null, { status: 404 });
 }
 setPublicCache(Astro.response.headers);
 
-const title = post.title ?? deriveExcerpt(post.body_md, 60);
-const description = post.excerpt ?? deriveExcerpt(post.body_md);
-const canonical = `https://busqueneil.com/posts/${post.slug}`;
-const ogImage = `https://busqueneil.com/og/${post.slug}.png?v=${encodeURIComponent(post.updated_at)}`;
-
-const TAG_LABEL: Record<string, string> = {
-  status: 'Status',
-  article: 'Article',
-  project: 'Project',
-  now: 'Now',
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': post.type === 'project' ? 'CreativeWork' : 'BlogPosting',
-  '@id': `${canonical}#article`,
-  headline: title,
-  description,
-  url: canonical,
-  datePublished: post.published_at,
-  dateModified: post.updated_at,
-  image: post.images?.[0] ? publicImageUrl(post.images[0].path) : ogImage,
-  author: AUTHOR,
-  publisher: PUBLISHER,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  inLanguage: 'en-US',
-  ...(post.tags.length ? { keywords: post.tags.join(', ') } : {}),
-};
+/* Read next: other notes first, then the newest articles, three rows in all. */
+let others: HubRow[] = [];
+try {
+  others = (await getAllPublished(opts)).filter((p) => p.slug !== post.slug).map(noteRow);
+} catch {
+  others = [];
+}
+const related = [...newestFirst(others), ...articleRows()].slice(0, 3);
 ---
-<AppShell
-  title={`${title} | Neil Busque`}
-  description={description}
-  canonical={canonical}
-  ogImage={ogImage}
-  ogType="article"
-  active="notes"
->
-  <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Notes', url: 'https://busqueneil.com/blog' },
-      { name: title, url: canonical },
-    ]} />
-  </Fragment>
-
-  <article class="article-page">
-    <p class="eyebrow"><span class="idx">∗</span> {TAG_LABEL[post.type] ?? post.type}</p>
-    {post.title && <h1>{post.title}</h1>}
-    <div class="byline">
-      <span>{formatDate(post.published_at)}</span>
-      {post.type === 'article' && <span>{readingTime(post.body_md)}</span>}
-      <span>Neil Busque</span>
-    </div>
-
-    {post.type === 'project' && post.project_meta && (
-      <div class="project-meta">
-        {post.project_meta.stack?.length && (
-          <span>Built with {post.project_meta.stack.join(' · ')}</span>
-        )}
-        {post.project_meta.live_url && (
-          <a href={post.project_meta.live_url} rel="noopener">Live app ↗</a>
-        )}
-        {post.project_meta.repo_url && (
-          <a href={post.project_meta.repo_url} rel="noopener">Code ↗</a>
-        )}
-      </div>
-    )}
-
-    <div class="prose" set:html={post.body_html} />
-
-    {post.images?.length > 0 && !post.body_md.includes('![') && (
-      <div class="prose">
-        {post.images.map((img) => (
-          <img
-            src={publicImageUrl(img.path)}
-            alt={img.alt ?? ''}
-            width={img.width}
-            height={img.height}
-            loading="lazy"
-          />
-        ))}
-      </div>
-    )}
-
-    <p style="margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--rule);">
-      <a class="more" href="/blog">← Back to notes</a>
-    </p>
-  </article>
-</AppShell>
+<NoteArticle post={post} related={related} />

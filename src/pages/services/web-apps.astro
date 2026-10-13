@@ -1,136 +1,96 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { ORGANIZATION_REF, SOCIAL_IMAGE_URL, WEBSITE_REF } from '../../lib/seo';
+import ServicePage from '../../components/services/ServicePage.astro';
+import { SERVICES } from '../../data/site';
 
 export const prerender = true;
 
-const title = 'Custom Web App Development Services | Neil Busque';
-const description = 'Custom web app development for small teams: dashboards, client portals, and CRMs built by one person at a published price. See real shipped apps, then tell Neil Busque what your team needs.';
 const canonical = 'https://busqueneil.com/services/web-apps';
+const svc = SERVICES[2];
 
 const FAQ = [
   {
     q: 'How much does custom web app development cost?',
-    a: 'With me, $4,000 a month for a builder seat, with the first working system usually live inside two weeks, and you own the code and accounts from day one. Agency quotes for the same scope commonly start around $30,000 per project. I keep a full cost breakdown, with ranges for agencies, freelancers, and AI-assisted builds, in my web app cost guide.',
+    a: "It depends on what the app needs to do. A single build gets its own scope and price, agreed after the first conversation and before any work starts. Agency quotes for the same kind of scope commonly start around $30,000 per project. My web app cost guide breaks down the ranges for agencies, freelancers and AI-assisted builds.",
   },
   {
     q: 'How long does a custom web app take to build?',
-    a: 'A working first version usually takes two to four weeks. That is a real app with logins, a database, and the core workflow, not a clickable prototype. Bigger systems keep growing after that, but you have something usable in weeks rather than waiting a quarter to see anything.',
+    a: "A working first version usually takes days: a real app with logins, a database and the core workflow, not a clickable prototype. Bigger systems take a few weeks, and you can use each part as soon as it's ready.",
   },
   {
     q: 'What do you build web apps with?',
-    a: 'Mostly React and Next.js or Astro on the front, Supabase or Postgres for data and auth, and Vercel for hosting. I pick boring, well-documented tools on purpose, so another developer can pick the project up later without a translation layer.',
+    a: 'Mostly React and Next.js or Astro on the front, Supabase or Postgres for data and logins, and Vercel for hosting. I pick boring, well-documented tools on purpose, so another developer can pick the project up later without a translation layer.',
   },
   {
     q: 'Do I own the code?',
-    a: 'Yes. The repository and every account are yours. I do not host your app on a platform you have to keep renting from me, and there is no license that expires if you stop working with me.',
+    a: "Yes. The code, the database and every account are in your name. I don't host your app on a platform you have to keep renting from me, and nothing expires if you stop working with me.",
   },
   {
     q: 'Can you take over an app someone else started?',
-    a: 'Often, yes. I will read the codebase first and tell you honestly whether it is worth continuing or cheaper to rebuild. I have said "rebuild" and I have said "this is fine, here is what it needs" and both answers have been the right one.',
+    a: "Yes. I've taken over apps started by other developers and by AI app builders, cleaned them up and kept building. I'll look at what you have and tell you whether to keep it or start fresh.",
   },
 ];
-
-const service = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  '@id': `${canonical}#service`,
-  name: 'Web App Development',
-  url: canonical,
-  image: SOCIAL_IMAGE_URL,
-  provider: ORGANIZATION_REF,
-  brand: ORGANIZATION_REF,
-  isPartOf: WEBSITE_REF,
-  mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
-  serviceType: ['Custom web app development', 'Web application development services', 'Dashboard development', 'Client portal development', 'Internal tools', 'CRM development'],
-  description,
-};
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  '@id': `${canonical}#faq`,
-  isPartOf: { '@id': `${canonical}#webpage` },
-  mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
-};
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={SOCIAL_IMAGE_URL} active="services">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Services', url: 'https://busqueneil.com/services' },
-      { name: 'Web Apps', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(service)} />
-    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  </Fragment>
+<ServicePage
+  title="Custom Web App Development Services | Neil Busque"
+  description="Custom web app development for small teams: dashboards, client portals and CRMs built by one person, with a first version in days. You own the code and accounts."
+  canonical={canonical}
+  heading="Custom web apps, built around **how you work**."
+  lead="Dashboards, client portals, CRMs and the internal tools that replace a spreadsheet nobody trusts anymore. Built by one person, with a working first version in days, and yours at the end."
+  crumbs={[
+    { name: 'Home', url: 'https://busqueneil.com/' },
+    { name: 'Services', url: 'https://busqueneil.com/services' },
+    { name: 'Web Apps', url: canonical },
+  ]}
+  topic="custom web apps"
+  artSeed={svc.slug}
+  artPalette="mist"
+  summary={{ items: svc.items, facts: svc.facts }}
+  related={['crm-with-ai-follow-up', 'agency-os-assistant-asks-first']}
+  relatedPalettes={['navy', 'paper']}
+  faq={FAQ}
+  service={{
+    name: 'Web App Development',
+    serviceType: ['Custom web app development', 'Web application development services', 'Dashboard development', 'Client portal development', 'Internal tools', 'CRM development'],
+    areaServed: ['New Jersey', 'New York', 'New York City', 'United States', 'Remote'],
+  }}
+>
+  <h2>What counts as a web app</h2>
+  <p>The word covers a lot, so here is what people actually come to me for:</p>
+  <ul>
+    <li><strong>Client portals.</strong> A logged-in place where your clients see files, progress, invoices and approvals instead of emailing you to ask.</li>
+    <li><strong>Internal dashboards.</strong> One screen that pulls the numbers your team rebuilds by hand every Monday.</li>
+    <li><strong>A CRM that fits how you sell.</strong> Not a generic platform bent into shape with custom fields, but pipelines and follow-ups shaped around your process.</li>
+    <li><strong>Business operating systems.</strong> Leads, clients, projects and reports in one app, in place of the spreadsheets and tools you juggle now.</li>
+    <li><strong>Operational tools.</strong> Scheduling, intake, time tracking and checklists. The unglamorous software that decides whether a week runs smoothly.</li>
+  </ul>
 
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">01</span> Services &#183; Web Apps</p>
-    <h1>Custom web app <span class="accent">development</span>.</h1>
-    <p class="lede">Dashboards, client portals, CRMs, and the internal tools that replace a spreadsheet nobody trusts anymore. Built by one person, shipped in weeks, and yours at the end.</p>
-  </header>
+  <h2>Proof, before the pitch</h2>
+  <p>I shipped more than 40 products in 2026, including operating systems for six agencies and service businesses that I still look after. A few examples:</p>
+  <ul>
+    <li><strong>A recruiting CRM that screens every application with AI.</strong> Its first version was live within 2 days of signing.</li>
+    <li><strong>A client portal for a finance and tax firm.</strong> Tasks, files and messages in one place, live the day after the onboarding call.</li>
+    <li><strong>My own CRM for small teams.</strong> Its assistant can take about 150 different actions in the app, and it asks before anything risky. You can <a href="/free">try a live demo</a> with sample data.</li>
+  </ul>
+  <p>Client names stay private, so each build is named for what it does. More on <a href="/work">the work page</a>.</p>
 
-  <article class="article-page">
-    <div class="prose">
-      <p><strong>Short version: I build custom web apps for small teams. A working first version is usually live in two to four weeks, you own the code and the accounts, and you talk to the person writing it instead of an account manager.</strong></p>
+  <h2>The stack, and why it is boring</h2>
+  <p>React and Next.js or Astro on the front. Supabase or Postgres for data, logins and row-level security. Vercel for hosting. Stripe when there is money involved.</p>
+  <p>None of that is exotic, and that is deliberate. Another developer can pick any of it up without me explaining a private framework. The fastest way to trap a client is to build them something only you can maintain, and I would rather you stay because the work is good.</p>
 
-      <h2>What counts as a web app</h2>
-      <p>The word covers a lot, so here is what people actually come to me for:</p>
-      <ul>
-        <li><strong>Client portals.</strong> A logged-in place where your clients see files, progress, invoices, and approvals instead of emailing you to ask.</li>
-        <li><strong>Internal dashboards.</strong> One screen that pulls the numbers your team currently rebuilds by hand every Monday.</li>
-        <li><strong>A CRM that fits how you sell.</strong> Not a generic platform bent into shape with custom fields, but pipelines and automations shaped around your process.</li>
-        <li><strong>Operational tools.</strong> Scheduling, intake, inventory, QA checklists. The unglamorous software that decides whether a week runs smoothly.</li>
-      </ul>
+  <h2>How the build runs</h2>
+  <ol>
+    <li><strong>A first message or a short call.</strong> Usually the app someone asks for is not quite the app they need. We figure that out before anything gets written.</li>
+    <li><strong>A clear scope and price.</strong> You see what is in the first version and what is not, so "I thought that was included" never happens.</li>
+    <li><strong>A first version in days.</strong> You get a live link early and watch it fill in. If it is going the wrong way, you say so in the first week, not at handoff.</li>
+    <li><strong>Launch and after.</strong> The code, the accounts and the notes are yours. Keep me on to run it, or take it in-house.</li>
+  </ol>
 
-      <h2>Proof, before the pitch</h2>
-      <p>I shipped more than 40 products in 2026, and the ones below are open right now. You can click into them rather than take my word for it.</p>
-      <ul>
-        <li><strong>Orbit</strong> is a multi-tenant CRM with AI agents, billing, and a full page builder. I built and shipped it solo. <a href="/case-studies/orbit">Read the case study</a>.</li>
-        <li><strong>Portal</strong> is a client-facing surface with files, updates, and approvals, plus a browser extension for pinning feedback straight onto a live page. <a href="/case-studies/lumen-portal">Read the case study</a>.</li>
-        <li><strong>Tandem</strong> is a couples app with realtime sync, video, and games. I built it for my own long-distance marriage, which is a harsher QA process than any client. <a href="/case-studies/tandem">Read the case study</a>.</li>
-      </ul>
+  <h2>What it costs</h2>
+  <p>Most firms selling web application development make you book a call to hear a number. In my own research on 30 competitors running custom software ads, <a href="/research/866-custom-software-ads">only 3 published a price</a>. I scope each build after the first conversation, and you see the scope and price before any work starts.</p>
+  <p>If you are still budgeting, I wrote up <a href="/guides/web-app-development-cost">what web apps actually cost in 2026</a> across agencies, freelancers and AI-assisted builds, with the ranges and what moves them.</p>
 
-      <h2>The stack, and why it is boring</h2>
-      <p>React and Next.js or Astro on the front. Supabase or Postgres for data, auth, and row-level security. Vercel for hosting. Stripe when there is money involved.</p>
-      <p>None of that is exotic, and that is deliberate. Every choice here is something another developer can pick up without me explaining a private framework. The fastest way to trap a client is to build them something only you can maintain, and I would rather you stay because the work is good.</p>
-
-      <h2>How the build runs</h2>
-      <ol>
-        <li><strong>One call to find the real problem.</strong> Usually the app someone asks for is not the app they need. We figure that out before anything gets written.</li>
-        <li><strong>Scope in writing.</strong> You see what is in the first version and what is deliberately not, so "I thought that was included" never happens.</li>
-        <li><strong>Build in the open.</strong> You get a live URL early and watch it fill in. If it is going the wrong way, you say so in week one, not at handoff.</li>
-        <li><strong>Launch and hand over.</strong> Repo, accounts, and documentation are yours. Keep me on to run it or take it in-house.</li>
-      </ol>
-
-      <h2>What it costs</h2>
-      <p>Most firms selling web application development services make you book a call to hear a number. In my own research on 30 competitors running custom software ads, <a href="/research/866-custom-software-ads">only 3 published a price</a>. Here is mine: $4,000 a month for a builder seat, first working system usually live inside two weeks, cancel anytime, and you keep everything. The full terms are on <a href="https://offer.busqueneil.com">the offer page</a>.</p>
-      <p>If you are still budgeting, I wrote up <a href="/guides/web-app-development-cost">what web apps actually cost in 2026</a> across agencies, freelancers, and AI-assisted builds, with the ranges and what moves them.</p>
-
-      <h2>Why one person instead of a company</h2>
-      <p>Searching for a custom web app development company usually returns agencies with account managers, project managers, and a developer you never meet. Software needs maintenance. An API changes, a dependency breaks, your process shifts. When that happens here, you message the person who built it, and they already have the whole thing in their head.</p>
-      <p>The tradeoff is honest: I am one person, so I take on fewer projects and I will tell you on the first call if your timeline needs a team instead.</p>
-
-      <h2>FAQ</h2>
-      {FAQ.map((f) => (
-        <>
-          <h3>{f.q}</h3>
-          <p>{f.a}</p>
-        </>
-      ))}
-
-      <p>If you have an app in mind, <a href="/contact">tell me what it needs to do</a>. If you are still deciding, <a href="/work">open the work</a>, look at <a href="/guides/web-application-examples">real web application examples</a>, check <a href="/compare/web-application-vs-website">whether you need an app or a website</a>, or read about <a href="/services/ai-automation-services">the automation side</a>.</p>
-    </div>
-  </article>
-
-  <div class="hire-cta v8-card">
-    <span class="eyebrow">The guarantee</span>
-    <p class="guarantee">I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.</p>
-    <div class="hero-ctas">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="https://wa.me/19083164140?text=Hi%20Neil%2C%20I%20have%20a%20project%20in%20mind" target="_blank" rel="noopener">Or message me on WhatsApp</a>
-    </div>
-  </div>
-</AppShell>
+  <h2>Why one person instead of a company</h2>
+  <p>Searching for a custom web app development company usually returns agencies with account managers, project managers and a developer you never meet. Software needs looking after. An API changes, a tool breaks, your process shifts. When that happens here, you message the person who built it, and they already have the whole thing in their head.</p>
+  <p>The tradeoff is honest: I am one person, so I take on fewer projects, and I will tell you on the first call if your timeline needs a team instead.</p>
+  <p>Still deciding? Look at <a href="/guides/web-application-examples">real web application examples</a>, check <a href="/compare/web-application-vs-website">whether you need an app or a website</a>, browse <a href="/software">software by industry</a>, or read about <a href="/services/ai-automation-services">the automation side</a>.</p>
+</ServicePage>

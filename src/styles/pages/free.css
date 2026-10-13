@@ -1,0 +1,46 @@
+/* Free tools page (src/pages/free.astro) and the featured tool block. Scoped under .site like
+   site.css and bound by the same bans: no side accent borders, inset stripes, gradient
+   functions, capitalised text transforms or shadows on cards. */
+
+/* ================================================================ featured tool */
+.site .ftool .feature-body { gap: 18px; }
+.site .ftool-block { display: grid; gap: 8px; }
+.site .ftool-who { color: var(--ink-2); }
+.site .ftool-steps { list-style: none; display: grid; gap: 10px; }
+.site .ftool-steps > li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: baseline; color: var(--ink-2); }
+.site .ftool-n { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: var(--r-sm); background: var(--blue-wash); font-size: 13px; font-weight: 600; line-height: 1; color: var(--blue-ink); font-variant-numeric: tabular-nums; transform: translateY(-1px); }
+.site .ftool .feature-cta { padding-top: 12px; }
+
+/* ================================================================ tool grid: four across */
+@media (min-width: 1024px) {
+  .site .tool-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 901px) and (max-width: 1023px) {
+  .site .tool-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ================================================================ build-for-you row */
+/* Alone on its band, the row needs no rule above it. */
+.site .free-build .cta-row { padding-top: 0; border-top: 0; }
+.site .free-build .cta-row > p { font-size: var(--fs-lead); color: var(--ink); font-weight: 500; letter-spacing: -.01em; }
+
+/* ================================================================ analyzer page (src/pages/analyzer.astro) */
+.site .az-crumb { margin-top: 16px; }
+.site .az-crumb + .phead, .site .az-crumb + script + .phead { padding-top: 8px; }
+.site .az-head .phead-grid { align-items: start; }
+.site .az-head .phead-main { padding-top: 24px; }
+.site .az-head .phead-aside { grid-column: 7 / span 6; }
+.site .az-head .phead-main { grid-column: 1 / span 6; }
+.site .az-head .t-h1 { max-width: 12ch; }
+.site .az-more-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px var(--grid-gap); }
+.site .az-more-col { display: grid; gap: 16px; align-content: start; }
+.site .az-more-col:first-child { grid-column: 1 / span 6; }
+.site .az-more-col:last-child { grid-column: 8 / span 5; }
+.site .az-more-col .check { margin-top: 4px; }
+.site .az-who-title { margin-top: 16px; }
+.site .az-fix { margin-top: 48px; }
+@media (max-width: 900px) {
+  .site .az-head .phead-main, .site .az-head .phead-aside { grid-column: 1 / -1; }
+  .site .az-head .phead-main { padding-top: 0; }
+  .site .az-more-col:first-child, .site .az-more-col:last-child { grid-column: 1 / -1; }
+}

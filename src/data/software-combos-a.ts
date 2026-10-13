@@ -7,8 +7,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Custom CRM for Roofing Companies | Neil Busque',
     metaDescription:
-      'A custom roofing CRM shaped to your pipeline: lead to inspection to build to final invoice. No per-user fees. $4,000/month, live in 14 days.',
-    eyebrow: 'Roofing · CRM',
+      'A custom roofing CRM shaped to your pipeline: lead to inspection to build to final invoice. No per-user fees, and you own it.',
+    eyebrow: 'Roofing, CRM',
     h1: 'A custom CRM for **roofing companies**.',
     lede: 'Storm leads, canvass leads, referrals, adjuster meetings, supplements: roofing sales is its own animal. Your CRM should be shaped like it.',
     sections: [
@@ -43,7 +43,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'What does a roofing CRM cost?',
-        a: '$4,000 a month on my seat, first working version in 14 days, month one refundable. No per-user fees at any crew size, and you own the code and data outright.',
+        a: 'It depends on your pipeline and what it connects to. You get a clear scope and price before any work starts, with no per-user fees at any crew size, and you own the code and data outright.',
       },
     ],
     related: [
@@ -58,8 +58,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Roofing Companies | Neil Busque',
     metaDescription:
-      'An AI phone agent for roofers: answers storm-season call floods, qualifies homeowners, and books inspections. Built for your company. $4,000/month.',
-    eyebrow: 'Roofing · AI Phone',
+      'An AI phone agent for roofers: answers storm-season call floods, qualifies homeowners, and books inspections. Built for your company.',
+    eyebrow: 'Roofing, AI Phone',
     h1: 'An AI phone agent for **roofing companies**.',
     lede: 'After a hail storm your phone rings more in a day than in a normal month. The AI agent answers all of it, and books the inspections.',
     sections: [
@@ -83,7 +83,7 @@ export const combosA: SoftwarePage[] = [
       {
         h2: 'Built on a real roofing deployment',
         body: [
-          'I built an AI voice agent for a commercial roofing contractor that answers and captures calls their office used to chase. This is not a demo category for me. It is shipped work.',
+          'I built an AI phone receptionist for a roofing company. It answers inbound calls, asks about the roof, and books inspections on the company calendar. This is not a demo category for me. It is shipped work.',
         ],
       },
     ],
@@ -94,7 +94,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'How fast can it be answering our line?',
-        a: 'Inside 14 days from plan approval, on your existing number or a new one you own. Month one refundable if it does not earn its place.',
+        a: 'A working first version usually takes days once we agree on the call script, on your existing number or a new one you own. You test it on your own phone before it takes a real call.',
       },
     ],
     related: [
@@ -109,8 +109,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Quoting Software for Roofing Companies | Neil Busque',
     metaDescription:
-      'Custom roofing quoting software: consistent pricing from measurements to margin, branded proposals in minutes. $4,000/month.',
-    eyebrow: 'Roofing · Quoting',
+      'Custom roofing quoting software: consistent pricing from measurements to margin, branded proposals in minutes.',
+    eyebrow: 'Roofing, Quoting',
     h1: 'Quoting software for **roofing companies**.',
     lede: 'Same roof, two estimators, two prices: that gap is your margin. I build quoting tools that price like your best estimator every time.',
     sections: [
@@ -132,9 +132,9 @@ export const combosA: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'Priced flat, like everything I build',
+        h2: 'Yours to keep',
         body: [
-          '$4,000 a month, first version in 14 days, month one refundable. It usually pays for itself in the first week of faster, tighter quotes. You own the tool and the price book forever.',
+          'You get a clear scope and price before any work starts, and a working first version usually takes days. You own the tool and the price book forever.',
         ],
       },
     ],
@@ -160,8 +160,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Project Tracking Software for Construction | Neil Busque',
     metaDescription:
-      'Custom construction project tracking: phases, draws, retainage, and AIA-style billing without the spreadsheet fear. $4,000/month.',
-    eyebrow: 'Construction · Projects',
+      'Custom construction project tracking: phases, draws, retainage, and AIA-style billing without the spreadsheet fear.',
+    eyebrow: 'Construction, Projects',
     h1: 'Project tracking built for **construction companies**.',
     lede: 'Your master spreadsheet knows every job, draw, and retainage number. It is also one bad paste away from chaos. I turn it into software.',
     sections: [
@@ -185,7 +185,7 @@ export const combosA: SoftwarePage[] = [
       {
         h2: 'Built from a real contractor system',
         body: [
-          'I built exactly this for a commercial contractor: operations from bid to final payment, including the progress-billing math their office used to dread monthly. The pattern is proven; yours gets shaped to your jobs.',
+          'I took over and launched a construction CRM for a commercial contractor, with progress billing, change orders, and several companies in one login. The pattern is proven; yours gets shaped to your jobs.',
         ],
       },
     ],
@@ -211,8 +211,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Client Portal for Construction Companies | Neil Busque',
     metaDescription:
-      'A construction client portal: owners see schedule, photos, change orders, and payments without calling your PM. $4,000/month.',
-    eyebrow: 'Construction · Portal',
+      'A construction client portal: owners see schedule, photos, change orders, and payments without calling your PM.',
+    eyebrow: 'Construction, Portal',
     h1: 'A client portal for **construction companies**.',
     lede: 'Every owner call about schedule or payment status is a PM interruption. A portal answers before they dial, and makes you look like the biggest GC in town.',
     sections: [
@@ -236,7 +236,7 @@ export const combosA: SoftwarePage[] = [
       {
         h2: 'Shipped pattern, real portals',
         body: [
-          'I have built and shipped client portals for service teams this year, including branded per-client experiences. Construction owners ask simpler questions than agencies do. The portal answers them around the clock.',
+          'I have built and shipped client portals for service teams in 2026, including a branded portal with e-signatures. Construction owners ask simpler questions than agencies do. The portal answers them around the clock.',
         ],
       },
     ],
@@ -247,7 +247,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'What does it cost and how fast?',
-        a: 'Part of the $4,000 a month seat. A first portal is a natural 14-day build. Month one refundable, and it runs on your domain in your accounts.',
+        a: 'It depends on what owners need to see. You get a clear scope and price before any work starts, a working first version usually takes days, and it runs on your domain in your accounts.',
       },
     ],
     related: [
@@ -262,8 +262,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Workflow Automation for Construction | Neil Busque',
     metaDescription:
-      'Construction workflow automation: bid follow-ups, sub coordination, compliance docs, and owner reports that send themselves. $4,000/month.',
-    eyebrow: 'Construction · Automation',
+      'Construction workflow automation: bid follow-ups, sub coordination, compliance docs, and owner reports that send themselves.',
+    eyebrow: 'Construction, Automation',
     h1: 'Workflow automation for **construction companies**.',
     lede: 'Your office re-types the same job data into estimating, accounting, and a status email every week. None of that needs a human.',
     sections: [
@@ -287,7 +287,7 @@ export const combosA: SoftwarePage[] = [
       {
         h2: 'Small automations, big hours',
         body: [
-          'Construction automation is rarely one big system. It is eight small bridges, each saving hours weekly. The seat model fits this perfectly: several automations shipped per month, $4,000 flat, each one documented and owned by you.',
+          'Construction automation is rarely one big system. It is eight small bridges, each saving hours weekly. That suits a monthly arrangement: several automations shipped each month, each one documented and owned by you.',
         ],
       },
     ],
@@ -313,8 +313,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for HVAC Companies | Neil Busque',
     metaDescription:
-      'An AI phone agent for HVAC: answers the July call flood, quotes service windows, books jobs, routes emergencies. $4,000/month.',
-    eyebrow: 'HVAC · AI Phone',
+      'An AI phone agent for HVAC: answers the July call flood, quotes service windows, books jobs, routes emergencies.',
+    eyebrow: 'HVAC, AI Phone',
     h1: 'An AI phone agent for **HVAC companies**.',
     lede: 'The first heat wave doubles your call volume overnight. The agent answers every one, books the routine, and escalates the no-cool emergencies.',
     sections: [
@@ -364,8 +364,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Booking Software for HVAC Companies | Neil Busque',
     metaDescription:
-      'Custom HVAC booking: real dispatch windows, zone-aware scheduling, maintenance-agreement slots, and reminder flows. $4,000/month.',
-    eyebrow: 'HVAC · Booking',
+      'Custom HVAC booking: real dispatch windows, zone-aware scheduling, maintenance-agreement slots, and reminder flows.',
+    eyebrow: 'HVAC, Booking',
     h1: 'Booking software for **HVAC companies**.',
     lede: 'Letting customers book online is easy. Letting them book slots your dispatcher would have chosen is the hard part I build.',
     sections: [
@@ -387,9 +387,9 @@ export const combosA: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'Flat price, no per-booking skim',
+        h2: 'No per-booking skim',
         body: [
-          'Part of the $4,000 a month seat, live inside 14 days, month one refundable. No per-booking fees, and it pairs naturally with the AI phone agent so web and phone bookings follow the same rules.',
+          'There are no per-booking fees, and it pairs naturally with the AI phone agent so web and phone bookings follow the same rules. You get a clear scope and price before any work starts.',
         ],
       },
     ],
@@ -415,8 +415,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Quoting Software for HVAC Companies | Neil Busque',
     metaDescription:
-      'HVAC quoting software: flat-rate options from the driveway, good-better-best proposals, and quote follow-up that never forgets. $4,000/month.',
-    eyebrow: 'HVAC · Quoting',
+      'HVAC quoting software: flat-rate options from the driveway, good-better-best proposals, and quote follow-up that never forgets.',
+    eyebrow: 'HVAC, Quoting',
     h1: 'Quoting software for **HVAC companies**.',
     lede: 'Replacement quotes win in the driveway, not three days later from the office. I build tools your techs can price with on the spot.',
     sections: [
@@ -451,7 +451,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat, first version inside 14 days, month one refundable. One closed replacement usually covers the month.',
+        a: 'It depends on your price book and options. You get a clear scope and price before any work starts, and a working first version usually takes days.',
       },
     ],
     related: [
@@ -466,8 +466,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Plumbing Companies | Neil Busque',
     metaDescription:
-      'An AI phone agent for plumbers: answers 2am emergencies, quotes your fee, books the visit, and texts your on-call tech. $4,000/month.',
-    eyebrow: 'Plumbing · AI Phone',
+      'An AI phone agent for plumbers: answers 2am emergencies, quotes your fee, books the visit, and texts your on-call tech.',
+    eyebrow: 'Plumbing, AI Phone',
     h1: 'An AI phone agent for **plumbing companies**.',
     lede: 'The 2am burst-pipe call is the most valuable lead you get, and the most likely to hit voicemail. The agent answers it like your best dispatcher.',
     sections: [
@@ -491,7 +491,7 @@ export const combosA: SoftwarePage[] = [
       {
         h2: 'The math is simple',
         body: [
-          'One saved emergency job often covers a month of the seat. The agent is part of my flat $4,000 a month, live inside 14 days, month one refundable, and the phone number stays yours forever.',
+          'An emergency job missed at 2am is gone for good. The agent answers every one. You get a clear scope and price before any work starts, and the phone number stays yours forever.',
         ],
       },
     ],
@@ -517,8 +517,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Quoting Software for Plumbing Companies | Neil Busque',
     metaDescription:
-      'Plumbing quoting software: consistent flat-rate pricing, clean branded quotes from the van, and automatic follow-up. $4,000/month.',
-    eyebrow: 'Plumbing · Quoting',
+      'Plumbing quoting software: consistent flat-rate pricing, clean branded quotes from the van, and automatic follow-up.',
+    eyebrow: 'Plumbing, Quoting',
     h1: 'Quoting software for **plumbing companies**.',
     lede: 'Estimates written in text messages do not win water-heater jobs. A clean, fast, branded quote from the van does.',
     sections: [
@@ -553,7 +553,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'How fast is it live?',
-        a: 'First working version inside 14 days from an approved plan, month one refundable, part of the flat $4,000 seat. Your price book stays yours forever.',
+        a: 'A working first version usually takes days once we agree on the plan. Your price book stays yours forever.',
       },
     ],
     related: [
@@ -568,8 +568,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Quoting Software for Landscaping Companies | Neil Busque',
     metaDescription:
-      'Landscaping estimating software: price from your real cost model, quote maintenance and installs properly, follow up automatically. $4,000/month.',
-    eyebrow: 'Landscaping · Quoting',
+      'Landscaping estimating software: price from your real cost model, quote maintenance and installs properly, follow up automatically.',
+    eyebrow: 'Landscaping, Quoting',
     h1: 'Quoting software for **landscaping companies**.',
     lede: 'Maintenance contracts and install projects price completely differently. Your quoting tool should know both, and your cost model, cold.',
     sections: [
@@ -604,7 +604,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'What does it cost?',
-        a: 'Part of the $4,000 a month seat: first version in 14 days, month one refundable, no per-user fees as your sales team grows.',
+        a: 'It depends on your cost model. You get a clear scope and price before any work starts, with no per-user fees as your sales team grows.',
       },
     ],
     related: [
@@ -619,8 +619,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Custom CRM for Landscaping Companies | Neil Busque',
     metaDescription:
-      'A landscaping CRM shaped to your seasons: leads, contracts, renewals, and crew handoffs in one owned system. $4,000/month.',
-    eyebrow: 'Landscaping · CRM',
+      'A landscaping CRM shaped to your seasons: leads, contracts, renewals, and crew handoffs in one owned system.',
+    eyebrow: 'Landscaping, CRM',
     h1: 'A custom CRM for **landscaping companies**.',
     lede: 'Landscaping runs on seasons and renewals, not a generic sales funnel. Your CRM should think in contracts, routes, and spring start-ups.',
     sections: [
@@ -642,9 +642,9 @@ export const combosA: SoftwarePage[] = [
         ],
       },
       {
-        h2: 'One flat price, no per-user fees',
+        h2: 'No per-user fees',
         body: [
-          '$4,000 a month on the seat, first version in 14 days, month one refundable. Add office staff and salespeople without a seat fee ever appearing. You own the system and every record in it.',
+          'Add office staff and salespeople without a per-user fee ever appearing. You get a clear scope and price before any work starts, and you own the system and every record in it.',
         ],
       },
     ],
@@ -670,8 +670,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Dental Practices | Neil Busque',
     metaDescription:
-      'An AI phone agent for dental offices: answers overflow and after-hours calls, books consults, and never leaves a new patient on hold. $4,000/month.',
-    eyebrow: 'Dental · AI Phone',
+      'An AI phone agent for dental offices: answers overflow and after-hours calls, books consults, and never leaves a new patient on hold.',
+    eyebrow: 'Dental, AI Phone',
     h1: 'An AI phone agent for **dental practices**.',
     lede: 'A new-patient call that hits voicemail books somewhere else by lunch. The agent answers every ring your front desk cannot reach.',
     sections: [
@@ -705,8 +705,8 @@ export const combosA: SoftwarePage[] = [
         a: 'It answers from your participation list and flags verification tasks to your team. It does not guess: unknown plans become a callback with the caller’s details captured.',
       },
       {
-        q: 'What does it cost against one new patient?',
-        a: 'The seat is $4,000 a month flat. Practices measure new-patient lifetime value in the thousands, so the agent typically has to save a handful of missed calls a month to carry itself.',
+        q: 'What does it cost?',
+        a: 'It depends on your call flow and booking rules. You get a clear scope and price before any work starts. Practices measure new-patient lifetime value in the thousands, so the agent typically has to catch a handful of missed calls a month to earn its place.',
       },
     ],
     related: [
@@ -721,8 +721,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'Booking Software for Dental Practices | Neil Busque',
     metaDescription:
-      'Dental online booking that respects provider rules, operatory limits, and appointment types, with no-show reduction built in. $4,000/month.',
-    eyebrow: 'Dental · Booking',
+      'Dental online booking that respects provider rules, operatory limits, and appointment types, with no-show reduction built in.',
+    eyebrow: 'Dental, Booking',
     h1: 'Booking software for **dental practices**.',
     lede: 'Online booking that ignores operatories and provider rules creates chaos your front desk then untangles. I build booking that thinks like your scheduler.',
     sections: [
@@ -753,7 +753,7 @@ export const combosA: SoftwarePage[] = [
     faq: [
       {
         q: 'Does it work with Dentrix or Open Dental?',
-        a: 'Integration depth depends on your PMS version and hosting. Open Dental is friendly; others vary. I confirm the exact sync path on the free call before you commit to anything.',
+        a: 'Integration depth depends on your PMS version and hosting. Open Dental is friendly; others vary. I confirm the exact sync path on the first call before you commit to anything.',
       },
       {
         q: 'Will it really reduce no-shows?',
@@ -772,8 +772,8 @@ export const combosA: SoftwarePage[] = [
     cat: 'combo',
     title: 'AI Phone Agent for Medical Offices | Neil Busque',
     metaDescription:
-      'An AI phone agent for medical practices: overflow answering, appointment booking, refill routing, careful escalation. $4,000/month.',
-    eyebrow: 'Medical · AI Phone',
+      'An AI phone agent for medical practices: overflow answering, appointment booking, refill routing, careful escalation.',
+    eyebrow: 'Medical, AI Phone',
     h1: 'An AI phone agent for **medical offices**.',
     lede: 'Your staff spends hours on calls a well-built system could answer: scheduling, directions, refill routing. The agent takes those, carefully.',
     sections: [
@@ -808,7 +808,7 @@ export const combosA: SoftwarePage[] = [
       },
       {
         q: 'How fast can it take our overflow?',
-        a: 'Inside 14 days from an approved plan, starting overflow-only if you prefer a cautious rollout. Month one refundable, and every account involved is yours.',
+        a: 'A working first version usually takes days once we agree on the plan, starting overflow-only if you prefer a cautious rollout. Every account involved is yours.',
       },
     ],
     related: [

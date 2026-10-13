@@ -1,114 +1,110 @@
 ---
+/* About (/story; /about redirects here). Page head with a placeholder portrait slot, the story
+   in a reading column, "How I work" (id how-i-work, the home statement links here), the four
+   capabilities as a ruled strip, then the shell's closing band. Copy follows the copy deck's
+   ABOUT section. Work only: nothing personal. */
 import AppShell from '../layouts/AppShell.astro';
-import { AUTHOR, PROFILE_IMAGE_URL, WEBSITE_REF } from '../lib/seo';
+import Section from '../components/site/Section.astro';
+import PageHead from '../components/site/PageHead.astro';
+import SectionHead from '../components/site/SectionHead.astro';
+import Portrait from '../components/site/Portrait.astro';
+import Steps from '../components/site/Steps.astro';
+import RuledGrid from '../components/site/RuledGrid.astro';
+import RuledCell from '../components/site/RuledCell.astro';
+import Button from '../components/site/Button.astro';
+import DefList from '../components/site/DefList.astro';
+import Icon from '../components/site/Icon.astro';
+import Breadcrumb from '../components/site/Breadcrumb.astro';
+import { ABOUT_FACTS, CAPABILITIES, SITE, waGlobal } from '../data/site';
+import { AUTHOR, WEBSITE_REF } from '../lib/seo';
+import '../styles/pages/about.css';
 
-/* The career arc as a sequence. Each step is where the next one came from, which is the whole
-   point of the page: none of it was a plan, but none of it was wasted either. */
-const TIMELINE = [
-  { k: 'Information Technology', d: 'College in the Philippines. Graduated top of my class. Java, C++, JavaScript, HTML, and Android, back when I thought programming was the whole job.' },
-  { k: 'Graphic design', d: 'Logos, flyers, t-shirts. I competed on 99designs and won hundreds of contests. Losing one teaches you faster than any course does.' },
-  { k: 'Engineering company', d: 'Built and ran their website, then their marketing and SEO. First time I watched design and code turn into revenue for someone else.' },
-  { k: 'Paid ads and marketing', d: 'Facebook ads, funnels, the whole demand side. I stopped thinking of myself as someone who just makes things look good.' },
-  { k: 'CRM and automation', d: 'GoHighLevel, Zapier, n8n. I fell for making busywork disappear, which is really programming again wearing a different hat.' },
-  { k: 'AI', d: 'Claude Code and Codex, every day. Where all of it compounds: the engineering, the design eye, and knowing what a business actually needs.' },
-  { k: 'New Jersey', d: 'Where I live and build now. Still learning something most days, still in the gym to keep my head straight.' },
+export const prerender = true;
+
+const title = 'About Neil Busque | AI developer based in New Jersey';
+const description =
+  'I find the work in your business worth handing to AI, build it and keep it running. AI agents, custom software and automations. Based in New Jersey.';
+const canonical = `${SITE.url}/story`;
+
+const PARAGRAPHS = [
+  "I build AI agents, voice agents, custom software, automations and the sites that bring in the leads. I've shipped more than 40 products in 2026, including operating systems for six agencies and service businesses.",
+  "Every project starts with your week. I ask where the hours go, what keeps breaking and what you'd hand off tomorrow if you could. Then I build the piece that gives you the most time back.",
+  'I work fast on purpose. You see a working first version in days, so your feedback shapes the real thing early.',
+  'My path ran from IT to design, then funnels, automation and AI. So I see the whole business, from the page a lead lands on to the report the owner reads.',
+  'I build with AI coding tools like Claude Code and Codex every day. They do a lot of the typing. My job is to catch what they get wrong: the edge case, the missing permission, the fix that breaks something else.',
+  'You deal with me from the first message to launch and after. You own what I build and the accounts it runs on. I keep working until you are proud of it. If I am not the right fit, I will tell you on the first call.',
 ];
 
-const canonical = 'https://busqueneil.com/story';
+const HOW = [
+  { title: 'Start from the work', text: 'We find the task that costs your team the most time, then decide if AI should take it.' },
+  { title: 'Ship something real, fast', text: 'You click through a working first version within days and tell me what to change.' },
+  { title: 'Keep a person in charge', text: 'Agents get clear limits you approve. Anything risky waits for your OK.' },
+  { title: 'Plan for after launch', text: 'I keep it running and add what comes next, or hand it to your team cleanly.' },
+];
+
 const profile = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  '@id': `${canonical}#webpage`,
-  name: 'About Neil Busque',
+  '@id': `${canonical}#profile`,
+  name: title,
+  description,
   url: canonical,
   isPartOf: WEBSITE_REF,
   dateCreated: '2026-05-13',
-  dateModified: '2026-07-25',
+  dateModified: '2026-10-12',
   mainEntity: {
     ...AUTHOR,
-    image: PROFILE_IMAGE_URL,
-    jobTitle: 'AI Engineer and Product Builder',
-    sameAs: ['https://www.linkedin.com/in/neilbusque/'],
+    jobTitle: 'AI developer and fractional AI lead',
+    description:
+      'Neil Busque, based in New Jersey, finds the work worth handing to AI for small and mid-size businesses, builds the agents, software and automations, and keeps them running.',
+    homeLocation: { '@type': 'Place', name: 'New Jersey, United States' },
+    sameAs: [SITE.linkedin],
   },
 };
 ---
-<AppShell
-  title="About Neil Busque | Design, Software, Systems and AI"
-  description="About Neil Busque, a builder working across design, software, systems, automation, and AI from New Jersey."
-  canonical={canonical}
-  active="story"
->
+<AppShell title={title} description={description} canonical={canonical} active="about">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(profile)} />
-  <div class="journal-page about-page">
-  <header class="journal-page-head">
-    <span class="eyebrow">About</span>
-    <h1>Design, software, systems, and the part in <em>between.</em></h1>
-    <p>I studied IT, went deep into design, and ended up in the middle of software, systems, and AI. That mix is probably why I like this work so much. I care about how things function, but I also care about how they feel to use.</p>
-  </header>
+  <Breadcrumb items={[{ name: 'Home', url: `${SITE.url}/` }, { name: 'About', url: canonical }]} back={false} />
 
-  {/* Photo slot. Swap the src for a real portrait when Neil has one he likes; the figure and
-      caption stay as they are. Keep it 4:5 — the CSS crops to that ratio. */}
-  <figure class="about-photo">
-    <img src="/assets/art/neil-avatar.webp" alt="Neil Busque" width="900" height="1125" loading="lazy" />
-    <figcaption>Neil Busque, in New Jersey. Usually building something, usually learning the next part as I go.</figcaption>
-  </figure>
-
-  <article class="article-page" style="padding-top:0">
-    <div class="prose">
-      <h2>Who I am</h2>
-      <p>I am a builder who came at it from three directions instead of one. I studied Information Technology and graduated top of my class. Then I spent years in graphic design. Then came marketing, paid ads, funnels, CRM, and automation, because the work kept asking for one more thing I did not have yet.</p>
-      <p>Most people in this field have one of those. I have all three, and the combination is the whole point: I can design the thing, build the thing, and understand why the business needed it in the first place. The handoffs where projects usually lose their shape do not exist when it is one person carrying all three.</p>
-
-      <h2>How I try to get better</h2>
-      <p>I read constantly and I follow people who are genuinely better than me rather than people who are good at sounding like it. When something I built breaks, I write down why, and that note is worth more than any course I have taken.</p>
-      <p>I am not interested in being adequate at this. I want the work to be the best version of itself, and that means shipping a lot, looking hard at what came out, and being honest when it is not there yet. More than 40 products this year is not a brag about volume; it is how I keep the feedback loop short enough to actually learn from.</p>
-      <p>The gym is part of the same thing. It is the one habit I have never negotiated with, and it keeps my head straight when a build is going badly.</p>
-
-      <h2>What I actually like doing</h2>
-      <p>The first working version. Not the polish, not the planning document, the moment an idea stops being a conversation and turns into a URL you can open.</p>
-      <p>I also like problems where the answer is not more software. A lot of what I get asked to build should not be built, and finding that out on the first call is more satisfying to me than taking the money and building it anyway.</p>
-      <p>And the unglamorous half: the migration, the permissions model, the reason a form works on your phone but not your client's. Most people find that boring. It is usually where the actual difficulty lives.</p>
-
-      <h2>What I make</h2>
-      <p>Most of it falls into a few buckets: <a href="/services/web-apps">web apps</a>, <a href="/services/websites">websites</a>, <a href="/services/ai-agent-development">AI agents</a>, and <a href="/services/ai-automation-services">automation</a>. The labels matter less to me than whether the finished thing removes friction or makes somebody&rsquo;s day easier.</p>
-      <p>Underneath those it is usually one of three jobs. You have a manual process eating hours a week that should be a system. You have traffic that is not converting and nobody can say which step is leaking. Or you have an idea and need someone who can take it from a sentence to a working product without a six-month discovery phase.</p>
-      <p>Most first versions are live in days. You own the code and the accounts at the end, always.</p>
-
-      <h2>How I work</h2>
-      <p>I do not have an agency behind me and I am not building one. You get me on the first call, me building it, and my phone number.</p>
-      <p>Scope before build, so you know what is included and what is not. Progress you can watch on a real URL instead of a status update. And if I am not the right fit, I will tell you on the first call and it costs you nothing.</p>
-      <p>I lean on AI hard and stay the engineer. I use the AI app builders myself and they are good for a simple app, but generating a screen and keeping a whole system dependable are different jobs. The first version comes fast, then a real edge case appears, one fix breaks something else, and nobody is quite sure what changed. That is the part I am there for.</p>
-
-      <h2>How I spend my time</h2>
-      <p>Most of the week is client work and my own products, in Claude Code and Codex, on Eastern time.</p>
-      <p>The rest goes to my wife. She is still in the Philippines, so a lot of my week is timed around an eleven-hour difference, and a fair amount of what I have built exists because of that gap. Tandem started as an app for the two of us. Watch Together did too.</p>
-      <p>When I am not building for someone else, I am building something small for myself and writing down what broke. That is where <a href="/free">the free tools</a> and every guide came from.</p>
-
-      <h2>Why I am here at all</h2>
-      <p>I am from the Philippines. I live in New Jersey because of my mom.</p>
-      <p>I was in high school when she left. Wages back home are low, and the math on a normal life often does not work no matter how hard you run at it. So she went to the United States and worked, alone, so the rest of us would get a shot.</p>
-      <p>It took her more than ten years. She brought us over one at a time. My brothers, then my dad, then me, a few years ago. I know what that decade cost her. My wife is still in the Philippines, so I go back when I can, and getting her here is next.</p>
-      <p>That is what the work is for.</p>
+  <PageHead
+    class="about-head"
+    title="The person behind"
+    accent="the AI."
+    lead="I'm Neil Busque, based in New Jersey. I find the work in a business that's worth handing to AI, then build it and keep it running."
+  >
+    <div class="btn-row btn-row--stack">
+      <Button href={waGlobal()}>Message me on WhatsApp</Button>
+      <Button href="/work" variant="secondary">See the work</Button>
     </div>
-  </article>
+    <Fragment slot="aside">
+      <Portrait class="about-portrait" seed="about-portrait" loading="eager" />
+    </Fragment>
+  </PageHead>
 
-  <h2 class="sec" style="font-size:clamp(22px,2.6vw,30px); margin:var(--gap-sec) 0 18px;">The order it happened in.</h2>
-  <div class="timeline">
-    {TIMELINE.map((t, i) => (
-      <div class="tl-row">
-        <div class="tl-marker"><span class="tl-dot"></span>{i < TIMELINE.length - 1 && <span class="tl-line"></span>}</div>
-        <div class="tl-body v8-card"><h3>{t.k}</h3><p>{t.d}</p></div>
+  <Section class="about-story" labelledby="about-story-title">
+    <div class="about-story-grid">
+      <div class="about-prose">
+        <h2 class="sr-only" id="about-story-title">About me</h2>
+        {PARAGRAPHS.map((p) => <p>{p}</p>)}
       </div>
-    ))}
-  </div>
-
-  <section class="hsec v8-card why-card about-close">
-    <h2>This site is my corner of the internet.</h2>
-    <p>Part portfolio, part blog, part working notebook. If something here gives you an idea, tell me about it. You will be talking to the person who would actually build it.</p>
-    <div class="hero-ctas" style="margin-top:18px">
-      <a class="btn-sun" href="https://book.busqueneil.com/" target="_blank" rel="noopener">Book a call</a>
-      <a class="btn-ghost" href="/work">See what I've built</a>
+      <aside class="about-facts" aria-label="Quick facts">
+        <DefList items={ABOUT_FACTS} />
+        <a class="link-arrow" href={waGlobal()} target="_blank" rel="noopener">Message me on WhatsApp<Icon name="arrow-up-right" strokeWidth={2} /><span class="sr-only"> (opens in a new tab)</span></a>
+      </aside>
     </div>
-  </section>
-  </div>
+  </Section>
+
+  <Section band="mist" id="how-i-work" labelledby="how-i-work-title">
+    <SectionHead id="how-i-work-title" title="How I work" />
+    <Steps items={HOW} />
+  </Section>
+
+  <Section class="about-build" labelledby="about-build-title">
+    <SectionHead id="about-build-title" title="What I build" lead="Four ways I take work off your plate." link={{ href: '/services', label: 'All services' }} />
+    <RuledGrid cols={4} label="What I build">
+      {CAPABILITIES.map((c) => (
+        <RuledCell href={c.href} label={c.number} title={c.name} compact text={c.line} />
+      ))}
+    </RuledGrid>
+  </Section>
 </AppShell>

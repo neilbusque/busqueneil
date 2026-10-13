@@ -1,0 +1,42 @@
+---
+/* Body of a service, hire or software page: the prose column (default slot) and a summary card
+   beside it, sticky from 1024px. The card holds "What you get" (or any short checklist), the
+   facts as stacked rows (label above value, so long answers read well in a narrow column)
+   and the WhatsApp button. Below 1024px the card follows the prose, or hides with desktopOnly. */
+import Button from '../site/Button.astro';
+import CheckList from '../site/CheckList.astro';
+import type { LinkItem } from '../../data/site';
+
+interface Props {
+  /** Card title, for example "What you get". */
+  title: string;
+  items: string[];
+  facts?: { term: string; value: string }[];
+  cta: LinkItem;
+  id?: string;
+  /** Hide the card below 1024px, when the page repeats its points in a CTA block right after. */
+  desktopOnly?: boolean;
+}
+
+const { title, items, facts = [], cta, id, desktopOnly = false } = Astro.props;
+---
+<div class="svc-body">
+  <div class="prose svc-prose">
+    <slot />
+  </div>
+  <aside class:list={['svc-aside', desktopOnly && 'svc-aside--desktop']} aria-labelledby={id}>
+    <h2 class="t-h4" id={id}>{title}</h2>
+    <CheckList items={items} />
+    {facts.length > 0 && (
+      <dl class="svc-facts">
+        {facts.map((f) => (
+          <div>
+            <dt>{f.term}</dt>
+            <dd>{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+    <Button href={cta.href} class="svc-aside-btn">{cta.label}</Button>
+  </aside>
+</div>

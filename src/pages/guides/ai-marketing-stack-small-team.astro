@@ -5,7 +5,7 @@ export const prerender = true;
 const faq = [
   { q: 'What does a small team actually need in an AI marketing stack?', a: 'Fewer tools than the category suggests. A model you trust, somewhere to put the work, something to send with, and something to measure with. Most stacks fail from too many tools rather than too few, because every tool is an integration you now maintain.' },
   { q: 'Should I buy AI features or build them?', a: 'Buy until a tool blocks something specific you can name. Building is right when the AI step is your differentiator or when a per-use price scales with something you cannot control. Otherwise the build is a distraction from demand.' },
-  { q: 'What is the most overrated part of an AI marketing stack?', a: 'Anything that generates volume without a validation step. Volume is not the constraint for most small teams — distribution and specificity are, and more output does not create either.' },
+  { q: 'What is the most overrated part of an AI marketing stack?', a: 'Anything that generates volume without a validation step. Volume is not the constraint for most small teams. Distribution and specificity are, and more output does not create either.' },
   { q: 'How do I stop the stack sprawling?', a: 'One rule: a new tool has to replace an existing one or remove a manual step you can name. "It looks useful" is how you end up with eleven subscriptions and four sources of truth.' },
 ];
 ---
@@ -20,7 +20,7 @@ const faq = [
   keywords="AI marketing stack, marketing tools, small team, martech, AI tools, automation stack"
   faq={faq}
 >
-  <p><strong>A small team needs a model it trusts, somewhere to put the work, something to send with, and something to measure with. Most stacks fail from too many tools rather than too few, because every tool is an integration you now maintain and a potential second source of truth. The constraint is rarely output volume — it is distribution and specificity, and no tool supplies either.</strong></p>
+  <p><strong>A small team needs a model it trusts, somewhere to put the work, something to send with, and something to measure with. Most stacks fail from too many tools rather than too few, because every tool is an integration you now maintain and a potential second source of truth. The constraint is rarely output volume. It is distribution and specificity, and no tool supplies either.</strong></p>
 
   <h2>The rule that keeps it small</h2>
   <p><strong>A new tool has to replace an existing one, or remove a manual step you can name out loud.</strong></p>
@@ -44,9 +44,9 @@ const faq = [
 
   <h2>What I actually run</h2>
   <p>Rather than list vendors, here is what each slot does and why I chose that shape.</p>
-  <p><strong>A model, used with real inputs.</strong> The model matters less than what I feed it. Most bad output is a missing-input problem, not a prompting problem &mdash; a model asked to write in my voice produces an approximation, and a model given three pieces I am proud of produces something usable. <a href="/guides/prompt-engineering-for-marketers">The patterns that carry production work</a> are few.</p>
+  <p><strong>A model, used with real inputs.</strong> The model matters less than what I feed it. Most bad output is a missing-input problem, not a prompting problem. A model asked to write in my voice produces an approximation, and a model given three pieces I am proud of produces something usable. <a href="/guides/prompt-engineering-for-marketers">The patterns that carry production work</a> are few.</p>
   <p><strong>A CRM I own.</strong> I built mine, which is not a recommendation for most people. <a href="/compare/custom-crm-vs-gohighlevel">The three conditions that justify building</a> are narrow, and outside them buying is the better commercial decision.</p>
-  <p><strong>Sending, with deliverability treated as the real feature.</strong> The provider matters less than the domain setup. A migration taught me that sending as the wrong hostname puts perfectly good mail in spam regardless of vendor &mdash; <a href="/compare/resend-vs-mailgun">the specific trap is here</a>.</p>
+  <p><strong>Sending, with deliverability treated as the real feature.</strong> The provider matters less than the domain setup. A migration taught me that sending as the wrong hostname puts perfectly good mail in spam regardless of vendor. <a href="/compare/resend-vs-mailgun">The specific trap is here</a>.</p>
   <p><strong>First-party analytics.</strong> Cookieless, self-hosted. Third-party pixels are increasingly blocked, so a measurement layer that depends on them is measuring a shrinking sample and not telling you.</p>
   <p><strong>Automation glue, last.</strong> Deliberately last. Automating a process you have not run manually produces a fast wrong process.</p>
 
@@ -64,22 +64,12 @@ const faq = [
   <h2>The order to assemble it</h2>
   <ol>
     <li><strong>System of record first.</strong> Everything else references it. Get this wrong and you will migrate later, which is painful.</li>
-    <li><strong>Then measurement.</strong> Before you optimise anything, be able to see it. Instrument before publishing, not after &mdash; data only accumulates once things are live.</li>
+    <li><strong>Then measurement.</strong> Before you optimise anything, be able to see it. Instrument before publishing, not after: data only accumulates once things are live.</li>
     <li><strong>Then sending</strong>, with the domain and authentication set up properly on day one.</li>
     <li><strong>Then a model</strong>, used with real inputs on real tasks.</li>
     <li><strong>Then automation</strong>, only for processes you have run by hand and understand.</li>
   </ol>
   <p>Most teams do this in reverse, starting with the exciting AI layer on top of no record and no measurement. That produces output nobody can attribute and a stack nobody can debug.</p>
 
-  <h2>FAQ</h2>
-  <h3>What does a small team actually need?</h3>
-  <p>A model, a system of record, sending, and measurement. Automation after those exist.</p>
-  <h3>Buy or build?</h3>
-  <p>Buy until something specific blocks you. Build when the AI step is your differentiator or per-use pricing scales with something uncontrolled.</p>
-  <h3>What is most overrated?</h3>
-  <p>Volume generation without validation. Volume is rarely the constraint; distribution and specificity are.</p>
-  <h3>How do I stop sprawl?</h3>
-  <p>A new tool must replace one or remove a nameable manual step. Nothing else qualifies.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/guides/automate-your-crm-with-ai">automating a CRM with AI</a>, <a href="/guides/measure-ai-impact-on-marketing">measuring AI&rsquo;s impact</a>, and <a href="/services/ai-automation-services">how I build automations</a>.</p>
+  <p class="article-coda">Related: <a href="/guides/automate-your-crm-with-ai">automating a CRM with AI</a>, <a href="/guides/measure-ai-impact-on-marketing">measuring AI&rsquo;s impact</a>, and <a href="/services/ai-automation-services">how I build automations</a>.</p>
 </ContentArticle>

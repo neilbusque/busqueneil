@@ -3,7 +3,7 @@ import ContentArticle from '../../layouts/ContentArticle.astro';
 export const prerender = true;
 
 const faq = [
-  { q: 'How accurate is AI-powered B2B contact enrichment?', a: 'In a run across 254 contacts at 100 companies, roughly 44% came back attached to the wrong employer and had to be discarded. The tooling is not broken — it resolves whatever identifier you hand it, and the failures come from handing it an identifier that does not uniquely identify your target.' },
+  { q: 'How accurate is AI-powered B2B contact enrichment?', a: 'In a run across 254 contacts at 100 companies, roughly 44% came back attached to the wrong employer and had to be discarded. The tooling is not broken. It resolves whatever identifier you hand it, and the failures come from handing it an identifier that does not uniquely identify your target.' },
   { q: 'What is platform collision in lead enrichment?', a: 'When a company\'s listed website is a link-in-bio or social URL, the enrichment tool resolves that platform rather than the business, and returns the platform\'s own staff. A lead whose site is a Linktree comes back with Linktree employees.' },
   { q: 'How do I validate enriched contacts?', a: 'Keep a contact only if its own domain matches the company domain, or its most recent employer matches the company name. Do that check in code before the records ever reach a CRM.' },
   { q: 'Why should I never blocklist domains by substring?', a: 'Because a substring match hits inside real domains. Checking whether "x.com" appears in "alwaysthereairtx.com" returns true, and you silently delete a legitimate company. Match on the exact domain or a proper suffix boundary.' },
@@ -76,19 +76,9 @@ const faq = [
     <li><strong>The errors are confident.</strong> Bad records look exactly like good ones: real names, real titles, real companies. There is no low-confidence flag to filter on.</li>
     <li><strong>Validate the link, not the person.</strong> The person is usually real. It is the connection to your target company that is invented.</li>
     <li><strong>Fix it upstream.</strong> Every hour spent improving the domain you feed in is worth several spent cleaning up what comes out.</li>
-    <li><strong>Never let unvalidated enrichment reach a sending tool.</strong> The cost of emailing 200 wrong people is not zero &mdash; it is your sending reputation.</li>
+    <li><strong>Never let unvalidated enrichment reach a sending tool.</strong> The cost of emailing 200 wrong people is not zero. It is your sending reputation.</li>
   </ol>
   <p>None of this means enrichment is not worth doing. Fifty-six percent of 450 contacts is still a good day&rsquo;s work for an afternoon of pipeline. It means the output is a draft, not an answer.</p>
 
-  <h2>FAQ</h2>
-  <h3>How accurate is AI-powered B2B contact enrichment?</h3>
-  <p>In this run, roughly 44% of returned contacts were the wrong employer. The tooling resolves whatever identifier you give it; the errors come from ambiguous identifiers.</p>
-  <h3>What is platform collision?</h3>
-  <p>When a company&rsquo;s listed website is a link-in-bio or social URL, the tool resolves that platform and returns the platform&rsquo;s own staff. A lead whose site is a Linktree comes back with Linktree employees.</p>
-  <h3>How do I validate enriched contacts?</h3>
-  <p>Keep a contact only if its domain matches the company domain or its latest employer matches the company name. Do it in code, before a CRM.</p>
-  <h3>Why not blocklist by substring?</h3>
-  <p>Because &ldquo;x.com&rdquo; matches inside &ldquo;alwaysthereairtx.com&rdquo; and you silently delete a real company. Match exact domains or proper suffix boundaries.</p>
-
-  <p style="margin-top: 2rem;">Related: <a href="/research/the-false-zero-machine">the false-zero machine</a>, another way this pipeline hands you a confident wrong answer, and <a href="/research/866-custom-software-ads">the ad study these companies came from</a>.</p>
+  <p class="article-coda">Related: <a href="/research/the-false-zero-machine">the false-zero machine</a>, another way this pipeline hands you a confident wrong answer, and <a href="/research/866-custom-software-ads">the ad study these companies came from</a>.</p>
 </ContentArticle>

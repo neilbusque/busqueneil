@@ -1,0 +1,212 @@
+---
+/* The resource list: filter tabs over the resource table, "Show more" after 20 rows, and the
+   empty states. It reuses the shared resource-table styles (site.css) so every list of articles
+   on the site looks the same.
+
+   mode "hub" (/resources): the server already applied ?type=, ?q= and ?show=all, so filters,
+   search and "Show more" work without JavaScript as plain links and a GET form. With JavaScript
+   they work in place: tab clicks, typing in the search field and "Show more" update the list
+   and the URL without a reload.
+   mode "view" (/compare, /research): the rows are one kind already; the tabs are plain links to
+   the other views and nothing runs in the browser. */
+import Icon from '../site/Icon.astro';
+import { waGlobal } from '../../data/site';
+import { rowMatches, searchText, searchWords, visibleCount, type HubKind } from '../../lib/blogFilters';
+import type { HubRow, IndexTab } from './rows';
+
+interface Props {
+  rows: HubRow[];
+  tabs: IndexTab[];
+  active: HubKind;
+  mode?: 'hub' | 'view';
+  query?: string;
+  expanded?: boolean;
+  /** No-JS target for "Show more". */
+  moreHref?: string;
+  label?: string;
+  id?: string;
+}
+
+const {
+  rows,
+  tabs,
+  active,
+  mode = 'hub',
+  query = '',
+  expanded = false,
+  moreHref = '?show=all',
+  label = 'Filter resources',
+  id = 'resource-list',
+} = Astro.props;
+
+const CAP = 20;
+const THRESHOLD = 24;
+const words = searchWords(query);
+const items = rows.map((r) => ({ ...r, text: searchText(r.title, r.excerpt, r.type) }));
+const matching = items.filter((r) => rowMatches(r, active, words));
+const shownCount = mode === 'hub' ? visibleCount(matching.length, expanded, CAP, THRESHOLD) : matching.length;
+const shown = new Set(matching.slice(0, shownCount).map((r) => r.slug));
+const firstHidden = matching[shownCount]?.slug;
+const isHttp = (u: string) => /^https?:/i.test(u);
+---
+<div
+  class="rindex"
+  id={id}
+  data-rindex={mode}
+  data-active={active}
+  data-query={query}
+  data-expanded={expanded ? 'true' : 'false'}
+  data-cap={CAP}
+  data-threshold={THRESHOLD}
+>
+  <nav class="tabs-wrap rindex-tabs" aria-label={label}>
+    <div class="tabs">
+      {tabs.map((t) => (
+        <a class="tab" href={t.href} data-key={t.key} aria-current={t.key === active ? 'page' : undefined}>
+          {t.label}<span class="count">{t.count}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="rtable">
+    <div class="rtable-head" aria-hidden="true"><span>Type</span><span>Title</span><span>Read</span><span>Date</span></div>
+    <ul class="rtable-rows" role="list">
+      {items.map((r) => (
+        <li id={`row-${r.slug}`} data-row data-kind={r.kind} data-text={r.text} hidden={!shown.has(r.slug)}>
+          <a class="rtable-row" href={r.href} target={isHttp(r.href) ? '_blank' : undefined} rel={isHttp(r.href) ? 'noopener' : undefined}>
+            <span class="rt-type">{r.type}</span>
+            <span class="rt-main">
+              <span class="rt-title">{r.title}</span>
+              {r.excerpt && <span class="rt-excerpt">{r.excerpt}</span>}
+            </span>
+            <span class="rt-read">{r.read && <><span class="sr-only">Read time </span>{r.read}</>}</span>
+            <span class="rt-date">{r.date && <time datetime={r.dateTime}>{r.date}</time>}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="rindex-empty" data-empty-search hidden={!(matching.length === 0 && words.length > 0)}>
+    <p>Nothing matches that yet. Try a shorter search, or <a class="link" href={waGlobal()} target="_blank" rel="noopener">message me<span class="sr-only"> on WhatsApp (opens in a new tab)</span></a> and I&rsquo;ll point you to the right guide.</p>
+  </div>
+  <div class="rindex-empty" data-empty-tab hidden={!(matching.length === 0 && words.length === 0)}>
+    <p>Nothing here yet.</p>
+  </div>
+
+  {mode === 'hub' && (
+    <div class="rindex-more" data-more-wrap hidden={!firstHidden}>
+      <a class="btn btn--secondary" href={`${moreHref}${firstHidden ? `#row-${firstHidden}` : ''}`} data-more>
+        Show more<Icon name="plus" strokeWidth={2} />
+      </a>
+    </div>
+  )}
+  <p class="sr-only" aria-live="polite" data-status></p>
+</div>
+
+<script>
+  import { rowMatches, searchWords, visibleCount, type HubKind } from '../../lib/blogFilters';
+
+  /* On phones the tab row scrolls sideways. Keep the selected tab in view. */
+  function revealActiveTab(root: HTMLElement) {
+    const box = root.querySelector<HTMLElement>('.tabs');
+    const tab = box?.querySelector<HTMLElement>('.tab[aria-current="page"]');
+    if (!box || !tab) return;
+    const left = tab.getBoundingClientRect().left - box.getBoundingClientRect().left + box.scrollLeft;
+    if (left < box.scrollLeft || left + tab.offsetWidth > box.scrollLeft + box.clientWidth) {
+      box.scrollLeft = Math.max(0, left - 8);
+    }
+  }
+
+  function initIndex(root: HTMLElement) {
+    revealActiveTab(root);
+    if (root.dataset.rindex !== 'hub') return;
+    const rows = Array.from(root.querySelectorAll<HTMLElement>('[data-row]'));
+    const tabs = Array.from(root.querySelectorAll<HTMLAnchorElement>('.tab[data-key]'));
+    const moreWrap = root.querySelector<HTMLElement>('[data-more-wrap]');
+    const more = root.querySelector<HTMLAnchorElement>('[data-more]');
+    const emptySearch = root.querySelector<HTMLElement>('[data-empty-search]');
+    const emptyTab = root.querySelector<HTMLElement>('[data-empty-tab]');
+    const status = root.querySelector<HTMLElement>('[data-status]');
+    const input = document.querySelector<HTMLInputElement>('[data-rsearch]');
+    const cap = Number(root.dataset.cap) || 20;
+    const threshold = Number(root.dataset.threshold) || 24;
+
+    let kind = (root.dataset.active || 'all') as HubKind;
+    let query = root.dataset.query || '';
+    let expanded = root.dataset.expanded === 'true';
+    let announceTimer = 0;
+
+    const render = (announce: boolean) => {
+      const words = searchWords(query);
+      const matching = rows.filter((r) => rowMatches({ kind: r.dataset.kind || '', text: r.dataset.text || '' }, kind, words));
+      const count = visibleCount(matching.length, expanded, cap, threshold);
+      const shown = new Set(matching.slice(0, count));
+      rows.forEach((r) => { r.hidden = !shown.has(r); });
+      if (moreWrap) moreWrap.hidden = matching.length <= count;
+      if (emptySearch) emptySearch.hidden = !(matching.length === 0 && words.length > 0);
+      if (emptyTab) emptyTab.hidden = !(matching.length === 0 && words.length === 0);
+      tabs.forEach((t) => {
+        if (t.dataset.key === kind) t.setAttribute('aria-current', 'page');
+        else t.removeAttribute('aria-current');
+      });
+      if (announce && status) {
+        window.clearTimeout(announceTimer);
+        announceTimer = window.setTimeout(() => {
+          status.textContent = matching.length === 1 ? 'Showing 1 item' : `Showing ${matching.length} items`;
+        }, 400);
+      }
+      try {
+        const url = new URL(window.location.href);
+        if (kind === 'all') url.searchParams.delete('type');
+        else url.searchParams.set('type', kind);
+        if (query) url.searchParams.set('q', query);
+        else url.searchParams.delete('q');
+        if (expanded) url.searchParams.set('show', 'all');
+        else url.searchParams.delete('show');
+        url.hash = '';
+        history.replaceState(history.state, '', url);
+      } catch {
+        /* Keeping the URL in step is a convenience; the list already updated. */
+      }
+    };
+
+    tabs.forEach((t) =>
+      t.addEventListener('click', (e) => {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        kind = (t.dataset.key || 'all') as HubKind;
+        expanded = false;
+        render(true);
+        revealActiveTab(root);
+      }),
+    );
+
+    more?.addEventListener('click', (e) => {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      const firstHidden = rows.find((r) => r.hidden && rowMatches({ kind: r.dataset.kind || '', text: r.dataset.text || '' }, kind, searchWords(query)));
+      expanded = true;
+      render(true);
+      // Keep keyboard users where they were: move focus to the first row that just appeared.
+      firstHidden?.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+    });
+
+    if (input) {
+      input.addEventListener('input', () => {
+        query = input.value.replace(/\s+/g, ' ').trim();
+        expanded = false;
+        render(true);
+      });
+      input.form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        query = input.value.replace(/\s+/g, ' ').trim();
+        render(true);
+        root.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      });
+    }
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-rindex]').forEach(initIndex);
+</script>

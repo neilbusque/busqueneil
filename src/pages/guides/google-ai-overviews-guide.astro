@@ -1,91 +1,58 @@
 ---
-import AppShell from '../../layouts/AppShell.astro';
-import Breadcrumb from '../../components/Breadcrumb.astro';
-import { AUTHOR, PUBLISHER, SITE_URL, WEBSITE_REF } from '../../lib/seo';
+import ContentArticle from '../../layouts/ContentArticle.astro';
+import { SITE_URL } from '../../lib/seo';
 
 export const prerender = true;
 
-const title = 'How to Show Up in Google AI Overviews in 2026';
-const description = 'Google AI Overviews SEO without the myths: how retrieval works, what makes a page eligible, what Google says to ignore, and how to measure visibility.';
-const canonical = 'https://busqueneil.com/guides/google-ai-overviews-guide';
-const guideImage = `${SITE_URL}/og/guides/google-ai-overviews-guide.png`;
-const published = '2026-06-30';
-const modified = '2026-07-25';
-
-const article = {
-  '@context': 'https://schema.org', '@type': 'TechArticle', '@id': `${canonical}#article`, headline: title, description,
-  author: AUTHOR,
-  publisher: PUBLISHER,
-  datePublished: published, dateModified: modified, mainEntityOfPage: { '@id': `${canonical}#webpage` },
-  isPartOf: WEBSITE_REF,
-  image: guideImage,
-  inLanguage: 'en-US',
-  keywords: 'Google AI Overviews, AI Overviews SEO, Google SGE, rank in AI answers, generative search',
-};
+const faq = [
+  { q: 'Do I need to rank first to appear in an AI Overview?', a: 'No published Google rule says that. AI features use Search ranking and quality systems, and query fan-out can retrieve supporting pages for related subquestions. Strong SEO helps, but a fixed “page one only” rule is not accurate.' },
+  { q: 'Does FAQ schema help a page appear?', a: 'There is no special structured data required for Google AI features. FAQ markup also rarely produces a visible rich result outside authoritative government and health sites. Use schema only when it accurately describes visible content and supports a search feature you actually care about.' },
+  { q: 'Does Google use llms.txt?', a: 'No. Google says llms.txt neither helps nor hurts visibility in Search or its generative AI features.' },
+  { q: 'Can I track AI Overview traffic in Search Console?', a: 'Yes. Google provides generative AI performance reporting in Search Console, alongside the normal page and query reports used for Search.' },
+];
 ---
-<AppShell title={title} description={description} canonical={canonical} ogImage={guideImage} ogType="article" active="resources">
-  <Fragment slot="head">
-    <Breadcrumb items={[
-      { name: 'Home', url: 'https://busqueneil.com/' },
-      { name: 'Resources', url: 'https://busqueneil.com/resources' },
-      { name: 'Google AI Overviews', url: canonical },
-    ]} />
-    <script type="application/ld+json" set:html={JSON.stringify(article)} />
-  </Fragment>
-  <header class="page-head">
-    <p class="eyebrow"><span class="idx">04</span> Guide</p>
-    <h1>How to Show Up in Google AI Overviews (2026)</h1>
-    <p class="lede">Google's AI answers still start with Search. Here is what makes a page eligible, what Google's current documentation says to ignore, and where I would spend the time.</p>
-  </header>
-  <article class="article-page">
-    <div class="prose">
-      <p><strong>Short version: a page can appear in Google AI Overviews and AI Mode when it is indexed, eligible to show a normal snippet, relevant to the question, and useful enough for Google's systems to retrieve. You do not need special AI markup, an llms.txt file, or a separate “AI version” of the page.</strong></p>
+<ContentArticle
+  slug="google-ai-overviews-guide"
+  titleTag="How to Show Up in Google AI Overviews in 2026"
+  description="Google AI Overviews SEO without the myths: how retrieval works, what makes a page eligible, what Google says to ignore, and how to measure visibility."
+  heading="How to show up in Google AI Overviews"
+  accent="in 2026"
+  lede="Google's AI answers still start with Search. Here is what makes a page eligible, what Google's current documentation says to ignore, and where I would spend the time."
+  keywords="Google AI Overviews, AI Overviews SEO, Google SGE, rank in AI answers, generative search"
+  ogImage={`${SITE_URL}/og/guides/google-ai-overviews-guide.png`}
+  faq={faq}
+>
+  <p><strong>Short version: a page can appear in Google AI Overviews and AI Mode when it is indexed, eligible to show a normal snippet, relevant to the question, and useful enough for Google's systems to retrieve. You do not need special AI markup, an llms.txt file, or a separate “AI version” of the page.</strong></p>
 
-      <h2>What AI Overviews are</h2>
-      <p>AI Overviews are generated summaries that Google shows for some searches, with links to pages that support different parts of the answer. They are part of Google Search, not a separate index sitting beside it.</p>
-      <p>That matters because the foundation has not changed. Google still needs to crawl the page, index it, understand what it covers, and decide it is useful for the search.</p>
+  <h2>What AI Overviews are</h2>
+  <p>AI Overviews are generated summaries that Google shows for some searches, with links to pages that support different parts of the answer. They are part of Google Search, not a separate index sitting beside it.</p>
+  <p>That matters because the foundation has not changed. Google still needs to crawl the page, index it, understand what it covers, and decide it is useful for the search.</p>
 
-      <h2>How Google finds supporting pages</h2>
-      <p>Google says its generative search features use retrieval-augmented generation grounded in the Search index. They can also use query fan-out, where the system runs several related searches to build a fuller response. Read <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">Google's current documentation</a> for the complete explanation.</p>
-      <p>This is why “you must already rank on page one” is too simple. Strong normal search visibility helps, but fan-out can retrieve pages for related subquestions too. The practical goal is to be the best source for a useful part of the decision, not to repeat the main keyword more often.</p>
+  <h2>How Google finds supporting pages</h2>
+  <p>Google says its generative search features use retrieval-augmented generation grounded in the Search index. They can also use query fan-out, where the system runs several related searches to build a fuller response. Read <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide">Google's current documentation</a> for the complete explanation.</p>
+  <p>This is why “you must already rank on page one” is too simple. Strong normal search visibility helps, but fan-out can retrieve pages for related subquestions too. The practical goal is to be the best source for a useful part of the decision, not to repeat the main keyword more often.</p>
 
-      <h2>The checklist I would use</h2>
-      <ol>
-        <li><strong>Confirm the page is indexable.</strong> It should return a successful response, allow Googlebot, carry no noindex tag, and be eligible to show a snippet.</li>
-        <li><strong>Give the page a clear job.</strong> Answer one real audience need well. Do not turn one topic into dozens of thin pages for every wording of the query.</li>
-        <li><strong>Add first-hand value.</strong> Include the process you used, what you measured, screenshots or examples where useful, and the decisions only someone with direct experience could explain.</li>
-        <li><strong>Use descriptive structure.</strong> A clear title, useful introduction, specific headings, and meaningful internal links make the page easier for people and search systems to navigate.</li>
-        <li><strong>Support factual claims.</strong> Link to primary sources and keep dates, product behavior, and statistics current. Update the modified date only when the page changed in a meaningful way.</li>
-        <li><strong>Make the visit worth the click.</strong> Keep the page fast, readable on a phone, and free of interruptions that bury the main content.</li>
-      </ol>
+  <h2>The checklist I would use</h2>
+  <ol>
+    <li><strong>Confirm the page is indexable.</strong> It should return a successful response, allow Googlebot, carry no noindex tag, and be eligible to show a snippet.</li>
+    <li><strong>Give the page a clear job.</strong> Answer one real audience need well. Do not turn one topic into dozens of thin pages for every wording of the query.</li>
+    <li><strong>Add first-hand value.</strong> Include the process you used, what you measured, screenshots or examples where useful, and the decisions only someone with direct experience could explain.</li>
+    <li><strong>Use descriptive structure.</strong> A clear title, useful introduction, specific headings, and meaningful internal links make the page easier for people and search systems to navigate.</li>
+    <li><strong>Support factual claims.</strong> Link to primary sources and keep dates, product behavior, and statistics current. Update the modified date only when the page changed in a meaningful way.</li>
+    <li><strong>Make the visit worth the click.</strong> Keep the page fast, readable on a phone, and free of interruptions that bury the main content.</li>
+  </ol>
 
-      <h2>What you do not need</h2>
-      <ul>
-        <li><strong>llms.txt for Google.</strong> Google Search says it ignores the file, including for generative AI features.</li>
-        <li><strong>Special AI structured data.</strong> Use normal supported schema when it accurately describes the visible page. There is no AI Overview schema type.</li>
-        <li><strong>Artificial content chunks.</strong> Google can understand sections of a longer page. Use the length and structure that help the reader.</li>
-        <li><strong>Exact-match pages for every related query.</strong> Search understands synonyms and related meaning. Build the page around the user's decision, not a keyword list.</li>
-      </ul>
+  <h2>What you do not need</h2>
+  <ul>
+    <li><strong>llms.txt for Google.</strong> Google Search says it ignores the file, including for generative AI features.</li>
+    <li><strong>Special AI structured data.</strong> Use normal supported schema when it accurately describes the visible page. There is no AI Overview schema type.</li>
+    <li><strong>Artificial content chunks.</strong> Google can understand sections of a longer page. Use the length and structure that help the reader.</li>
+    <li><strong>Exact-match pages for every related query.</strong> Search understands synonyms and related meaning. Build the page around the user's decision, not a keyword list.</li>
+  </ul>
 
-      <h2>How to measure whether it is working</h2>
-      <p>Use the generative AI performance report in Google Search Console for visibility in Google's AI features, then connect that traffic to the actions you care about. Normal query and page reports still help you see whether the underlying page is earning search demand.</p>
-      <p>Manual searches can show you how one result looks today, but they are not a stable rank tracker. Results change by query, context, location, and time. Treat screenshots as examples, not the whole measurement system.</p>
+  <h2>How to measure whether it is working</h2>
+  <p>Use the generative AI performance report in Google Search Console for visibility in Google's AI features, then connect that traffic to the actions you care about. Normal query and page reports still help you see whether the underlying page is earning search demand.</p>
+  <p>Manual searches can show you how one result looks today, but they are not a stable rank tracker. Results change by query, context, location, and time. Treat screenshots as examples, not the whole measurement system.</p>
 
-      <h2>FAQ</h2>
-
-      <h3>Do I need to rank first to appear in an AI Overview?</h3>
-      <p>No published Google rule says that. AI features use Search ranking and quality systems, and query fan-out can retrieve supporting pages for related subquestions. Strong SEO helps, but a fixed “page one only” rule is not accurate.</p>
-
-      <h3>Does FAQ schema help a page appear?</h3>
-      <p>There is no special structured data required for Google AI features. FAQ markup also rarely produces a visible rich result outside authoritative government and health sites. Use schema only when it accurately describes visible content and supports a search feature you actually care about.</p>
-
-      <h3>Does Google use llms.txt?</h3>
-      <p>No. Google says llms.txt neither helps nor hurts visibility in Search or its generative AI features.</p>
-
-      <h3>Can I track AI Overview traffic in Search Console?</h3>
-      <p>Yes. Google provides generative AI performance reporting in Search Console, alongside the normal page and query reports used for Search.</p>
-
-      <p>If you want a practical audit of the pages you already have, <a href="/contact">send me the site</a>. For the wider picture across other answer engines, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO and AI search guide</a>.</p>
-    </div>
-  </article>
-</AppShell>
+  <p class="article-coda">If you want a practical audit of the pages you already have, <a href="/contact">send me the site</a>. For the wider picture across other answer engines, read <a href="/guides/geo-generative-engine-optimization-guide">the GEO and AI search guide</a>.</p>
+</ContentArticle>
