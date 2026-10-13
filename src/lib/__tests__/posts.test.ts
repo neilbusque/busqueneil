@@ -24,7 +24,7 @@ function builder() {
 
 vi.mock('../supabase', () => ({ serverClient: () => builder() }));
 
-const { getAllPublished, getFeed, getNow, getPostBySlug, HIDDEN_POST_SLUGS, isPublicPost } = await import('../posts');
+const { getAllPublished, getFeed, getNow, getPostBySlug, hiddenPostRedirect, HIDDEN_POST_SLUGS, isPublicPost } = await import('../posts');
 
 const opts = { request: new Request('https://busqueneil.com/'), cookies: {} as never };
 const post = (slug: string, type: Post['type'] = 'article'): Partial<Post> => ({ slug, type, status: 'published', published_at: '2026-10-01T12:00:00Z' });
@@ -45,6 +45,21 @@ describe('isPublicPost', () => {
     expect(isPublicPost({ slug: 'build-note', type: 'article' })).toBe(true);
     expect(isPublicPost({ slug: 'a-thought', type: 'status' })).toBe(true);
     expect(isPublicPost({ slug: 'a-build', type: 'project' })).toBe(true);
+  });
+});
+
+describe('hiddenPostRedirect', () => {
+  it('sends the old public URLs somewhere instead of a 404', () => {
+    expect(hiddenPostRedirect('why-i-build-apps')).toBe('/story');
+    expect(hiddenPostRedirect('now-2026-05')).toBe('/resources');
+    expect(hiddenPostRedirect('now-2026-09')).toBe('/resources');
+  });
+  it('covers every hidden slug', () => {
+    for (const slug of HIDDEN_POST_SLUGS) expect(hiddenPostRedirect(slug)).not.toBeNull();
+  });
+  it('leaves public notes alone', () => {
+    expect(hiddenPostRedirect('build-note')).toBeNull();
+    expect(hiddenPostRedirect('now-is-the-time')).toBeNull();
   });
 });
 

@@ -18,6 +18,8 @@
 }
 @media (max-width: 640px) {
   .site .svc-head-art { display: none; }
+  /* In a PageHead the art sits in an aside wrapper, which would keep its grid gap when empty. */
+  .site .phead-aside:has(> .svc-head-art:only-child) { display: none; }
 }
 
 /* ================================================================ body: prose and the summary card */
@@ -61,6 +63,8 @@
 .site .svc-index svg { grid-area: icon; align-self: center; width: 16px; height: 16px; color: var(--muted); transform: rotate(90deg); transition: transform var(--dur-hover) var(--ease-out), color var(--dur-hover) ease; }
 .site .svc-index a:hover .svc-index-name, .site .svc-index a:hover svg { color: var(--blue-ink); }
 .site .svc-index a:hover svg { transform: rotate(90deg) translateX(3px); }
+/* Stacked under the page head, the index ends the block just above the next hairline. */
+@media (max-width: 900px) { .site .svc-index li:last-child a { border-bottom-color: transparent; } }
 
 /* ================================================================ /services: one section per service, art side alternating */
 .site .svc-sec-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 40px var(--grid-gap); align-items: center; }

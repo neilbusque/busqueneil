@@ -1,11 +1,14 @@
 ---
-/* A published note, in the same article chrome as the guides. Hidden posts and "now" posts
-   come back null from getPostBySlug (src/lib/posts.ts), so their URLs answer 404. */
+/* A published note, in the same article chrome as the guides. The hidden posts that used to be
+   public answer a 301 (hiddenPostRedirect); any other hidden or "now" post comes back null from
+   getPostBySlug (src/lib/posts.ts), so its URL answers 404. */
 import NoteArticle from '../../components/articles/NoteArticle.astro';
 import { articleRows, newestFirst, noteRow, type HubRow } from '../../components/articles/rows';
-import { getAllPublished, getPostBySlug, setPublicCache } from '../../lib/posts';
+import { getAllPublished, getPostBySlug, hiddenPostRedirect, setPublicCache } from '../../lib/posts';
 
 const { slug } = Astro.params;
+const moved = slug ? hiddenPostRedirect(slug) : null;
+if (moved) return Astro.redirect(moved, 301);
 const opts = { request: Astro.request, cookies: Astro.cookies };
 const post = slug ? await getPostBySlug(opts, slug) : null;
 

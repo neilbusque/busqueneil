@@ -45,6 +45,8 @@
 }
 @media (max-width: 900px) {
   .site .unl-price, .site .unl-notes { grid-column: 1 / -1; }
+  /* Stacked, the last note ends the section just above the next hairline. */
+  .site .unl-note:last-child { border-bottom-color: transparent; }
 }
 @media (max-width: 640px) {
   .site .unl-price { padding: 24px 20px; }

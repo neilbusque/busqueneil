@@ -51,5 +51,4 @@
   .site .btable .bt-name, .site .btable .bt-text { grid-column: 1 / -1; }
   .site .btable .bt-text { font-size: 15px; }
   .site .btable :is(.bt-type, .bt-year) { padding-top: 4px; }
-  .site .btable .bt-name a { min-height: 32px; }
 }

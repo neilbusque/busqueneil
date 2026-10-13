@@ -12,6 +12,15 @@ export const HIDDEN_POST_SLUGS: readonly string[] = ['why-i-build-apps', 'now-20
     notes; /now redirects to /resources. */
 export const HIDDEN_POST_TYPES: readonly PostType[] = ['now'];
 
+/** Hidden posts were in the old sitemap, so their URLs answer a 301 instead of a 404 and keep
+    any links that point at them: the personal piece goes to /story (as /about does) and the
+    status notes go to /resources (as /now does). Null means the slug is not a hidden post. */
+export function hiddenPostRedirect(slug: string): string | null {
+  if (slug === 'why-i-build-apps') return '/story';
+  if (HIDDEN_POST_SLUGS.includes(slug) || /^now-\d{4}-\d{2}$/.test(slug)) return '/resources';
+  return null;
+}
+
 /** True when a post may appear on the public site. Every list function and the single-post
     lookup check this, so a hidden post cannot leak through one path the others block. */
 export function isPublicPost(post: Pick<Post, 'slug' | 'type'>): boolean {

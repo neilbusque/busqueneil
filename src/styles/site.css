@@ -186,6 +186,14 @@ html.sheet-open { overflow: hidden; }
 .site :is(.section:not(.band), .phead, .hero) + .section:not(.band) > .wrap,
 .site :is(.section:not(.band), .phead, .hero) + :is(script, style) + .section:not(.band) > .wrap,
 .site :is(.section:not(.band), .phead, .hero) + :is(script, style) + :is(script, style) + .section:not(.band) > .wrap { padding-top: var(--section-y); border-top: 1px solid var(--line); }
+/* A ruled list that ends a plain block would draw its last rule just above that hairline, and
+   the two lines stack. Its last row drops its own rule instead. Below 900px the columns stack,
+   so the FAQ and the definition list can end the block too. "Ends" skips trailing script and
+   style elements, since the FAQ schema follows its list. */
+.site :is(.section:not(.band), .phead, .hero):has(+ .section:not(.band), + :is(script, style) + .section:not(.band), + :is(script, style) + :is(script, style) + .section:not(.band)) > .wrap > .steps:not(:has(~ :not(script, style))) > li:last-child { border-bottom-color: transparent; }
+@media (max-width: 900px) {
+  .site :is(.section:not(.band), .phead, .hero):has(+ .section:not(.band), + :is(script, style) + .section:not(.band), + :is(script, style) + :is(script, style) + .section:not(.band)) > .wrap > :not(script, style):not(:has(~ :not(script, style))) > :is(.faq, .deflist):not(:has(~ :not(script, style))) > :last-child { border-bottom-color: transparent; }
+}
 .site .band { position: relative; z-index: 1; }
 .site .band--mist { background: var(--bg-2); }
 .site .band--navy { background: var(--navy); color: var(--on-navy); }

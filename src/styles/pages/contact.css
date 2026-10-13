@@ -32,9 +32,10 @@
 .site .contact-promise { max-width: 52ch; color: var(--ink-2); }
 .site .contact-btn { justify-self: start; min-width: 168px; }
 .site .contact-btn[aria-busy="true"] { cursor: progress; }
-/* The send error keeps its line, so the button never moves when it appears. */
-.site .contact-fail { min-height: 20px; font-size: 14px; line-height: 20px; color: var(--error); }
-.site .contact-fail:empty { visibility: hidden; }
+/* The send error sits under the button, so it can take no space until it has text: showing it
+   never moves the button, and the card has no empty band at the bottom. */
+.site .contact-fail { font-size: 14px; line-height: 20px; color: var(--error); }
+.site .contact-fail:empty { display: none; }
 /* Honeypot: off-screen for people, still in the form for bots. */
 .site .contact-form .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 @media (max-width: 640px) {
